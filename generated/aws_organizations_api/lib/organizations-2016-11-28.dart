@@ -66,7 +66,7 @@ class Organizations {
   /// </li>
   /// <li>
   /// <b>Enable all features final confirmation</b> handshake: only a principal
-  /// from the master account.
+  /// from the management account.
   ///
   /// For more information about invitations, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_invites.html">Inviting
@@ -103,6 +103,13 @@ class Organizations {
     @_s.required String handshakeId,
   }) async {
     ArgumentError.checkNotNull(handshakeId, 'handshakeId');
+    _s.validateStringLength(
+      'handshakeId',
+      handshakeId,
+      0,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'handshakeId',
       handshakeId,
@@ -128,56 +135,30 @@ class Organizations {
   }
 
   /// Attaches a policy to a root, an organizational unit (OU), or an individual
-  /// account. How the policy affects accounts depends on the type of policy:
+  /// account. How the policy affects accounts depends on the type of policy.
+  /// Refer to the <i>AWS Organizations User Guide</i> for information about
+  /// each policy type:
   ///
   /// <ul>
   /// <li>
-  /// <b>Service control policy (SCP)</b> - An SCP specifies what permissions
-  /// can be delegated to users in affected member accounts. The scope of
-  /// influence for a policy depends on what you attach the policy to:
-  ///
-  /// <ul>
-  /// <li>
-  /// If you attach an SCP to a root, it affects all accounts in the
-  /// organization.
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
   /// </li>
   /// <li>
-  /// If you attach an SCP to an OU, it affects all accounts in that OU and in
-  /// any child OUs.
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html">BACKUP_POLICY</a>
   /// </li>
   /// <li>
-  /// If you attach the policy directly to an account, it affects only that
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// </ul>
+  /// This operation can be called only from the organization's management
   /// account.
-  /// </li>
-  /// </ul>
-  /// SCPs are JSON policies that specify the maximum permissions for an
-  /// organization or organizational unit (OU). You can attach one SCP to a
-  /// higher level root or OU, and a different SCP to a child OU or to an
-  /// account. The child policy can further restrict only the permissions that
-  /// pass through the parent filter and are available to the child. An SCP that
-  /// is attached to a child can't grant a permission that the parent hasn't
-  /// already granted. For example, imagine that the parent SCP allows
-  /// permissions A, B, C, D, and E. The child SCP allows C, D, E, F, and G. The
-  /// result is that the accounts affected by the child SCP are allowed to use
-  /// only C, D, and E. They can't use A or B because the child OU filtered them
-  /// out. They also can't use F and G because the parent OU filtered them out.
-  /// They can't be granted back by the child SCP; child SCPs can only filter
-  /// the permissions they receive from the parent SCP.
-  ///
-  /// AWS Organizations attaches a default SCP named <code>"FullAWSAccess</code>
-  /// to every root, OU, and account. This default SCP allows all services and
-  /// actions, enabling any new child OU or account to inherit the permissions
-  /// of the parent root or OU. If you detach the default policy, you must
-  /// replace it with a policy that specifies the permissions that you want to
-  /// allow in that OU or account.
-  ///
-  /// For more information about how AWS Organizations policies permissions
-  /// work, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">Using
-  /// Service Control Policies</a> in the <i>AWS Organizations User Guide.</i>
-  /// </li>
-  /// </ul>
-  /// This operation can be called only from the organization's master account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -231,6 +212,13 @@ class Organizations {
     @_s.required String targetId,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
+    _s.validateStringLength(
+      'policyId',
+      policyId,
+      0,
+      130,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'policyId',
       policyId,
@@ -238,6 +226,13 @@ class Organizations {
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetId, 'targetId');
+    _s.validateStringLength(
+      'targetId',
+      targetId,
+      0,
+      100,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'targetId',
       targetId,
@@ -292,6 +287,13 @@ class Organizations {
     @_s.required String handshakeId,
   }) async {
     ArgumentError.checkNotNull(handshakeId, 'handshakeId');
+    _s.validateStringLength(
+      'handshakeId',
+      handshakeId,
+      0,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'handshakeId',
       handshakeId,
@@ -326,9 +328,9 @@ class Organizations {
   ///
   /// <ul>
   /// <li>
-  /// Use the <code>OperationId</code> response element from this operation to
-  /// provide as a parameter to the <a>DescribeCreateAccountStatus</a>
-  /// operation.
+  /// Use the <code>Id</code> member of the <code>CreateAccountStatus</code>
+  /// response element from this operation to provide as a parameter to the
+  /// <a>DescribeCreateAccountStatus</a> operation.
   /// </li>
   /// <li>
   /// Check the AWS CloudTrail log for the <code>CreateAccountResult</code>
@@ -338,7 +340,7 @@ class Organizations {
   /// the Activity in Your Organization</a> in the <i>AWS Organizations User
   /// Guide.</i>
   /// </li>
-  /// </ul> <p/>
+  /// </ul>
   /// The user who calls the API to create an account must have the
   /// <code>organizations:CreateAccount</code> permission. If you enabled all
   /// features in the organization, AWS Organizations creates the required
@@ -348,14 +350,18 @@ class Organizations {
   /// Organizations and Service-Linked Roles</a> in the <i>AWS Organizations
   /// User Guide</i>.
   ///
+  /// If the request includes tags, then the requester must have the
+  /// <code>organizations:TagResource</code> permission.
+  ///
   /// AWS Organizations preconfigures the new member account with a role (named
   /// <code>OrganizationAccountAccessRole</code> by default) that grants users
-  /// in the master account administrator permissions in the new member account.
-  /// Principals in the master account can assume the role. AWS Organizations
-  /// clones the company name and address information for the new account from
-  /// the organization's master account.
+  /// in the management account administrator permissions in the new member
+  /// account. Principals in the management account can assume the role. AWS
+  /// Organizations clones the company name and address information for the new
+  /// account from the organization's management account.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// For more information about creating accounts, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html">Creating
@@ -442,10 +448,10 @@ class Organizations {
   /// (Optional)
   ///
   /// The name of an IAM role that AWS Organizations automatically preconfigures
-  /// in the new member account. This role trusts the master account, allowing
-  /// users in the master account to assume the role, as permitted by the master
-  /// account administrator. The role has administrator permissions in the new
-  /// member account.
+  /// in the new member account. This role trusts the management account,
+  /// allowing users in the management account to assume the role, as permitted
+  /// by the management account administrator. The role has administrator
+  /// permissions in the new member account.
   ///
   /// If you don't specify this parameter, the role name defaults to
   /// <code>OrganizationAccountAccessRole</code>.
@@ -471,11 +477,25 @@ class Organizations {
   /// used to validate this parameter. The pattern can include uppercase
   /// letters, lowercase letters, digits with no spaces, and any of the
   /// following characters: =,.@-
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the newly created account. For
+  /// each tag in the list, you must specify both a tag key and a value. You can
+  /// set the value to an empty string, but you can't set it to
+  /// <code>null</code>. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
+  /// AWS Organizations resources</a> in the AWS Organizations User Guide.
+  /// <note>
+  /// If any one of the tags is invalid or if you exceed the allowed number of
+  /// tags for an account, then the entire request fails and the account is not
+  /// created.
+  /// </note>
   Future<CreateAccountResponse> createAccount({
     @_s.required String accountName,
     @_s.required String email,
     IAMUserAccessToBilling iamUserAccessToBilling,
     String roleName,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(accountName, 'accountName');
     _s.validateStringLength(
@@ -505,6 +525,12 @@ class Organizations {
       r'''[^\s@]+@[^\s@]+\.[^\s@]+''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'roleName',
+      roleName,
+      0,
+      64,
+    );
     _s.validateStringPattern(
       'roleName',
       roleName,
@@ -526,6 +552,7 @@ class Organizations {
         if (iamUserAccessToBilling != null)
           'IamUserAccessToBilling': iamUserAccessToBilling.toValue(),
         if (roleName != null) 'RoleName': roleName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -542,22 +569,24 @@ class Organizations {
   /// <i>AWS GovCloud User Guide</i>.</a>
   /// </li>
   /// <li>
-  /// You already have an account in the AWS GovCloud (US) Region that is
-  /// associated with your master account in the commercial Region.
+  /// You already have an account in the AWS GovCloud (US) Region that is paired
+  /// with a management account of an organization in the commercial Region.
   /// </li>
   /// <li>
-  /// You call this action from the master account of your organization in the
-  /// commercial Region.
+  /// You call this action from the management account of your organization in
+  /// the commercial Region.
   /// </li>
   /// <li>
   /// You have the <code>organizations:CreateGovCloudAccount</code> permission.
-  /// AWS Organizations creates the required service-linked role named
-  /// <code>AWSServiceRoleForOrganizations</code>. For more information, see <a
+  /// </li>
+  /// </ul>
+  /// AWS Organizations automatically creates the required service-linked role
+  /// named <code>AWSServiceRoleForOrganizations</code>. For more information,
+  /// see <a
   /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs">AWS
   /// Organizations and Service-Linked Roles</a> in the <i>AWS Organizations
   /// User Guide.</i>
-  /// </li>
-  /// </ul>
+  ///
   /// AWS automatically enables AWS CloudTrail for AWS GovCloud (US) accounts,
   /// but you should also do the following:
   ///
@@ -573,10 +602,17 @@ class Organizations {
   /// AWS CloudTrail Is Enabled</a> in the <i>AWS GovCloud User Guide</i>.
   /// </li>
   /// </ul>
-  /// You call this action from the master account of your organization in the
-  /// commercial Region to create a standalone AWS account in the AWS GovCloud
-  /// (US) Region. After the account is created, the master account of an
-  /// organization in the AWS GovCloud (US) Region can invite it to that
+  /// If the request includes tags, then the requester must have the
+  /// <code>organizations:TagResource</code> permission. The tags are attached
+  /// to the commercial account associated with the GovCloud account, rather
+  /// than the GovCloud account itself. To add tags to the GovCloud account,
+  /// call the <a>TagResource</a> operation in the GovCloud Region after the new
+  /// GovCloud account exists.
+  ///
+  /// You call this action from the management account of your organization in
+  /// the commercial Region to create a standalone AWS account in the AWS
+  /// GovCloud (US) Region. After the account is created, the management account
+  /// of an organization in the AWS GovCloud (US) Region can invite it to that
   /// organization. For more information on inviting standalone accounts in the
   /// AWS GovCloud (US) to join an organization, see <a
   /// href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
@@ -611,13 +647,13 @@ class Organizations {
   /// associated with the same email address.
   ///
   /// A role is created in the new account in the commercial Region that allows
-  /// the master account in the organization in the commercial Region to assume
-  /// it. An AWS GovCloud (US) account is then created and associated with the
-  /// commercial account that you just created. A role is created in the new AWS
-  /// GovCloud (US) account that can be assumed by the AWS GovCloud (US) account
-  /// that is associated with the master account of the commercial organization.
-  /// For more information and to view a diagram that explains how account
-  /// access works, see <a
+  /// the management account in the organization in the commercial Region to
+  /// assume it. An AWS GovCloud (US) account is then created and associated
+  /// with the commercial account that you just created. A role is also created
+  /// in the new AWS GovCloud (US) account that can be assumed by the AWS
+  /// GovCloud (US) account that is associated with the management account of
+  /// the commercial organization. For more information and to view a diagram
+  /// that explains how account access works, see <a
   /// href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
   /// Organizations</a> in the <i>AWS GovCloud User Guide.</i>
   ///
@@ -630,10 +666,11 @@ class Organizations {
   /// <li>
   /// When you create an account in an organization using the AWS Organizations
   /// console, API, or CLI commands, the information required for the account to
-  /// operate as a standalone account, such as a payment method and signing the
-  /// end user license agreement (EULA) is <i>not</i> automatically collected.
-  /// If you must remove an account from your organization later, you can do so
-  /// only after you provide the missing information. Follow the steps at <a
+  /// operate as a standalone account is <i>not</i> automatically collected.
+  /// This includes a payment method and signing the end user license agreement
+  /// (EULA). If you must remove an account from your organization later, you
+  /// can do so only after you provide the missing information. Follow the steps
+  /// at <a
   /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
   /// To leave an organization as a member account</a> in the <i>AWS
   /// Organizations User Guide.</i>
@@ -712,10 +749,10 @@ class Organizations {
   ///
   /// The name of an IAM role that AWS Organizations automatically preconfigures
   /// in the new member accounts in both the AWS GovCloud (US) Region and in the
-  /// commercial Region. This role trusts the master account, allowing users in
-  /// the master account to assume the role, as permitted by the master account
-  /// administrator. The role has administrator permissions in the new member
-  /// account.
+  /// commercial Region. This role trusts the management account, allowing users
+  /// in the management account to assume the role, as permitted by the
+  /// management account administrator. The role has administrator permissions
+  /// in the new member account.
   ///
   /// If you don't specify this parameter, the role name defaults to
   /// <code>OrganizationAccountAccessRole</code>.
@@ -733,11 +770,30 @@ class Organizations {
   /// used to validate this parameter. The pattern can include uppercase
   /// letters, lowercase letters, digits with no spaces, and any of the
   /// following characters: =,.@-
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the newly created account. These
+  /// tags are attached to the commercial account associated with the GovCloud
+  /// account, and not to the GovCloud account itself. To add tags to the actual
+  /// GovCloud account, call the <a>TagResource</a> operation in the GovCloud
+  /// region after the new GovCloud account exists.
+  ///
+  /// For each tag in the list, you must specify both a tag key and a value. You
+  /// can set the value to an empty string, but you can't set it to
+  /// <code>null</code>. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
+  /// AWS Organizations resources</a> in the AWS Organizations User Guide.
+  /// <note>
+  /// If any one of the tags is invalid or if you exceed the allowed number of
+  /// tags for an account, then the entire request fails and the account is not
+  /// created.
+  /// </note>
   Future<CreateGovCloudAccountResponse> createGovCloudAccount({
     @_s.required String accountName,
     @_s.required String email,
     IAMUserAccessToBilling iamUserAccessToBilling,
     String roleName,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(accountName, 'accountName');
     _s.validateStringLength(
@@ -767,6 +823,12 @@ class Organizations {
       r'''[^\s@]+@[^\s@]+\.[^\s@]+''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'roleName',
+      roleName,
+      0,
+      64,
+    );
     _s.validateStringPattern(
       'roleName',
       roleName,
@@ -788,6 +850,7 @@ class Organizations {
         if (iamUserAccessToBilling != null)
           'IamUserAccessToBilling': iamUserAccessToBilling.toValue(),
         if (roleName != null) 'RoleName': roleName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -796,12 +859,12 @@ class Organizations {
 
   /// Creates an AWS organization. The account whose user is calling the
   /// <code>CreateOrganization</code> operation automatically becomes the <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/orgs_getting-started_concepts.html#account">master
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">management
   /// account</a> of the new organization.
   ///
   /// This operation must be called using credentials from the account that is
-  /// to become the new organization's master account. The principal must also
-  /// have the relevant IAM permissions.
+  /// to become the new organization's management account. The principal must
+  /// also have the relevant IAM permissions.
   ///
   /// By default (or if you set the <code>FeatureSet</code> parameter to
   /// <code>ALL</code>), the new organization is created with all features
@@ -827,8 +890,8 @@ class Organizations {
   /// <ul>
   /// <li>
   /// <code>CONSOLIDATED_BILLING</code>: All member accounts have their bills
-  /// consolidated to and paid by the master account. For more information, see
-  /// <a
+  /// consolidated to and paid by the management account. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-cb-only">Consolidated
   /// billing</a> in the <i>AWS Organizations User Guide.</i>
   ///
@@ -837,8 +900,8 @@ class Organizations {
   /// </li>
   /// <li>
   /// <code>ALL</code>: In addition to all the features supported by the
-  /// consolidated billing feature set, the master account can also apply any
-  /// policy type to any member account in the organization. For more
+  /// consolidated billing feature set, the management account can also apply
+  /// any policy type to any member account in the organization. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-all">All
   /// features</a> in the <i>AWS Organizations User Guide.</i>
@@ -875,7 +938,11 @@ class Organizations {
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html">Managing
   /// Organizational Units</a> in the <i>AWS Organizations User Guide.</i>
   ///
-  /// This operation can be called only from the organization's master account.
+  /// If the request includes tags, then the requester must have the
+  /// <code>organizations:TagResource</code> permission.
+  ///
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -909,9 +976,22 @@ class Organizations {
   /// additional lowercase letters or digits.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the newly created OU. For each
+  /// tag in the list, you must specify both a tag key and a value. You can set
+  /// the value to an empty string, but you can't set it to <code>null</code>.
+  /// For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
+  /// AWS Organizations resources</a> in the AWS Organizations User Guide.
+  /// <note>
+  /// If any one of the tags is invalid or if you exceed the allowed number of
+  /// tags for an OU, then the entire request fails and the OU is not created.
+  /// </note>
   Future<CreateOrganizationalUnitResponse> createOrganizationalUnit({
     @_s.required String name,
     @_s.required String parentId,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -921,7 +1001,20 @@ class Organizations {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\s\S]*''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(parentId, 'parentId');
+    _s.validateStringLength(
+      'parentId',
+      parentId,
+      0,
+      100,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'parentId',
       parentId,
@@ -941,6 +1034,7 @@ class Organizations {
       payload: {
         'Name': name,
         'ParentId': parentId,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -954,7 +1048,11 @@ class Organizations {
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html">Managing
   /// Organization Policies</a>.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// If the request includes tags, then the requester must have the
+  /// <code>organizations:TagResource</code> permission.
+  ///
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -969,14 +1067,9 @@ class Organizations {
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [content] :
-  /// The policy content to add to the new policy. For example, if you create a
-  /// <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">service
-  /// control policy</a> (SCP), this string must be JSON text that specifies the
-  /// permissions that admins in attached accounts can delegate to their users,
-  /// groups, and roles. For more information about the SCP syntax, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
-  /// Control Policy Syntax</a> in the <i>AWS Organizations User Guide.</i>
+  /// The policy text content to add to the new policy. The text that you supply
+  /// must adhere to the rules of the policy type you specify in the
+  /// <code>Type</code> parameter.
   ///
   /// Parameter [description] :
   /// An optional description to assign to the policy.
@@ -989,16 +1082,45 @@ class Organizations {
   /// the ASCII character range.
   ///
   /// Parameter [type] :
-  /// The type of policy to create.
+  /// The type of policy to create. You can specify one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html">BACKUP_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the newly created policy. For
+  /// each tag in the list, you must specify both a tag key and a value. You can
+  /// set the value to an empty string, but you can't set it to
+  /// <code>null</code>. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
+  /// AWS Organizations resources</a> in the AWS Organizations User Guide.
   /// <note>
-  /// In the current release, the only type of policy that you can create is a
-  /// service control policy (SCP).
+  /// If any one of the tags is invalid or if you exceed the allowed number of
+  /// tags for a policy, then the entire request fails and the policy is not
+  /// created.
   /// </note>
   Future<CreatePolicyResponse> createPolicy({
     @_s.required String content,
     @_s.required String description,
     @_s.required String name,
     @_s.required PolicyType type,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     _s.validateStringLength(
@@ -1006,6 +1128,12 @@ class Organizations {
       content,
       1,
       1000000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'content',
+      content,
+      r'''[\s\S]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(description, 'description');
@@ -1016,12 +1144,24 @@ class Organizations {
       512,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\s\S]*''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\s\S]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
@@ -1040,6 +1180,7 @@ class Organizations {
         'Description': description,
         'Name': name,
         'Type': type?.toValue() ?? '',
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1077,6 +1218,13 @@ class Organizations {
     @_s.required String handshakeId,
   }) async {
     ArgumentError.checkNotNull(handshakeId, 'handshakeId');
+    _s.validateStringLength(
+      'handshakeId',
+      handshakeId,
+      0,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'handshakeId',
       handshakeId,
@@ -1102,7 +1250,7 @@ class Organizations {
   }
 
   /// Deletes the organization. You can delete an organization only by using
-  /// credentials from the master account. The organization must be empty of
+  /// credentials from the management account. The organization must be empty of
   /// member accounts.
   ///
   /// May throw [AccessDeniedException].
@@ -1130,7 +1278,8 @@ class Organizations {
   /// first remove all accounts and child OUs from the OU that you want to
   /// delete.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1155,6 +1304,13 @@ class Organizations {
     @_s.required String organizationalUnitId,
   }) async {
     ArgumentError.checkNotNull(organizationalUnitId, 'organizationalUnitId');
+    _s.validateStringLength(
+      'organizationalUnitId',
+      organizationalUnitId,
+      0,
+      68,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationalUnitId',
       organizationalUnitId,
@@ -1181,7 +1337,8 @@ class Organizations {
   /// this operation, you must first detach the policy from all organizational
   /// units (OUs), roots, and accounts.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1205,6 +1362,13 @@ class Organizations {
     @_s.required String policyId,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
+    _s.validateStringLength(
+      'policyId',
+      policyId,
+      0,
+      130,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'policyId',
       policyId,
@@ -1229,7 +1393,12 @@ class Organizations {
 
   /// Removes the specified member AWS account as a delegated administrator for
   /// the specified AWS service.
-  ///
+  /// <important>
+  /// Deregistering a delegated administrator can have unintended impacts on the
+  /// functionality of the enabled AWS service. See the documentation for the
+  /// enabled service before you deregister a delegated administrator so that
+  /// you understand any potential impacts.
+  /// </important>
   /// You can run this action only for AWS services that support this feature.
   /// For a current list of services that support it, see the column <i>Supports
   /// Delegated Administrator</i> in the table at <a
@@ -1237,7 +1406,8 @@ class Organizations {
   /// Services that you can use with AWS Organizations</a> in the <i>AWS
   /// Organizations User Guide.</i>
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountNotFoundException].
@@ -1267,6 +1437,13 @@ class Organizations {
     @_s.required String servicePrincipal,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      0,
+      12,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'accountId',
       accountId,
@@ -1308,9 +1485,9 @@ class Organizations {
   /// Retrieves AWS Organizations-related information about the specified
   /// account.
   ///
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountNotFoundException].
@@ -1330,6 +1507,13 @@ class Organizations {
     @_s.required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      0,
+      12,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'accountId',
       accountId,
@@ -1357,9 +1541,9 @@ class Organizations {
   /// Retrieves the current status of an asynchronous request to create an
   /// account.
   ///
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1370,8 +1554,9 @@ class Organizations {
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [createAccountRequestId] :
-  /// Specifies the <code>operationId</code> that uniquely identifies the
-  /// request. You can get the ID from the response to an earlier
+  /// Specifies the <code>Id</code> value that uniquely identifies the
+  /// <code>CreateAccount</code> request. You can get the value from the
+  /// <code>CreateAccountStatus.Id</code> response in an earlier
   /// <a>CreateAccount</a> request, or from the <a>ListCreateAccountStatus</a>
   /// operation.
   ///
@@ -1383,6 +1568,13 @@ class Organizations {
   }) async {
     ArgumentError.checkNotNull(
         createAccountRequestId, 'createAccountRequestId');
+    _s.validateStringLength(
+      'createAccountRequestId',
+      createAccountRequestId,
+      0,
+      36,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'createAccountRequestId',
       createAccountRequestId,
@@ -1407,19 +1599,21 @@ class Organizations {
     return DescribeCreateAccountStatusResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the contents of the effective tag policy for the account. The
-  /// effective tag policy is the aggregation of any tag policies the account
-  /// inherits, plus any policy directly that is attached to the account.
+  /// Returns the contents of the effective policy for specified policy type and
+  /// account. The effective policy is the aggregation of any policies of the
+  /// specified type that the account inherits, plus any policy of that type
+  /// that is directly attached to the account.
   ///
-  /// This action returns information on tag policies only.
+  /// This operation applies only to policy types <i>other</i> than service
+  /// control policies (SCPs).
   ///
-  /// For more information on policy inheritance, see <a
+  /// For more information about policy inheritance, see <a
   /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies-inheritance.html">How
   /// Policy Inheritance Works</a> in the <i>AWS Organizations User Guide</i>.
   ///
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1432,17 +1626,39 @@ class Organizations {
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [policyType] :
-  /// The type of policy that you want information about.
+  /// The type of policy that you want information about. You can specify one of
+  /// the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html">BACKUP_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [targetId] :
-  /// When you're signed in as the master account, specify the ID of the account
-  /// that you want details about. Specifying an organization root or OU as the
-  /// target is not supported.
+  /// When you're signed in as the management account, specify the ID of the
+  /// account that you want details about. Specifying an organization root or
+  /// organizational unit (OU) as the target is not supported.
   Future<DescribeEffectivePolicyResponse> describeEffectivePolicy({
     @_s.required EffectivePolicyType policyType,
     String targetId,
   }) async {
     ArgumentError.checkNotNull(policyType, 'policyType');
+    _s.validateStringLength(
+      'targetId',
+      targetId,
+      0,
+      100,
+    );
     _s.validateStringPattern(
       'targetId',
       targetId,
@@ -1497,6 +1713,13 @@ class Organizations {
     @_s.required String handshakeId,
   }) async {
     ArgumentError.checkNotNull(handshakeId, 'handshakeId');
+    _s.validateStringLength(
+      'handshakeId',
+      handshakeId,
+      0,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'handshakeId',
       handshakeId,
@@ -1554,9 +1777,9 @@ class Organizations {
 
   /// Retrieves information about an organizational unit (OU).
   ///
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1579,6 +1802,13 @@ class Organizations {
     @_s.required String organizationalUnitId,
   }) async {
     ArgumentError.checkNotNull(organizationalUnitId, 'organizationalUnitId');
+    _s.validateStringLength(
+      'organizationalUnitId',
+      organizationalUnitId,
+      0,
+      68,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationalUnitId',
       organizationalUnitId,
@@ -1605,9 +1835,9 @@ class Organizations {
 
   /// Retrieves information about a policy.
   ///
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1629,6 +1859,13 @@ class Organizations {
     @_s.required String policyId,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
+    _s.validateStringLength(
+      'policyId',
+      policyId,
+      0,
+      130,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'policyId',
       policyId,
@@ -1654,25 +1891,28 @@ class Organizations {
   }
 
   /// Detaches a policy from a target root, organizational unit (OU), or
-  /// account. If the policy being detached is a service control policy (SCP),
-  /// the changes to permissions for IAM users and roles in affected accounts
-  /// are immediate.
-  ///
-  /// <b>Note:</b> Every root, OU, and account must have at least one SCP
-  /// attached. If you want to replace the default <code>FullAWSAccess</code>
-  /// policy with one that limits the permissions that can be delegated, you
-  /// must attach the replacement policy before you can remove the default one.
-  /// This is the authorization strategy of an "<a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_about-scps.html#orgs_policies_whitelist">allow
+  /// account.
+  /// <important>
+  /// If the policy being detached is a service control policy (SCP), the
+  /// changes to permissions for AWS Identity and Access Management (IAM) users
+  /// and roles in affected accounts are immediate.
+  /// </important>
+  /// Every root, OU, and account must have at least one SCP attached. If you
+  /// want to replace the default <code>FullAWSAccess</code> policy with an SCP
+  /// that limits the permissions that can be delegated, you must attach the
+  /// replacement SCP before you can remove the default SCP. This is the
+  /// authorization strategy of an "<a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_allowlist">allow
   /// list</a>". If you instead attach a second SCP and leave the
   /// <code>FullAWSAccess</code> SCP still attached, and specify <code>"Effect":
   /// "Deny"</code> in the second SCP to override the <code>"Effect":
   /// "Allow"</code> in the <code>FullAWSAccess</code> policy (or any other
   /// attached SCP), you're using the authorization strategy of a "<a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_about-scps.html#orgs_policies_blacklist">deny
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/SCP_strategies.html#orgs_policies_denylist">deny
   /// list</a>".
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1725,6 +1965,13 @@ class Organizations {
     @_s.required String targetId,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
+    _s.validateStringLength(
+      'policyId',
+      policyId,
+      0,
+      130,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'policyId',
       policyId,
@@ -1732,6 +1979,13 @@ class Organizations {
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetId, 'targetId');
+    _s.validateStringLength(
+      'targetId',
+      targetId,
+      0,
+      100,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'targetId',
       targetId,
@@ -1784,7 +2038,8 @@ class Organizations {
   /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations
   /// User Guide.</i>
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -1793,6 +2048,7 @@ class Organizations {
   /// May throw [InvalidInputException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [servicePrincipal] :
   /// The service principal name of the AWS service for which you want to
@@ -1831,22 +2087,23 @@ class Organizations {
     );
   }
 
-  /// Disables an organizational control policy type in a root. A policy of a
-  /// certain type can be attached to entities in a root only if that type is
-  /// enabled in the root. After you perform this operation, you no longer can
-  /// attach policies of the specified type to that root or to any
-  /// organizational unit (OU) or account in that root. You can undo this by
-  /// using the <a>EnablePolicyType</a> operation.
+  /// Disables an organizational policy type in a root. A policy of a certain
+  /// type can be attached to entities in a root only if that type is enabled in
+  /// the root. After you perform this operation, you no longer can attach
+  /// policies of the specified type to that root or to any organizational unit
+  /// (OU) or account in that root. You can undo this by using the
+  /// <a>EnablePolicyType</a> operation.
   ///
   /// This is an asynchronous request that AWS performs in the background. If
-  /// you disable a policy for a root, it still appears enabled for the
+  /// you disable a policy type for a root, it still appears enabled for the
   /// organization if <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features</a> are enabled for the organization. AWS recommends that you
   /// first use <a>ListRoots</a> to see the status of policy types for a
   /// specified root, and then use this operation.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// To view the status of available policy types in the organization, use
   /// <a>DescribeOrganization</a>.
@@ -1864,7 +2121,27 @@ class Organizations {
   /// May throw [PolicyChangesInProgressException].
   ///
   /// Parameter [policyType] :
-  /// The policy type that you want to disable in this root.
+  /// The policy type that you want to disable in this root. You can specify one
+  /// of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html">BACKUP_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [rootId] :
   /// The unique identifier (ID) of the root in which you want to disable a
@@ -1879,6 +2156,13 @@ class Organizations {
   }) async {
     ArgumentError.checkNotNull(policyType, 'policyType');
     ArgumentError.checkNotNull(rootId, 'rootId');
+    _s.validateStringLength(
+      'rootId',
+      rootId,
+      0,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'rootId',
       rootId,
@@ -1926,8 +2210,8 @@ class Organizations {
   /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations
   /// User Guide.</i>
   ///
-  /// This operation can be called only from the organization's master account
-  /// and only if the organization has <a
+  /// This operation can be called only from the organization's management
+  /// account and only if the organization has <a
   /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">enabled
   /// all features</a>.
   ///
@@ -1938,6 +2222,7 @@ class Organizations {
   /// May throw [InvalidInputException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [servicePrincipal] :
   /// The service principal name of the AWS service for which you want to enable
@@ -2002,14 +2287,15 @@ class Organizations {
   /// feature set change by accepting the handshake that contains
   /// <code>"Action": "ENABLE_ALL_FEATURES"</code>. This completes the change.
   ///
-  /// After you enable all features in your organization, the master account in
-  /// the organization can apply policies on all member accounts. These policies
-  /// can restrict what users and even administrators in those accounts can do.
-  /// The master account can apply policies that prevent accounts from leaving
-  /// the organization. Ensure that your account administrators are aware of
-  /// this.
+  /// After you enable all features in your organization, the management account
+  /// in the organization can apply policies on all member accounts. These
+  /// policies can restrict what users and even administrators in those accounts
+  /// can do. The management account can apply policies that prevent accounts
+  /// from leaving the organization. Ensure that your account administrators are
+  /// aware of this.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2043,7 +2329,8 @@ class Organizations {
   /// recommends that you first use <a>ListRoots</a> to see the status of policy
   /// types for a specified root, and then use this operation.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// You can enable a policy type in a root only if that policy type is
   /// available in the organization. To view the status of available policy
@@ -2063,7 +2350,27 @@ class Organizations {
   /// May throw [PolicyChangesInProgressException].
   ///
   /// Parameter [policyType] :
-  /// The policy type that you want to enable.
+  /// The policy type that you want to enable. You can specify one of the
+  /// following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html">BACKUP_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [rootId] :
   /// The unique identifier (ID) of the root in which you want to enable a
@@ -2078,6 +2385,13 @@ class Organizations {
   }) async {
     ArgumentError.checkNotNull(policyType, 'policyType');
     ArgumentError.checkNotNull(rootId, 'rootId');
+    _s.validateStringLength(
+      'rootId',
+      rootId,
+      0,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'rootId',
       rootId,
@@ -2110,12 +2424,12 @@ class Organizations {
   /// <important>
   /// <ul>
   /// <li>
-  /// You can invite AWS accounts only from the same seller as the master
-  /// account. For example, if your organization's master account was created by
-  /// Amazon Internet Services Pvt. Ltd (AISPL), an AWS seller in India, you can
-  /// invite only other AISPL accounts to your organization. You can't combine
-  /// accounts from AISPL and AWS or from any other AWS seller. For more
-  /// information, see <a
+  /// You can invite AWS accounts only from the same seller as the management
+  /// account. For example, if your organization's management account was
+  /// created by Amazon Internet Services Pvt. Ltd (AISPL), an AWS seller in
+  /// India, you can invite only other AISPL accounts to your organization. You
+  /// can't combine accounts from AISPL and AWS or from any other AWS seller.
+  /// For more information, see <a
   /// href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilliing-India.html">Consolidated
   /// Billing in India</a>.
   /// </li>
@@ -2127,7 +2441,11 @@ class Organizations {
   /// href="https://console.aws.amazon.com/support/home#/">AWS Support</a>.
   /// </li>
   /// </ul> </important>
-  /// This operation can be called only from the organization's master account.
+  /// If the request includes tags, then the requester must have the
+  /// <code>organizations:TagResource</code> permission.
+  ///
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2135,6 +2453,7 @@ class Organizations {
   /// May throw [ConcurrentModificationException].
   /// May throw [HandshakeConstraintViolationException].
   /// May throw [DuplicateHandshakeException].
+  /// May throw [ConstraintViolationException].
   /// May throw [InvalidInputException].
   /// May throw [FinalizingOrganizationException].
   /// May throw [ServiceException].
@@ -2163,9 +2482,32 @@ class Organizations {
   /// Parameter [notes] :
   /// Additional information that you want to include in the generated email to
   /// the recipient account owner.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the account when it becomes a
+  /// member of the organization. For each tag in the list, you must specify
+  /// both a tag key and a value. You can set the value to an empty string, but
+  /// you can't set it to <code>null</code>. For more information about tagging,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html">Tagging
+  /// AWS Organizations resources</a> in the AWS Organizations User Guide.
+  /// <important>
+  /// Any tags in the request are checked for compliance with any applicable tag
+  /// policies when the request is made. The request is rejected if the tags in
+  /// the request don't match the requirements of the policy at that time. Tag
+  /// policy compliance is <i> <b>not</b> </i> checked again when the invitation
+  /// is accepted and the tags are actually attached to the account. That means
+  /// that if the tag policy changes between the invitation and the acceptance,
+  /// then that tags could potentially be non-compliant.
+  /// </important> <note>
+  /// If any one of the tags is invalid or if you exceed the allowed number of
+  /// tags for an account, then the entire request fails and invitations are not
+  /// sent.
+  /// </note>
   Future<InviteAccountToOrganizationResponse> inviteAccountToOrganization({
     @_s.required HandshakeParty target,
     String notes,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(target, 'target');
     _s.validateStringLength(
@@ -2173,6 +2515,11 @@ class Organizations {
       notes,
       0,
       1024,
+    );
+    _s.validateStringPattern(
+      'notes',
+      notes,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2187,6 +2534,7 @@ class Organizations {
       payload: {
         'Target': target,
         if (notes != null) 'Notes': notes,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2195,7 +2543,7 @@ class Organizations {
 
   /// Removes a member account from its parent organization. This version of the
   /// operation is performed by the account that wants to leave. To remove a
-  /// member account as a user in the master account, use
+  /// member account as a user in the management account, use
   /// <a>RemoveAccountFromOrganization</a> instead.
   ///
   /// This operation can be called only from a member account in the
@@ -2203,9 +2551,9 @@ class Organizations {
   /// <important>
   /// <ul>
   /// <li>
-  /// The master account in an organization with all features enabled can set
-  /// service control policies (SCPs) that can restrict what administrators of
-  /// member accounts can do. This includes preventing them from successfully
+  /// The management account in an organization with all features enabled can
+  /// set service control policies (SCPs) that can restrict what administrators
+  /// of member accounts can do. This includes preventing them from successfully
   /// calling <code>LeaveOrganization</code> and leaving the organization.
   /// </li>
   /// <li>
@@ -2214,12 +2562,11 @@ class Organizations {
   /// account. When you create an account in an organization using the AWS
   /// Organizations console, API, or CLI commands, the information required of
   /// standalone accounts is <i>not</i> automatically collected. For each
-  /// account that you want to make standalone, you must do the following steps:
+  /// account that you want to make standalone, you must perform the following
+  /// steps. If any of the steps are already completed for this account, that
+  /// step doesn't appear.
   ///
   /// <ul>
-  /// <li>
-  /// Accept the end user license agreement (EULA)
-  /// </li>
   /// <li>
   /// Choose a support plan
   /// </li>
@@ -2243,6 +2590,11 @@ class Organizations {
   /// href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
   /// Access to the Billing and Cost Management Console</a> in the <i>AWS
   /// Billing and Cost Management User Guide.</i>
+  /// </li>
+  /// <li>
+  /// After the account leaves the organization, all tags that were attached to
+  /// the account object in the organization are deleted. AWS accounts outside
+  /// of an organization do not support tags.
   /// </li>
   /// </ul> </important>
   ///
@@ -2281,9 +2633,9 @@ class Organizations {
   /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations
   /// User Guide.</i>
   ///
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2291,6 +2643,7 @@ class Organizations {
   /// May throw [InvalidInputException].
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [maxResults] :
   /// The total number of results that you want included on each page of the
@@ -2321,6 +2674,17 @@ class Organizations {
       maxResults,
       1,
       20,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2354,9 +2718,9 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2393,6 +2757,17 @@ class Organizations {
       1,
       20,
     );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.ListAccounts'
@@ -2426,9 +2801,9 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2466,6 +2841,13 @@ class Organizations {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(parentId, 'parentId');
+    _s.validateStringLength(
+      'parentId',
+      parentId,
+      0,
+      100,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'parentId',
       parentId,
@@ -2477,6 +2859,17 @@ class Organizations {
       maxResults,
       1,
       20,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2510,9 +2903,9 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2571,6 +2964,13 @@ class Organizations {
   }) async {
     ArgumentError.checkNotNull(childType, 'childType');
     ArgumentError.checkNotNull(parentId, 'parentId');
+    _s.validateStringLength(
+      'parentId',
+      parentId,
+      0,
+      100,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'parentId',
       parentId,
@@ -2582,6 +2982,17 @@ class Organizations {
       maxResults,
       1,
       20,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2614,9 +3025,9 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2659,6 +3070,17 @@ class Organizations {
       1,
       20,
     );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.ListCreateAccountStatus'
@@ -2683,9 +3105,9 @@ class Organizations {
   /// Lists the AWS accounts that are designated as delegated administrators in
   /// this organization.
   ///
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2733,6 +3155,17 @@ class Organizations {
       20,
     );
     _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
+    );
+    _s.validateStringLength(
       'servicePrincipal',
       servicePrincipal,
       1,
@@ -2766,9 +3199,9 @@ class Organizations {
   /// List the AWS services for which the specified account is a delegated
   /// administrator.
   ///
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountNotFoundException].
@@ -2810,6 +3243,13 @@ class Organizations {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      0,
+      12,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'accountId',
       accountId,
@@ -2821,6 +3261,17 @@ class Organizations {
       maxResults,
       1,
       20,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2858,9 +3309,7 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called from any account in the organization.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConcurrentModificationException].
@@ -2908,6 +3357,17 @@ class Organizations {
       1,
       20,
     );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.ListHandshakesForAccount'
@@ -2945,9 +3405,9 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -2996,6 +3456,17 @@ class Organizations {
       1,
       20,
     );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.ListHandshakesForOrganization'
@@ -3026,9 +3497,9 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3083,6 +3554,13 @@ class Organizations {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(parentId, 'parentId');
+    _s.validateStringLength(
+      'parentId',
+      parentId,
+      0,
+      100,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'parentId',
       parentId,
@@ -3094,6 +3572,17 @@ class Organizations {
       maxResults,
       1,
       20,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3128,9 +3617,9 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   /// <note>
   /// In the current release, a child can have only a single parent.
   /// </note>
@@ -3186,6 +3675,13 @@ class Organizations {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(childId, 'childId');
+    _s.validateStringLength(
+      'childId',
+      childId,
+      0,
+      100,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'childId',
       childId,
@@ -3197,6 +3693,17 @@ class Organizations {
       maxResults,
       1,
       20,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3227,9 +3734,9 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3239,7 +3746,27 @@ class Organizations {
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [filter] :
-  /// Specifies the type of policy that you want to include in the response.
+  /// Specifies the type of policy that you want to include in the response. You
+  /// must specify one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html">BACKUP_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [maxResults] :
   /// The total number of results that you want included on each page of the
@@ -3272,6 +3799,17 @@ class Organizations {
       1,
       20,
     );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.ListPolicies'
@@ -3303,9 +3841,9 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3316,7 +3854,27 @@ class Organizations {
   /// May throw [UnsupportedAPIEndpointException].
   ///
   /// Parameter [filter] :
-  /// The type of policy that you want to include in the returned list.
+  /// The type of policy that you want to include in the returned list. You must
+  /// specify one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">AISERVICES_OPT_OUT_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html">BACKUP_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">SERVICE_CONTROL_POLICY</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html">TAG_POLICY</a>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [targetId] :
   /// The unique identifier (ID) of the root, organizational unit, or account
@@ -3368,6 +3926,13 @@ class Organizations {
   }) async {
     ArgumentError.checkNotNull(filter, 'filter');
     ArgumentError.checkNotNull(targetId, 'targetId');
+    _s.validateStringLength(
+      'targetId',
+      targetId,
+      0,
+      100,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'targetId',
       targetId,
@@ -3379,6 +3944,17 @@ class Organizations {
       maxResults,
       1,
       20,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3410,9 +3986,9 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   /// <note>
   /// Policy types can be enabled and disabled in roots. This is distinct from
   /// whether they're available in the organization. When you enable all
@@ -3457,6 +4033,17 @@ class Organizations {
       1,
       20,
     );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.ListRoots'
@@ -3476,13 +4063,27 @@ class Organizations {
     return ListRootsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists tags for the specified resource.
+  /// Lists tags that are attached to the specified resource.
   ///
-  /// Currently, you can list tags on an account in AWS Organizations.
+  /// You can attach tags to the following resources in AWS Organizations.
   ///
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// <ul>
+  /// <li>
+  /// AWS account
+  /// </li>
+  /// <li>
+  /// Organization root
+  /// </li>
+  /// <li>
+  /// Organizational unit (OU)
+  /// </li>
+  /// <li>
+  /// Policy (any type)
+  /// </li>
+  /// </ul>
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3492,7 +4093,27 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceId] :
-  /// The ID of the resource that you want to retrieve tags for.
+  /// The ID of the resource with the tags to list.
+  ///
+  /// You can specify any of the following taggable resources.
+  ///
+  /// <ul>
+  /// <li>
+  /// AWS account – specify the account ID number.
+  /// </li>
+  /// <li>
+  /// Organizational unit – specify the OU ID that begins with <code>ou-</code>
+  /// and looks similar to: <code>ou-<i>1a2b-34uvwxyz</i> </code>
+  /// </li>
+  /// <li>
+  /// Root – specify the root ID that begins with <code>r-</code> and looks
+  /// similar to: <code>r-<i>1a2b</i> </code>
+  /// </li>
+  /// <li>
+  /// Policy – specify the policy ID that begins with <code>p-</code> andlooks
+  /// similar to: <code>p-<i>12abcdefg3</i> </code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [nextToken] :
   /// The parameter for receiving additional results if you receive a
@@ -3506,11 +4127,29 @@ class Organizations {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      0,
+      130,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
-      r'''^\d{12}$''',
+      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$''',
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3541,9 +4180,9 @@ class Organizations {
   /// value is <code>null</code> <i>only</i> when there are no more results to
   /// display.
   /// </note>
-  /// This operation can be called only from the organization's master account
-  /// or by a member account that is a delegated administrator for an AWS
-  /// service.
+  /// This operation can be called only from the organization's management
+  /// account or by a member account that is a delegated administrator for an
+  /// AWS service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -3586,6 +4225,13 @@ class Organizations {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
+    _s.validateStringLength(
+      'policyId',
+      policyId,
+      0,
+      130,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'policyId',
       policyId,
@@ -3597,6 +4243,17 @@ class Organizations {
       maxResults,
       1,
       20,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      100000,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3621,7 +4278,8 @@ class Organizations {
   /// Moves an account from its current source parent root or organizational
   /// unit (OU) to the specified destination parent root or OU.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidInputException].
@@ -3685,6 +4343,13 @@ class Organizations {
     @_s.required String sourceParentId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      0,
+      12,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'accountId',
       accountId,
@@ -3692,6 +4357,13 @@ class Organizations {
       isRequired: true,
     );
     ArgumentError.checkNotNull(destinationParentId, 'destinationParentId');
+    _s.validateStringLength(
+      'destinationParentId',
+      destinationParentId,
+      0,
+      100,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'destinationParentId',
       destinationParentId,
@@ -3699,6 +4371,13 @@ class Organizations {
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceParentId, 'sourceParentId');
+    _s.validateStringLength(
+      'sourceParentId',
+      sourceParentId,
+      0,
+      100,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'sourceParentId',
       sourceParentId,
@@ -3735,7 +4414,8 @@ class Organizations {
   /// Services that you can use with AWS Organizations</a> in the <i>AWS
   /// Organizations User Guide.</i>
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountAlreadyRegisteredException].
@@ -3760,6 +4440,13 @@ class Organizations {
     @_s.required String servicePrincipal,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      0,
+      12,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'accountId',
       accountId,
@@ -3801,30 +4488,37 @@ class Organizations {
   ///
   /// The removed account becomes a standalone account that isn't a member of
   /// any organization. It's no longer subject to any policies and is
-  /// responsible for its own bill payments. The organization's master account
-  /// is no longer charged for any expenses accrued by the member account after
-  /// it's removed from the organization.
+  /// responsible for its own bill payments. The organization's management
+  /// account is no longer charged for any expenses accrued by the member
+  /// account after it's removed from the organization.
   ///
-  /// This operation can be called only from the organization's master account.
-  /// Member accounts can remove themselves with <a>LeaveOrganization</a>
-  /// instead.
+  /// This operation can be called only from the organization's management
+  /// account. Member accounts can remove themselves with
+  /// <a>LeaveOrganization</a> instead.
   /// <important>
+  /// <ul>
+  /// <li>
   /// You can remove an account from your organization only if the account is
   /// configured with the information required to operate as a standalone
   /// account. When you create an account in an organization using the AWS
   /// Organizations console, API, or CLI commands, the information required of
   /// standalone accounts is <i>not</i> automatically collected. For an account
-  /// that you want to make standalone, you must accept the end user license
-  /// agreement (EULA), choose a support plan, provide and verify the required
-  /// contact information, and provide a current payment method. AWS uses the
-  /// payment method to charge for any billable (not free tier) AWS activity
-  /// that occurs while the account isn't attached to an organization. To remove
-  /// an account that doesn't yet have this information, you must sign in as the
-  /// member account and follow the steps at <a
+  /// that you want to make standalone, you must choose a support plan, provide
+  /// and verify the required contact information, and provide a current payment
+  /// method. AWS uses the payment method to charge for any billable (not free
+  /// tier) AWS activity that occurs while the account isn't attached to an
+  /// organization. To remove an account that doesn't yet have this information,
+  /// you must sign in as the member account and follow the steps at <a
   /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
   /// To leave an organization when all required account information has not yet
   /// been provided</a> in the <i>AWS Organizations User Guide.</i>
-  /// </important>
+  /// </li>
+  /// <li>
+  /// After the account leaves the organization, all tags that were attached to
+  /// the account object in the organization are deleted. AWS accounts outside
+  /// of an organization do not support tags.
+  /// </li>
+  /// </ul> </important>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AccountNotFoundException].
@@ -3846,6 +4540,13 @@ class Organizations {
     @_s.required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      0,
+      12,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'accountId',
       accountId,
@@ -3870,9 +4571,25 @@ class Organizations {
 
   /// Adds one or more tags to the specified resource.
   ///
-  /// Currently, you can tag and untag accounts in AWS Organizations.
+  /// Currently, you can attach tags to the following resources in AWS
+  /// Organizations.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// <ul>
+  /// <li>
+  /// AWS account
+  /// </li>
+  /// <li>
+  /// Organization root
+  /// </li>
+  /// <li>
+  /// Organizational unit (OU)
+  /// </li>
+  /// <li>
+  /// Policy (any type)
+  /// </li>
+  /// </ul>
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConcurrentModificationException].
@@ -3887,18 +4604,51 @@ class Organizations {
   /// The ID of the resource to add a tag to.
   ///
   /// Parameter [tags] :
-  /// The tag to add to the specified resource. Specifying the tag key is
-  /// required. You can set the value of a tag to an empty string, but you can't
-  /// set the value of a tag to null.
+  /// A list of tags to add to the specified resource.
+  ///
+  /// You can specify any of the following taggable resources.
+  ///
+  /// <ul>
+  /// <li>
+  /// AWS account – specify the account ID number.
+  /// </li>
+  /// <li>
+  /// Organizational unit – specify the OU ID that begins with <code>ou-</code>
+  /// and looks similar to: <code>ou-<i>1a2b-34uvwxyz</i> </code>
+  /// </li>
+  /// <li>
+  /// Root – specify the root ID that begins with <code>r-</code> and looks
+  /// similar to: <code>r-<i>1a2b</i> </code>
+  /// </li>
+  /// <li>
+  /// Policy – specify the policy ID that begins with <code>p-</code> andlooks
+  /// similar to: <code>p-<i>12abcdefg3</i> </code>
+  /// </li>
+  /// </ul>
+  /// For each tag in the list, you must specify both a tag key and a value. You
+  /// can set the value to an empty string, but you can't set it to
+  /// <code>null</code>.
+  /// <note>
+  /// If any one of the tags is invalid or if you exceed the allowed number of
+  /// tags for an account user, then the entire request fails and the account is
+  /// not created.
+  /// </note>
   Future<void> tagResource({
     @_s.required String resourceId,
     @_s.required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      0,
+      130,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
-      r'''^\d{12}$''',
+      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -3919,11 +4669,26 @@ class Organizations {
     );
   }
 
-  /// Removes a tag from the specified resource.
+  /// Removes any tags with the specified keys from the specified resource.
   ///
-  /// Currently, you can tag and untag accounts in AWS Organizations.
+  /// You can attach tags to the following resources in AWS Organizations.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// <ul>
+  /// <li>
+  /// AWS account
+  /// </li>
+  /// <li>
+  /// Organization root
+  /// </li>
+  /// <li>
+  /// Organizational unit (OU)
+  /// </li>
+  /// <li>
+  /// Policy (any type)
+  /// </li>
+  /// </ul>
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConcurrentModificationException].
@@ -3935,19 +4700,46 @@ class Organizations {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceId] :
-  /// The ID of the resource to remove the tag from.
+  /// The ID of the resource to remove a tag from.
+  ///
+  /// You can specify any of the following taggable resources.
+  ///
+  /// <ul>
+  /// <li>
+  /// AWS account – specify the account ID number.
+  /// </li>
+  /// <li>
+  /// Organizational unit – specify the OU ID that begins with <code>ou-</code>
+  /// and looks similar to: <code>ou-<i>1a2b-34uvwxyz</i> </code>
+  /// </li>
+  /// <li>
+  /// Root – specify the root ID that begins with <code>r-</code> and looks
+  /// similar to: <code>r-<i>1a2b</i> </code>
+  /// </li>
+  /// <li>
+  /// Policy – specify the policy ID that begins with <code>p-</code> andlooks
+  /// similar to: <code>p-<i>12abcdefg3</i> </code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [tagKeys] :
-  /// The tag to remove from the specified resource.
+  /// The list of keys for tags to remove from the specified resource.
   Future<void> untagResource({
     @_s.required String resourceId,
     @_s.required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      0,
+      130,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
-      r'''^\d{12}$''',
+      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -3972,7 +4764,8 @@ class Organizations {
   /// change. The child OUs and accounts remain in place, and any attached
   /// policies of the OU remain attached.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -4004,6 +4797,13 @@ class Organizations {
     String name,
   }) async {
     ArgumentError.checkNotNull(organizationalUnitId, 'organizationalUnitId');
+    _s.validateStringLength(
+      'organizationalUnitId',
+      organizationalUnitId,
+      0,
+      68,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationalUnitId',
       organizationalUnitId,
@@ -4015,6 +4815,11 @@ class Organizations {
       name,
       1,
       128,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4039,7 +4844,8 @@ class Organizations {
   /// you don't supply any parameter, that value remains unchanged. You can't
   /// change a policy's type.
   ///
-  /// This operation can be called only from the organization's master account.
+  /// This operation can be called only from the organization's management
+  /// account.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [AWSOrganizationsNotInUseException].
@@ -4084,6 +4890,13 @@ class Organizations {
     String name,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
+    _s.validateStringLength(
+      'policyId',
+      policyId,
+      0,
+      130,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'policyId',
       policyId,
@@ -4096,17 +4909,32 @@ class Organizations {
       1,
       1000000,
     );
+    _s.validateStringPattern(
+      'content',
+      content,
+      r'''[\s\S]*''',
+    );
     _s.validateStringLength(
       'description',
       description,
       0,
       512,
     );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\s\S]*''',
+    );
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4269,13 +5097,13 @@ class Child {
   ///
   /// <ul>
   /// <li>
-  /// Account: A string that consists of exactly 12 digits.
+  /// <b>Account</b> - A string that consists of exactly 12 digits.
   /// </li>
   /// <li>
-  /// Organizational unit (OU): A string that begins with "ou-" followed by from 4
-  /// to 32 lower-case letters or digits (the ID of the root that contains the
-  /// OU). This string is followed by a second "-" dash and from 8 to 32
-  /// additional lower-case letters or digits.
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that
+  /// contains the OU). This string is followed by a second "-" dash and from 8 to
+  /// 32 additional lowercase letters or digits.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'Id')
@@ -4326,6 +5154,10 @@ enum CreateAccountFailureReason {
   internalFailure,
   @_s.JsonValue('GOVCLOUD_ACCOUNT_ALREADY_EXISTS')
   govcloudAccountAlreadyExists,
+  @_s.JsonValue('MISSING_BUSINESS_VALIDATION')
+  missingBusinessValidation,
+  @_s.JsonValue('MISSING_PAYMENT_INSTRUMENT')
+  missingPaymentInstrument,
 }
 
 @_s.JsonSerializable(
@@ -4411,6 +5243,10 @@ class CreateAccountStatus {
   /// reached the limit on the number of accounts in your organization.
   /// </li>
   /// <li>
+  /// CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the
+  /// same information.
+  /// </li>
+  /// <li>
   /// EMAIL_ALREADY_EXISTS: The account could not be created because another AWS
   /// account with that email address already exists.
   /// </li>
@@ -4431,6 +5267,14 @@ class CreateAccountStatus {
   /// INTERNAL_FAILURE: The account could not be created because of an internal
   /// failure. Try again later. If the problem persists, contact Customer Support.
   /// </li>
+  /// <li>
+  /// MISSING_BUSINESS_VALIDATION: The AWS account that owns your organization has
+  /// not received Business Validation.
+  /// </li>
+  /// <li>
+  /// MISSING_PAYMENT_INSTRUMENT: You must configure the management account with a
+  /// valid payment method, such as a credit card.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'FailureReason')
   final CreateAccountFailureReason failureReason;
@@ -4445,8 +5289,8 @@ class CreateAccountStatus {
   /// account.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a create
-  /// account request ID string requires "car-" followed by from 8 to 32
-  /// lower-case letters or digits.
+  /// account request ID string requires "car-" followed by from 8 to 32 lowercase
+  /// letters or digits.
   @_s.JsonKey(name: 'Id')
   final String id;
 
@@ -4720,6 +5564,13 @@ class DescribeHandshakeResponse {
     createToJson: false)
 class DescribeOrganizationResponse {
   /// A structure that contains information about the organization.
+  /// <important>
+  /// The <code>AvailablePolicyTypes</code> part of the response is deprecated,
+  /// and you shouldn't use it in your apps. It doesn't include any policy type
+  /// supported by Organizations other than SCPs. To determine which policy types
+  /// are enabled in your organization, use the <code> <a>ListRoots</a> </code>
+  /// operation.
+  /// </important>
   @_s.JsonKey(name: 'Organization')
   final Organization organization;
 
@@ -4822,6 +5673,10 @@ class EffectivePolicy {
 enum EffectivePolicyType {
   @_s.JsonValue('TAG_POLICY')
   tagPolicy,
+  @_s.JsonValue('BACKUP_POLICY')
+  backupPolicy,
+  @_s.JsonValue('AISERVICES_OPT_OUT_POLICY')
+  aiservicesOptOutPolicy,
 }
 
 extension on EffectivePolicyType {
@@ -4829,6 +5684,10 @@ extension on EffectivePolicyType {
     switch (this) {
       case EffectivePolicyType.tagPolicy:
         return 'TAG_POLICY';
+      case EffectivePolicyType.backupPolicy:
+        return 'BACKUP_POLICY';
+      case EffectivePolicyType.aiservicesOptOutPolicy:
+        return 'AISERVICES_OPT_OUT_POLICY';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -4899,7 +5758,7 @@ class EnabledServicePrincipal {
 
 /// Contains information that must be exchanged to securely establish a
 /// relationship between two accounts (an <i>originator</i> and a
-/// <i>recipient</i>). For example, when a master account (the originator)
+/// <i>recipient</i>). For example, when a management account (the originator)
 /// invites another account (the recipient) to join its organization, the two
 /// accounts exchange information as a series of handshake requests and
 /// responses.
@@ -4919,22 +5778,22 @@ class Handshake {
   /// <ul>
   /// <li>
   /// <b>INVITE</b>: This type of handshake represents a request to join an
-  /// organization. It is always sent from the master account to only non-member
-  /// accounts.
+  /// organization. It is always sent from the management account to only
+  /// non-member accounts.
   /// </li>
   /// <li>
   /// <b>ENABLE_ALL_FEATURES</b>: This type of handshake represents a request to
-  /// enable all features in an organization. It is always sent from the master
-  /// account to only <i>invited</i> member accounts. Created accounts do not
-  /// receive this because those accounts were created by the organization's
-  /// master account and approval is inferred.
+  /// enable all features in an organization. It is always sent from the
+  /// management account to only <i>invited</i> member accounts. Created accounts
+  /// do not receive this because those accounts were created by the
+  /// organization's management account and approval is inferred.
   /// </li>
   /// <li>
   /// <b>APPROVE_ALL_FEATURES</b>: This type of handshake is sent from the
   /// Organizations service when all member accounts have approved the
-  /// <code>ENABLE_ALL_FEATURES</code> invitation. It is sent only to the master
-  /// account and signals the master that it can finalize the process to enable
-  /// all features.
+  /// <code>ENABLE_ALL_FEATURES</code> invitation. It is sent only to the
+  /// management account and signals the master that it can finalize the process
+  /// to enable all features.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'Action')
@@ -4960,8 +5819,8 @@ class Handshake {
   /// the ID when it initiates the handshake.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
-  /// handshake ID string requires "h-" followed by from 8 to 32 lower-case
-  /// letters or digits.
+  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
+  /// or digits.
   @_s.JsonKey(name: 'Id')
   final String id;
 
@@ -5050,8 +5909,8 @@ class HandshakeFilter {
   /// <code>ActionType</code>.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
-  /// handshake ID string requires "h-" followed by from 8 to 32 lower-case
-  /// letters or digits.
+  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
+  /// or digits.
   @_s.JsonKey(name: 'ParentHandshakeId')
   final String parentHandshakeId;
 
@@ -5072,8 +5931,8 @@ class HandshakeParty {
   /// The unique identifier (ID) for the party.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
-  /// handshake ID string requires "h-" followed by from 8 to 32 lower-case
-  /// letters or digits.
+  /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
+  /// or digits.
   @_s.JsonKey(name: 'Id')
   final String id;
 
@@ -5128,10 +5987,10 @@ class HandshakeResource {
   /// </li>
   /// <li>
   /// <code>OWNER_EMAIL</code> - Specifies the email address associated with the
-  /// master account. Included as information about an organization.
+  /// management account. Included as information about an organization.
   /// </li>
   /// <li>
-  /// <code>OWNER_NAME</code> - Specifies the name associated with the master
+  /// <code>OWNER_NAME</code> - Specifies the name associated with the management
   /// account. Included as information about an organization.
   /// </li>
   /// <li>
@@ -5680,15 +6539,12 @@ class Organization {
   @_s.JsonKey(name: 'Arn')
   final String arn;
 
-  /// A list of policy types that are enabled for this organization. For example,
-  /// if your organization has all features enabled, then service control policies
-  /// (SCPs) are included in the list.
-  /// <note>
-  /// Even if a policy type is shown as available in the organization, you can
-  /// separately enable and disable them at the root level by using
-  /// <a>EnablePolicyType</a> and <a>DisablePolicyType</a>. Use <a>ListRoots</a>
-  /// to see the status of a policy type in that root.
-  /// </note>
+  /// <important>
+  /// Do not use. This field is deprecated and doesn't provide complete
+  /// information about the policies in your organization.
+  /// </important>
+  /// To determine the policies that are enabled and available for use in your
+  /// organization, use the <a>ListRoots</a> operation instead.
   @_s.JsonKey(name: 'AvailablePolicyTypes')
   final List<PolicyTypeSummary> availablePolicyTypes;
 
@@ -5706,13 +6562,13 @@ class Organization {
   /// The unique identifier (ID) of an organization.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
-  /// organization ID string requires "o-" followed by from 10 to 32 lower-case
+  /// organization ID string requires "o-" followed by from 10 to 32 lowercase
   /// letters or digits.
   @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The Amazon Resource Name (ARN) of the account that is designated as the
-  /// master account for the organization.
+  /// management account for the organization.
   ///
   /// For more information about ARNs in Organizations, see <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
@@ -5722,11 +6578,11 @@ class Organization {
   final String masterAccountArn;
 
   /// The email address that is associated with the AWS account that is designated
-  /// as the master account for the organization.
+  /// as the management account for the organization.
   @_s.JsonKey(name: 'MasterAccountEmail')
   final String masterAccountEmail;
 
-  /// The unique identifier (ID) of the master account of an organization.
+  /// The unique identifier (ID) of the management account of an organization.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// account ID string requires exactly 12 digits.
@@ -5787,9 +6643,9 @@ class OrganizationalUnit {
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// organizational unit ID string requires "ou-" followed by from 4 to 32
-  /// lower-case letters or digits (the ID of the root that contains the OU). This
+  /// lowercase letters or digits (the ID of the root that contains the OU). This
   /// string is followed by a second "-" dash and from 8 to 32 additional
-  /// lower-case letters or digits.
+  /// lowercase letters or digits.
   @_s.JsonKey(name: 'Id')
   final String id;
 
@@ -5825,14 +6681,14 @@ class Parent {
   ///
   /// <ul>
   /// <li>
-  /// Root: A string that begins with "r-" followed by from 4 to 32 lower-case
-  /// letters or digits.
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
   /// </li>
   /// <li>
-  /// Organizational unit (OU): A string that begins with "ou-" followed by from 4
-  /// to 32 lower-case letters or digits (the ID of the root that the OU is in).
-  /// This string is followed by a second "-" dash and from 8 to 32 additional
-  /// lower-case letters or digits.
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'Id')
@@ -5910,8 +6766,8 @@ class PolicySummary {
   /// The unique identifier (ID) of the policy.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy
-  /// ID string requires "p-" followed by from 8 to 128 lower-case letters or
-  /// digits.
+  /// ID string requires "p-" followed by from 8 to 128 lowercase or uppercase
+  /// letters, digits, or the underscore character (_).
   @_s.JsonKey(name: 'Id')
   final String id;
 
@@ -5971,17 +6827,17 @@ class PolicyTargetSummary {
   ///
   /// <ul>
   /// <li>
-  /// Root: A string that begins with "r-" followed by from 4 to 32 lower-case
-  /// letters or digits.
+  /// <b>Root</b> - A string that begins with "r-" followed by from 4 to 32
+  /// lowercase letters or digits.
   /// </li>
   /// <li>
-  /// Account: A string that consists of exactly 12 digits.
+  /// <b>Account</b> - A string that consists of exactly 12 digits.
   /// </li>
   /// <li>
-  /// Organizational unit (OU): A string that begins with "ou-" followed by from 4
-  /// to 32 lower-case letters or digits (the ID of the root that the OU is in).
-  /// This string is followed by a second "-" dash and from 8 to 32 additional
-  /// lower-case letters or digits.
+  /// <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed
+  /// by from 4 to 32 lowercase letters or digits (the ID of the root that the OU
+  /// is in). This string is followed by a second "-" dash and from 8 to 32
+  /// additional lowercase letters or digits.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'TargetId')
@@ -6006,6 +6862,10 @@ enum PolicyType {
   serviceControlPolicy,
   @_s.JsonValue('TAG_POLICY')
   tagPolicy,
+  @_s.JsonValue('BACKUP_POLICY')
+  backupPolicy,
+  @_s.JsonValue('AISERVICES_OPT_OUT_POLICY')
+  aiservicesOptOutPolicy,
 }
 
 extension on PolicyType {
@@ -6015,6 +6875,10 @@ extension on PolicyType {
         return 'SERVICE_CONTROL_POLICY';
       case PolicyType.tagPolicy:
         return 'TAG_POLICY';
+      case PolicyType.backupPolicy:
+        return 'BACKUP_POLICY';
+      case PolicyType.aiservicesOptOutPolicy:
+        return 'AISERVICES_OPT_OUT_POLICY';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -6058,9 +6922,7 @@ class PolicyTypeSummary {
 
 /// Contains details about a root. A root is a top-level parent node in the
 /// hierarchy of an organization that can contain organizational units (OUs) and
-/// accounts. Every root contains every AWS account in the organization. Each
-/// root enables the accounts to be organized in a different way and to have
-/// different policy types enabled for use in that root.
+/// accounts. The root contains every AWS account in the organization.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6079,7 +6941,7 @@ class Root {
   /// The unique identifier (ID) for the root.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a root
-  /// ID string requires "r-" followed by from 4 to 32 lower-case letters or
+  /// ID string requires "r-" followed by from 4 to 32 lowercase letters or
   /// digits.
   @_s.JsonKey(name: 'Id')
   final String id;
@@ -6113,8 +6975,24 @@ class Root {
   factory Root.fromJson(Map<String, dynamic> json) => _$RootFromJson(json);
 }
 
-/// A custom key-value pair associated with a resource such as an account within
-/// your organization.
+/// A custom key-value pair associated with a resource within your organization.
+///
+/// You can attach tags to any of the following organization resources.
+///
+/// <ul>
+/// <li>
+/// AWS account
+/// </li>
+/// <li>
+/// Organizational unit (OU)
+/// </li>
+/// <li>
+/// Organization root
+/// </li>
+/// <li>
+/// Policy
+/// </li>
+/// </ul>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,

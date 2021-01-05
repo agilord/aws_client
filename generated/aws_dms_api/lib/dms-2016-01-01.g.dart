@@ -37,6 +37,17 @@ AvailabilityZone _$AvailabilityZoneFromJson(Map<String, dynamic> json) {
   );
 }
 
+CancelReplicationTaskAssessmentRunResponse
+    _$CancelReplicationTaskAssessmentRunResponseFromJson(
+        Map<String, dynamic> json) {
+  return CancelReplicationTaskAssessmentRunResponse(
+    replicationTaskAssessmentRun: json['ReplicationTaskAssessmentRun'] == null
+        ? null
+        : ReplicationTaskAssessmentRun.fromJson(
+            json['ReplicationTaskAssessmentRun'] as Map<String, dynamic>),
+  );
+}
+
 Certificate _$CertificateFromJson(Map<String, dynamic> json) {
   return Certificate(
     certificateArn: json['CertificateArn'] as String,
@@ -168,6 +179,17 @@ DeleteReplicationSubnetGroupResponse
   return DeleteReplicationSubnetGroupResponse();
 }
 
+DeleteReplicationTaskAssessmentRunResponse
+    _$DeleteReplicationTaskAssessmentRunResponseFromJson(
+        Map<String, dynamic> json) {
+  return DeleteReplicationTaskAssessmentRunResponse(
+    replicationTaskAssessmentRun: json['ReplicationTaskAssessmentRun'] == null
+        ? null
+        : ReplicationTaskAssessmentRun.fromJson(
+            json['ReplicationTaskAssessmentRun'] as Map<String, dynamic>),
+  );
+}
+
 DeleteReplicationTaskResponse _$DeleteReplicationTaskResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteReplicationTaskResponse(
@@ -186,6 +208,17 @@ DescribeAccountAttributesResponse _$DescribeAccountAttributesResponseFromJson(
             e == null ? null : AccountQuota.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     uniqueAccountIdentifier: json['UniqueAccountIdentifier'] as String,
+  );
+}
+
+DescribeApplicableIndividualAssessmentsResponse
+    _$DescribeApplicableIndividualAssessmentsResponseFromJson(
+        Map<String, dynamic> json) {
+  return DescribeApplicableIndividualAssessmentsResponse(
+    individualAssessmentNames: (json['IndividualAssessmentNames'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
+    marker: json['Marker'] as String,
   );
 }
 
@@ -361,6 +394,35 @@ DescribeReplicationTaskAssessmentResultsResponse
   );
 }
 
+DescribeReplicationTaskAssessmentRunsResponse
+    _$DescribeReplicationTaskAssessmentRunsResponseFromJson(
+        Map<String, dynamic> json) {
+  return DescribeReplicationTaskAssessmentRunsResponse(
+    marker: json['Marker'] as String,
+    replicationTaskAssessmentRuns: (json['ReplicationTaskAssessmentRuns']
+            as List)
+        ?.map((e) => e == null
+            ? null
+            : ReplicationTaskAssessmentRun.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+DescribeReplicationTaskIndividualAssessmentsResponse
+    _$DescribeReplicationTaskIndividualAssessmentsResponseFromJson(
+        Map<String, dynamic> json) {
+  return DescribeReplicationTaskIndividualAssessmentsResponse(
+    marker: json['Marker'] as String,
+    replicationTaskIndividualAssessments:
+        (json['ReplicationTaskIndividualAssessments'] as List)
+            ?.map((e) => e == null
+                ? null
+                : ReplicationTaskIndividualAssessment.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+  );
+}
+
 DescribeReplicationTasksResponse _$DescribeReplicationTasksResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeReplicationTasksResponse(
@@ -414,6 +476,85 @@ Map<String, dynamic> _$DmsTransferSettingsToJson(DmsTransferSettings instance) {
   writeNotNull('ServiceAccessRoleArn', instance.serviceAccessRoleArn);
   return val;
 }
+
+DocDbSettings _$DocDbSettingsFromJson(Map<String, dynamic> json) {
+  return DocDbSettings(
+    databaseName: json['DatabaseName'] as String,
+    docsToInvestigate: json['DocsToInvestigate'] as int,
+    extractDocId: json['ExtractDocId'] as bool,
+    kmsKeyId: json['KmsKeyId'] as String,
+    nestingLevel:
+        _$enumDecodeNullable(_$NestingLevelValueEnumMap, json['NestingLevel']),
+    password: json['Password'] as String,
+    port: json['Port'] as int,
+    secretsManagerAccessRoleArn: json['SecretsManagerAccessRoleArn'] as String,
+    secretsManagerSecretId: json['SecretsManagerSecretId'] as String,
+    serverName: json['ServerName'] as String,
+    username: json['Username'] as String,
+  );
+}
+
+Map<String, dynamic> _$DocDbSettingsToJson(DocDbSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DatabaseName', instance.databaseName);
+  writeNotNull('DocsToInvestigate', instance.docsToInvestigate);
+  writeNotNull('ExtractDocId', instance.extractDocId);
+  writeNotNull('KmsKeyId', instance.kmsKeyId);
+  writeNotNull(
+      'NestingLevel', _$NestingLevelValueEnumMap[instance.nestingLevel]);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Port', instance.port);
+  writeNotNull(
+      'SecretsManagerAccessRoleArn', instance.secretsManagerAccessRoleArn);
+  writeNotNull('SecretsManagerSecretId', instance.secretsManagerSecretId);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$NestingLevelValueEnumMap = {
+  NestingLevelValue.none: 'none',
+  NestingLevelValue.one: 'one',
+};
 
 DynamoDbSettings _$DynamoDbSettingsFromJson(Map<String, dynamic> json) {
   return DynamoDbSettings(
@@ -469,6 +610,9 @@ Endpoint _$EndpointFromJson(Map<String, dynamic> json) {
         ? null
         : DmsTransferSettings.fromJson(
             json['DmsTransferSettings'] as Map<String, dynamic>),
+    docDbSettings: json['DocDbSettings'] == null
+        ? null
+        : DocDbSettings.fromJson(json['DocDbSettings'] as Map<String, dynamic>),
     dynamoDbSettings: json['DynamoDbSettings'] == null
         ? null
         : DynamoDbSettings.fromJson(
@@ -486,6 +630,10 @@ Endpoint _$EndpointFromJson(Map<String, dynamic> json) {
     externalId: json['ExternalId'] as String,
     externalTableDefinition: json['ExternalTableDefinition'] as String,
     extraConnectionAttributes: json['ExtraConnectionAttributes'] as String,
+    iBMDb2Settings: json['IBMDb2Settings'] == null
+        ? null
+        : IBMDb2Settings.fromJson(
+            json['IBMDb2Settings'] as Map<String, dynamic>),
     kafkaSettings: json['KafkaSettings'] == null
         ? null
         : KafkaSettings.fromJson(json['KafkaSettings'] as Map<String, dynamic>),
@@ -494,11 +642,30 @@ Endpoint _$EndpointFromJson(Map<String, dynamic> json) {
         : KinesisSettings.fromJson(
             json['KinesisSettings'] as Map<String, dynamic>),
     kmsKeyId: json['KmsKeyId'] as String,
+    microsoftSQLServerSettings: json['MicrosoftSQLServerSettings'] == null
+        ? null
+        : MicrosoftSQLServerSettings.fromJson(
+            json['MicrosoftSQLServerSettings'] as Map<String, dynamic>),
     mongoDbSettings: json['MongoDbSettings'] == null
         ? null
         : MongoDbSettings.fromJson(
             json['MongoDbSettings'] as Map<String, dynamic>),
+    mySQLSettings: json['MySQLSettings'] == null
+        ? null
+        : MySQLSettings.fromJson(json['MySQLSettings'] as Map<String, dynamic>),
+    neptuneSettings: json['NeptuneSettings'] == null
+        ? null
+        : NeptuneSettings.fromJson(
+            json['NeptuneSettings'] as Map<String, dynamic>),
+    oracleSettings: json['OracleSettings'] == null
+        ? null
+        : OracleSettings.fromJson(
+            json['OracleSettings'] as Map<String, dynamic>),
     port: json['Port'] as int,
+    postgreSQLSettings: json['PostgreSQLSettings'] == null
+        ? null
+        : PostgreSQLSettings.fromJson(
+            json['PostgreSQLSettings'] as Map<String, dynamic>),
     redshiftSettings: json['RedshiftSettings'] == null
         ? null
         : RedshiftSettings.fromJson(
@@ -510,40 +677,12 @@ Endpoint _$EndpointFromJson(Map<String, dynamic> json) {
     serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String,
     sslMode: _$enumDecodeNullable(_$DmsSslModeValueEnumMap, json['SslMode']),
     status: json['Status'] as String,
+    sybaseSettings: json['SybaseSettings'] == null
+        ? null
+        : SybaseSettings.fromJson(
+            json['SybaseSettings'] as Map<String, dynamic>),
     username: json['Username'] as String,
   );
-}
-
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ReplicationEndpointTypeValueEnumMap = {
@@ -612,6 +751,44 @@ Map<String, dynamic> _$FilterToJson(Filter instance) {
   return val;
 }
 
+IBMDb2Settings _$IBMDb2SettingsFromJson(Map<String, dynamic> json) {
+  return IBMDb2Settings(
+    currentLsn: json['CurrentLsn'] as String,
+    databaseName: json['DatabaseName'] as String,
+    maxKBytesPerRead: json['MaxKBytesPerRead'] as int,
+    password: json['Password'] as String,
+    port: json['Port'] as int,
+    secretsManagerAccessRoleArn: json['SecretsManagerAccessRoleArn'] as String,
+    secretsManagerSecretId: json['SecretsManagerSecretId'] as String,
+    serverName: json['ServerName'] as String,
+    setDataCaptureChanges: json['SetDataCaptureChanges'] as bool,
+    username: json['Username'] as String,
+  );
+}
+
+Map<String, dynamic> _$IBMDb2SettingsToJson(IBMDb2Settings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CurrentLsn', instance.currentLsn);
+  writeNotNull('DatabaseName', instance.databaseName);
+  writeNotNull('MaxKBytesPerRead', instance.maxKBytesPerRead);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Port', instance.port);
+  writeNotNull(
+      'SecretsManagerAccessRoleArn', instance.secretsManagerAccessRoleArn);
+  writeNotNull('SecretsManagerSecretId', instance.secretsManagerSecretId);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('SetDataCaptureChanges', instance.setDataCaptureChanges);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
 ImportCertificateResponse _$ImportCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return ImportCertificateResponse(
@@ -624,6 +801,15 @@ ImportCertificateResponse _$ImportCertificateResponseFromJson(
 KafkaSettings _$KafkaSettingsFromJson(Map<String, dynamic> json) {
   return KafkaSettings(
     broker: json['Broker'] as String,
+    includeControlDetails: json['IncludeControlDetails'] as bool,
+    includeNullAndEmpty: json['IncludeNullAndEmpty'] as bool,
+    includePartitionValue: json['IncludePartitionValue'] as bool,
+    includeTableAlterOperations: json['IncludeTableAlterOperations'] as bool,
+    includeTransactionDetails: json['IncludeTransactionDetails'] as bool,
+    messageFormat: _$enumDecodeNullable(
+        _$MessageFormatValueEnumMap, json['MessageFormat']),
+    messageMaxBytes: json['MessageMaxBytes'] as int,
+    partitionIncludeSchemaTable: json['PartitionIncludeSchemaTable'] as bool,
     topic: json['Topic'] as String,
   );
 }
@@ -638,13 +824,30 @@ Map<String, dynamic> _$KafkaSettingsToJson(KafkaSettings instance) {
   }
 
   writeNotNull('Broker', instance.broker);
+  writeNotNull('IncludeControlDetails', instance.includeControlDetails);
+  writeNotNull('IncludeNullAndEmpty', instance.includeNullAndEmpty);
+  writeNotNull('IncludePartitionValue', instance.includePartitionValue);
+  writeNotNull(
+      'IncludeTableAlterOperations', instance.includeTableAlterOperations);
+  writeNotNull('IncludeTransactionDetails', instance.includeTransactionDetails);
+  writeNotNull(
+      'MessageFormat', _$MessageFormatValueEnumMap[instance.messageFormat]);
+  writeNotNull('MessageMaxBytes', instance.messageMaxBytes);
+  writeNotNull(
+      'PartitionIncludeSchemaTable', instance.partitionIncludeSchemaTable);
   writeNotNull('Topic', instance.topic);
   return val;
 }
 
+const _$MessageFormatValueEnumMap = {
+  MessageFormatValue.json: 'json',
+  MessageFormatValue.jsonUnformatted: 'json-unformatted',
+};
+
 KinesisSettings _$KinesisSettingsFromJson(Map<String, dynamic> json) {
   return KinesisSettings(
     includeControlDetails: json['IncludeControlDetails'] as bool,
+    includeNullAndEmpty: json['IncludeNullAndEmpty'] as bool,
     includePartitionValue: json['IncludePartitionValue'] as bool,
     includeTableAlterOperations: json['IncludeTableAlterOperations'] as bool,
     includeTransactionDetails: json['IncludeTransactionDetails'] as bool,
@@ -666,6 +869,7 @@ Map<String, dynamic> _$KinesisSettingsToJson(KinesisSettings instance) {
   }
 
   writeNotNull('IncludeControlDetails', instance.includeControlDetails);
+  writeNotNull('IncludeNullAndEmpty', instance.includeNullAndEmpty);
   writeNotNull('IncludePartitionValue', instance.includePartitionValue);
   writeNotNull(
       'IncludeTableAlterOperations', instance.includeTableAlterOperations);
@@ -679,11 +883,6 @@ Map<String, dynamic> _$KinesisSettingsToJson(KinesisSettings instance) {
   return val;
 }
 
-const _$MessageFormatValueEnumMap = {
-  MessageFormatValue.json: 'json',
-  MessageFormatValue.jsonUnformatted: 'json-unformatted',
-};
-
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
@@ -692,6 +891,60 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
         ?.toList(),
   );
 }
+
+MicrosoftSQLServerSettings _$MicrosoftSQLServerSettingsFromJson(
+    Map<String, dynamic> json) {
+  return MicrosoftSQLServerSettings(
+    bcpPacketSize: json['BcpPacketSize'] as int,
+    controlTablesFileGroup: json['ControlTablesFileGroup'] as String,
+    databaseName: json['DatabaseName'] as String,
+    password: json['Password'] as String,
+    port: json['Port'] as int,
+    readBackupOnly: json['ReadBackupOnly'] as bool,
+    safeguardPolicy:
+        _$enumDecodeNullable(_$SafeguardPolicyEnumMap, json['SafeguardPolicy']),
+    secretsManagerAccessRoleArn: json['SecretsManagerAccessRoleArn'] as String,
+    secretsManagerSecretId: json['SecretsManagerSecretId'] as String,
+    serverName: json['ServerName'] as String,
+    useBcpFullLoad: json['UseBcpFullLoad'] as bool,
+    username: json['Username'] as String,
+  );
+}
+
+Map<String, dynamic> _$MicrosoftSQLServerSettingsToJson(
+    MicrosoftSQLServerSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BcpPacketSize', instance.bcpPacketSize);
+  writeNotNull('ControlTablesFileGroup', instance.controlTablesFileGroup);
+  writeNotNull('DatabaseName', instance.databaseName);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Port', instance.port);
+  writeNotNull('ReadBackupOnly', instance.readBackupOnly);
+  writeNotNull(
+      'SafeguardPolicy', _$SafeguardPolicyEnumMap[instance.safeguardPolicy]);
+  writeNotNull(
+      'SecretsManagerAccessRoleArn', instance.secretsManagerAccessRoleArn);
+  writeNotNull('SecretsManagerSecretId', instance.secretsManagerSecretId);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('UseBcpFullLoad', instance.useBcpFullLoad);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+const _$SafeguardPolicyEnumMap = {
+  SafeguardPolicy.relyOnSqlServerReplicationAgent:
+      'rely-on-sql-server-replication-agent',
+  SafeguardPolicy.exclusiveAutomaticTruncation:
+      'exclusive-automatic-truncation',
+  SafeguardPolicy.sharedAutomaticTruncation: 'shared-automatic-truncation',
+};
 
 ModifyEndpointResponse _$ModifyEndpointResponseFromJson(
     Map<String, dynamic> json) {
@@ -756,6 +1009,8 @@ MongoDbSettings _$MongoDbSettingsFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$NestingLevelValueEnumMap, json['NestingLevel']),
     password: json['Password'] as String,
     port: json['Port'] as int,
+    secretsManagerAccessRoleArn: json['SecretsManagerAccessRoleArn'] as String,
+    secretsManagerSecretId: json['SecretsManagerSecretId'] as String,
     serverName: json['ServerName'] as String,
     username: json['Username'] as String,
   );
@@ -782,6 +1037,9 @@ Map<String, dynamic> _$MongoDbSettingsToJson(MongoDbSettings instance) {
       'NestingLevel', _$NestingLevelValueEnumMap[instance.nestingLevel]);
   writeNotNull('Password', instance.password);
   writeNotNull('Port', instance.port);
+  writeNotNull(
+      'SecretsManagerAccessRoleArn', instance.secretsManagerAccessRoleArn);
+  writeNotNull('SecretsManagerSecretId', instance.secretsManagerSecretId);
   writeNotNull('ServerName', instance.serverName);
   writeNotNull('Username', instance.username);
   return val;
@@ -798,9 +1056,196 @@ const _$AuthTypeValueEnumMap = {
   AuthTypeValue.password: 'password',
 };
 
-const _$NestingLevelValueEnumMap = {
-  NestingLevelValue.none: 'none',
-  NestingLevelValue.one: 'one',
+MoveReplicationTaskResponse _$MoveReplicationTaskResponseFromJson(
+    Map<String, dynamic> json) {
+  return MoveReplicationTaskResponse(
+    replicationTask: json['ReplicationTask'] == null
+        ? null
+        : ReplicationTask.fromJson(
+            json['ReplicationTask'] as Map<String, dynamic>),
+  );
+}
+
+MySQLSettings _$MySQLSettingsFromJson(Map<String, dynamic> json) {
+  return MySQLSettings(
+    afterConnectScript: json['AfterConnectScript'] as String,
+    databaseName: json['DatabaseName'] as String,
+    eventsPollInterval: json['EventsPollInterval'] as int,
+    maxFileSize: json['MaxFileSize'] as int,
+    parallelLoadThreads: json['ParallelLoadThreads'] as int,
+    password: json['Password'] as String,
+    port: json['Port'] as int,
+    secretsManagerAccessRoleArn: json['SecretsManagerAccessRoleArn'] as String,
+    secretsManagerSecretId: json['SecretsManagerSecretId'] as String,
+    serverName: json['ServerName'] as String,
+    serverTimezone: json['ServerTimezone'] as String,
+    targetDbType:
+        _$enumDecodeNullable(_$TargetDbTypeEnumMap, json['TargetDbType']),
+    username: json['Username'] as String,
+  );
+}
+
+Map<String, dynamic> _$MySQLSettingsToJson(MySQLSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AfterConnectScript', instance.afterConnectScript);
+  writeNotNull('DatabaseName', instance.databaseName);
+  writeNotNull('EventsPollInterval', instance.eventsPollInterval);
+  writeNotNull('MaxFileSize', instance.maxFileSize);
+  writeNotNull('ParallelLoadThreads', instance.parallelLoadThreads);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Port', instance.port);
+  writeNotNull(
+      'SecretsManagerAccessRoleArn', instance.secretsManagerAccessRoleArn);
+  writeNotNull('SecretsManagerSecretId', instance.secretsManagerSecretId);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('ServerTimezone', instance.serverTimezone);
+  writeNotNull('TargetDbType', _$TargetDbTypeEnumMap[instance.targetDbType]);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+const _$TargetDbTypeEnumMap = {
+  TargetDbType.specificDatabase: 'specific-database',
+  TargetDbType.multipleDatabases: 'multiple-databases',
+};
+
+NeptuneSettings _$NeptuneSettingsFromJson(Map<String, dynamic> json) {
+  return NeptuneSettings(
+    s3BucketFolder: json['S3BucketFolder'] as String,
+    s3BucketName: json['S3BucketName'] as String,
+    errorRetryDuration: json['ErrorRetryDuration'] as int,
+    iamAuthEnabled: json['IamAuthEnabled'] as bool,
+    maxFileSize: json['MaxFileSize'] as int,
+    maxRetryCount: json['MaxRetryCount'] as int,
+    serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String,
+  );
+}
+
+Map<String, dynamic> _$NeptuneSettingsToJson(NeptuneSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('S3BucketFolder', instance.s3BucketFolder);
+  writeNotNull('S3BucketName', instance.s3BucketName);
+  writeNotNull('ErrorRetryDuration', instance.errorRetryDuration);
+  writeNotNull('IamAuthEnabled', instance.iamAuthEnabled);
+  writeNotNull('MaxFileSize', instance.maxFileSize);
+  writeNotNull('MaxRetryCount', instance.maxRetryCount);
+  writeNotNull('ServiceAccessRoleArn', instance.serviceAccessRoleArn);
+  return val;
+}
+
+OracleSettings _$OracleSettingsFromJson(Map<String, dynamic> json) {
+  return OracleSettings(
+    accessAlternateDirectly: json['AccessAlternateDirectly'] as bool,
+    addSupplementalLogging: json['AddSupplementalLogging'] as bool,
+    additionalArchivedLogDestId: json['AdditionalArchivedLogDestId'] as int,
+    allowSelectNestedTables: json['AllowSelectNestedTables'] as bool,
+    archivedLogDestId: json['ArchivedLogDestId'] as int,
+    archivedLogsOnly: json['ArchivedLogsOnly'] as bool,
+    asmPassword: json['AsmPassword'] as String,
+    asmServer: json['AsmServer'] as String,
+    asmUser: json['AsmUser'] as String,
+    charLengthSemantics: _$enumDecodeNullable(
+        _$CharLengthSemanticsEnumMap, json['CharLengthSemantics']),
+    databaseName: json['DatabaseName'] as String,
+    directPathNoLog: json['DirectPathNoLog'] as bool,
+    directPathParallelLoad: json['DirectPathParallelLoad'] as bool,
+    enableHomogenousTablespace: json['EnableHomogenousTablespace'] as bool,
+    failTasksOnLobTruncation: json['FailTasksOnLobTruncation'] as bool,
+    numberDatatypeScale: json['NumberDatatypeScale'] as int,
+    oraclePathPrefix: json['OraclePathPrefix'] as String,
+    parallelAsmReadThreads: json['ParallelAsmReadThreads'] as int,
+    password: json['Password'] as String,
+    port: json['Port'] as int,
+    readAheadBlocks: json['ReadAheadBlocks'] as int,
+    readTableSpaceName: json['ReadTableSpaceName'] as bool,
+    replacePathPrefix: json['ReplacePathPrefix'] as bool,
+    retryInterval: json['RetryInterval'] as int,
+    secretsManagerAccessRoleArn: json['SecretsManagerAccessRoleArn'] as String,
+    secretsManagerOracleAsmAccessRoleArn:
+        json['SecretsManagerOracleAsmAccessRoleArn'] as String,
+    secretsManagerOracleAsmSecretId:
+        json['SecretsManagerOracleAsmSecretId'] as String,
+    secretsManagerSecretId: json['SecretsManagerSecretId'] as String,
+    securityDbEncryption: json['SecurityDbEncryption'] as String,
+    securityDbEncryptionName: json['SecurityDbEncryptionName'] as String,
+    serverName: json['ServerName'] as String,
+    useAlternateFolderForOnline: json['UseAlternateFolderForOnline'] as bool,
+    usePathPrefix: json['UsePathPrefix'] as String,
+    username: json['Username'] as String,
+  );
+}
+
+Map<String, dynamic> _$OracleSettingsToJson(OracleSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessAlternateDirectly', instance.accessAlternateDirectly);
+  writeNotNull('AddSupplementalLogging', instance.addSupplementalLogging);
+  writeNotNull(
+      'AdditionalArchivedLogDestId', instance.additionalArchivedLogDestId);
+  writeNotNull('AllowSelectNestedTables', instance.allowSelectNestedTables);
+  writeNotNull('ArchivedLogDestId', instance.archivedLogDestId);
+  writeNotNull('ArchivedLogsOnly', instance.archivedLogsOnly);
+  writeNotNull('AsmPassword', instance.asmPassword);
+  writeNotNull('AsmServer', instance.asmServer);
+  writeNotNull('AsmUser', instance.asmUser);
+  writeNotNull('CharLengthSemantics',
+      _$CharLengthSemanticsEnumMap[instance.charLengthSemantics]);
+  writeNotNull('DatabaseName', instance.databaseName);
+  writeNotNull('DirectPathNoLog', instance.directPathNoLog);
+  writeNotNull('DirectPathParallelLoad', instance.directPathParallelLoad);
+  writeNotNull(
+      'EnableHomogenousTablespace', instance.enableHomogenousTablespace);
+  writeNotNull('FailTasksOnLobTruncation', instance.failTasksOnLobTruncation);
+  writeNotNull('NumberDatatypeScale', instance.numberDatatypeScale);
+  writeNotNull('OraclePathPrefix', instance.oraclePathPrefix);
+  writeNotNull('ParallelAsmReadThreads', instance.parallelAsmReadThreads);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Port', instance.port);
+  writeNotNull('ReadAheadBlocks', instance.readAheadBlocks);
+  writeNotNull('ReadTableSpaceName', instance.readTableSpaceName);
+  writeNotNull('ReplacePathPrefix', instance.replacePathPrefix);
+  writeNotNull('RetryInterval', instance.retryInterval);
+  writeNotNull(
+      'SecretsManagerAccessRoleArn', instance.secretsManagerAccessRoleArn);
+  writeNotNull('SecretsManagerOracleAsmAccessRoleArn',
+      instance.secretsManagerOracleAsmAccessRoleArn);
+  writeNotNull('SecretsManagerOracleAsmSecretId',
+      instance.secretsManagerOracleAsmSecretId);
+  writeNotNull('SecretsManagerSecretId', instance.secretsManagerSecretId);
+  writeNotNull('SecurityDbEncryption', instance.securityDbEncryption);
+  writeNotNull('SecurityDbEncryptionName', instance.securityDbEncryptionName);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull(
+      'UseAlternateFolderForOnline', instance.useAlternateFolderForOnline);
+  writeNotNull('UsePathPrefix', instance.usePathPrefix);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
+const _$CharLengthSemanticsEnumMap = {
+  CharLengthSemantics.$default: 'default',
+  CharLengthSemantics.char: 'char',
+  CharLengthSemantics.byte: 'byte',
 };
 
 OrderableReplicationInstance _$OrderableReplicationInstanceFromJson(
@@ -839,6 +1284,52 @@ PendingMaintenanceAction _$PendingMaintenanceActionFromJson(
   );
 }
 
+PostgreSQLSettings _$PostgreSQLSettingsFromJson(Map<String, dynamic> json) {
+  return PostgreSQLSettings(
+    afterConnectScript: json['AfterConnectScript'] as String,
+    captureDdls: json['CaptureDdls'] as bool,
+    databaseName: json['DatabaseName'] as String,
+    ddlArtifactsSchema: json['DdlArtifactsSchema'] as String,
+    executeTimeout: json['ExecuteTimeout'] as int,
+    failTasksOnLobTruncation: json['FailTasksOnLobTruncation'] as bool,
+    maxFileSize: json['MaxFileSize'] as int,
+    password: json['Password'] as String,
+    port: json['Port'] as int,
+    secretsManagerAccessRoleArn: json['SecretsManagerAccessRoleArn'] as String,
+    secretsManagerSecretId: json['SecretsManagerSecretId'] as String,
+    serverName: json['ServerName'] as String,
+    slotName: json['SlotName'] as String,
+    username: json['Username'] as String,
+  );
+}
+
+Map<String, dynamic> _$PostgreSQLSettingsToJson(PostgreSQLSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AfterConnectScript', instance.afterConnectScript);
+  writeNotNull('CaptureDdls', instance.captureDdls);
+  writeNotNull('DatabaseName', instance.databaseName);
+  writeNotNull('DdlArtifactsSchema', instance.ddlArtifactsSchema);
+  writeNotNull('ExecuteTimeout', instance.executeTimeout);
+  writeNotNull('FailTasksOnLobTruncation', instance.failTasksOnLobTruncation);
+  writeNotNull('MaxFileSize', instance.maxFileSize);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Port', instance.port);
+  writeNotNull(
+      'SecretsManagerAccessRoleArn', instance.secretsManagerAccessRoleArn);
+  writeNotNull('SecretsManagerSecretId', instance.secretsManagerSecretId);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('SlotName', instance.slotName);
+  writeNotNull('Username', instance.username);
+  return val;
+}
+
 RebootReplicationInstanceResponse _$RebootReplicationInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return RebootReplicationInstanceResponse(
@@ -855,12 +1346,15 @@ RedshiftSettings _$RedshiftSettingsFromJson(Map<String, dynamic> json) {
     afterConnectScript: json['AfterConnectScript'] as String,
     bucketFolder: json['BucketFolder'] as String,
     bucketName: json['BucketName'] as String,
+    caseSensitiveNames: json['CaseSensitiveNames'] as bool,
+    compUpdate: json['CompUpdate'] as bool,
     connectionTimeout: json['ConnectionTimeout'] as int,
     databaseName: json['DatabaseName'] as String,
     dateFormat: json['DateFormat'] as String,
     emptyAsNull: json['EmptyAsNull'] as bool,
     encryptionMode: _$enumDecodeNullable(
         _$EncryptionModeValueEnumMap, json['EncryptionMode']),
+    explicitIds: json['ExplicitIds'] as bool,
     fileTransferUploadStreams: json['FileTransferUploadStreams'] as int,
     loadTimeout: json['LoadTimeout'] as int,
     maxFileSize: json['MaxFileSize'] as int,
@@ -869,6 +1363,8 @@ RedshiftSettings _$RedshiftSettingsFromJson(Map<String, dynamic> json) {
     removeQuotes: json['RemoveQuotes'] as bool,
     replaceChars: json['ReplaceChars'] as String,
     replaceInvalidChars: json['ReplaceInvalidChars'] as String,
+    secretsManagerAccessRoleArn: json['SecretsManagerAccessRoleArn'] as String,
+    secretsManagerSecretId: json['SecretsManagerSecretId'] as String,
     serverName: json['ServerName'] as String,
     serverSideEncryptionKmsKeyId:
         json['ServerSideEncryptionKmsKeyId'] as String,
@@ -894,12 +1390,15 @@ Map<String, dynamic> _$RedshiftSettingsToJson(RedshiftSettings instance) {
   writeNotNull('AfterConnectScript', instance.afterConnectScript);
   writeNotNull('BucketFolder', instance.bucketFolder);
   writeNotNull('BucketName', instance.bucketName);
+  writeNotNull('CaseSensitiveNames', instance.caseSensitiveNames);
+  writeNotNull('CompUpdate', instance.compUpdate);
   writeNotNull('ConnectionTimeout', instance.connectionTimeout);
   writeNotNull('DatabaseName', instance.databaseName);
   writeNotNull('DateFormat', instance.dateFormat);
   writeNotNull('EmptyAsNull', instance.emptyAsNull);
   writeNotNull(
       'EncryptionMode', _$EncryptionModeValueEnumMap[instance.encryptionMode]);
+  writeNotNull('ExplicitIds', instance.explicitIds);
   writeNotNull('FileTransferUploadStreams', instance.fileTransferUploadStreams);
   writeNotNull('LoadTimeout', instance.loadTimeout);
   writeNotNull('MaxFileSize', instance.maxFileSize);
@@ -908,6 +1407,9 @@ Map<String, dynamic> _$RedshiftSettingsToJson(RedshiftSettings instance) {
   writeNotNull('RemoveQuotes', instance.removeQuotes);
   writeNotNull('ReplaceChars', instance.replaceChars);
   writeNotNull('ReplaceInvalidChars', instance.replaceInvalidChars);
+  writeNotNull(
+      'SecretsManagerAccessRoleArn', instance.secretsManagerAccessRoleArn);
+  writeNotNull('SecretsManagerSecretId', instance.secretsManagerSecretId);
   writeNotNull('ServerName', instance.serverName);
   writeNotNull(
       'ServerSideEncryptionKmsKeyId', instance.serverSideEncryptionKmsKeyId);
@@ -1073,6 +1575,9 @@ ReplicationTask _$ReplicationTaskFromJson(Map<String, dynamic> json) {
     stopReason: json['StopReason'] as String,
     tableMappings: json['TableMappings'] as String,
     targetEndpointArn: json['TargetEndpointArn'] as String,
+    targetReplicationInstanceArn:
+        json['TargetReplicationInstanceArn'] as String,
+    taskData: json['TaskData'] as String,
   );
 }
 
@@ -1093,6 +1598,52 @@ ReplicationTaskAssessmentResult _$ReplicationTaskAssessmentResultFromJson(
     replicationTaskLastAssessmentDate: const UnixDateTimeConverter()
         .fromJson(json['ReplicationTaskLastAssessmentDate']),
     s3ObjectUrl: json['S3ObjectUrl'] as String,
+  );
+}
+
+ReplicationTaskAssessmentRun _$ReplicationTaskAssessmentRunFromJson(
+    Map<String, dynamic> json) {
+  return ReplicationTaskAssessmentRun(
+    assessmentProgress: json['AssessmentProgress'] == null
+        ? null
+        : ReplicationTaskAssessmentRunProgress.fromJson(
+            json['AssessmentProgress'] as Map<String, dynamic>),
+    assessmentRunName: json['AssessmentRunName'] as String,
+    lastFailureMessage: json['LastFailureMessage'] as String,
+    replicationTaskArn: json['ReplicationTaskArn'] as String,
+    replicationTaskAssessmentRunArn:
+        json['ReplicationTaskAssessmentRunArn'] as String,
+    replicationTaskAssessmentRunCreationDate: const UnixDateTimeConverter()
+        .fromJson(json['ReplicationTaskAssessmentRunCreationDate']),
+    resultEncryptionMode: json['ResultEncryptionMode'] as String,
+    resultKmsKeyArn: json['ResultKmsKeyArn'] as String,
+    resultLocationBucket: json['ResultLocationBucket'] as String,
+    resultLocationFolder: json['ResultLocationFolder'] as String,
+    serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String,
+    status: json['Status'] as String,
+  );
+}
+
+ReplicationTaskAssessmentRunProgress
+    _$ReplicationTaskAssessmentRunProgressFromJson(Map<String, dynamic> json) {
+  return ReplicationTaskAssessmentRunProgress(
+    individualAssessmentCompletedCount:
+        json['IndividualAssessmentCompletedCount'] as int,
+    individualAssessmentCount: json['IndividualAssessmentCount'] as int,
+  );
+}
+
+ReplicationTaskIndividualAssessment
+    _$ReplicationTaskIndividualAssessmentFromJson(Map<String, dynamic> json) {
+  return ReplicationTaskIndividualAssessment(
+    individualAssessmentName: json['IndividualAssessmentName'] as String,
+    replicationTaskAssessmentRunArn:
+        json['ReplicationTaskAssessmentRunArn'] as String,
+    replicationTaskIndividualAssessmentArn:
+        json['ReplicationTaskIndividualAssessmentArn'] as String,
+    replicationTaskIndividualAssessmentStartDate: const UnixDateTimeConverter()
+        .fromJson(json['ReplicationTaskIndividualAssessmentStartDate']),
+    status: json['Status'] as String,
   );
 }
 
@@ -1134,13 +1685,20 @@ S3Settings _$S3SettingsFromJson(Map<String, dynamic> json) {
     bucketName: json['BucketName'] as String,
     cdcInsertsAndUpdates: json['CdcInsertsAndUpdates'] as bool,
     cdcInsertsOnly: json['CdcInsertsOnly'] as bool,
+    cdcPath: json['CdcPath'] as String,
     compressionType: _$enumDecodeNullable(
         _$CompressionTypeValueEnumMap, json['CompressionType']),
     csvDelimiter: json['CsvDelimiter'] as String,
+    csvNoSupValue: json['CsvNoSupValue'] as String,
     csvRowDelimiter: json['CsvRowDelimiter'] as String,
     dataFormat:
         _$enumDecodeNullable(_$DataFormatValueEnumMap, json['DataFormat']),
     dataPageSize: json['DataPageSize'] as int,
+    datePartitionDelimiter: _$enumDecodeNullable(
+        _$DatePartitionDelimiterValueEnumMap, json['DatePartitionDelimiter']),
+    datePartitionEnabled: json['DatePartitionEnabled'] as bool,
+    datePartitionSequence: _$enumDecodeNullable(
+        _$DatePartitionSequenceValueEnumMap, json['DatePartitionSequence']),
     dictPageSizeLimit: json['DictPageSizeLimit'] as int,
     enableStatistics: json['EnableStatistics'] as bool,
     encodingType:
@@ -1153,11 +1711,13 @@ S3Settings _$S3SettingsFromJson(Map<String, dynamic> json) {
         json['ParquetTimestampInMillisecond'] as bool,
     parquetVersion: _$enumDecodeNullable(
         _$ParquetVersionValueEnumMap, json['ParquetVersion']),
+    preserveTransactions: json['PreserveTransactions'] as bool,
     rowGroupLength: json['RowGroupLength'] as int,
     serverSideEncryptionKmsKeyId:
         json['ServerSideEncryptionKmsKeyId'] as String,
     serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String,
     timestampColumnName: json['TimestampColumnName'] as String,
+    useCsvNoSupValue: json['UseCsvNoSupValue'] as bool,
   );
 }
 
@@ -1174,12 +1734,19 @@ Map<String, dynamic> _$S3SettingsToJson(S3Settings instance) {
   writeNotNull('BucketName', instance.bucketName);
   writeNotNull('CdcInsertsAndUpdates', instance.cdcInsertsAndUpdates);
   writeNotNull('CdcInsertsOnly', instance.cdcInsertsOnly);
+  writeNotNull('CdcPath', instance.cdcPath);
   writeNotNull('CompressionType',
       _$CompressionTypeValueEnumMap[instance.compressionType]);
   writeNotNull('CsvDelimiter', instance.csvDelimiter);
+  writeNotNull('CsvNoSupValue', instance.csvNoSupValue);
   writeNotNull('CsvRowDelimiter', instance.csvRowDelimiter);
   writeNotNull('DataFormat', _$DataFormatValueEnumMap[instance.dataFormat]);
   writeNotNull('DataPageSize', instance.dataPageSize);
+  writeNotNull('DatePartitionDelimiter',
+      _$DatePartitionDelimiterValueEnumMap[instance.datePartitionDelimiter]);
+  writeNotNull('DatePartitionEnabled', instance.datePartitionEnabled);
+  writeNotNull('DatePartitionSequence',
+      _$DatePartitionSequenceValueEnumMap[instance.datePartitionSequence]);
   writeNotNull('DictPageSizeLimit', instance.dictPageSizeLimit);
   writeNotNull('EnableStatistics', instance.enableStatistics);
   writeNotNull(
@@ -1192,11 +1759,13 @@ Map<String, dynamic> _$S3SettingsToJson(S3Settings instance) {
       'ParquetTimestampInMillisecond', instance.parquetTimestampInMillisecond);
   writeNotNull(
       'ParquetVersion', _$ParquetVersionValueEnumMap[instance.parquetVersion]);
+  writeNotNull('PreserveTransactions', instance.preserveTransactions);
   writeNotNull('RowGroupLength', instance.rowGroupLength);
   writeNotNull(
       'ServerSideEncryptionKmsKeyId', instance.serverSideEncryptionKmsKeyId);
   writeNotNull('ServiceAccessRoleArn', instance.serviceAccessRoleArn);
   writeNotNull('TimestampColumnName', instance.timestampColumnName);
+  writeNotNull('UseCsvNoSupValue', instance.useCsvNoSupValue);
   return val;
 }
 
@@ -1208,6 +1777,21 @@ const _$CompressionTypeValueEnumMap = {
 const _$DataFormatValueEnumMap = {
   DataFormatValue.csv: 'csv',
   DataFormatValue.parquet: 'parquet',
+};
+
+const _$DatePartitionDelimiterValueEnumMap = {
+  DatePartitionDelimiterValue.slash: 'SLASH',
+  DatePartitionDelimiterValue.underscore: 'UNDERSCORE',
+  DatePartitionDelimiterValue.dash: 'DASH',
+  DatePartitionDelimiterValue.none: 'NONE',
+};
+
+const _$DatePartitionSequenceValueEnumMap = {
+  DatePartitionSequenceValue.yyyymmdd: 'YYYYMMDD',
+  DatePartitionSequenceValue.yyyymmddhh: 'YYYYMMDDHH',
+  DatePartitionSequenceValue.yyyymm: 'YYYYMM',
+  DatePartitionSequenceValue.mmyyyydd: 'MMYYYYDD',
+  DatePartitionSequenceValue.ddmmyyyy: 'DDMMYYYY',
 };
 
 const _$EncodingTypeValueEnumMap = {
@@ -1229,6 +1813,17 @@ StartReplicationTaskAssessmentResponse
         ? null
         : ReplicationTask.fromJson(
             json['ReplicationTask'] as Map<String, dynamic>),
+  );
+}
+
+StartReplicationTaskAssessmentRunResponse
+    _$StartReplicationTaskAssessmentRunResponseFromJson(
+        Map<String, dynamic> json) {
+  return StartReplicationTaskAssessmentRunResponse(
+    replicationTaskAssessmentRun: json['ReplicationTaskAssessmentRun'] == null
+        ? null
+        : ReplicationTaskAssessmentRun.fromJson(
+            json['ReplicationTaskAssessmentRun'] as Map<String, dynamic>),
   );
 }
 
@@ -1270,8 +1865,42 @@ SupportedEndpointType _$SupportedEndpointTypeFromJson(
         _$ReplicationEndpointTypeValueEnumMap, json['EndpointType']),
     engineDisplayName: json['EngineDisplayName'] as String,
     engineName: json['EngineName'] as String,
+    replicationInstanceEngineMinimumVersion:
+        json['ReplicationInstanceEngineMinimumVersion'] as String,
     supportsCDC: json['SupportsCDC'] as bool,
   );
+}
+
+SybaseSettings _$SybaseSettingsFromJson(Map<String, dynamic> json) {
+  return SybaseSettings(
+    databaseName: json['DatabaseName'] as String,
+    password: json['Password'] as String,
+    port: json['Port'] as int,
+    secretsManagerAccessRoleArn: json['SecretsManagerAccessRoleArn'] as String,
+    secretsManagerSecretId: json['SecretsManagerSecretId'] as String,
+    serverName: json['ServerName'] as String,
+    username: json['Username'] as String,
+  );
+}
+
+Map<String, dynamic> _$SybaseSettingsToJson(SybaseSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DatabaseName', instance.databaseName);
+  writeNotNull('Password', instance.password);
+  writeNotNull('Port', instance.port);
+  writeNotNull(
+      'SecretsManagerAccessRoleArn', instance.secretsManagerAccessRoleArn);
+  writeNotNull('SecretsManagerSecretId', instance.secretsManagerSecretId);
+  writeNotNull('ServerName', instance.serverName);
+  writeNotNull('Username', instance.username);
+  return val;
 }
 
 TableStatistics _$TableStatisticsFromJson(Map<String, dynamic> json) {

@@ -170,6 +170,110 @@ class Budgets {
     return CreateBudgetResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates a budget action.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalErrorException].
+  /// May throw [CreationLimitExceededException].
+  /// May throw [DuplicateRecordException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [actionType] :
+  /// The type of action. This defines the type of tasks that can be carried out
+  /// by this action. This field also determines the format for definition.
+  ///
+  /// Parameter [approvalModel] :
+  /// This specifies if the action needs manual or automatic approval.
+  ///
+  /// Parameter [executionRoleArn] :
+  /// The role passed for action execution and reversion. Roles and actions must
+  /// be in the same account.
+  Future<CreateBudgetActionResponse> createBudgetAction({
+    @_s.required String accountId,
+    @_s.required ActionThreshold actionThreshold,
+    @_s.required ActionType actionType,
+    @_s.required ApprovalModel approvalModel,
+    @_s.required String budgetName,
+    @_s.required Definition definition,
+    @_s.required String executionRoleArn,
+    @_s.required NotificationType notificationType,
+    @_s.required List<Subscriber> subscribers,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''\d{12}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(actionThreshold, 'actionThreshold');
+    ArgumentError.checkNotNull(actionType, 'actionType');
+    ArgumentError.checkNotNull(approvalModel, 'approvalModel');
+    ArgumentError.checkNotNull(budgetName, 'budgetName');
+    _s.validateStringLength(
+      'budgetName',
+      budgetName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'budgetName',
+      budgetName,
+      r'''[^:\\]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(definition, 'definition');
+    ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
+    _s.validateStringLength(
+      'executionRoleArn',
+      executionRoleArn,
+      32,
+      618,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'executionRoleArn',
+      executionRoleArn,
+      r'''^arn:(aws|aws-cn|aws-us-gov|us-iso-east-1|us-isob-east-1):iam::\d{12}:role(\u002F[\u0021-\u007F]+\u002F|\u002F)[\w+=,.@-]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(notificationType, 'notificationType');
+    ArgumentError.checkNotNull(subscribers, 'subscribers');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSBudgetServiceGateway.CreateBudgetAction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+        'ActionThreshold': actionThreshold,
+        'ActionType': actionType?.toValue() ?? '',
+        'ApprovalModel': approvalModel?.toValue() ?? '',
+        'BudgetName': budgetName,
+        'Definition': definition,
+        'ExecutionRoleArn': executionRoleArn,
+        'NotificationType': notificationType?.toValue() ?? '',
+        'Subscribers': subscribers,
+      },
+    );
+
+    return CreateBudgetActionResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a notification. You must create the budget before you create the
   /// associated notification.
   ///
@@ -400,6 +504,83 @@ class Budgets {
     return DeleteBudgetResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes a budget action.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceLockedException].
+  ///
+  /// Parameter [actionId] :
+  /// A system-generated universally unique identifier (UUID) for the action.
+  Future<DeleteBudgetActionResponse> deleteBudgetAction({
+    @_s.required String accountId,
+    @_s.required String actionId,
+    @_s.required String budgetName,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''\d{12}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(actionId, 'actionId');
+    _s.validateStringLength(
+      'actionId',
+      actionId,
+      36,
+      36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'actionId',
+      actionId,
+      r'''^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(budgetName, 'budgetName');
+    _s.validateStringLength(
+      'budgetName',
+      budgetName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'budgetName',
+      budgetName,
+      r'''[^:\\]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSBudgetServiceGateway.DeleteBudgetAction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+        'ActionId': actionId,
+        'BudgetName': budgetName,
+      },
+    );
+
+    return DeleteBudgetActionResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes a notification.
   /// <important>
   /// Deleting a notification also deletes the subscribers that are associated
@@ -622,6 +803,325 @@ class Budgets {
     );
 
     return DescribeBudgetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes a budget action detail.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [actionId] :
+  /// A system-generated universally unique identifier (UUID) for the action.
+  Future<DescribeBudgetActionResponse> describeBudgetAction({
+    @_s.required String accountId,
+    @_s.required String actionId,
+    @_s.required String budgetName,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''\d{12}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(actionId, 'actionId');
+    _s.validateStringLength(
+      'actionId',
+      actionId,
+      36,
+      36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'actionId',
+      actionId,
+      r'''^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(budgetName, 'budgetName');
+    _s.validateStringLength(
+      'budgetName',
+      budgetName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'budgetName',
+      budgetName,
+      r'''[^:\\]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSBudgetServiceGateway.DescribeBudgetAction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+        'ActionId': actionId,
+        'BudgetName': budgetName,
+      },
+    );
+
+    return DescribeBudgetActionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes a budget action history detail.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [actionId] :
+  /// A system-generated universally unique identifier (UUID) for the action.
+  Future<DescribeBudgetActionHistoriesResponse> describeBudgetActionHistories({
+    @_s.required String accountId,
+    @_s.required String actionId,
+    @_s.required String budgetName,
+    int maxResults,
+    String nextToken,
+    TimePeriod timePeriod,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''\d{12}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(actionId, 'actionId');
+    _s.validateStringLength(
+      'actionId',
+      actionId,
+      36,
+      36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'actionId',
+      actionId,
+      r'''^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(budgetName, 'budgetName');
+    _s.validateStringLength(
+      'budgetName',
+      budgetName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'budgetName',
+      budgetName,
+      r'''[^:\\]+''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2147483647,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSBudgetServiceGateway.DescribeBudgetActionHistories'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+        'ActionId': actionId,
+        'BudgetName': budgetName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (timePeriod != null) 'TimePeriod': timePeriod,
+      },
+    );
+
+    return DescribeBudgetActionHistoriesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes all of the budget actions for an account.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidNextTokenException].
+  Future<DescribeBudgetActionsForAccountResponse>
+      describeBudgetActionsForAccount({
+    @_s.required String accountId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''\d{12}''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2147483647,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSBudgetServiceGateway.DescribeBudgetActionsForAccount'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeBudgetActionsForAccountResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes all of the budget actions for a budget.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidNextTokenException].
+  Future<DescribeBudgetActionsForBudgetResponse>
+      describeBudgetActionsForBudget({
+    @_s.required String accountId,
+    @_s.required String budgetName,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''\d{12}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(budgetName, 'budgetName');
+    _s.validateStringLength(
+      'budgetName',
+      budgetName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'budgetName',
+      budgetName,
+      r'''[^:\\]+''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2147483647,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSBudgetServiceGateway.DescribeBudgetActionsForBudget'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+        'BudgetName': budgetName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeBudgetActionsForBudgetResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the history for <code>DAILY</code>, <code>MONTHLY</code>, and
@@ -995,6 +1495,89 @@ class Budgets {
         jsonResponse.body);
   }
 
+  /// Executes a budget action.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceLockedException].
+  ///
+  /// Parameter [actionId] :
+  /// A system-generated universally unique identifier (UUID) for the action.
+  ///
+  /// Parameter [executionType] :
+  /// The type of execution.
+  Future<ExecuteBudgetActionResponse> executeBudgetAction({
+    @_s.required String accountId,
+    @_s.required String actionId,
+    @_s.required String budgetName,
+    @_s.required ExecutionType executionType,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''\d{12}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(actionId, 'actionId');
+    _s.validateStringLength(
+      'actionId',
+      actionId,
+      36,
+      36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'actionId',
+      actionId,
+      r'''^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(budgetName, 'budgetName');
+    _s.validateStringLength(
+      'budgetName',
+      budgetName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'budgetName',
+      budgetName,
+      r'''[^:\\]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(executionType, 'executionType');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSBudgetServiceGateway.ExecuteBudgetAction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+        'ActionId': actionId,
+        'BudgetName': budgetName,
+        'ExecutionType': executionType?.toValue() ?? '',
+      },
+    );
+
+    return ExecuteBudgetActionResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates a budget. You can change every part of a budget except for the
   /// <code>budgetName</code> and the <code>calculatedSpend</code>. When you
   /// modify a budget, the <code>calculatedSpend</code> drops to zero until AWS
@@ -1055,6 +1638,114 @@ class Budgets {
     );
 
     return UpdateBudgetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a budget action.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceLockedException].
+  ///
+  /// Parameter [actionId] :
+  /// A system-generated universally unique identifier (UUID) for the action.
+  ///
+  /// Parameter [approvalModel] :
+  /// This specifies if the action needs manual or automatic approval.
+  ///
+  /// Parameter [executionRoleArn] :
+  /// The role passed for action execution and reversion. Roles and actions must
+  /// be in the same account.
+  Future<UpdateBudgetActionResponse> updateBudgetAction({
+    @_s.required String accountId,
+    @_s.required String actionId,
+    @_s.required String budgetName,
+    ActionThreshold actionThreshold,
+    ApprovalModel approvalModel,
+    Definition definition,
+    String executionRoleArn,
+    NotificationType notificationType,
+    List<Subscriber> subscribers,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringLength(
+      'accountId',
+      accountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''\d{12}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(actionId, 'actionId');
+    _s.validateStringLength(
+      'actionId',
+      actionId,
+      36,
+      36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'actionId',
+      actionId,
+      r'''^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(budgetName, 'budgetName');
+    _s.validateStringLength(
+      'budgetName',
+      budgetName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'budgetName',
+      budgetName,
+      r'''[^:\\]+''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'executionRoleArn',
+      executionRoleArn,
+      32,
+      618,
+    );
+    _s.validateStringPattern(
+      'executionRoleArn',
+      executionRoleArn,
+      r'''^arn:(aws|aws-cn|aws-us-gov|us-iso-east-1|us-isob-east-1):iam::\d{12}:role(\u002F[\u0021-\u007F]+\u002F|\u002F)[\w+=,.@-]+$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSBudgetServiceGateway.UpdateBudgetAction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+        'ActionId': actionId,
+        'BudgetName': budgetName,
+        if (actionThreshold != null) 'ActionThreshold': actionThreshold,
+        if (approvalModel != null) 'ApprovalModel': approvalModel.toValue(),
+        if (definition != null) 'Definition': definition,
+        if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
+        if (notificationType != null)
+          'NotificationType': notificationType.toValue(),
+        if (subscribers != null) 'Subscribers': subscribers,
+      },
+    );
+
+    return UpdateBudgetActionResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates a notification.
@@ -1218,13 +1909,219 @@ class Budgets {
   }
 }
 
+/// A budget action resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Action {
+  /// A system-generated universally unique identifier (UUID) for the action.
+  @_s.JsonKey(name: 'ActionId')
+  final String actionId;
+
+  /// The trigger threshold of the action.
+  @_s.JsonKey(name: 'ActionThreshold')
+  final ActionThreshold actionThreshold;
+
+  /// The type of action. This defines the type of tasks that can be carried out
+  /// by this action. This field also determines the format for definition.
+  @_s.JsonKey(name: 'ActionType')
+  final ActionType actionType;
+
+  /// This specifies if the action needs manual or automatic approval.
+  @_s.JsonKey(name: 'ApprovalModel')
+  final ApprovalModel approvalModel;
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// Where you specify all of the type-specific parameters.
+  @_s.JsonKey(name: 'Definition')
+  final Definition definition;
+
+  /// The role passed for action execution and reversion. Roles and actions must
+  /// be in the same account.
+  @_s.JsonKey(name: 'ExecutionRoleArn')
+  final String executionRoleArn;
+  @_s.JsonKey(name: 'NotificationType')
+  final NotificationType notificationType;
+
+  /// The status of action.
+  @_s.JsonKey(name: 'Status')
+  final ActionStatus status;
+  @_s.JsonKey(name: 'Subscribers')
+  final List<Subscriber> subscribers;
+
+  Action({
+    @_s.required this.actionId,
+    @_s.required this.actionThreshold,
+    @_s.required this.actionType,
+    @_s.required this.approvalModel,
+    @_s.required this.budgetName,
+    @_s.required this.definition,
+    @_s.required this.executionRoleArn,
+    @_s.required this.notificationType,
+    @_s.required this.status,
+    @_s.required this.subscribers,
+  });
+  factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
+}
+
+/// The historical records for a budget action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ActionHistory {
+  /// The description of details of the event.
+  @_s.JsonKey(name: 'ActionHistoryDetails')
+  final ActionHistoryDetails actionHistoryDetails;
+
+  /// This distinguishes between whether the events are triggered by the user or
+  /// generated by the system.
+  @_s.JsonKey(name: 'EventType')
+  final EventType eventType;
+
+  /// The status of action at the time of the event.
+  @_s.JsonKey(name: 'Status')
+  final ActionStatus status;
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
+  final DateTime timestamp;
+
+  ActionHistory({
+    @_s.required this.actionHistoryDetails,
+    @_s.required this.eventType,
+    @_s.required this.status,
+    @_s.required this.timestamp,
+  });
+  factory ActionHistory.fromJson(Map<String, dynamic> json) =>
+      _$ActionHistoryFromJson(json);
+}
+
+/// The description of details of the event.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ActionHistoryDetails {
+  /// The budget action resource.
+  @_s.JsonKey(name: 'Action')
+  final Action action;
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  ActionHistoryDetails({
+    @_s.required this.action,
+    @_s.required this.message,
+  });
+  factory ActionHistoryDetails.fromJson(Map<String, dynamic> json) =>
+      _$ActionHistoryDetailsFromJson(json);
+}
+
+enum ActionStatus {
+  @_s.JsonValue('STANDBY')
+  standby,
+  @_s.JsonValue('PENDING')
+  pending,
+  @_s.JsonValue('EXECUTION_IN_PROGRESS')
+  executionInProgress,
+  @_s.JsonValue('EXECUTION_SUCCESS')
+  executionSuccess,
+  @_s.JsonValue('EXECUTION_FAILURE')
+  executionFailure,
+  @_s.JsonValue('REVERSE_IN_PROGRESS')
+  reverseInProgress,
+  @_s.JsonValue('REVERSE_SUCCESS')
+  reverseSuccess,
+  @_s.JsonValue('REVERSE_FAILURE')
+  reverseFailure,
+  @_s.JsonValue('RESET_IN_PROGRESS')
+  resetInProgress,
+  @_s.JsonValue('RESET_FAILURE')
+  resetFailure,
+}
+
+enum ActionSubType {
+  @_s.JsonValue('STOP_EC2_INSTANCES')
+  stopEc2Instances,
+  @_s.JsonValue('STOP_RDS_INSTANCES')
+  stopRdsInstances,
+}
+
+/// The trigger threshold of the action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ActionThreshold {
+  @_s.JsonKey(name: 'ActionThresholdType')
+  final ThresholdType actionThresholdType;
+  @_s.JsonKey(name: 'ActionThresholdValue')
+  final double actionThresholdValue;
+
+  ActionThreshold({
+    @_s.required this.actionThresholdType,
+    @_s.required this.actionThresholdValue,
+  });
+  factory ActionThreshold.fromJson(Map<String, dynamic> json) =>
+      _$ActionThresholdFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ActionThresholdToJson(this);
+}
+
+enum ActionType {
+  @_s.JsonValue('APPLY_IAM_POLICY')
+  applyIamPolicy,
+  @_s.JsonValue('APPLY_SCP_POLICY')
+  applyScpPolicy,
+  @_s.JsonValue('RUN_SSM_DOCUMENTS')
+  runSsmDocuments,
+}
+
+extension on ActionType {
+  String toValue() {
+    switch (this) {
+      case ActionType.applyIamPolicy:
+        return 'APPLY_IAM_POLICY';
+      case ActionType.applyScpPolicy:
+        return 'APPLY_SCP_POLICY';
+      case ActionType.runSsmDocuments:
+        return 'RUN_SSM_DOCUMENTS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum ApprovalModel {
+  @_s.JsonValue('AUTOMATIC')
+  automatic,
+  @_s.JsonValue('MANUAL')
+  manual,
+}
+
+extension on ApprovalModel {
+  String toValue() {
+    switch (this) {
+      case ApprovalModel.automatic:
+        return 'AUTOMATIC';
+      case ApprovalModel.manual:
+        return 'MANUAL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents the output of the <code>CreateBudget</code> operation. The
 /// content consists of the detailed metadata and data file information, and the
 /// current status of the <code>budget</code> object.
 ///
 /// This is the ARN pattern for a budget:
 ///
-/// <code>arn:aws:budgetservice::AccountId:budget/budgetName</code>
+/// <code>arn:aws:budgets::AccountId:budget/budgetName</code>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1243,9 +2140,6 @@ class Budget {
   final BudgetType budgetType;
 
   /// The length of time until a budget resets the actual and forecasted spend.
-  /// <code>DAILY</code> is available only for <code>RI_UTILIZATION</code>,
-  /// <code>RI_COVERAGE</code>, <code>Savings_Plans_Utilization</code>, and
-  /// <code>Savings_Plans_Coverage</code> budgets.
   @_s.JsonKey(name: 'TimeUnit')
   final TimeUnit timeUnit;
 
@@ -1294,8 +2188,8 @@ class Budget {
   /// The types of costs that are included in this <code>COST</code> budget.
   ///
   /// <code>USAGE</code>, <code>RI_UTILIZATION</code>, <code>RI_COVERAGE</code>,
-  /// <code>Savings_Plans_Utilization</code>, and
-  /// <code>Savings_Plans_Coverage</code> budgets do not have
+  /// <code>SAVINGS_PLANS_UTILIZATION</code>, and
+  /// <code>SAVINGS_PLANS_COVERAGE</code> budgets do not have
   /// <code>CostTypes</code>.
   @_s.JsonKey(name: 'CostTypes')
   final CostTypes costTypes;
@@ -1425,8 +2319,9 @@ class BudgetPerformanceHistory {
 
 /// The type of a budget. It must be one of the following types:
 ///
-/// <code>COST</code>, <code>USAGE</code>, <code>RI_UTILIZATION</code>, or
-/// <code>RI_COVERAGE</code>.
+/// <code>COST</code>, <code>USAGE</code>, <code>RI_UTILIZATION</code>,
+/// <code>RI_COVERAGE</code>, <code>SAVINGS_PLANS_UTILIZATION</code>, or
+/// <code>SAVINGS_PLANS_COVERAGE</code>.
 enum BudgetType {
   @_s.JsonValue('USAGE')
   usage,
@@ -1472,9 +2367,9 @@ class BudgetedAndActualAmounts {
 }
 
 /// The spend objects that are associated with this budget. The
-/// <code>actualSpend</code> tracks how much you've used, cost, usage, or RI
-/// units, and the <code>forecastedSpend</code> tracks how much you are
-/// predicted to spend if your current usage remains steady.
+/// <code>actualSpend</code> tracks how much you've used, cost, usage, RI units,
+/// or Savings Plans units and the <code>forecastedSpend</code> tracks how much
+/// you are predicted to spend based on your historical usage profile.
 ///
 /// For example, if it is the 20th of the month and you have spent
 /// <code>50</code> dollars on Amazon EC2, your <code>actualSpend</code> is
@@ -1486,11 +2381,13 @@ class BudgetedAndActualAmounts {
     createFactory: true,
     createToJson: true)
 class CalculatedSpend {
-  /// The amount of cost, usage, or RI units that you have used.
+  /// The amount of cost, usage, RI units, or Savings Plans units that you have
+  /// used.
   @_s.JsonKey(name: 'ActualSpend')
   final Spend actualSpend;
 
-  /// The amount of cost, usage, or RI units that you are forecasted to use.
+  /// The amount of cost, usage, RI units, or Savings Plans units that you are
+  /// forecasted to use.
   @_s.JsonKey(name: 'ForecastedSpend')
   final Spend forecastedSpend;
 
@@ -1520,8 +2417,10 @@ enum ComparisonOperator {
 /// The types of cost that are included in a <code>COST</code> budget, such as
 /// tax and subscriptions.
 ///
-/// <code>USAGE</code>, <code>RI_UTILIZATION</code>, and
-/// <code>RI_COVERAGE</code> budgets do not have <code>CostTypes</code>.
+/// <code>USAGE</code>, <code>RI_UTILIZATION</code>, <code>RI_COVERAGE</code>,
+/// <code>SAVINGS_PLANS_UTILIZATION</code>, and
+/// <code>SAVINGS_PLANS_COVERAGE</code> budgets do not have
+/// <code>CostTypes</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1613,6 +2512,30 @@ class CostTypes {
   Map<String, dynamic> toJson() => _$CostTypesToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateBudgetActionResponse {
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// A system-generated universally unique identifier (UUID) for the action.
+  @_s.JsonKey(name: 'ActionId')
+  final String actionId;
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  CreateBudgetActionResponse({
+    @_s.required this.accountId,
+    @_s.required this.actionId,
+    @_s.required this.budgetName,
+  });
+  factory CreateBudgetActionResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateBudgetActionResponseFromJson(json);
+}
+
 /// Response of CreateBudget
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1649,6 +2572,58 @@ class CreateSubscriberResponse {
       _$CreateSubscriberResponseFromJson(json);
 }
 
+/// Specifies all of the type-specific parameters.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Definition {
+  /// The AWS Identity and Access Management (IAM) action definition details.
+  @_s.JsonKey(name: 'IamActionDefinition')
+  final IamActionDefinition iamActionDefinition;
+
+  /// The service control policies (SCPs) action definition details.
+  @_s.JsonKey(name: 'ScpActionDefinition')
+  final ScpActionDefinition scpActionDefinition;
+
+  /// The AWS Systems Manager (SSM) action definition details.
+  @_s.JsonKey(name: 'SsmActionDefinition')
+  final SsmActionDefinition ssmActionDefinition;
+
+  Definition({
+    this.iamActionDefinition,
+    this.scpActionDefinition,
+    this.ssmActionDefinition,
+  });
+  factory Definition.fromJson(Map<String, dynamic> json) =>
+      _$DefinitionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DefinitionToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteBudgetActionResponse {
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+  @_s.JsonKey(name: 'Action')
+  final Action action;
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  DeleteBudgetActionResponse({
+    @_s.required this.accountId,
+    @_s.required this.action,
+    @_s.required this.budgetName,
+  });
+  factory DeleteBudgetActionResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteBudgetActionResponseFromJson(json);
+}
+
 /// Response of DeleteBudget
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1683,6 +2658,93 @@ class DeleteSubscriberResponse {
   DeleteSubscriberResponse();
   factory DeleteSubscriberResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteSubscriberResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeBudgetActionHistoriesResponse {
+  /// The historical record of the budget action resource.
+  @_s.JsonKey(name: 'ActionHistories')
+  final List<ActionHistory> actionHistories;
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeBudgetActionHistoriesResponse({
+    @_s.required this.actionHistories,
+    this.nextToken,
+  });
+  factory DescribeBudgetActionHistoriesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeBudgetActionHistoriesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeBudgetActionResponse {
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// A budget action resource.
+  @_s.JsonKey(name: 'Action')
+  final Action action;
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  DescribeBudgetActionResponse({
+    @_s.required this.accountId,
+    @_s.required this.action,
+    @_s.required this.budgetName,
+  });
+  factory DescribeBudgetActionResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeBudgetActionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeBudgetActionsForAccountResponse {
+  /// A list of the budget action resources information.
+  @_s.JsonKey(name: 'Actions')
+  final List<Action> actions;
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeBudgetActionsForAccountResponse({
+    @_s.required this.actions,
+    this.nextToken,
+  });
+  factory DescribeBudgetActionsForAccountResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeBudgetActionsForAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeBudgetActionsForBudgetResponse {
+  /// A list of the budget action resources information.
+  @_s.JsonKey(name: 'Actions')
+  final List<Action> actions;
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeBudgetActionsForBudgetResponse({
+    @_s.required this.actions,
+    this.nextToken,
+  });
+  factory DescribeBudgetActionsForBudgetResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeBudgetActionsForBudgetResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1805,8 +2867,112 @@ class DescribeSubscribersForNotificationResponse {
       _$DescribeSubscribersForNotificationResponseFromJson(json);
 }
 
-/// A notification that is associated with a budget. A budget can have up to
-/// five notifications.
+enum EventType {
+  @_s.JsonValue('SYSTEM')
+  system,
+  @_s.JsonValue('CREATE_ACTION')
+  createAction,
+  @_s.JsonValue('DELETE_ACTION')
+  deleteAction,
+  @_s.JsonValue('UPDATE_ACTION')
+  updateAction,
+  @_s.JsonValue('EXECUTE_ACTION')
+  executeAction,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ExecuteBudgetActionResponse {
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// A system-generated universally unique identifier (UUID) for the action.
+  @_s.JsonKey(name: 'ActionId')
+  final String actionId;
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// The type of execution.
+  @_s.JsonKey(name: 'ExecutionType')
+  final ExecutionType executionType;
+
+  ExecuteBudgetActionResponse({
+    @_s.required this.accountId,
+    @_s.required this.actionId,
+    @_s.required this.budgetName,
+    @_s.required this.executionType,
+  });
+  factory ExecuteBudgetActionResponse.fromJson(Map<String, dynamic> json) =>
+      _$ExecuteBudgetActionResponseFromJson(json);
+}
+
+enum ExecutionType {
+  @_s.JsonValue('APPROVE_BUDGET_ACTION')
+  approveBudgetAction,
+  @_s.JsonValue('RETRY_BUDGET_ACTION')
+  retryBudgetAction,
+  @_s.JsonValue('REVERSE_BUDGET_ACTION')
+  reverseBudgetAction,
+  @_s.JsonValue('RESET_BUDGET_ACTION')
+  resetBudgetAction,
+}
+
+extension on ExecutionType {
+  String toValue() {
+    switch (this) {
+      case ExecutionType.approveBudgetAction:
+        return 'APPROVE_BUDGET_ACTION';
+      case ExecutionType.retryBudgetAction:
+        return 'RETRY_BUDGET_ACTION';
+      case ExecutionType.reverseBudgetAction:
+        return 'REVERSE_BUDGET_ACTION';
+      case ExecutionType.resetBudgetAction:
+        return 'RESET_BUDGET_ACTION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// The AWS Identity and Access Management (IAM) action definition details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class IamActionDefinition {
+  /// The Amazon Resource Name (ARN) of the policy to be attached.
+  @_s.JsonKey(name: 'PolicyArn')
+  final String policyArn;
+
+  /// A list of groups to be attached. There must be at least one group.
+  @_s.JsonKey(name: 'Groups')
+  final List<String> groups;
+
+  /// A list of roles to be attached. There must be at least one role.
+  @_s.JsonKey(name: 'Roles')
+  final List<String> roles;
+
+  /// A list of users to be attached. There must be at least one user.
+  @_s.JsonKey(name: 'Users')
+  final List<String> users;
+
+  IamActionDefinition({
+    @_s.required this.policyArn,
+    this.groups,
+    this.roles,
+    this.users,
+  });
+  factory IamActionDefinition.fromJson(Map<String, dynamic> json) =>
+      _$IamActionDefinitionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$IamActionDefinitionToJson(this);
+}
+
+/// A notification that is associated with a budget. A budget can have up to ten
+/// notifications.
 ///
 /// Each notification must have at least one subscriber. A notification can have
 /// one SNS subscriber and up to 10 email subscribers, for a total of 11
@@ -1847,7 +3013,9 @@ class Notification {
   final NotificationType notificationType;
 
   /// The threshold that is associated with a notification. Thresholds are always
-  /// a percentage.
+  /// a percentage, and many customers find value being alerted between 50% - 200%
+  /// of the budgeted amount. The maximum limit for your threshold is 1,000,000%
+  /// above the budgeted amount.
   @_s.JsonKey(name: 'Threshold')
   final double threshold;
 
@@ -1894,6 +3062,18 @@ enum NotificationType {
   forecasted,
 }
 
+extension on NotificationType {
+  String toValue() {
+    switch (this) {
+      case NotificationType.actual:
+        return 'ACTUAL';
+      case NotificationType.forecasted:
+        return 'FORECASTED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A notification with subscribers. A notification can have one SNS subscriber
 /// and up to 10 email subscribers, for a total of 11 subscribers.
 @_s.JsonSerializable(
@@ -1915,6 +3095,31 @@ class NotificationWithSubscribers {
     @_s.required this.subscribers,
   });
   Map<String, dynamic> toJson() => _$NotificationWithSubscribersToJson(this);
+}
+
+/// The service control policies (SCP) action definition details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ScpActionDefinition {
+  /// The policy ID attached.
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  /// A list of target IDs.
+  @_s.JsonKey(name: 'TargetIds')
+  final List<String> targetIds;
+
+  ScpActionDefinition({
+    @_s.required this.policyId,
+    @_s.required this.targetIds,
+  });
+  factory ScpActionDefinition.fromJson(Map<String, dynamic> json) =>
+      _$ScpActionDefinitionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ScpActionDefinitionToJson(this);
 }
 
 /// The amount of cost or usage that is measured for a budget.
@@ -1953,6 +3158,36 @@ class Spend {
   factory Spend.fromJson(Map<String, dynamic> json) => _$SpendFromJson(json);
 
   Map<String, dynamic> toJson() => _$SpendToJson(this);
+}
+
+/// The AWS Systems Manager (SSM) action definition details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SsmActionDefinition {
+  /// The action subType.
+  @_s.JsonKey(name: 'ActionSubType')
+  final ActionSubType actionSubType;
+
+  /// The EC2 and RDS instance IDs.
+  @_s.JsonKey(name: 'InstanceIds')
+  final List<String> instanceIds;
+
+  /// The Region to run the SSM document.
+  @_s.JsonKey(name: 'Region')
+  final String region;
+
+  SsmActionDefinition({
+    @_s.required this.actionSubType,
+    @_s.required this.instanceIds,
+    @_s.required this.region,
+  });
+  factory SsmActionDefinition.fromJson(Map<String, dynamic> json) =>
+      _$SsmActionDefinitionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SsmActionDefinitionToJson(this);
 }
 
 /// The subscriber to a budget notification. The subscriber consists of a
@@ -2004,8 +3239,7 @@ enum SubscriptionType {
   email,
 }
 
-/// The type of threshold for a notification. It can be PERCENTAGE or
-/// ABSOLUTE_VALUE.
+/// The type of threshold for a notification.
 enum ThresholdType {
   @_s.JsonValue('PERCENTAGE')
   percentage,
@@ -2067,6 +3301,35 @@ enum TimeUnit {
   quarterly,
   @_s.JsonValue('ANNUALLY')
   annually,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateBudgetActionResponse {
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+  @_s.JsonKey(name: 'BudgetName')
+  final String budgetName;
+
+  /// The updated action resource information.
+  @_s.JsonKey(name: 'NewAction')
+  final Action newAction;
+
+  /// The previous action resource information.
+  @_s.JsonKey(name: 'OldAction')
+  final Action oldAction;
+
+  UpdateBudgetActionResponse({
+    @_s.required this.accountId,
+    @_s.required this.budgetName,
+    @_s.required this.newAction,
+    @_s.required this.oldAction,
+  });
+  factory UpdateBudgetActionResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateBudgetActionResponseFromJson(json);
 }
 
 /// Response of UpdateBudget
@@ -2148,6 +3411,11 @@ class NotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+class ResourceLockedException extends _s.GenericAwsException {
+  ResourceLockedException({String type, String message})
+      : super(type: type, code: 'ResourceLockedException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
@@ -2165,4 +3433,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidParameterException(type: type, message: message),
   'NotFoundException': (type, message) =>
       NotFoundException(type: type, message: message),
+  'ResourceLockedException': (type, message) =>
+      ResourceLockedException(type: type, message: message),
 };

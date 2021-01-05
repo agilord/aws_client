@@ -301,6 +301,12 @@ DestinationDescription _$DestinationDescriptionFromJson(
             : ExtendedS3DestinationDescription.fromJson(
                 json['ExtendedS3DestinationDescription']
                     as Map<String, dynamic>),
+    httpEndpointDestinationDescription:
+        json['HttpEndpointDestinationDescription'] == null
+            ? null
+            : HttpEndpointDestinationDescription.fromJson(
+                json['HttpEndpointDestinationDescription']
+                    as Map<String, dynamic>),
     redshiftDestinationDescription:
         json['RedshiftDestinationDescription'] == null
             ? null
@@ -366,6 +372,7 @@ Map<String, dynamic> _$ElasticsearchDestinationConfigurationToJson(
   writeNotNull('S3BackupMode',
       _$ElasticsearchS3BackupModeEnumMap[instance.s3BackupMode]);
   writeNotNull('TypeName', instance.typeName);
+  writeNotNull('VpcConfiguration', instance.vpcConfiguration?.toJson());
   return val;
 }
 
@@ -414,6 +421,10 @@ ElasticsearchDestinationDescription
         : S3DestinationDescription.fromJson(
             json['S3DestinationDescription'] as Map<String, dynamic>),
     typeName: json['TypeName'] as String,
+    vpcConfigurationDescription: json['VpcConfigurationDescription'] == null
+        ? null
+        : VpcConfigurationDescription.fromJson(
+            json['VpcConfigurationDescription'] as Map<String, dynamic>),
   );
 }
 
@@ -533,6 +544,7 @@ const _$CompressionFormatEnumMap = {
   CompressionFormat.gzip: 'GZIP',
   CompressionFormat.zip: 'ZIP',
   CompressionFormat.snappy: 'Snappy',
+  CompressionFormat.hadoopSnappy: 'HADOOP_SNAPPY',
 };
 
 const _$S3BackupModeEnumMap = {
@@ -626,6 +638,14 @@ const _$DeliveryStreamFailureTypeEnumMap = {
   DeliveryStreamFailureType.invalidKmsKey: 'INVALID_KMS_KEY',
   DeliveryStreamFailureType.kmsKeyNotFound: 'KMS_KEY_NOT_FOUND',
   DeliveryStreamFailureType.kmsOptInRequired: 'KMS_OPT_IN_REQUIRED',
+  DeliveryStreamFailureType.createEniFailed: 'CREATE_ENI_FAILED',
+  DeliveryStreamFailureType.deleteEniFailed: 'DELETE_ENI_FAILED',
+  DeliveryStreamFailureType.subnetNotFound: 'SUBNET_NOT_FOUND',
+  DeliveryStreamFailureType.securityGroupNotFound: 'SECURITY_GROUP_NOT_FOUND',
+  DeliveryStreamFailureType.eniAccessDenied: 'ENI_ACCESS_DENIED',
+  DeliveryStreamFailureType.subnetAccessDenied: 'SUBNET_ACCESS_DENIED',
+  DeliveryStreamFailureType.securityGroupAccessDenied:
+      'SECURITY_GROUP_ACCESS_DENIED',
   DeliveryStreamFailureType.unknownError: 'UNKNOWN_ERROR',
 };
 
@@ -646,6 +666,226 @@ Map<String, dynamic> _$HiveJsonSerDeToJson(HiveJsonSerDe instance) {
   }
 
   writeNotNull('TimestampFormats', instance.timestampFormats);
+  return val;
+}
+
+HttpEndpointBufferingHints _$HttpEndpointBufferingHintsFromJson(
+    Map<String, dynamic> json) {
+  return HttpEndpointBufferingHints(
+    intervalInSeconds: json['IntervalInSeconds'] as int,
+    sizeInMBs: json['SizeInMBs'] as int,
+  );
+}
+
+Map<String, dynamic> _$HttpEndpointBufferingHintsToJson(
+    HttpEndpointBufferingHints instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IntervalInSeconds', instance.intervalInSeconds);
+  writeNotNull('SizeInMBs', instance.sizeInMBs);
+  return val;
+}
+
+HttpEndpointCommonAttribute _$HttpEndpointCommonAttributeFromJson(
+    Map<String, dynamic> json) {
+  return HttpEndpointCommonAttribute(
+    attributeName: json['AttributeName'] as String,
+    attributeValue: json['AttributeValue'] as String,
+  );
+}
+
+Map<String, dynamic> _$HttpEndpointCommonAttributeToJson(
+    HttpEndpointCommonAttribute instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AttributeName', instance.attributeName);
+  writeNotNull('AttributeValue', instance.attributeValue);
+  return val;
+}
+
+Map<String, dynamic> _$HttpEndpointConfigurationToJson(
+    HttpEndpointConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Url', instance.url);
+  writeNotNull('AccessKey', instance.accessKey);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+HttpEndpointDescription _$HttpEndpointDescriptionFromJson(
+    Map<String, dynamic> json) {
+  return HttpEndpointDescription(
+    name: json['Name'] as String,
+    url: json['Url'] as String,
+  );
+}
+
+Map<String, dynamic> _$HttpEndpointDestinationConfigurationToJson(
+    HttpEndpointDestinationConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'EndpointConfiguration', instance.endpointConfiguration?.toJson());
+  writeNotNull('S3Configuration', instance.s3Configuration?.toJson());
+  writeNotNull('BufferingHints', instance.bufferingHints?.toJson());
+  writeNotNull(
+      'CloudWatchLoggingOptions', instance.cloudWatchLoggingOptions?.toJson());
+  writeNotNull(
+      'ProcessingConfiguration', instance.processingConfiguration?.toJson());
+  writeNotNull('RequestConfiguration', instance.requestConfiguration?.toJson());
+  writeNotNull('RetryOptions', instance.retryOptions?.toJson());
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull(
+      'S3BackupMode', _$HttpEndpointS3BackupModeEnumMap[instance.s3BackupMode]);
+  return val;
+}
+
+const _$HttpEndpointS3BackupModeEnumMap = {
+  HttpEndpointS3BackupMode.failedDataOnly: 'FailedDataOnly',
+  HttpEndpointS3BackupMode.allData: 'AllData',
+};
+
+HttpEndpointDestinationDescription _$HttpEndpointDestinationDescriptionFromJson(
+    Map<String, dynamic> json) {
+  return HttpEndpointDestinationDescription(
+    bufferingHints: json['BufferingHints'] == null
+        ? null
+        : HttpEndpointBufferingHints.fromJson(
+            json['BufferingHints'] as Map<String, dynamic>),
+    cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] == null
+        ? null
+        : CloudWatchLoggingOptions.fromJson(
+            json['CloudWatchLoggingOptions'] as Map<String, dynamic>),
+    endpointConfiguration: json['EndpointConfiguration'] == null
+        ? null
+        : HttpEndpointDescription.fromJson(
+            json['EndpointConfiguration'] as Map<String, dynamic>),
+    processingConfiguration: json['ProcessingConfiguration'] == null
+        ? null
+        : ProcessingConfiguration.fromJson(
+            json['ProcessingConfiguration'] as Map<String, dynamic>),
+    requestConfiguration: json['RequestConfiguration'] == null
+        ? null
+        : HttpEndpointRequestConfiguration.fromJson(
+            json['RequestConfiguration'] as Map<String, dynamic>),
+    retryOptions: json['RetryOptions'] == null
+        ? null
+        : HttpEndpointRetryOptions.fromJson(
+            json['RetryOptions'] as Map<String, dynamic>),
+    roleARN: json['RoleARN'] as String,
+    s3BackupMode: _$enumDecodeNullable(
+        _$HttpEndpointS3BackupModeEnumMap, json['S3BackupMode']),
+    s3DestinationDescription: json['S3DestinationDescription'] == null
+        ? null
+        : S3DestinationDescription.fromJson(
+            json['S3DestinationDescription'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$HttpEndpointDestinationUpdateToJson(
+    HttpEndpointDestinationUpdate instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BufferingHints', instance.bufferingHints?.toJson());
+  writeNotNull(
+      'CloudWatchLoggingOptions', instance.cloudWatchLoggingOptions?.toJson());
+  writeNotNull(
+      'EndpointConfiguration', instance.endpointConfiguration?.toJson());
+  writeNotNull(
+      'ProcessingConfiguration', instance.processingConfiguration?.toJson());
+  writeNotNull('RequestConfiguration', instance.requestConfiguration?.toJson());
+  writeNotNull('RetryOptions', instance.retryOptions?.toJson());
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull(
+      'S3BackupMode', _$HttpEndpointS3BackupModeEnumMap[instance.s3BackupMode]);
+  writeNotNull('S3Update', instance.s3Update?.toJson());
+  return val;
+}
+
+HttpEndpointRequestConfiguration _$HttpEndpointRequestConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return HttpEndpointRequestConfiguration(
+    commonAttributes: (json['CommonAttributes'] as List)
+        ?.map((e) => e == null
+            ? null
+            : HttpEndpointCommonAttribute.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    contentEncoding:
+        _$enumDecodeNullable(_$ContentEncodingEnumMap, json['ContentEncoding']),
+  );
+}
+
+Map<String, dynamic> _$HttpEndpointRequestConfigurationToJson(
+    HttpEndpointRequestConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CommonAttributes',
+      instance.commonAttributes?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ContentEncoding', _$ContentEncodingEnumMap[instance.contentEncoding]);
+  return val;
+}
+
+const _$ContentEncodingEnumMap = {
+  ContentEncoding.none: 'NONE',
+  ContentEncoding.gzip: 'GZIP',
+};
+
+HttpEndpointRetryOptions _$HttpEndpointRetryOptionsFromJson(
+    Map<String, dynamic> json) {
+  return HttpEndpointRetryOptions(
+    durationInSeconds: json['DurationInSeconds'] as int,
+  );
+}
+
+Map<String, dynamic> _$HttpEndpointRetryOptionsToJson(
+    HttpEndpointRetryOptions instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DurationInSeconds', instance.durationInSeconds);
   return val;
 }
 
@@ -1421,4 +1661,30 @@ UntagDeliveryStreamOutput _$UntagDeliveryStreamOutputFromJson(
 UpdateDestinationOutput _$UpdateDestinationOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateDestinationOutput();
+}
+
+Map<String, dynamic> _$VpcConfigurationToJson(VpcConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RoleARN', instance.roleARN);
+  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
+  writeNotNull('SubnetIds', instance.subnetIds);
+  return val;
+}
+
+VpcConfigurationDescription _$VpcConfigurationDescriptionFromJson(
+    Map<String, dynamic> json) {
+  return VpcConfigurationDescription(
+    roleARN: json['RoleARN'] as String,
+    securityGroupIds:
+        (json['SecurityGroupIds'] as List)?.map((e) => e as String)?.toList(),
+    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
+    vpcId: json['VpcId'] as String,
+  );
 }

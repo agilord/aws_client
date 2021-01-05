@@ -50,6 +50,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "Boolean": {"type": "boolean", "flattened": false},
+  "BoxedInteger": {"type": "integer", "flattened": false},
   "ChangeMessageVisibilityBatchRequest": {
     "type": "structure",
     "members": {
@@ -231,14 +232,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "ListDeadLetterSourceQueuesRequest": {
     "type": "structure",
     "members": {
-      "QueueUrl": {"shape": "String", "flattened": false}
+      "QueueUrl": {"shape": "String", "flattened": false},
+      "NextToken": {"shape": "Token", "flattened": false},
+      "MaxResults": {"shape": "BoxedInteger", "flattened": false}
     },
     "flattened": false
   },
   "ListDeadLetterSourceQueuesResult": {
     "type": "structure",
     "members": {
-      "queueUrls": {"shape": "QueueUrlList", "flattened": false}
+      "queueUrls": {"shape": "QueueUrlList", "flattened": false},
+      "NextToken": {"shape": "Token", "flattened": false}
     },
     "flattened": false
   },
@@ -259,14 +263,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "ListQueuesRequest": {
     "type": "structure",
     "members": {
-      "QueueNamePrefix": {"shape": "String", "flattened": false}
+      "QueueNamePrefix": {"shape": "String", "flattened": false},
+      "NextToken": {"shape": "Token", "flattened": false},
+      "MaxResults": {"shape": "BoxedInteger", "flattened": false}
     },
     "flattened": false
   },
   "ListQueuesResult": {
     "type": "structure",
     "members": {
-      "QueueUrls": {"shape": "QueueUrlList", "flattened": false}
+      "QueueUrls": {"shape": "QueueUrlList", "flattened": false},
+      "NextToken": {"shape": "Token", "flattened": false}
     },
     "flattened": false
   },
@@ -532,6 +539,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "TagValue": {"type": "string", "flattened": false},
+  "Token": {"type": "string", "flattened": false},
   "UntagQueueRequest": {
     "type": "structure",
     "members": {

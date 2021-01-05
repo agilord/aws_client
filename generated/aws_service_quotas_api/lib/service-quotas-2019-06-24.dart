@@ -26,23 +26,12 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'service-quotas-2019-06-24.g.dart';
 
-/// Service Quotas is a web service that you can use to manage many of your AWS
-/// service quotas. Quotas, also referred to as limits, are the maximum values
-/// for a resource, item, or operation. This guide provide descriptions of the
-/// Service Quotas actions that you can call from an API. For the Service Quotas
-/// user guide, which explains how to use Service Quotas from the console, see
-/// <a
-/// href="https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html">What
-/// is Service Quotas</a>.
-/// <note>
-/// AWS provides SDKs that consist of libraries and sample code for programming
-/// languages and platforms (Java, Ruby, .NET, iOS, Android, etc...,). The SDKs
-/// provide a convenient way to create programmatic access to Service Quotas and
-/// AWS. For information about the AWS SDKs, including how to download and
-/// install them, see the <a
-/// href="https://docs.aws.amazon.com/aws.amazon.com/tools">Tools for Amazon Web
-/// Services</a> page.
-/// </note>
+/// With Service Quotas, you can view and manage your quotas easily as your AWS
+/// workloads grow. Quotas, also referred to as limits, are the maximum number
+/// of resources that you can create in your AWS account. For more information,
+/// see the <a
+/// href="https://docs.aws.amazon.com/servicequotas/latest/userguide/">Service
+/// Quotas User Guide</a>.
 class ServiceQuotas {
   final _s.JsonProtocol _protocol;
   ServiceQuotas({
@@ -60,12 +49,10 @@ class ServiceQuotas {
           endpointUrl: endpointUrl,
         );
 
-  /// Associates the Service Quotas template with your organization so that when
-  /// new accounts are created in your organization, the template submits
-  /// increase requests for the specified service quotas. Use the Service Quotas
-  /// template to request an increase for any adjustable quota value. After you
-  /// define the Service Quotas template, use this operation to associate, or
-  /// enable, the template.
+  /// Associates your quota request template with your organization. When a new
+  /// account is created in your organization, the quota increase requests in
+  /// the template are automatically applied to the account. You can add a quota
+  /// increase request for any adjustable quota to your template.
   ///
   /// May throw [DependencyAccessDeniedException].
   /// May throw [AccessDeniedException].
@@ -91,7 +78,8 @@ class ServiceQuotas {
     return AssociateServiceQuotaTemplateResponse.fromJson(jsonResponse.body);
   }
 
-  /// Removes a service quota increase request from the Service Quotas template.
+  /// Deletes the quota increase request for the specified quota from your quota
+  /// request template.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ServiceException].
@@ -104,13 +92,13 @@ class ServiceQuotas {
   /// May throw [NoAvailableOrganizationException].
   ///
   /// Parameter [awsRegion] :
-  /// Specifies the AWS Region for the quota that you want to delete.
+  /// The AWS Region.
   ///
   /// Parameter [quotaCode] :
-  /// Specifies the code for the quota that you want to delete.
+  /// The quota identifier.
   ///
   /// Parameter [serviceCode] :
-  /// Specifies the code for the service that you want to delete.
+  /// The service identifier.
   Future<void> deleteServiceQuotaIncreaseRequestFromTemplate({
     @_s.required String awsRegion,
     @_s.required String quotaCode,
@@ -180,22 +168,10 @@ class ServiceQuotas {
         jsonResponse.body);
   }
 
-  /// Disables the Service Quotas template. Once the template is disabled, it
-  /// does not request quota increases for new accounts in your organization.
-  /// Disabling the quota template does not apply the quota increase requests
-  /// from the template.
-  ///
-  /// <b>Related operations</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// To enable the quota template, call <a>AssociateServiceQuotaTemplate</a>.
-  /// </li>
-  /// <li>
-  /// To delete a specific service quota from the template, use
-  /// <a>DeleteServiceQuotaIncreaseRequestFromTemplate</a>.
-  /// </li>
-  /// </ul>
+  /// Disables your quota request template. After a template is disabled, the
+  /// quota increase requests in the template are not applied to new accounts in
+  /// your organization. Disabling a quota request template does not apply its
+  /// quota increase requests.
   ///
   /// May throw [DependencyAccessDeniedException].
   /// May throw [ServiceQuotaTemplateNotInUseException].
@@ -221,8 +197,8 @@ class ServiceQuotas {
     return DisassociateServiceQuotaTemplateResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the default service quotas values. The Value returned for each
-  /// quota is the AWS default value, even if the quotas have been increased..
+  /// Retrieves the default value for the specified quota. The default value
+  /// does not reflect any quota increases.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [NoSuchResourceException].
@@ -231,10 +207,10 @@ class ServiceQuotas {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [quotaCode] :
-  /// Identifies the service quota you want to select.
+  /// The quota identifier.
   ///
   /// Parameter [serviceCode] :
-  /// Specifies the service that you want to use.
+  /// The service identifier.
   Future<GetAWSDefaultServiceQuotaResponse> getAWSDefaultServiceQuota({
     @_s.required String quotaCode,
     @_s.required String serviceCode,
@@ -286,9 +262,7 @@ class ServiceQuotas {
     return GetAWSDefaultServiceQuotaResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the <code>ServiceQuotaTemplateAssociationStatus</code> value
-  /// from the service. Use this action to determine if the Service Quota
-  /// template is associated, or enabled.
+  /// Retrieves the status of the association for the quota request template.
   ///
   /// May throw [DependencyAccessDeniedException].
   /// May throw [ServiceQuotaTemplateNotInUseException].
@@ -317,7 +291,7 @@ class ServiceQuotas {
         jsonResponse.body);
   }
 
-  /// Retrieves the details for a particular increase request.
+  /// Retrieves information about the specified quota increase request.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [NoSuchResourceException].
@@ -326,7 +300,7 @@ class ServiceQuotas {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [requestId] :
-  /// Identifies the quota increase request.
+  /// The ID of the quota increase request.
   Future<GetRequestedServiceQuotaChangeResponse>
       getRequestedServiceQuotaChange({
     @_s.required String requestId,
@@ -363,11 +337,9 @@ class ServiceQuotas {
     return GetRequestedServiceQuotaChangeResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the details for the specified service quota. This operation
-  /// provides a different Value than the <code>GetAWSDefaultServiceQuota</code>
-  /// operation. This operation returns the applied value for each quota.
-  /// <code>GetAWSDefaultServiceQuota</code> returns the default AWS value for
-  /// each quota.
+  /// Retrieves the applied quota value for the specified quota. For some
+  /// quotas, only the default values are available. If the applied quota value
+  /// is not available for a quota, the quota is not retrieved.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [NoSuchResourceException].
@@ -376,10 +348,10 @@ class ServiceQuotas {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [quotaCode] :
-  /// Identifies the service quota you want to select.
+  /// The quota identifier.
   ///
   /// Parameter [serviceCode] :
-  /// Specifies the service that you want to use.
+  /// The service identifier.
   Future<GetServiceQuotaResponse> getServiceQuota({
     @_s.required String quotaCode,
     @_s.required String serviceCode,
@@ -431,8 +403,8 @@ class ServiceQuotas {
     return GetServiceQuotaResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the details of the service quota increase request in your
-  /// template.
+  /// Retrieves information about the specified quota increase request in your
+  /// quota request template.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [DependencyAccessDeniedException].
@@ -445,13 +417,13 @@ class ServiceQuotas {
   /// May throw [NoAvailableOrganizationException].
   ///
   /// Parameter [awsRegion] :
-  /// Specifies the AWS Region for the quota that you want to use.
+  /// The AWS Region.
   ///
   /// Parameter [quotaCode] :
-  /// Specifies the quota you want.
+  /// The quota identifier.
   ///
   /// Parameter [serviceCode] :
-  /// Specifies the service that you want to use.
+  /// The service identifier.
   Future<GetServiceQuotaIncreaseRequestFromTemplateResponse>
       getServiceQuotaIncreaseRequestFromTemplate({
     @_s.required String awsRegion,
@@ -522,21 +494,8 @@ class ServiceQuotas {
         jsonResponse.body);
   }
 
-  /// Lists all default service quotas for the specified AWS service or all AWS
-  /// services. ListAWSDefaultServiceQuotas is similar to
-  /// <a>ListServiceQuotas</a> except for the Value object. The Value object
-  /// returned by <code>ListAWSDefaultServiceQuotas</code> is the default value
-  /// assigned by AWS. This request returns a list of all service quotas for the
-  /// specified service. The listing of each you'll see the default values are
-  /// the values that AWS provides for the quotas.
-  /// <note>
-  /// Always check the <code>NextToken</code> response parameter when calling
-  /// any of the <code>List*</code> operations. These operations can return an
-  /// unexpected list of results, even when there are more results available.
-  /// When this happens, the <code>NextToken</code> response parameter contains
-  /// a value to pass the next call to the same API to request the next part of
-  /// the list.
-  /// </note>
+  /// Lists the default values for the quotas for the specified AWS service. A
+  /// default value does not reflect any quota increases.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [NoSuchResourceException].
@@ -546,29 +505,15 @@ class ServiceQuotas {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [serviceCode] :
-  /// Specifies the service that you want to use.
+  /// The service identifier.
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Limits the number of results that you want to include in the
-  /// response. If you don't include this parameter, the response defaults to a
-  /// value that's specific to the operation. If additional items exist beyond
-  /// the specified maximum, the <code>NextToken</code> element is present and
-  /// has a value (isn't null). Include that value as the <code>NextToken</code>
-  /// request parameter in the call to the operation to get the next part of the
-  /// results. You should check <code>NextToken</code> after every operation to
-  /// ensure that you receive all of the results.
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, if any, make another call with the token returned
+  /// from this call.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) Use this parameter in a request if you receive a
-  /// <code>NextToken</code> response in a previous request that indicates that
-  /// there's more output available. In a subsequent call, set it to the value
-  /// of the previous call's <code>NextToken</code> response to indicate where
-  /// the output should continue from. If additional items exist beyond the
-  /// specified maximum, the <code>NextToken</code> element is present and has a
-  /// value (isn't null). Include that value as the <code>NextToken</code>
-  /// request parameter in the call to the operation to get the next part of the
-  /// results. You should check <code>NextToken</code> after every operation to
-  /// ensure that you receive all of the results.
+  /// The token for the next page of results.
   Future<ListAWSDefaultServiceQuotasResponse> listAWSDefaultServiceQuotas({
     @_s.required String serviceCode,
     int maxResults,
@@ -625,7 +570,7 @@ class ServiceQuotas {
     return ListAWSDefaultServiceQuotasResponse.fromJson(jsonResponse.body);
   }
 
-  /// Requests a list of the changes to quotas for a service.
+  /// Retrieves the quota increase requests for the specified service.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [NoSuchResourceException].
@@ -635,27 +580,18 @@ class ServiceQuotas {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Limits the number of results that you want to include in the
-  /// response. If you don't include this parameter, the response defaults to a
-  /// value that's specific to the operation. If additional items exist beyond
-  /// the specified maximum, the <code>NextToken</code> element is present and
-  /// has a value (isn't null). Include that value as the <code>NextToken</code>
-  /// request parameter in the call to the operation to get the next part of the
-  /// results. You should check <code>NextToken</code> after every operation to
-  /// ensure that you receive all of the results.
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, if any, make another call with the token returned
+  /// from this call.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) Use this parameter in a request if you receive a
-  /// <code>NextToken</code> response in a previous request that indicates that
-  /// there's more output available. In a subsequent call, set it to the value
-  /// of the previous call's <code>NextToken</code> response to indicate where
-  /// the output should continue from.
+  /// The token for the next page of results.
   ///
   /// Parameter [serviceCode] :
-  /// Specifies the service that you want to use.
+  /// The service identifier.
   ///
   /// Parameter [status] :
-  /// Specifies the status value of the quota increase request.
+  /// The status of the quota increase request.
   Future<ListRequestedServiceQuotaChangeHistoryResponse>
       listRequestedServiceQuotaChangeHistory({
     int maxResults,
@@ -714,11 +650,7 @@ class ServiceQuotas {
         jsonResponse.body);
   }
 
-  /// Requests a list of the changes to specific service quotas. This command
-  /// provides additional granularity over the
-  /// <code>ListRequestedServiceQuotaChangeHistory</code> command. Once a quota
-  /// change request has reached <code>CASE_CLOSED, APPROVED,</code> or
-  /// <code>DENIED</code>, the history has been kept for 90 days.
+  /// Retrieves the quota increase requests for the specified quota.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [NoSuchResourceException].
@@ -728,30 +660,21 @@ class ServiceQuotas {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [quotaCode] :
-  /// Specifies the service quota that you want to use
+  /// The quota identifier.
   ///
   /// Parameter [serviceCode] :
-  /// Specifies the service that you want to use.
+  /// The service identifier.
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Limits the number of results that you want to include in the
-  /// response. If you don't include this parameter, the response defaults to a
-  /// value that's specific to the operation. If additional items exist beyond
-  /// the specified maximum, the <code>NextToken</code> element is present and
-  /// has a value (isn't null). Include that value as the <code>NextToken</code>
-  /// request parameter in the call to the operation to get the next part of the
-  /// results. You should check <code>NextToken</code> after every operation to
-  /// ensure that you receive all of the results.
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, if any, make another call with the token returned
+  /// from this call.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) Use this parameter in a request if you receive a
-  /// <code>NextToken</code> response in a previous request that indicates that
-  /// there's more output available. In a subsequent call, set it to the value
-  /// of the previous call's <code>NextToken</code> response to indicate where
-  /// the output should continue from.
+  /// The token for the next page of results.
   ///
   /// Parameter [status] :
-  /// Specifies the status value of the quota increase request.
+  /// The status value of the quota increase request.
   Future<ListRequestedServiceQuotaChangeHistoryByQuotaResponse>
       listRequestedServiceQuotaChangeHistoryByQuota({
     @_s.required String quotaCode,
@@ -829,7 +752,7 @@ class ServiceQuotas {
         jsonResponse.body);
   }
 
-  /// Returns a list of the quota increase requests in the template.
+  /// Lists the quota increase requests in the specified quota request template.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [DependencyAccessDeniedException].
@@ -841,28 +764,18 @@ class ServiceQuotas {
   /// May throw [NoAvailableOrganizationException].
   ///
   /// Parameter [awsRegion] :
-  /// Specifies the AWS Region for the quota that you want to use.
+  /// The AWS Region.
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Limits the number of results that you want to include in the
-  /// response. If you don't include this parameter, the response defaults to a
-  /// value that's specific to the operation. If additional items exist beyond
-  /// the specified maximum, the <code>NextToken</code> element is present and
-  /// has a value (isn't null). Include that value as the <code>NextToken</code>
-  /// request parameter in the call to the operation to get the next part of the
-  /// results. You should check <code>NextToken</code> after every operation to
-  /// ensure that you receive all of the results.
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, if any, make another call with the token returned
+  /// from this call.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) Use this parameter in a request if you receive a
-  /// <code>NextToken</code> response in a previous request that indicates that
-  /// there's more output available. In a subsequent call, set it to the value
-  /// of the previous call's <code>NextToken</code> response to indicate where
-  /// the output should continue from.
+  /// The token for the next page of results.
   ///
   /// Parameter [serviceCode] :
-  /// The identifier for a service. When performing an operation, use the
-  /// <code>ServiceCode</code> to specify a particular service.
+  /// The service identifier.
   Future<ListServiceQuotaIncreaseRequestsInTemplateResponse>
       listServiceQuotaIncreaseRequestsInTemplate({
     String awsRegion,
@@ -932,17 +845,9 @@ class ServiceQuotas {
         jsonResponse.body);
   }
 
-  /// Lists all service quotas for the specified AWS service. This request
-  /// returns a list of the service quotas for the specified service. you'll see
-  /// the default values are the values that AWS provides for the quotas.
-  /// <note>
-  /// Always check the <code>NextToken</code> response parameter when calling
-  /// any of the <code>List*</code> operations. These operations can return an
-  /// unexpected list of results, even when there are more results available.
-  /// When this happens, the <code>NextToken</code> response parameter contains
-  /// a value to pass the next call to the same API to request the next part of
-  /// the list.
-  /// </note>
+  /// Lists the applied quota values for the specified AWS service. For some
+  /// quotas, only the default values are available. If the applied quota value
+  /// is not available for a quota, the quota is not retrieved.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [NoSuchResourceException].
@@ -952,25 +857,15 @@ class ServiceQuotas {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [serviceCode] :
-  /// The identifier for a service. When performing an operation, use the
-  /// <code>ServiceCode</code> to specify a particular service.
+  /// The service identifier.
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Limits the number of results that you want to include in the
-  /// response. If you don't include this parameter, the response defaults to a
-  /// value that's specific to the operation. If additional items exist beyond
-  /// the specified maximum, the <code>NextToken</code> element is present and
-  /// has a value (isn't null). Include that value as the <code>NextToken</code>
-  /// request parameter in the call to the operation to get the next part of the
-  /// results. You should check <code>NextToken</code> after every operation to
-  /// ensure that you receive all of the results.
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, if any, make another call with the token returned
+  /// from this call.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) Use this parameter in a request if you receive a
-  /// <code>NextToken</code> response in a previous request that indicates that
-  /// there's more output available. In a subsequent call, set it to the value
-  /// of the previous call's <code>NextToken</code> response to indicate where
-  /// the output should continue from.
+  /// The token for the next page of results.
   Future<ListServiceQuotasResponse> listServiceQuotas({
     @_s.required String serviceCode,
     int maxResults,
@@ -1027,9 +922,7 @@ class ServiceQuotas {
     return ListServiceQuotasResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the AWS services available in Service Quotas. Not all AWS services
-  /// are available in Service Quotas. To list the see the list of the service
-  /// quotas for a specific service, use <a>ListServiceQuotas</a>.
+  /// Lists the names and codes for the services integrated with Service Quotas.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [IllegalArgumentException].
@@ -1038,21 +931,12 @@ class ServiceQuotas {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Limits the number of results that you want to include in the
-  /// response. If you don't include this parameter, the response defaults to a
-  /// value that's specific to the operation. If additional items exist beyond
-  /// the specified maximum, the <code>NextToken</code> element is present and
-  /// has a value (isn't null). Include that value as the <code>NextToken</code>
-  /// request parameter in the call to the operation to get the next part of the
-  /// results. You should check <code>NextToken</code> after every operation to
-  /// ensure that you receive all of the results.
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, if any, make another call with the token returned
+  /// from this call.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) Use this parameter in a request if you receive a
-  /// <code>NextToken</code> response in a previous request that indicates that
-  /// there's more output available. In a subsequent call, set it to the value
-  /// of the previous call's <code>NextToken</code> response to indicate where
-  /// the output should continue from.
+  /// The token for the next page of results.
   Future<ListServicesResponse> listServices({
     int maxResults,
     String nextToken,
@@ -1093,12 +977,58 @@ class ServiceQuotas {
     return ListServicesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Defines and adds a quota to the service quota template. To add a quota to
-  /// the template, you must provide the <code>ServiceCode</code>,
-  /// <code>QuotaCode</code>, <code>AwsRegion</code>, and
-  /// <code>DesiredValue</code>. Once you add a quota to the template, use
-  /// <a>ListServiceQuotaIncreaseRequestsInTemplate</a> to see the list of
-  /// quotas in the template.
+  /// Returns a list of the tags assigned to the specified applied quota.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [NoSuchResourceException].
+  /// May throw [IllegalArgumentException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) for the applied quota for which you want to
+  /// list tags. You can get this information by using the Service Quotas
+  /// console, or by listing the quotas using the <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html">list-service-quotas</a>
+  /// AWS CLI command or the <a
+  /// href="https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html">ListServiceQuotas</a>
+  /// AWS API operation.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    @_s.required String resourceARN,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''arn:aws(-[\w]+)*:*:.+:[0-9]{12}:.+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ServiceQuotasV20190624.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+      },
+    );
+
+    return ListTagsForResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Adds a quota increase request to your quota request template.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [DependencyAccessDeniedException].
@@ -1112,16 +1042,16 @@ class ServiceQuotas {
   /// May throw [NoAvailableOrganizationException].
   ///
   /// Parameter [awsRegion] :
-  /// Specifies the AWS Region for the quota.
+  /// The AWS Region.
   ///
   /// Parameter [desiredValue] :
-  /// Specifies the new, increased value for the quota.
+  /// The new, increased value for the quota.
   ///
   /// Parameter [quotaCode] :
-  /// Specifies the service quota that you want to use.
+  /// The quota identifier.
   ///
   /// Parameter [serviceCode] :
-  /// Specifies the service that you want to use.
+  /// The service identifier.
   Future<PutServiceQuotaIncreaseRequestIntoTemplateResponse>
       putServiceQuotaIncreaseRequestIntoTemplate({
     @_s.required String awsRegion,
@@ -1202,9 +1132,7 @@ class ServiceQuotas {
         jsonResponse.body);
   }
 
-  /// Retrieves the details of a service quota increase request. The response to
-  /// this command provides the details in the
-  /// <a>RequestedServiceQuotaChange</a> object.
+  /// Submits a quota increase request for the specified quota.
   ///
   /// May throw [DependencyAccessDeniedException].
   /// May throw [QuotaExceededException].
@@ -1217,13 +1145,13 @@ class ServiceQuotas {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [desiredValue] :
-  /// Specifies the value submitted in the service quota increase request.
+  /// The new, increased value for the quota.
   ///
   /// Parameter [quotaCode] :
-  /// Specifies the service quota that you want to use.
+  /// The quota identifier.
   ///
   /// Parameter [serviceCode] :
-  /// Specifies the service that you want to use.
+  /// The service identifier.
   Future<RequestServiceQuotaIncreaseResponse> requestServiceQuotaIncrease({
     @_s.required double desiredValue,
     @_s.required String quotaCode,
@@ -1284,6 +1212,124 @@ class ServiceQuotas {
 
     return RequestServiceQuotaIncreaseResponse.fromJson(jsonResponse.body);
   }
+
+  /// Adds tags to the specified applied quota. You can include one or more tags
+  /// to add to the quota.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [NoSuchResourceException].
+  /// May throw [TooManyTagsException].
+  /// May throw [TagPolicyViolationException].
+  /// May throw [IllegalArgumentException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) for the applied quota. You can get this
+  /// information by using the Service Quotas console, or by listing the quotas
+  /// using the <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html">list-service-quotas</a>
+  /// AWS CLI command or the <a
+  /// href="https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html">ListServiceQuotas</a>
+  /// AWS API operation.
+  ///
+  /// Parameter [tags] :
+  /// The tags that you want to add to the resource.
+  Future<void> tagResource({
+    @_s.required String resourceARN,
+    @_s.required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''arn:aws(-[\w]+)*:*:.+:[0-9]{12}:.+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ServiceQuotasV20190624.TagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'Tags': tags,
+      },
+    );
+
+    return TagResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Removes tags from the specified applied quota. You can specify one or more
+  /// tags to remove.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [NoSuchResourceException].
+  /// May throw [IllegalArgumentException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) for the applied quota that you want to
+  /// untag. You can get this information by using the Service Quotas console,
+  /// or by listing the quotas using the <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html">list-service-quotas</a>
+  /// AWS CLI command or the <a
+  /// href="https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html">ListServiceQuotas</a>
+  /// AWS API operation.
+  ///
+  /// Parameter [tagKeys] :
+  /// The keys of the tags that you want to remove from the resource.
+  Future<void> untagResource({
+    @_s.required String resourceARN,
+    @_s.required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''arn:aws(-[\w]+)*:*:.+:[0-9]{12}:.+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ServiceQuotasV20190624.UntagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'TagKeys': tagKeys,
+      },
+    );
+
+    return UntagResourceResponse.fromJson(jsonResponse.body);
+  }
 }
 
 @_s.JsonSerializable(
@@ -1333,31 +1379,37 @@ enum ErrorCode {
   serviceQuotaNotAvailableError,
 }
 
-/// Returns an error that explains why the action did not succeed.
+/// An error that explains why an action did not succeed.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ErrorReason {
-  /// Service Quotas returns the following error values.
+  /// Service Quotas returns the following error values:
   ///
-  /// <code>DEPENDENCY_ACCESS_DENIED_ERROR</code> is returned when the caller does
-  /// not have permission to call the service or service quota. To resolve the
-  /// error, you need permission to access the service or service quota.
-  ///
-  /// <code>DEPENDENCY_THROTTLING_ERROR</code> is returned when the service being
-  /// called is throttling Service Quotas.
-  ///
-  /// <code>DEPENDENCY_SERVICE_ERROR</code> is returned when the service being
-  /// called has availability issues.
-  ///
-  /// <code>SERVICE_QUOTA_NOT_AVAILABLE_ERROR</code> is returned when there was an
-  /// error in Service Quotas.
+  /// <ul>
+  /// <li>
+  /// <code>DEPENDENCY_ACCESS_DENIED_ERROR</code> - The caller does not have the
+  /// required permissions to complete the action. To resolve the error, you must
+  /// have permission to access the service or quota.
+  /// </li>
+  /// <li>
+  /// <code>DEPENDENCY_THROTTLING_ERROR</code> - The service is throttling Service
+  /// Quotas.
+  /// </li>
+  /// <li>
+  /// <code>DEPENDENCY_SERVICE_ERROR</code> - The service is not available.
+  /// </li>
+  /// <li>
+  /// <code>SERVICE_QUOTA_NOT_AVAILABLE_ERROR</code> - There was an error in
+  /// Service Quotas.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'ErrorCode')
   final ErrorCode errorCode;
 
-  /// The error message that provides more detail.
+  /// The error message.
   @_s.JsonKey(name: 'ErrorMessage')
   final String errorMessage;
 
@@ -1375,8 +1427,7 @@ class ErrorReason {
     createFactory: true,
     createToJson: false)
 class GetAWSDefaultServiceQuotaResponse {
-  /// Returns the <a>ServiceQuota</a> object which contains all values for a
-  /// quota.
+  /// Information about the quota.
   @_s.JsonKey(name: 'Quota')
   final ServiceQuota quota;
 
@@ -1394,10 +1445,9 @@ class GetAWSDefaultServiceQuotaResponse {
     createFactory: true,
     createToJson: false)
 class GetAssociationForServiceQuotaTemplateResponse {
-  /// Specifies whether the template is <code>ASSOCIATED</code> or
-  /// <code>DISASSOCIATED</code>. If the template is <code>ASSOCIATED</code>, then
-  /// it requests service quota increases for all new accounts created in your
-  /// organization.
+  /// The association status. If the status is <code>ASSOCIATED</code>, the quota
+  /// increase requests in the template are automatically applied to new accounts
+  /// in your organization.
   @_s.JsonKey(name: 'ServiceQuotaTemplateAssociationStatus')
   final ServiceQuotaTemplateAssociationStatus
       serviceQuotaTemplateAssociationStatus;
@@ -1416,8 +1466,7 @@ class GetAssociationForServiceQuotaTemplateResponse {
     createFactory: true,
     createToJson: false)
 class GetRequestedServiceQuotaChangeResponse {
-  /// Returns the <code>RequestedServiceQuotaChange</code> object for the specific
-  /// increase request.
+  /// Information about the quota increase request.
   @_s.JsonKey(name: 'RequestedQuota')
   final RequestedServiceQuotaChange requestedQuota;
 
@@ -1435,7 +1484,7 @@ class GetRequestedServiceQuotaChangeResponse {
     createFactory: true,
     createToJson: false)
 class GetServiceQuotaIncreaseRequestFromTemplateResponse {
-  /// This object contains the details about the quota increase request.
+  /// Information about the quota increase request.
   @_s.JsonKey(name: 'ServiceQuotaIncreaseRequestInTemplate')
   final ServiceQuotaIncreaseRequestInTemplate
       serviceQuotaIncreaseRequestInTemplate;
@@ -1454,8 +1503,7 @@ class GetServiceQuotaIncreaseRequestFromTemplateResponse {
     createFactory: true,
     createToJson: false)
 class GetServiceQuotaResponse {
-  /// Returns the <a>ServiceQuota</a> object which contains all values for a
-  /// quota.
+  /// Information about the quota.
   @_s.JsonKey(name: 'Quota')
   final ServiceQuota quota;
 
@@ -1472,15 +1520,12 @@ class GetServiceQuotaResponse {
     createFactory: true,
     createToJson: false)
 class ListAWSDefaultServiceQuotasResponse {
-  /// (Optional) Use this parameter in a request if you receive a
-  /// <code>NextToken</code> response in a previous request that indicates that
-  /// there's more output available. In a subsequent call, set it to the value of
-  /// the previous call's <code>NextToken</code> response to indicate where the
-  /// output should continue from.
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
-  /// A list of the quotas in the account with the AWS default values.
+  /// Information about the quotas.
   @_s.JsonKey(name: 'Quotas')
   final List<ServiceQuota> quotas;
 
@@ -1499,18 +1544,12 @@ class ListAWSDefaultServiceQuotasResponse {
     createFactory: true,
     createToJson: false)
 class ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
-  /// If present in the response, this value indicates there's more output
-  /// available that what's included in the current response. This can occur even
-  /// when the response includes no values at all, such as when you ask for a
-  /// filtered view of a very long list. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to continue processing and get the next part of the output. You
-  /// should repeat this until the <code>NextToken</code> response element comes
-  /// back empty (as <code>null</code>).
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
-  /// Returns a list of service quota requests.
+  /// Information about the quota increase requests.
   @_s.JsonKey(name: 'RequestedQuotas')
   final List<RequestedServiceQuotaChange> requestedQuotas;
 
@@ -1529,18 +1568,12 @@ class ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
     createFactory: true,
     createToJson: false)
 class ListRequestedServiceQuotaChangeHistoryResponse {
-  /// If present in the response, this value indicates there's more output
-  /// available that what's included in the current response. This can occur even
-  /// when the response includes no values at all, such as when you ask for a
-  /// filtered view of a very long list. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to continue processing and get the next part of the output. You
-  /// should repeat this until the <code>NextToken</code> response element comes
-  /// back empty (as <code>null</code>).
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
-  /// Returns a list of service quota requests.
+  /// Information about the quota increase requests.
   @_s.JsonKey(name: 'RequestedQuotas')
   final List<RequestedServiceQuotaChange> requestedQuotas;
 
@@ -1559,18 +1592,12 @@ class ListRequestedServiceQuotaChangeHistoryResponse {
     createFactory: true,
     createToJson: false)
 class ListServiceQuotaIncreaseRequestsInTemplateResponse {
-  /// If present in the response, this value indicates there's more output
-  /// available that what's included in the current response. This can occur even
-  /// when the response includes no values at all, such as when you ask for a
-  /// filtered view of a very long list. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to continue processing and get the next part of the output. You
-  /// should repeat this until the <code>NextToken</code> response element comes
-  /// back empty (as <code>null</code>).
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
-  /// Returns the list of values of the quota increase request in the template.
+  /// Information about the quota increase requests.
   @_s.JsonKey(name: 'ServiceQuotaIncreaseRequestInTemplateList')
   final List<ServiceQuotaIncreaseRequestInTemplate>
       serviceQuotaIncreaseRequestInTemplateList;
@@ -1590,19 +1617,12 @@ class ListServiceQuotaIncreaseRequestsInTemplateResponse {
     createFactory: true,
     createToJson: false)
 class ListServiceQuotasResponse {
-  /// If present in the response, this value indicates there's more output
-  /// available that what's included in the current response. This can occur even
-  /// when the response includes no values at all, such as when you ask for a
-  /// filtered view of a very long list. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to continue processing and get the next part of the output. You
-  /// should repeat this until the <code>NextToken</code> response element comes
-  /// back empty (as <code>null</code>).
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
-  /// The response information for a quota lists all attribute information for the
-  /// quota.
+  /// Information about the quotas.
   @_s.JsonKey(name: 'Quotas')
   final List<ServiceQuota> quotas;
 
@@ -1620,18 +1640,12 @@ class ListServiceQuotasResponse {
     createFactory: true,
     createToJson: false)
 class ListServicesResponse {
-  /// If present in the response, this value indicates there's more output
-  /// available that what's included in the current response. This can occur even
-  /// when the response includes no values at all, such as when you ask for a
-  /// filtered view of a very long list. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to continue processing and get the next part of the output. You
-  /// should repeat this until the <code>NextToken</code> response element comes
-  /// back empty (as <code>null</code>).
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
-  /// Returns a list of services.
+  /// Information about the services.
   @_s.JsonKey(name: 'Services')
   final List<ServiceInfo> services;
 
@@ -1643,35 +1657,44 @@ class ListServicesResponse {
       _$ListServicesResponseFromJson(json);
 }
 
-/// A structure that uses CloudWatch metrics to gather data about the service
-/// quota.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListTagsForResourceResponse {
+  /// A complex data type that contains zero or more tag elements.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListTagsForResourceResponseFromJson(json);
+}
+
+/// Information about the CloudWatch metric that reflects quota usage.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class MetricInfo {
-  /// A dimension is a name/value pair that is part of the identity of a metric.
-  /// Every metric has specific characteristics that describe it, and you can
-  /// think of dimensions as categories for those characteristics. These
-  /// dimensions are part of the CloudWatch Metric Identity that measures usage
-  /// against a particular service quota.
+  /// The metric dimension. This is a name/value pair that is part of the identity
+  /// of a metric.
   @_s.JsonKey(name: 'MetricDimensions')
   final Map<String, String> metricDimensions;
 
-  /// The name of the CloudWatch metric that measures usage of a service quota.
-  /// This is a required field.
+  /// The name of the metric.
   @_s.JsonKey(name: 'MetricName')
   final String metricName;
 
-  /// The namespace of the metric. The namespace is a container for CloudWatch
-  /// metrics. You can specify a name for the namespace when you create a metric.
+  /// The namespace of the metric.
   @_s.JsonKey(name: 'MetricNamespace')
   final String metricNamespace;
 
-  /// Statistics are metric data aggregations over specified periods of time. This
-  /// is the recommended statistic to use when comparing usage in the CloudWatch
-  /// Metric against your Service Quota.
+  /// The metric statistic that we recommend you use when determining quota usage.
   @_s.JsonKey(name: 'MetricStatisticRecommendation')
   final String metricStatisticRecommendation;
 
@@ -1708,8 +1731,7 @@ enum PeriodUnit {
     createFactory: true,
     createToJson: false)
 class PutServiceQuotaIncreaseRequestIntoTemplateResponse {
-  /// A structure that contains information about one service quota increase
-  /// request.
+  /// Information about the quota increase request.
   @_s.JsonKey(name: 'ServiceQuotaIncreaseRequestInTemplate')
   final ServiceQuotaIncreaseRequestInTemplate
       serviceQuotaIncreaseRequestInTemplate;
@@ -1722,18 +1744,18 @@ class PutServiceQuotaIncreaseRequestIntoTemplateResponse {
       _$PutServiceQuotaIncreaseRequestIntoTemplateResponseFromJson(json);
 }
 
-/// A structure that contains information about the quota period.
+/// Information about the quota period.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class QuotaPeriod {
-  /// The time unit of a period.
+  /// The time unit.
   @_s.JsonKey(name: 'PeriodUnit')
   final PeriodUnit periodUnit;
 
-  /// The value of a period.
+  /// The value.
   @_s.JsonKey(name: 'PeriodValue')
   final int periodValue;
 
@@ -1751,7 +1773,7 @@ class QuotaPeriod {
     createFactory: true,
     createToJson: false)
 class RequestServiceQuotaIncreaseResponse {
-  /// Returns a list of service quota requests.
+  /// Information about the quota increase request.
   @_s.JsonKey(name: 'RequestedQuota')
   final RequestedServiceQuotaChange requestedQuota;
 
@@ -1794,70 +1816,69 @@ extension on RequestStatus {
   }
 }
 
-/// A structure that contains information about a requested change for a quota.
+/// Information about a quota increase request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RequestedServiceQuotaChange {
-  /// The case Id for the service quota increase request.
+  /// The case ID.
   @_s.JsonKey(name: 'CaseId')
   final String caseId;
 
-  /// The date and time when the service quota increase request was received and
-  /// the case Id was created.
+  /// The date and time when the quota increase request was received and the case
+  /// ID was created.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'Created')
   final DateTime created;
 
-  /// New increased value for the service quota.
+  /// The new, increased value for the quota.
   @_s.JsonKey(name: 'DesiredValue')
   final double desiredValue;
 
-  /// Identifies if the quota is global.
+  /// Indicates whether the quota is global.
   @_s.JsonKey(name: 'GlobalQuota')
   final bool globalQuota;
 
-  /// The unique identifier of a requested service quota change.
+  /// The unique identifier.
   @_s.JsonKey(name: 'Id')
   final String id;
 
-  /// The date and time of the most recent change in the service quota increase
-  /// request.
+  /// The date and time of the most recent change.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'LastUpdated')
   final DateTime lastUpdated;
 
-  /// The Amazon Resource Name (ARN) of the service quota.
+  /// The Amazon Resource Name (ARN) of the quota.
   @_s.JsonKey(name: 'QuotaArn')
   final String quotaArn;
 
-  /// Specifies the service quota that you want to use.
+  /// The quota identifier.
   @_s.JsonKey(name: 'QuotaCode')
   final String quotaCode;
 
-  /// Name of the service quota.
+  /// The quota name.
   @_s.JsonKey(name: 'QuotaName')
   final String quotaName;
 
-  /// The IAM identity who submitted the service quota increase request.
+  /// The IAM identity of the requester.
   @_s.JsonKey(name: 'Requester')
   final String requester;
 
-  /// Specifies the service that you want to use.
+  /// The service identifier.
   @_s.JsonKey(name: 'ServiceCode')
   final String serviceCode;
 
-  /// The name of the AWS service specified in the increase request.
+  /// The service name.
   @_s.JsonKey(name: 'ServiceName')
   final String serviceName;
 
-  /// State of the service quota increase request.
+  /// The state of the quota increase request.
   @_s.JsonKey(name: 'Status')
   final RequestStatus status;
 
-  /// Specifies the unit used for the quota.
+  /// The unit of measurement.
   @_s.JsonKey(name: 'Unit')
   final String unit;
 
@@ -1881,20 +1902,18 @@ class RequestedServiceQuotaChange {
       _$RequestedServiceQuotaChangeFromJson(json);
 }
 
-/// A structure that contains the <code>ServiceName</code> and
-/// <code>ServiceCode</code>. It does not include all details of the service
-/// quota. To get those values, use the <a>ListServiceQuotas</a> operation.
+/// Information about a service.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ServiceInfo {
-  /// Specifies the service that you want to use.
+  /// The service identifier.
   @_s.JsonKey(name: 'ServiceCode')
   final String serviceCode;
 
-  /// The name of the AWS service specified in the increase request.
+  /// The service name.
   @_s.JsonKey(name: 'ServiceName')
   final String serviceName;
 
@@ -1906,60 +1925,58 @@ class ServiceInfo {
       _$ServiceInfoFromJson(json);
 }
 
-/// A structure that contains the full set of details that define the service
-/// quota.
+/// Information about a quota.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ServiceQuota {
-  /// Specifies if the quota value can be increased.
+  /// Indicates whether the quota value can be increased.
   @_s.JsonKey(name: 'Adjustable')
   final bool adjustable;
 
-  /// Specifies the <code>ErrorCode</code> and <code>ErrorMessage</code> when
-  /// success isn't achieved.
+  /// The error code and error reason.
   @_s.JsonKey(name: 'ErrorReason')
   final ErrorReason errorReason;
 
-  /// Specifies if the quota is global.
+  /// Indicates whether the quota is global.
   @_s.JsonKey(name: 'GlobalQuota')
   final bool globalQuota;
 
-  /// Identifies the unit and value of how time is measured.
+  /// The period of time.
   @_s.JsonKey(name: 'Period')
   final QuotaPeriod period;
 
-  /// The Amazon Resource Name (ARN) of the service quota.
+  /// The Amazon Resource Name (ARN) of the quota.
   @_s.JsonKey(name: 'QuotaArn')
   final String quotaArn;
 
-  /// The code identifier for the service quota specified.
+  /// The quota identifier.
   @_s.JsonKey(name: 'QuotaCode')
   final String quotaCode;
 
-  /// The name identifier of the service quota.
+  /// The quota name.
   @_s.JsonKey(name: 'QuotaName')
   final String quotaName;
 
-  /// Specifies the service that you want to use.
+  /// The service identifier.
   @_s.JsonKey(name: 'ServiceCode')
   final String serviceCode;
 
-  /// The name of the AWS service specified in the increase request.
+  /// The service name.
   @_s.JsonKey(name: 'ServiceName')
   final String serviceName;
 
-  /// The unit of measurement for the value of the service quota.
+  /// The unit of measurement.
   @_s.JsonKey(name: 'Unit')
   final String unit;
 
-  /// Specifies the details about the measurement.
+  /// Information about the measurement.
   @_s.JsonKey(name: 'UsageMetric')
   final MetricInfo usageMetric;
 
-  /// The value of service quota.
+  /// The quota value.
   @_s.JsonKey(name: 'Value')
   final double value;
 
@@ -1981,44 +1998,42 @@ class ServiceQuota {
       _$ServiceQuotaFromJson(json);
 }
 
-/// A structure that contains information about one service quota increase
-/// request.
+/// Information about a quota increase request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ServiceQuotaIncreaseRequestInTemplate {
-  /// The AWS Region where the increase request occurs.
+  /// The AWS Region.
   @_s.JsonKey(name: 'AwsRegion')
   final String awsRegion;
 
-  /// Identifies the new, increased value of the service quota in the increase
-  /// request.
+  /// The new, increased value of the quota.
   @_s.JsonKey(name: 'DesiredValue')
   final double desiredValue;
 
-  /// Specifies if the quota is a global quota.
+  /// Indicates whether the quota is global.
   @_s.JsonKey(name: 'GlobalQuota')
   final bool globalQuota;
 
-  /// The code identifier for the service quota specified in the increase request.
+  /// The quota identifier.
   @_s.JsonKey(name: 'QuotaCode')
   final String quotaCode;
 
-  /// The name of the service quota in the increase request.
+  /// The quota name.
   @_s.JsonKey(name: 'QuotaName')
   final String quotaName;
 
-  /// The code identifier for the AWS service specified in the increase request.
+  /// The service identifier.
   @_s.JsonKey(name: 'ServiceCode')
   final String serviceCode;
 
-  /// The name of the AWS service specified in the increase request.
+  /// The service name.
   @_s.JsonKey(name: 'ServiceName')
   final String serviceName;
 
-  /// The unit of measure for the increase request.
+  /// The unit of measurement.
   @_s.JsonKey(name: 'Unit')
   final String unit;
 
@@ -2042,6 +2057,56 @@ enum ServiceQuotaTemplateAssociationStatus {
   associated,
   @_s.JsonValue('DISASSOCIATED')
   disassociated,
+}
+
+/// A complex data type that contains a tag key and tag value.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Tag {
+  /// A string that contains a tag key. The string length should be between 1 and
+  /// 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the
+  /// special characters _ - . : / = + @.
+  @_s.JsonKey(name: 'Key')
+  final String key;
+
+  /// A string that contains an optional tag value. The string length should be
+  /// between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space,
+  /// and the special characters _ - . : / = + @.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  Tag({
+    @_s.required this.key,
+    @_s.required this.value,
+  });
+  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TagResourceResponse {
+  TagResourceResponse();
+  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UntagResourceResponse {
+  UntagResourceResponse();
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$UntagResourceResponseFromJson(json);
 }
 
 class AWSServiceAccessNotEnabledException extends _s.GenericAwsException {
@@ -2133,6 +2198,12 @@ class ServiceQuotaTemplateNotInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+class TagPolicyViolationException extends _s.GenericAwsException {
+  TagPolicyViolationException({String type, String message})
+      : super(
+            type: type, code: 'TagPolicyViolationException', message: message);
+}
+
 class TemplatesNotAvailableInRegionException extends _s.GenericAwsException {
   TemplatesNotAvailableInRegionException({String type, String message})
       : super(
@@ -2144,6 +2215,11 @@ class TemplatesNotAvailableInRegionException extends _s.GenericAwsException {
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String type, String message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
+}
+
+class TooManyTagsException extends _s.GenericAwsException {
+  TooManyTagsException({String type, String message})
+      : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
@@ -2173,8 +2249,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ServiceException(type: type, message: message),
   'ServiceQuotaTemplateNotInUseException': (type, message) =>
       ServiceQuotaTemplateNotInUseException(type: type, message: message),
+  'TagPolicyViolationException': (type, message) =>
+      TagPolicyViolationException(type: type, message: message),
   'TemplatesNotAvailableInRegionException': (type, message) =>
       TemplatesNotAvailableInRegionException(type: type, message: message),
   'TooManyRequestsException': (type, message) =>
       TooManyRequestsException(type: type, message: message),
+  'TooManyTagsException': (type, message) =>
+      TooManyTagsException(type: type, message: message),
 };

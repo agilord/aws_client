@@ -26,16 +26,17 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'transfer-2018-11-05.g.dart';
 
-/// AWS Transfer for SFTP is a fully managed service that enables the transfer
-/// of files directly into and out of Amazon S3 using the Secure File Transfer
-/// Protocol (SFTP)—also known as Secure Shell (SSH) File Transfer Protocol. AWS
-/// helps you seamlessly migrate your file transfer workflows to AWS Transfer
-/// for SFTP—by integrating with existing authentication systems, and providing
-/// DNS routing with Amazon Route 53—so nothing changes for your customers and
-/// partners, or their applications. With your data in S3, you can use it with
-/// AWS services for processing, analytics, machine learning, and archiving.
-/// Getting started with AWS Transfer for SFTP (AWS SFTP) is easy; there is no
-/// infrastructure to buy and set up.
+/// AWS Transfer Family is a fully managed service that enables the transfer of
+/// files over the File Transfer Protocol (FTP), File Transfer Protocol over SSL
+/// (FTPS), or Secure Shell (SSH) File Transfer Protocol (SFTP) directly into
+/// and out of Amazon Simple Storage Service (Amazon S3). AWS helps you
+/// seamlessly migrate your file transfer workflows to AWS Transfer Family by
+/// integrating with existing authentication systems, and providing DNS routing
+/// with Amazon Route 53 so nothing changes for your customers and partners, or
+/// their applications. With your data in Amazon S3, you can use it with AWS
+/// services for processing, analytics, machine learning, and archiving. Getting
+/// started with AWS Transfer Family is easy since there is no infrastructure to
+/// buy and set up.
 class Transfer {
   final _s.JsonProtocol _protocol;
   Transfer({
@@ -54,72 +55,177 @@ class Transfer {
           endpointUrl: endpointUrl,
         );
 
-  /// Instantiates an autoscaling virtual server based on Secure File Transfer
-  /// Protocol (SFTP) in AWS. When you make updates to your server or when you
-  /// work with users, use the service-generated <code>ServerId</code> property
-  /// that is assigned to the newly created server.
+  /// Instantiates an autoscaling virtual server based on the selected file
+  /// transfer protocol in AWS. When you make updates to your file transfer
+  /// protocol-enabled server or when you work with users, use the
+  /// service-generated <code>ServerId</code> property that is assigned to the
+  /// newly created server.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceExistsException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [certificate] :
+  /// The Amazon Resource Name (ARN) of the AWS Certificate Manager (ACM)
+  /// certificate. Required when <code>Protocols</code> is set to
+  /// <code>FTPS</code>.
+  ///
+  /// To request a new public certificate, see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html">Request
+  /// a public certificate</a> in the <i> AWS Certificate Manager User
+  /// Guide</i>.
+  ///
+  /// To import an existing certificate into ACM, see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html">Importing
+  /// certificates into ACM</a> in the <i> AWS Certificate Manager User
+  /// Guide</i>.
+  ///
+  /// To request a private certificate to use FTPS through private IP addresses,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-private.html">Request
+  /// a private certificate</a> in the <i> AWS Certificate Manager User
+  /// Guide</i>.
+  ///
+  /// Certificates with the following cryptographic algorithms and key sizes are
+  /// supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// 2048-bit RSA (RSA_2048)
+  /// </li>
+  /// <li>
+  /// 4096-bit RSA (RSA_4096)
+  /// </li>
+  /// <li>
+  /// Elliptic Prime Curve 256 bit (EC_prime256v1)
+  /// </li>
+  /// <li>
+  /// Elliptic Prime Curve 384 bit (EC_secp384r1)
+  /// </li>
+  /// <li>
+  /// Elliptic Prime Curve 521 bit (EC_secp521r1)
+  /// </li>
+  /// </ul> <note>
+  /// The certificate must be a valid SSL/TLS X.509 version 3 certificate with
+  /// FQDN or IP address specified and information about the issuer.
+  /// </note>
   ///
   /// Parameter [endpointDetails] :
   /// The virtual private cloud (VPC) endpoint settings that are configured for
-  /// your SFTP server. With a VPC endpoint, you can restrict access to your
-  /// SFTP server to resources only within your VPC. To control incoming
-  /// internet traffic, you will need to invoke the <code>UpdateServer</code>
-  /// API and attach an Elastic IP to your server's endpoint.
+  /// your server. When you host your endpoint within your VPC, you can make it
+  /// accessible only to resources within your VPC, or you can attach Elastic
+  /// IPs and make it accessible to clients over the internet. Your VPC's
+  /// default security groups are automatically assigned to your endpoint.
   ///
   /// Parameter [endpointType] :
-  /// The type of VPC endpoint that you want your SFTP server to connect to. You
-  /// can choose to connect to the public internet or a virtual private cloud
-  /// (VPC) endpoint. With a VPC endpoint, you can restrict access to your SFTP
-  /// server and resources only within your VPC.
+  /// The type of VPC endpoint that you want your server to connect to. You can
+  /// choose to connect to the public internet or a VPC endpoint. With a VPC
+  /// endpoint, you can restrict access to your server and resources only within
+  /// your VPC.
+  /// <note>
+  /// It is recommended that you use <code>VPC</code> as the
+  /// <code>EndpointType</code>. With this endpoint type, you have the option to
+  /// directly associate up to three Elastic IPv4 addresses (BYO IP included)
+  /// with your server's endpoint and use VPC security groups to restrict
+  /// traffic by the client's public IP address. This is not possible with
+  /// <code>EndpointType</code> set to <code>VPC_ENDPOINT</code>.
+  /// </note>
   ///
   /// Parameter [hostKey] :
-  /// The RSA private key as generated by the <code>ssh-keygen -N "" -f
+  /// The RSA private key as generated by the <code>ssh-keygen -N "" -m PEM -f
   /// my-new-server-key</code> command.
   /// <important>
-  /// If you aren't planning to migrate existing users from an existing SFTP
-  /// server to a new AWS SFTP server, don't update the host key. Accidentally
-  /// changing a server's host key can be disruptive.
+  /// If you aren't planning to migrate existing users from an existing
+  /// SFTP-enabled server to a new server, don't update the host key.
+  /// Accidentally changing a server's host key can be disruptive.
   /// </important>
-  /// For more information, see
-  /// "https://alpha-docs-aws.amazon.com/transfer/latest/userguide/configuring-servers.html#change-host-key"
-  /// in the <i>AWS SFTP User Guide.</i>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key">Change
+  /// the host key for your SFTP-enabled server</a> in the <i>AWS Transfer
+  /// Family User Guide</i>.
   ///
   /// Parameter [identityProviderDetails] :
-  /// This parameter is required when the <code>IdentityProviderType</code> is
-  /// set to <code>API_GATEWAY</code>. Accepts an array containing all of the
+  /// Required when <code>IdentityProviderType</code> is set to
+  /// <code>API_GATEWAY</code>. Accepts an array containing all of the
   /// information required to call a customer-supplied authentication API,
-  /// including the API Gateway URL. This property is not required when the
+  /// including the API Gateway URL. Not required when
   /// <code>IdentityProviderType</code> is set to <code>SERVICE_MANAGED</code>.
   ///
   /// Parameter [identityProviderType] :
-  /// Specifies the mode of authentication for the SFTP server. The default
-  /// value is <code>SERVICE_MANAGED</code>, which allows you to store and
-  /// access SFTP user credentials within the AWS Transfer for SFTP service. Use
-  /// the <code>API_GATEWAY</code> value to integrate with an identity provider
-  /// of your choosing. The <code>API_GATEWAY</code> setting requires you to
+  /// Specifies the mode of authentication for a server. The default value is
+  /// <code>SERVICE_MANAGED</code>, which allows you to store and access user
+  /// credentials within the AWS Transfer Family service. Use the
+  /// <code>API_GATEWAY</code> value to integrate with an identity provider of
+  /// your choosing. The <code>API_GATEWAY</code> setting requires you to
   /// provide an API Gateway endpoint URL to call for authentication using the
   /// <code>IdentityProviderDetails</code> parameter.
   ///
   /// Parameter [loggingRole] :
-  /// A value that allows the service to write your SFTP users' activity to your
-  /// Amazon CloudWatch logs for monitoring and auditing purposes.
+  /// Allows the service to write your users' activity to your Amazon CloudWatch
+  /// logs for monitoring and auditing purposes.
+  ///
+  /// Parameter [protocols] :
+  /// Specifies the file transfer protocol or protocols over which your file
+  /// transfer protocol client can connect to your server's endpoint. The
+  /// available protocols are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SFTP</code> (Secure Shell (SSH) File Transfer Protocol): File
+  /// transfer over SSH
+  /// </li>
+  /// <li>
+  /// <code>FTPS</code> (File Transfer Protocol Secure): File transfer with TLS
+  /// encryption
+  /// </li>
+  /// <li>
+  /// <code>FTP</code> (File Transfer Protocol): Unencrypted file transfer
+  /// </li>
+  /// </ul> <note>
+  /// If you select <code>FTPS</code>, you must choose a certificate stored in
+  /// AWS Certificate Manager (ACM) which will be used to identify your server
+  /// when clients connect to it over FTPS.
+  ///
+  /// If <code>Protocol</code> includes either <code>FTP</code> or
+  /// <code>FTPS</code>, then the <code>EndpointType</code> must be
+  /// <code>VPC</code> and the <code>IdentityProviderType</code> must be
+  /// <code>API_GATEWAY</code>.
+  ///
+  /// If <code>Protocol</code> includes <code>FTP</code>, then
+  /// <code>AddressAllocationIds</code> cannot be associated.
+  ///
+  /// If <code>Protocol</code> is set only to <code>SFTP</code>, the
+  /// <code>EndpointType</code> can be set to <code>PUBLIC</code> and the
+  /// <code>IdentityProviderType</code> can be set to
+  /// <code>SERVICE_MANAGED</code>.
+  /// </note>
+  ///
+  /// Parameter [securityPolicyName] :
+  /// Specifies the name of the security policy that is attached to the server.
   ///
   /// Parameter [tags] :
   /// Key-value pairs that can be used to group and search for servers.
   Future<CreateServerResponse> createServer({
+    String certificate,
     EndpointDetails endpointDetails,
     EndpointType endpointType,
     String hostKey,
     IdentityProviderDetails identityProviderDetails,
     IdentityProviderType identityProviderType,
     String loggingRole,
+    List<Protocol> protocols,
+    String securityPolicyName,
     List<Tag> tags,
   }) async {
+    _s.validateStringLength(
+      'certificate',
+      certificate,
+      0,
+      1600,
+    );
     _s.validateStringLength(
       'hostKey',
       hostKey,
@@ -137,6 +243,17 @@ class Transfer {
       loggingRole,
       r'''arn:.*role/.*''',
     );
+    _s.validateStringLength(
+      'securityPolicyName',
+      securityPolicyName,
+      0,
+      100,
+    );
+    _s.validateStringPattern(
+      'securityPolicyName',
+      securityPolicyName,
+      r'''TransferSecurityPolicy-.+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.CreateServer'
@@ -148,6 +265,7 @@ class Transfer {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (certificate != null) 'Certificate': certificate,
         if (endpointDetails != null) 'EndpointDetails': endpointDetails,
         if (endpointType != null) 'EndpointType': endpointType.toValue(),
         if (hostKey != null) 'HostKey': hostKey,
@@ -156,6 +274,10 @@ class Transfer {
         if (identityProviderType != null)
           'IdentityProviderType': identityProviderType.toValue(),
         if (loggingRole != null) 'LoggingRole': loggingRole,
+        if (protocols != null)
+          'Protocols': protocols.map((e) => e?.toValue() ?? '').toList(),
+        if (securityPolicyName != null)
+          'SecurityPolicyName': securityPolicyName,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -163,8 +285,8 @@ class Transfer {
     return CreateServerResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a user and associates them with an existing Secure File Transfer
-  /// Protocol (SFTP) server. You can only create and associate users with SFTP
+  /// Creates a user and associates them with an existing file transfer
+  /// protocol-enabled server. You can only create and associate users with
   /// servers that have the <code>IdentityProviderType</code> set to
   /// <code>SERVICE_MANAGED</code>. Using parameters for
   /// <code>CreateUser</code>, you can specify the user name, set the home
@@ -180,66 +302,67 @@ class Transfer {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [role] :
-  /// The IAM role that controls your user's access to your Amazon S3 bucket.
+  /// The IAM role that controls your users' access to your Amazon S3 bucket.
   /// The policies attached to this role will determine the level of access you
   /// want to provide your users when transferring files into and out of your
   /// Amazon S3 bucket or buckets. The IAM role should also contain a trust
-  /// relationship that allows the SFTP server to access your resources when
-  /// servicing your SFTP user's transfer requests.
+  /// relationship that allows the server to access your resources when
+  /// servicing your users' transfer requests.
   ///
   /// Parameter [serverId] :
-  /// A system-assigned unique identifier for an SFTP server instance. This is
-  /// the specific SFTP server that you added your user to.
+  /// A system-assigned unique identifier for a server instance. This is the
+  /// specific server that you added your user to.
   ///
   /// Parameter [userName] :
-  /// A unique string that identifies a user and is associated with a server as
+  /// A unique string that identifies a user and is associated with a as
   /// specified by the <code>ServerId</code>. This user name must be a minimum
-  /// of 3 and a maximum of 32 characters long. The following are valid
-  /// characters: a-z, A-Z, 0-9, underscore, and hyphen. The user name can't
-  /// start with a hyphen.
+  /// of 3 and a maximum of 100 characters long. The following are valid
+  /// characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at
+  /// sign '@'. The user name can't start with a hyphen, period, or at sign.
   ///
   /// Parameter [homeDirectory] :
   /// The landing directory (folder) for a user when they log in to the server
-  /// using their SFTP client.
+  /// using the client.
   ///
-  /// An example is
-  /// &lt;<code>your-Amazon-S3-bucket-name&gt;/home/username</code>.
+  /// An example is <i>
+  /// <code>your-Amazon-S3-bucket-name&gt;/home/username</code> </i>.
   ///
   /// Parameter [homeDirectoryMappings] :
-  /// Logical directory mappings that specify what S3 paths and keys should be
-  /// visible to your user and how you want to make them visible. You will need
-  /// to specify the "<code>Entry</code>" and "<code>Target</code>" pair, where
-  /// <code>Entry</code> shows how the path is made visible and
-  /// <code>Target</code> is the actual S3 path. If you only specify a target,
-  /// it will be displayed as is. You will need to also make sure that your AWS
-  /// IAM Role provides access to paths in <code>Target</code>. The following is
-  /// an example.
+  /// Logical directory mappings that specify what Amazon S3 paths and keys
+  /// should be visible to your user and how you want to make them visible. You
+  /// will need to specify the "<code>Entry</code>" and "<code>Target</code>"
+  /// pair, where <code>Entry</code> shows how the path is made visible and
+  /// <code>Target</code> is the actual Amazon S3 path. If you only specify a
+  /// target, it will be displayed as is. You will need to also make sure that
+  /// your IAM role provides access to paths in <code>Target</code>. The
+  /// following is an example.
   ///
   /// <code>'[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf",
   /// "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" }
   /// ]'</code>
   ///
-  /// In most cases, you can use this value instead of the scope down policy to
+  /// In most cases, you can use this value instead of the scope-down policy to
   /// lock your user down to the designated home directory ("chroot"). To do
   /// this, you can set <code>Entry</code> to '/' and set <code>Target</code> to
   /// the HomeDirectory parameter value.
   /// <note>
-  /// If the target of a logical directory entry does not exist in S3, the entry
-  /// will be ignored. As a workaround, you can use the S3 api to create 0 byte
-  /// objects as place holders for your directory. If using the CLI, use the
-  /// s3api call instead of s3 so you can use the put-object operation. For
-  /// example, you use the following: <code>aws s3api put-object --bucket
-  /// bucketname --key path/to/folder/</code>. Make sure that the end of the key
-  /// name ends in a / for it to be considered a folder.
+  /// If the target of a logical directory entry does not exist in Amazon S3,
+  /// the entry will be ignored. As a workaround, you can use the Amazon S3 API
+  /// to create 0 byte objects as place holders for your directory. If using the
+  /// CLI, use the <code>s3api</code> call instead of <code>s3</code> so you can
+  /// use the put-object operation. For example, you use the following:
+  /// <code>aws s3api put-object --bucket bucketname --key
+  /// path/to/folder/</code>. Make sure that the end of the key name ends in a
+  /// '/' for it to be considered a folder.
   /// </note>
   ///
   /// Parameter [homeDirectoryType] :
   /// The type of landing directory (folder) you want your users' home directory
-  /// to be when they log into the SFTP server. If you set it to
-  /// <code>PATH</code>, the user will see the absolute Amazon S3 bucket paths
-  /// as is in their SFTP clients. If you set it <code>LOGICAL</code>, you will
+  /// to be when they log into the server. If you set it to <code>PATH</code>,
+  /// the user will see the absolute Amazon S3 bucket paths as is in their file
+  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you will
   /// need to provide mappings in the <code>HomeDirectoryMappings</code> for how
-  /// you want to make S3 paths visible to your user.
+  /// you want to make Amazon S3 paths visible to your users.
   ///
   /// Parameter [policy] :
   /// A scope-down policy for your user so you can use the same IAM role across
@@ -248,22 +371,22 @@ class Transfer {
   /// <code>${Transfer:UserName}</code>, <code>${Transfer:HomeDirectory}</code>,
   /// and <code>${Transfer:HomeBucket}</code>.
   /// <note>
-  /// For scope-down policies, AWS Transfer for SFTP stores the policy as a JSON
+  /// For scope-down policies, AWS Transfer Family stores the policy as a JSON
   /// blob, instead of the Amazon Resource Name (ARN) of the policy. You save
   /// the policy as a JSON blob and pass it in the <code>Policy</code> argument.
   ///
-  /// For an example of a scope-down policy, see
-  /// "https://docs.aws.amazon.com/transfer/latest/userguide/users.html#users-policies-scope-down"&gt;Creating
-  /// a Scope-Down Policy.
+  /// For an example of a scope-down policy, see <a
+  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/users.html#users-policies-scope-down">Creating
+  /// a scope-down policy</a>.
   ///
-  /// For more information, see
-  /// "https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html"
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html">AssumeRole</a>
   /// in the <i>AWS Security Token Service API Reference</i>.
   /// </note>
   ///
   /// Parameter [sshPublicKeyBody] :
   /// The public portion of the Secure Shell (SSH) key used to authenticate the
-  /// user to the SFTP server.
+  /// user to the server.
   ///
   /// Parameter [tags] :
   /// Key-value pairs that can be used to group and search for users. Tags are
@@ -312,13 +435,13 @@ class Transfer {
       'userName',
       userName,
       3,
-      32,
+      100,
       isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
-      r'''^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$''',
+      r'''^[\w][\w@.-]{2,99}$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -377,17 +500,18 @@ class Transfer {
     return CreateUserResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes the Secure File Transfer Protocol (SFTP) server that you specify.
+  /// Deletes the file transfer protocol-enabled server that you specify.
   ///
   /// No response returns from this operation.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serverId] :
-  /// A unique system-assigned identifier for an SFTP server instance.
+  /// A unique system-assigned identifier for a server instance.
   Future<void> deleteServer({
     @_s.required String serverId,
   }) async {
@@ -432,8 +556,8 @@ class Transfer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [serverId] :
-  /// A system-assigned unique identifier for a Secure File Transfer Protocol
-  /// (SFTP) server instance that has the user assigned to it.
+  /// A system-assigned unique identifier for a file transfer protocol-enabled
+  /// server instance that has the user assigned to it.
   ///
   /// Parameter [sshPublicKeyId] :
   /// A unique identifier used to reference your user's specific SSH key.
@@ -478,13 +602,13 @@ class Transfer {
       'userName',
       userName,
       3,
-      32,
+      100,
       isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
-      r'''^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$''',
+      r'''^[\w][\w@.-]{2,99}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -505,7 +629,8 @@ class Transfer {
     );
   }
 
-  /// Deletes the user belonging to the server you specify.
+  /// Deletes the user belonging to a file transfer protocol-enabled server you
+  /// specify.
   ///
   /// No response returns from this operation.
   /// <note>
@@ -518,11 +643,11 @@ class Transfer {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serverId] :
-  /// A system-assigned unique identifier for an SFTP server instance that has
-  /// the user assigned to it.
+  /// A system-assigned unique identifier for a server instance that has the
+  /// user assigned to it.
   ///
   /// Parameter [userName] :
-  /// A unique string that identifies a user that is being deleted from the
+  /// A unique string that identifies a user that is being deleted from a
   /// server.
   Future<void> deleteUser({
     @_s.required String serverId,
@@ -547,13 +672,13 @@ class Transfer {
       'userName',
       userName,
       3,
-      32,
+      100,
       isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
-      r'''^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$''',
+      r'''^[\w][\w@.-]{2,99}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -573,11 +698,60 @@ class Transfer {
     );
   }
 
-  /// Describes the server that you specify by passing the <code>ServerId</code>
-  /// parameter.
+  /// Describes the security policy that is attached to your file transfer
+  /// protocol-enabled server. The response contains a description of the
+  /// security policy's properties. For more information about security
+  /// policies, see <a
+  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html">Working
+  /// with security policies</a>.
   ///
-  /// The response contains a description of the server's properties. When you
-  /// set <code>EndpointType</code> to VPC, the response will contain the
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [securityPolicyName] :
+  /// Specifies the name of the security policy that is attached to the server.
+  Future<DescribeSecurityPolicyResponse> describeSecurityPolicy({
+    @_s.required String securityPolicyName,
+  }) async {
+    ArgumentError.checkNotNull(securityPolicyName, 'securityPolicyName');
+    _s.validateStringLength(
+      'securityPolicyName',
+      securityPolicyName,
+      0,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'securityPolicyName',
+      securityPolicyName,
+      r'''TransferSecurityPolicy-.+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DescribeSecurityPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SecurityPolicyName': securityPolicyName,
+      },
+    );
+
+    return DescribeSecurityPolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes a file transfer protocol-enabled server that you specify by
+  /// passing the <code>ServerId</code> parameter.
+  ///
+  /// The response contains a description of a server's properties. When you set
+  /// <code>EndpointType</code> to VPC, the response will contain the
   /// <code>EndpointDetails</code>.
   ///
   /// May throw [ServiceUnavailableException].
@@ -586,7 +760,7 @@ class Transfer {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serverId] :
-  /// A system-assigned unique identifier for an SFTP server.
+  /// A system-assigned unique identifier for a server.
   Future<DescribeServerResponse> describeServer({
     @_s.required String serverId,
   }) async {
@@ -622,8 +796,8 @@ class Transfer {
     return DescribeServerResponse.fromJson(jsonResponse.body);
   }
 
-  /// Describes the user assigned to a specific server, as identified by its
-  /// <code>ServerId</code> property.
+  /// Describes the user assigned to the specific file transfer protocol-enabled
+  /// server, as identified by its <code>ServerId</code> property.
   ///
   /// The response from this call returns the properties of the user associated
   /// with the <code>ServerId</code> value that was specified.
@@ -634,12 +808,12 @@ class Transfer {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serverId] :
-  /// A system-assigned unique identifier for an SFTP server that has this user
+  /// A system-assigned unique identifier for a server that has this user
   /// assigned.
   ///
   /// Parameter [userName] :
   /// The name of the user assigned to one or more servers. User names are part
-  /// of the sign-in credentials to use the AWS Transfer for SFTP service and
+  /// of the sign-in credentials to use the AWS Transfer Family service and
   /// perform file transfer tasks.
   Future<DescribeUserResponse> describeUser({
     @_s.required String serverId,
@@ -664,13 +838,13 @@ class Transfer {
       'userName',
       userName,
       3,
-      32,
+      100,
       isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
-      r'''^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$''',
+      r'''^[\w][\w@.-]{2,99}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -693,8 +867,8 @@ class Transfer {
   }
 
   /// Adds a Secure Shell (SSH) public key to a user account identified by a
-  /// <code>UserName</code> value assigned to a specific server, identified by
-  /// <code>ServerId</code>.
+  /// <code>UserName</code> value assigned to the specific file transfer
+  /// protocol-enabled server, identified by <code>ServerId</code>.
   ///
   /// The response returns the <code>UserName</code> value, the
   /// <code>ServerId</code> value, and the name of the
@@ -708,7 +882,7 @@ class Transfer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [serverId] :
-  /// A system-assigned unique identifier for an SFTP server.
+  /// A system-assigned unique identifier for a server.
   ///
   /// Parameter [sshPublicKeyBody] :
   /// The public key portion of an SSH key pair.
@@ -753,13 +927,13 @@ class Transfer {
       'userName',
       userName,
       3,
-      32,
+      100,
       isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
-      r'''^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$''',
+      r'''^[\w][\w@.-]{2,99}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -782,8 +956,61 @@ class Transfer {
     return ImportSshPublicKeyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the Secure File Transfer Protocol (SFTP) servers that are associated
-  /// with your AWS account.
+  /// Lists the security policies that are attached to your file transfer
+  /// protocol-enabled servers.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the number of security policies to return as a response to the
+  /// <code>ListSecurityPolicies</code> query.
+  ///
+  /// Parameter [nextToken] :
+  /// When additional results are obtained from the
+  /// <code>ListSecurityPolicies</code> command, a <code>NextToken</code>
+  /// parameter is returned in the output. You can then pass the
+  /// <code>NextToken</code> parameter in a subsequent command to continue
+  /// listing additional security policies.
+  Future<ListSecurityPoliciesResponse> listSecurityPolicies({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      6144,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.ListSecurityPolicies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListSecurityPoliciesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the file transfer protocol-enabled servers that are associated with
+  /// your AWS account.
   ///
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalServiceError].
@@ -908,8 +1135,8 @@ class Transfer {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the users for the server that you specify by passing the
-  /// <code>ServerId</code> parameter.
+  /// Lists the users for a file transfer protocol-enabled server that you
+  /// specify by passing the <code>ServerId</code> parameter.
   ///
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalServiceError].
@@ -918,8 +1145,8 @@ class Transfer {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serverId] :
-  /// A system-assigned unique identifier for a Secure File Transfer Protocol
-  /// (SFTP) server that has users assigned to it.
+  /// A system-assigned unique identifier for a server that has users assigned
+  /// to it.
   ///
   /// Parameter [maxResults] :
   /// Specifies the number of users to return as a response to the
@@ -981,10 +1208,10 @@ class Transfer {
     return ListUsersResponse.fromJson(jsonResponse.body);
   }
 
-  /// Changes the state of a Secure File Transfer Protocol (SFTP) server from
-  /// <code>OFFLINE</code> to <code>ONLINE</code>. It has no impact on an SFTP
-  /// server that is already <code>ONLINE</code>. An <code>ONLINE</code> server
-  /// can accept and process file transfer jobs.
+  /// Changes the state of a file transfer protocol-enabled server from
+  /// <code>OFFLINE</code> to <code>ONLINE</code>. It has no impact on a server
+  /// that is already <code>ONLINE</code>. An <code>ONLINE</code> server can
+  /// accept and process file transfer jobs.
   ///
   /// The state of <code>STARTING</code> indicates that the server is in an
   /// intermediate state, either not fully able to respond, or not fully online.
@@ -999,7 +1226,7 @@ class Transfer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [serverId] :
-  /// A system-assigned unique identifier for an SFTP server that you start.
+  /// A system-assigned unique identifier for a server that you start.
   Future<void> startServer({
     @_s.required String serverId,
   }) async {
@@ -1033,13 +1260,15 @@ class Transfer {
     );
   }
 
-  /// Changes the state of an SFTP server from <code>ONLINE</code> to
-  /// <code>OFFLINE</code>. An <code>OFFLINE</code> server cannot accept and
-  /// process file transfer jobs. Information tied to your server such as server
-  /// and user properties are not affected by stopping your server. Stopping a
-  /// server will not reduce or impact your Secure File Transfer Protocol (SFTP)
-  /// endpoint billing.
-  ///
+  /// Changes the state of a file transfer protocol-enabled server from
+  /// <code>ONLINE</code> to <code>OFFLINE</code>. An <code>OFFLINE</code>
+  /// server cannot accept and process file transfer jobs. Information tied to
+  /// your server, such as server and user properties, are not affected by
+  /// stopping your server.
+  /// <note>
+  /// Stopping the server will not reduce or impact your file transfer protocol
+  /// endpoint billing; you must delete the server to stop being billed.
+  /// </note>
   /// The state of <code>STOPPING</code> indicates that the server is in an
   /// intermediate state, either not fully able to respond, or not fully
   /// offline. The values of <code>STOP_FAILED</code> can indicate an error
@@ -1054,7 +1283,7 @@ class Transfer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [serverId] :
-  /// A system-assigned unique identifier for an SFTP server that you stopped.
+  /// A system-assigned unique identifier for a server that you stopped.
   Future<void> stopServer({
     @_s.required String serverId,
   }) async {
@@ -1143,12 +1372,12 @@ class Transfer {
     );
   }
 
-  /// If the <code>IdentityProviderType</code> of the server is
-  /// <code>API_Gateway</code>, tests whether your API Gateway is set up
-  /// successfully. We highly recommend that you call this operation to test
-  /// your authentication method as soon as you create your server. By doing so,
-  /// you can troubleshoot issues with the API Gateway integration to ensure
-  /// that your users can successfully use the service.
+  /// If the <code>IdentityProviderType</code> of a file transfer
+  /// protocol-enabled server is <code>API_Gateway</code>, tests whether your
+  /// API Gateway is set up successfully. We highly recommend that you call this
+  /// operation to test your authentication method as soon as you create your
+  /// server. By doing so, you can troubleshoot issues with the API Gateway
+  /// integration to ensure that your users can successfully use the service.
   ///
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalServiceError].
@@ -1160,13 +1389,35 @@ class Transfer {
   /// authentication method is tested with a user name and password.
   ///
   /// Parameter [userName] :
-  /// This request parameter is the name of the user account to be tested.
+  /// The name of the user account to be tested.
+  ///
+  /// Parameter [serverProtocol] :
+  /// The type of file transfer protocol to be tested.
+  ///
+  /// The available protocols are:
+  ///
+  /// <ul>
+  /// <li>
+  /// Secure Shell (SSH) File Transfer Protocol (SFTP)
+  /// </li>
+  /// <li>
+  /// File Transfer Protocol Secure (FTPS)
+  /// </li>
+  /// <li>
+  /// File Transfer Protocol (FTP)
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [sourceIp] :
+  /// The source IP address of the user account to be tested.
   ///
   /// Parameter [userPassword] :
   /// The password of the user account to be tested.
   Future<TestIdentityProviderResponse> testIdentityProvider({
     @_s.required String serverId,
     @_s.required String userName,
+    Protocol serverProtocol,
+    String sourceIp,
     String userPassword,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
@@ -1188,14 +1439,25 @@ class Transfer {
       'userName',
       userName,
       3,
-      32,
+      100,
       isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
-      r'''^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$''',
+      r'''^[\w][\w@.-]{2,99}$''',
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'sourceIp',
+      sourceIp,
+      0,
+      32,
+    );
+    _s.validateStringPattern(
+      'sourceIp',
+      sourceIp,
+      r'''^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$''',
     );
     _s.validateStringLength(
       'userPassword',
@@ -1216,6 +1478,8 @@ class Transfer {
       payload: {
         'ServerId': serverId,
         'UserName': userName,
+        if (serverProtocol != null) 'ServerProtocol': serverProtocol.toValue(),
+        if (sourceIp != null) 'SourceIp': sourceIp,
         if (userPassword != null) 'UserPassword': userPassword,
       },
     );
@@ -1235,9 +1499,9 @@ class Transfer {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [arn] :
-  /// This is the value of the resource that will have the tag removed. An
-  /// Amazon Resource Name (ARN) is an identifier for a specific AWS resource,
-  /// such as a server, user, or role.
+  /// The value of the resource that will have the tag removed. An Amazon
+  /// Resource Name (ARN) is an identifier for a specific AWS resource, such as
+  /// a server, user, or role.
   ///
   /// Parameter [tagKeys] :
   /// TagKeys are key-value pairs assigned to ARNs that can be used to group and
@@ -1279,11 +1543,13 @@ class Transfer {
     );
   }
 
-  /// Updates the server properties after that server has been created.
+  /// Updates the file transfer protocol-enabled server's properties after that
+  /// server has been created.
   ///
   /// The <code>UpdateServer</code> call returns the <code>ServerId</code> of
-  /// the Secure File Transfer Protocol (SFTP) server you updated.
+  /// the server you updated.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ConflictException].
   /// May throw [InternalServiceError].
@@ -1293,49 +1559,143 @@ class Transfer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [serverId] :
-  /// A system-assigned unique identifier for an SFTP server instance that the
-  /// user account is assigned to.
+  /// A system-assigned unique identifier for a server instance that the user
+  /// account is assigned to.
+  ///
+  /// Parameter [certificate] :
+  /// The Amazon Resource Name (ARN) of the AWS Certificate Manager (ACM)
+  /// certificate. Required when <code>Protocols</code> is set to
+  /// <code>FTPS</code>.
+  ///
+  /// To request a new public certificate, see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html">Request
+  /// a public certificate</a> in the <i> AWS Certificate Manager User
+  /// Guide</i>.
+  ///
+  /// To import an existing certificate into ACM, see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html">Importing
+  /// certificates into ACM</a> in the <i> AWS Certificate Manager User
+  /// Guide</i>.
+  ///
+  /// To request a private certificate to use FTPS through private IP addresses,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-private.html">Request
+  /// a private certificate</a> in the <i> AWS Certificate Manager User
+  /// Guide</i>.
+  ///
+  /// Certificates with the following cryptographic algorithms and key sizes are
+  /// supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// 2048-bit RSA (RSA_2048)
+  /// </li>
+  /// <li>
+  /// 4096-bit RSA (RSA_4096)
+  /// </li>
+  /// <li>
+  /// Elliptic Prime Curve 256 bit (EC_prime256v1)
+  /// </li>
+  /// <li>
+  /// Elliptic Prime Curve 384 bit (EC_secp384r1)
+  /// </li>
+  /// <li>
+  /// Elliptic Prime Curve 521 bit (EC_secp521r1)
+  /// </li>
+  /// </ul> <note>
+  /// The certificate must be a valid SSL/TLS X.509 version 3 certificate with
+  /// FQDN or IP address specified and information about the issuer.
+  /// </note>
   ///
   /// Parameter [endpointDetails] :
   /// The virtual private cloud (VPC) endpoint settings that are configured for
-  /// your SFTP server. With a VPC endpoint, you can restrict access to your
-  /// SFTP server to resources only within your VPC. To control incoming
-  /// internet traffic, you will need to associate one or more Elastic IP
-  /// addresses with your server's endpoint.
+  /// your server. With a VPC endpoint, you can restrict access to your server
+  /// to resources only within your VPC. To control incoming internet traffic,
+  /// you will need to associate one or more Elastic IP addresses with your
+  /// server's endpoint.
   ///
   /// Parameter [endpointType] :
-  /// The type of endpoint that you want your SFTP server to connect to. You can
-  /// choose to connect to the public internet or a virtual private cloud (VPC)
-  /// endpoint. With a VPC endpoint, your SFTP server isn't accessible over the
-  /// public internet.
+  /// The type of endpoint that you want your server to connect to. You can
+  /// choose to connect to the public internet or a VPC endpoint. With a VPC
+  /// endpoint, you can restrict access to your server and resources only within
+  /// your VPC.
+  /// <note>
+  /// It is recommended that you use <code>VPC</code> as the
+  /// <code>EndpointType</code>. With this endpoint type, you have the option to
+  /// directly associate up to three Elastic IPv4 addresses (BYO IP included)
+  /// with your server's endpoint and use VPC security groups to restrict
+  /// traffic by the client's public IP address. This is not possible with
+  /// <code>EndpointType</code> set to <code>VPC_ENDPOINT</code>.
+  /// </note>
   ///
   /// Parameter [hostKey] :
-  /// The RSA private key as generated by <code>ssh-keygen -N "" -f
+  /// The RSA private key as generated by <code>ssh-keygen -N "" -m PEM -f
   /// my-new-server-key</code>.
   /// <important>
-  /// If you aren't planning to migrate existing users from an existing SFTP
-  /// server to a new AWS SFTP server, don't update the host key. Accidentally
-  /// changing a server's host key can be disruptive.
+  /// If you aren't planning to migrate existing users from an existing server
+  /// to a new server, don't update the host key. Accidentally changing a
+  /// server's host key can be disruptive.
   /// </important>
-  /// For more information, see
-  /// "https://docs.aws.amazon.com/transfer/latest/userguide/configuring-servers.html#change-host-key"
-  /// in the <i>AWS SFTP User Guide.</i>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key">Change
+  /// the host key for your SFTP-enabled server</a> in the <i>AWS Transfer
+  /// Family User Guide</i>.
   ///
   /// Parameter [identityProviderDetails] :
-  /// This response parameter is an array containing all of the information
-  /// required to call a customer's authentication API method.
+  /// An array containing all of the information required to call a customer's
+  /// authentication API method.
   ///
   /// Parameter [loggingRole] :
-  /// A value that changes the AWS Identity and Access Management (IAM) role
-  /// that allows Amazon S3 events to be logged in Amazon CloudWatch, turning
-  /// logging on or off.
+  /// Changes the AWS Identity and Access Management (IAM) role that allows
+  /// Amazon S3 events to be logged in Amazon CloudWatch, turning logging on or
+  /// off.
+  ///
+  /// Parameter [protocols] :
+  /// Specifies the file transfer protocol or protocols over which your file
+  /// transfer protocol client can connect to your server's endpoint. The
+  /// available protocols are:
+  ///
+  /// <ul>
+  /// <li>
+  /// Secure Shell (SSH) File Transfer Protocol (SFTP): File transfer over SSH
+  /// </li>
+  /// <li>
+  /// File Transfer Protocol Secure (FTPS): File transfer with TLS encryption
+  /// </li>
+  /// <li>
+  /// File Transfer Protocol (FTP): Unencrypted file transfer
+  /// </li>
+  /// </ul> <note>
+  /// If you select <code>FTPS</code>, you must choose a certificate stored in
+  /// AWS Certificate Manager (ACM) which will be used to identify your server
+  /// when clients connect to it over FTPS.
+  ///
+  /// If <code>Protocol</code> includes either <code>FTP</code> or
+  /// <code>FTPS</code>, then the <code>EndpointType</code> must be
+  /// <code>VPC</code> and the <code>IdentityProviderType</code> must be
+  /// <code>API_GATEWAY</code>.
+  ///
+  /// If <code>Protocol</code> includes <code>FTP</code>, then
+  /// <code>AddressAllocationIds</code> cannot be associated.
+  ///
+  /// If <code>Protocol</code> is set only to <code>SFTP</code>, the
+  /// <code>EndpointType</code> can be set to <code>PUBLIC</code> and the
+  /// <code>IdentityProviderType</code> can be set to
+  /// <code>SERVICE_MANAGED</code>.
+  /// </note>
+  ///
+  /// Parameter [securityPolicyName] :
+  /// Specifies the name of the security policy that is attached to the server.
   Future<UpdateServerResponse> updateServer({
     @_s.required String serverId,
+    String certificate,
     EndpointDetails endpointDetails,
     EndpointType endpointType,
     String hostKey,
     IdentityProviderDetails identityProviderDetails,
     String loggingRole,
+    List<Protocol> protocols,
+    String securityPolicyName,
   }) async {
     ArgumentError.checkNotNull(serverId, 'serverId');
     _s.validateStringLength(
@@ -1350,6 +1710,12 @@ class Transfer {
       serverId,
       r'''^s-([0-9a-f]{17})$''',
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'certificate',
+      certificate,
+      0,
+      1600,
     );
     _s.validateStringLength(
       'hostKey',
@@ -1368,6 +1734,17 @@ class Transfer {
       loggingRole,
       r'''^$|arn:.*role/.*''',
     );
+    _s.validateStringLength(
+      'securityPolicyName',
+      securityPolicyName,
+      0,
+      100,
+    );
+    _s.validateStringPattern(
+      'securityPolicyName',
+      securityPolicyName,
+      r'''TransferSecurityPolicy-.+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.UpdateServer'
@@ -1380,12 +1757,17 @@ class Transfer {
       headers: headers,
       payload: {
         'ServerId': serverId,
+        if (certificate != null) 'Certificate': certificate,
         if (endpointDetails != null) 'EndpointDetails': endpointDetails,
         if (endpointType != null) 'EndpointType': endpointType.toValue(),
         if (hostKey != null) 'HostKey': hostKey,
         if (identityProviderDetails != null)
           'IdentityProviderDetails': identityProviderDetails,
         if (loggingRole != null) 'LoggingRole': loggingRole,
+        if (protocols != null)
+          'Protocols': protocols.map((e) => e?.toValue() ?? '').toList(),
+        if (securityPolicyName != null)
+          'SecurityPolicyName': securityPolicyName,
       },
     );
 
@@ -1406,89 +1788,87 @@ class Transfer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [serverId] :
-  /// A system-assigned unique identifier for an SFTP server instance that the
-  /// user account is assigned to.
+  /// A system-assigned unique identifier for a server instance that the user
+  /// account is assigned to.
   ///
   /// Parameter [userName] :
   /// A unique string that identifies a user and is associated with a server as
-  /// specified by the <code>ServerId</code>. This is the string that will be
-  /// used by your user when they log in to your SFTP server. This user name is
-  /// a minimum of 3 and a maximum of 32 characters long. The following are
-  /// valid characters: a-z, A-Z, 0-9, underscore, and hyphen. The user name
-  /// can't start with a hyphen.
+  /// specified by the <code>ServerId</code>. This user name must be a minimum
+  /// of 3 and a maximum of 100 characters long. The following are valid
+  /// characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at
+  /// sign '@'. The user name can't start with a hyphen, period, or at sign.
   ///
   /// Parameter [homeDirectory] :
-  /// A parameter that specifies the landing directory (folder) for a user when
-  /// they log in to the server using their client.
+  /// Specifies the landing directory (folder) for a user when they log in to
+  /// the server using their file transfer protocol client.
   ///
-  /// An example is
-  /// <code>&lt;your-Amazon-S3-bucket-name&gt;/home/username</code>.
+  /// An example is <code>your-Amazon-S3-bucket-name&gt;/home/username</code>.
   ///
   /// Parameter [homeDirectoryMappings] :
-  /// Logical directory mappings that specify what S3 paths and keys should be
-  /// visible to your user and how you want to make them visible. You will need
-  /// to specify the "<code>Entry</code>" and "<code>Target</code>" pair, where
-  /// <code>Entry</code> shows how the path is made visible and
-  /// <code>Target</code> is the actual S3 path. If you only specify a target,
-  /// it will be displayed as is. You will need to also make sure that your AWS
-  /// IAM Role provides access to paths in <code>Target</code>. The following is
-  /// an example.
+  /// Logical directory mappings that specify what Amazon S3 paths and keys
+  /// should be visible to your user and how you want to make them visible. You
+  /// will need to specify the "<code>Entry</code>" and "<code>Target</code>"
+  /// pair, where <code>Entry</code> shows how the path is made visible and
+  /// <code>Target</code> is the actual Amazon S3 path. If you only specify a
+  /// target, it will be displayed as is. You will need to also make sure that
+  /// your IAM role provides access to paths in <code>Target</code>. The
+  /// following is an example.
   ///
   /// <code>'[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf",
   /// "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" }
   /// ]'</code>
   ///
-  /// In most cases, you can use this value instead of the scope down policy to
+  /// In most cases, you can use this value instead of the scope-down policy to
   /// lock your user down to the designated home directory ("chroot"). To do
   /// this, you can set <code>Entry</code> to '/' and set <code>Target</code> to
   /// the HomeDirectory parameter value.
   /// <note>
-  /// If the target of a logical directory entry does not exist in S3, the entry
-  /// will be ignored. As a workaround, you can use the S3 api to create 0 byte
-  /// objects as place holders for your directory. If using the CLI, use the
-  /// s3api call instead of s3 so you can use the put-object operation. For
-  /// example, you use the following: <code>aws s3api put-object --bucket
-  /// bucketname --key path/to/folder/</code>. Make sure that the end of the key
-  /// name ends in a / for it to be considered a folder.
+  /// If the target of a logical directory entry does not exist in Amazon S3,
+  /// the entry will be ignored. As a workaround, you can use the Amazon S3 API
+  /// to create 0 byte objects as place holders for your directory. If using the
+  /// CLI, use the <code>s3api</code> call instead of <code>s3</code> so you can
+  /// use the put-object operation. For example, you use the following:
+  /// <code>aws s3api put-object --bucket bucketname --key
+  /// path/to/folder/</code>. Make sure that the end of the key name ends in a /
+  /// for it to be considered a folder.
   /// </note>
   ///
   /// Parameter [homeDirectoryType] :
   /// The type of landing directory (folder) you want your users' home directory
-  /// to be when they log into the SFTP serve. If you set it to
-  /// <code>PATH</code>, the user will see the absolute Amazon S3 bucket paths
-  /// as is in their SFTP clients. If you set it <code>LOGICAL</code>, you will
+  /// to be when they log into the server. If you set it to <code>PATH</code>,
+  /// the user will see the absolute Amazon S3 bucket paths as is in their file
+  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you will
   /// need to provide mappings in the <code>HomeDirectoryMappings</code> for how
-  /// you want to make S3 paths visible to your user.
+  /// you want to make Amazon S3 paths visible to your users.
   ///
   /// Parameter [policy] :
   /// Allows you to supply a scope-down policy for your user so you can use the
-  /// same AWS Identity and Access Management (IAM) role across multiple users.
-  /// The policy scopes down user access to portions of your Amazon S3 bucket.
-  /// Variables you can use inside this policy include
-  /// <code>${Transfer:UserName}</code>, <code>${Transfer:HomeDirectory}</code>,
-  /// and <code>${Transfer:HomeBucket}</code>.
+  /// same IAM role across multiple users. The policy scopes down user access to
+  /// portions of your Amazon S3 bucket. Variables you can use inside this
+  /// policy include <code>${Transfer:UserName}</code>,
+  /// <code>${Transfer:HomeDirectory}</code>, and
+  /// <code>${Transfer:HomeBucket}</code>.
   /// <note>
-  /// For scope-down policies, AWS Transfer for SFTP stores the policy as a JSON
+  /// For scope-down policies, AWS Transfer Family stores the policy as a JSON
   /// blob, instead of the Amazon Resource Name (ARN) of the policy. You save
   /// the policy as a JSON blob and pass it in the <code>Policy</code> argument.
   ///
-  /// For an example of a scope-down policy, see
-  /// "https://docs.aws.amazon.com/transfer/latest/userguide/users.html#users-policies-scope-down"&gt;Creating
-  /// a Scope-Down Policy.
+  /// For an example of a scope-down policy, see <a
+  /// href="https://docs.aws.amazon.com/transfer/latest/userguide/users.html#users-policies-scope-down">Creating
+  /// a scope-down policy</a>.
   ///
-  /// For more information, see
-  /// "https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html"
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html">AssumeRole</a>
   /// in the <i>AWS Security Token Service API Reference</i>.
   /// </note>
   ///
   /// Parameter [role] :
-  /// The IAM role that controls your user's access to your Amazon S3 bucket.
+  /// The IAM role that controls your users' access to your Amazon S3 bucket.
   /// The policies attached to this role will determine the level of access you
   /// want to provide your users when transferring files into and out of your
   /// Amazon S3 bucket or buckets. The IAM role should also contain a trust
-  /// relationship that allows the Secure File Transfer Protocol (SFTP) server
-  /// to access your resources when servicing your SFTP user's transfer
-  /// requests.
+  /// relationship that allows the server to access your resources when
+  /// servicing your users' transfer requests.
   Future<UpdateUserResponse> updateUser({
     @_s.required String serverId,
     @_s.required String userName,
@@ -1517,13 +1897,13 @@ class Transfer {
       'userName',
       userName,
       3,
-      32,
+      100,
       isRequired: true,
     );
     _s.validateStringPattern(
       'userName',
       userName,
-      r'''^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$''',
+      r'''^[\w][\w@.-]{2,99}$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1587,7 +1967,7 @@ class Transfer {
     createFactory: true,
     createToJson: false)
 class CreateServerResponse {
-  /// The service-assigned ID of the SFTP server that is created.
+  /// The service-assigned ID of the server that is created.
   @_s.JsonKey(name: 'ServerId')
   final String serverId;
 
@@ -1604,12 +1984,11 @@ class CreateServerResponse {
     createFactory: true,
     createToJson: false)
 class CreateUserResponse {
-  /// The ID of the SFTP server that the user is attached to.
+  /// The ID of the server that the user is attached to.
   @_s.JsonKey(name: 'ServerId')
   final String serverId;
 
-  /// A unique string that identifies a user account associated with an SFTP
-  /// server.
+  /// A unique string that identifies a user account associated with a server.
   @_s.JsonKey(name: 'UserName')
   final String userName;
 
@@ -1626,8 +2005,25 @@ class CreateUserResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeSecurityPolicyResponse {
+  /// An array containing the properties of the security policy.
+  @_s.JsonKey(name: 'SecurityPolicy')
+  final DescribedSecurityPolicy securityPolicy;
+
+  DescribeSecurityPolicyResponse({
+    @_s.required this.securityPolicy,
+  });
+  factory DescribeSecurityPolicyResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeSecurityPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeServerResponse {
-  /// An array containing the properties of the server with the
+  /// An array containing the properties of a server with the
   /// <code>ServerID</code> you specified.
   @_s.JsonKey(name: 'Server')
   final DescribedServer server;
@@ -1645,7 +2041,7 @@ class DescribeServerResponse {
     createFactory: true,
     createToJson: false)
 class DescribeUserResponse {
-  /// A system-assigned unique identifier for an SFTP server that has this user
+  /// A system-assigned unique identifier for a server that has this user
   /// assigned.
   @_s.JsonKey(name: 'ServerId')
   final String serverId;
@@ -1663,66 +2059,142 @@ class DescribeUserResponse {
       _$DescribeUserResponseFromJson(json);
 }
 
-/// Describes the properties of the server that was specified. Information
-/// returned includes the following: the server Amazon Resource Name (ARN), the
-/// authentication configuration and type, the logging role, the server ID and
-/// state, and assigned tags or metadata.
+/// Describes the properties of a security policy that was specified. For more
+/// information about security policies, see <a
+/// href="https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html">Working
+/// with security policies</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribedSecurityPolicy {
+  /// Specifies the name of the security policy that is attached to the server.
+  @_s.JsonKey(name: 'SecurityPolicyName')
+  final String securityPolicyName;
+
+  /// Specifies whether this policy enables Federal Information Processing
+  /// Standards (FIPS).
+  @_s.JsonKey(name: 'Fips')
+  final bool fips;
+
+  /// Specifies the enabled Secure Shell (SSH) cipher encryption algorithms in the
+  /// security policy that is attached to the server.
+  @_s.JsonKey(name: 'SshCiphers')
+  final List<String> sshCiphers;
+
+  /// Specifies the enabled SSH key exchange (KEX) encryption algorithms in the
+  /// security policy that is attached to the server.
+  @_s.JsonKey(name: 'SshKexs')
+  final List<String> sshKexs;
+
+  /// Specifies the enabled SSH message authentication code (MAC) encryption
+  /// algorithms in the security policy that is attached to the server.
+  @_s.JsonKey(name: 'SshMacs')
+  final List<String> sshMacs;
+
+  /// Specifies the enabled Transport Layer Security (TLS) cipher encryption
+  /// algorithms in the security policy that is attached to the server.
+  @_s.JsonKey(name: 'TlsCiphers')
+  final List<String> tlsCiphers;
+
+  DescribedSecurityPolicy({
+    @_s.required this.securityPolicyName,
+    this.fips,
+    this.sshCiphers,
+    this.sshKexs,
+    this.sshMacs,
+    this.tlsCiphers,
+  });
+  factory DescribedSecurityPolicy.fromJson(Map<String, dynamic> json) =>
+      _$DescribedSecurityPolicyFromJson(json);
+}
+
+/// Describes the properties of a file transfer protocol-enabled server that was
+/// specified.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribedServer {
-  /// Specifies the unique Amazon Resource Name (ARN) for the server to be
-  /// described.
+  /// Specifies the unique Amazon Resource Name (ARN) of the server.
   @_s.JsonKey(name: 'Arn')
   final String arn;
 
-  /// The virtual private cloud (VPC) endpoint settings that you configured for
-  /// your SFTP server.
+  /// Specifies the ARN of the AWS Certificate Manager (ACM) certificate. Required
+  /// when <code>Protocols</code> is set to <code>FTPS</code>.
+  @_s.JsonKey(name: 'Certificate')
+  final String certificate;
+
+  /// Specifies the virtual private cloud (VPC) endpoint settings that you
+  /// configured for your server.
   @_s.JsonKey(name: 'EndpointDetails')
   final EndpointDetails endpointDetails;
 
-  /// The type of endpoint that your SFTP server is connected to. If your SFTP
+  /// Defines the type of endpoint that your server is connected to. If your
   /// server is connected to a VPC endpoint, your server isn't accessible over the
   /// public internet.
   @_s.JsonKey(name: 'EndpointType')
   final EndpointType endpointType;
 
-  /// This value contains the message-digest algorithm (MD5) hash of the server's
-  /// host key. This value is equivalent to the output of the <code>ssh-keygen -l
-  /// -E md5 -f my-new-server-key</code> command.
+  /// Specifies the Base64-encoded SHA256 fingerprint of the server's host key.
+  /// This value is equivalent to the output of the <code>ssh-keygen -l -f
+  /// my-new-server-key</code> command.
   @_s.JsonKey(name: 'HostKeyFingerprint')
   final String hostKeyFingerprint;
 
   /// Specifies information to call a customer-supplied authentication API. This
-  /// field is not populated when the <code>IdentityProviderType</code> of the
-  /// server is <code>SERVICE_MANAGED</code>&gt;.
+  /// field is not populated when the <code>IdentityProviderType</code> of a
+  /// server is <code>SERVICE_MANAGED</code>.
   @_s.JsonKey(name: 'IdentityProviderDetails')
   final IdentityProviderDetails identityProviderDetails;
 
-  /// This property defines the mode of authentication method enabled for this
-  /// service. A value of <code>SERVICE_MANAGED</code> means that you are using
-  /// this server to store and access SFTP user credentials within the service. A
-  /// value of <code>API_GATEWAY</code> indicates that you have integrated an API
-  /// Gateway endpoint that will be invoked for authenticating your user into the
-  /// service.
+  /// Specifies the mode of authentication method enabled for this service. A
+  /// value of <code>SERVICE_MANAGED</code> means that you are using this server
+  /// to store and access user credentials within the service. A value of
+  /// <code>API_GATEWAY</code> indicates that you have integrated an API Gateway
+  /// endpoint that will be invoked for authenticating your user into the service.
   @_s.JsonKey(name: 'IdentityProviderType')
   final IdentityProviderType identityProviderType;
 
-  /// This property is an AWS Identity and Access Management (IAM) entity that
-  /// allows the server to turn on Amazon CloudWatch logging for Amazon S3 events.
-  /// When set, user activity can be viewed in your CloudWatch logs.
+  /// Specifies the AWS Identity and Access Management (IAM) role that allows a
+  /// server to turn on Amazon CloudWatch logging for Amazon S3 events. When set,
+  /// user activity can be viewed in your CloudWatch logs.
   @_s.JsonKey(name: 'LoggingRole')
   final String loggingRole;
 
-  /// This property is a unique system-assigned identifier for the SFTP server
-  /// that you instantiate.
+  /// Specifies the file transfer protocol or protocols over which your file
+  /// transfer protocol client can connect to your server's endpoint. The
+  /// available protocols are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SFTP</code> (Secure Shell (SSH) File Transfer Protocol): File transfer
+  /// over SSH
+  /// </li>
+  /// <li>
+  /// <code>FTPS</code> (File Transfer Protocol Secure): File transfer with TLS
+  /// encryption
+  /// </li>
+  /// <li>
+  /// <code>FTP</code> (File Transfer Protocol): Unencrypted file transfer
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Protocols')
+  final List<Protocol> protocols;
+
+  /// Specifies the name of the security policy that is attached to the server.
+  @_s.JsonKey(name: 'SecurityPolicyName')
+  final String securityPolicyName;
+
+  /// Specifies the unique system-assigned identifier for a server that you
+  /// instantiate.
   @_s.JsonKey(name: 'ServerId')
   final String serverId;
 
-  /// The condition of the SFTP server for the server that was described. A value
-  /// of <code>ONLINE</code> indicates that the server can accept jobs and
+  /// Specifies the condition of a server for the server that was described. A
+  /// value of <code>ONLINE</code> indicates that the server can accept jobs and
   /// transfer files. A <code>State</code> value of <code>OFFLINE</code> means
   /// that the server cannot perform file transfer operations.
   ///
@@ -1733,24 +2205,27 @@ class DescribedServer {
   @_s.JsonKey(name: 'State')
   final State state;
 
-  /// This property contains the key-value pairs that you can use to search for
-  /// and group servers that were assigned to the server that was described.
+  /// Specifies the key-value pairs that you can use to search for and group
+  /// servers that were assigned to the server that was described.
   @_s.JsonKey(name: 'Tags')
   final List<Tag> tags;
 
-  /// The number of users that are assigned to the SFTP server you specified with
-  /// the <code>ServerId</code>.
+  /// Specifies the number of users that are assigned to a server you specified
+  /// with the <code>ServerId</code>.
   @_s.JsonKey(name: 'UserCount')
   final int userCount;
 
   DescribedServer({
     @_s.required this.arn,
+    this.certificate,
     this.endpointDetails,
     this.endpointType,
     this.hostKeyFingerprint,
     this.identityProviderDetails,
     this.identityProviderType,
     this.loggingRole,
+    this.protocols,
+    this.securityPolicyName,
     this.serverId,
     this.state,
     this.tags,
@@ -1760,51 +2235,48 @@ class DescribedServer {
       _$DescribedServerFromJson(json);
 }
 
-/// Returns properties of the user that you want to describe.
+/// Describes the properties of a user that was specified.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DescribedUser {
-  /// This property contains the unique Amazon Resource Name (ARN) for the user
-  /// that was requested to be described.
+  /// Specifies the unique Amazon Resource Name (ARN) for the user that was
+  /// requested to be described.
   @_s.JsonKey(name: 'Arn')
   final String arn;
 
-  /// This property specifies the landing directory (or folder), which is the
-  /// location that files are written to or read from in an Amazon S3 bucket for
-  /// the described user. An example is <code>/<i>your s3 bucket
-  /// name</i>/home/<i>username</i> </code>.
+  /// Specifies the landing directory (or folder), which is the location that
+  /// files are written to or read from in an Amazon S3 bucket, for the described
+  /// user. An example is <i>
+  /// <code>your-Amazon-S3-bucket-name&gt;/home/username</code> </i>.
   @_s.JsonKey(name: 'HomeDirectory')
   final String homeDirectory;
 
-  /// Logical directory mappings that you specified for what S3 paths and keys
-  /// should be visible to your user and how you want to make them visible. You
-  /// will need to specify the "<code>Entry</code>" and "<code>Target</code>"
-  /// pair, where <code>Entry</code> shows how the path is made visible and
-  /// <code>Target</code> is the actual S3 path. If you only specify a target, it
-  /// will be displayed as is. You will need to also make sure that your AWS IAM
-  /// Role provides access to paths in <code>Target</code>.
+  /// Specifies the logical directory mappings that specify what Amazon S3 paths
+  /// and keys should be visible to your user and how you want to make them
+  /// visible. You will need to specify the "<code>Entry</code>" and
+  /// "<code>Target</code>" pair, where <code>Entry</code> shows how the path is
+  /// made visible and <code>Target</code> is the actual Amazon S3 path. If you
+  /// only specify a target, it will be displayed as is. You will need to also
+  /// make sure that your AWS Identity and Access Management (IAM) role provides
+  /// access to paths in <code>Target</code>.
   ///
-  /// In most cases, you can use this value instead of the scope down policy to
-  /// lock your user down to the designated home directory ("chroot"). To do this,
-  /// you can set <code>Entry</code> to '/' and set <code>Target</code> to the
-  /// HomeDirectory parameter value.
-  ///
-  /// In most cases, you can use this value instead of the scope down policy to
+  /// In most cases, you can use this value instead of the scope-down policy to
   /// lock your user down to the designated home directory ("chroot"). To do this,
   /// you can set <code>Entry</code> to '/' and set <code>Target</code> to the
   /// HomeDirectory parameter value.
   @_s.JsonKey(name: 'HomeDirectoryMappings')
   final List<HomeDirectoryMapEntry> homeDirectoryMappings;
 
-  /// The type of landing directory (folder) you mapped for your users' to see
-  /// when they log into the SFTP server. If you set it to <code>PATH</code>, the
-  /// user will see the absolute Amazon S3 bucket paths as is in their SFTP
-  /// clients. If you set it <code>LOGICAL</code>, you will need to provide
-  /// mappings in the <code>HomeDirectoryMappings</code> for how you want to make
-  /// S3 paths visible to your user.
+  /// Specifies the type of landing directory (folder) you mapped for your users
+  /// to see when they log into the file transfer protocol-enabled server. If you
+  /// set it to <code>PATH</code>, the user will see the absolute Amazon S3 bucket
+  /// paths as is in their file transfer protocol clients. If you set it
+  /// <code>LOGICAL</code>, you will need to provide mappings in the
+  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 paths
+  /// visible to your users.
   @_s.JsonKey(name: 'HomeDirectoryType')
   final HomeDirectoryType homeDirectoryType;
 
@@ -1812,28 +2284,28 @@ class DescribedUser {
   @_s.JsonKey(name: 'Policy')
   final String policy;
 
-  /// This property specifies the IAM role that controls your user's access to
-  /// your Amazon S3 bucket. The policies attached to this role will determine the
-  /// level of access you want to provide your users when transferring files into
-  /// and out of your Amazon S3 bucket or buckets. The IAM role should also
-  /// contain a trust relationship that allows the SFTP server to access your
-  /// resources when servicing your SFTP user's transfer requests.
+  /// Specifies the IAM role that controls your users' access to your Amazon S3
+  /// bucket. The policies attached to this role will determine the level of
+  /// access you want to provide your users when transferring files into and out
+  /// of your Amazon S3 bucket or buckets. The IAM role should also contain a
+  /// trust relationship that allows a server to access your resources when
+  /// servicing your users' transfer requests.
   @_s.JsonKey(name: 'Role')
   final String role;
 
-  /// This property contains the public key portion of the Secure Shell (SSH) keys
-  /// stored for the described user.
+  /// Specifies the public key portion of the Secure Shell (SSH) keys stored for
+  /// the described user.
   @_s.JsonKey(name: 'SshPublicKeys')
   final List<SshPublicKey> sshPublicKeys;
 
-  /// This property contains the key-value pairs for the user requested. Tag can
-  /// be used to search for and group users for a variety of purposes.
+  /// Specifies the key-value pairs for the user requested. Tag can be used to
+  /// search for and group users for a variety of purposes.
   @_s.JsonKey(name: 'Tags')
   final List<Tag> tags;
 
-  /// This property is the name of the user that was requested to be described.
-  /// User names are used for authentication purposes. This is the string that
-  /// will be used by your user when they log in to your SFTP server.
+  /// Specifies the name of the user that was requested to be described. User
+  /// names are used for authentication purposes. This is the string that will be
+  /// used by your user when they log in to your server.
   @_s.JsonKey(name: 'UserName')
   final String userName;
 
@@ -1853,10 +2325,10 @@ class DescribedUser {
 }
 
 /// The virtual private cloud (VPC) endpoint settings that are configured for
-/// your SFTP server. With a VPC endpoint, you can restrict access to your SFTP
-/// server and resources only within your VPC. To control incoming internet
-/// traffic, invoke the <code>UpdateServer</code> API and attach an Elastic IP
-/// to your server's endpoint.
+/// your file transfer protocol-enabled server. With a VPC endpoint, you can
+/// restrict access to your server and resources only within your VPC. To
+/// control incoming internet traffic, invoke the <code>UpdateServer</code> API
+/// and attach an Elastic IP to your server's endpoint.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1864,31 +2336,56 @@ class DescribedUser {
     createToJson: true)
 class EndpointDetails {
   /// A list of address allocation IDs that are required to attach an Elastic IP
-  /// address to your SFTP server's endpoint. This is only valid in the
-  /// <code>UpdateServer</code> API.
+  /// address to your server's endpoint.
   /// <note>
-  /// This property can only be use when <code>EndpointType</code> is set to
-  /// <code>VPC</code>.
+  /// This property can only be set when <code>EndpointType</code> is set to
+  /// <code>VPC</code> and it is only valid in the <code>UpdateServer</code> API.
   /// </note>
   @_s.JsonKey(name: 'AddressAllocationIds')
   final List<String> addressAllocationIds;
 
-  /// A list of subnet IDs that are required to host your SFTP server endpoint in
-  /// your VPC.
+  /// A list of security groups IDs that are available to attach to your server's
+  /// endpoint.
+  /// <note>
+  /// This property can only be set when <code>EndpointType</code> is set to
+  /// <code>VPC</code>.
+  ///
+  /// You can only edit the <code>SecurityGroupIds</code> property in the
+  /// <code>UpdateServer</code> API and only if you are changing the
+  /// <code>EndpointType</code> from <code>PUBLIC</code> or
+  /// <code>VPC_ENDPOINT</code> to <code>VPC</code>.
+  /// </note>
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// A list of subnet IDs that are required to host your server endpoint in your
+  /// VPC.
+  /// <note>
+  /// This property can only be set when <code>EndpointType</code> is set to
+  /// <code>VPC</code>.
+  /// </note>
   @_s.JsonKey(name: 'SubnetIds')
   final List<String> subnetIds;
 
   /// The ID of the VPC endpoint.
+  /// <note>
+  /// This property can only be set when <code>EndpointType</code> is set to
+  /// <code>VPC_ENDPOINT</code>.
+  /// </note>
   @_s.JsonKey(name: 'VpcEndpointId')
   final String vpcEndpointId;
 
-  /// The VPC ID of the virtual private cloud in which the SFTP server's endpoint
-  /// will be hosted.
+  /// The VPC ID of the VPC in which a server's endpoint will be hosted.
+  /// <note>
+  /// This property can only be set when <code>EndpointType</code> is set to
+  /// <code>VPC</code>.
+  /// </note>
   @_s.JsonKey(name: 'VpcId')
   final String vpcId;
 
   EndpointDetails({
     this.addressAllocationIds,
+    this.securityGroupIds,
     this.subnetIds,
     this.vpcEndpointId,
     this.vpcId,
@@ -1922,7 +2419,7 @@ extension on EndpointType {
   }
 }
 
-/// Represents an object that contains entries and a targets for
+/// Represents an object that contains entries and targets for
 /// <code>HomeDirectoryMappings</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1969,21 +2466,20 @@ extension on HomeDirectoryType {
 }
 
 /// Returns information related to the type of user authentication that is in
-/// use for a server's users. A server can have only one method of
-/// authentication.
+/// use for a file transfer protocol-enabled server's users. A server can have
+/// only one method of authentication.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class IdentityProviderDetails {
-  /// The <code>InvocationRole</code> parameter provides the type of
-  /// <code>InvocationRole</code> used to authenticate the user account.
+  /// Provides the type of <code>InvocationRole</code> used to authenticate the
+  /// user account.
   @_s.JsonKey(name: 'InvocationRole')
   final String invocationRole;
 
-  /// The <code>Url</code> parameter provides contains the location of the service
-  /// endpoint used to authenticate users.
+  /// Provides the location of the service endpoint used to authenticate users.
   @_s.JsonKey(name: 'Url')
   final String url;
 
@@ -1998,11 +2494,12 @@ class IdentityProviderDetails {
 }
 
 /// Returns information related to the type of user authentication that is in
-/// use for a server's users. For <code>SERVICE_MANAGED</code> authentication,
-/// the Secure Shell (SSH) public keys are stored with a user on an SFTP server
-/// instance. For <code>API_GATEWAY</code> authentication, your custom
-/// authentication method is implemented by using an API call. A server can have
-/// only one method of authentication.
+/// use for a file transfer protocol-enabled server's users. For
+/// <code>SERVICE_MANAGED</code> authentication, the Secure Shell (SSH) public
+/// keys are stored with a user on the server instance. For
+/// <code>API_GATEWAY</code> authentication, your custom authentication method
+/// is implemented by using an API call. The server can have only one method of
+/// authentication.
 enum IdentityProviderType {
   @_s.JsonValue('SERVICE_MANAGED')
   serviceManaged,
@@ -2022,21 +2519,20 @@ extension on IdentityProviderType {
   }
 }
 
-/// This response identifies the user, the server they belong to, and the
-/// identifier of the SSH public key associated with that user. A user can have
-/// more than one key on each server that they are associated with.
+/// Identifies the user, the server they belong to, and the identifier of the
+/// SSH public key associated with that user. A user can have more than one key
+/// on each server that they are associated with.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ImportSshPublicKeyResponse {
-  /// A system-assigned unique identifier for an SFTP server.
+  /// A system-assigned unique identifier for a server.
   @_s.JsonKey(name: 'ServerId')
   final String serverId;
 
-  /// This identifier is the name given to a public key by the system that was
-  /// imported.
+  /// The name given to a public key by the system that was imported.
   @_s.JsonKey(name: 'SshPublicKeyId')
   final String sshPublicKeyId;
 
@@ -2051,6 +2547,31 @@ class ImportSshPublicKeyResponse {
   });
   factory ImportSshPublicKeyResponse.fromJson(Map<String, dynamic> json) =>
       _$ImportSshPublicKeyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListSecurityPoliciesResponse {
+  /// An array of security policies that were listed.
+  @_s.JsonKey(name: 'SecurityPolicyNames')
+  final List<String> securityPolicyNames;
+
+  /// When you can get additional results from the
+  /// <code>ListSecurityPolicies</code> operation, a <code>NextToken</code>
+  /// parameter is returned in the output. In a following command, you can pass in
+  /// the <code>NextToken</code> parameter to continue listing security policies.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListSecurityPoliciesResponse({
+    @_s.required this.securityPolicyNames,
+    this.nextToken,
+  });
+  factory ListSecurityPoliciesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListSecurityPoliciesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2084,7 +2605,7 @@ class ListServersResponse {
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
-  /// This value is the ARN you specified to list the tags of.
+  /// The ARN you specified to list the tags of.
   @_s.JsonKey(name: 'Arn')
   final String arn;
 
@@ -2115,8 +2636,8 @@ class ListTagsForResourceResponse {
     createFactory: true,
     createToJson: false)
 class ListUsersResponse {
-  /// A system-assigned unique identifier for an SFTP server that the users are
-  /// assigned to.
+  /// A system-assigned unique identifier for a server that the users are assigned
+  /// to.
   @_s.JsonKey(name: 'ServerId')
   final String serverId;
 
@@ -2141,45 +2662,45 @@ class ListUsersResponse {
       _$ListUsersResponseFromJson(json);
 }
 
-/// Returns properties of the server that was specified.
+/// Returns properties of a file transfer protocol-enabled server that was
+/// specified.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListedServer {
-  /// The unique Amazon Resource Name (ARN) for the server to be listed.
+  /// Specifies the unique Amazon Resource Name (ARN) for a server to be listed.
   @_s.JsonKey(name: 'Arn')
   final String arn;
 
-  /// The type of VPC endpoint that your SFTP server is connected to. If your SFTP
+  /// Specifies the type of VPC endpoint that your server is connected to. If your
   /// server is connected to a VPC endpoint, your server isn't accessible over the
   /// public internet.
   @_s.JsonKey(name: 'EndpointType')
   final EndpointType endpointType;
 
-  /// The authentication method used to validate a user for the server that was
-  /// specified. This can include Secure Shell (SSH), user name and password
-  /// combinations, or your own custom authentication method. Valid values include
-  /// <code>SERVICE_MANAGED</code> or <code>API_GATEWAY</code>.
+  /// Specifies the authentication method used to validate a user for a server
+  /// that was specified. This can include Secure Shell (SSH), user name and
+  /// password combinations, or your own custom authentication method. Valid
+  /// values include <code>SERVICE_MANAGED</code> or <code>API_GATEWAY</code>.
   @_s.JsonKey(name: 'IdentityProviderType')
   final IdentityProviderType identityProviderType;
 
-  /// The AWS Identity and Access Management entity that allows the server to turn
-  /// on Amazon CloudWatch logging.
+  /// Specifies the AWS Identity and Access Management (IAM) role that allows a
+  /// server to turn on Amazon CloudWatch logging.
   @_s.JsonKey(name: 'LoggingRole')
   final String loggingRole;
 
-  /// This value is the unique system assigned identifier for the SFTP servers
-  /// that were listed.
+  /// Specifies the unique system assigned identifier for the servers that were
+  /// listed.
   @_s.JsonKey(name: 'ServerId')
   final String serverId;
 
-  /// This property describes the condition of the SFTP server for the server that
-  /// was described. A value of <code>ONLINE</code>&gt; indicates that the server
-  /// can accept jobs and transfer files. A <code>State</code> value of
-  /// <code>OFFLINE</code> means that the server cannot perform file transfer
-  /// operations.
+  /// Specifies the condition of a server for the server that was described. A
+  /// value of <code>ONLINE</code> indicates that the server can accept jobs and
+  /// transfer files. A <code>State</code> value of <code>OFFLINE</code> means
+  /// that the server cannot perform file transfer operations.
   ///
   /// The states of <code>STARTING</code> and <code>STOPPING</code> indicate that
   /// the server is in an intermediate state, either not fully able to respond, or
@@ -2188,8 +2709,8 @@ class ListedServer {
   @_s.JsonKey(name: 'State')
   final State state;
 
-  /// This property is a numeric value that indicates the number of users that are
-  /// assigned to the SFTP server you specified with the <code>ServerId</code>.
+  /// Specifies the number of users that are assigned to a server you specified
+  /// with the <code>ServerId</code>.
   @_s.JsonKey(name: 'UserCount')
   final int userCount;
 
@@ -2213,39 +2734,39 @@ class ListedServer {
     createFactory: true,
     createToJson: false)
 class ListedUser {
-  /// This property is the unique Amazon Resource Name (ARN) for the user that you
-  /// want to learn about.
+  /// Provides the unique Amazon Resource Name (ARN) for the user that you want to
+  /// learn about.
   @_s.JsonKey(name: 'Arn')
   final String arn;
 
-  /// This value specifies the location that files are written to or read from an
-  /// Amazon S3 bucket for the user you specify by their ARN.
+  /// Specifies the location that files are written to or read from an Amazon S3
+  /// bucket for the user you specify by their ARN.
   @_s.JsonKey(name: 'HomeDirectory')
   final String homeDirectory;
 
-  /// The type of landing directory (folder) you mapped for your users' home
-  /// directory. If you set it to <code>PATH</code>, the user will see the
-  /// absolute Amazon S3 bucket paths as is in their SFTP clients. If you set it
-  /// <code>LOGICAL</code>, you will need to provide mappings in the
-  /// <code>HomeDirectoryMappings</code> for how you want to make S3 paths visible
-  /// to your user.
+  /// Specifies the type of landing directory (folder) you mapped for your users'
+  /// home directory. If you set it to <code>PATH</code>, the user will see the
+  /// absolute Amazon S3 bucket paths as is in their file transfer protocol
+  /// clients. If you set it <code>LOGICAL</code>, you will need to provide
+  /// mappings in the <code>HomeDirectoryMappings</code> for how you want to make
+  /// Amazon S3 paths visible to your users.
   @_s.JsonKey(name: 'HomeDirectoryType')
   final HomeDirectoryType homeDirectoryType;
 
-  /// The role in use by this user. A <i>role</i> is an AWS Identity and Access
-  /// Management (IAM) entity that, in this case, allows the SFTP server to act on
-  /// a user's behalf. It allows the server to inherit the trust relationship that
-  /// enables that user to perform file operations to their Amazon S3 bucket.
+  /// Specifies the role that is in use by this user. A <i>role</i> is an AWS
+  /// Identity and Access Management (IAM) entity that, in this case, allows a
+  /// file transfer protocol-enabled server to act on a user's behalf. It allows
+  /// the server to inherit the trust relationship that enables that user to
+  /// perform file operations to their Amazon S3 bucket.
   @_s.JsonKey(name: 'Role')
   final String role;
 
-  /// This value is the number of SSH public keys stored for the user you
-  /// specified.
+  /// Specifies the number of SSH public keys stored for the user you specified.
   @_s.JsonKey(name: 'SshPublicKeyCount')
   final int sshPublicKeyCount;
 
-  /// The name of the user whose ARN was specified. User names are used for
-  /// authentication purposes.
+  /// Specifies the name of the user whose ARN was specified. User names are used
+  /// for authentication purposes.
   @_s.JsonKey(name: 'UserName')
   final String userName;
 
@@ -2261,30 +2782,53 @@ class ListedUser {
       _$ListedUserFromJson(json);
 }
 
+enum Protocol {
+  @_s.JsonValue('SFTP')
+  sftp,
+  @_s.JsonValue('FTP')
+  ftp,
+  @_s.JsonValue('FTPS')
+  ftps,
+}
+
+extension on Protocol {
+  String toValue() {
+    switch (this) {
+      case Protocol.sftp:
+        return 'SFTP';
+      case Protocol.ftp:
+        return 'FTP';
+      case Protocol.ftps:
+        return 'FTPS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Provides information about the public Secure Shell (SSH) key that is
-/// associated with a user account for a specific server (as identified by
-/// <code>ServerId</code>). The information returned includes the date the key
-/// was imported, the public key contents, and the public key ID. A user can
-/// store more than one SSH public key associated with their user name on a
-/// specific SFTP server.
+/// associated with a user account for the specific file transfer
+/// protocol-enabled server (as identified by <code>ServerId</code>). The
+/// information returned includes the date the key was imported, the public key
+/// contents, and the public key ID. A user can store more than one SSH public
+/// key associated with their user name on a specific server.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SshPublicKey {
-  /// The date that the public key was added to the user account.
+  /// Specifies the date that the public key was added to the user account.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'DateImported')
   final DateTime dateImported;
 
-  /// The content of the SSH public key as specified by the
+  /// Specifies the content of the SSH public key as specified by the
   /// <code>PublicKeyId</code>.
   @_s.JsonKey(name: 'SshPublicKeyBody')
   final String sshPublicKeyBody;
 
-  /// The <code>SshPublicKeyId</code> parameter contains the identifier of the
-  /// public key.
+  /// Specifies the <code>SshPublicKeyId</code> parameter contains the identifier
+  /// of the public key.
   @_s.JsonKey(name: 'SshPublicKeyId')
   final String sshPublicKeyId;
 
@@ -2297,18 +2841,18 @@ class SshPublicKey {
       _$SshPublicKeyFromJson(json);
 }
 
-/// Describes the condition of the SFTP server with respect to its ability to
-/// perform file operations. There are six possible states:
-/// <code>OFFLINE</code>, <code>ONLINE</code>, <code>STARTING</code>,
+/// Describes the condition of a file transfer protocol-enabled server with
+/// respect to its ability to perform file operations. There are six possible
+/// states: <code>OFFLINE</code>, <code>ONLINE</code>, <code>STARTING</code>,
 /// <code>STOPPING</code>, <code>START_FAILED</code>, and
 /// <code>STOP_FAILED</code>.
 ///
-/// <code>OFFLINE</code> indicates that the SFTP server exists, but that it is
-/// not available for file operations. <code>ONLINE</code> indicates that the
-/// SFTP server is available to perform file operations. <code>STARTING</code>
-/// indicates that the SFTP server's was instantiated, but the server is not yet
-/// available to perform file operations. Under normal conditions, it can take a
-/// couple of minutes for an SFTP server to be completely operational. Both
+/// <code>OFFLINE</code> indicates that the server exists, but that it is not
+/// available for file operations. <code>ONLINE</code> indicates that the server
+/// is available to perform file operations. <code>STARTING</code> indicates
+/// that the server's was instantiated, but the server is not yet available to
+/// perform file operations. Under normal conditions, it can take a couple of
+/// minutes for the server to be completely operational. Both
 /// <code>START_FAILED</code> and <code>STOP_FAILED</code> are error conditions.
 enum State {
   @_s.JsonValue('OFFLINE')
@@ -2341,8 +2885,7 @@ class Tag {
   @_s.JsonKey(name: 'Key')
   final String key;
 
-  /// This property contains one or more values that you assigned to the key name
-  /// you create.
+  /// Contains one or more values that you assigned to the key name you create.
   @_s.JsonKey(name: 'Value')
   final String value;
 
@@ -2393,8 +2936,8 @@ class TestIdentityProviderResponse {
     createFactory: true,
     createToJson: false)
 class UpdateServerResponse {
-  /// A system-assigned unique identifier for an SFTP server that the user account
-  /// is assigned to.
+  /// A system-assigned unique identifier for a server that the user account is
+  /// assigned to.
   @_s.JsonKey(name: 'ServerId')
   final String serverId;
 
@@ -2405,21 +2948,21 @@ class UpdateServerResponse {
       _$UpdateServerResponseFromJson(json);
 }
 
-/// <code>UpdateUserResponse</code> returns the user name and server identifier
-/// for the request to update a user's properties.
+/// <code>UpdateUserResponse</code> returns the user name and identifier for the
+/// request to update a user's properties.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateUserResponse {
-  /// A system-assigned unique identifier for an SFTP server instance that the
-  /// user account is assigned to.
+  /// A system-assigned unique identifier for a server instance that the user
+  /// account is assigned to.
   @_s.JsonKey(name: 'ServerId')
   final String serverId;
 
-  /// The unique identifier for a user that is assigned to the SFTP server
-  /// instance that was specified in the request.
+  /// The unique identifier for a user that is assigned to a server instance that
+  /// was specified in the request.
   @_s.JsonKey(name: 'UserName')
   final String userName;
 
@@ -2429,6 +2972,11 @@ class UpdateUserResponse {
   });
   factory UpdateUserResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateUserResponseFromJson(json);
+}
+
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String type, String message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
@@ -2473,6 +3021,8 @@ class ThrottlingException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
   'InternalServiceError': (type, message) =>

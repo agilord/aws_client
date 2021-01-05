@@ -81,6 +81,34 @@ Map<String, dynamic> _$FilterToJson(Filter instance) {
   return val;
 }
 
+Map<String, dynamic> _$InstanceMetadataOptionsToJson(
+    InstanceMetadataOptions instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HttpEndpoint',
+      _$InstanceMetadataEndpointStateEnumMap[instance.httpEndpoint]);
+  writeNotNull('HttpPutResponseHopLimit', instance.httpPutResponseHopLimit);
+  writeNotNull('HttpTokens',
+      _$InstanceMetadataHttpTokensStateEnumMap[instance.httpTokens]);
+  return val;
+}
+
+const _$InstanceMetadataEndpointStateEnumMap = {
+  InstanceMetadataEndpointState.disabled: 'disabled',
+  InstanceMetadataEndpointState.enabled: 'enabled',
+};
+
+const _$InstanceMetadataHttpTokensStateEnumMap = {
+  InstanceMetadataHttpTokensState.optional: 'optional',
+  InstanceMetadataHttpTokensState.required: 'required',
+};
+
 Map<String, dynamic> _$InstanceMonitoringToJson(InstanceMonitoring instance) {
   final val = <String, dynamic>{};
 
@@ -142,6 +170,8 @@ Map<String, dynamic> _$LaunchTemplateOverridesToJson(
   }
 
   writeNotNull('InstanceType', instance.instanceType);
+  writeNotNull('LaunchTemplateSpecification',
+      instance.launchTemplateSpecification?.toJson());
   writeNotNull('WeightedCapacity', instance.weightedCapacity);
   return val;
 }
@@ -234,6 +264,20 @@ const _$MetricTypeEnumMap = {
   MetricType.aSGAverageNetworkOut: 'ASGAverageNetworkOut',
   MetricType.aLBRequestCountPerTarget: 'ALBRequestCountPerTarget',
 };
+
+Map<String, dynamic> _$RefreshPreferencesToJson(RefreshPreferences instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InstanceWarmup', instance.instanceWarmup);
+  writeNotNull('MinHealthyPercentage', instance.minHealthyPercentage);
+  return val;
+}
 
 Map<String, dynamic> _$ScheduledUpdateGroupActionRequestToJson(
     ScheduledUpdateGroupActionRequest instance) {

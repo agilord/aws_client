@@ -22,6 +22,14 @@ AnnotationValue _$AnnotationValueFromJson(Map<String, dynamic> json) {
   );
 }
 
+AnomalousService _$AnomalousServiceFromJson(Map<String, dynamic> json) {
+  return AnomalousService(
+    serviceId: json['ServiceId'] == null
+        ? null
+        : ServiceId.fromJson(json['ServiceId'] as Map<String, dynamic>),
+  );
+}
+
 AvailabilityZoneDetail _$AvailabilityZoneDetailFromJson(
     Map<String, dynamic> json) {
   return AvailabilityZoneDetail(
@@ -273,6 +281,13 @@ FaultStatistics _$FaultStatisticsFromJson(Map<String, dynamic> json) {
   );
 }
 
+ForecastStatistics _$ForecastStatisticsFromJson(Map<String, dynamic> json) {
+  return ForecastStatistics(
+    faultCountHigh: json['FaultCountHigh'] as int,
+    faultCountLow: json['FaultCountLow'] as int,
+  );
+}
+
 GetEncryptionConfigResult _$GetEncryptionConfigResultFromJson(
     Map<String, dynamic> json) {
   return GetEncryptionConfigResult(
@@ -296,6 +311,56 @@ GetGroupsResult _$GetGroupsResultFromJson(Map<String, dynamic> json) {
     groups: (json['Groups'] as List)
         ?.map((e) =>
             e == null ? null : GroupSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+GetInsightEventsResult _$GetInsightEventsResultFromJson(
+    Map<String, dynamic> json) {
+  return GetInsightEventsResult(
+    insightEvents: (json['InsightEvents'] as List)
+        ?.map((e) =>
+            e == null ? null : InsightEvent.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+GetInsightImpactGraphResult _$GetInsightImpactGraphResultFromJson(
+    Map<String, dynamic> json) {
+  return GetInsightImpactGraphResult(
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    insightId: json['InsightId'] as String,
+    nextToken: json['NextToken'] as String,
+    serviceGraphEndTime:
+        const UnixDateTimeConverter().fromJson(json['ServiceGraphEndTime']),
+    serviceGraphStartTime:
+        const UnixDateTimeConverter().fromJson(json['ServiceGraphStartTime']),
+    services: (json['Services'] as List)
+        ?.map((e) => e == null
+            ? null
+            : InsightImpactGraphService.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+  );
+}
+
+GetInsightResult _$GetInsightResultFromJson(Map<String, dynamic> json) {
+  return GetInsightResult(
+    insight: json['Insight'] == null
+        ? null
+        : Insight.fromJson(json['Insight'] as Map<String, dynamic>),
+  );
+}
+
+GetInsightSummariesResult _$GetInsightSummariesResultFromJson(
+    Map<String, dynamic> json) {
+  return GetInsightSummariesResult(
+    insightSummaries: (json['InsightSummaries'] as List)
+        ?.map((e) => e == null
+            ? null
+            : InsightSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
@@ -399,6 +464,10 @@ Group _$GroupFromJson(Map<String, dynamic> json) {
     filterExpression: json['FilterExpression'] as String,
     groupARN: json['GroupARN'] as String,
     groupName: json['GroupName'] as String,
+    insightsConfiguration: json['InsightsConfiguration'] == null
+        ? null
+        : InsightsConfiguration.fromJson(
+            json['InsightsConfiguration'] as Map<String, dynamic>),
   );
 }
 
@@ -407,6 +476,10 @@ GroupSummary _$GroupSummaryFromJson(Map<String, dynamic> json) {
     filterExpression: json['FilterExpression'] as String,
     groupARN: json['GroupARN'] as String,
     groupName: json['GroupName'] as String,
+    insightsConfiguration: json['InsightsConfiguration'] == null
+        ? null
+        : InsightsConfiguration.fromJson(
+            json['InsightsConfiguration'] as Map<String, dynamic>),
   );
 }
 
@@ -427,9 +500,166 @@ Http _$HttpFromJson(Map<String, dynamic> json) {
   );
 }
 
+Insight _$InsightFromJson(Map<String, dynamic> json) {
+  return Insight(
+    categories: (json['Categories'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$InsightCategoryEnumMap, e))
+        ?.toList(),
+    clientRequestImpactStatistics: json['ClientRequestImpactStatistics'] == null
+        ? null
+        : RequestImpactStatistics.fromJson(
+            json['ClientRequestImpactStatistics'] as Map<String, dynamic>),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    groupARN: json['GroupARN'] as String,
+    groupName: json['GroupName'] as String,
+    insightId: json['InsightId'] as String,
+    rootCauseServiceId: json['RootCauseServiceId'] == null
+        ? null
+        : ServiceId.fromJson(
+            json['RootCauseServiceId'] as Map<String, dynamic>),
+    rootCauseServiceRequestImpactStatistics:
+        json['RootCauseServiceRequestImpactStatistics'] == null
+            ? null
+            : RequestImpactStatistics.fromJson(
+                json['RootCauseServiceRequestImpactStatistics']
+                    as Map<String, dynamic>),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+    state: _$enumDecodeNullable(_$InsightStateEnumMap, json['State']),
+    summary: json['Summary'] as String,
+    topAnomalousServices: (json['TopAnomalousServices'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AnomalousService.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+const _$InsightCategoryEnumMap = {
+  InsightCategory.fault: 'FAULT',
+};
+
+const _$InsightStateEnumMap = {
+  InsightState.active: 'ACTIVE',
+  InsightState.closed: 'CLOSED',
+};
+
+InsightEvent _$InsightEventFromJson(Map<String, dynamic> json) {
+  return InsightEvent(
+    clientRequestImpactStatistics: json['ClientRequestImpactStatistics'] == null
+        ? null
+        : RequestImpactStatistics.fromJson(
+            json['ClientRequestImpactStatistics'] as Map<String, dynamic>),
+    eventTime: const UnixDateTimeConverter().fromJson(json['EventTime']),
+    rootCauseServiceRequestImpactStatistics:
+        json['RootCauseServiceRequestImpactStatistics'] == null
+            ? null
+            : RequestImpactStatistics.fromJson(
+                json['RootCauseServiceRequestImpactStatistics']
+                    as Map<String, dynamic>),
+    summary: json['Summary'] as String,
+    topAnomalousServices: (json['TopAnomalousServices'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AnomalousService.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+InsightImpactGraphEdge _$InsightImpactGraphEdgeFromJson(
+    Map<String, dynamic> json) {
+  return InsightImpactGraphEdge(
+    referenceId: json['ReferenceId'] as int,
+  );
+}
+
+InsightImpactGraphService _$InsightImpactGraphServiceFromJson(
+    Map<String, dynamic> json) {
+  return InsightImpactGraphService(
+    accountId: json['AccountId'] as String,
+    edges: (json['Edges'] as List)
+        ?.map((e) => e == null
+            ? null
+            : InsightImpactGraphEdge.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    name: json['Name'] as String,
+    names: (json['Names'] as List)?.map((e) => e as String)?.toList(),
+    referenceId: json['ReferenceId'] as int,
+    type: json['Type'] as String,
+  );
+}
+
+InsightSummary _$InsightSummaryFromJson(Map<String, dynamic> json) {
+  return InsightSummary(
+    categories: (json['Categories'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$InsightCategoryEnumMap, e))
+        ?.toList(),
+    clientRequestImpactStatistics: json['ClientRequestImpactStatistics'] == null
+        ? null
+        : RequestImpactStatistics.fromJson(
+            json['ClientRequestImpactStatistics'] as Map<String, dynamic>),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    groupARN: json['GroupARN'] as String,
+    groupName: json['GroupName'] as String,
+    insightId: json['InsightId'] as String,
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
+    rootCauseServiceId: json['RootCauseServiceId'] == null
+        ? null
+        : ServiceId.fromJson(
+            json['RootCauseServiceId'] as Map<String, dynamic>),
+    rootCauseServiceRequestImpactStatistics:
+        json['RootCauseServiceRequestImpactStatistics'] == null
+            ? null
+            : RequestImpactStatistics.fromJson(
+                json['RootCauseServiceRequestImpactStatistics']
+                    as Map<String, dynamic>),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+    state: _$enumDecodeNullable(_$InsightStateEnumMap, json['State']),
+    summary: json['Summary'] as String,
+    topAnomalousServices: (json['TopAnomalousServices'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AnomalousService.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+InsightsConfiguration _$InsightsConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return InsightsConfiguration(
+    insightsEnabled: json['InsightsEnabled'] as bool,
+    notificationsEnabled: json['NotificationsEnabled'] as bool,
+  );
+}
+
+Map<String, dynamic> _$InsightsConfigurationToJson(
+    InsightsConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('InsightsEnabled', instance.insightsEnabled);
+  writeNotNull('NotificationsEnabled', instance.notificationsEnabled);
+  return val;
+}
+
 InstanceIdDetail _$InstanceIdDetailFromJson(Map<String, dynamic> json) {
   return InstanceIdDetail(
     id: json['Id'] as String,
+  );
+}
+
+ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListTagsForResourceResponse(
+    nextToken: json['NextToken'] as String,
+    tags: (json['Tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -456,6 +686,15 @@ PutTraceSegmentsResult _$PutTraceSegmentsResultFromJson(
             ? null
             : UnprocessedTraceSegment.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+RequestImpactStatistics _$RequestImpactStatisticsFromJson(
+    Map<String, dynamic> json) {
+  return RequestImpactStatistics(
+    faultCount: json['FaultCount'] as int,
+    okCount: json['OkCount'] as int,
+    totalCount: json['TotalCount'] as int,
   );
 }
 
@@ -714,6 +953,31 @@ ServiceStatistics _$ServiceStatisticsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Tag _$TagFromJson(Map<String, dynamic> json) {
+  return Tag(
+    key: json['Key'] as String,
+    value: json['Value'] as String,
+  );
+}
+
+Map<String, dynamic> _$TagToJson(Tag instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key);
+  writeNotNull('Value', instance.value);
+  return val;
+}
+
+TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
+  return TagResourceResponse();
+}
+
 Map<String, dynamic> _$TelemetryRecordToJson(TelemetryRecord instance) {
   final val = <String, dynamic>{};
 
@@ -746,6 +1010,10 @@ TimeSeriesServiceStatistics _$TimeSeriesServiceStatisticsFromJson(
             ? null
             : HistogramEntry.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    serviceForecastStatistics: json['ServiceForecastStatistics'] == null
+        ? null
+        : ForecastStatistics.fromJson(
+            json['ServiceForecastStatistics'] as Map<String, dynamic>),
     serviceSummaryStatistics: json['ServiceSummaryStatistics'] == null
         ? null
         : ServiceStatistics.fromJson(
@@ -758,6 +1026,7 @@ Trace _$TraceFromJson(Map<String, dynamic> json) {
   return Trace(
     duration: (json['Duration'] as num)?.toDouble(),
     id: json['Id'] as String,
+    limitExceeded: json['LimitExceeded'] as bool,
     segments: (json['Segments'] as List)
         ?.map((e) =>
             e == null ? null : Segment.fromJson(e as Map<String, dynamic>))
@@ -859,6 +1128,11 @@ UnprocessedTraceSegment _$UnprocessedTraceSegmentFromJson(
     id: json['Id'] as String,
     message: json['Message'] as String,
   );
+}
+
+UntagResourceResponse _$UntagResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return UntagResourceResponse();
 }
 
 UpdateGroupResult _$UpdateGroupResultFromJson(Map<String, dynamic> json) {

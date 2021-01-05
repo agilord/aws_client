@@ -58,9 +58,17 @@ class MarketplaceMetering {
   ///
   /// BatchMeterUsage can process up to 25 UsageRecords at a time.
   ///
+  /// A UsageRecord can optionally include multiple usage allocations, to
+  /// provide customers with usagedata split into buckets by tags that you
+  /// define (or allow the customer to define).
+  ///
+  /// BatchMeterUsage requests must be less than 1MB in size.
+  ///
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidProductCodeException].
   /// May throw [InvalidUsageDimensionException].
+  /// May throw [InvalidTagException].
+  /// May throw [InvalidUsageAllocationsException].
   /// May throw [InvalidCustomerIdentifierException].
   /// May throw [TimestampOutOfBoundsException].
   /// May throw [ThrottlingException].
@@ -84,6 +92,12 @@ class MarketplaceMetering {
       productCode,
       1,
       255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'productCode',
+      productCode,
+      r'''[\s\S]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(usageRecords, 'usageRecords');
@@ -112,9 +126,15 @@ class MarketplaceMetering {
   /// MeterUsage is authenticated on the buyer's AWS account using credentials
   /// from the EC2 instance, ECS task, or EKS pod.
   ///
+  /// MeterUsage can optionally include multiple usage allocations, to provide
+  /// customers with usage data split into buckets by tags that you define (or
+  /// allow the customer to define).
+  ///
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidProductCodeException].
   /// May throw [InvalidUsageDimensionException].
+  /// May throw [InvalidTagException].
+  /// May throw [InvalidUsageAllocationsException].
   /// May throw [InvalidEndpointRegionException].
   /// May throw [TimestampOutOfBoundsException].
   /// May throw [DuplicateRequestException].
@@ -141,6 +161,13 @@ class MarketplaceMetering {
   /// DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to
   /// <code>false</code> if not specified.
   ///
+  /// Parameter [usageAllocations] :
+  /// The set of UsageAllocations to submit.
+  ///
+  /// The sum of all UsageAllocation quantities must equal the UsageQuantity of
+  /// the MeterUsage request, and each UsageAllocation must have a unique set of
+  /// tags (include no tags).
+  ///
   /// Parameter [usageQuantity] :
   /// Consumption value for the hour. Defaults to <code>0</code> if not
   /// specified.
@@ -149,6 +176,7 @@ class MarketplaceMetering {
     @_s.required DateTime timestamp,
     @_s.required String usageDimension,
     bool dryRun,
+    List<UsageAllocation> usageAllocations,
     int usageQuantity,
   }) async {
     ArgumentError.checkNotNull(productCode, 'productCode');
@@ -159,6 +187,12 @@ class MarketplaceMetering {
       255,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'productCode',
+      productCode,
+      r'''[\s\S]+''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(timestamp, 'timestamp');
     ArgumentError.checkNotNull(usageDimension, 'usageDimension');
     _s.validateStringLength(
@@ -166,6 +200,12 @@ class MarketplaceMetering {
       usageDimension,
       1,
       255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'usageDimension',
+      usageDimension,
+      r'''[\s\S]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -189,6 +229,7 @@ class MarketplaceMetering {
         'Timestamp': unixTimestampToJson(timestamp),
         'UsageDimension': usageDimension,
         if (dryRun != null) 'DryRun': dryRun,
+        if (usageAllocations != null) 'UsageAllocations': usageAllocations,
         if (usageQuantity != null) 'UsageQuantity': usageQuantity,
       },
     );
@@ -269,6 +310,12 @@ class MarketplaceMetering {
       255,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'productCode',
+      productCode,
+      r'''[\s\S]+''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(publicKeyVersion, 'publicKeyVersion');
     _s.validateNumRange(
       'publicKeyVersion',
@@ -282,6 +329,11 @@ class MarketplaceMetering {
       nonce,
       0,
       255,
+    );
+    _s.validateStringPattern(
+      'nonce',
+      nonce,
+      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -326,7 +378,7 @@ class MarketplaceMetering {
     _s.validateStringPattern(
       'registrationToken',
       registrationToken,
-      r'''\S+''',
+      r'''[\s\S]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -444,6 +496,62 @@ class ResolveCustomerResult {
       _$ResolveCustomerResultFromJson(json);
 }
 
+/// Metadata assigned to an allocation. Each tag is made up of a key and a
+/// value.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Tag {
+  /// One part of a key-value pair that makes up a tag. A key is a label that acts
+  /// like a category for the specific tag values.
+  @_s.JsonKey(name: 'Key')
+  final String key;
+
+  /// One part of a key-value pair that makes up a tag. A value acts as a
+  /// descriptor within a tag category (key). The value can be empty or null.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  Tag({
+    @_s.required this.key,
+    @_s.required this.value,
+  });
+  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+/// Usage allocations allow you to split usage into buckets by tags.
+///
+/// Each UsageAllocation indicates the usage quantity for a specific set of
+/// tags.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class UsageAllocation {
+  /// The total quantity allocated to this bucket of usage.
+  @_s.JsonKey(name: 'AllocatedUsageQuantity')
+  final int allocatedUsageQuantity;
+
+  /// The set of tags that define the bucket of usage. For the bucket of items
+  /// with no tags, this parameter can be left out.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  UsageAllocation({
+    @_s.required this.allocatedUsageQuantity,
+    this.tags,
+  });
+  factory UsageAllocation.fromJson(Map<String, dynamic> json) =>
+      _$UsageAllocationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UsageAllocationToJson(this);
+}
+
 /// A UsageRecord indicates a quantity of usage for a given product, customer,
 /// dimension and time.
 ///
@@ -479,11 +587,17 @@ class UsageRecord {
   @_s.JsonKey(name: 'Quantity')
   final int quantity;
 
+  /// The set of UsageAllocations to submit. The sum of all UsageAllocation
+  /// quantities must equal the Quantity of the UsageRecord.
+  @_s.JsonKey(name: 'UsageAllocations')
+  final List<UsageAllocation> usageAllocations;
+
   UsageRecord({
     @_s.required this.customerIdentifier,
     @_s.required this.dimension,
     @_s.required this.timestamp,
     this.quantity,
+    this.usageAllocations,
   });
   factory UsageRecord.fromJson(Map<String, dynamic> json) =>
       _$UsageRecordFromJson(json);
@@ -611,9 +725,22 @@ class InvalidRegionException extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidRegionException', message: message);
 }
 
+class InvalidTagException extends _s.GenericAwsException {
+  InvalidTagException({String type, String message})
+      : super(type: type, code: 'InvalidTagException', message: message);
+}
+
 class InvalidTokenException extends _s.GenericAwsException {
   InvalidTokenException({String type, String message})
       : super(type: type, code: 'InvalidTokenException', message: message);
+}
+
+class InvalidUsageAllocationsException extends _s.GenericAwsException {
+  InvalidUsageAllocationsException({String type, String message})
+      : super(
+            type: type,
+            code: 'InvalidUsageAllocationsException',
+            message: message);
 }
 
 class InvalidUsageDimensionException extends _s.GenericAwsException {
@@ -666,8 +793,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidPublicKeyVersionException(type: type, message: message),
   'InvalidRegionException': (type, message) =>
       InvalidRegionException(type: type, message: message),
+  'InvalidTagException': (type, message) =>
+      InvalidTagException(type: type, message: message),
   'InvalidTokenException': (type, message) =>
       InvalidTokenException(type: type, message: message),
+  'InvalidUsageAllocationsException': (type, message) =>
+      InvalidUsageAllocationsException(type: type, message: message),
   'InvalidUsageDimensionException': (type, message) =>
       InvalidUsageDimensionException(type: type, message: message),
   'PlatformNotSupportedException': (type, message) =>

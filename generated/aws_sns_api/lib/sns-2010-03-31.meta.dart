@@ -383,14 +383,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Message": {"shape": "message", "flattened": false},
       "Subject": {"shape": "subject", "flattened": false},
       "MessageStructure": {"shape": "messageStructure", "flattened": false},
-      "MessageAttributes": {"shape": "MessageAttributeMap", "flattened": false}
+      "MessageAttributes": {"shape": "MessageAttributeMap", "flattened": false},
+      "MessageDeduplicationId": {"shape": "String", "flattened": false},
+      "MessageGroupId": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
   "PublishResponse": {
     "type": "structure",
     "members": {
-      "MessageId": {"shape": "messageId", "flattened": false}
+      "MessageId": {"shape": "messageId", "flattened": false},
+      "SequenceNumber": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },

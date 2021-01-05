@@ -45,6 +45,64 @@ class QLDB {
           endpointUrl: endpointUrl,
         );
 
+  /// Ends a given Amazon QLDB journal stream. Before a stream can be canceled,
+  /// its current status must be <code>ACTIVE</code>.
+  ///
+  /// You can't restart a stream after you cancel it. Canceled QLDB stream
+  /// resources are subject to a 7-day retention period, so they are
+  /// automatically deleted after this limit expires.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourcePreconditionNotMetException].
+  ///
+  /// Parameter [ledgerName] :
+  /// The name of the ledger.
+  ///
+  /// Parameter [streamId] :
+  /// The unique ID that QLDB assigns to each QLDB journal stream.
+  Future<CancelJournalKinesisStreamResponse> cancelJournalKinesisStream({
+    @_s.required String ledgerName,
+    @_s.required String streamId,
+  }) async {
+    ArgumentError.checkNotNull(ledgerName, 'ledgerName');
+    _s.validateStringLength(
+      'ledgerName',
+      ledgerName,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'ledgerName',
+      ledgerName,
+      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(streamId, 'streamId');
+    _s.validateStringLength(
+      'streamId',
+      streamId,
+      22,
+      22,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'streamId',
+      streamId,
+      r'''^[A-Za-z-0-9]+$''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/ledgers/${Uri.encodeComponent(ledgerName)}/journal-kinesis-streams/${Uri.encodeComponent(streamId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelJournalKinesisStreamResponse.fromJson(response);
+  }
+
   /// Creates a new ledger in your AWS account.
   ///
   /// May throw [InvalidParameterException].
@@ -55,6 +113,10 @@ class QLDB {
   /// Parameter [name] :
   /// The name of the ledger that you want to create. The name must be unique
   /// among all of your ledgers in the current AWS Region.
+  ///
+  /// Naming constraints for ledger names are defined in <a
+  /// href="https://docs.aws.amazon.com/qldb/latest/developerguide/limits.html#limits.naming">Quotas
+  /// in Amazon QLDB</a> in the <i>Amazon QLDB Developer Guide</i>.
   ///
   /// Parameter [permissionsMode] :
   /// The permissions mode to assign to the ledger that you want to create.
@@ -150,9 +212,70 @@ class QLDB {
     );
   }
 
+  /// Returns detailed information about a given Amazon QLDB journal stream. The
+  /// output includes the Amazon Resource Name (ARN), stream name, current
+  /// status, creation time, and the parameters of your original stream creation
+  /// request.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourcePreconditionNotMetException].
+  ///
+  /// Parameter [ledgerName] :
+  /// The name of the ledger.
+  ///
+  /// Parameter [streamId] :
+  /// The unique ID that QLDB assigns to each QLDB journal stream.
+  Future<DescribeJournalKinesisStreamResponse> describeJournalKinesisStream({
+    @_s.required String ledgerName,
+    @_s.required String streamId,
+  }) async {
+    ArgumentError.checkNotNull(ledgerName, 'ledgerName');
+    _s.validateStringLength(
+      'ledgerName',
+      ledgerName,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'ledgerName',
+      ledgerName,
+      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(streamId, 'streamId');
+    _s.validateStringLength(
+      'streamId',
+      streamId,
+      22,
+      22,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'streamId',
+      streamId,
+      r'''^[A-Za-z-0-9]+$''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/ledgers/${Uri.encodeComponent(ledgerName)}/journal-kinesis-streams/${Uri.encodeComponent(streamId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeJournalKinesisStreamResponse.fromJson(response);
+  }
+
   /// Returns information about a journal export job, including the ledger name,
   /// export ID, when it was created, current status, and its start and end time
   /// export parameters.
+  ///
+  /// This action does not return any expired export jobs. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration">Export
+  /// Job Expiration</a> in the <i>Amazon QLDB Developer Guide</i>.
   ///
   /// If the export job with the given <code>ExportId</code> doesn't exist, then
   /// throws <code>ResourceNotFoundException</code>.
@@ -353,9 +476,13 @@ class QLDB {
     return ExportJournalToS3Response.fromJson(response);
   }
 
-  /// Returns a journal block object at a specified address in a ledger. Also
-  /// returns a proof of the specified block for verification if
+  /// Returns a block object at a specified address in a journal. Also returns a
+  /// proof of the specified block for verification if
   /// <code>DigestTipAddress</code> is provided.
+  ///
+  /// For information about the data contents in a block, see <a
+  /// href="https://docs.aws.amazon.com/qldb/latest/developerguide/journal-contents.html">Journal
+  /// contents</a> in the <i>Amazon QLDB Developer Guide</i>.
   ///
   /// If the specified ledger doesn't exist or is in <code>DELETING</code>
   /// status, then throws <code>ResourceNotFoundException</code>.
@@ -534,12 +661,94 @@ class QLDB {
     return GetRevisionResponse.fromJson(response);
   }
 
+  /// Returns an array of all Amazon QLDB journal stream descriptors for a given
+  /// ledger. The output of each stream descriptor includes the same details
+  /// that are returned by <code>DescribeJournalKinesisStream</code>.
+  ///
+  /// This action returns a maximum of <code>MaxResults</code> items. It is
+  /// paginated so that you can retrieve all the items by calling
+  /// <code>ListJournalKinesisStreamsForLedger</code> multiple times.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourcePreconditionNotMetException].
+  ///
+  /// Parameter [ledgerName] :
+  /// The name of the ledger.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single
+  /// <code>ListJournalKinesisStreamsForLedger</code> request. (The actual
+  /// number of results returned might be fewer.)
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token, indicating that you want to retrieve the next page of
+  /// results. If you received a value for <code>NextToken</code> in the
+  /// response from a previous <code>ListJournalKinesisStreamsForLedger</code>
+  /// call, you should use that value as input here.
+  Future<ListJournalKinesisStreamsForLedgerResponse>
+      listJournalKinesisStreamsForLedger({
+    @_s.required String ledgerName,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(ledgerName, 'ledgerName');
+    _s.validateStringLength(
+      'ledgerName',
+      ledgerName,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'ledgerName',
+      ledgerName,
+      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      4,
+      1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^[A-Za-z-0-9+/=]+$''',
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max_results': [maxResults.toString()],
+      if (nextToken != null) 'next_token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/ledgers/${Uri.encodeComponent(ledgerName)}/journal-kinesis-streams',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListJournalKinesisStreamsForLedgerResponse.fromJson(response);
+  }
+
   /// Returns an array of journal export job descriptions for all ledgers that
   /// are associated with the current AWS account and Region.
   ///
   /// This action returns a maximum of <code>MaxResults</code> items, and is
   /// paginated so that you can retrieve all the items by calling
   /// <code>ListJournalS3Exports</code> multiple times.
+  ///
+  /// This action does not return any expired export jobs. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration">Export
+  /// Job Expiration</a> in the <i>Amazon QLDB Developer Guide</i>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single
@@ -592,6 +801,11 @@ class QLDB {
   /// This action returns a maximum of <code>MaxResults</code> items, and is
   /// paginated so that you can retrieve all the items by calling
   /// <code>ListJournalS3ExportsForLedger</code> multiple times.
+  ///
+  /// This action does not return any expired export jobs. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration">Export
+  /// Job Expiration</a> in the <i>Amazon QLDB Developer Guide</i>.
   ///
   /// Parameter [name] :
   /// The name of the ledger.
@@ -738,6 +952,128 @@ class QLDB {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// Creates a journal stream for a given Amazon QLDB ledger. The stream
+  /// captures every document revision that is committed to the ledger's journal
+  /// and delivers the data to a specified Amazon Kinesis Data Streams resource.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourcePreconditionNotMetException].
+  ///
+  /// Parameter [inclusiveStartTime] :
+  /// The inclusive start date and time from which to start streaming journal
+  /// data. This parameter must be in <code>ISO 8601</code> date and time format
+  /// and in Universal Coordinated Time (UTC). For example:
+  /// <code>2019-06-13T21:36:34Z</code>
+  ///
+  /// The <code>InclusiveStartTime</code> cannot be in the future and must be
+  /// before <code>ExclusiveEndTime</code>.
+  ///
+  /// If you provide an <code>InclusiveStartTime</code> that is before the
+  /// ledger's <code>CreationDateTime</code>, QLDB effectively defaults it to
+  /// the ledger's <code>CreationDateTime</code>.
+  ///
+  /// Parameter [kinesisConfiguration] :
+  /// The configuration settings of the Kinesis Data Streams destination for
+  /// your stream request.
+  ///
+  /// Parameter [ledgerName] :
+  /// The name of the ledger.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB
+  /// permissions for a journal stream to write data records to a Kinesis Data
+  /// Streams resource.
+  ///
+  /// Parameter [streamName] :
+  /// The name that you want to assign to the QLDB journal stream. User-defined
+  /// names can help identify and indicate the purpose of a stream.
+  ///
+  /// Your stream name must be unique among other <i>active</i> streams for a
+  /// given ledger. Stream names have the same naming constraints as ledger
+  /// names, as defined in <a
+  /// href="https://docs.aws.amazon.com/qldb/latest/developerguide/limits.html#limits.naming">Quotas
+  /// in Amazon QLDB</a> in the <i>Amazon QLDB Developer Guide</i>.
+  ///
+  /// Parameter [exclusiveEndTime] :
+  /// The exclusive date and time that specifies when the stream ends. If you
+  /// don't define this parameter, the stream runs indefinitely until you cancel
+  /// it.
+  ///
+  /// The <code>ExclusiveEndTime</code> must be in <code>ISO 8601</code> date
+  /// and time format and in Universal Coordinated Time (UTC). For example:
+  /// <code>2019-06-13T21:36:34Z</code>
+  ///
+  /// Parameter [tags] :
+  /// The key-value pairs to add as tags to the stream that you want to create.
+  /// Tag keys are case sensitive. Tag values are case sensitive and can be
+  /// null.
+  Future<StreamJournalToKinesisResponse> streamJournalToKinesis({
+    @_s.required DateTime inclusiveStartTime,
+    @_s.required KinesisConfiguration kinesisConfiguration,
+    @_s.required String ledgerName,
+    @_s.required String roleArn,
+    @_s.required String streamName,
+    DateTime exclusiveEndTime,
+    Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(inclusiveStartTime, 'inclusiveStartTime');
+    ArgumentError.checkNotNull(kinesisConfiguration, 'kinesisConfiguration');
+    ArgumentError.checkNotNull(ledgerName, 'ledgerName');
+    _s.validateStringLength(
+      'ledgerName',
+      ledgerName,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'ledgerName',
+      ledgerName,
+      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(roleArn, 'roleArn');
+    _s.validateStringLength(
+      'roleArn',
+      roleArn,
+      20,
+      1600,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(streamName, 'streamName');
+    _s.validateStringLength(
+      'streamName',
+      streamName,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'streamName',
+      streamName,
+      r'''(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'InclusiveStartTime': unixTimestampToJson(inclusiveStartTime),
+      'KinesisConfiguration': kinesisConfiguration,
+      'RoleArn': roleArn,
+      'StreamName': streamName,
+      if (exclusiveEndTime != null)
+        'ExclusiveEndTime': unixTimestampToJson(exclusiveEndTime),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/ledgers/${Uri.encodeComponent(ledgerName)}/journal-kinesis-streams',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StreamJournalToKinesisResponse.fromJson(response);
+  }
+
   /// Adds one or more tags to a specified Amazon QLDB resource.
   ///
   /// A resource can have up to 50 tags. If you try to create more than 50 tags
@@ -876,6 +1212,24 @@ class QLDB {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CancelJournalKinesisStreamResponse {
+  /// The unique ID that QLDB assigns to each QLDB journal stream.
+  @_s.JsonKey(name: 'StreamId')
+  final String streamId;
+
+  CancelJournalKinesisStreamResponse({
+    this.streamId,
+  });
+  factory CancelJournalKinesisStreamResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CancelJournalKinesisStreamResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateLedgerResponse {
   /// The Amazon Resource Name (ARN) for the ledger.
   @_s.JsonKey(name: 'Arn')
@@ -917,6 +1271,25 @@ class CreateLedgerResponse {
   });
   factory CreateLedgerResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateLedgerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeJournalKinesisStreamResponse {
+  /// Information about the QLDB journal stream returned by a
+  /// <code>DescribeJournalS3Export</code> request.
+  @_s.JsonKey(name: 'Stream')
+  final JournalKinesisStreamDescription stream;
+
+  DescribeJournalKinesisStreamResponse({
+    this.stream,
+  });
+  factory DescribeJournalKinesisStreamResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeJournalKinesisStreamResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -983,6 +1356,13 @@ class DescribeLedgerResponse {
   });
   factory DescribeLedgerResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeLedgerResponseFromJson(json);
+}
+
+enum ErrorCause {
+  @_s.JsonValue('KINESIS_STREAM_NOT_FOUND')
+  kinesisStreamNotFound,
+  @_s.JsonValue('IAM_PERMISSION_REVOKED')
+  iamPermissionRevoked,
 }
 
 @_s.JsonSerializable(
@@ -1089,6 +1469,88 @@ class GetRevisionResponse {
       _$GetRevisionResponseFromJson(json);
 }
 
+/// The information about an Amazon QLDB journal stream, including the Amazon
+/// Resource Name (ARN), stream name, creation time, current status, and the
+/// parameters of your original stream creation request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class JournalKinesisStreamDescription {
+  /// The configuration settings of the Amazon Kinesis Data Streams destination
+  /// for your QLDB journal stream.
+  @_s.JsonKey(name: 'KinesisConfiguration')
+  final KinesisConfiguration kinesisConfiguration;
+
+  /// The name of the ledger.
+  @_s.JsonKey(name: 'LedgerName')
+  final String ledgerName;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions
+  /// for a journal stream to write data records to a Kinesis Data Streams
+  /// resource.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// The current state of the QLDB journal stream.
+  @_s.JsonKey(name: 'Status')
+  final StreamStatus status;
+
+  /// The unique ID that QLDB assigns to each QLDB journal stream.
+  @_s.JsonKey(name: 'StreamId')
+  final String streamId;
+
+  /// The user-defined name of the QLDB journal stream.
+  @_s.JsonKey(name: 'StreamName')
+  final String streamName;
+
+  /// The Amazon Resource Name (ARN) of the QLDB journal stream.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The date and time, in epoch time format, when the QLDB journal stream was
+  /// created. (Epoch time format is the number of seconds elapsed since 12:00:00
+  /// AM January 1, 1970 UTC.)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
+  final DateTime creationTime;
+
+  /// The error message that describes the reason that a stream has a status of
+  /// <code>IMPAIRED</code> or <code>FAILED</code>. This is not applicable to
+  /// streams that have other status values.
+  @_s.JsonKey(name: 'ErrorCause')
+  final ErrorCause errorCause;
+
+  /// The exclusive date and time that specifies when the stream ends. If this
+  /// parameter is blank, the stream runs indefinitely until you cancel it.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExclusiveEndTime')
+  final DateTime exclusiveEndTime;
+
+  /// The inclusive start date and time from which to start streaming journal
+  /// data.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'InclusiveStartTime')
+  final DateTime inclusiveStartTime;
+
+  JournalKinesisStreamDescription({
+    @_s.required this.kinesisConfiguration,
+    @_s.required this.ledgerName,
+    @_s.required this.roleArn,
+    @_s.required this.status,
+    @_s.required this.streamId,
+    @_s.required this.streamName,
+    this.arn,
+    this.creationTime,
+    this.errorCause,
+    this.exclusiveEndTime,
+    this.inclusiveStartTime,
+  });
+  factory JournalKinesisStreamDescription.fromJson(Map<String, dynamic> json) =>
+      _$JournalKinesisStreamDescriptionFromJson(json);
+}
+
 /// The information about a journal export job, including the ledger name,
 /// export ID, when it was created, current status, and its start and end time
 /// export parameters.
@@ -1160,6 +1622,35 @@ class JournalS3ExportDescription {
       _$JournalS3ExportDescriptionFromJson(json);
 }
 
+/// The configuration settings of the Amazon Kinesis Data Streams destination
+/// for your Amazon QLDB journal stream.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class KinesisConfiguration {
+  /// The Amazon Resource Name (ARN) of the Kinesis data stream resource.
+  @_s.JsonKey(name: 'StreamArn')
+  final String streamArn;
+
+  /// Enables QLDB to publish multiple data records in a single Kinesis Data
+  /// Streams record. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/streams/latest/dev/kinesis-kpl-concepts.html">KPL
+  /// Key Concepts</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>.
+  @_s.JsonKey(name: 'AggregationEnabled')
+  final bool aggregationEnabled;
+
+  KinesisConfiguration({
+    @_s.required this.streamArn,
+    this.aggregationEnabled,
+  });
+  factory KinesisConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$KinesisConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KinesisConfigurationToJson(this);
+}
+
 enum LedgerState {
   @_s.JsonValue('CREATING')
   creating,
@@ -1201,6 +1692,41 @@ class LedgerSummary {
   });
   factory LedgerSummary.fromJson(Map<String, dynamic> json) =>
       _$LedgerSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListJournalKinesisStreamsForLedgerResponse {
+  /// <ul>
+  /// <li>
+  /// If <code>NextToken</code> is empty, the last page of results has been
+  /// processed and there are no more results to be retrieved.
+  /// </li>
+  /// <li>
+  /// If <code>NextToken</code> is <i>not</i> empty, more results are available.
+  /// To retrieve the next page of results, use the value of
+  /// <code>NextToken</code> in a subsequent
+  /// <code>ListJournalKinesisStreamsForLedger</code> call.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The array of QLDB journal stream descriptors that are associated with the
+  /// given ledger.
+  @_s.JsonKey(name: 'Streams')
+  final List<JournalKinesisStreamDescription> streams;
+
+  ListJournalKinesisStreamsForLedgerResponse({
+    this.nextToken,
+    this.streams,
+  });
+  factory ListJournalKinesisStreamsForLedgerResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListJournalKinesisStreamsForLedgerResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1357,8 +1883,9 @@ class S3EncryptionConfiguration {
   @_s.JsonKey(name: 'ObjectEncryptionType')
   final S3ObjectEncryptionType objectEncryptionType;
 
-  /// The Amazon Resource Name (ARN) for a customer master key (CMK) in AWS Key
-  /// Management Service (AWS KMS).
+  /// The Amazon Resource Name (ARN) for a symmetric customer master key (CMK) in
+  /// AWS Key Management Service (AWS KMS). Amazon QLDB does not support
+  /// asymmetric CMKs.
   ///
   /// You must provide a <code>KmsKeyArn</code> if you specify
   /// <code>SSE_KMS</code> as the <code>ObjectEncryptionType</code>.
@@ -1450,6 +1977,36 @@ enum S3ObjectEncryptionType {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class StreamJournalToKinesisResponse {
+  /// The unique ID that QLDB assigns to each QLDB journal stream.
+  @_s.JsonKey(name: 'StreamId')
+  final String streamId;
+
+  StreamJournalToKinesisResponse({
+    this.streamId,
+  });
+  factory StreamJournalToKinesisResponse.fromJson(Map<String, dynamic> json) =>
+      _$StreamJournalToKinesisResponseFromJson(json);
+}
+
+enum StreamStatus {
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('COMPLETED')
+  completed,
+  @_s.JsonValue('CANCELED')
+  canceled,
+  @_s.JsonValue('FAILED')
+  failed,
+  @_s.JsonValue('IMPAIRED')
+  impaired,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
@@ -1515,8 +2072,7 @@ class UpdateLedgerResponse {
       _$UpdateLedgerResponseFromJson(json);
 }
 
-/// A structure that can contain an Amazon Ion value in multiple encoding
-/// formats.
+/// A structure that can contain a value in multiple encoding formats.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,

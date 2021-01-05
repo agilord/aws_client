@@ -251,6 +251,8 @@ BranchInfo _$BranchInfoFromJson(Map<String, dynamic> json) {
 Comment _$CommentFromJson(Map<String, dynamic> json) {
   return Comment(
     authorArn: json['authorArn'] as String,
+    callerReactions:
+        (json['callerReactions'] as List)?.map((e) => e as String)?.toList(),
     clientRequestToken: json['clientRequestToken'] as String,
     commentId: json['commentId'] as String,
     content: json['content'] as String,
@@ -259,6 +261,9 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
     inReplyTo: json['inReplyTo'] as String,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
+    reactionCounts: (json['reactionCounts'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as int),
+    ),
   );
 }
 
@@ -646,6 +651,18 @@ GetCommentOutput _$GetCommentOutputFromJson(Map<String, dynamic> json) {
     comment: json['comment'] == null
         ? null
         : Comment.fromJson(json['comment'] as Map<String, dynamic>),
+  );
+}
+
+GetCommentReactionsOutput _$GetCommentReactionsOutputFromJson(
+    Map<String, dynamic> json) {
+  return GetCommentReactionsOutput(
+    reactionsForComment: (json['reactionsForComment'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ReactionForComment.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['nextToken'] as String,
   );
 }
 
@@ -1267,6 +1284,27 @@ PutRepositoryTriggersOutput _$PutRepositoryTriggersOutputFromJson(
     Map<String, dynamic> json) {
   return PutRepositoryTriggersOutput(
     configurationId: json['configurationId'] as String,
+  );
+}
+
+ReactionForComment _$ReactionForCommentFromJson(Map<String, dynamic> json) {
+  return ReactionForComment(
+    reaction: json['reaction'] == null
+        ? null
+        : ReactionValueFormats.fromJson(
+            json['reaction'] as Map<String, dynamic>),
+    reactionUsers:
+        (json['reactionUsers'] as List)?.map((e) => e as String)?.toList(),
+    reactionsFromDeletedUsersCount:
+        json['reactionsFromDeletedUsersCount'] as int,
+  );
+}
+
+ReactionValueFormats _$ReactionValueFormatsFromJson(Map<String, dynamic> json) {
+  return ReactionValueFormats(
+    emoji: json['emoji'] as String,
+    shortCode: json['shortCode'] as String,
+    unicode: json['unicode'] as String,
   );
 }
 

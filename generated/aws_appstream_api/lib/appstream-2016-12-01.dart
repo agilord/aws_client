@@ -117,6 +117,7 @@ class AppStream {
   /// Directory domain.
   ///
   /// May throw [OperationNotPermittedException].
+  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [userStackAssociations] :
   /// The list of UserStackAssociation objects.
@@ -143,6 +144,9 @@ class AppStream {
   }
 
   /// Disassociates the specified users from the specified stacks.
+  ///
+  /// May throw [OperationNotPermittedException].
+  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [userStackAssociations] :
   /// The list of UserStackAssociation objects.
@@ -251,9 +255,12 @@ class AppStream {
   /// the configuration information required to join fleets and image builders
   /// to Microsoft Active Directory domains.
   ///
+  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
   /// May throw [InvalidAccountStatusException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [InvalidRoleException].
   ///
   /// Parameter [directoryName] :
   /// The fully qualified name of the directory (for example, corp.example.com).
@@ -267,13 +274,11 @@ class AppStream {
   Future<CreateDirectoryConfigResult> createDirectoryConfig({
     @_s.required String directoryName,
     @_s.required List<String> organizationalUnitDistinguishedNames,
-    @_s.required ServiceAccountCredentials serviceAccountCredentials,
+    ServiceAccountCredentials serviceAccountCredentials,
   }) async {
     ArgumentError.checkNotNull(directoryName, 'directoryName');
     ArgumentError.checkNotNull(organizationalUnitDistinguishedNames,
         'organizationalUnitDistinguishedNames');
-    ArgumentError.checkNotNull(
-        serviceAccountCredentials, 'serviceAccountCredentials');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateDirectoryConfig'
@@ -288,7 +293,8 @@ class AppStream {
         'DirectoryName': directoryName,
         'OrganizationalUnitDistinguishedNames':
             organizationalUnitDistinguishedNames,
-        'ServiceAccountCredentials': serviceAccountCredentials,
+        if (serviceAccountCredentials != null)
+          'ServiceAccountCredentials': serviceAccountCredentials,
       },
     );
 
@@ -302,6 +308,7 @@ class AppStream {
   /// May throw [ResourceNotAvailableException].
   /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [RequestLimitExceededException].
   /// May throw [InvalidAccountStatusException].
   /// May throw [InvalidRoleException].
   /// May throw [ConcurrentModificationException].
@@ -354,6 +361,24 @@ class AppStream {
   /// stream.memory.8xlarge
   /// </li>
   /// <li>
+  /// stream.memory.z1d.large
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.3xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.6xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.12xlarge
+  /// </li>
+  /// <li>
   /// stream.graphics-design.large
   /// </li>
   /// <li>
@@ -367,6 +392,24 @@ class AppStream {
   /// </li>
   /// <li>
   /// stream.graphics-desktop.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.16xlarge
   /// </li>
   /// <li>
   /// stream.graphics-pro.4xlarge
@@ -422,7 +465,7 @@ class AppStream {
   /// <code>AssumeRole</code> API operation and passes the ARN of the role to
   /// use. The operation creates a new session with temporary credentials.
   /// AppStream 2.0 retrieves the temporary credentials and creates the
-  /// <b>AppStream_Machine_Role</b> credential profile on the instance.
+  /// <b>appstream_machine_role</b> credential profile on the instance.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
@@ -473,6 +516,15 @@ class AppStream {
   ///
   /// Specify a value between 600 and 360000.
   ///
+  /// Parameter [streamView] :
+  /// The AppStream 2.0 view that is displayed to your users when they stream
+  /// from the fleet. When <code>APP</code> is specified, only the windows of
+  /// applications opened by users display. When <code>DESKTOP</code> is
+  /// specified, the standard desktop that is provided by the operating system
+  /// displays.
+  ///
+  /// The default value is <code>APP</code>.
+  ///
   /// Parameter [tags] :
   /// The tags to associate with the fleet. A tag is a key-value pair, and the
   /// value is optional. For example, Environment=Test. If you do not specify a
@@ -507,6 +559,7 @@ class AppStream {
     String imageArn,
     String imageName,
     int maxUserDurationInSeconds,
+    StreamView streamView,
     Map<String, String> tags,
     VpcConfig vpcConfig,
   }) async {
@@ -541,12 +594,12 @@ class AppStream {
     _s.validateStringPattern(
       'iamRoleArn',
       iamRoleArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
     );
     _s.validateStringPattern(
       'imageArn',
       imageArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
     );
     _s.validateStringLength(
       'imageName',
@@ -583,6 +636,7 @@ class AppStream {
         if (imageName != null) 'ImageName': imageName,
         if (maxUserDurationInSeconds != null)
           'MaxUserDurationInSeconds': maxUserDurationInSeconds,
+        if (streamView != null) 'StreamView': streamView.toValue(),
         if (tags != null) 'Tags': tags,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
@@ -598,6 +652,7 @@ class AppStream {
   /// ready, the state is <code>RUNNING</code>.
   ///
   /// May throw [LimitExceededException].
+  /// May throw [RequestLimitExceededException].
   /// May throw [InvalidAccountStatusException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotAvailableException].
@@ -650,6 +705,24 @@ class AppStream {
   /// stream.memory.8xlarge
   /// </li>
   /// <li>
+  /// stream.memory.z1d.large
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.3xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.6xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.12xlarge
+  /// </li>
+  /// <li>
   /// stream.graphics-design.large
   /// </li>
   /// <li>
@@ -663,6 +736,24 @@ class AppStream {
   /// </li>
   /// <li>
   /// stream.graphics-desktop.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.16xlarge
   /// </li>
   /// <li>
   /// stream.graphics-pro.4xlarge
@@ -706,7 +797,7 @@ class AppStream {
   /// Service (STS) <code>AssumeRole</code> API operation and passes the ARN of
   /// the role to use. The operation creates a new session with temporary
   /// credentials. AppStream 2.0 retrieves the temporary credentials and creates
-  /// the <b>AppStream_Machine_Role</b> credential profile on the instance.
+  /// the <b>appstream_machine_role</b> credential profile on the instance.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
@@ -791,12 +882,12 @@ class AppStream {
     _s.validateStringPattern(
       'iamRoleArn',
       iamRoleArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
     );
     _s.validateStringPattern(
       'imageArn',
       imageArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
     );
     _s.validateStringLength(
       'imageName',
@@ -1842,7 +1933,8 @@ class AppStream {
   /// operation. If this value is null, it retrieves the first page.
   ///
   /// Parameter [userId] :
-  /// The user identifier.
+  /// The user identifier (ID). If you specify a user ID, you must also specify
+  /// the authentication type.
   Future<DescribeSessionsResult> describeSessions({
     @_s.required String fleetName,
     @_s.required String stackName,
@@ -1877,7 +1969,7 @@ class AppStream {
       'userId',
       userId,
       2,
-      32,
+      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1998,6 +2090,7 @@ class AppStream {
   /// </ul>
   ///
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [authenticationType] :
   /// The authentication type for the user who is associated with the stack. You
@@ -2182,6 +2275,7 @@ class AppStream {
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [fleetName] :
   /// The name of the fleet.
@@ -2427,7 +2521,7 @@ class AppStream {
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2453,6 +2547,7 @@ class AppStream {
   /// May throw [ResourceNotFoundException].
   /// May throw [OperationNotPermittedException].
   /// May throw [LimitExceededException].
+  /// May throw [RequestLimitExceededException].
   /// May throw [InvalidAccountStatusException].
   /// May throw [ConcurrentModificationException].
   /// May throw [ResourceNotAvailableException].
@@ -2656,7 +2751,7 @@ class AppStream {
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -2705,7 +2800,7 @@ class AppStream {
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -2735,6 +2830,8 @@ class AppStream {
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [InvalidRoleException].
   ///
   /// Parameter [directoryName] :
   /// The name of the Directory Config object.
@@ -2786,6 +2883,7 @@ class AppStream {
   ///
   /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
+  /// May throw [RequestLimitExceededException].
   /// May throw [InvalidAccountStatusException].
   /// May throw [InvalidRoleException].
   /// May throw [ResourceNotFoundException].
@@ -2832,7 +2930,7 @@ class AppStream {
   /// <code>AssumeRole</code> API operation and passes the ARN of the role to
   /// use. The operation creates a new session with temporary credentials.
   /// AppStream 2.0 retrieves the temporary credentials and creates the
-  /// <b>AppStream_Machine_Role</b> credential profile on the instance.
+  /// <b>appstream_machine_role</b> credential profile on the instance.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
@@ -2916,6 +3014,24 @@ class AppStream {
   /// stream.memory.8xlarge
   /// </li>
   /// <li>
+  /// stream.memory.z1d.large
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.3xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.6xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.12xlarge
+  /// </li>
+  /// <li>
   /// stream.graphics-design.large
   /// </li>
   /// <li>
@@ -2929,6 +3045,24 @@ class AppStream {
   /// </li>
   /// <li>
   /// stream.graphics-desktop.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.16xlarge
   /// </li>
   /// <li>
   /// stream.graphics-pro.4xlarge
@@ -2953,6 +3087,15 @@ class AppStream {
   /// Parameter [name] :
   /// A unique name for the fleet.
   ///
+  /// Parameter [streamView] :
+  /// The AppStream 2.0 view that is displayed to your users when they stream
+  /// from the fleet. When <code>APP</code> is specified, only the windows of
+  /// applications opened by users display. When <code>DESKTOP</code> is
+  /// specified, the standard desktop that is provided by the operating system
+  /// displays.
+  ///
+  /// The default value is <code>APP</code>.
+  ///
   /// Parameter [vpcConfig] :
   /// The VPC configuration for the fleet.
   Future<UpdateFleetResult> updateFleet({
@@ -2971,6 +3114,7 @@ class AppStream {
     String instanceType,
     int maxUserDurationInSeconds,
     String name,
+    StreamView streamView,
     VpcConfig vpcConfig,
   }) async {
     _s.validateStringLength(
@@ -2988,12 +3132,12 @@ class AppStream {
     _s.validateStringPattern(
       'iamRoleArn',
       iamRoleArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
     );
     _s.validateStringPattern(
       'imageArn',
       imageArn,
-      r'''^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$''',
+      r'''^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$''',
     );
     _s.validateStringLength(
       'imageName',
@@ -3045,6 +3189,7 @@ class AppStream {
         if (maxUserDurationInSeconds != null)
           'MaxUserDurationInSeconds': maxUserDurationInSeconds,
         if (name != null) 'Name': name,
+        if (streamView != null) 'StreamView': streamView.toValue(),
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
       },
     );
@@ -4194,6 +4339,24 @@ class Fleet {
   /// stream.memory.8xlarge
   /// </li>
   /// <li>
+  /// stream.memory.z1d.large
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.3xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.6xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.12xlarge
+  /// </li>
+  /// <li>
   /// stream.graphics-design.large
   /// </li>
   /// <li>
@@ -4207,6 +4370,24 @@ class Fleet {
   /// </li>
   /// <li>
   /// stream.graphics-desktop.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.16xlarge
   /// </li>
   /// <li>
   /// stream.graphics-pro.4xlarge
@@ -4282,7 +4463,7 @@ class Fleet {
   /// <code>AssumeRole</code> API operation and passes the ARN of the role to use.
   /// The operation creates a new session with temporary credentials. AppStream
   /// 2.0 retrieves the temporary credentials and creates the
-  /// <b>AppStream_Machine_Role</b> credential profile on the instance.
+  /// <b>appstream_machine_role</b> credential profile on the instance.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
@@ -4337,6 +4518,16 @@ class Fleet {
   @_s.JsonKey(name: 'MaxUserDurationInSeconds')
   final int maxUserDurationInSeconds;
 
+  /// The AppStream 2.0 view that is displayed to your users when they stream from
+  /// the fleet. When <code>APP</code> is specified, only the windows of
+  /// applications opened by users display. When <code>DESKTOP</code> is
+  /// specified, the standard desktop that is provided by the operating system
+  /// displays.
+  ///
+  /// The default value is <code>APP</code>.
+  @_s.JsonKey(name: 'StreamView')
+  final StreamView streamView;
+
   /// The VPC configuration for the fleet.
   @_s.JsonKey(name: 'VpcConfig')
   final VpcConfig vpcConfig;
@@ -4360,6 +4551,7 @@ class Fleet {
     this.imageArn,
     this.imageName,
     this.maxUserDurationInSeconds,
+    this.streamView,
     this.vpcConfig,
   });
   factory Fleet.fromJson(Map<String, dynamic> json) => _$FleetFromJson(json);
@@ -4658,7 +4850,7 @@ class ImageBuilder {
   /// <code>AssumeRole</code> API operation and passes the ARN of the role to use.
   /// The operation creates a new session with temporary credentials. AppStream
   /// 2.0 retrieves the temporary credentials and creates the
-  /// <b>AppStream_Machine_Role</b> credential profile on the instance.
+  /// <b>appstream_machine_role</b> credential profile on the instance.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
@@ -4717,6 +4909,24 @@ class ImageBuilder {
   /// stream.memory.8xlarge
   /// </li>
   /// <li>
+  /// stream.memory.z1d.large
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.3xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.6xlarge
+  /// </li>
+  /// <li>
+  /// stream.memory.z1d.12xlarge
+  /// </li>
+  /// <li>
   /// stream.graphics-design.large
   /// </li>
   /// <li>
@@ -4730,6 +4940,24 @@ class ImageBuilder {
   /// </li>
   /// <li>
   /// stream.graphics-desktop.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.2xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.4xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.8xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.12xlarge
+  /// </li>
+  /// <li>
+  /// stream.graphics.g4dn.16xlarge
   /// </li>
   /// <li>
   /// stream.graphics-pro.4xlarge
@@ -5494,6 +5722,25 @@ enum StorageConnectorType {
   oneDrive,
 }
 
+enum StreamView {
+  @_s.JsonValue('APP')
+  app,
+  @_s.JsonValue('DESKTOP')
+  desktop,
+}
+
+extension on StreamView {
+  String toValue() {
+    switch (this) {
+      case StreamView.app:
+        return 'APP';
+      case StreamView.desktop:
+        return 'DESKTOP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5810,6 +6057,8 @@ enum UserStackAssociationErrorCode {
   stackNotFound,
   @_s.JsonValue('USER_NAME_NOT_FOUND')
   userNameNotFound,
+  @_s.JsonValue('DIRECTORY_NOT_FOUND')
+  directoryNotFound,
   @_s.JsonValue('INTERNAL_ERROR')
   internalError,
 }
@@ -5911,6 +6160,14 @@ class OperationNotPermittedException extends _s.GenericAwsException {
             message: message);
 }
 
+class RequestLimitExceededException extends _s.GenericAwsException {
+  RequestLimitExceededException({String type, String message})
+      : super(
+            type: type,
+            code: 'RequestLimitExceededException',
+            message: message);
+}
+
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String type, String message})
       : super(
@@ -5952,6 +6209,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       LimitExceededException(type: type, message: message),
   'OperationNotPermittedException': (type, message) =>
       OperationNotPermittedException(type: type, message: message),
+  'RequestLimitExceededException': (type, message) =>
+      RequestLimitExceededException(type: type, message: message),
   'ResourceAlreadyExistsException': (type, message) =>
       ResourceAlreadyExistsException(type: type, message: message),
   'ResourceInUseException': (type, message) =>

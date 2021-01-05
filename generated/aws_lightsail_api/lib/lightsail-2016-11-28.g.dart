@@ -141,6 +141,8 @@ const _$MetricNameEnumMap = {
   MetricName.freeStorageSpace: 'FreeStorageSpace',
   MetricName.networkReceiveThroughput: 'NetworkReceiveThroughput',
   MetricName.networkTransmitThroughput: 'NetworkTransmitThroughput',
+  MetricName.burstCapacityTime: 'BurstCapacityTime',
+  MetricName.burstCapacityPercentage: 'BurstCapacityPercentage',
 };
 
 const _$AlarmStateEnumMap = {
@@ -150,6 +152,7 @@ const _$AlarmStateEnumMap = {
 };
 
 const _$ResourceTypeEnumMap = {
+  ResourceType.containerService: 'ContainerService',
   ResourceType.instance: 'Instance',
   ResourceType.staticIp: 'StaticIp',
   ResourceType.keyPair: 'KeyPair',
@@ -166,6 +169,8 @@ const _$ResourceTypeEnumMap = {
   ResourceType.cloudFormationStackRecord: 'CloudFormationStackRecord',
   ResourceType.alarm: 'Alarm',
   ResourceType.contactMethod: 'ContactMethod',
+  ResourceType.distribution: 'Distribution',
+  ResourceType.certificate: 'Certificate',
 };
 
 const _$MetricStatisticEnumMap = {
@@ -220,6 +225,15 @@ AllocateStaticIpResult _$AllocateStaticIpResultFromJson(
         ?.map((e) =>
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+AttachCertificateToDistributionResult
+    _$AttachCertificateToDistributionResultFromJson(Map<String, dynamic> json) {
+  return AttachCertificateToDistributionResult(
+    operation: json['operation'] == null
+        ? null
+        : Operation.fromJson(json['operation'] as Map<String, dynamic>),
   );
 }
 
@@ -354,6 +368,157 @@ Bundle _$BundleFromJson(Map<String, dynamic> json) {
   );
 }
 
+CacheBehavior _$CacheBehaviorFromJson(Map<String, dynamic> json) {
+  return CacheBehavior(
+    behavior: _$enumDecodeNullable(_$BehaviorEnumEnumMap, json['behavior']),
+  );
+}
+
+Map<String, dynamic> _$CacheBehaviorToJson(CacheBehavior instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('behavior', _$BehaviorEnumEnumMap[instance.behavior]);
+  return val;
+}
+
+const _$BehaviorEnumEnumMap = {
+  BehaviorEnum.dontCache: 'dont-cache',
+  BehaviorEnum.cache: 'cache',
+};
+
+CacheBehaviorPerPath _$CacheBehaviorPerPathFromJson(Map<String, dynamic> json) {
+  return CacheBehaviorPerPath(
+    behavior: _$enumDecodeNullable(_$BehaviorEnumEnumMap, json['behavior']),
+    path: json['path'] as String,
+  );
+}
+
+Map<String, dynamic> _$CacheBehaviorPerPathToJson(
+    CacheBehaviorPerPath instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('behavior', _$BehaviorEnumEnumMap[instance.behavior]);
+  writeNotNull('path', instance.path);
+  return val;
+}
+
+CacheSettings _$CacheSettingsFromJson(Map<String, dynamic> json) {
+  return CacheSettings(
+    allowedHTTPMethods: json['allowedHTTPMethods'] as String,
+    cachedHTTPMethods: json['cachedHTTPMethods'] as String,
+    defaultTTL: json['defaultTTL'] as int,
+    forwardedCookies: json['forwardedCookies'] == null
+        ? null
+        : CookieObject.fromJson(
+            json['forwardedCookies'] as Map<String, dynamic>),
+    forwardedHeaders: json['forwardedHeaders'] == null
+        ? null
+        : HeaderObject.fromJson(
+            json['forwardedHeaders'] as Map<String, dynamic>),
+    forwardedQueryStrings: json['forwardedQueryStrings'] == null
+        ? null
+        : QueryStringObject.fromJson(
+            json['forwardedQueryStrings'] as Map<String, dynamic>),
+    maximumTTL: json['maximumTTL'] as int,
+    minimumTTL: json['minimumTTL'] as int,
+  );
+}
+
+Map<String, dynamic> _$CacheSettingsToJson(CacheSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('allowedHTTPMethods', instance.allowedHTTPMethods);
+  writeNotNull('cachedHTTPMethods', instance.cachedHTTPMethods);
+  writeNotNull('defaultTTL', instance.defaultTTL);
+  writeNotNull('forwardedCookies', instance.forwardedCookies?.toJson());
+  writeNotNull('forwardedHeaders', instance.forwardedHeaders?.toJson());
+  writeNotNull(
+      'forwardedQueryStrings', instance.forwardedQueryStrings?.toJson());
+  writeNotNull('maximumTTL', instance.maximumTTL);
+  writeNotNull('minimumTTL', instance.minimumTTL);
+  return val;
+}
+
+Certificate _$CertificateFromJson(Map<String, dynamic> json) {
+  return Certificate(
+    arn: json['arn'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    domainName: json['domainName'] as String,
+    domainValidationRecords: (json['domainValidationRecords'] as List)
+        ?.map((e) => e == null
+            ? null
+            : DomainValidationRecord.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    eligibleToRenew: json['eligibleToRenew'] as String,
+    inUseResourceCount: json['inUseResourceCount'] as int,
+    issuedAt: const UnixDateTimeConverter().fromJson(json['issuedAt']),
+    issuerCA: json['issuerCA'] as String,
+    keyAlgorithm: json['keyAlgorithm'] as String,
+    name: json['name'] as String,
+    notAfter: const UnixDateTimeConverter().fromJson(json['notAfter']),
+    notBefore: const UnixDateTimeConverter().fromJson(json['notBefore']),
+    renewalSummary: json['renewalSummary'] == null
+        ? null
+        : RenewalSummary.fromJson(
+            json['renewalSummary'] as Map<String, dynamic>),
+    requestFailureReason: json['requestFailureReason'] as String,
+    revocationReason: json['revocationReason'] as String,
+    revokedAt: const UnixDateTimeConverter().fromJson(json['revokedAt']),
+    serialNumber: json['serialNumber'] as String,
+    status: _$enumDecodeNullable(_$CertificateStatusEnumMap, json['status']),
+    subjectAlternativeNames: (json['subjectAlternativeNames'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
+    supportCode: json['supportCode'] as String,
+    tags: (json['tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+const _$CertificateStatusEnumMap = {
+  CertificateStatus.pendingValidation: 'PENDING_VALIDATION',
+  CertificateStatus.issued: 'ISSUED',
+  CertificateStatus.inactive: 'INACTIVE',
+  CertificateStatus.expired: 'EXPIRED',
+  CertificateStatus.validationTimedOut: 'VALIDATION_TIMED_OUT',
+  CertificateStatus.revoked: 'REVOKED',
+  CertificateStatus.failed: 'FAILED',
+};
+
+CertificateSummary _$CertificateSummaryFromJson(Map<String, dynamic> json) {
+  return CertificateSummary(
+    certificateArn: json['certificateArn'] as String,
+    certificateDetail: json['certificateDetail'] == null
+        ? null
+        : Certificate.fromJson(
+            json['certificateDetail'] as Map<String, dynamic>),
+    certificateName: json['certificateName'] as String,
+    domainName: json['domainName'] as String,
+    tags: (json['tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 CloseInstancePublicPortsResult _$CloseInstancePublicPortsResultFromJson(
     Map<String, dynamic> json) {
   return CloseInstancePublicPortsResult(
@@ -432,8 +597,277 @@ const _$ContactMethodStatusEnumMap = {
   ContactMethodStatus.invalid: 'Invalid',
 };
 
+Container _$ContainerFromJson(Map<String, dynamic> json) {
+  return Container(
+    command: (json['command'] as List)?.map((e) => e as String)?.toList(),
+    environment: (json['environment'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    image: json['image'] as String,
+    ports: (json['ports'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(
+          k, _$enumDecodeNullable(_$ContainerServiceProtocolEnumMap, e)),
+    ),
+  );
+}
+
+Map<String, dynamic> _$ContainerToJson(Container instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('command', instance.command);
+  writeNotNull('environment', instance.environment);
+  writeNotNull('image', instance.image);
+  writeNotNull(
+      'ports',
+      instance.ports
+          ?.map((k, e) => MapEntry(k, _$ContainerServiceProtocolEnumMap[e])));
+  return val;
+}
+
+const _$ContainerServiceProtocolEnumMap = {
+  ContainerServiceProtocol.http: 'HTTP',
+  ContainerServiceProtocol.https: 'HTTPS',
+  ContainerServiceProtocol.tcp: 'TCP',
+  ContainerServiceProtocol.udp: 'UDP',
+};
+
+ContainerImage _$ContainerImageFromJson(Map<String, dynamic> json) {
+  return ContainerImage(
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    digest: json['digest'] as String,
+    image: json['image'] as String,
+  );
+}
+
+ContainerService _$ContainerServiceFromJson(Map<String, dynamic> json) {
+  return ContainerService(
+    arn: json['arn'] as String,
+    containerServiceName: json['containerServiceName'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    currentDeployment: json['currentDeployment'] == null
+        ? null
+        : ContainerServiceDeployment.fromJson(
+            json['currentDeployment'] as Map<String, dynamic>),
+    isDisabled: json['isDisabled'] as bool,
+    location: json['location'] == null
+        ? null
+        : ResourceLocation.fromJson(json['location'] as Map<String, dynamic>),
+    nextDeployment: json['nextDeployment'] == null
+        ? null
+        : ContainerServiceDeployment.fromJson(
+            json['nextDeployment'] as Map<String, dynamic>),
+    power:
+        _$enumDecodeNullable(_$ContainerServicePowerNameEnumMap, json['power']),
+    powerId: json['powerId'] as String,
+    principalArn: json['principalArn'] as String,
+    privateDomainName: json['privateDomainName'] as String,
+    publicDomainNames: (json['publicDomainNames'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    ),
+    resourceType:
+        _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
+    scale: json['scale'] as int,
+    state: _$enumDecodeNullable(_$ContainerServiceStateEnumMap, json['state']),
+    tags: (json['tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    url: json['url'] as String,
+  );
+}
+
+const _$ContainerServicePowerNameEnumMap = {
+  ContainerServicePowerName.nano: 'nano',
+  ContainerServicePowerName.micro: 'micro',
+  ContainerServicePowerName.small: 'small',
+  ContainerServicePowerName.medium: 'medium',
+  ContainerServicePowerName.large: 'large',
+  ContainerServicePowerName.xlarge: 'xlarge',
+};
+
+const _$ContainerServiceStateEnumMap = {
+  ContainerServiceState.pending: 'PENDING',
+  ContainerServiceState.ready: 'READY',
+  ContainerServiceState.running: 'RUNNING',
+  ContainerServiceState.updating: 'UPDATING',
+  ContainerServiceState.deleting: 'DELETING',
+  ContainerServiceState.disabled: 'DISABLED',
+};
+
+ContainerServiceDeployment _$ContainerServiceDeploymentFromJson(
+    Map<String, dynamic> json) {
+  return ContainerServiceDeployment(
+    containers: (json['containers'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(
+          k, e == null ? null : Container.fromJson(e as Map<String, dynamic>)),
+    ),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    publicEndpoint: json['publicEndpoint'] == null
+        ? null
+        : ContainerServiceEndpoint.fromJson(
+            json['publicEndpoint'] as Map<String, dynamic>),
+    state: _$enumDecodeNullable(
+        _$ContainerServiceDeploymentStateEnumMap, json['state']),
+    version: json['version'] as int,
+  );
+}
+
+const _$ContainerServiceDeploymentStateEnumMap = {
+  ContainerServiceDeploymentState.activating: 'ACTIVATING',
+  ContainerServiceDeploymentState.active: 'ACTIVE',
+  ContainerServiceDeploymentState.inactive: 'INACTIVE',
+  ContainerServiceDeploymentState.failed: 'FAILED',
+};
+
+Map<String, dynamic> _$ContainerServiceDeploymentRequestToJson(
+    ContainerServiceDeploymentRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('containers',
+      instance.containers?.map((k, e) => MapEntry(k, e?.toJson())));
+  writeNotNull('publicEndpoint', instance.publicEndpoint?.toJson());
+  return val;
+}
+
+ContainerServiceEndpoint _$ContainerServiceEndpointFromJson(
+    Map<String, dynamic> json) {
+  return ContainerServiceEndpoint(
+    containerName: json['containerName'] as String,
+    containerPort: json['containerPort'] as int,
+    healthCheck: json['healthCheck'] == null
+        ? null
+        : ContainerServiceHealthCheckConfig.fromJson(
+            json['healthCheck'] as Map<String, dynamic>),
+  );
+}
+
+ContainerServiceHealthCheckConfig _$ContainerServiceHealthCheckConfigFromJson(
+    Map<String, dynamic> json) {
+  return ContainerServiceHealthCheckConfig(
+    healthyThreshold: json['healthyThreshold'] as int,
+    intervalSeconds: json['intervalSeconds'] as int,
+    path: json['path'] as String,
+    successCodes: json['successCodes'] as String,
+    timeoutSeconds: json['timeoutSeconds'] as int,
+    unhealthyThreshold: json['unhealthyThreshold'] as int,
+  );
+}
+
+Map<String, dynamic> _$ContainerServiceHealthCheckConfigToJson(
+    ContainerServiceHealthCheckConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('healthyThreshold', instance.healthyThreshold);
+  writeNotNull('intervalSeconds', instance.intervalSeconds);
+  writeNotNull('path', instance.path);
+  writeNotNull('successCodes', instance.successCodes);
+  writeNotNull('timeoutSeconds', instance.timeoutSeconds);
+  writeNotNull('unhealthyThreshold', instance.unhealthyThreshold);
+  return val;
+}
+
+ContainerServiceLogEvent _$ContainerServiceLogEventFromJson(
+    Map<String, dynamic> json) {
+  return ContainerServiceLogEvent(
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    message: json['message'] as String,
+  );
+}
+
+ContainerServicePower _$ContainerServicePowerFromJson(
+    Map<String, dynamic> json) {
+  return ContainerServicePower(
+    cpuCount: (json['cpuCount'] as num)?.toDouble(),
+    isActive: json['isActive'] as bool,
+    name: json['name'] as String,
+    powerId: json['powerId'] as String,
+    price: (json['price'] as num)?.toDouble(),
+    ramSizeInGb: (json['ramSizeInGb'] as num)?.toDouble(),
+  );
+}
+
+ContainerServiceRegistryLogin _$ContainerServiceRegistryLoginFromJson(
+    Map<String, dynamic> json) {
+  return ContainerServiceRegistryLogin(
+    expiresAt: const UnixDateTimeConverter().fromJson(json['expiresAt']),
+    password: json['password'] as String,
+    registry: json['registry'] as String,
+    username: json['username'] as String,
+  );
+}
+
+ContainerServicesListResult _$ContainerServicesListResultFromJson(
+    Map<String, dynamic> json) {
+  return ContainerServicesListResult(
+    containerServices: (json['containerServices'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ContainerService.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+CookieObject _$CookieObjectFromJson(Map<String, dynamic> json) {
+  return CookieObject(
+    cookiesAllowList:
+        (json['cookiesAllowList'] as List)?.map((e) => e as String)?.toList(),
+    option: _$enumDecodeNullable(_$ForwardValuesEnumMap, json['option']),
+  );
+}
+
+Map<String, dynamic> _$CookieObjectToJson(CookieObject instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cookiesAllowList', instance.cookiesAllowList);
+  writeNotNull('option', _$ForwardValuesEnumMap[instance.option]);
+  return val;
+}
+
+const _$ForwardValuesEnumMap = {
+  ForwardValues.none: 'none',
+  ForwardValues.allowList: 'allow-list',
+  ForwardValues.all: 'all',
+};
+
 CopySnapshotResult _$CopySnapshotResultFromJson(Map<String, dynamic> json) {
   return CopySnapshotResult(
+    operations: (json['operations'] as List)
+        ?.map((e) =>
+            e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+CreateCertificateResult _$CreateCertificateResultFromJson(
+    Map<String, dynamic> json) {
+  return CreateCertificateResult(
+    certificate: json['certificate'] == null
+        ? null
+        : CertificateSummary.fromJson(
+            json['certificate'] as Map<String, dynamic>),
     operations: (json['operations'] as List)
         ?.map((e) =>
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
@@ -458,6 +892,38 @@ CreateContactMethodResult _$CreateContactMethodResultFromJson(
         ?.map((e) =>
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+CreateContainerServiceDeploymentResult
+    _$CreateContainerServiceDeploymentResultFromJson(
+        Map<String, dynamic> json) {
+  return CreateContainerServiceDeploymentResult(
+    containerService: json['containerService'] == null
+        ? null
+        : ContainerService.fromJson(
+            json['containerService'] as Map<String, dynamic>),
+  );
+}
+
+CreateContainerServiceRegistryLoginResult
+    _$CreateContainerServiceRegistryLoginResultFromJson(
+        Map<String, dynamic> json) {
+  return CreateContainerServiceRegistryLoginResult(
+    registryLogin: json['registryLogin'] == null
+        ? null
+        : ContainerServiceRegistryLogin.fromJson(
+            json['registryLogin'] as Map<String, dynamic>),
+  );
+}
+
+CreateContainerServiceResult _$CreateContainerServiceResultFromJson(
+    Map<String, dynamic> json) {
+  return CreateContainerServiceResult(
+    containerService: json['containerService'] == null
+        ? null
+        : ContainerService.fromJson(
+            json['containerService'] as Map<String, dynamic>),
   );
 }
 
@@ -487,6 +953,19 @@ CreateDiskSnapshotResult _$CreateDiskSnapshotResultFromJson(
         ?.map((e) =>
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+CreateDistributionResult _$CreateDistributionResultFromJson(
+    Map<String, dynamic> json) {
+  return CreateDistributionResult(
+    distribution: json['distribution'] == null
+        ? null
+        : LightsailDistribution.fromJson(
+            json['distribution'] as Map<String, dynamic>),
+    operation: json['operation'] == null
+        ? null
+        : Operation.fromJson(json['operation'] as Map<String, dynamic>),
   );
 }
 
@@ -622,6 +1101,16 @@ DeleteAutoSnapshotResult _$DeleteAutoSnapshotResultFromJson(
   );
 }
 
+DeleteCertificateResult _$DeleteCertificateResultFromJson(
+    Map<String, dynamic> json) {
+  return DeleteCertificateResult(
+    operations: (json['operations'] as List)
+        ?.map((e) =>
+            e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 DeleteContactMethodResult _$DeleteContactMethodResultFromJson(
     Map<String, dynamic> json) {
   return DeleteContactMethodResult(
@@ -630,6 +1119,16 @@ DeleteContactMethodResult _$DeleteContactMethodResultFromJson(
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+DeleteContainerImageResult _$DeleteContainerImageResultFromJson(
+    Map<String, dynamic> json) {
+  return DeleteContainerImageResult();
+}
+
+DeleteContainerServiceResult _$DeleteContainerServiceResultFromJson(
+    Map<String, dynamic> json) {
+  return DeleteContainerServiceResult();
 }
 
 DeleteDiskResult _$DeleteDiskResultFromJson(Map<String, dynamic> json) {
@@ -648,6 +1147,15 @@ DeleteDiskSnapshotResult _$DeleteDiskSnapshotResultFromJson(
         ?.map((e) =>
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+DeleteDistributionResult _$DeleteDistributionResultFromJson(
+    Map<String, dynamic> json) {
+  return DeleteDistributionResult(
+    operation: json['operation'] == null
+        ? null
+        : Operation.fromJson(json['operation'] as Map<String, dynamic>),
   );
 }
 
@@ -751,6 +1259,16 @@ DestinationInfo _$DestinationInfoFromJson(Map<String, dynamic> json) {
   return DestinationInfo(
     id: json['id'] as String,
     service: json['service'] as String,
+  );
+}
+
+DetachCertificateFromDistributionResult
+    _$DetachCertificateFromDistributionResultFromJson(
+        Map<String, dynamic> json) {
+  return DetachCertificateFromDistributionResult(
+    operation: json['operation'] == null
+        ? null
+        : Operation.fromJson(json['operation'] as Map<String, dynamic>),
   );
 }
 
@@ -890,6 +1408,16 @@ DiskSnapshotInfo _$DiskSnapshotInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
+DistributionBundle _$DistributionBundleFromJson(Map<String, dynamic> json) {
+  return DistributionBundle(
+    bundleId: json['bundleId'] as String,
+    isActive: json['isActive'] as bool,
+    name: json['name'] as String,
+    price: (json['price'] as num)?.toDouble(),
+    transferPerMonthInGb: json['transferPerMonthInGb'] as int,
+  );
+}
+
 Domain _$DomainFromJson(Map<String, dynamic> json) {
   return Domain(
     arn: json['arn'] as String,
@@ -942,6 +1470,17 @@ Map<String, dynamic> _$DomainEntryToJson(DomainEntry instance) {
   return val;
 }
 
+DomainValidationRecord _$DomainValidationRecordFromJson(
+    Map<String, dynamic> json) {
+  return DomainValidationRecord(
+    domainName: json['domainName'] as String,
+    resourceRecord: json['resourceRecord'] == null
+        ? null
+        : ResourceRecord.fromJson(
+            json['resourceRecord'] as Map<String, dynamic>),
+  );
+}
+
 DownloadDefaultKeyPairResult _$DownloadDefaultKeyPairResultFromJson(
     Map<String, dynamic> json) {
   return DownloadDefaultKeyPairResult(
@@ -957,6 +1496,21 @@ EnableAddOnResult _$EnableAddOnResultFromJson(Map<String, dynamic> json) {
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+Map<String, dynamic> _$EndpointRequestToJson(EndpointRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('containerName', instance.containerName);
+  writeNotNull('containerPort', instance.containerPort);
+  writeNotNull('healthCheck', instance.healthCheck?.toJson());
+  return val;
 }
 
 ExportSnapshotRecord _$ExportSnapshotRecordFromJson(Map<String, dynamic> json) {
@@ -1068,6 +1622,17 @@ GetBundlesResult _$GetBundlesResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+GetCertificatesResult _$GetCertificatesResultFromJson(
+    Map<String, dynamic> json) {
+  return GetCertificatesResult(
+    certificates: (json['certificates'] as List)
+        ?.map((e) => e == null
+            ? null
+            : CertificateSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 GetCloudFormationStackRecordsResult
     _$GetCloudFormationStackRecordsResultFromJson(Map<String, dynamic> json) {
   return GetCloudFormationStackRecordsResult(
@@ -1087,6 +1652,80 @@ GetContactMethodsResult _$GetContactMethodsResultFromJson(
         ?.map((e) => e == null
             ? null
             : ContactMethod.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+GetContainerAPIMetadataResult _$GetContainerAPIMetadataResultFromJson(
+    Map<String, dynamic> json) {
+  return GetContainerAPIMetadataResult(
+    metadata: (json['metadata'] as List)
+        ?.map((e) => (e as Map<String, dynamic>)?.map(
+              (k, e) => MapEntry(k, e as String),
+            ))
+        ?.toList(),
+  );
+}
+
+GetContainerImagesResult _$GetContainerImagesResultFromJson(
+    Map<String, dynamic> json) {
+  return GetContainerImagesResult(
+    containerImages: (json['containerImages'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ContainerImage.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+GetContainerLogResult _$GetContainerLogResultFromJson(
+    Map<String, dynamic> json) {
+  return GetContainerLogResult(
+    logEvents: (json['logEvents'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ContainerServiceLogEvent.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextPageToken: json['nextPageToken'] as String,
+  );
+}
+
+GetContainerServiceDeploymentsResult
+    _$GetContainerServiceDeploymentsResultFromJson(Map<String, dynamic> json) {
+  return GetContainerServiceDeploymentsResult(
+    deployments: (json['deployments'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ContainerServiceDeployment.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+GetContainerServiceMetricDataResult
+    _$GetContainerServiceMetricDataResultFromJson(Map<String, dynamic> json) {
+  return GetContainerServiceMetricDataResult(
+    metricData: (json['metricData'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MetricDatapoint.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    metricName: _$enumDecodeNullable(
+        _$ContainerServiceMetricNameEnumMap, json['metricName']),
+  );
+}
+
+const _$ContainerServiceMetricNameEnumMap = {
+  ContainerServiceMetricName.cPUUtilization: 'CPUUtilization',
+  ContainerServiceMetricName.memoryUtilization: 'MemoryUtilization',
+};
+
+GetContainerServicePowersResult _$GetContainerServicePowersResultFromJson(
+    Map<String, dynamic> json) {
+  return GetContainerServicePowersResult(
+    powers: (json['powers'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ContainerServicePower.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -1124,6 +1763,59 @@ GetDisksResult _$GetDisksResultFromJson(Map<String, dynamic> json) {
     disks: (json['disks'] as List)
         ?.map(
             (e) => e == null ? null : Disk.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextPageToken: json['nextPageToken'] as String,
+  );
+}
+
+GetDistributionBundlesResult _$GetDistributionBundlesResultFromJson(
+    Map<String, dynamic> json) {
+  return GetDistributionBundlesResult(
+    bundles: (json['bundles'] as List)
+        ?.map((e) => e == null
+            ? null
+            : DistributionBundle.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+GetDistributionLatestCacheResetResult
+    _$GetDistributionLatestCacheResetResultFromJson(Map<String, dynamic> json) {
+  return GetDistributionLatestCacheResetResult(
+    createTime: const UnixDateTimeConverter().fromJson(json['createTime']),
+    status: json['status'] as String,
+  );
+}
+
+GetDistributionMetricDataResult _$GetDistributionMetricDataResultFromJson(
+    Map<String, dynamic> json) {
+  return GetDistributionMetricDataResult(
+    metricData: (json['metricData'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MetricDatapoint.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    metricName: _$enumDecodeNullable(
+        _$DistributionMetricNameEnumMap, json['metricName']),
+  );
+}
+
+const _$DistributionMetricNameEnumMap = {
+  DistributionMetricName.requests: 'Requests',
+  DistributionMetricName.bytesDownloaded: 'BytesDownloaded',
+  DistributionMetricName.bytesUploaded: 'BytesUploaded',
+  DistributionMetricName.totalErrorRate: 'TotalErrorRate',
+  DistributionMetricName.http4xxErrorRate: 'Http4xxErrorRate',
+  DistributionMetricName.http5xxErrorRate: 'Http5xxErrorRate',
+};
+
+GetDistributionsResult _$GetDistributionsResultFromJson(
+    Map<String, dynamic> json) {
+  return GetDistributionsResult(
+    distributions: (json['distributions'] as List)
+        ?.map((e) => e == null
+            ? null
+            : LightsailDistribution.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextPageToken: json['nextPageToken'] as String,
   );
@@ -1189,6 +1881,8 @@ const _$InstanceMetricNameEnumMap = {
   InstanceMetricName.statusCheckFailed: 'StatusCheckFailed',
   InstanceMetricName.statusCheckFailedInstance: 'StatusCheckFailed_Instance',
   InstanceMetricName.statusCheckFailedSystem: 'StatusCheckFailed_System',
+  InstanceMetricName.burstCapacityTime: 'BurstCapacityTime',
+  InstanceMetricName.burstCapacityPercentage: 'BurstCapacityPercentage',
 };
 
 GetInstancePortStatesResult _$GetInstancePortStatesResultFromJson(
@@ -1534,6 +2228,48 @@ GetStaticIpsResult _$GetStaticIpsResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+HeaderObject _$HeaderObjectFromJson(Map<String, dynamic> json) {
+  return HeaderObject(
+    headersAllowList: (json['headersAllowList'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$HeaderEnumEnumMap, e))
+        ?.toList(),
+    option: _$enumDecodeNullable(_$ForwardValuesEnumMap, json['option']),
+  );
+}
+
+Map<String, dynamic> _$HeaderObjectToJson(HeaderObject instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('headersAllowList',
+      instance.headersAllowList?.map((e) => _$HeaderEnumEnumMap[e])?.toList());
+  writeNotNull('option', _$ForwardValuesEnumMap[instance.option]);
+  return val;
+}
+
+const _$HeaderEnumEnumMap = {
+  HeaderEnum.accept: 'Accept',
+  HeaderEnum.acceptCharset: 'Accept-Charset',
+  HeaderEnum.acceptDatetime: 'Accept-Datetime',
+  HeaderEnum.acceptEncoding: 'Accept-Encoding',
+  HeaderEnum.acceptLanguage: 'Accept-Language',
+  HeaderEnum.authorization: 'Authorization',
+  HeaderEnum.cloudFrontForwardedProto: 'CloudFront-Forwarded-Proto',
+  HeaderEnum.cloudFrontIsDesktopViewer: 'CloudFront-Is-Desktop-Viewer',
+  HeaderEnum.cloudFrontIsMobileViewer: 'CloudFront-Is-Mobile-Viewer',
+  HeaderEnum.cloudFrontIsSmartTVViewer: 'CloudFront-Is-SmartTV-Viewer',
+  HeaderEnum.cloudFrontIsTabletViewer: 'CloudFront-Is-Tablet-Viewer',
+  HeaderEnum.cloudFrontViewerCountry: 'CloudFront-Viewer-Country',
+  HeaderEnum.host: 'Host',
+  HeaderEnum.origin: 'Origin',
+  HeaderEnum.referer: 'Referer',
+};
+
 HostKeyAttributes _$HostKeyAttributesFromJson(Map<String, dynamic> json) {
   return HostKeyAttributes(
     algorithm: json['algorithm'] as String,
@@ -1555,6 +2291,44 @@ ImportKeyPairResult _$ImportKeyPairResultFromJson(Map<String, dynamic> json) {
         : Operation.fromJson(json['operation'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$InputOriginToJson(InputOrigin instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('protocolPolicy',
+      _$OriginProtocolPolicyEnumEnumMap[instance.protocolPolicy]);
+  writeNotNull('regionName', _$RegionNameEnumMap[instance.regionName]);
+  return val;
+}
+
+const _$OriginProtocolPolicyEnumEnumMap = {
+  OriginProtocolPolicyEnum.httpOnly: 'http-only',
+  OriginProtocolPolicyEnum.httpsOnly: 'https-only',
+};
+
+const _$RegionNameEnumMap = {
+  RegionName.usEast_1: 'us-east-1',
+  RegionName.usEast_2: 'us-east-2',
+  RegionName.usWest_1: 'us-west-1',
+  RegionName.usWest_2: 'us-west-2',
+  RegionName.euWest_1: 'eu-west-1',
+  RegionName.euWest_2: 'eu-west-2',
+  RegionName.euWest_3: 'eu-west-3',
+  RegionName.euCentral_1: 'eu-central-1',
+  RegionName.caCentral_1: 'ca-central-1',
+  RegionName.apSouth_1: 'ap-south-1',
+  RegionName.apSoutheast_1: 'ap-southeast-1',
+  RegionName.apSoutheast_2: 'ap-southeast-2',
+  RegionName.apNortheast_1: 'ap-northeast-1',
+  RegionName.apNortheast_2: 'ap-northeast-2',
+};
 
 Instance _$InstanceFromJson(Map<String, dynamic> json) {
   return Instance(
@@ -1718,6 +2492,9 @@ InstancePortInfo _$InstancePortInfoFromJson(Map<String, dynamic> json) {
     accessFrom: json['accessFrom'] as String,
     accessType:
         _$enumDecodeNullable(_$PortAccessTypeEnumMap, json['accessType']),
+    cidrListAliases:
+        (json['cidrListAliases'] as List)?.map((e) => e as String)?.toList(),
+    cidrs: (json['cidrs'] as List)?.map((e) => e as String)?.toList(),
     commonName: json['commonName'] as String,
     fromPort: json['fromPort'] as int,
     protocol: _$enumDecodeNullable(_$NetworkProtocolEnumMap, json['protocol']),
@@ -1739,10 +2516,14 @@ const _$NetworkProtocolEnumMap = {
   NetworkProtocol.tcp: 'tcp',
   NetworkProtocol.all: 'all',
   NetworkProtocol.udp: 'udp',
+  NetworkProtocol.icmp: 'icmp',
 };
 
 InstancePortState _$InstancePortStateFromJson(Map<String, dynamic> json) {
   return InstancePortState(
+    cidrListAliases:
+        (json['cidrListAliases'] as List)?.map((e) => e as String)?.toList(),
+    cidrs: (json['cidrs'] as List)?.map((e) => e as String)?.toList(),
     fromPort: json['fromPort'] as int,
     protocol: _$enumDecodeNullable(_$NetworkProtocolEnumMap, json['protocol']),
     state: _$enumDecodeNullable(_$PortStateEnumMap, json['state']),
@@ -1825,6 +2606,50 @@ KeyPair _$KeyPairFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     resourceType:
         _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
+    supportCode: json['supportCode'] as String,
+    tags: (json['tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+LightsailDistribution _$LightsailDistributionFromJson(
+    Map<String, dynamic> json) {
+  return LightsailDistribution(
+    ableToUpdateBundle: json['ableToUpdateBundle'] as bool,
+    alternativeDomainNames: (json['alternativeDomainNames'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
+    arn: json['arn'] as String,
+    bundleId: json['bundleId'] as String,
+    cacheBehaviorSettings: json['cacheBehaviorSettings'] == null
+        ? null
+        : CacheSettings.fromJson(
+            json['cacheBehaviorSettings'] as Map<String, dynamic>),
+    cacheBehaviors: (json['cacheBehaviors'] as List)
+        ?.map((e) => e == null
+            ? null
+            : CacheBehaviorPerPath.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    certificateName: json['certificateName'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    defaultCacheBehavior: json['defaultCacheBehavior'] == null
+        ? null
+        : CacheBehavior.fromJson(
+            json['defaultCacheBehavior'] as Map<String, dynamic>),
+    domainName: json['domainName'] as String,
+    isEnabled: json['isEnabled'] as bool,
+    location: json['location'] == null
+        ? null
+        : ResourceLocation.fromJson(json['location'] as Map<String, dynamic>),
+    name: json['name'] as String,
+    origin: json['origin'] == null
+        ? null
+        : Origin.fromJson(json['origin'] as Map<String, dynamic>),
+    originPublicDNS: json['originPublicDNS'] as String,
+    resourceType:
+        _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
+    status: json['status'] as String,
     supportCode: json['supportCode'] as String,
     tags: (json['tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
@@ -2180,6 +3005,26 @@ const _$OperationTypeEnumMap = {
   OperationType.getContactMethods: 'GetContactMethods',
   OperationType.sendContactMethodVerification: 'SendContactMethodVerification',
   OperationType.deleteContactMethod: 'DeleteContactMethod',
+  OperationType.createDistribution: 'CreateDistribution',
+  OperationType.updateDistribution: 'UpdateDistribution',
+  OperationType.deleteDistribution: 'DeleteDistribution',
+  OperationType.resetDistributionCache: 'ResetDistributionCache',
+  OperationType.attachCertificateToDistribution:
+      'AttachCertificateToDistribution',
+  OperationType.detachCertificateFromDistribution:
+      'DetachCertificateFromDistribution',
+  OperationType.updateDistributionBundle: 'UpdateDistributionBundle',
+  OperationType.createCertificate: 'CreateCertificate',
+  OperationType.deleteCertificate: 'DeleteCertificate',
+  OperationType.createContainerService: 'CreateContainerService',
+  OperationType.updateContainerService: 'UpdateContainerService',
+  OperationType.deleteContainerService: 'DeleteContainerService',
+  OperationType.createContainerServiceDeployment:
+      'CreateContainerServiceDeployment',
+  OperationType.createContainerServiceRegistryLogin:
+      'CreateContainerServiceRegistryLogin',
+  OperationType.registerContainerImage: 'RegisterContainerImage',
+  OperationType.deleteContainerImage: 'DeleteContainerImage',
 };
 
 const _$OperationStatusEnumMap = {
@@ -2189,6 +3034,17 @@ const _$OperationStatusEnumMap = {
   OperationStatus.completed: 'Completed',
   OperationStatus.succeeded: 'Succeeded',
 };
+
+Origin _$OriginFromJson(Map<String, dynamic> json) {
+  return Origin(
+    name: json['name'] as String,
+    protocolPolicy: _$enumDecodeNullable(
+        _$OriginProtocolPolicyEnumEnumMap, json['protocolPolicy']),
+    regionName: _$enumDecodeNullable(_$RegionNameEnumMap, json['regionName']),
+    resourceType:
+        _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
+  );
+}
 
 PasswordData _$PasswordDataFromJson(Map<String, dynamic> json) {
   return PasswordData(
@@ -2234,6 +3090,8 @@ Map<String, dynamic> _$PortInfoToJson(PortInfo instance) {
     }
   }
 
+  writeNotNull('cidrListAliases', instance.cidrListAliases);
+  writeNotNull('cidrs', instance.cidrs);
   writeNotNull('fromPort', instance.fromPort);
   writeNotNull('protocol', _$NetworkProtocolEnumMap[instance.protocol]);
   writeNotNull('toPort', instance.toPort);
@@ -2256,6 +3114,29 @@ PutInstancePublicPortsResult _$PutInstancePublicPortsResultFromJson(
         ? null
         : Operation.fromJson(json['operation'] as Map<String, dynamic>),
   );
+}
+
+QueryStringObject _$QueryStringObjectFromJson(Map<String, dynamic> json) {
+  return QueryStringObject(
+    option: json['option'] as bool,
+    queryStringsAllowList: (json['queryStringsAllowList'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$QueryStringObjectToJson(QueryStringObject instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('option', instance.option);
+  writeNotNull('queryStringsAllowList', instance.queryStringsAllowList);
+  return val;
 }
 
 RebootInstanceResult _$RebootInstanceResultFromJson(Map<String, dynamic> json) {
@@ -2297,22 +3178,15 @@ Region _$RegionFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$RegionNameEnumMap = {
-  RegionName.usEast_1: 'us-east-1',
-  RegionName.usEast_2: 'us-east-2',
-  RegionName.usWest_1: 'us-west-1',
-  RegionName.usWest_2: 'us-west-2',
-  RegionName.euWest_1: 'eu-west-1',
-  RegionName.euWest_2: 'eu-west-2',
-  RegionName.euWest_3: 'eu-west-3',
-  RegionName.euCentral_1: 'eu-central-1',
-  RegionName.caCentral_1: 'ca-central-1',
-  RegionName.apSouth_1: 'ap-south-1',
-  RegionName.apSoutheast_1: 'ap-southeast-1',
-  RegionName.apSoutheast_2: 'ap-southeast-2',
-  RegionName.apNortheast_1: 'ap-northeast-1',
-  RegionName.apNortheast_2: 'ap-northeast-2',
-};
+RegisterContainerImageResult _$RegisterContainerImageResultFromJson(
+    Map<String, dynamic> json) {
+  return RegisterContainerImageResult(
+    containerImage: json['containerImage'] == null
+        ? null
+        : ContainerImage.fromJson(
+            json['containerImage'] as Map<String, dynamic>),
+  );
+}
 
 RelationalDatabase _$RelationalDatabaseFromJson(Map<String, dynamic> json) {
   return RelationalDatabase(
@@ -2498,10 +3372,50 @@ ReleaseStaticIpResult _$ReleaseStaticIpResultFromJson(
   );
 }
 
+RenewalSummary _$RenewalSummaryFromJson(Map<String, dynamic> json) {
+  return RenewalSummary(
+    domainValidationRecords: (json['domainValidationRecords'] as List)
+        ?.map((e) => e == null
+            ? null
+            : DomainValidationRecord.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    renewalStatus:
+        _$enumDecodeNullable(_$RenewalStatusEnumMap, json['renewalStatus']),
+    renewalStatusReason: json['renewalStatusReason'] as String,
+    updatedAt: const UnixDateTimeConverter().fromJson(json['updatedAt']),
+  );
+}
+
+const _$RenewalStatusEnumMap = {
+  RenewalStatus.pendingAutoRenewal: 'PendingAutoRenewal',
+  RenewalStatus.pendingValidation: 'PendingValidation',
+  RenewalStatus.success: 'Success',
+  RenewalStatus.failed: 'Failed',
+};
+
+ResetDistributionCacheResult _$ResetDistributionCacheResultFromJson(
+    Map<String, dynamic> json) {
+  return ResetDistributionCacheResult(
+    createTime: const UnixDateTimeConverter().fromJson(json['createTime']),
+    operation: json['operation'] == null
+        ? null
+        : Operation.fromJson(json['operation'] as Map<String, dynamic>),
+    status: json['status'] as String,
+  );
+}
+
 ResourceLocation _$ResourceLocationFromJson(Map<String, dynamic> json) {
   return ResourceLocation(
     availabilityZone: json['availabilityZone'] as String,
     regionName: _$enumDecodeNullable(_$RegionNameEnumMap, json['regionName']),
+  );
+}
+
+ResourceRecord _$ResourceRecordFromJson(Map<String, dynamic> json) {
+  return ResourceRecord(
+    name: json['name'] as String,
+    type: json['type'] as String,
+    value: json['value'] as String,
   );
 }
 
@@ -2623,6 +3537,34 @@ UntagResourceResult _$UntagResourceResultFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Operation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+UpdateContainerServiceResult _$UpdateContainerServiceResultFromJson(
+    Map<String, dynamic> json) {
+  return UpdateContainerServiceResult(
+    containerService: json['containerService'] == null
+        ? null
+        : ContainerService.fromJson(
+            json['containerService'] as Map<String, dynamic>),
+  );
+}
+
+UpdateDistributionBundleResult _$UpdateDistributionBundleResultFromJson(
+    Map<String, dynamic> json) {
+  return UpdateDistributionBundleResult(
+    operation: json['operation'] == null
+        ? null
+        : Operation.fromJson(json['operation'] as Map<String, dynamic>),
+  );
+}
+
+UpdateDistributionResult _$UpdateDistributionResultFromJson(
+    Map<String, dynamic> json) {
+  return UpdateDistributionResult(
+    operation: json['operation'] == null
+        ? null
+        : Operation.fromJson(json['operation'] as Map<String, dynamic>),
   );
 }
 

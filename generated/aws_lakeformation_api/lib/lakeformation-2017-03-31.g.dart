@@ -111,6 +111,7 @@ const _$PermissionEnumMap = {
   Permission.drop: 'DROP',
   Permission.delete: 'DELETE',
   Permission.insert: 'INSERT',
+  Permission.describe: 'DESCRIBE',
   Permission.createDatabase: 'CREATE_DATABASE',
   Permission.createTable: 'CREATE_TABLE',
   Permission.dataLocationAccess: 'DATA_LOCATION_ACCESS',
@@ -194,6 +195,9 @@ DataLakeSettings _$DataLakeSettingsFromJson(Map<String, dynamic> json) {
             ? null
             : DataLakePrincipal.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    trustedResourceOwners: (json['TrustedResourceOwners'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
   );
 }
 
@@ -218,12 +222,14 @@ Map<String, dynamic> _$DataLakeSettingsToJson(DataLakeSettings instance) {
           ?.toList());
   writeNotNull('DataLakeAdmins',
       instance.dataLakeAdmins?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TrustedResourceOwners', instance.trustedResourceOwners);
   return val;
 }
 
 DataLocationResource _$DataLocationResourceFromJson(Map<String, dynamic> json) {
   return DataLocationResource(
     resourceArn: json['ResourceArn'] as String,
+    catalogId: json['CatalogId'] as String,
   );
 }
 
@@ -238,12 +244,14 @@ Map<String, dynamic> _$DataLocationResourceToJson(
   }
 
   writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('CatalogId', instance.catalogId);
   return val;
 }
 
 DatabaseResource _$DatabaseResourceFromJson(Map<String, dynamic> json) {
   return DatabaseResource(
     name: json['Name'] as String,
+    catalogId: json['CatalogId'] as String,
   );
 }
 
@@ -257,6 +265,7 @@ Map<String, dynamic> _$DatabaseResourceToJson(DatabaseResource instance) {
   }
 
   writeNotNull('Name', instance.name);
+  writeNotNull('CatalogId', instance.catalogId);
   return val;
 }
 
@@ -271,6 +280,13 @@ DescribeResourceResponse _$DescribeResourceResponseFromJson(
     resourceInfo: json['ResourceInfo'] == null
         ? null
         : ResourceInfo.fromJson(json['ResourceInfo'] as Map<String, dynamic>),
+  );
+}
+
+DetailsMap _$DetailsMapFromJson(Map<String, dynamic> json) {
+  return DetailsMap(
+    resourceShare:
+        (json['ResourceShare'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
@@ -398,6 +414,10 @@ Map<String, dynamic> _$PrincipalPermissionsToJson(
 PrincipalResourcePermissions _$PrincipalResourcePermissionsFromJson(
     Map<String, dynamic> json) {
   return PrincipalResourcePermissions(
+    additionalDetails: json['AdditionalDetails'] == null
+        ? null
+        : DetailsMap.fromJson(
+            json['AdditionalDetails'] as Map<String, dynamic>),
     permissions: (json['Permissions'] as List)
         ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
         ?.toList(),
@@ -478,7 +498,11 @@ RevokePermissionsResponse _$RevokePermissionsResponseFromJson(
 TableResource _$TableResourceFromJson(Map<String, dynamic> json) {
   return TableResource(
     databaseName: json['DatabaseName'] as String,
+    catalogId: json['CatalogId'] as String,
     name: json['Name'] as String,
+    tableWildcard: json['TableWildcard'] == null
+        ? null
+        : TableWildcard.fromJson(json['TableWildcard'] as Map<String, dynamic>),
   );
 }
 
@@ -492,21 +516,31 @@ Map<String, dynamic> _$TableResourceToJson(TableResource instance) {
   }
 
   writeNotNull('DatabaseName', instance.databaseName);
+  writeNotNull('CatalogId', instance.catalogId);
   writeNotNull('Name', instance.name);
+  writeNotNull('TableWildcard', instance.tableWildcard?.toJson());
   return val;
 }
+
+TableWildcard _$TableWildcardFromJson(Map<String, dynamic> json) {
+  return TableWildcard();
+}
+
+Map<String, dynamic> _$TableWildcardToJson(TableWildcard instance) =>
+    <String, dynamic>{};
 
 TableWithColumnsResource _$TableWithColumnsResourceFromJson(
     Map<String, dynamic> json) {
   return TableWithColumnsResource(
+    databaseName: json['DatabaseName'] as String,
+    name: json['Name'] as String,
+    catalogId: json['CatalogId'] as String,
     columnNames:
         (json['ColumnNames'] as List)?.map((e) => e as String)?.toList(),
     columnWildcard: json['ColumnWildcard'] == null
         ? null
         : ColumnWildcard.fromJson(
             json['ColumnWildcard'] as Map<String, dynamic>),
-    databaseName: json['DatabaseName'] as String,
-    name: json['Name'] as String,
   );
 }
 
@@ -520,10 +554,11 @@ Map<String, dynamic> _$TableWithColumnsResourceToJson(
     }
   }
 
-  writeNotNull('ColumnNames', instance.columnNames);
-  writeNotNull('ColumnWildcard', instance.columnWildcard?.toJson());
   writeNotNull('DatabaseName', instance.databaseName);
   writeNotNull('Name', instance.name);
+  writeNotNull('CatalogId', instance.catalogId);
+  writeNotNull('ColumnNames', instance.columnNames);
+  writeNotNull('ColumnWildcard', instance.columnWildcard?.toJson());
   return val;
 }
 

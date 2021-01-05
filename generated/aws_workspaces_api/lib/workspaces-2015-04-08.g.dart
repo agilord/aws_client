@@ -65,6 +65,13 @@ const _$DedicatedTenancyModificationStateEnumEnumMap = {
   DedicatedTenancyModificationStateEnum.failed: 'FAILED',
 };
 
+AssociateConnectionAliasResult _$AssociateConnectionAliasResultFromJson(
+    Map<String, dynamic> json) {
+  return AssociateConnectionAliasResult(
+    connectionIdentifier: json['ConnectionIdentifier'] as String,
+  );
+}
+
 AssociateIpGroupsResult _$AssociateIpGroupsResultFromJson(
     Map<String, dynamic> json) {
   return AssociateIpGroupsResult();
@@ -128,10 +135,80 @@ const _$ComputeEnumMap = {
   Compute.graphicspro: 'GRAPHICSPRO',
 };
 
+ConnectionAlias _$ConnectionAliasFromJson(Map<String, dynamic> json) {
+  return ConnectionAlias(
+    aliasId: json['AliasId'] as String,
+    associations: (json['Associations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ConnectionAliasAssociation.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    connectionString: json['ConnectionString'] as String,
+    ownerAccountId: json['OwnerAccountId'] as String,
+    state: _$enumDecodeNullable(_$ConnectionAliasStateEnumMap, json['State']),
+  );
+}
+
+const _$ConnectionAliasStateEnumMap = {
+  ConnectionAliasState.creating: 'CREATING',
+  ConnectionAliasState.created: 'CREATED',
+  ConnectionAliasState.deleting: 'DELETING',
+};
+
+ConnectionAliasAssociation _$ConnectionAliasAssociationFromJson(
+    Map<String, dynamic> json) {
+  return ConnectionAliasAssociation(
+    associatedAccountId: json['AssociatedAccountId'] as String,
+    associationStatus: _$enumDecodeNullable(
+        _$AssociationStatusEnumMap, json['AssociationStatus']),
+    connectionIdentifier: json['ConnectionIdentifier'] as String,
+    resourceId: json['ResourceId'] as String,
+  );
+}
+
+const _$AssociationStatusEnumMap = {
+  AssociationStatus.notAssociated: 'NOT_ASSOCIATED',
+  AssociationStatus.associatedWithOwnerAccount: 'ASSOCIATED_WITH_OWNER_ACCOUNT',
+  AssociationStatus.associatedWithSharedAccount:
+      'ASSOCIATED_WITH_SHARED_ACCOUNT',
+  AssociationStatus.pendingAssociation: 'PENDING_ASSOCIATION',
+  AssociationStatus.pendingDisassociation: 'PENDING_DISASSOCIATION',
+};
+
+ConnectionAliasPermission _$ConnectionAliasPermissionFromJson(
+    Map<String, dynamic> json) {
+  return ConnectionAliasPermission(
+    allowAssociation: json['AllowAssociation'] as bool,
+    sharedAccountId: json['SharedAccountId'] as String,
+  );
+}
+
+Map<String, dynamic> _$ConnectionAliasPermissionToJson(
+    ConnectionAliasPermission instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AllowAssociation', instance.allowAssociation);
+  writeNotNull('SharedAccountId', instance.sharedAccountId);
+  return val;
+}
+
 CopyWorkspaceImageResult _$CopyWorkspaceImageResultFromJson(
     Map<String, dynamic> json) {
   return CopyWorkspaceImageResult(
     imageId: json['ImageId'] as String,
+  );
+}
+
+CreateConnectionAliasResult _$CreateConnectionAliasResultFromJson(
+    Map<String, dynamic> json) {
+  return CreateConnectionAliasResult(
+    aliasId: json['AliasId'] as String,
   );
 }
 
@@ -171,6 +248,11 @@ DefaultWorkspaceCreationProperties _$DefaultWorkspaceCreationPropertiesFromJson(
     userEnabledAsLocalAdministrator:
         json['UserEnabledAsLocalAdministrator'] as bool,
   );
+}
+
+DeleteConnectionAliasResult _$DeleteConnectionAliasResultFromJson(
+    Map<String, dynamic> json) {
+  return DeleteConnectionAliasResult();
 }
 
 DeleteIpGroupResult _$DeleteIpGroupResultFromJson(Map<String, dynamic> json) {
@@ -225,6 +307,32 @@ DescribeClientPropertiesResult _$DescribeClientPropertiesResultFromJson(
   );
 }
 
+DescribeConnectionAliasPermissionsResult
+    _$DescribeConnectionAliasPermissionsResultFromJson(
+        Map<String, dynamic> json) {
+  return DescribeConnectionAliasPermissionsResult(
+    aliasId: json['AliasId'] as String,
+    connectionAliasPermissions: (json['ConnectionAliasPermissions'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ConnectionAliasPermission.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+DescribeConnectionAliasesResult _$DescribeConnectionAliasesResultFromJson(
+    Map<String, dynamic> json) {
+  return DescribeConnectionAliasesResult(
+    connectionAliases: (json['ConnectionAliases'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ConnectionAlias.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
 DescribeIpGroupsResult _$DescribeIpGroupsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeIpGroupsResult(
@@ -264,6 +372,20 @@ DescribeWorkspaceDirectoriesResult _$DescribeWorkspaceDirectoriesResultFromJson(
         ?.map((e) => e == null
             ? null
             : WorkspaceDirectory.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+DescribeWorkspaceImagePermissionsResult
+    _$DescribeWorkspaceImagePermissionsResultFromJson(
+        Map<String, dynamic> json) {
+  return DescribeWorkspaceImagePermissionsResult(
+    imageId: json['ImageId'] as String,
+    imagePermissions: (json['ImagePermissions'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ImagePermission.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
@@ -319,6 +441,11 @@ DescribeWorkspacesResult _$DescribeWorkspacesResultFromJson(
   );
 }
 
+DisassociateConnectionAliasResult _$DisassociateConnectionAliasResultFromJson(
+    Map<String, dynamic> json) {
+  return DisassociateConnectionAliasResult();
+}
+
 DisassociateIpGroupsResult _$DisassociateIpGroupsResultFromJson(
     Map<String, dynamic> json) {
   return DisassociateIpGroupsResult();
@@ -342,6 +469,12 @@ FailedWorkspaceChangeRequest _$FailedWorkspaceChangeRequestFromJson(
     errorCode: json['ErrorCode'] as String,
     errorMessage: json['ErrorMessage'] as String,
     workspaceId: json['WorkspaceId'] as String,
+  );
+}
+
+ImagePermission _$ImagePermissionFromJson(Map<String, dynamic> json) {
+  return ImagePermission(
+    sharedAccountId: json['SharedAccountId'] as String,
   );
 }
 
@@ -662,9 +795,19 @@ TerminateWorkspacesResult _$TerminateWorkspacesResultFromJson(
   );
 }
 
+UpdateConnectionAliasPermissionResult
+    _$UpdateConnectionAliasPermissionResultFromJson(Map<String, dynamic> json) {
+  return UpdateConnectionAliasPermissionResult();
+}
+
 UpdateRulesOfIpGroupResult _$UpdateRulesOfIpGroupResultFromJson(
     Map<String, dynamic> json) {
   return UpdateRulesOfIpGroupResult();
+}
+
+UpdateWorkspaceImagePermissionResult
+    _$UpdateWorkspaceImagePermissionResultFromJson(Map<String, dynamic> json) {
+  return UpdateWorkspaceImagePermissionResult();
 }
 
 UserStorage _$UserStorageFromJson(Map<String, dynamic> json) {
@@ -826,6 +969,7 @@ Map<String, dynamic> _$WorkspaceCreationPropertiesToJson(
   writeNotNull('DefaultOu', instance.defaultOu);
   writeNotNull('EnableInternetAccess', instance.enableInternetAccess);
   writeNotNull('EnableMaintenanceMode', instance.enableMaintenanceMode);
+  writeNotNull('EnableWorkDocs', instance.enableWorkDocs);
   writeNotNull('UserEnabledAsLocalAdministrator',
       instance.userEnabledAsLocalAdministrator);
   return val;
@@ -884,6 +1028,7 @@ const _$TenancyEnumMap = {
 
 WorkspaceImage _$WorkspaceImageFromJson(Map<String, dynamic> json) {
   return WorkspaceImage(
+    created: const UnixDateTimeConverter().fromJson(json['Created']),
     description: json['Description'] as String,
     errorCode: json['ErrorCode'] as String,
     errorMessage: json['ErrorMessage'] as String,
@@ -893,6 +1038,7 @@ WorkspaceImage _$WorkspaceImageFromJson(Map<String, dynamic> json) {
         ? null
         : OperatingSystem.fromJson(
             json['OperatingSystem'] as Map<String, dynamic>),
+    ownerAccountId: json['OwnerAccountId'] as String,
     requiredTenancy: _$enumDecodeNullable(
         _$WorkspaceImageRequiredTenancyEnumMap, json['RequiredTenancy']),
     state: _$enumDecodeNullable(_$WorkspaceImageStateEnumMap, json['State']),

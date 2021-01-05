@@ -221,6 +221,11 @@ const _$MetricTypeEnumMap = {
   MetricType.comprehendInferenceUtilization: 'ComprehendInferenceUtilization',
   MetricType.lambdaProvisionedConcurrencyUtilization:
       'LambdaProvisionedConcurrencyUtilization',
+  MetricType.cassandraReadCapacityUtilization:
+      'CassandraReadCapacityUtilization',
+  MetricType.cassandraWriteCapacityUtilization:
+      'CassandraWriteCapacityUtilization',
+  MetricType.kafkaBrokerStorageUtilization: 'KafkaBrokerStorageUtilization',
 };
 
 PutScalingPolicyResponse _$PutScalingPolicyResponseFromJson(
@@ -285,8 +290,16 @@ const _$ScalableDimensionEnumMap = {
       'custom-resource:ResourceType:Property',
   ScalableDimension.comprehendDocumentClassifierEndpointDesiredInferenceUnits:
       'comprehend:document-classifier-endpoint:DesiredInferenceUnits',
+  ScalableDimension.comprehendEntityRecognizerEndpointDesiredInferenceUnits:
+      'comprehend:entity-recognizer-endpoint:DesiredInferenceUnits',
   ScalableDimension.lambdaFunctionProvisionedConcurrency:
       'lambda:function:ProvisionedConcurrency',
+  ScalableDimension.cassandraTableReadCapacityUnits:
+      'cassandra:table:ReadCapacityUnits',
+  ScalableDimension.cassandraTableWriteCapacityUnits:
+      'cassandra:table:WriteCapacityUnits',
+  ScalableDimension.kafkaBrokerStorageVolumeSize:
+      'kafka:broker-storage:VolumeSize',
 };
 
 const _$ServiceNamespaceEnumMap = {
@@ -300,6 +313,8 @@ const _$ServiceNamespaceEnumMap = {
   ServiceNamespace.customResource: 'custom-resource',
   ServiceNamespace.comprehend: 'comprehend',
   ServiceNamespace.lambda: 'lambda',
+  ServiceNamespace.cassandra: 'cassandra',
+  ServiceNamespace.kafka: 'kafka',
 };
 
 ScalableTargetAction _$ScalableTargetActionFromJson(Map<String, dynamic> json) {

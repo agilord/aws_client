@@ -48,6 +48,7 @@ Block _$BlockFromJson(Map<String, dynamic> json) {
     selectionStatus:
         _$enumDecodeNullable(_$SelectionStatusEnumMap, json['SelectionStatus']),
     text: json['Text'] as String,
+    textType: _$enumDecodeNullable(_$TextTypeEnumMap, json['TextType']),
   );
 }
 
@@ -101,6 +102,11 @@ const _$EntityTypeEnumMap = {
 const _$SelectionStatusEnumMap = {
   SelectionStatus.selected: 'SELECTED',
   SelectionStatus.notSelected: 'NOT_SELECTED',
+};
+
+const _$TextTypeEnumMap = {
+  TextType.handwriting: 'HANDWRITING',
+  TextType.printed: 'PRINTED',
 };
 
 BoundingBox _$BoundingBoxFromJson(Map<String, dynamic> json) {
@@ -290,6 +296,20 @@ Map<String, dynamic> _$NotificationChannelToJson(NotificationChannel instance) {
   return val;
 }
 
+Map<String, dynamic> _$OutputConfigToJson(OutputConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('S3Bucket', instance.s3Bucket);
+  writeNotNull('S3Prefix', instance.s3Prefix);
+  return val;
+}
+
 Point _$PointFromJson(Map<String, dynamic> json) {
   return Point(
     x: (json['X'] as num)?.toDouble(),
@@ -307,6 +327,7 @@ Relationship _$RelationshipFromJson(Map<String, dynamic> json) {
 const _$RelationshipTypeEnumMap = {
   RelationshipType.value: 'VALUE',
   RelationshipType.child: 'CHILD',
+  RelationshipType.complexFeatures: 'COMPLEX_FEATURES',
 };
 
 Map<String, dynamic> _$S3ObjectToJson(S3Object instance) {

@@ -75,7 +75,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "InstanceIds": {"shape": "InstanceIds", "flattened": false},
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false}
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -87,7 +90,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "AttachLoadBalancerTargetGroupsType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "TargetGroupARNs": {"shape": "TargetGroupARNs", "flattened": false}
     },
     "flattened": false
@@ -100,7 +106,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "AttachLoadBalancersType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "LoadBalancerNames": {"shape": "LoadBalancerNames", "flattened": false}
     },
     "flattened": false
@@ -160,6 +169,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "MaxInstanceLifetime": {
         "shape": "MaxInstanceLifetime",
         "flattened": false
+      },
+      "CapacityRebalance": {
+        "shape": "CapacityRebalanceEnabled",
+        "flattened": false
       }
     },
     "flattened": false
@@ -169,7 +182,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "AutoScalingGroupMinSize": {"type": "integer", "flattened": false},
   "AutoScalingGroupNames": {
     "type": "list",
-    "member": {"shape": "ResourceName"},
+    "member": {"shape": "XmlStringMaxLen255"},
     "flattened": false
   },
   "AutoScalingGroupNamesType": {
@@ -264,7 +277,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "BatchDeleteScheduledActionType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "ScheduledActionNames": {
         "shape": "ScheduledActionNames",
         "flattened": false
@@ -285,7 +301,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "BatchPutScheduledUpdateGroupActionType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "ScheduledUpdateGroupActions": {
         "shape": "ScheduledUpdateGroupActionRequests",
         "flattened": false
@@ -313,6 +332,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "BlockDeviceMapping"},
     "flattened": false
   },
+  "CancelInstanceRefreshAnswer": {
+    "type": "structure",
+    "members": {
+      "InstanceRefreshId": {"shape": "XmlStringMaxLen255", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CancelInstanceRefreshType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "CapacityRebalanceEnabled": {"type": "boolean", "flattened": false},
   "ClassicLinkVPCSecurityGroups": {
     "type": "list",
     "member": {"shape": "XmlStringMaxLen255"},
@@ -351,7 +388,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "XmlStringMaxLen255",
         "flattened": false
       },
-      "LaunchConfigurationName": {"shape": "ResourceName", "flattened": false},
+      "LaunchConfigurationName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "LaunchTemplate": {
         "shape": "LaunchTemplateSpecification",
         "flattened": false
@@ -384,6 +424,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "NewInstancesProtectedFromScaleIn": {
         "shape": "InstanceProtected",
+        "flattened": false
+      },
+      "CapacityRebalance": {
+        "shape": "CapacityRebalanceEnabled",
         "flattened": false
       },
       "LifecycleHookSpecificationList": {
@@ -434,7 +478,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "AssociatePublicIpAddress",
         "flattened": false
       },
-      "PlacementTenancy": {"shape": "XmlStringMaxLen64", "flattened": false}
+      "PlacementTenancy": {"shape": "XmlStringMaxLen64", "flattened": false},
+      "MetadataOptions": {
+        "shape": "InstanceMetadataOptions",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -459,7 +507,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DeleteAutoScalingGroupType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "ForceDelete": {"shape": "ForceDelete", "flattened": false}
     },
     "flattened": false
@@ -476,22 +527,31 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "AsciiStringMaxLen255",
         "flattened": false
       },
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false}
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      }
     },
     "flattened": false
   },
   "DeleteNotificationConfigurationType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
-      "TopicARN": {"shape": "ResourceName", "flattened": false}
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "TopicARN": {"shape": "XmlStringMaxLen255", "flattened": false}
     },
     "flattened": false
   },
   "DeletePolicyType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "PolicyName": {"shape": "ResourceName", "flattened": false}
     },
     "flattened": false
@@ -499,8 +559,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DeleteScheduledActionType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
-      "ScheduledActionName": {"shape": "ResourceName", "flattened": false}
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "ScheduledActionName": {"shape": "XmlStringMaxLen255", "flattened": false}
     },
     "flattened": false
   },
@@ -559,6 +622,27 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DescribeInstanceRefreshesAnswer": {
+    "type": "structure",
+    "members": {
+      "InstanceRefreshes": {"shape": "InstanceRefreshes", "flattened": false},
+      "NextToken": {"shape": "XmlString", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeInstanceRefreshesType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "InstanceRefreshIds": {"shape": "InstanceRefreshIds", "flattened": false},
+      "NextToken": {"shape": "XmlString", "flattened": false},
+      "MaxRecords": {"shape": "MaxRecords", "flattened": false}
+    },
+    "flattened": false
+  },
   "DescribeLifecycleHookTypesAnswer": {
     "type": "structure",
     "members": {
@@ -579,7 +663,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DescribeLifecycleHooksType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "LifecycleHookNames": {"shape": "LifecycleHookNames", "flattened": false}
     },
     "flattened": false
@@ -587,7 +674,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DescribeLoadBalancerTargetGroupsRequest": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "NextToken": {"shape": "XmlString", "flattened": false},
       "MaxRecords": {"shape": "MaxRecords", "flattened": false}
     },
@@ -607,7 +697,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DescribeLoadBalancersRequest": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "NextToken": {"shape": "XmlString", "flattened": false},
       "MaxRecords": {"shape": "MaxRecords", "flattened": false}
     },
@@ -655,7 +748,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DescribePoliciesType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "PolicyNames": {"shape": "PolicyNames", "flattened": false},
       "PolicyTypes": {"shape": "PolicyTypes", "flattened": false},
       "NextToken": {"shape": "XmlString", "flattened": false},
@@ -667,7 +763,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "ActivityIds": {"shape": "ActivityIds", "flattened": false},
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "MaxRecords": {"shape": "MaxRecords", "flattened": false},
       "NextToken": {"shape": "XmlString", "flattened": false}
     },
@@ -676,7 +775,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DescribeScheduledActionsType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "ScheduledActionNames": {
         "shape": "ScheduledActionNames",
         "flattened": false
@@ -718,7 +820,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "InstanceIds": {"shape": "InstanceIds", "flattened": false},
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "ShouldDecrementDesiredCapacity": {
         "shape": "ShouldDecrementDesiredCapacity",
         "flattened": false
@@ -734,7 +839,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DetachLoadBalancerTargetGroupsType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "TargetGroupARNs": {"shape": "TargetGroupARNs", "flattened": false}
     },
     "flattened": false
@@ -747,7 +855,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DetachLoadBalancersType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "LoadBalancerNames": {"shape": "LoadBalancerNames", "flattened": false}
     },
     "flattened": false
@@ -755,7 +866,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DisableMetricsCollectionQuery": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "Metrics": {"shape": "Metrics", "flattened": false}
     },
     "flattened": false
@@ -780,7 +894,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "EnableMetricsCollectionQuery": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "Metrics": {"shape": "Metrics", "flattened": false},
       "Granularity": {"shape": "XmlStringMaxLen255", "flattened": false}
     },
@@ -810,7 +927,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "InstanceIds": {"shape": "InstanceIds", "flattened": false},
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "ShouldDecrementDesiredCapacity": {
         "shape": "ShouldDecrementDesiredCapacity",
         "flattened": false
@@ -822,7 +942,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "ExecutePolicyType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "PolicyName": {"shape": "ResourceName", "flattened": false},
       "HonorCooldown": {"shape": "HonorCooldown", "flattened": false},
       "MetricValue": {"shape": "MetricScale", "flattened": false},
@@ -841,7 +964,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "InstanceIds": {"shape": "InstanceIds", "flattened": false},
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false}
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -909,6 +1035,30 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "XmlStringMaxLen19"},
     "flattened": false
   },
+  "InstanceMetadataEndpointState": {"type": "string", "flattened": false},
+  "InstanceMetadataHttpPutResponseHopLimit": {
+    "type": "integer",
+    "flattened": false
+  },
+  "InstanceMetadataHttpTokensState": {"type": "string", "flattened": false},
+  "InstanceMetadataOptions": {
+    "type": "structure",
+    "members": {
+      "HttpTokens": {
+        "shape": "InstanceMetadataHttpTokensState",
+        "flattened": false
+      },
+      "HttpPutResponseHopLimit": {
+        "shape": "InstanceMetadataHttpPutResponseHopLimit",
+        "flattened": false
+      },
+      "HttpEndpoint": {
+        "shape": "InstanceMetadataEndpointState",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "InstanceMonitoring": {
     "type": "structure",
     "members": {
@@ -917,6 +1067,34 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "InstanceProtected": {"type": "boolean", "flattened": false},
+  "InstanceRefresh": {
+    "type": "structure",
+    "members": {
+      "InstanceRefreshId": {"shape": "XmlStringMaxLen255", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "Status": {"shape": "InstanceRefreshStatus", "flattened": false},
+      "StatusReason": {"shape": "XmlStringMaxLen1023", "flattened": false},
+      "StartTime": {"shape": "TimestampType", "flattened": false},
+      "EndTime": {"shape": "TimestampType", "flattened": false},
+      "PercentageComplete": {"shape": "IntPercent", "flattened": false},
+      "InstancesToUpdate": {"shape": "InstancesToUpdate", "flattened": false}
+    },
+    "flattened": false
+  },
+  "InstanceRefreshIds": {
+    "type": "list",
+    "member": {"shape": "XmlStringMaxLen255"},
+    "flattened": false
+  },
+  "InstanceRefreshStatus": {"type": "string", "flattened": false},
+  "InstanceRefreshes": {
+    "type": "list",
+    "member": {"shape": "InstanceRefresh"},
+    "flattened": false
+  },
   "Instances": {
     "type": "list",
     "member": {"shape": "Instance"},
@@ -940,6 +1118,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "InstancesToUpdate": {"type": "integer", "flattened": false},
+  "IntPercent": {"type": "integer", "flattened": false},
   "LaunchConfiguration": {
     "type": "structure",
     "members": {
@@ -976,20 +1156,27 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "AssociatePublicIpAddress",
         "flattened": false
       },
-      "PlacementTenancy": {"shape": "XmlStringMaxLen64", "flattened": false}
+      "PlacementTenancy": {"shape": "XmlStringMaxLen64", "flattened": false},
+      "MetadataOptions": {
+        "shape": "InstanceMetadataOptions",
+        "flattened": false
+      }
     },
     "flattened": false
   },
   "LaunchConfigurationNameType": {
     "type": "structure",
     "members": {
-      "LaunchConfigurationName": {"shape": "ResourceName", "flattened": false}
+      "LaunchConfigurationName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      }
     },
     "flattened": false
   },
   "LaunchConfigurationNames": {
     "type": "list",
-    "member": {"shape": "ResourceName"},
+    "member": {"shape": "XmlStringMaxLen255"},
     "flattened": false
   },
   "LaunchConfigurationNamesType": {
@@ -1036,7 +1223,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "InstanceType": {"shape": "XmlStringMaxLen255", "flattened": false},
-      "WeightedCapacity": {"shape": "XmlStringMaxLen32", "flattened": false}
+      "WeightedCapacity": {"shape": "XmlStringMaxLen32", "flattened": false},
+      "LaunchTemplateSpecification": {
+        "shape": "LaunchTemplateSpecification",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1058,13 +1249,19 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "AsciiStringMaxLen255",
         "flattened": false
       },
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "LifecycleTransition": {
         "shape": "LifecycleTransition",
         "flattened": false
       },
-      "NotificationTargetARN": {"shape": "ResourceName", "flattened": false},
-      "RoleARN": {"shape": "ResourceName", "flattened": false},
+      "NotificationTargetARN": {
+        "shape": "NotificationTargetResourceName",
+        "flattened": false
+      },
+      "RoleARN": {"shape": "XmlStringMaxLen255", "flattened": false},
       "NotificationMetadata": {
         "shape": "XmlStringMaxLen1023",
         "flattened": false
@@ -1101,7 +1298,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "NotificationTargetResourceName",
         "flattened": false
       },
-      "RoleARN": {"shape": "ResourceName", "flattened": false}
+      "RoleARN": {"shape": "XmlStringMaxLen255", "flattened": false}
     },
     "flattened": false
   },
@@ -1224,8 +1421,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "NotificationConfiguration": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
-      "TopicARN": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "TopicARN": {"shape": "XmlStringMaxLen255", "flattened": false},
       "NotificationType": {"shape": "XmlStringMaxLen255", "flattened": false}
     },
     "flattened": false
@@ -1322,12 +1522,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "AsciiStringMaxLen255",
         "flattened": false
       },
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "LifecycleTransition": {
         "shape": "LifecycleTransition",
         "flattened": false
       },
-      "RoleARN": {"shape": "ResourceName", "flattened": false},
+      "RoleARN": {"shape": "XmlStringMaxLen255", "flattened": false},
       "NotificationTargetARN": {
         "shape": "NotificationTargetResourceName",
         "flattened": false
@@ -1344,8 +1547,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "PutNotificationConfigurationType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
-      "TopicARN": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "TopicARN": {"shape": "XmlStringMaxLen255", "flattened": false},
       "NotificationTypes": {
         "shape": "AutoScalingNotificationTypes",
         "flattened": false
@@ -1356,7 +1562,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "PutScalingPolicyType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "PolicyName": {"shape": "XmlStringMaxLen255", "flattened": false},
       "PolicyType": {"shape": "XmlStringMaxLen64", "flattened": false},
       "AdjustmentType": {"shape": "XmlStringMaxLen255", "flattened": false},
@@ -1387,7 +1596,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "PutScheduledUpdateGroupActionType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "ScheduledActionName": {
         "shape": "XmlStringMaxLen255",
         "flattened": false
@@ -1426,6 +1638,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "RefreshInstanceWarmup": {"type": "integer", "flattened": false},
+  "RefreshPreferences": {
+    "type": "structure",
+    "members": {
+      "MinHealthyPercentage": {"shape": "IntPercent", "flattened": false},
+      "InstanceWarmup": {"shape": "RefreshInstanceWarmup", "flattened": false}
+    },
+    "flattened": false
+  },
+  "RefreshStrategy": {"type": "string", "flattened": false},
   "ResourceName": {"type": "string", "flattened": false},
   "ScalingActivityStatusCode": {"type": "string", "flattened": false},
   "ScalingPolicies": {
@@ -1473,14 +1695,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "ScalingProcessQuery": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "ScalingProcesses": {"shape": "ProcessNames", "flattened": false}
     },
     "flattened": false
   },
   "ScheduledActionNames": {
     "type": "list",
-    "member": {"shape": "ResourceName"},
+    "member": {"shape": "XmlStringMaxLen255"},
     "flattened": false
   },
   "ScheduledActionsType": {
@@ -1556,7 +1781,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "SetDesiredCapacityType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "DesiredCapacity": {
         "shape": "AutoScalingGroupDesiredCapacity",
         "flattened": false
@@ -1586,7 +1814,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "InstanceIds": {"shape": "InstanceIds", "flattened": false},
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "ProtectedFromScaleIn": {
         "shape": "ProtectedFromScaleIn",
         "flattened": false
@@ -1598,6 +1829,25 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "ShouldRespectGracePeriod": {"type": "boolean", "flattened": false},
   "SpotInstancePools": {"type": "integer", "flattened": false},
   "SpotPrice": {"type": "string", "flattened": false},
+  "StartInstanceRefreshAnswer": {
+    "type": "structure",
+    "members": {
+      "InstanceRefreshId": {"shape": "XmlStringMaxLen255", "flattened": false}
+    },
+    "flattened": false
+  },
+  "StartInstanceRefreshType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "Strategy": {"shape": "RefreshStrategy", "flattened": false},
+      "Preferences": {"shape": "RefreshPreferences", "flattened": false}
+    },
+    "flattened": false
+  },
   "StepAdjustment": {
     "type": "structure",
     "members": {
@@ -1708,8 +1958,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "UpdateAutoScalingGroupType": {
     "type": "structure",
     "members": {
-      "AutoScalingGroupName": {"shape": "ResourceName", "flattened": false},
-      "LaunchConfigurationName": {"shape": "ResourceName", "flattened": false},
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "LaunchConfigurationName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
       "LaunchTemplate": {
         "shape": "LaunchTemplateSpecification",
         "flattened": false
@@ -1744,6 +2000,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ServiceLinkedRoleARN": {"shape": "ResourceName", "flattened": false},
       "MaxInstanceLifetime": {
         "shape": "MaxInstanceLifetime",
+        "flattened": false
+      },
+      "CapacityRebalance": {
+        "shape": "CapacityRebalanceEnabled",
         "flattened": false
       }
     },

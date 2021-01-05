@@ -48,6 +48,46 @@ class Kafka {
         );
 
   ///
+  /// Associates one or more Scram Secrets with an Amazon MSK cluster.
+  ///
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [clusterArn] :
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster to be updated.
+  ///
+  ///
+  /// Parameter [secretArnList] :
+  ///
+  /// List of AWS Secrets Manager secret ARNs.
+  ///
+  Future<BatchAssociateScramSecretResponse> batchAssociateScramSecret({
+    @_s.required String clusterArn,
+    @_s.required List<String> secretArnList,
+  }) async {
+    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
+    ArgumentError.checkNotNull(secretArnList, 'secretArnList');
+    final $payload = <String, dynamic>{
+      'secretArnList': secretArnList,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/clusters/${Uri.encodeComponent(clusterArn)}/scram-secrets',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchAssociateScramSecretResponse.fromJson(response);
+  }
+
+  ///
   /// Creates a new MSK cluster.
   ///
   ///
@@ -98,7 +138,8 @@ class Kafka {
   /// Parameter [enhancedMonitoring] :
   ///
   /// Specifies the level of monitoring for the MSK cluster. The possible values
-  /// are DEFAULT, PER_BROKER, and PER_TOPIC_PER_BROKER.
+  /// are DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and
+  /// PER_TOPIC_PER_PARTITION.
   ///
   ///
   /// Parameter [openMonitoring] :
@@ -184,12 +225,6 @@ class Kafka {
   /// May throw [TooManyRequestsException].
   /// May throw [ConflictException].
   ///
-  /// Parameter [kafkaVersions] :
-  ///
-  /// The versions of Apache Kafka with which you can use this MSK
-  /// configuration.
-  ///
-  ///
   /// Parameter [name] :
   ///
   /// The name of the configuration.
@@ -207,20 +242,25 @@ class Kafka {
   ///
   /// The description of the configuration.
   ///
+  ///
+  /// Parameter [kafkaVersions] :
+  ///
+  /// The versions of Apache Kafka with which you can use this MSK
+  /// configuration.
+  ///
   Future<CreateConfigurationResponse> createConfiguration({
-    @_s.required List<String> kafkaVersions,
     @_s.required String name,
     @_s.required Uint8List serverProperties,
     String description,
+    List<String> kafkaVersions,
   }) async {
-    ArgumentError.checkNotNull(kafkaVersions, 'kafkaVersions');
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(serverProperties, 'serverProperties');
     final $payload = <String, dynamic>{
-      'kafkaVersions': kafkaVersions,
       'name': name,
       'serverProperties': serverProperties?.let(base64Encode),
       if (description != null) 'description': description,
+      if (kafkaVersions != null) 'kafkaVersions': kafkaVersions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -266,6 +306,33 @@ class Kafka {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteClusterResponse.fromJson(response);
+  }
+
+  ///
+  /// Deletes an MSK Configuration.
+  ///
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  ///
+  /// Parameter [arn] :
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies an MSK
+  /// configuration.
+  ///
+  Future<DeleteConfigurationResponse> deleteConfiguration({
+    @_s.required String arn,
+  }) async {
+    ArgumentError.checkNotNull(arn, 'arn');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/configurations/${Uri.encodeComponent(arn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteConfigurationResponse.fromJson(response);
   }
 
   ///
@@ -391,6 +458,46 @@ class Kafka {
   }
 
   ///
+  /// Disassociates one or more Scram Secrets from an Amazon MSK cluster.
+  ///
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [clusterArn] :
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster to be updated.
+  ///
+  ///
+  /// Parameter [secretArnList] :
+  ///
+  /// List of AWS Secrets Manager secret ARNs.
+  ///
+  Future<BatchDisassociateScramSecretResponse> batchDisassociateScramSecret({
+    @_s.required String clusterArn,
+    @_s.required List<String> secretArnList,
+  }) async {
+    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
+    ArgumentError.checkNotNull(secretArnList, 'secretArnList');
+    final $payload = <String, dynamic>{
+      'secretArnList': secretArnList,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/v1/clusters/${Uri.encodeComponent(clusterArn)}/scram-secrets',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchDisassociateScramSecretResponse.fromJson(response);
+  }
+
+  ///
   /// A list of brokers that a client application can use to bootstrap.
   ///
   ///
@@ -416,6 +523,38 @@ class Kafka {
       exceptionFnMap: _exceptionFns,
     );
     return GetBootstrapBrokersResponse.fromJson(response);
+  }
+
+  ///
+  /// Gets the Apache Kafka versions to which you can update the MSK cluster.
+  ///
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [clusterArn] :
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster check.
+  ///
+  Future<GetCompatibleKafkaVersionsResponse> getCompatibleKafkaVersions({
+    String clusterArn,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clusterArn != null) 'clusterArn': [clusterArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/compatible-kafka-versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCompatibleKafkaVersionsResponse.fromJson(response);
   }
 
   ///
@@ -721,6 +860,59 @@ class Kafka {
   }
 
   ///
+  /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
+  ///
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [clusterArn] :
+  ///
+  /// The arn of the cluster.
+  ///
+  ///
+  /// Parameter [maxResults] :
+  ///
+  /// The maxResults of the query.
+  ///
+  ///
+  /// Parameter [nextToken] :
+  ///
+  /// The nextToken of the query.
+  ///
+  Future<ListScramSecretsResponse> listScramSecrets({
+    @_s.required String clusterArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/clusters/${Uri.encodeComponent(clusterArn)}/scram-secrets',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListScramSecretsResponse.fromJson(response);
+  }
+
+  ///
   /// Returns a list of the tags associated with the specified resource.
   ///
   ///
@@ -744,6 +936,45 @@ class Kafka {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Reboots brokers.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [brokerIds] :
+  ///
+  /// The list of broker IDs to be rebooted. The reboot-broker operation
+  /// supports rebooting one broker at a time.
+  ///
+  ///
+  /// Parameter [clusterArn] :
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster to be updated.
+  ///
+  Future<RebootBrokerResponse> rebootBroker({
+    @_s.required List<String> brokerIds,
+    @_s.required String clusterArn,
+  }) async {
+    ArgumentError.checkNotNull(brokerIds, 'brokerIds');
+    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
+    final $payload = <String, dynamic>{
+      'brokerIds': brokerIds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v1/clusters/${Uri.encodeComponent(clusterArn)}/reboot-broker',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RebootBrokerResponse.fromJson(response);
   }
 
   ///
@@ -958,6 +1189,54 @@ class Kafka {
   }
 
   ///
+  /// Updates an MSK configuration.
+  ///
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [arn] :
+  ///
+  /// The Amazon Resource Name (ARN) of the configuration.
+  ///
+  ///
+  /// Parameter [serverProperties] :
+  ///
+  /// Contents of the <filename>server.properties</filename> file. When using
+  /// the API, you must ensure that the contents of the file are base64 encoded.
+  /// When using the AWS Management Console, the SDK, or the AWS CLI, the
+  /// contents of <filename>server.properties</filename> can be in plaintext.
+  ///
+  ///
+  /// Parameter [description] :
+  ///
+  /// The description of the configuration revision.
+  ///
+  Future<UpdateConfigurationResponse> updateConfiguration({
+    @_s.required String arn,
+    @_s.required Uint8List serverProperties,
+    String description,
+  }) async {
+    ArgumentError.checkNotNull(arn, 'arn');
+    ArgumentError.checkNotNull(serverProperties, 'serverProperties');
+    final $payload = <String, dynamic>{
+      'serverProperties': serverProperties?.let(base64Encode),
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v1/configurations/${Uri.encodeComponent(arn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateConfigurationResponse.fromJson(response);
+  }
+
+  ///
   /// Updates the cluster with the configuration that is specified in the
   /// request body.
   ///
@@ -1004,6 +1283,61 @@ class Kafka {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateClusterConfigurationResponse.fromJson(response);
+  }
+
+  ///
+  /// Updates the Apache Kafka version for the cluster.
+  ///
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [clusterArn] :
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster to be updated.
+  ///
+  ///
+  /// Parameter [currentVersion] :
+  ///
+  /// Current cluster version.
+  ///
+  ///
+  /// Parameter [targetKafkaVersion] :
+  ///
+  /// Target Kafka version.
+  ///
+  ///
+  /// Parameter [configurationInfo] :
+  ///
+  /// The custom configuration that should be applied on the new version of
+  /// cluster.
+  ///
+  Future<UpdateClusterKafkaVersionResponse> updateClusterKafkaVersion({
+    @_s.required String clusterArn,
+    @_s.required String currentVersion,
+    @_s.required String targetKafkaVersion,
+    ConfigurationInfo configurationInfo,
+  }) async {
+    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
+    ArgumentError.checkNotNull(currentVersion, 'currentVersion');
+    ArgumentError.checkNotNull(targetKafkaVersion, 'targetKafkaVersion');
+    final $payload = <String, dynamic>{
+      'currentVersion': currentVersion,
+      'targetKafkaVersion': targetKafkaVersion,
+      if (configurationInfo != null) 'configurationInfo': configurationInfo,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn)}/version',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateClusterKafkaVersionResponse.fromJson(response);
   }
 
   ///
@@ -1065,6 +1399,33 @@ class Kafka {
     );
     return UpdateMonitoringResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchAssociateScramSecretResponse {
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster.
+  ///
+  @_s.JsonKey(name: 'clusterArn')
+  final String clusterArn;
+
+  ///
+  /// List of errors when associating secrets to cluster.
+  ///
+  @_s.JsonKey(name: 'unprocessedScramSecrets')
+  final List<UnprocessedScramSecret> unprocessedScramSecrets;
+
+  BatchAssociateScramSecretResponse({
+    this.clusterArn,
+    this.unprocessedScramSecrets,
+  });
+  factory BatchAssociateScramSecretResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$BatchAssociateScramSecretResponseFromJson(json);
 }
 
 ///
@@ -1313,12 +1674,19 @@ class BrokerSoftwareInfo {
     createToJson: true)
 class ClientAuthentication {
   ///
+  /// Details for ClientAuthentication using SASL.
+  ///
+  @_s.JsonKey(name: 'sasl')
+  final Sasl sasl;
+
+  ///
   /// Details for ClientAuthentication using TLS.
   ///
   @_s.JsonKey(name: 'tls')
   final Tls tls;
 
   ClientAuthentication({
+    this.sasl,
     this.tls,
   });
   factory ClientAuthentication.fromJson(Map<String, dynamic> json) =>
@@ -1427,9 +1795,9 @@ class ClusterInfo {
 
   ///
   /// Specifies which metrics are gathered for the MSK cluster. This property has
-  /// three possible values: DEFAULT, PER_BROKER, and PER_TOPIC_PER_BROKER. For a
-  /// list of the metrics associated with each of these three levels of
-  /// monitoring, see <a
+  /// the following possible values: DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER,
+  /// and PER_TOPIC_PER_PARTITION. For a list of the metrics associated with each
+  /// of these levels of monitoring, see <a
   /// href="https://docs.aws.amazon.com/msk/latest/developerguide/monitoring.html">Monitoring</a>.
   ///
   @_s.JsonKey(name: 'enhancedMonitoring')
@@ -1450,8 +1818,8 @@ class ClusterInfo {
   final OpenMonitoring openMonitoring;
 
   ///
-  /// The state of the cluster. The possible states are CREATING, ACTIVE, and
-  /// FAILED.
+  /// The state of the cluster. The possible states are ACTIVE, CREATING,
+  /// DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
   ///
   @_s.JsonKey(name: 'state')
   final ClusterState state;
@@ -1469,6 +1837,12 @@ class ClusterInfo {
   ///
   @_s.JsonKey(name: 'zookeeperConnectString')
   final String zookeeperConnectString;
+
+  ///
+  /// The connection string to use to connect to zookeeper cluster on Tls port.
+  ///
+  @_s.JsonKey(name: 'zookeeperConnectStringTls')
+  final String zookeeperConnectStringTls;
 
   ClusterInfo({
     this.activeOperationArn,
@@ -1488,6 +1862,7 @@ class ClusterInfo {
     this.stateInfo,
     this.tags,
     this.zookeeperConnectString,
+    this.zookeeperConnectStringTls,
   });
   factory ClusterInfo.fromJson(Map<String, dynamic> json) =>
       _$ClusterInfoFromJson(json);
@@ -1547,6 +1922,12 @@ class ClusterOperationInfo {
   final String operationState;
 
   ///
+  /// Steps completed during the operation.
+  ///
+  @_s.JsonKey(name: 'operationSteps')
+  final List<ClusterOperationStep> operationSteps;
+
+  ///
   /// Type of the cluster operation.
   ///
   @_s.JsonKey(name: 'operationType')
@@ -1572,12 +1953,64 @@ class ClusterOperationInfo {
     this.errorInfo,
     this.operationArn,
     this.operationState,
+    this.operationSteps,
     this.operationType,
     this.sourceClusterInfo,
     this.targetClusterInfo,
   });
   factory ClusterOperationInfo.fromJson(Map<String, dynamic> json) =>
       _$ClusterOperationInfoFromJson(json);
+}
+
+///
+/// Step taken during a cluster operation.
+///
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ClusterOperationStep {
+  ///
+  /// Information about the step and its status.
+  ///
+  @_s.JsonKey(name: 'stepInfo')
+  final ClusterOperationStepInfo stepInfo;
+
+  ///
+  /// The name of the step.
+  ///
+  @_s.JsonKey(name: 'stepName')
+  final String stepName;
+
+  ClusterOperationStep({
+    this.stepInfo,
+    this.stepName,
+  });
+  factory ClusterOperationStep.fromJson(Map<String, dynamic> json) =>
+      _$ClusterOperationStepFromJson(json);
+}
+
+///
+/// State information about the operation step.
+///
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ClusterOperationStepInfo {
+  ///
+  /// The steps current status.
+  ///
+  @_s.JsonKey(name: 'stepStatus')
+  final String stepStatus;
+
+  ClusterOperationStepInfo({
+    this.stepStatus,
+  });
+  factory ClusterOperationStepInfo.fromJson(Map<String, dynamic> json) =>
+      _$ClusterOperationStepInfoFromJson(json);
 }
 
 ///
@@ -1588,12 +2021,47 @@ enum ClusterState {
   active,
   @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('UPDATING')
-  updating,
   @_s.JsonValue('DELETING')
   deleting,
   @_s.JsonValue('FAILED')
   failed,
+  @_s.JsonValue('HEALING')
+  healing,
+  @_s.JsonValue('MAINTENANCE')
+  maintenance,
+  @_s.JsonValue('REBOOTING_BROKER')
+  rebootingBroker,
+  @_s.JsonValue('UPDATING')
+  updating,
+}
+
+///
+/// Contains source Kafka versions and compatible target Kafka versions.
+///
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CompatibleKafkaVersion {
+  ///
+  /// A Kafka version.
+  ///
+  @_s.JsonKey(name: 'sourceVersion')
+  final String sourceVersion;
+
+  ///
+  /// A list of Kafka versions.
+  ///
+  @_s.JsonKey(name: 'targetVersions')
+  final List<String> targetVersions;
+
+  CompatibleKafkaVersion({
+    this.sourceVersion,
+    this.targetVersions,
+  });
+  factory CompatibleKafkaVersion.fromJson(Map<String, dynamic> json) =>
+      _$CompatibleKafkaVersionFromJson(json);
 }
 
 ///
@@ -1644,6 +2112,13 @@ class Configuration {
   @_s.JsonKey(name: 'name')
   final String name;
 
+  ///
+  /// The state of the configuration. The possible states are ACTIVE, DELETING,
+  /// and DELETE_FAILED.
+  ///
+  @_s.JsonKey(name: 'state')
+  final ConfigurationState state;
+
   Configuration({
     @_s.required this.arn,
     @_s.required this.creationTime,
@@ -1651,6 +2126,7 @@ class Configuration {
     @_s.required this.kafkaVersions,
     @_s.required this.latestRevision,
     @_s.required this.name,
+    @_s.required this.state,
   });
   factory Configuration.fromJson(Map<String, dynamic> json) =>
       _$ConfigurationFromJson(json);
@@ -1724,6 +2200,18 @@ class ConfigurationRevision {
       _$ConfigurationRevisionFromJson(json);
 }
 
+///
+/// The state of a configuration.
+///
+enum ConfigurationState {
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('DELETING')
+  deleting,
+  @_s.JsonValue('DELETE_FAILED')
+  deleteFailed,
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1743,8 +2231,8 @@ class CreateClusterResponse {
   final String clusterName;
 
   ///
-  /// The state of the cluster. The possible states are CREATING, ACTIVE, and
-  /// FAILED.
+  /// The state of the cluster. The possible states are ACTIVE, CREATING,
+  /// DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
   ///
   @_s.JsonKey(name: 'state')
   final ClusterState state;
@@ -1789,11 +2277,19 @@ class CreateConfigurationResponse {
   @_s.JsonKey(name: 'name')
   final String name;
 
+  ///
+  /// The state of the configuration. The possible states are ACTIVE, DELETING,
+  /// and DELETE_FAILED.
+  ///
+  @_s.JsonKey(name: 'state')
+  final ConfigurationState state;
+
   CreateConfigurationResponse({
     this.arn,
     this.creationTime,
     this.latestRevision,
     this.name,
+    this.state,
   });
   factory CreateConfigurationResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateConfigurationResponseFromJson(json);
@@ -1812,8 +2308,8 @@ class DeleteClusterResponse {
   final String clusterArn;
 
   ///
-  /// The state of the cluster. The possible states are CREATING, ACTIVE, and
-  /// FAILED.
+  /// The state of the cluster. The possible states are ACTIVE, CREATING,
+  /// DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
   ///
   @_s.JsonKey(name: 'state')
   final ClusterState state;
@@ -1824,6 +2320,34 @@ class DeleteClusterResponse {
   });
   factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteClusterResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteConfigurationResponse {
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies an MSK
+  /// configuration.
+  ///
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  ///
+  /// The state of the configuration. The possible states are ACTIVE, DELETING,
+  /// and DELETE_FAILED.
+  ///
+  @_s.JsonKey(name: 'state')
+  final ConfigurationState state;
+
+  DeleteConfigurationResponse({
+    this.arn,
+    this.state,
+  });
+  factory DeleteConfigurationResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteConfigurationResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1908,6 +2432,13 @@ class DescribeConfigurationResponse {
   @_s.JsonKey(name: 'name')
   final String name;
 
+  ///
+  /// The state of the configuration. The possible states are ACTIVE, DELETING,
+  /// and DELETE_FAILED.
+  ///
+  @_s.JsonKey(name: 'state')
+  final ConfigurationState state;
+
   DescribeConfigurationResponse({
     this.arn,
     this.creationTime,
@@ -1915,6 +2446,7 @@ class DescribeConfigurationResponse {
     this.kafkaVersions,
     this.latestRevision,
     this.name,
+    this.state,
   });
   factory DescribeConfigurationResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeConfigurationResponseFromJson(json);
@@ -1971,6 +2503,33 @@ class DescribeConfigurationRevisionResponse {
   factory DescribeConfigurationRevisionResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeConfigurationRevisionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchDisassociateScramSecretResponse {
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster.
+  ///
+  @_s.JsonKey(name: 'clusterArn')
+  final String clusterArn;
+
+  ///
+  /// List of errors when disassociating secrets to cluster.
+  ///
+  @_s.JsonKey(name: 'unprocessedScramSecrets')
+  final List<UnprocessedScramSecret> unprocessedScramSecrets;
+
+  BatchDisassociateScramSecretResponse({
+    this.clusterArn,
+    this.unprocessedScramSecrets,
+  });
+  factory BatchDisassociateScramSecretResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$BatchDisassociateScramSecretResponseFromJson(json);
 }
 
 ///
@@ -2112,9 +2671,9 @@ class EncryptionInfo {
 
 ///
 /// Specifies which metrics are gathered for the MSK cluster. This property has
-/// three possible values: DEFAULT, PER_BROKER, and PER_TOPIC_PER_BROKER. For a
-/// list of the metrics associated with each of these three levels of
-/// monitoring, see <a
+/// the following possible values: DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER,
+/// and PER_TOPIC_PER_PARTITION. For a list of the metrics associated with each
+/// of these levels of monitoring, see <a
 /// href="https://docs.aws.amazon.com/msk/latest/developerguide/monitoring.html">Monitoring</a>.
 ///
 enum EnhancedMonitoring {
@@ -2124,6 +2683,8 @@ enum EnhancedMonitoring {
   perBroker,
   @_s.JsonValue('PER_TOPIC_PER_BROKER')
   perTopicPerBroker,
+  @_s.JsonValue('PER_TOPIC_PER_PARTITION')
+  perTopicPerPartition,
 }
 
 extension on EnhancedMonitoring {
@@ -2135,6 +2696,8 @@ extension on EnhancedMonitoring {
         return 'PER_BROKER';
       case EnhancedMonitoring.perTopicPerBroker:
         return 'PER_TOPIC_PER_BROKER';
+      case EnhancedMonitoring.perTopicPerPartition:
+        return 'PER_TOPIC_PER_PARTITION';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -2203,6 +2766,12 @@ class GetBootstrapBrokersResponse {
   final String bootstrapBrokerString;
 
   ///
+  /// A string containing one or more DNS names (or IP) and Sasl Scram port pairs.
+  ///
+  @_s.JsonKey(name: 'bootstrapBrokerStringSaslScram')
+  final String bootstrapBrokerStringSaslScram;
+
+  ///
   /// A string containing one or more DNS names (or IP) and TLS port pairs.
   ///
   @_s.JsonKey(name: 'bootstrapBrokerStringTls')
@@ -2210,10 +2779,31 @@ class GetBootstrapBrokersResponse {
 
   GetBootstrapBrokersResponse({
     this.bootstrapBrokerString,
+    this.bootstrapBrokerStringSaslScram,
     this.bootstrapBrokerStringTls,
   });
   factory GetBootstrapBrokersResponse.fromJson(Map<String, dynamic> json) =>
       _$GetBootstrapBrokersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetCompatibleKafkaVersionsResponse {
+  ///
+  /// A list of CompatibleKafkaVersion objects.
+  ///
+  @_s.JsonKey(name: 'compatibleKafkaVersions')
+  final List<CompatibleKafkaVersion> compatibleKafkaVersions;
+
+  GetCompatibleKafkaVersionsResponse({
+    this.compatibleKafkaVersions,
+  });
+  factory GetCompatibleKafkaVersionsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetCompatibleKafkaVersionsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2406,6 +2996,32 @@ class ListNodesResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListScramSecretsResponse {
+  ///
+  /// Paginated results marker.
+  ///
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ///
+  /// The list of scram secrets associated with the cluster.
+  ///
+  @_s.JsonKey(name: 'secretArnList')
+  final List<String> secretArnList;
+
+  ListScramSecretsResponse({
+    this.nextToken,
+    this.secretArnList,
+  });
+  factory ListScramSecretsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListScramSecretsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListTagsForResourceResponse {
   ///
   /// The key-value pair for the resource tag.
@@ -2465,6 +3081,12 @@ class MutableClusterInfo {
   ///
   @_s.JsonKey(name: 'enhancedMonitoring')
   final EnhancedMonitoring enhancedMonitoring;
+
+  ///
+  /// The Kafka version.
+  ///
+  @_s.JsonKey(name: 'kafkaVersion')
+  final String kafkaVersion;
   @_s.JsonKey(name: 'loggingInfo')
   final LoggingInfo loggingInfo;
 
@@ -2484,6 +3106,7 @@ class MutableClusterInfo {
     this.brokerEBSVolumeInfo,
     this.configurationInfo,
     this.enhancedMonitoring,
+    this.kafkaVersion,
     this.loggingInfo,
     this.numberOfBrokerNodes,
     this.openMonitoring,
@@ -2682,6 +3305,32 @@ class PrometheusInfo {
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
+    createToJson: false)
+class RebootBrokerResponse {
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster.
+  ///
+  @_s.JsonKey(name: 'clusterArn')
+  final String clusterArn;
+
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster operation.
+  ///
+  @_s.JsonKey(name: 'clusterOperationArn')
+  final String clusterOperationArn;
+
+  RebootBrokerResponse({
+    this.clusterArn,
+    this.clusterOperationArn,
+  });
+  factory RebootBrokerResponse.fromJson(Map<String, dynamic> json) =>
+      _$RebootBrokerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
     createToJson: true)
 class S3 {
   @_s.JsonKey(name: 'enabled')
@@ -2699,6 +3348,52 @@ class S3 {
   factory S3.fromJson(Map<String, dynamic> json) => _$S3FromJson(json);
 
   Map<String, dynamic> toJson() => _$S3ToJson(this);
+}
+
+///
+/// Details for client authentication using SASL.
+///
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Sasl {
+  ///
+  /// Details for SASL/SCRAM client authentication.
+  ///
+  @_s.JsonKey(name: 'scram')
+  final Scram scram;
+
+  Sasl({
+    this.scram,
+  });
+  factory Sasl.fromJson(Map<String, dynamic> json) => _$SaslFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SaslToJson(this);
+}
+
+///
+/// Details for SASL/SCRAM client authentication.
+///
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Scram {
+  ///
+  /// SASL/SCRAM authentication is enabled or not.
+  ///
+  @_s.JsonKey(name: 'enabled')
+  final bool enabled;
+
+  Scram({
+    this.enabled,
+  });
+  factory Scram.fromJson(Map<String, dynamic> json) => _$ScramFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ScramToJson(this);
 }
 
 ///
@@ -2832,6 +3527,42 @@ class Tls {
   Map<String, dynamic> toJson() => _$TlsToJson(this);
 }
 
+///
+/// Error info for scram secret associate/disassociate failure.
+///
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UnprocessedScramSecret {
+  ///
+  /// Error code for associate/disassociate failure.
+  ///
+  @_s.JsonKey(name: 'errorCode')
+  final String errorCode;
+
+  ///
+  /// Error message for associate/disassociate failure.
+  ///
+  @_s.JsonKey(name: 'errorMessage')
+  final String errorMessage;
+
+  ///
+  /// AWS Secrets Manager secret ARN.
+  ///
+  @_s.JsonKey(name: 'secretArn')
+  final String secretArn;
+
+  UnprocessedScramSecret({
+    this.errorCode,
+    this.errorMessage,
+    this.secretArn,
+  });
+  factory UnprocessedScramSecret.fromJson(Map<String, dynamic> json) =>
+      _$UnprocessedScramSecretFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2916,6 +3647,33 @@ class UpdateClusterConfigurationResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateClusterKafkaVersionResponse {
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster.
+  ///
+  @_s.JsonKey(name: 'clusterArn')
+  final String clusterArn;
+
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster operation.
+  ///
+  @_s.JsonKey(name: 'clusterOperationArn')
+  final String clusterOperationArn;
+
+  UpdateClusterKafkaVersionResponse({
+    this.clusterArn,
+    this.clusterOperationArn,
+  });
+  factory UpdateClusterKafkaVersionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateClusterKafkaVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdateMonitoringResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
@@ -2935,6 +3693,32 @@ class UpdateMonitoringResponse {
   });
   factory UpdateMonitoringResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateMonitoringResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateConfigurationResponse {
+  ///
+  /// The Amazon Resource Name (ARN) of the configuration.
+  ///
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  ///
+  /// Latest revision of the configuration.
+  ///
+  @_s.JsonKey(name: 'latestRevision')
+  final ConfigurationRevision latestRevision;
+
+  UpdateConfigurationResponse({
+    this.arn,
+    this.latestRevision,
+  });
+  factory UpdateConfigurationResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateConfigurationResponseFromJson(json);
 }
 
 ///

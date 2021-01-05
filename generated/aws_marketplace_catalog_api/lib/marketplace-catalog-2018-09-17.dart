@@ -26,9 +26,9 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'marketplace-catalog-2018-09-17.g.dart';
 
-/// Catalog API actions allow you to create, describe, list, and delete changes
-/// to your published entities. An entity is a product or an offer on AWS
-/// Marketplace.
+/// Catalog API actions allow you to manage your entities through list,
+/// describe, and update capabilities. An entity can be a product or an offer on
+/// AWS Marketplace.
 ///
 /// You can automate your entity update process by integrating the AWS
 /// Marketplace Catalog API with your AWS Marketplace product build or
@@ -270,8 +270,8 @@ class MarketplaceCatalog {
   /// results.
   ///
   /// Parameter [sort] :
-  /// An object that contains two attributes, <code>sortBy</code> and
-  /// <code>sortOrder</code>.
+  /// An object that contains two attributes, <code>SortBy</code> and
+  /// <code>SortOrder</code>.
   Future<ListChangeSetsResponse> listChangeSets({
     @_s.required String catalog,
     List<Filter> filterList,
@@ -354,8 +354,8 @@ class MarketplaceCatalog {
   /// results.
   ///
   /// Parameter [sort] :
-  /// An object that contains two attributes, <code>sortBy</code> and
-  /// <code>sortOrder</code>.
+  /// An object that contains two attributes, <code>SortBy</code> and
+  /// <code>SortOrder</code>.
   Future<ListEntitiesResponse> listEntities({
     @_s.required String catalog,
     @_s.required String entityType,
@@ -426,7 +426,19 @@ class MarketplaceCatalog {
     return ListEntitiesResponse.fromJson(response);
   }
 
-  /// This operation allows you to request changes in your entities.
+  /// This operation allows you to request changes for your entities. Within a
+  /// single ChangeSet, you cannot start the same change type against the same
+  /// entity multiple times. Additionally, when a ChangeSet is running, all the
+  /// entities targeted by the different changes are locked until the ChangeSet
+  /// has completed (either succeeded, cancelled, or failed). If you try to
+  /// start a ChangeSet containing a change against an entity that is already
+  /// locked, you will receive a <code>ResourceInUseException</code>.
+  ///
+  /// For example, you cannot start the ChangeSet described in the <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_StartChangeSet.html#API_StartChangeSet_Examples">example</a>
+  /// below because it contains two changes to execute the same change type
+  /// (<code>AddRevisions</code>) against the same entity
+  /// (<code>entity-id@1)</code>.
   ///
   /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
@@ -593,6 +605,14 @@ class ChangeSetSummaryListItem {
   @_s.JsonKey(name: 'EntityIdList')
   final List<String> entityIdList;
 
+  /// Returned if the change set is in <code>FAILED</code> status. Can be either
+  /// <code>CLIENT_ERROR</code>, which means that there are issues with the
+  /// request (see the <code>ErrorDetailList</code> of
+  /// <code>DescribeChangeSet</code>), or <code>SERVER_FAULT</code>, which means
+  /// that there is a problem in the system, and you should retry your request.
+  @_s.JsonKey(name: 'FailureCode')
+  final FailureCode failureCode;
+
   /// The time, in ISO 8601 format (2018-02-27T13:45:22Z), when the change set was
   /// started.
   @_s.JsonKey(name: 'StartTime')
@@ -608,6 +628,7 @@ class ChangeSetSummaryListItem {
     this.changeSetName,
     this.endTime,
     this.entityIdList,
+    this.failureCode,
     this.startTime,
     this.status,
   });
@@ -640,6 +661,11 @@ class ChangeSummary {
   @_s.JsonKey(name: 'ChangeType')
   final String changeType;
 
+  /// This object contains details specific to the change type of the requested
+  /// change.
+  @_s.JsonKey(name: 'Details')
+  final String details;
+
   /// The entity to be changed.
   @_s.JsonKey(name: 'Entity')
   final Entity entity;
@@ -650,6 +676,7 @@ class ChangeSummary {
 
   ChangeSummary({
     this.changeType,
+    this.details,
     this.entity,
     this.errorDetailList,
   });
@@ -688,6 +715,14 @@ class DescribeChangeSetResponse {
   @_s.JsonKey(name: 'EndTime')
   final String endTime;
 
+  /// Returned if the change set is in <code>FAILED</code> status. Can be either
+  /// <code>CLIENT_ERROR</code>, which means that there are issues with the
+  /// request (see the <code>ErrorDetailList</code>), or
+  /// <code>SERVER_FAULT</code>, which means that there is a problem in the
+  /// system, and you should retry your request.
+  @_s.JsonKey(name: 'FailureCode')
+  final FailureCode failureCode;
+
   /// Returned if there is a failure on the change set, but that failure is not
   /// related to any of the changes in the request.
   @_s.JsonKey(name: 'FailureDescription')
@@ -708,6 +743,7 @@ class DescribeChangeSetResponse {
     this.changeSetId,
     this.changeSetName,
     this.endTime,
+    this.failureCode,
     this.failureDescription,
     this.startTime,
     this.status,
@@ -809,15 +845,15 @@ class EntitySummary {
   final String lastModifiedDate;
 
   /// The name for the entity. This value is not unique. It is defined by the
-  /// provider.
+  /// seller.
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// The visibility status of the entity to subscribers. This value can be
+  /// The visibility status of the entity to buyers. This value can be
   /// <code>Public</code> (everyone can view the entity), <code>Limited</code>
   /// (the entity is visible to limited accounts only), or <code>Restricted</code>
-  /// (the entity was published and then unpublished and only existing subscribers
-  /// can view it).
+  /// (the entity was published and then unpublished and only existing buyers can
+  /// view it).
   @_s.JsonKey(name: 'Visibility')
   final String visibility;
 
@@ -854,6 +890,13 @@ class ErrorDetail {
   });
   factory ErrorDetail.fromJson(Map<String, dynamic> json) =>
       _$ErrorDetailFromJson(json);
+}
+
+enum FailureCode {
+  @_s.JsonValue('CLIENT_ERROR')
+  clientError,
+  @_s.JsonValue('SERVER_FAULT')
+  serverFault,
 }
 
 /// A filter object, used to optionally filter results from calls to the
@@ -962,8 +1005,8 @@ class ListEntitiesResponse {
       _$ListEntitiesResponseFromJson(json);
 }
 
-/// An object that contains two attributes, <code>sortBy</code> and
-/// <code>sortOrder</code>.
+/// An object that contains two attributes, <code>SortBy</code> and
+/// <code>SortOrder</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,

@@ -2067,22 +2067,20 @@ class AllowedMethods {
 /// A complex type that describes how CloudFront processes requests.
 ///
 /// You must create at least as many cache behaviors (including the default
-/// cache behavior) as you have origins if you want CloudFront to distribute
-/// objects from all of the origins. Each cache behavior specifies the one
-/// origin from which you want CloudFront to get objects. If you have two
-/// origins and only the default cache behavior, the default cache behavior will
-/// cause CloudFront to get objects from one of the origins, but the other
-/// origin is never used.
+/// cache behavior) as you have origins if you want CloudFront to serve objects
+/// from all of the origins. Each cache behavior specifies the one origin from
+/// which you want CloudFront to get objects. If you have two origins and only
+/// the default cache behavior, the default cache behavior will cause CloudFront
+/// to get objects from one of the origins, but the other origin is never used.
 ///
-/// For the current limit on the number of cache behaviors that you can add to a
-/// distribution, see <a
-/// href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_cloudfront">Amazon
-/// CloudFront Limits</a> in the <i>AWS General Reference</i>.
+/// For the current quota (formerly known as limit) on the number of cache
+/// behaviors that you can add to a distribution, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html">Quotas</a>
+/// in the <i>Amazon CloudFront Developer Guide</i>.
 ///
-/// If you don't want to specify any cache behaviors, include only an empty
-/// <code>CacheBehaviors</code> element. Don't include an empty
-/// <code>CacheBehavior</code> element, or CloudFront returns a
-/// <code>MalformedXML</code> error.
+/// If you don’t want to specify any cache behaviors, include only an empty
+/// <code>CacheBehaviors</code> element. Don’t include an empty
+/// <code>CacheBehavior</code> element because this is invalid.
 ///
 /// To delete all cache behaviors in an existing distribution, update the
 /// distribution configuration and include only an empty
@@ -2094,7 +2092,7 @@ class AllowedMethods {
 ///
 /// For more information about cache behaviors, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior">Cache
-/// Behaviors</a> in the <i>Amazon CloudFront Developer Guide</i>.
+/// Behavior Settings</a> in the <i>Amazon CloudFront Developer Guide</i>.
 class CacheBehavior {
   /// A complex type that specifies how CloudFront handles query strings, cookies,
   /// and HTTP headers.
@@ -2133,8 +2131,7 @@ class CacheBehavior {
   final String pathPattern;
 
   /// The value of <code>ID</code> for the origin that you want CloudFront to
-  /// route requests to when a request matches the path pattern either for a cache
-  /// behavior or for the default cache behavior in your distribution.
+  /// route requests to when they match this cache behavior.
   final String targetOriginId;
 
   /// A complex type that specifies the AWS accounts, if any, that you want to
@@ -2146,16 +2143,16 @@ class CacheBehavior {
   /// applicable values for <code>Quantity</code> and <code>Items</code>. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
-  /// Private Content through CloudFront</a> in the <i>Amazon CloudFront Developer
-  /// Guide</i>.
+  /// Private Content with Signed URLs and Signed Cookies</a> in the <i>Amazon
+  /// CloudFront Developer Guide</i>.
   ///
-  /// If you don't want to require signed URLs in requests for objects that match
+  /// If you don’t want to require signed URLs in requests for objects that match
   /// <code>PathPattern</code>, specify <code>false</code> for
   /// <code>Enabled</code> and <code>0</code> for <code>Quantity</code>. Omit
   /// <code>Items</code>.
   ///
   /// To add, change, or remove one or more trusted signers, change
-  /// <code>Enabled</code> to <code>true</code> (if it's currently
+  /// <code>Enabled</code> to <code>true</code> (if it’s currently
   /// <code>false</code>), change <code>Quantity</code> as applicable, and specify
   /// all of the trusted signers that you want to include in the updated
   /// distribution.
@@ -2181,20 +2178,19 @@ class CacheBehavior {
   /// </li>
   /// </ul>
   /// For more information about requiring the HTTPS protocol, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/SecureConnections.html">Using
-  /// an HTTPS Connection to Access Your Objects</a> in the <i>Amazon CloudFront
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-viewers-to-cloudfront.html">Requiring
+  /// HTTPS Between Viewers and CloudFront</a> in the <i>Amazon CloudFront
   /// Developer Guide</i>.
   /// <note>
   /// The only way to guarantee that viewers retrieve an object that was fetched
   /// from the origin using HTTPS is never to use any other protocol to fetch the
   /// object. If you have recently changed from HTTP to HTTPS, we recommend that
-  /// you clear your objects' cache because cached objects are protocol agnostic.
+  /// you clear your objects’ cache because cached objects are protocol agnostic.
   /// That means that an edge location will return an object from the cache
   /// regardless of whether the current request protocol matches the protocol used
   /// previously. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html">Managing
-  /// How Long Content Stays in an Edge Cache (Expiration)</a> in the <i>Amazon
-  /// CloudFront Developer Guide</i>.
+  /// Cache Expiration</a> in the <i>Amazon CloudFront Developer Guide</i>.
   /// </note>
   final ViewerProtocolPolicy viewerProtocolPolicy;
   final AllowedMethods allowedMethods;
@@ -2218,8 +2214,8 @@ class CacheBehavior {
   final int defaultTTL;
 
   /// The value of <code>ID</code> for the field-level encryption configuration
-  /// that you want CloudFront to use for encrypting specific fields of data for a
-  /// cache behavior or for the default cache behavior in your distribution.
+  /// that you want CloudFront to use for encrypting specific fields of data for
+  /// this cache behavior.
   final String fieldLevelEncryptionId;
 
   /// A complex type that contains zero or more Lambda function associations for a
@@ -2891,9 +2887,7 @@ class CreateCloudFrontOriginAccessIdentityResult {
   /// The current version of the origin access identity created.
   final String eTag;
 
-  /// The fully qualified URI of the new origin access identity just created. For
-  /// example:
-  /// <code>https://cloudfront.amazonaws.com/2010-11-01/origin-access-identity/cloudfront/E74FTE3AJFJ256A</code>.
+  /// The fully qualified URI of the new origin access identity just created.
   final String location;
 
   CreateCloudFrontOriginAccessIdentityResult({
@@ -2911,9 +2905,7 @@ class CreateDistributionResult {
   /// The current version of the distribution created.
   final String eTag;
 
-  /// The fully qualified URI of the new distribution resource just created. For
-  /// example:
-  /// <code>https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5</code>.
+  /// The fully qualified URI of the new distribution resource just created.
   final String location;
 
   CreateDistributionResult({
@@ -2931,9 +2923,7 @@ class CreateDistributionWithTagsResult {
   /// The current version of the distribution created.
   final String eTag;
 
-  /// The fully qualified URI of the new distribution resource just created. For
-  /// example:
-  /// <code>https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5</code>.
+  /// The fully qualified URI of the new distribution resource just created.
   final String location;
 
   CreateDistributionWithTagsResult({
@@ -2951,9 +2941,7 @@ class CreateFieldLevelEncryptionConfigResult {
   /// Returned when you create a new field-level encryption configuration.
   final FieldLevelEncryption fieldLevelEncryption;
 
-  /// The fully qualified URI of the new configuration resource just created. For
-  /// example:
-  /// <code>https://cloudfront.amazonaws.com/2010-11-01/field-level-encryption-config/EDFDVBD632BHDS5</code>.
+  /// The fully qualified URI of the new configuration resource just created.
   final String location;
 
   CreateFieldLevelEncryptionConfigResult({
@@ -2971,9 +2959,7 @@ class CreateFieldLevelEncryptionProfileResult {
   /// Returned when you create a new field-level encryption profile.
   final FieldLevelEncryptionProfile fieldLevelEncryptionProfile;
 
-  /// The fully qualified URI of the new profile resource just created. For
-  /// example:
-  /// <code>https://cloudfront.amazonaws.com/2010-11-01/field-level-encryption-profile/EDFDVBD632BHDS5</code>.
+  /// The fully qualified URI of the new profile resource just created.
   final String location;
 
   CreateFieldLevelEncryptionProfileResult({
@@ -3003,9 +2989,7 @@ class CreatePublicKeyResult {
   /// <code>E2QWRUHAPOMQZL</code>.
   final String eTag;
 
-  /// The fully qualified URI of the new public key resource just created. For
-  /// example:
-  /// <code>https://cloudfront.amazonaws.com/2010-11-01/cloudfront-public-key/EDFDVBD632BHDS5</code>.
+  /// The fully qualified URI of the new public key resource just created.
   final String location;
 
   /// Returned when you add a public key.
@@ -3024,8 +3008,7 @@ class CreateStreamingDistributionResult {
   final String eTag;
 
   /// The fully qualified URI of the new streaming distribution resource just
-  /// created. For example:
-  /// <code>https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8</code>.
+  /// created.
   final String location;
 
   /// The streaming distribution's information.
@@ -3044,8 +3027,7 @@ class CreateStreamingDistributionWithTagsResult {
   final String eTag;
 
   /// The fully qualified URI of the new streaming distribution resource just
-  /// created. For example:<code>
-  /// https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8</code>.
+  /// created.
   final String location;
 
   /// The streaming distribution's information.
@@ -3280,37 +3262,64 @@ class CustomHeaders {
   }
 }
 
-/// A custom origin or an Amazon S3 bucket configured as a website endpoint.
+/// A custom origin. A custom origin is any origin that is <i>not</i> an Amazon
+/// S3 bucket, with one exception. An Amazon S3 bucket that is <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">configured
+/// with static website hosting</a> <i>is</i> a custom origin.
 class CustomOriginConfig {
-  /// The HTTP port the custom origin listens on.
+  /// The HTTP port that CloudFront uses to connect to the origin. Specify the
+  /// HTTP port that the origin listens on.
   final int hTTPPort;
 
-  /// The HTTPS port the custom origin listens on.
+  /// The HTTPS port that CloudFront uses to connect to the origin. Specify the
+  /// HTTPS port that the origin listens on.
   final int hTTPSPort;
 
-  /// The origin protocol policy to apply to your origin.
+  /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to
+  /// the origin. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>http-only</code> – CloudFront always uses HTTP to connect to the
+  /// origin.
+  /// </li>
+  /// <li>
+  /// <code>match-viewer</code> – CloudFront connects to the origin using the same
+  /// protocol that the viewer used to connect to CloudFront.
+  /// </li>
+  /// <li>
+  /// <code>https-only</code> – CloudFront always uses HTTPS to connect to the
+  /// origin.
+  /// </li>
+  /// </ul>
   final OriginProtocolPolicy originProtocolPolicy;
 
-  /// You can create a custom keep-alive timeout. All timeout units are in
-  /// seconds. The default keep-alive timeout is 5 seconds, but you can configure
-  /// custom timeout lengths using the CloudFront API. The minimum timeout length
-  /// is 1 second; the maximum is 60 seconds.
+  /// Specifies how long, in seconds, CloudFront persists its connection to the
+  /// origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the
+  /// default (if you don’t specify otherwise) is 5 seconds.
   ///
-  /// If you need to increase the maximum time limit, contact the <a
-  /// href="https://console.aws.amazon.com/support/home#/">AWS Support Center</a>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginKeepaliveTimeout">Origin
+  /// Keep-alive Timeout</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final int originKeepaliveTimeout;
 
-  /// You can create a custom origin read timeout. All timeout units are in
-  /// seconds. The default origin read timeout is 30 seconds, but you can
-  /// configure custom timeout lengths using the CloudFront API. The minimum
-  /// timeout length is 4 seconds; the maximum is 60 seconds.
+  /// Specifies how long, in seconds, CloudFront waits for a response from the
+  /// origin. This is also known as the <i>origin response timeout</i>. The
+  /// minimum timeout is 1 second, the maximum is 60 seconds, and the default (if
+  /// you don’t specify otherwise) is 30 seconds.
   ///
-  /// If you need to increase the maximum time limit, contact the <a
-  /// href="https://console.aws.amazon.com/support/home#/">AWS Support Center</a>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout">Origin
+  /// Response Timeout</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final int originReadTimeout;
 
-  /// The SSL/TLS protocols that you want CloudFront to use when communicating
-  /// with your origin over HTTPS.
+  /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting
+  /// to your origin over HTTPS. Valid values include <code>SSLv3</code>,
+  /// <code>TLSv1</code>, <code>TLSv1.1</code>, and <code>TLSv1.2</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginSSLProtocols">Minimum
+  /// Origin SSL Protocol</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final OriginSslProtocols originSslProtocols;
 
   CustomOriginConfig({
@@ -3361,9 +3370,9 @@ class CustomOriginConfig {
   }
 }
 
-/// A complex type that describes the default cache behavior if you don't
-/// specify a <code>CacheBehavior</code> element or if files don't match any of
-/// the values of <code>PathPattern</code> in <code>CacheBehavior</code>
+/// A complex type that describes the default cache behavior if you don’t
+/// specify a <code>CacheBehavior</code> element or if request URLs don’t match
+/// any of the values of <code>PathPattern</code> in <code>CacheBehavior</code>
 /// elements. You must create exactly one default cache behavior.
 class DefaultCacheBehavior {
   /// A complex type that specifies how CloudFront handles query strings, cookies,
@@ -3384,8 +3393,7 @@ class DefaultCacheBehavior {
   final int minTTL;
 
   /// The value of <code>ID</code> for the origin that you want CloudFront to
-  /// route requests to when a request matches the path pattern either for a cache
-  /// behavior or for the default cache behavior in your distribution.
+  /// route requests to when they use the default cache behavior.
   final String targetOriginId;
 
   /// A complex type that specifies the AWS accounts, if any, that you want to
@@ -3397,16 +3405,16 @@ class DefaultCacheBehavior {
   /// applicable values for <code>Quantity</code> and <code>Items</code>. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
-  /// Private Content through CloudFront</a> in the <i> Amazon CloudFront
-  /// Developer Guide</i>.
+  /// Private Content with Signed URLs and Signed Cookies</a> in the <i>Amazon
+  /// CloudFront Developer Guide</i>.
   ///
-  /// If you don't want to require signed URLs in requests for objects that match
+  /// If you don’t want to require signed URLs in requests for objects that match
   /// <code>PathPattern</code>, specify <code>false</code> for
   /// <code>Enabled</code> and <code>0</code> for <code>Quantity</code>. Omit
   /// <code>Items</code>.
   ///
   /// To add, change, or remove one or more trusted signers, change
-  /// <code>Enabled</code> to <code>true</code> (if it's currently
+  /// <code>Enabled</code> to <code>true</code> (if it’s currently
   /// <code>false</code>), change <code>Quantity</code> as applicable, and specify
   /// all of the trusted signers that you want to include in the updated
   /// distribution.
@@ -3432,20 +3440,19 @@ class DefaultCacheBehavior {
   /// </li>
   /// </ul>
   /// For more information about requiring the HTTPS protocol, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/SecureConnections.html">Using
-  /// an HTTPS Connection to Access Your Objects</a> in the <i>Amazon CloudFront
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-viewers-to-cloudfront.html">Requiring
+  /// HTTPS Between Viewers and CloudFront</a> in the <i>Amazon CloudFront
   /// Developer Guide</i>.
   /// <note>
   /// The only way to guarantee that viewers retrieve an object that was fetched
   /// from the origin using HTTPS is never to use any other protocol to fetch the
   /// object. If you have recently changed from HTTP to HTTPS, we recommend that
-  /// you clear your objects' cache because cached objects are protocol agnostic.
+  /// you clear your objects’ cache because cached objects are protocol agnostic.
   /// That means that an edge location will return an object from the cache
   /// regardless of whether the current request protocol matches the protocol used
   /// previously. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html">Managing
-  /// How Long Content Stays in an Edge Cache (Expiration)</a> in the <i>Amazon
-  /// CloudFront Developer Guide</i>.
+  /// Cache Expiration</a> in the <i>Amazon CloudFront Developer Guide</i>.
   /// </note>
   final ViewerProtocolPolicy viewerProtocolPolicy;
   final AllowedMethods allowedMethods;
@@ -3469,8 +3476,8 @@ class DefaultCacheBehavior {
   final int defaultTTL;
 
   /// The value of <code>ID</code> for the field-level encryption configuration
-  /// that you want CloudFront to use for encrypting specific fields of data for a
-  /// cache behavior or for the default cache behavior in your distribution.
+  /// that you want CloudFront to use for encrypting specific fields of data for
+  /// the default cache behavior.
   final String fieldLevelEncryptionId;
 
   /// A complex type that contains zero or more Lambda function associations for a
@@ -5904,6 +5911,7 @@ enum MinimumProtocolVersion {
   tLSv1_2016,
   tLSv1_1_2016,
   tLSv1_2_2018,
+  tLSv1_2_2019,
 }
 
 extension on MinimumProtocolVersion {
@@ -5919,6 +5927,8 @@ extension on MinimumProtocolVersion {
         return 'TLSv1.1_2016';
       case MinimumProtocolVersion.tLSv1_2_2018:
         return 'TLSv1.2_2018';
+      case MinimumProtocolVersion.tLSv1_2_2019:
+        return 'TLSv1.2_2019';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -5937,128 +5947,125 @@ extension on String {
         return MinimumProtocolVersion.tLSv1_1_2016;
       case 'TLSv1.2_2018':
         return MinimumProtocolVersion.tLSv1_2_2018;
+      case 'TLSv1.2_2019':
+        return MinimumProtocolVersion.tLSv1_2_2019;
     }
     throw Exception('Unknown enum value: $this');
   }
 }
 
-/// A complex type that describes the Amazon S3 bucket, HTTP server (for
-/// example, a web server), Amazon MediaStore, or other server from which
-/// CloudFront gets your files. This can also be an origin group, if you've
-/// created an origin group. You must specify at least one origin or origin
-/// group.
+/// An origin.
 ///
-/// For the current limit on the number of origins or origin groups that you can
-/// specify for a distribution, see <a
-/// href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_cloudfront">Amazon
-/// CloudFront Limits</a> in the <i>AWS General Reference</i>.
+/// An origin is the location where content is stored, and from which CloudFront
+/// gets content to serve to viewers. To specify an origin:
+///
+/// <ul>
+/// <li>
+/// Use the <code>S3OriginConfig</code> type to specify an Amazon S3 bucket that
+/// is <i> <b>not</b> </i> configured with static website hosting.
+/// </li>
+/// <li>
+/// Use the <code>CustomOriginConfig</code> type to specify various other kinds
+/// of content containers or HTTP servers, including:
+///
+/// <ul>
+/// <li>
+/// An Amazon S3 bucket that is configured with static website hosting
+/// </li>
+/// <li>
+/// An Elastic Load Balancing load balancer
+/// </li>
+/// <li>
+/// An AWS Elemental MediaPackage origin
+/// </li>
+/// <li>
+/// An AWS Elemental MediaStore container
+/// </li>
+/// <li>
+/// Any other HTTP server, running on an Amazon EC2 instance or any other kind
+/// of host
+/// </li>
+/// </ul> </li>
+/// </ul>
+/// For the current maximum number of origins that you can specify per
+/// distribution, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html#limits-web-distributions">General
+/// Quotas on Web Distributions</a> in the <i>Amazon CloudFront Developer
+/// Guide</i> (quotas were formerly referred to as limits).
 class Origin {
-  /// <b>Amazon S3 origins</b>: The DNS name of the Amazon S3 bucket from which
-  /// you want CloudFront to get objects for this origin, for example,
-  /// <code>myawsbucket.s3.amazonaws.com</code>. If you set up your bucket to be
-  /// configured as a website endpoint, enter the Amazon S3 static website hosting
-  /// endpoint for the bucket.
+  /// The domain name for the origin.
   ///
-  /// For more information about specifying this value for different types of
-  /// origins, see <a
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesDomainName">Origin
   /// Domain Name</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  ///
-  /// Constraints for Amazon S3 origins:
-  ///
-  /// <ul>
-  /// <li>
-  /// If you configured Amazon S3 Transfer Acceleration for your bucket, don't
-  /// specify the <code>s3-accelerate</code> endpoint for <code>DomainName</code>.
-  /// </li>
-  /// <li>
-  /// The bucket name must be between 3 and 63 characters long (inclusive).
-  /// </li>
-  /// <li>
-  /// The bucket name must contain only lowercase characters, numbers, periods,
-  /// underscores, and dashes.
-  /// </li>
-  /// <li>
-  /// The bucket name must not contain adjacent periods.
-  /// </li>
-  /// </ul>
-  /// <b>Custom Origins</b>: The DNS domain name for the HTTP server from which
-  /// you want CloudFront to get objects for this origin, for example,
-  /// <code>www.example.com</code>.
-  ///
-  /// Constraints for custom origins:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>DomainName</code> must be a valid DNS name that contains only a-z,
-  /// A-Z, 0-9, dot (.), hyphen (-), or underscore (_) characters.
-  /// </li>
-  /// <li>
-  /// The name cannot exceed 128 characters.
-  /// </li>
-  /// </ul>
   final String domainName;
 
-  /// A unique identifier for the origin or origin group. The value of
-  /// <code>Id</code> must be unique within the distribution.
+  /// A unique identifier for the origin. This value must be unique within the
+  /// distribution.
   ///
-  /// When you specify the value of <code>TargetOriginId</code> for the default
-  /// cache behavior or for another cache behavior, you indicate the origin to
-  /// which you want the cache behavior to route requests by specifying the value
-  /// of the <code>Id</code> element for that origin. When a request matches the
-  /// path pattern for that cache behavior, CloudFront routes the request to the
-  /// specified origin. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior">Cache
-  /// Behavior Settings</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  /// Use this value to specify the <code>TargetOriginId</code> in a
+  /// <code>CacheBehavior</code> or <code>DefaultCacheBehavior</code>.
   final String id;
 
-  /// A complex type that contains names and values for the custom headers that
-  /// you want.
+  /// The number of times that CloudFront attempts to connect to the origin. The
+  /// minimum number is 1, the maximum is 3, and the default (if you don’t specify
+  /// otherwise) is 3.
+  ///
+  /// For a custom origin (including an Amazon S3 bucket that’s configured with
+  /// static website hosting), this value also specifies the number of times that
+  /// CloudFront attempts to get a response from the origin, in the case of an <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout">Origin
+  /// Response Timeout</a>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#origin-connection-attempts">Origin
+  /// Connection Attempts</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  final int connectionAttempts;
+
+  /// The number of seconds that CloudFront waits when trying to establish a
+  /// connection to the origin. The minimum timeout is 1 second, the maximum is 10
+  /// seconds, and the default (if you don’t specify otherwise) is 10 seconds.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#origin-connection-timeout">Origin
+  /// Connection Timeout</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  final int connectionTimeout;
+
+  /// A list of HTTP header names and values that CloudFront adds to requests it
+  /// sends to the origin.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/add-origin-custom-headers.html">Adding
+  /// Custom Headers to Origin Requests</a> in the <i>Amazon CloudFront Developer
+  /// Guide</i>.
   final CustomHeaders customHeaders;
 
-  /// A complex type that contains information about a custom origin. If the
-  /// origin is an Amazon S3 bucket, use the <code>S3OriginConfig</code> element
-  /// instead.
+  /// Use this type to specify an origin that is a content container or HTTP
+  /// server, including an Amazon S3 bucket that is configured with static website
+  /// hosting. To specify an Amazon S3 bucket that is <i> <b>not</b> </i>
+  /// configured with static website hosting, use the <code>S3OriginConfig</code>
+  /// type instead.
   final CustomOriginConfig customOriginConfig;
 
-  /// An optional element that causes CloudFront to request your content from a
-  /// directory in your Amazon S3 bucket or your custom origin. When you include
-  /// the <code>OriginPath</code> element, specify the directory name, beginning
-  /// with a <code>/</code>. CloudFront appends the directory name to the value of
-  /// <code>DomainName</code>, for example, <code>example.com/production</code>.
-  /// Do not include a <code>/</code> at the end of the directory name.
+  /// An optional path that CloudFront appends to the origin domain name when
+  /// CloudFront requests content from the origin.
   ///
-  /// For example, suppose you've specified the following values for your
-  /// distribution:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>DomainName</code>: An Amazon S3 bucket named <code>myawsbucket</code>.
-  /// </li>
-  /// <li>
-  /// <code>OriginPath</code>: <code>/production</code>
-  /// </li>
-  /// <li>
-  /// <code>CNAME</code>: <code>example.com</code>
-  /// </li>
-  /// </ul>
-  /// When a user enters <code>example.com/index.html</code> in a browser,
-  /// CloudFront sends a request to Amazon S3 for
-  /// <code>myawsbucket/production/index.html</code>.
-  ///
-  /// When a user enters <code>example.com/acme/index.html</code> in a browser,
-  /// CloudFront sends a request to Amazon S3 for
-  /// <code>myawsbucket/production/acme/index.html</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginPath">Origin
+  /// Path</a> in the <i>Amazon CloudFront Developer Guide</i>.
   final String originPath;
 
-  /// A complex type that contains information about the Amazon S3 origin. If the
-  /// origin is a custom origin, use the <code>CustomOriginConfig</code> element
-  /// instead.
+  /// Use this type to specify an origin that is an Amazon S3 bucket that is <i>
+  /// <b>not</b> </i> configured with static website hosting. To specify any other
+  /// type of origin, including an Amazon S3 bucket that is configured with static
+  /// website hosting, use the <code>CustomOriginConfig</code> type instead.
   final S3OriginConfig s3OriginConfig;
 
   Origin({
     @_s.required this.domainName,
     @_s.required this.id,
+    this.connectionAttempts,
+    this.connectionTimeout,
     this.customHeaders,
     this.customOriginConfig,
     this.originPath,
@@ -6068,6 +6075,8 @@ class Origin {
     return Origin(
       domainName: _s.extractXmlStringValue(elem, 'DomainName'),
       id: _s.extractXmlStringValue(elem, 'Id'),
+      connectionAttempts: _s.extractXmlIntValue(elem, 'ConnectionAttempts'),
+      connectionTimeout: _s.extractXmlIntValue(elem, 'ConnectionTimeout'),
       customHeaders: _s
           .extractXmlChild(elem, 'CustomHeaders')
           ?.let((e) => CustomHeaders.fromXml(e)),
@@ -6090,6 +6099,10 @@ class Origin {
       if (s3OriginConfig != null) s3OriginConfig?.toXml('S3OriginConfig'),
       if (customOriginConfig != null)
         customOriginConfig?.toXml('CustomOriginConfig'),
+      if (connectionAttempts != null)
+        _s.encodeXmlIntValue('ConnectionAttempts', connectionAttempts),
+      if (connectionTimeout != null)
+        _s.encodeXmlIntValue('ConnectionTimeout', connectionTimeout),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6937,8 +6950,8 @@ class S3Origin {
 }
 
 /// A complex type that contains information about the Amazon S3 origin. If the
-/// origin is a custom origin, use the <code>CustomOriginConfig</code> element
-/// instead.
+/// origin is a custom origin or an S3 bucket that is configured as a website
+/// endpoint, use the <code>CustomOriginConfig</code> element instead.
 class S3OriginConfig {
   /// The CloudFront origin access identity to associate with the origin. Use an
   /// origin access identity to configure the origin so that viewers can
@@ -7819,7 +7832,7 @@ class UpdateStreamingDistributionResult {
 /// <li>
 /// To accept HTTPS connections from only viewers that support SNI, set
 /// <code>SSLSupportMethod</code> to <code>sni-only</code>. This is recommended.
-/// Most browsers and clients released after 2010 support SNI.
+/// Most browsers and clients support SNI.
 /// </li>
 /// <li>
 /// To accept HTTPS connections from all viewers, including those that don’t
@@ -7961,9 +7974,6 @@ class ViewerCertificate {
   /// <note>
   /// On the CloudFront console, this setting is called <b>Security Policy</b>.
   /// </note>
-  /// We recommend that you specify <code>TLSv1.2_2018</code> unless your viewers
-  /// are using browsers or devices that don’t support TLSv1.2.
-  ///
   /// When you’re using SNI only (you set <code>SSLSupportMethod</code> to
   /// <code>sni-only</code>), you must specify <code>TLSv1</code> or higher.
   ///
@@ -7983,8 +7993,8 @@ class ViewerCertificate {
   /// <code>sni-only</code> – The distribution accepts HTTPS connections from only
   /// viewers that support <a
   /// href="https://en.wikipedia.org/wiki/Server_Name_Indication">server name
-  /// indication (SNI)</a>. This is recommended. Most browsers and clients
-  /// released after 2010 support SNI.
+  /// indication (SNI)</a>. This is recommended. Most browsers and clients support
+  /// SNI.
   /// </li>
   /// <li>
   /// <code>vip</code> – The distribution accepts HTTPS connections from all

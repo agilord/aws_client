@@ -82,6 +82,34 @@ class CodeBuild {
     return BatchDeleteBuildsOutput.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves information about one or more batch builds.
+  ///
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [ids] :
+  /// An array that contains the batch build identifiers to retrieve.
+  Future<BatchGetBuildBatchesOutput> batchGetBuildBatches({
+    @_s.required List<String> ids,
+  }) async {
+    ArgumentError.checkNotNull(ids, 'ids');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.BatchGetBuildBatches'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ids': ids,
+      },
+    );
+
+    return BatchGetBuildBatchesOutput.fromJson(jsonResponse.body);
+  }
+
   /// Gets information about one or more builds.
   ///
   /// May throw [InvalidInputException].
@@ -223,6 +251,10 @@ class CodeBuild {
   /// Set this to true to generate a publicly accessible URL for your project's
   /// build badge.
   ///
+  /// Parameter [buildBatchConfig] :
+  /// A <a>ProjectBuildBatchConfig</a> object that defines the batch build
+  /// options for the project.
+  ///
   /// Parameter [cache] :
   /// Stores recently used information so that it can be quickly accessed at a
   /// later time.
@@ -238,8 +270,8 @@ class CodeBuild {
   /// if your service role has permission to that key.
   /// </note>
   /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
-  /// available, the CMK's alias (using the format <code>alias/<i>alias-name</i>
-  /// </code>).
+  /// available, the CMK's alias (using the format
+  /// <code>alias/&lt;alias-name&gt;</code>).
   ///
   /// Parameter [fileSystemLocations] :
   /// An array of <code>ProjectFileSystemLocation</code> objects for a CodeBuild
@@ -303,7 +335,7 @@ class CodeBuild {
   /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
   ///
   /// Parameter [tags] :
-  /// A set of tags for this build project.
+  /// A list of tag key and value pairs associated with this build project.
   ///
   /// These tags are available for use by AWS services that support AWS
   /// CodeBuild build project tags.
@@ -322,6 +354,7 @@ class CodeBuild {
     @_s.required String serviceRole,
     @_s.required ProjectSource source,
     bool badgeEnabled,
+    ProjectBuildBatchConfig buildBatchConfig,
     ProjectCache cache,
     String description,
     String encryptionKey,
@@ -402,6 +435,7 @@ class CodeBuild {
         'serviceRole': serviceRole,
         'source': source,
         if (badgeEnabled != null) 'badgeEnabled': badgeEnabled,
+        if (buildBatchConfig != null) 'buildBatchConfig': buildBatchConfig,
         if (cache != null) 'cache': cache,
         if (description != null) 'description': description,
         if (encryptionKey != null) 'encryptionKey': encryptionKey,
@@ -440,10 +474,17 @@ class CodeBuild {
   ///
   /// Parameter [type] :
   /// The type of report group.
+  ///
+  /// Parameter [tags] :
+  /// A list of tag key and value pairs associated with this report group.
+  ///
+  /// These tags are available for use by AWS services that support AWS
+  /// CodeBuild report group tags.
   Future<CreateReportGroupOutput> createReportGroup({
     @_s.required ReportExportConfig exportConfig,
     @_s.required String name,
     @_s.required ReportType type,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(exportConfig, 'exportConfig');
     ArgumentError.checkNotNull(name, 'name');
@@ -469,6 +510,7 @@ class CodeBuild {
         'exportConfig': exportConfig,
         'name': name,
         'type': type?.toValue() ?? '',
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -509,6 +551,9 @@ class CodeBuild {
   /// <code>branchFilter</code>.
   /// </note>
   ///
+  /// Parameter [buildType] :
+  /// Specifies the type of build this webhook will trigger.
+  ///
   /// Parameter [filterGroups] :
   /// An array of arrays of <code>WebhookFilter</code> objects used to determine
   /// which webhooks are triggered. At least one <code>WebhookFilter</code> in
@@ -520,6 +565,7 @@ class CodeBuild {
   Future<CreateWebhookOutput> createWebhook({
     @_s.required String projectName,
     String branchFilter,
+    WebhookBuildType buildType,
     List<List<WebhookFilter>> filterGroups,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
@@ -549,11 +595,47 @@ class CodeBuild {
       payload: {
         'projectName': projectName,
         if (branchFilter != null) 'branchFilter': branchFilter,
+        if (buildType != null) 'buildType': buildType.toValue(),
         if (filterGroups != null) 'filterGroups': filterGroups,
       },
     );
 
     return CreateWebhookOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a batch build.
+  ///
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [id] :
+  /// The identifier of the batch build to delete.
+  Future<DeleteBuildBatchOutput> deleteBuildBatch({
+    @_s.required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    _s.validateStringLength(
+      'id',
+      id,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.DeleteBuildBatch'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'id': id,
+      },
+    );
+
+    return DeleteBuildBatchOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes a build project. When you delete a project, its builds are not
@@ -627,20 +709,28 @@ class CodeBuild {
     return DeleteReportOutput.fromJson(jsonResponse.body);
   }
 
-  /// <code>DeleteReportGroup</code>: Deletes a report group. Before you delete
-  /// a report group, you must delete its reports. Use <a
-  /// href="https://docs.aws.amazon.com/codebuild/latest/APIReference/API_ListReportsForReportGroup.html">ListReportsForReportGroup</a>
-  /// to get the reports in a report group. Use <a
-  /// href="https://docs.aws.amazon.com/codebuild/latest/APIReference/API_DeleteReport.html">DeleteReport</a>
-  /// to delete the reports. If you call <code>DeleteReportGroup</code> for a
-  /// report group that contains one or more reports, an exception is thrown.
+  /// Deletes a report group. Before you delete a report group, you must delete
+  /// its reports.
   ///
   /// May throw [InvalidInputException].
   ///
   /// Parameter [arn] :
   /// The ARN of the report group to delete.
+  ///
+  /// Parameter [deleteReports] :
+  /// If <code>true</code>, deletes any reports that belong to a report group
+  /// before deleting the report group.
+  ///
+  /// If <code>false</code>, you must delete any reports in the report group.
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/APIReference/API_ListReportsForReportGroup.html">ListReportsForReportGroup</a>
+  /// to get the reports in a report group. Use <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/APIReference/API_DeleteReport.html">DeleteReport</a>
+  /// to delete the reports. If you call <code>DeleteReportGroup</code> for a
+  /// report group that contains one or more reports, an exception is thrown.
   Future<void> deleteReportGroup({
     @_s.required String arn,
+    bool deleteReports,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -662,6 +752,7 @@ class CodeBuild {
       headers: headers,
       payload: {
         'arn': arn,
+        if (deleteReports != null) 'deleteReports': deleteReports,
       },
     );
 
@@ -786,6 +877,98 @@ class CodeBuild {
     return DeleteWebhookOutput.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves one or more code coverage reports.
+  ///
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [reportArn] :
+  /// The ARN of the report for which test cases are returned.
+  ///
+  /// Parameter [maxLineCoveragePercentage] :
+  /// The maximum line coverage percentage to report.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [minLineCoveragePercentage] :
+  /// The minimum line coverage percentage to report.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> value returned from a previous call to
+  /// <code>DescribeCodeCoverages</code>. This specifies the next item to
+  /// return. To return the beginning of the list, exclude this parameter.
+  ///
+  /// Parameter [sortBy] :
+  /// Specifies how the results are sorted. Possible values are:
+  /// <dl> <dt>FILE_PATH</dt> <dd>
+  /// The results are sorted by file path.
+  /// </dd> <dt>LINE_COVERAGE_PERCENTAGE</dt> <dd>
+  /// The results are sorted by the percentage of lines that are covered.
+  /// </dd> </dl>
+  ///
+  /// Parameter [sortOrder] :
+  /// Specifies if the results are sorted in ascending or descending order.
+  Future<DescribeCodeCoveragesOutput> describeCodeCoverages({
+    @_s.required String reportArn,
+    double maxLineCoveragePercentage,
+    int maxResults,
+    double minLineCoveragePercentage,
+    String nextToken,
+    ReportCodeCoverageSortByType sortBy,
+    SortOrderType sortOrder,
+  }) async {
+    ArgumentError.checkNotNull(reportArn, 'reportArn');
+    _s.validateStringLength(
+      'reportArn',
+      reportArn,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxLineCoveragePercentage',
+      maxLineCoveragePercentage,
+      0,
+      100,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateNumRange(
+      'minLineCoveragePercentage',
+      minLineCoveragePercentage,
+      0,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.DescribeCodeCoverages'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'reportArn': reportArn,
+        if (maxLineCoveragePercentage != null)
+          'maxLineCoveragePercentage': maxLineCoveragePercentage,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (minLineCoveragePercentage != null)
+          'minLineCoveragePercentage': minLineCoveragePercentage,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sortBy != null) 'sortBy': sortBy.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+      },
+    );
+
+    return DescribeCodeCoveragesOutput.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of details about test cases for a report.
   ///
   /// May throw [InvalidInputException].
@@ -842,6 +1025,49 @@ class CodeBuild {
     );
 
     return DescribeTestCasesOutput.fromJson(jsonResponse.body);
+  }
+
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  Future<GetReportGroupTrendOutput> getReportGroupTrend({
+    @_s.required String reportGroupArn,
+    @_s.required ReportGroupTrendFieldType trendField,
+    int numOfReports,
+  }) async {
+    ArgumentError.checkNotNull(reportGroupArn, 'reportGroupArn');
+    _s.validateStringLength(
+      'reportGroupArn',
+      reportGroupArn,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(trendField, 'trendField');
+    _s.validateNumRange(
+      'numOfReports',
+      numOfReports,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.GetReportGroupTrend'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'reportGroupArn': reportGroupArn,
+        'trendField': trendField?.toValue() ?? '',
+        if (numOfReports != null) 'numOfReports': numOfReports,
+      },
+    );
+
+    return GetReportGroupTrendOutput.fromJson(jsonResponse.body);
   }
 
   /// Gets a resource policy that is identified by its resource ARN.
@@ -987,6 +1213,142 @@ class CodeBuild {
     );
 
     return InvalidateProjectCacheOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the identifiers of your build batches in the current region.
+  ///
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [filter] :
+  /// A <code>BuildBatchFilter</code> object that specifies the filters for the
+  /// search.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> value returned from a previous call to
+  /// <code>ListBuildBatches</code>. This specifies the next item to return. To
+  /// return the beginning of the list, exclude this parameter.
+  ///
+  /// Parameter [sortOrder] :
+  /// Specifies the sort order of the returned items. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASCENDING</code>: List the batch build identifiers in ascending
+  /// order by identifier.
+  /// </li>
+  /// <li>
+  /// <code>DESCENDING</code>: List the batch build identifiers in descending
+  /// order by identifier.
+  /// </li>
+  /// </ul>
+  Future<ListBuildBatchesOutput> listBuildBatches({
+    BuildBatchFilter filter,
+    int maxResults,
+    String nextToken,
+    SortOrderType sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.ListBuildBatches'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+      },
+    );
+
+    return ListBuildBatchesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the identifiers of the build batches for a specific project.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [filter] :
+  /// A <code>BuildBatchFilter</code> object that specifies the filters for the
+  /// search.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> value returned from a previous call to
+  /// <code>ListBuildBatchesForProject</code>. This specifies the next item to
+  /// return. To return the beginning of the list, exclude this parameter.
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project.
+  ///
+  /// Parameter [sortOrder] :
+  /// Specifies the sort order of the returned items. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASCENDING</code>: List the batch build identifiers in ascending
+  /// order by identifier.
+  /// </li>
+  /// <li>
+  /// <code>DESCENDING</code>: List the batch build identifiers in descending
+  /// order by identifier.
+  /// </li>
+  /// </ul>
+  Future<ListBuildBatchesForProjectOutput> listBuildBatchesForProject({
+    BuildBatchFilter filter,
+    int maxResults,
+    String nextToken,
+    String projectName,
+    SortOrderType sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'projectName',
+      projectName,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.ListBuildBatchesForProject'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filter != null) 'filter': filter,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (projectName != null) 'projectName': projectName,
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+      },
+    );
+
+    return ListBuildBatchesForProjectOutput.fromJson(jsonResponse.body);
   }
 
   /// Gets a list of build IDs, with each build ID representing a single build.
@@ -1558,6 +1920,8 @@ class CodeBuild {
   }
 
   /// Returns a list of <code>SourceCredentialsInfo</code> objects.
+  ///
+  /// May throw [InvalidInputException].
   Future<ListSourceCredentialsOutput> listSourceCredentials() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1629,6 +1993,99 @@ class CodeBuild {
     return PutResourcePolicyOutput.fromJson(jsonResponse.body);
   }
 
+  /// Restarts a build.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccountLimitExceededException].
+  ///
+  /// Parameter [id] :
+  /// Specifies the identifier of the build to restart.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case sensitive identifier you provide to ensure the idempotency
+  /// of the <code>RetryBuild</code> request. The token is included in the
+  /// <code>RetryBuild</code> request and is valid for five minutes. If you
+  /// repeat the <code>RetryBuild</code> request with the same token, but change
+  /// a parameter, AWS CodeBuild returns a parameter mismatch error.
+  Future<RetryBuildOutput> retryBuild({
+    String id,
+    String idempotencyToken,
+  }) async {
+    _s.validateStringLength(
+      'id',
+      id,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.RetryBuild'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (id != null) 'id': id,
+        if (idempotencyToken != null) 'idempotencyToken': idempotencyToken,
+      },
+    );
+
+    return RetryBuildOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Restarts a failed batch build. Only batch builds that have failed can be
+  /// retried.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [id] :
+  /// Specifies the identifier of the batch build to restart.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case sensitive identifier you provide to ensure the idempotency
+  /// of the <code>RetryBuildBatch</code> request. The token is included in the
+  /// <code>RetryBuildBatch</code> request and is valid for five minutes. If you
+  /// repeat the <code>RetryBuildBatch</code> request with the same token, but
+  /// change a parameter, AWS CodeBuild returns a parameter mismatch error.
+  ///
+  /// Parameter [retryType] :
+  /// Specifies the type of retry to perform.
+  Future<RetryBuildBatchOutput> retryBuildBatch({
+    String id,
+    String idempotencyToken,
+    RetryBuildBatchType retryType,
+  }) async {
+    _s.validateStringLength(
+      'id',
+      id,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.RetryBuildBatch'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (id != null) 'id': id,
+        if (idempotencyToken != null) 'idempotencyToken': idempotencyToken,
+        if (retryType != null) 'retryType': retryType.toValue(),
+      },
+    );
+
+    return RetryBuildBatchOutput.fromJson(jsonResponse.body);
+  }
+
   /// Starts running a build.
   ///
   /// May throw [InvalidInputException].
@@ -1641,6 +2098,12 @@ class CodeBuild {
   /// Parameter [artifactsOverride] :
   /// Build output artifact settings that override, for this build only, the
   /// latest ones already defined in the build project.
+  ///
+  /// Parameter [buildStatusConfigOverride] :
+  /// Contains information that defines how the build project reports the build
+  /// status to the source provider. This option is only used when the source
+  /// provider is <code>GITHUB</code>, <code>GITHUB_ENTERPRISE</code>, or
+  /// <code>BITBUCKET</code>.
   ///
   /// Parameter [buildspecOverride] :
   /// A buildspec file declaration that overrides, for this build only, the
@@ -1670,6 +2133,12 @@ class CodeBuild {
   /// The name of a compute type for this build that overrides the one specified
   /// in the build project.
   ///
+  /// Parameter [debugSessionEnabled] :
+  /// Specifies if session debugging is enabled for this build. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/session-manager.html">Viewing
+  /// a running build in Session Manager</a>.
+  ///
   /// Parameter [encryptionKeyOverride] :
   /// The AWS Key Management Service (AWS KMS) customer master key (CMK) that
   /// overrides the one specified in the build project. The CMK key encrypts the
@@ -1679,8 +2148,8 @@ class CodeBuild {
   /// if your service role has permission to that key.
   /// </note>
   /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
-  /// available, the CMK's alias (using the format <code>alias/<i>alias-name</i>
-  /// </code>).
+  /// available, the CMK's alias (using the format
+  /// <code>alias/&lt;alias-name&gt;</code>).
   ///
   /// Parameter [environmentTypeOverride] :
   /// A container type for this build that overrides the one specified in the
@@ -1702,7 +2171,7 @@ class CodeBuild {
   /// Parameter [idempotencyToken] :
   /// A unique, case sensitive identifier you provide to ensure the idempotency
   /// of the StartBuild request. The token is included in the StartBuild request
-  /// and is valid for 12 hours. If you repeat the StartBuild request with the
+  /// and is valid for 5 minutes. If you repeat the StartBuild request with the
   /// same token, but change a parameter, AWS CodeBuild returns a parameter
   /// mismatch error.
   ///
@@ -1713,21 +2182,16 @@ class CodeBuild {
   /// Parameter [imagePullCredentialsTypeOverride] :
   /// The type of credentials AWS CodeBuild uses to pull images in your build.
   /// There are two valid values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CODEBUILD</code> specifies that AWS CodeBuild uses its own
-  /// credentials. This requires that you modify your ECR repository policy to
-  /// trust AWS CodeBuild's service principal.
-  /// </li>
-  /// <li>
-  /// <code>SERVICE_ROLE</code> specifies that AWS CodeBuild uses your build
-  /// project's service role.
-  /// </li>
-  /// </ul>
+  /// <dl> <dt>CODEBUILD</dt> <dd>
+  /// Specifies that AWS CodeBuild uses its own credentials. This requires that
+  /// you modify your ECR repository policy to trust AWS CodeBuild's service
+  /// principal.
+  /// </dd> <dt>SERVICE_ROLE</dt> <dd>
+  /// Specifies that AWS CodeBuild uses your build project's service role.
+  /// </dd> </dl>
   /// When using a cross-account or private registry image, you must use
-  /// SERVICE_ROLE credentials. When using an AWS CodeBuild curated image, you
-  /// must use CODEBUILD credentials.
+  /// <code>SERVICE_ROLE</code> credentials. When using an AWS CodeBuild curated
+  /// image, you must use <code>CODEBUILD</code> credentials.
   ///
   /// Parameter [insecureSslOverride] :
   /// Enable this flag to override the insecure SSL setting that is specified in
@@ -1787,32 +2251,27 @@ class CodeBuild {
   /// defined in the build project.
   ///
   /// Parameter [sourceVersion] :
-  /// A version of the build input to be built, for this build only. If not
-  /// specified, the latest version is used. If specified, must be one of:
-  ///
-  /// <ul>
-  /// <li>
-  /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
-  /// </li>
-  /// <li>
-  /// For GitHub: the commit ID, pull request ID, branch name, or tag name that
-  /// corresponds to the version of the source code you want to build. If a pull
-  /// request ID is specified, it must use the format
-  /// <code>pr/pull-request-ID</code> (for example <code>pr/25</code>). If a
-  /// branch name is specified, the branch's HEAD commit ID is used. If not
-  /// specified, the default branch's HEAD commit ID is used.
-  /// </li>
-  /// <li>
-  /// For Bitbucket: the commit ID, branch name, or tag name that corresponds to
-  /// the version of the source code you want to build. If a branch name is
-  /// specified, the branch's HEAD commit ID is used. If not specified, the
-  /// default branch's HEAD commit ID is used.
-  /// </li>
-  /// <li>
-  /// For Amazon Simple Storage Service (Amazon S3): the version ID of the
-  /// object that represents the build input ZIP file to use.
-  /// </li>
-  /// </ul>
+  /// The version of the build input to be built, for this build only. If not
+  /// specified, the latest version is used. If specified, the contents depends
+  /// on the source provider:
+  /// <dl> <dt>AWS CodeCommit</dt> <dd>
+  /// The commit ID, branch, or Git tag to use.
+  /// </dd> <dt>GitHub</dt> <dd>
+  /// The commit ID, pull request ID, branch name, or tag name that corresponds
+  /// to the version of the source code you want to build. If a pull request ID
+  /// is specified, it must use the format <code>pr/pull-request-ID</code> (for
+  /// example <code>pr/25</code>). If a branch name is specified, the branch's
+  /// HEAD commit ID is used. If not specified, the default branch's HEAD commit
+  /// ID is used.
+  /// </dd> <dt>Bitbucket</dt> <dd>
+  /// The commit ID, branch name, or tag name that corresponds to the version of
+  /// the source code you want to build. If a branch name is specified, the
+  /// branch's HEAD commit ID is used. If not specified, the default branch's
+  /// HEAD commit ID is used.
+  /// </dd> <dt>Amazon Simple Storage Service (Amazon S3)</dt> <dd>
+  /// The version ID of the object that represents the build input ZIP file to
+  /// use.
+  /// </dd> </dl>
   /// If <code>sourceVersion</code> is specified at the project level, then this
   /// <code>sourceVersion</code> (at the build level) takes precedence.
   ///
@@ -1827,10 +2286,12 @@ class CodeBuild {
   Future<StartBuildOutput> startBuild({
     @_s.required String projectName,
     ProjectArtifacts artifactsOverride,
+    BuildStatusConfig buildStatusConfigOverride,
     String buildspecOverride,
     ProjectCache cacheOverride,
     String certificateOverride,
     ComputeType computeTypeOverride,
+    bool debugSessionEnabled,
     String encryptionKeyOverride,
     EnvironmentType environmentTypeOverride,
     List<EnvironmentVariable> environmentVariablesOverride,
@@ -1912,12 +2373,16 @@ class CodeBuild {
       payload: {
         'projectName': projectName,
         if (artifactsOverride != null) 'artifactsOverride': artifactsOverride,
+        if (buildStatusConfigOverride != null)
+          'buildStatusConfigOverride': buildStatusConfigOverride,
         if (buildspecOverride != null) 'buildspecOverride': buildspecOverride,
         if (cacheOverride != null) 'cacheOverride': cacheOverride,
         if (certificateOverride != null)
           'certificateOverride': certificateOverride,
         if (computeTypeOverride != null)
           'computeTypeOverride': computeTypeOverride.toValue(),
+        if (debugSessionEnabled != null)
+          'debugSessionEnabled': debugSessionEnabled,
         if (encryptionKeyOverride != null)
           'encryptionKeyOverride': encryptionKeyOverride,
         if (environmentTypeOverride != null)
@@ -1968,6 +2433,342 @@ class CodeBuild {
     return StartBuildOutput.fromJson(jsonResponse.body);
   }
 
+  /// Starts a batch build for a project.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [projectName] :
+  /// The name of the project.
+  ///
+  /// Parameter [artifactsOverride] :
+  /// An array of <code>ProjectArtifacts</code> objects that contains
+  /// information about the build output artifact overrides for the build
+  /// project.
+  ///
+  /// Parameter [buildBatchConfigOverride] :
+  /// A <code>BuildBatchConfigOverride</code> object that contains batch build
+  /// configuration overrides.
+  ///
+  /// Parameter [buildTimeoutInMinutesOverride] :
+  /// Overrides the build timeout specified in the batch build project.
+  ///
+  /// Parameter [buildspecOverride] :
+  /// A buildspec file declaration that overrides, for this build only, the
+  /// latest one already defined in the build project.
+  ///
+  /// If this value is set, it can be either an inline buildspec definition, the
+  /// path to an alternate buildspec file relative to the value of the built-in
+  /// <code>CODEBUILD_SRC_DIR</code> environment variable, or the path to an S3
+  /// bucket. The bucket must be in the same AWS Region as the build project.
+  /// Specify the buildspec file using its ARN (for example,
+  /// <code>arn:aws:s3:::my-codebuild-sample2/buildspec.yml</code>). If this
+  /// value is not provided or is set to an empty string, the source code must
+  /// contain a buildspec file in its root directory. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec-ref-name-storage">Buildspec
+  /// File Name and Storage Location</a>.
+  ///
+  /// Parameter [cacheOverride] :
+  /// A <code>ProjectCache</code> object that specifies cache overrides.
+  ///
+  /// Parameter [certificateOverride] :
+  /// The name of a certificate for this batch build that overrides the one
+  /// specified in the batch build project.
+  ///
+  /// Parameter [computeTypeOverride] :
+  /// The name of a compute type for this batch build that overrides the one
+  /// specified in the batch build project.
+  ///
+  /// Parameter [encryptionKeyOverride] :
+  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) that
+  /// overrides the one specified in the batch build project. The CMK key
+  /// encrypts the build output artifacts.
+  /// <note>
+  /// You can use a cross-account KMS key to encrypt the build output artifacts
+  /// if your service role has permission to that key.
+  /// </note>
+  /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
+  /// available, the CMK's alias (using the format
+  /// <code>alias/&lt;alias-name&gt;</code>).
+  ///
+  /// Parameter [environmentTypeOverride] :
+  /// A container type for this batch build that overrides the one specified in
+  /// the batch build project.
+  ///
+  /// Parameter [environmentVariablesOverride] :
+  /// An array of <code>EnvironmentVariable</code> objects that override, or add
+  /// to, the environment variables defined in the batch build project.
+  ///
+  /// Parameter [gitCloneDepthOverride] :
+  /// The user-defined depth of history, with a minimum value of 0, that
+  /// overrides, for this batch build only, any previous depth of history
+  /// defined in the batch build project.
+  ///
+  /// Parameter [gitSubmodulesConfigOverride] :
+  /// A <code>GitSubmodulesConfig</code> object that overrides the Git
+  /// submodules configuration for this batch build.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case sensitive identifier you provide to ensure the idempotency
+  /// of the <code>StartBuildBatch</code> request. The token is included in the
+  /// <code>StartBuildBatch</code> request and is valid for five minutes. If you
+  /// repeat the <code>StartBuildBatch</code> request with the same token, but
+  /// change a parameter, AWS CodeBuild returns a parameter mismatch error.
+  ///
+  /// Parameter [imageOverride] :
+  /// The name of an image for this batch build that overrides the one specified
+  /// in the batch build project.
+  ///
+  /// Parameter [imagePullCredentialsTypeOverride] :
+  /// The type of credentials AWS CodeBuild uses to pull images in your batch
+  /// build. There are two valid values:
+  /// <dl> <dt>CODEBUILD</dt> <dd>
+  /// Specifies that AWS CodeBuild uses its own credentials. This requires that
+  /// you modify your ECR repository policy to trust AWS CodeBuild's service
+  /// principal.
+  /// </dd> <dt>SERVICE_ROLE</dt> <dd>
+  /// Specifies that AWS CodeBuild uses your build project's service role.
+  /// </dd> </dl>
+  /// When using a cross-account or private registry image, you must use
+  /// <code>SERVICE_ROLE</code> credentials. When using an AWS CodeBuild curated
+  /// image, you must use <code>CODEBUILD</code> credentials.
+  ///
+  /// Parameter [insecureSslOverride] :
+  /// Enable this flag to override the insecure SSL setting that is specified in
+  /// the batch build project. The insecure SSL setting determines whether to
+  /// ignore SSL warnings while connecting to the project source code. This
+  /// override applies only if the build's source is GitHub Enterprise.
+  ///
+  /// Parameter [logsConfigOverride] :
+  /// A <code>LogsConfig</code> object that override the log settings defined in
+  /// the batch build project.
+  ///
+  /// Parameter [privilegedModeOverride] :
+  /// Enable this flag to override privileged mode in the batch build project.
+  ///
+  /// Parameter [queuedTimeoutInMinutesOverride] :
+  /// The number of minutes a batch build is allowed to be queued before it
+  /// times out.
+  ///
+  /// Parameter [registryCredentialOverride] :
+  /// A <code>RegistryCredential</code> object that overrides credentials for
+  /// access to a private registry.
+  ///
+  /// Parameter [reportBuildBatchStatusOverride] :
+  /// Set to <code>true</code> to report to your source provider the status of a
+  /// batch build's start and completion. If you use this option with a source
+  /// provider other than GitHub, GitHub Enterprise, or Bitbucket, an
+  /// <code>invalidInputException</code> is thrown.
+  /// <note>
+  /// The status of a build triggered by a webhook is always reported to your
+  /// source provider.
+  /// </note>
+  ///
+  /// Parameter [secondaryArtifactsOverride] :
+  /// An array of <code>ProjectArtifacts</code> objects that override the
+  /// secondary artifacts defined in the batch build project.
+  ///
+  /// Parameter [secondarySourcesOverride] :
+  /// An array of <code>ProjectSource</code> objects that override the secondary
+  /// sources defined in the batch build project.
+  ///
+  /// Parameter [secondarySourcesVersionOverride] :
+  /// An array of <code>ProjectSourceVersion</code> objects that override the
+  /// secondary source versions in the batch build project.
+  ///
+  /// Parameter [serviceRoleOverride] :
+  /// The name of a service role for this batch build that overrides the one
+  /// specified in the batch build project.
+  ///
+  /// Parameter [sourceAuthOverride] :
+  /// A <code>SourceAuth</code> object that overrides the one defined in the
+  /// batch build project. This override applies only if the build project's
+  /// source is BitBucket or GitHub.
+  ///
+  /// Parameter [sourceLocationOverride] :
+  /// A location that overrides, for this batch build, the source location
+  /// defined in the batch build project.
+  ///
+  /// Parameter [sourceTypeOverride] :
+  /// The source input type that overrides the source input defined in the batch
+  /// build project.
+  ///
+  /// Parameter [sourceVersion] :
+  /// The version of the batch build input to be built, for this build only. If
+  /// not specified, the latest version is used. If specified, the contents
+  /// depends on the source provider:
+  /// <dl> <dt>AWS CodeCommit</dt> <dd>
+  /// The commit ID, branch, or Git tag to use.
+  /// </dd> <dt>GitHub</dt> <dd>
+  /// The commit ID, pull request ID, branch name, or tag name that corresponds
+  /// to the version of the source code you want to build. If a pull request ID
+  /// is specified, it must use the format <code>pr/pull-request-ID</code> (for
+  /// example <code>pr/25</code>). If a branch name is specified, the branch's
+  /// HEAD commit ID is used. If not specified, the default branch's HEAD commit
+  /// ID is used.
+  /// </dd> <dt>Bitbucket</dt> <dd>
+  /// The commit ID, branch name, or tag name that corresponds to the version of
+  /// the source code you want to build. If a branch name is specified, the
+  /// branch's HEAD commit ID is used. If not specified, the default branch's
+  /// HEAD commit ID is used.
+  /// </dd> <dt>Amazon Simple Storage Service (Amazon S3)</dt> <dd>
+  /// The version ID of the object that represents the build input ZIP file to
+  /// use.
+  /// </dd> </dl>
+  /// If <code>sourceVersion</code> is specified at the project level, then this
+  /// <code>sourceVersion</code> (at the build level) takes precedence.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
+  /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
+  Future<StartBuildBatchOutput> startBuildBatch({
+    @_s.required String projectName,
+    ProjectArtifacts artifactsOverride,
+    ProjectBuildBatchConfig buildBatchConfigOverride,
+    int buildTimeoutInMinutesOverride,
+    String buildspecOverride,
+    ProjectCache cacheOverride,
+    String certificateOverride,
+    ComputeType computeTypeOverride,
+    String encryptionKeyOverride,
+    EnvironmentType environmentTypeOverride,
+    List<EnvironmentVariable> environmentVariablesOverride,
+    int gitCloneDepthOverride,
+    GitSubmodulesConfig gitSubmodulesConfigOverride,
+    String idempotencyToken,
+    String imageOverride,
+    ImagePullCredentialsType imagePullCredentialsTypeOverride,
+    bool insecureSslOverride,
+    LogsConfig logsConfigOverride,
+    bool privilegedModeOverride,
+    int queuedTimeoutInMinutesOverride,
+    RegistryCredential registryCredentialOverride,
+    bool reportBuildBatchStatusOverride,
+    List<ProjectArtifacts> secondaryArtifactsOverride,
+    List<ProjectSource> secondarySourcesOverride,
+    List<ProjectSourceVersion> secondarySourcesVersionOverride,
+    String serviceRoleOverride,
+    SourceAuth sourceAuthOverride,
+    String sourceLocationOverride,
+    SourceType sourceTypeOverride,
+    String sourceVersion,
+  }) async {
+    ArgumentError.checkNotNull(projectName, 'projectName');
+    _s.validateStringLength(
+      'projectName',
+      projectName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'buildTimeoutInMinutesOverride',
+      buildTimeoutInMinutesOverride,
+      5,
+      480,
+    );
+    _s.validateStringLength(
+      'encryptionKeyOverride',
+      encryptionKeyOverride,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'gitCloneDepthOverride',
+      gitCloneDepthOverride,
+      0,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'imageOverride',
+      imageOverride,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'queuedTimeoutInMinutesOverride',
+      queuedTimeoutInMinutesOverride,
+      5,
+      480,
+    );
+    _s.validateStringLength(
+      'serviceRoleOverride',
+      serviceRoleOverride,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.StartBuildBatch'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'projectName': projectName,
+        if (artifactsOverride != null) 'artifactsOverride': artifactsOverride,
+        if (buildBatchConfigOverride != null)
+          'buildBatchConfigOverride': buildBatchConfigOverride,
+        if (buildTimeoutInMinutesOverride != null)
+          'buildTimeoutInMinutesOverride': buildTimeoutInMinutesOverride,
+        if (buildspecOverride != null) 'buildspecOverride': buildspecOverride,
+        if (cacheOverride != null) 'cacheOverride': cacheOverride,
+        if (certificateOverride != null)
+          'certificateOverride': certificateOverride,
+        if (computeTypeOverride != null)
+          'computeTypeOverride': computeTypeOverride.toValue(),
+        if (encryptionKeyOverride != null)
+          'encryptionKeyOverride': encryptionKeyOverride,
+        if (environmentTypeOverride != null)
+          'environmentTypeOverride': environmentTypeOverride.toValue(),
+        if (environmentVariablesOverride != null)
+          'environmentVariablesOverride': environmentVariablesOverride,
+        if (gitCloneDepthOverride != null)
+          'gitCloneDepthOverride': gitCloneDepthOverride,
+        if (gitSubmodulesConfigOverride != null)
+          'gitSubmodulesConfigOverride': gitSubmodulesConfigOverride,
+        if (idempotencyToken != null) 'idempotencyToken': idempotencyToken,
+        if (imageOverride != null) 'imageOverride': imageOverride,
+        if (imagePullCredentialsTypeOverride != null)
+          'imagePullCredentialsTypeOverride':
+              imagePullCredentialsTypeOverride.toValue(),
+        if (insecureSslOverride != null)
+          'insecureSslOverride': insecureSslOverride,
+        if (logsConfigOverride != null)
+          'logsConfigOverride': logsConfigOverride,
+        if (privilegedModeOverride != null)
+          'privilegedModeOverride': privilegedModeOverride,
+        if (queuedTimeoutInMinutesOverride != null)
+          'queuedTimeoutInMinutesOverride': queuedTimeoutInMinutesOverride,
+        if (registryCredentialOverride != null)
+          'registryCredentialOverride': registryCredentialOverride,
+        if (reportBuildBatchStatusOverride != null)
+          'reportBuildBatchStatusOverride': reportBuildBatchStatusOverride,
+        if (secondaryArtifactsOverride != null)
+          'secondaryArtifactsOverride': secondaryArtifactsOverride,
+        if (secondarySourcesOverride != null)
+          'secondarySourcesOverride': secondarySourcesOverride,
+        if (secondarySourcesVersionOverride != null)
+          'secondarySourcesVersionOverride': secondarySourcesVersionOverride,
+        if (serviceRoleOverride != null)
+          'serviceRoleOverride': serviceRoleOverride,
+        if (sourceAuthOverride != null)
+          'sourceAuthOverride': sourceAuthOverride,
+        if (sourceLocationOverride != null)
+          'sourceLocationOverride': sourceLocationOverride,
+        if (sourceTypeOverride != null)
+          'sourceTypeOverride': sourceTypeOverride.toValue(),
+        if (sourceVersion != null) 'sourceVersion': sourceVersion,
+      },
+    );
+
+    return StartBuildBatchOutput.fromJson(jsonResponse.body);
+  }
+
   /// Attempts to stop running a build.
   ///
   /// May throw [InvalidInputException].
@@ -2004,6 +2805,42 @@ class CodeBuild {
     return StopBuildOutput.fromJson(jsonResponse.body);
   }
 
+  /// Stops a running batch build.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [id] :
+  /// The identifier of the batch build to stop.
+  Future<StopBuildBatchOutput> stopBuildBatch({
+    @_s.required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    _s.validateStringLength(
+      'id',
+      id,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeBuild_20161006.StopBuildBatch'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'id': id,
+      },
+    );
+
+    return StopBuildBatchOutput.fromJson(jsonResponse.body);
+  }
+
   /// Changes the settings of a build project.
   ///
   /// May throw [InvalidInputException].
@@ -2038,8 +2875,8 @@ class CodeBuild {
   /// if your service role has permission to that key.
   /// </note>
   /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
-  /// available, the CMK's alias (using the format <code>alias/<i>alias-name</i>
-  /// </code>).
+  /// available, the CMK's alias (using the format
+  /// <code>alias/&lt;alias-name&gt;</code>).
   ///
   /// Parameter [environment] :
   /// Information to be changed about the build environment for the build
@@ -2116,7 +2953,8 @@ class CodeBuild {
   /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
   ///
   /// Parameter [tags] :
-  /// The replacement set of tags for this build project.
+  /// An updated list of tag key and value pairs associated with this build
+  /// project.
   ///
   /// These tags are available for use by AWS services that support AWS
   /// CodeBuild build project tags.
@@ -2132,6 +2970,7 @@ class CodeBuild {
     @_s.required String name,
     ProjectArtifacts artifacts,
     bool badgeEnabled,
+    ProjectBuildBatchConfig buildBatchConfig,
     ProjectCache cache,
     String description,
     String encryptionKey,
@@ -2201,6 +3040,7 @@ class CodeBuild {
         'name': name,
         if (artifacts != null) 'artifacts': artifacts,
         if (badgeEnabled != null) 'badgeEnabled': badgeEnabled,
+        if (buildBatchConfig != null) 'buildBatchConfig': buildBatchConfig,
         if (cache != null) 'cache': cache,
         if (description != null) 'description': description,
         if (encryptionKey != null) 'encryptionKey': encryptionKey,
@@ -2246,9 +3086,17 @@ class CodeBuild {
   /// <code>NO_EXPORT</code>: The report results are not exported.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [tags] :
+  /// An updated list of tag key and value pairs associated with this report
+  /// group.
+  ///
+  /// These tags are available for use by AWS services that support AWS
+  /// CodeBuild report group tags.
   Future<UpdateReportGroupOutput> updateReportGroup({
     @_s.required String arn,
     ReportExportConfig exportConfig,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2271,6 +3119,7 @@ class CodeBuild {
       payload: {
         'arn': arn,
         if (exportConfig != null) 'exportConfig': exportConfig,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -2300,6 +3149,9 @@ class CodeBuild {
   /// <code>branchFilter</code>.
   /// </note>
   ///
+  /// Parameter [buildType] :
+  /// Specifies the type of build this webhook will trigger.
+  ///
   /// Parameter [filterGroups] :
   /// An array of arrays of <code>WebhookFilter</code> objects used to determine
   /// if a webhook event can trigger a build. A filter group must contain at
@@ -2312,6 +3164,7 @@ class CodeBuild {
   Future<UpdateWebhookOutput> updateWebhook({
     @_s.required String projectName,
     String branchFilter,
+    WebhookBuildType buildType,
     List<List<WebhookFilter>> filterGroups,
     bool rotateSecret,
   }) async {
@@ -2342,6 +3195,7 @@ class CodeBuild {
       payload: {
         'projectName': projectName,
         if (branchFilter != null) 'branchFilter': branchFilter,
+        if (buildType != null) 'buildType': buildType.toValue(),
         if (filterGroups != null) 'filterGroups': filterGroups,
         if (rotateSecret != null) 'rotateSecret': rotateSecret,
       },
@@ -2417,6 +3271,30 @@ class BatchDeleteBuildsOutput {
   });
   factory BatchDeleteBuildsOutput.fromJson(Map<String, dynamic> json) =>
       _$BatchDeleteBuildsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchGetBuildBatchesOutput {
+  /// An array of <code>BuildBatch</code> objects that represent the retrieved
+  /// batch builds.
+  @_s.JsonKey(name: 'buildBatches')
+  final List<BuildBatch> buildBatches;
+
+  /// An array that contains the identifiers of any batch builds that are not
+  /// found.
+  @_s.JsonKey(name: 'buildBatchesNotFound')
+  final List<String> buildBatchesNotFound;
+
+  BatchGetBuildBatchesOutput({
+    this.buildBatches,
+    this.buildBatchesNotFound,
+  });
+  factory BatchGetBuildBatchesOutput.fromJson(Map<String, dynamic> json) =>
+      _$BatchGetBuildBatchesOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2510,6 +3388,35 @@ class BatchGetReportsOutput {
       _$BatchGetReportsOutputFromJson(json);
 }
 
+/// Specifies restrictions for the batch build.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class BatchRestrictions {
+  /// An array of strings that specify the compute types that are allowed for the
+  /// batch build. See <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
+  /// environment compute types</a> in the <i>AWS CodeBuild User Guide</i> for
+  /// these values.
+  @_s.JsonKey(name: 'computeTypesAllowed')
+  final List<String> computeTypesAllowed;
+
+  /// Specifies the maximum number of builds allowed.
+  @_s.JsonKey(name: 'maximumBuildsAllowed')
+  final int maximumBuildsAllowed;
+
+  BatchRestrictions({
+    this.computeTypesAllowed,
+    this.maximumBuildsAllowed,
+  });
+  factory BatchRestrictions.fromJson(Map<String, dynamic> json) =>
+      _$BatchRestrictionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BatchRestrictionsToJson(this);
+}
+
 /// Information about a build.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2524,6 +3431,10 @@ class Build {
   /// Information about the output artifacts for the build.
   @_s.JsonKey(name: 'artifacts')
   final BuildArtifacts artifacts;
+
+  /// The ARN of the batch build that this build is a member of, if applicable.
+  @_s.JsonKey(name: 'buildBatchArn')
+  final String buildBatchArn;
 
   /// Whether the build is complete. True if complete; otherwise, false.
   @_s.JsonKey(name: 'buildComplete')
@@ -2569,6 +3480,10 @@ class Build {
   @_s.JsonKey(name: 'currentPhase')
   final String currentPhase;
 
+  /// Contains information about the debug session for this build.
+  @_s.JsonKey(name: 'debugSession')
+  final DebugSession debugSession;
+
   /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
   /// used for encrypting the build output artifacts.
   /// <note>
@@ -2576,8 +3491,8 @@ class Build {
   /// your service role has permission to that key.
   /// </note>
   /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
-  /// available, the CMK's alias (using the format <code>alias/<i>alias-name</i>
-  /// </code>).
+  /// available, the CMK's alias (using the format
+  /// <code>alias/&lt;alias-name&gt;</code>).
   @_s.JsonKey(name: 'encryptionKey')
   final String encryptionKey;
 
@@ -2741,11 +3656,13 @@ class Build {
   Build({
     this.arn,
     this.artifacts,
+    this.buildBatchArn,
     this.buildComplete,
     this.buildNumber,
     this.buildStatus,
     this.cache,
     this.currentPhase,
+    this.debugSession,
     this.encryptionKey,
     this.endTime,
     this.environment,
@@ -2833,6 +3750,385 @@ class BuildArtifacts {
       _$BuildArtifactsFromJson(json);
 }
 
+/// Contains information about a batch build.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BuildBatch {
+  /// The ARN of the batch build.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// A <code>BuildArtifacts</code> object the defines the build artifacts for
+  /// this batch build.
+  @_s.JsonKey(name: 'artifacts')
+  final BuildArtifacts artifacts;
+  @_s.JsonKey(name: 'buildBatchConfig')
+  final ProjectBuildBatchConfig buildBatchConfig;
+
+  /// The number of the batch build. For each project, the
+  /// <code>buildBatchNumber</code> of its first batch build is <code>1</code>.
+  /// The <code>buildBatchNumber</code> of each subsequent batch build is
+  /// incremented by <code>1</code>. If a batch build is deleted, the
+  /// <code>buildBatchNumber</code> of other batch builds does not change.
+  @_s.JsonKey(name: 'buildBatchNumber')
+  final int buildBatchNumber;
+
+  /// The status of the batch build.
+  @_s.JsonKey(name: 'buildBatchStatus')
+  final StatusType buildBatchStatus;
+
+  /// An array of <code>BuildGroup</code> objects that define the build groups for
+  /// the batch build.
+  @_s.JsonKey(name: 'buildGroups')
+  final List<BuildGroup> buildGroups;
+
+  /// Specifies the maximum amount of time, in minutes, that the build in a batch
+  /// must be completed in.
+  @_s.JsonKey(name: 'buildTimeoutInMinutes')
+  final int buildTimeoutInMinutes;
+  @_s.JsonKey(name: 'cache')
+  final ProjectCache cache;
+
+  /// Indicates if the batch build is complete.
+  @_s.JsonKey(name: 'complete')
+  final bool complete;
+
+  /// The current phase of the batch build.
+  @_s.JsonKey(name: 'currentPhase')
+  final String currentPhase;
+
+  /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
+  /// used for encrypting the batch build output artifacts.
+  /// <note>
+  /// You can use a cross-account KMS key to encrypt the build output artifacts if
+  /// your service role has permission to that key.
+  /// </note>
+  /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
+  /// available, the CMK's alias (using the format
+  /// <code>alias/&lt;alias-name&gt;</code>).
+  @_s.JsonKey(name: 'encryptionKey')
+  final String encryptionKey;
+
+  /// The date and time that the batch build ended.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
+  final DateTime endTime;
+  @_s.JsonKey(name: 'environment')
+  final ProjectEnvironment environment;
+
+  /// An array of <code>ProjectFileSystemLocation</code> objects for the batch
+  /// build project. A <code>ProjectFileSystemLocation</code> object specifies the
+  /// <code>identifier</code>, <code>location</code>, <code>mountOptions</code>,
+  /// <code>mountPoint</code>, and <code>type</code> of a file system created
+  /// using Amazon Elastic File System.
+  @_s.JsonKey(name: 'fileSystemLocations')
+  final List<ProjectFileSystemLocation> fileSystemLocations;
+
+  /// The identifier of the batch build.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The entity that started the batch build. Valid values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// If AWS CodePipeline started the build, the pipeline's name (for example,
+  /// <code>codepipeline/my-demo-pipeline</code>).
+  /// </li>
+  /// <li>
+  /// If an AWS Identity and Access Management (IAM) user started the build, the
+  /// user's name.
+  /// </li>
+  /// <li>
+  /// If the Jenkins plugin for AWS CodeBuild started the build, the string
+  /// <code>CodeBuild-Jenkins-Plugin</code>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'initiator')
+  final String initiator;
+  @_s.JsonKey(name: 'logConfig')
+  final LogsConfig logConfig;
+
+  /// An array of <code>BuildBatchPhase</code> objects the specify the phases of
+  /// the batch build.
+  @_s.JsonKey(name: 'phases')
+  final List<BuildBatchPhase> phases;
+
+  /// The name of the batch build project.
+  @_s.JsonKey(name: 'projectName')
+  final String projectName;
+
+  /// Specifies the amount of time, in minutes, that the batch build is allowed to
+  /// be queued before it times out.
+  @_s.JsonKey(name: 'queuedTimeoutInMinutes')
+  final int queuedTimeoutInMinutes;
+
+  /// The identifier of the resolved version of this batch build's source code.
+  ///
+  /// <ul>
+  /// <li>
+  /// For AWS CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID.
+  /// </li>
+  /// <li>
+  /// For AWS CodePipeline, the source revision provided by AWS CodePipeline.
+  /// </li>
+  /// <li>
+  /// For Amazon Simple Storage Service (Amazon S3), this does not apply.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'resolvedSourceVersion')
+  final String resolvedSourceVersion;
+
+  /// An array of <code>BuildArtifacts</code> objects the define the build
+  /// artifacts for this batch build.
+  @_s.JsonKey(name: 'secondaryArtifacts')
+  final List<BuildArtifacts> secondaryArtifacts;
+
+  /// An array of <code>ProjectSourceVersion</code> objects. Each
+  /// <code>ProjectSourceVersion</code> must be one of:
+  ///
+  /// <ul>
+  /// <li>
+  /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
+  /// </li>
+  /// <li>
+  /// For GitHub: the commit ID, pull request ID, branch name, or tag name that
+  /// corresponds to the version of the source code you want to build. If a pull
+  /// request ID is specified, it must use the format
+  /// <code>pr/pull-request-ID</code> (for example, <code>pr/25</code>). If a
+  /// branch name is specified, the branch's HEAD commit ID is used. If not
+  /// specified, the default branch's HEAD commit ID is used.
+  /// </li>
+  /// <li>
+  /// For Bitbucket: the commit ID, branch name, or tag name that corresponds to
+  /// the version of the source code you want to build. If a branch name is
+  /// specified, the branch's HEAD commit ID is used. If not specified, the
+  /// default branch's HEAD commit ID is used.
+  /// </li>
+  /// <li>
+  /// For Amazon Simple Storage Service (Amazon S3): the version ID of the object
+  /// that represents the build input ZIP file to use.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'secondarySourceVersions')
+  final List<ProjectSourceVersion> secondarySourceVersions;
+
+  /// An array of <code>ProjectSource</code> objects that define the sources for
+  /// the batch build.
+  @_s.JsonKey(name: 'secondarySources')
+  final List<ProjectSource> secondarySources;
+
+  /// The name of a service role used for builds in the batch.
+  @_s.JsonKey(name: 'serviceRole')
+  final String serviceRole;
+  @_s.JsonKey(name: 'source')
+  final ProjectSource source;
+
+  /// The identifier of the version of the source code to be built.
+  @_s.JsonKey(name: 'sourceVersion')
+  final String sourceVersion;
+
+  /// The date and time that the batch build started.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
+  final DateTime startTime;
+  @_s.JsonKey(name: 'vpcConfig')
+  final VpcConfig vpcConfig;
+
+  BuildBatch({
+    this.arn,
+    this.artifacts,
+    this.buildBatchConfig,
+    this.buildBatchNumber,
+    this.buildBatchStatus,
+    this.buildGroups,
+    this.buildTimeoutInMinutes,
+    this.cache,
+    this.complete,
+    this.currentPhase,
+    this.encryptionKey,
+    this.endTime,
+    this.environment,
+    this.fileSystemLocations,
+    this.id,
+    this.initiator,
+    this.logConfig,
+    this.phases,
+    this.projectName,
+    this.queuedTimeoutInMinutes,
+    this.resolvedSourceVersion,
+    this.secondaryArtifacts,
+    this.secondarySourceVersions,
+    this.secondarySources,
+    this.serviceRole,
+    this.source,
+    this.sourceVersion,
+    this.startTime,
+    this.vpcConfig,
+  });
+  factory BuildBatch.fromJson(Map<String, dynamic> json) =>
+      _$BuildBatchFromJson(json);
+}
+
+/// Specifies filters when retrieving batch builds.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BuildBatchFilter {
+  /// The status of the batch builds to retrieve. Only batch builds that have this
+  /// status will be retrieved.
+  @_s.JsonKey(name: 'status')
+  final StatusType status;
+
+  BuildBatchFilter({
+    this.status,
+  });
+  Map<String, dynamic> toJson() => _$BuildBatchFilterToJson(this);
+}
+
+/// Contains information about a stage for a batch build.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BuildBatchPhase {
+  /// Additional information about the batch build phase. Especially to help
+  /// troubleshoot a failed btach build.
+  @_s.JsonKey(name: 'contexts')
+  final List<PhaseContext> contexts;
+
+  /// How long, in seconds, between the starting and ending times of the batch
+  /// build's phase.
+  @_s.JsonKey(name: 'durationInSeconds')
+  final int durationInSeconds;
+
+  /// When the batch build phase ended, expressed in Unix time format.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
+  final DateTime endTime;
+
+  /// The current status of the batch build phase. Valid values include:
+  /// <dl> <dt>FAILED</dt> <dd>
+  /// The build phase failed.
+  /// </dd> <dt>FAULT</dt> <dd>
+  /// The build phase faulted.
+  /// </dd> <dt>IN_PROGRESS</dt> <dd>
+  /// The build phase is still in progress.
+  /// </dd> <dt>QUEUED</dt> <dd>
+  /// The build has been submitted and is queued behind other submitted builds.
+  /// </dd> <dt>STOPPED</dt> <dd>
+  /// The build phase stopped.
+  /// </dd> <dt>SUCCEEDED</dt> <dd>
+  /// The build phase succeeded.
+  /// </dd> <dt>TIMED_OUT</dt> <dd>
+  /// The build phase timed out.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'phaseStatus')
+  final StatusType phaseStatus;
+
+  /// The name of the batch build phase. Valid values include:
+  /// <dl> <dt>COMBINE_ARTIFACTS</dt> <dd>
+  /// Build output artifacts are being combined and uploaded to the output
+  /// location.
+  /// </dd> <dt>DOWNLOAD_BATCHSPEC</dt> <dd>
+  /// The batch build specification is being downloaded.
+  /// </dd> <dt>FAILED</dt> <dd>
+  /// One or more of the builds failed.
+  /// </dd> <dt>IN_PROGRESS</dt> <dd>
+  /// The batch build is in progress.
+  /// </dd> <dt>STOPPED</dt> <dd>
+  /// The batch build was stopped.
+  /// </dd> <dt>SUBMITTED</dt> <dd>
+  /// The btach build has been submitted.
+  /// </dd> <dt>SUCCEEDED</dt> <dd>
+  /// The batch build succeeded.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'phaseType')
+  final BuildBatchPhaseType phaseType;
+
+  /// When the batch build phase started, expressed in Unix time format.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
+  final DateTime startTime;
+
+  BuildBatchPhase({
+    this.contexts,
+    this.durationInSeconds,
+    this.endTime,
+    this.phaseStatus,
+    this.phaseType,
+    this.startTime,
+  });
+  factory BuildBatchPhase.fromJson(Map<String, dynamic> json) =>
+      _$BuildBatchPhaseFromJson(json);
+}
+
+enum BuildBatchPhaseType {
+  @_s.JsonValue('SUBMITTED')
+  submitted,
+  @_s.JsonValue('DOWNLOAD_BATCHSPEC')
+  downloadBatchspec,
+  @_s.JsonValue('IN_PROGRESS')
+  inProgress,
+  @_s.JsonValue('COMBINE_ARTIFACTS')
+  combineArtifacts,
+  @_s.JsonValue('SUCCEEDED')
+  succeeded,
+  @_s.JsonValue('FAILED')
+  failed,
+  @_s.JsonValue('STOPPED')
+  stopped,
+}
+
+/// Contains information about a batch build build group. Build groups are used
+/// to combine builds that can run in parallel, while still being able to set
+/// dependencies on other build groups.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BuildGroup {
+  /// A <code>BuildSummary</code> object that contains a summary of the current
+  /// build group.
+  @_s.JsonKey(name: 'currentBuildSummary')
+  final BuildSummary currentBuildSummary;
+
+  /// An array of strings that contain the identifiers of the build groups that
+  /// this build group depends on.
+  @_s.JsonKey(name: 'dependsOn')
+  final List<String> dependsOn;
+
+  /// Contains the identifier of the build group.
+  @_s.JsonKey(name: 'identifier')
+  final String identifier;
+
+  /// Specifies if failures in this build group can be ignored.
+  @_s.JsonKey(name: 'ignoreFailure')
+  final bool ignoreFailure;
+
+  /// An array of <code>BuildSummary</code> objects that contain summaries of
+  /// previous build groups.
+  @_s.JsonKey(name: 'priorBuildSummaryList')
+  final List<BuildSummary> priorBuildSummaryList;
+
+  BuildGroup({
+    this.currentBuildSummary,
+    this.dependsOn,
+    this.identifier,
+    this.ignoreFailure,
+    this.priorBuildSummaryList,
+  });
+  factory BuildGroup.fromJson(Map<String, dynamic> json) =>
+      _$BuildGroupFromJson(json);
+}
+
 /// Information about a build that could not be successfully deleted.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2880,31 +4176,21 @@ class BuildPhase {
   final DateTime endTime;
 
   /// The current status of the build phase. Valid values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>FAILED</code>: The build phase failed.
-  /// </li>
-  /// <li>
-  /// <code>FAULT</code>: The build phase faulted.
-  /// </li>
-  /// <li>
-  /// <code>IN_PROGRESS</code>: The build phase is still in progress.
-  /// </li>
-  /// <li>
-  /// <code>QUEUED</code>: The build has been submitted and is queued behind other
-  /// submitted builds.
-  /// </li>
-  /// <li>
-  /// <code>STOPPED</code>: The build phase stopped.
-  /// </li>
-  /// <li>
-  /// <code>SUCCEEDED</code>: The build phase succeeded.
-  /// </li>
-  /// <li>
-  /// <code>TIMED_OUT</code>: The build phase timed out.
-  /// </li>
-  /// </ul>
+  /// <dl> <dt>FAILED</dt> <dd>
+  /// The build phase failed.
+  /// </dd> <dt>FAULT</dt> <dd>
+  /// The build phase faulted.
+  /// </dd> <dt>IN_PROGRESS</dt> <dd>
+  /// The build phase is still in progress.
+  /// </dd> <dt>QUEUED</dt> <dd>
+  /// The build has been submitted and is queued behind other submitted builds.
+  /// </dd> <dt>STOPPED</dt> <dd>
+  /// The build phase stopped.
+  /// </dd> <dt>SUCCEEDED</dt> <dd>
+  /// The build phase succeeded.
+  /// </dd> <dt>TIMED_OUT</dt> <dd>
+  /// The build phase timed out.
+  /// </dd> </dl>
   @_s.JsonKey(name: 'phaseStatus')
   final StatusType phaseStatus;
 
@@ -2998,6 +4284,110 @@ enum BuildPhaseType {
   completed,
 }
 
+/// Contains information that defines how the AWS CodeBuild build project
+/// reports the build status to the source provider.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class BuildStatusConfig {
+  /// Specifies the context of the build status CodeBuild sends to the source
+  /// provider. The usage of this parameter depends on the source provider.
+  /// <dl> <dt>Bitbucket</dt> <dd>
+  /// This parameter is used for the <code>name</code> parameter in the Bitbucket
+  /// commit status. For more information, see <a
+  /// href="https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/commit/%7Bnode%7D/statuses/build">build</a>
+  /// in the Bitbucket API documentation.
+  /// </dd> <dt>GitHub/GitHub Enterprise Server</dt> <dd>
+  /// This parameter is used for the <code>context</code> parameter in the GitHub
+  /// commit status. For more information, see <a
+  /// href="https://developer.github.com/v3/repos/statuses/#create-a-commit-status">Create
+  /// a commit status</a> in the GitHub developer guide.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'context')
+  final String context;
+
+  /// Specifies the target url of the build status CodeBuild sends to the source
+  /// provider. The usage of this parameter depends on the source provider.
+  /// <dl> <dt>Bitbucket</dt> <dd>
+  /// This parameter is used for the <code>url</code> parameter in the Bitbucket
+  /// commit status. For more information, see <a
+  /// href="https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/commit/%7Bnode%7D/statuses/build">build</a>
+  /// in the Bitbucket API documentation.
+  /// </dd> <dt>GitHub/GitHub Enterprise Server</dt> <dd>
+  /// This parameter is used for the <code>target_url</code> parameter in the
+  /// GitHub commit status. For more information, see <a
+  /// href="https://developer.github.com/v3/repos/statuses/#create-a-commit-status">Create
+  /// a commit status</a> in the GitHub developer guide.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'targetUrl')
+  final String targetUrl;
+
+  BuildStatusConfig({
+    this.context,
+    this.targetUrl,
+  });
+  factory BuildStatusConfig.fromJson(Map<String, dynamic> json) =>
+      _$BuildStatusConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BuildStatusConfigToJson(this);
+}
+
+/// Contains summary information about a batch build group.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BuildSummary {
+  /// The batch build ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The status of the build group.
+  /// <dl> <dt>FAILED</dt> <dd>
+  /// The build group failed.
+  /// </dd> <dt>FAULT</dt> <dd>
+  /// The build group faulted.
+  /// </dd> <dt>IN_PROGRESS</dt> <dd>
+  /// The build group is still in progress.
+  /// </dd> <dt>STOPPED</dt> <dd>
+  /// The build group stopped.
+  /// </dd> <dt>SUCCEEDED</dt> <dd>
+  /// The build group succeeded.
+  /// </dd> <dt>TIMED_OUT</dt> <dd>
+  /// The build group timed out.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'buildStatus')
+  final StatusType buildStatus;
+
+  /// A <code>ResolvedArtifact</code> object that represents the primary build
+  /// artifacts for the build group.
+  @_s.JsonKey(name: 'primaryArtifact')
+  final ResolvedArtifact primaryArtifact;
+
+  /// When the build was started, expressed in Unix time format.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'requestedOn')
+  final DateTime requestedOn;
+
+  /// An array of <code>ResolvedArtifact</code> objects that represents the
+  /// secondary build artifacts for the build group.
+  @_s.JsonKey(name: 'secondaryArtifacts')
+  final List<ResolvedArtifact> secondaryArtifacts;
+
+  BuildSummary({
+    this.arn,
+    this.buildStatus,
+    this.primaryArtifact,
+    this.requestedOn,
+    this.secondaryArtifacts,
+  });
+  factory BuildSummary.fromJson(Map<String, dynamic> json) =>
+      _$BuildSummaryFromJson(json);
+}
+
 enum CacheMode {
   @_s.JsonValue('LOCAL_DOCKER_LAYER_CACHE')
   localDockerLayerCache,
@@ -3062,6 +4452,127 @@ class CloudWatchLogsConfig {
       _$CloudWatchLogsConfigFromJson(json);
 
   Map<String, dynamic> toJson() => _$CloudWatchLogsConfigToJson(this);
+}
+
+/// Contains code coverage report information.
+///
+/// Line coverage measures how many statements your tests cover. A statement is
+/// a single instruction, not including comments, conditionals, etc.
+///
+/// Branch coverage determines if your tests cover every possible branch of a
+/// control structure, such as an <code>if</code> or <code>case</code>
+/// statement.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CodeCoverage {
+  /// The percentage of branches that are covered by your tests.
+  @_s.JsonKey(name: 'branchCoveragePercentage')
+  final double branchCoveragePercentage;
+
+  /// The number of conditional branches that are covered by your tests.
+  @_s.JsonKey(name: 'branchesCovered')
+  final int branchesCovered;
+
+  /// The number of conditional branches that are not covered by your tests.
+  @_s.JsonKey(name: 'branchesMissed')
+  final int branchesMissed;
+
+  /// The date and time that the tests were run.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'expired')
+  final DateTime expired;
+
+  /// The path of the test report file.
+  @_s.JsonKey(name: 'filePath')
+  final String filePath;
+
+  /// The identifier of the code coverage report.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The percentage of lines that are covered by your tests.
+  @_s.JsonKey(name: 'lineCoveragePercentage')
+  final double lineCoveragePercentage;
+
+  /// The number of lines that are covered by your tests.
+  @_s.JsonKey(name: 'linesCovered')
+  final int linesCovered;
+
+  /// The number of lines that are not covered by your tests.
+  @_s.JsonKey(name: 'linesMissed')
+  final int linesMissed;
+
+  /// The ARN of the report.
+  @_s.JsonKey(name: 'reportARN')
+  final String reportARN;
+
+  CodeCoverage({
+    this.branchCoveragePercentage,
+    this.branchesCovered,
+    this.branchesMissed,
+    this.expired,
+    this.filePath,
+    this.id,
+    this.lineCoveragePercentage,
+    this.linesCovered,
+    this.linesMissed,
+    this.reportARN,
+  });
+  factory CodeCoverage.fromJson(Map<String, dynamic> json) =>
+      _$CodeCoverageFromJson(json);
+}
+
+/// Contains a summary of a code coverage report.
+///
+/// Line coverage measures how many statements your tests cover. A statement is
+/// a single instruction, not including comments, conditionals, etc.
+///
+/// Branch coverage determines if your tests cover every possible branch of a
+/// control structure, such as an <code>if</code> or <code>case</code>
+/// statement.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CodeCoverageReportSummary {
+  /// The percentage of branches that are covered by your tests.
+  @_s.JsonKey(name: 'branchCoveragePercentage')
+  final double branchCoveragePercentage;
+
+  /// The number of conditional branches that are covered by your tests.
+  @_s.JsonKey(name: 'branchesCovered')
+  final int branchesCovered;
+
+  /// The number of conditional branches that are not covered by your tests.
+  @_s.JsonKey(name: 'branchesMissed')
+  final int branchesMissed;
+
+  /// The percentage of lines that are covered by your tests.
+  @_s.JsonKey(name: 'lineCoveragePercentage')
+  final double lineCoveragePercentage;
+
+  /// The number of lines that are covered by your tests.
+  @_s.JsonKey(name: 'linesCovered')
+  final int linesCovered;
+
+  /// The number of lines that are not covered by your tests.
+  @_s.JsonKey(name: 'linesMissed')
+  final int linesMissed;
+
+  CodeCoverageReportSummary({
+    this.branchCoveragePercentage,
+    this.branchesCovered,
+    this.branchesMissed,
+    this.lineCoveragePercentage,
+    this.linesCovered,
+    this.linesMissed,
+  });
+  factory CodeCoverageReportSummary.fromJson(Map<String, dynamic> json) =>
+      _$CodeCoverageReportSummaryFromJson(json);
 }
 
 enum ComputeType {
@@ -3148,6 +4659,63 @@ enum CredentialProviderType {
   secretsManager,
 }
 
+/// Contains information about the debug session for a build. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/codebuild/latest/userguide/session-manager.html">Viewing
+/// a running build in Session Manager</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DebugSession {
+  /// Specifies if session debugging is enabled for this build.
+  @_s.JsonKey(name: 'sessionEnabled')
+  final bool sessionEnabled;
+
+  /// Contains the identifier of the Session Manager session used for the build.
+  /// To work with the paused build, you open this session to examine, control,
+  /// and resume the build.
+  @_s.JsonKey(name: 'sessionTarget')
+  final String sessionTarget;
+
+  DebugSession({
+    this.sessionEnabled,
+    this.sessionTarget,
+  });
+  factory DebugSession.fromJson(Map<String, dynamic> json) =>
+      _$DebugSessionFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteBuildBatchOutput {
+  /// An array of strings that contain the identifiers of the builds that were
+  /// deleted.
+  @_s.JsonKey(name: 'buildsDeleted')
+  final List<String> buildsDeleted;
+
+  /// An array of <code>BuildNotDeleted</code> objects that specify the builds
+  /// that could not be deleted.
+  @_s.JsonKey(name: 'buildsNotDeleted')
+  final List<BuildNotDeleted> buildsNotDeleted;
+
+  /// The status code.
+  @_s.JsonKey(name: 'statusCode')
+  final String statusCode;
+
+  DeleteBuildBatchOutput({
+    this.buildsDeleted,
+    this.buildsNotDeleted,
+    this.statusCode,
+  });
+  factory DeleteBuildBatchOutput.fromJson(Map<String, dynamic> json) =>
+      _$DeleteBuildBatchOutputFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3218,6 +4786,30 @@ class DeleteWebhookOutput {
   DeleteWebhookOutput();
   factory DeleteWebhookOutput.fromJson(Map<String, dynamic> json) =>
       _$DeleteWebhookOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeCodeCoveragesOutput {
+  /// An array of <code>CodeCoverage</code> objects that contain the results.
+  @_s.JsonKey(name: 'codeCoverages')
+  final List<CodeCoverage> codeCoverages;
+
+  /// If there are more items to return, this contains a token that is passed to a
+  /// subsequent call to <code>DescribeCodeCoverages</code> to retrieve the next
+  /// set of items.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeCodeCoveragesOutput({
+    this.codeCoverages,
+    this.nextToken,
+  });
+  factory DescribeCodeCoveragesOutput.fromJson(Map<String, dynamic> json) =>
+      _$DescribeCodeCoveragesOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3335,6 +4927,8 @@ enum EnvironmentType {
   linuxGpuContainer,
   @_s.JsonValue('ARM_CONTAINER')
   armContainer,
+  @_s.JsonValue('WINDOWS_SERVER_2019_CONTAINER')
+  windowsServer_2019Container,
 }
 
 extension on EnvironmentType {
@@ -3348,6 +4942,8 @@ extension on EnvironmentType {
         return 'LINUX_GPU_CONTAINER';
       case EnvironmentType.armContainer:
         return 'ARM_CONTAINER';
+      case EnvironmentType.windowsServer_2019Container:
+        return 'WINDOWS_SERVER_2019_CONTAINER';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -3382,7 +4978,10 @@ class EnvironmentVariable {
   /// <ul>
   /// <li>
   /// <code>PARAMETER_STORE</code>: An environment variable stored in Amazon EC2
-  /// Systems Manager Parameter Store.
+  /// Systems Manager Parameter Store. To learn how to specify a parameter store
+  /// environment variable, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec.env.parameter-store">env/parameter-store</a>
+  /// in the <i>AWS CodeBuild User Guide</i>.
   /// </li>
   /// <li>
   /// <code>PLAINTEXT</code>: An environment variable in plain text format. This
@@ -3390,7 +4989,10 @@ class EnvironmentVariable {
   /// </li>
   /// <li>
   /// <code>SECRETS_MANAGER</code>: An environment variable stored in AWS Secrets
-  /// Manager.
+  /// Manager. To learn how to specify a secrets manager environment variable, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec.env.secrets-manager">env/secrets-manager</a>
+  /// in the <i>AWS CodeBuild User Guide</i>.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'type')
@@ -3449,6 +5051,25 @@ class ExportedEnvironmentVariable {
 enum FileSystemType {
   @_s.JsonValue('EFS')
   efs,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetReportGroupTrendOutput {
+  @_s.JsonKey(name: 'rawData')
+  final List<ReportWithRawData> rawData;
+  @_s.JsonKey(name: 'stats')
+  final ReportGroupTrendStats stats;
+
+  GetReportGroupTrendOutput({
+    this.rawData,
+    this.stats,
+  });
+  factory GetReportGroupTrendOutput.fromJson(Map<String, dynamic> json) =>
+      _$GetReportGroupTrendOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3557,6 +5178,55 @@ enum LanguageType {
   base,
   @_s.JsonValue('PHP')
   php,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListBuildBatchesForProjectOutput {
+  /// An array of strings that contains the batch build identifiers.
+  @_s.JsonKey(name: 'ids')
+  final List<String> ids;
+
+  /// If there are more items to return, this contains a token that is passed to a
+  /// subsequent call to <code>ListBuildBatchesForProject</code> to retrieve the
+  /// next set of items.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListBuildBatchesForProjectOutput({
+    this.ids,
+    this.nextToken,
+  });
+  factory ListBuildBatchesForProjectOutput.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListBuildBatchesForProjectOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListBuildBatchesOutput {
+  /// An array of strings that contains the batch build identifiers.
+  @_s.JsonKey(name: 'ids')
+  final List<String> ids;
+
+  /// If there are more items to return, this contains a token that is passed to a
+  /// subsequent call to <code>ListBuildBatches</code> to retrieve the next set of
+  /// items.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListBuildBatchesOutput({
+    this.ids,
+    this.nextToken,
+  });
+  factory ListBuildBatchesOutput.fromJson(Map<String, dynamic> json) =>
+      _$ListBuildBatchesOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3699,7 +5369,7 @@ class ListReportsForReportGroupOutput {
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
-  /// The list of returned report group ARNs.
+  /// The list of report ARNs.
   @_s.JsonKey(name: 'reports')
   final List<String> reports;
 
@@ -3990,6 +5660,11 @@ class Project {
   @_s.JsonKey(name: 'badge')
   final ProjectBadge badge;
 
+  /// A <a>ProjectBuildBatchConfig</a> object that defines the batch build options
+  /// for the project.
+  @_s.JsonKey(name: 'buildBatchConfig')
+  final ProjectBuildBatchConfig buildBatchConfig;
+
   /// Information about the cache for the build project.
   @_s.JsonKey(name: 'cache')
   final ProjectCache cache;
@@ -4010,8 +5685,8 @@ class Project {
   /// your service role has permission to that key.
   /// </note>
   /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
-  /// available, the CMK's alias (using the format <code>alias/<i>alias-name</i>
-  /// </code>).
+  /// available, the CMK's alias (using the format
+  /// <code>alias/&lt;alias-name&gt;</code>).
   @_s.JsonKey(name: 'encryptionKey')
   final String encryptionKey;
 
@@ -4107,7 +5782,7 @@ class Project {
   @_s.JsonKey(name: 'sourceVersion')
   final String sourceVersion;
 
-  /// The tags for this build project.
+  /// A list of tag key and value pairs associated with this build project.
   ///
   /// These tags are available for use by AWS services that support AWS CodeBuild
   /// build project tags.
@@ -4133,6 +5808,7 @@ class Project {
     this.arn,
     this.artifacts,
     this.badge,
+    this.buildBatchConfig,
     this.cache,
     this.created,
     this.description,
@@ -4245,7 +5921,7 @@ class ProjectArtifacts {
   /// <code>namespaceType</code> is set to <code>BUILD_ID</code>, and
   /// <code>name</code> is set to <code>MyArtifact.zip</code>, then the output
   /// artifact is stored in
-  /// <code>MyArtifacts/<i>build-ID</i>/MyArtifact.zip</code>.
+  /// <code>MyArtifacts/&lt;build-ID&gt;/MyArtifact.zip</code>.
   /// </li>
   /// <li>
   /// If <code>path</code> is empty, <code>namespaceType</code> is set to
@@ -4256,7 +5932,7 @@ class ProjectArtifacts {
   /// If <code>path</code> is set to <code>MyArtifacts</code>,
   /// <code>namespaceType</code> is set to <code>BUILD_ID</code>, and
   /// <code>name</code> is set to "<code>/</code>", the output artifact is stored
-  /// in <code>MyArtifacts/<i>build-ID</i> </code>.
+  /// in <code>MyArtifacts/&lt;build-ID&gt;</code>.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'name')
@@ -4293,7 +5969,7 @@ class ProjectArtifacts {
   /// For example, if <code>path</code> is set to <code>MyArtifacts</code>,
   /// <code>namespaceType</code> is set to <code>BUILD_ID</code>, and
   /// <code>name</code> is set to <code>MyArtifact.zip</code>, the output artifact
-  /// is stored in <code>MyArtifacts/<i>build-ID</i>/MyArtifact.zip</code>.
+  /// is stored in <code>MyArtifacts/&lt;build-ID&gt;/MyArtifact.zip</code>.
   @_s.JsonKey(name: 'namespaceType')
   final ArtifactNamespace namespaceType;
 
@@ -4405,6 +6081,44 @@ class ProjectBadge {
       _$ProjectBadgeFromJson(json);
 }
 
+/// Contains configuration information about a batch build project.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ProjectBuildBatchConfig {
+  /// Specifies if the build artifacts for the batch build should be combined into
+  /// a single artifact location.
+  @_s.JsonKey(name: 'combineArtifacts')
+  final bool combineArtifacts;
+
+  /// A <code>BatchRestrictions</code> object that specifies the restrictions for
+  /// the batch build.
+  @_s.JsonKey(name: 'restrictions')
+  final BatchRestrictions restrictions;
+
+  /// Specifies the service role ARN for the batch build project.
+  @_s.JsonKey(name: 'serviceRole')
+  final String serviceRole;
+
+  /// Specifies the maximum amount of time, in minutes, that the batch build must
+  /// be completed in.
+  @_s.JsonKey(name: 'timeoutInMins')
+  final int timeoutInMins;
+
+  ProjectBuildBatchConfig({
+    this.combineArtifacts,
+    this.restrictions,
+    this.serviceRole,
+    this.timeoutInMins,
+  });
+  factory ProjectBuildBatchConfig.fromJson(Map<String, dynamic> json) =>
+      _$ProjectBuildBatchConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProjectBuildBatchConfigToJson(this);
+}
+
 /// Information about the cache for the build project.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4442,23 +6156,22 @@ class ProjectCache {
   @_s.JsonKey(name: 'location')
   final String location;
 
-  /// If you use a <code>LOCAL</code> cache, the local cache mode. You can use one
-  /// or more local cache modes at the same time.
+  /// An array of strings that specify the local cache modes. You can use one or
+  /// more local cache modes at the same time. This is only used for
+  /// <code>LOCAL</code> cache types.
   ///
-  /// <ul>
-  /// <li>
-  /// <code>LOCAL_SOURCE_CACHE</code> mode caches Git metadata for primary and
-  /// secondary sources. After the cache is created, subsequent builds pull only
-  /// the change between commits. This mode is a good choice for projects with a
-  /// clean working directory and a source that is a large Git repository. If you
-  /// choose this option and your project does not use a Git repository (GitHub,
-  /// GitHub Enterprise, or Bitbucket), the option is ignored.
-  /// </li>
-  /// <li>
-  /// <code>LOCAL_DOCKER_LAYER_CACHE</code> mode caches existing Docker layers.
-  /// This mode is a good choice for projects that build or pull large Docker
-  /// images. It can prevent the performance issues caused by pulling large Docker
-  /// images down from the network.
+  /// Possible values are:
+  /// <dl> <dt>LOCAL_SOURCE_CACHE</dt> <dd>
+  /// Caches Git metadata for primary and secondary sources. After the cache is
+  /// created, subsequent builds pull only the change between commits. This mode
+  /// is a good choice for projects with a clean working directory and a source
+  /// that is a large Git repository. If you choose this option and your project
+  /// does not use a Git repository (GitHub, GitHub Enterprise, or Bitbucket), the
+  /// option is ignored.
+  /// </dd> <dt>LOCAL_DOCKER_LAYER_CACHE</dt> <dd>
+  /// Caches existing Docker layers. This mode is a good choice for projects that
+  /// build or pull large Docker images. It can prevent the performance issues
+  /// caused by pulling large Docker images down from the network.
   /// <note>
   /// <ul>
   /// <li>
@@ -4472,14 +6185,10 @@ class ProjectCache {
   /// You should consider the security implications before you use a Docker layer
   /// cache.
   /// </li>
-  /// </ul> </note> </li>
-  /// </ul>
-  /// <ul>
-  /// <li>
-  /// <code>LOCAL_CUSTOM_CACHE</code> mode caches directories you specify in the
-  /// buildspec file. This mode is a good choice if your build scenario is not
-  /// suited to one of the other three local cache modes. If you use a custom
-  /// cache:
+  /// </ul> </note> </dd> <dt>LOCAL_CUSTOM_CACHE</dt> <dd>
+  /// Caches directories you specify in the buildspec file. This mode is a good
+  /// choice if your build scenario is not suited to one of the other three local
+  /// cache modes. If you use a custom cache:
   ///
   /// <ul>
   /// <li>
@@ -4494,8 +6203,7 @@ class ProjectCache {
   /// sources. Cached items are overridden if a source item has the same name.
   /// Directories are specified using cache paths in the buildspec file.
   /// </li>
-  /// </ul> </li>
-  /// </ul>
+  /// </ul> </dd> </dl>
   @_s.JsonKey(name: 'modes')
   final List<CacheMode> modes;
 
@@ -4566,16 +6274,18 @@ class ProjectEnvironment {
   ///
   /// <ul>
   /// <li>
-  /// For an image tag: <code>registry/repository:tag</code>. For example, to
-  /// specify an image with the tag "latest," use
-  /// <code>registry/repository:latest</code>.
+  /// For an image tag:
+  /// <code>&lt;registry&gt;/&lt;repository&gt;:&lt;tag&gt;</code>. For example,
+  /// in the Docker repository that CodeBuild uses to manage its Docker images,
+  /// this would be <code>aws/codebuild/standard:4.0</code>.
   /// </li>
   /// <li>
-  /// For an image digest: <code>registry/repository@digest</code>. For example,
-  /// to specify an image with the digest
+  /// For an image digest:
+  /// <code>&lt;registry&gt;/&lt;repository&gt;@&lt;digest&gt;</code>. For
+  /// example, to specify an image with the digest
   /// "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0382cfbdbf,"
   /// use
-  /// <code>registry/repository@sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0382cfbdbf</code>.
+  /// <code>&lt;registry&gt;/&lt;repository&gt;@sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0382cfbdbf</code>.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'image')
@@ -4593,23 +6303,27 @@ class ProjectEnvironment {
   /// <li>
   /// The environment type <code>LINUX_CONTAINER</code> with compute type
   /// <code>build.general1.2xlarge</code> is available only in regions US East (N.
-  /// Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), EU
-  /// (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific
-  /// (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing),
-  /// and China (Ningxia).
+  /// Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland),
+  /// EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul),
+  /// Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China
+  /// (Ningxia).
   /// </li>
   /// <li>
   /// The environment type <code>LINUX_GPU_CONTAINER</code> is available only in
-  /// regions US East (N. Virginia), US East (N. Virginia), US West (Oregon),
-  /// Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific
-  /// (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific
-  /// (Sydney) , China (Beijing), and China (Ningxia).
+  /// regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada
+  /// (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo),
+  /// Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney) ,
+  /// China (Beijing), and China (Ningxia).
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'type')
   final EnvironmentType type;
 
-  /// The certificate to use with this build project.
+  /// The ARN of the Amazon Simple Storage Service (Amazon S3) bucket, path
+  /// prefix, and object key that contains the PEM-encoded certificate for the
+  /// build project. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/create-project-cli.html#cli.environment.certificate">certificate</a>
+  /// in the <i>AWS CodeBuild User Guide</i>.
   @_s.JsonKey(name: 'certificate')
   final String certificate;
 
@@ -4700,8 +6414,8 @@ class ProjectFileSystemLocation {
   /// The name used to access a file system created by Amazon EFS. CodeBuild
   /// creates an environment variable by appending the <code>identifier</code> in
   /// all capital letters to <code>CODEBUILD_</code>. For example, if you specify
-  /// <code>my-efs</code> for <code>identifier</code>, a new environment variable
-  /// is create named <code>CODEBUILD_MY-EFS</code>.
+  /// <code>my_efs</code> for <code>identifier</code>, a new environment variable
+  /// is create named <code>CODEBUILD_MY_EFS</code>.
   ///
   /// The <code>identifier</code> is used to mount your file system.
   @_s.JsonKey(name: 'identifier')
@@ -4798,11 +6512,12 @@ class ProjectSource {
   /// source action of a pipeline in AWS CodePipeline.
   /// </li>
   /// <li>
-  /// <code>GITHUB</code>: The source code is in a GitHub repository.
+  /// <code>GITHUB</code>: The source code is in a GitHub or GitHub Enterprise
+  /// Cloud repository.
   /// </li>
   /// <li>
   /// <code>GITHUB_ENTERPRISE</code>: The source code is in a GitHub Enterprise
-  /// repository.
+  /// Server repository.
   /// </li>
   /// <li>
   /// <code>NO_SOURCE</code>: The project does not have input source code.
@@ -4822,6 +6537,13 @@ class ProjectSource {
   /// should not get or set this information directly.
   @_s.JsonKey(name: 'auth')
   final SourceAuth auth;
+
+  /// Contains information that defines how the build project reports the build
+  /// status to the source provider. This option is only used when the source
+  /// provider is <code>GITHUB</code>, <code>GITHUB_ENTERPRISE</code>, or
+  /// <code>BITBUCKET</code>.
+  @_s.JsonKey(name: 'buildStatusConfig')
+  final BuildStatusConfig buildStatusConfig;
 
   /// The buildspec file declaration to use for the builds in this build project.
   ///
@@ -4866,8 +6588,7 @@ class ProjectSource {
   /// For source code in an AWS CodeCommit repository, the HTTPS clone URL to the
   /// repository that contains the source code and the buildspec file (for
   /// example,
-  /// <code>https://git-codecommit.<i>region-ID</i>.amazonaws.com/v1/repos/<i>repo-name</i>
-  /// </code>).
+  /// <code>https://git-codecommit.&lt;region-ID&gt;.amazonaws.com/v1/repos/&lt;repo-name&gt;</code>).
   /// </li>
   /// <li>
   /// For source code in an Amazon Simple Storage Service (Amazon S3) input
@@ -4875,12 +6596,12 @@ class ProjectSource {
   ///
   /// <ul>
   /// <li>
-  /// The path to the ZIP file that contains the source code (for example, <code>
-  /// <i>bucket-name</i>/<i>path</i>/<i>to</i>/<i>object-name</i>.zip</code>).
+  /// The path to the ZIP file that contains the source code (for example,
+  /// <code>&lt;bucket-name&gt;/&lt;path&gt;/&lt;object-name&gt;.zip</code>).
   /// </li>
   /// <li>
-  /// The path to the folder that contains the source code (for example, <code>
-  /// <i>bucket-name</i>/<i>path</i>/<i>to</i>/<i>source-code</i>/<i>folder</i>/</code>).
+  /// The path to the folder that contains the source code (for example,
+  /// <code>&lt;bucket-name&gt;/&lt;path-to-source-code&gt;/&lt;folder&gt;/</code>).
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -4931,6 +6652,7 @@ class ProjectSource {
   ProjectSource({
     @_s.required this.type,
     this.auth,
+    this.buildStatusConfig,
     this.buildspec,
     this.gitCloneDepth,
     this.gitSubmodulesConfig,
@@ -5076,6 +6798,11 @@ class Report {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// A <code>CodeCoverageReportSummary</code> object that contains a code
+  /// coverage summary for this report.
+  @_s.JsonKey(name: 'codeCoverageSummary')
+  final CodeCoverageReportSummary codeCoverageSummary;
+
   /// The date and time this report run occurred.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'created')
@@ -5119,11 +6846,17 @@ class Report {
   final bool truncated;
 
   /// The type of the report that was run.
+  /// <dl> <dt>CODE_COVERAGE</dt> <dd>
+  /// A code coverage report.
+  /// </dd> <dt>TEST</dt> <dd>
+  /// A test report.
+  /// </dd> </dl>
   @_s.JsonKey(name: 'type')
   final ReportType type;
 
   Report({
     this.arn,
+    this.codeCoverageSummary,
     this.created,
     this.executionId,
     this.expired,
@@ -5136,6 +6869,25 @@ class Report {
     this.type,
   });
   factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
+}
+
+enum ReportCodeCoverageSortByType {
+  @_s.JsonValue('LINE_COVERAGE_PERCENTAGE')
+  lineCoveragePercentage,
+  @_s.JsonValue('FILE_PATH')
+  filePath,
+}
+
+extension on ReportCodeCoverageSortByType {
+  String toValue() {
+    switch (this) {
+      case ReportCodeCoverageSortByType.lineCoveragePercentage:
+        return 'LINE_COVERAGE_PERCENTAGE';
+      case ReportCodeCoverageSortByType.filePath:
+        return 'FILE_PATH';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about the location where the run of a report is exported.
@@ -5230,6 +6982,15 @@ class ReportGroup {
   /// The name of a <code>ReportGroup</code>.
   @_s.JsonKey(name: 'name')
   final String name;
+  @_s.JsonKey(name: 'status')
+  final ReportGroupStatusType status;
+
+  /// A list of tag key and value pairs associated with this report group.
+  ///
+  /// These tags are available for use by AWS services that support AWS CodeBuild
+  /// report group tags.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
 
   /// The type of the <code>ReportGroup</code>. The one valid value is
   /// <code>TEST</code>.
@@ -5242,6 +7003,8 @@ class ReportGroup {
     this.exportConfig,
     this.lastModified,
     this.name,
+    this.status,
+    this.tags,
     this.type,
   });
   factory ReportGroup.fromJson(Map<String, dynamic> json) =>
@@ -5271,6 +7034,82 @@ extension on ReportGroupSortByType {
   }
 }
 
+enum ReportGroupStatusType {
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('DELETING')
+  deleting,
+}
+
+enum ReportGroupTrendFieldType {
+  @_s.JsonValue('PASS_RATE')
+  passRate,
+  @_s.JsonValue('DURATION')
+  duration,
+  @_s.JsonValue('TOTAL')
+  total,
+  @_s.JsonValue('LINE_COVERAGE')
+  lineCoverage,
+  @_s.JsonValue('LINES_COVERED')
+  linesCovered,
+  @_s.JsonValue('LINES_MISSED')
+  linesMissed,
+  @_s.JsonValue('BRANCH_COVERAGE')
+  branchCoverage,
+  @_s.JsonValue('BRANCHES_COVERED')
+  branchesCovered,
+  @_s.JsonValue('BRANCHES_MISSED')
+  branchesMissed,
+}
+
+extension on ReportGroupTrendFieldType {
+  String toValue() {
+    switch (this) {
+      case ReportGroupTrendFieldType.passRate:
+        return 'PASS_RATE';
+      case ReportGroupTrendFieldType.duration:
+        return 'DURATION';
+      case ReportGroupTrendFieldType.total:
+        return 'TOTAL';
+      case ReportGroupTrendFieldType.lineCoverage:
+        return 'LINE_COVERAGE';
+      case ReportGroupTrendFieldType.linesCovered:
+        return 'LINES_COVERED';
+      case ReportGroupTrendFieldType.linesMissed:
+        return 'LINES_MISSED';
+      case ReportGroupTrendFieldType.branchCoverage:
+        return 'BRANCH_COVERAGE';
+      case ReportGroupTrendFieldType.branchesCovered:
+        return 'BRANCHES_COVERED';
+      case ReportGroupTrendFieldType.branchesMissed:
+        return 'BRANCHES_MISSED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ReportGroupTrendStats {
+  @_s.JsonKey(name: 'average')
+  final String average;
+  @_s.JsonKey(name: 'max')
+  final String max;
+  @_s.JsonKey(name: 'min')
+  final String min;
+
+  ReportGroupTrendStats({
+    this.average,
+    this.max,
+    this.min,
+  });
+  factory ReportGroupTrendStats.fromJson(Map<String, dynamic> json) =>
+      _$ReportGroupTrendStatsFromJson(json);
+}
+
 enum ReportPackagingType {
   @_s.JsonValue('ZIP')
   zip,
@@ -5294,6 +7133,8 @@ enum ReportStatusType {
 enum ReportType {
   @_s.JsonValue('TEST')
   test,
+  @_s.JsonValue('CODE_COVERAGE')
+  codeCoverage,
 }
 
 extension on ReportType {
@@ -5301,9 +7142,111 @@ extension on ReportType {
     switch (this) {
       case ReportType.test:
         return 'TEST';
+      case ReportType.codeCoverage:
+        return 'CODE_COVERAGE';
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ReportWithRawData {
+  @_s.JsonKey(name: 'data')
+  final String data;
+  @_s.JsonKey(name: 'reportArn')
+  final String reportArn;
+
+  ReportWithRawData({
+    this.data,
+    this.reportArn,
+  });
+  factory ReportWithRawData.fromJson(Map<String, dynamic> json) =>
+      _$ReportWithRawDataFromJson(json);
+}
+
+/// Represents a resolved build artifact. A resolve artifact is an artifact that
+/// is built and deployed to the destination, such as Amazon Simple Storage
+/// Service (Amazon S3).
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ResolvedArtifact {
+  /// The identifier of the artifact.
+  @_s.JsonKey(name: 'identifier')
+  final String identifier;
+
+  /// The location of the artifact.
+  @_s.JsonKey(name: 'location')
+  final String location;
+
+  /// Specifies the type of artifact.
+  @_s.JsonKey(name: 'type')
+  final ArtifactsType type;
+
+  ResolvedArtifact({
+    this.identifier,
+    this.location,
+    this.type,
+  });
+  factory ResolvedArtifact.fromJson(Map<String, dynamic> json) =>
+      _$ResolvedArtifactFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RetryBuildBatchOutput {
+  @_s.JsonKey(name: 'buildBatch')
+  final BuildBatch buildBatch;
+
+  RetryBuildBatchOutput({
+    this.buildBatch,
+  });
+  factory RetryBuildBatchOutput.fromJson(Map<String, dynamic> json) =>
+      _$RetryBuildBatchOutputFromJson(json);
+}
+
+enum RetryBuildBatchType {
+  @_s.JsonValue('RETRY_ALL_BUILDS')
+  retryAllBuilds,
+  @_s.JsonValue('RETRY_FAILED_BUILDS')
+  retryFailedBuilds,
+}
+
+extension on RetryBuildBatchType {
+  String toValue() {
+    switch (this) {
+      case RetryBuildBatchType.retryAllBuilds:
+        return 'RETRY_ALL_BUILDS';
+      case RetryBuildBatchType.retryFailedBuilds:
+        return 'RETRY_FAILED_BUILDS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RetryBuildOutput {
+  @_s.JsonKey(name: 'build')
+  final Build build;
+
+  RetryBuildOutput({
+    this.build,
+  });
+  factory RetryBuildOutput.fromJson(Map<String, dynamic> json) =>
+      _$RetryBuildOutputFromJson(json);
 }
 
 /// Information about S3 logs for a build project.
@@ -5575,6 +7518,24 @@ extension on SourceType {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class StartBuildBatchOutput {
+  /// A <code>BuildBatch</code> object that contains information about the batch
+  /// build.
+  @_s.JsonKey(name: 'buildBatch')
+  final BuildBatch buildBatch;
+
+  StartBuildBatchOutput({
+    this.buildBatch,
+  });
+  factory StartBuildBatchOutput.fromJson(Map<String, dynamic> json) =>
+      _$StartBuildBatchOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class StartBuildOutput {
   /// Information about the build to be run.
   @_s.JsonKey(name: 'build')
@@ -5600,6 +7561,22 @@ enum StatusType {
   inProgress,
   @_s.JsonValue('STOPPED')
   stopped,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StopBuildBatchOutput {
+  @_s.JsonKey(name: 'buildBatch')
+  final BuildBatch buildBatch;
+
+  StopBuildBatchOutput({
+    this.buildBatch,
+  });
+  factory StopBuildBatchOutput.fromJson(Map<String, dynamic> json) =>
+      _$StopBuildBatchOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -5707,21 +7684,46 @@ class TestCase {
       _$TestCaseFromJson(json);
 }
 
-/// A filter used to return specific types of test cases.
+/// A filter used to return specific types of test cases. In order to pass the
+/// filter, the report must meet all of the filter properties.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class TestCaseFilter {
-  /// The status used to filter test cases. Valid statuses are
-  /// <code>SUCCEEDED</code>, <code>FAILED</code>, <code>ERROR</code>,
-  /// <code>SKIPPED</code>, and <code>UNKNOWN</code>. A
-  /// <code>TestCaseFilter</code> can have one status.
+  /// A keyword that is used to filter on the <code>name</code> or the
+  /// <code>prefix</code> of the test cases. Only test cases where the keyword is
+  /// a substring of the <code>name</code> or the <code>prefix</code> will be
+  /// returned.
+  @_s.JsonKey(name: 'keyword')
+  final String keyword;
+
+  /// The status used to filter test cases. A <code>TestCaseFilter</code> can have
+  /// one status. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SUCCEEDED</code>
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>ERROR</code>
+  /// </li>
+  /// <li>
+  /// <code>SKIPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>UNKNOWN</code>
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'status')
   final String status;
 
   TestCaseFilter({
+    this.keyword,
     this.status,
   });
   Map<String, dynamic> toJson() => _$TestCaseFilterToJson(this);
@@ -5859,6 +7861,10 @@ class Webhook {
   @_s.JsonKey(name: 'branchFilter')
   final String branchFilter;
 
+  /// Specifies the type of build this webhook will trigger.
+  @_s.JsonKey(name: 'buildType')
+  final WebhookBuildType buildType;
+
   /// An array of arrays of <code>WebhookFilter</code> objects used to determine
   /// which webhooks are triggered. At least one <code>WebhookFilter</code> in the
   /// array must specify <code>EVENT</code> as its <code>type</code>.
@@ -5892,6 +7898,7 @@ class Webhook {
 
   Webhook({
     this.branchFilter,
+    this.buildType,
     this.filterGroups,
     this.lastModifiedSecret,
     this.payloadUrl,
@@ -5900,6 +7907,25 @@ class Webhook {
   });
   factory Webhook.fromJson(Map<String, dynamic> json) =>
       _$WebhookFromJson(json);
+}
+
+enum WebhookBuildType {
+  @_s.JsonValue('BUILD')
+  build,
+  @_s.JsonValue('BUILD_BATCH')
+  buildBatch,
+}
+
+extension on WebhookBuildType {
+  String toValue() {
+    switch (this) {
+      case WebhookBuildType.build:
+        return 'BUILD';
+      case WebhookBuildType.buildBatch:
+        return 'BUILD_BATCH';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A filter used to determine which webhooks trigger a build.
@@ -5923,17 +7949,18 @@ class WebhookFilter {
   @_s.JsonKey(name: 'pattern')
   final String pattern;
 
-  /// The type of webhook filter. There are five webhook filter types:
+  /// The type of webhook filter. There are six webhook filter types:
   /// <code>EVENT</code>, <code>ACTOR_ACCOUNT_ID</code>, <code>HEAD_REF</code>,
-  /// <code>BASE_REF</code>, and <code>FILE_PATH</code>.
+  /// <code>BASE_REF</code>, <code>FILE_PATH</code>, and
+  /// <code>COMMIT_MESSAGE</code>.
   /// <dl> <dt> EVENT </dt> <dd>
   /// A webhook event triggers a build when the provided <code>pattern</code>
-  /// matches one of four event types: <code>PUSH</code>,
-  /// <code>PULL_REQUEST_CREATED</code>, <code>PULL_REQUEST_UPDATED</code>, and
-  /// <code>PULL_REQUEST_REOPENED</code>. The <code>EVENT</code> patterns are
-  /// specified as a comma-separated string. For example, <code>PUSH,
-  /// PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED</code> filters all push, pull
-  /// request created, and pull request updated events.
+  /// matches one of five event types: <code>PUSH</code>,
+  /// <code>PULL_REQUEST_CREATED</code>, <code>PULL_REQUEST_UPDATED</code>,
+  /// <code>PULL_REQUEST_REOPENED</code>, and <code>PULL_REQUEST_MERGED</code>.
+  /// The <code>EVENT</code> patterns are specified as a comma-separated string.
+  /// For example, <code>PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED</code>
+  /// filters all push, pull request created, and pull request updated events.
   /// <note>
   /// The <code>PULL_REQUEST_REOPENED</code> works with GitHub and GitHub
   /// Enterprise only.
@@ -5957,7 +7984,16 @@ class WebhookFilter {
   /// A webhook triggers a build when the path of a changed file matches the
   /// regular expression <code>pattern</code>.
   /// <note>
-  /// Works with GitHub and GitHub Enterprise push events only.
+  /// Works with GitHub and Bitbucket events push and pull requests events. Also
+  /// works with GitHub Enterprise push events, but does not work with GitHub
+  /// Enterprise pull request events.
+  /// </note> </dd> <dt>COMMIT_MESSAGE</dt> <dd>
+  /// A webhook triggers a build when the head commit message matches the regular
+  /// expression <code>pattern</code>.
+  /// <note>
+  /// Works with GitHub and Bitbucket events push and pull requests events. Also
+  /// works with GitHub Enterprise push events, but does not work with GitHub
+  /// Enterprise pull request events.
   /// </note> </dd> </dl>
   @_s.JsonKey(name: 'type')
   final WebhookFilterType type;
@@ -5991,6 +8027,8 @@ enum WebhookFilterType {
   actorAccountId,
   @_s.JsonValue('FILE_PATH')
   filePath,
+  @_s.JsonValue('COMMIT_MESSAGE')
+  commitMessage,
 }
 
 class AccountLimitExceededException extends _s.GenericAwsException {

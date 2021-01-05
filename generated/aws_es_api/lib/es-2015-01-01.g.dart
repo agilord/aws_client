@@ -6,6 +6,17 @@ part of 'es-2015-01-01.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AcceptInboundCrossClusterSearchConnectionResponse
+    _$AcceptInboundCrossClusterSearchConnectionResponseFromJson(
+        Map<String, dynamic> json) {
+  return AcceptInboundCrossClusterSearchConnectionResponse(
+    crossClusterSearchConnection: json['CrossClusterSearchConnection'] == null
+        ? null
+        : InboundCrossClusterSearchConnection.fromJson(
+            json['CrossClusterSearchConnection'] as Map<String, dynamic>),
+  );
+}
+
 AccessPoliciesStatus _$AccessPoliciesStatusFromJson(Map<String, dynamic> json) {
   return AccessPoliciesStatus(
     options: json['Options'] as String,
@@ -40,6 +51,10 @@ AdvancedSecurityOptions _$AdvancedSecurityOptionsFromJson(
   return AdvancedSecurityOptions(
     enabled: json['Enabled'] as bool,
     internalUserDatabaseEnabled: json['InternalUserDatabaseEnabled'] as bool,
+    sAMLOptions: json['SAMLOptions'] == null
+        ? null
+        : SAMLOptionsOutput.fromJson(
+            json['SAMLOptions'] as Map<String, dynamic>),
   );
 }
 
@@ -57,6 +72,7 @@ Map<String, dynamic> _$AdvancedSecurityOptionsInputToJson(
   writeNotNull(
       'InternalUserDatabaseEnabled', instance.internalUserDatabaseEnabled);
   writeNotNull('MasterUserOptions', instance.masterUserOptions?.toJson());
+  writeNotNull('SAMLOptions', instance.sAMLOptions?.toJson());
   return val;
 }
 
@@ -149,6 +165,28 @@ CreateElasticsearchDomainResponse _$CreateElasticsearchDomainResponseFromJson(
   );
 }
 
+CreateOutboundCrossClusterSearchConnectionResponse
+    _$CreateOutboundCrossClusterSearchConnectionResponseFromJson(
+        Map<String, dynamic> json) {
+  return CreateOutboundCrossClusterSearchConnectionResponse(
+    connectionAlias: json['ConnectionAlias'] as String,
+    connectionStatus: json['ConnectionStatus'] == null
+        ? null
+        : OutboundCrossClusterSearchConnectionStatus.fromJson(
+            json['ConnectionStatus'] as Map<String, dynamic>),
+    crossClusterSearchConnectionId:
+        json['CrossClusterSearchConnectionId'] as String,
+    destinationDomainInfo: json['DestinationDomainInfo'] == null
+        ? null
+        : DomainInformation.fromJson(
+            json['DestinationDomainInfo'] as Map<String, dynamic>),
+    sourceDomainInfo: json['SourceDomainInfo'] == null
+        ? null
+        : DomainInformation.fromJson(
+            json['SourceDomainInfo'] as Map<String, dynamic>),
+  );
+}
+
 CreatePackageResponse _$CreatePackageResponseFromJson(
     Map<String, dynamic> json) {
   return CreatePackageResponse(
@@ -166,6 +204,28 @@ DeleteElasticsearchDomainResponse _$DeleteElasticsearchDomainResponseFromJson(
         ? null
         : ElasticsearchDomainStatus.fromJson(
             json['DomainStatus'] as Map<String, dynamic>),
+  );
+}
+
+DeleteInboundCrossClusterSearchConnectionResponse
+    _$DeleteInboundCrossClusterSearchConnectionResponseFromJson(
+        Map<String, dynamic> json) {
+  return DeleteInboundCrossClusterSearchConnectionResponse(
+    crossClusterSearchConnection: json['CrossClusterSearchConnection'] == null
+        ? null
+        : InboundCrossClusterSearchConnection.fromJson(
+            json['CrossClusterSearchConnection'] as Map<String, dynamic>),
+  );
+}
+
+DeleteOutboundCrossClusterSearchConnectionResponse
+    _$DeleteOutboundCrossClusterSearchConnectionResponseFromJson(
+        Map<String, dynamic> json) {
+  return DeleteOutboundCrossClusterSearchConnectionResponse(
+    crossClusterSearchConnection: json['CrossClusterSearchConnection'] == null
+        ? null
+        : OutboundCrossClusterSearchConnection.fromJson(
+            json['CrossClusterSearchConnection'] as Map<String, dynamic>),
   );
 }
 
@@ -219,6 +279,36 @@ DescribeElasticsearchInstanceTypeLimitsResponse
       (k, e) => MapEntry(
           k, e == null ? null : Limits.fromJson(e as Map<String, dynamic>)),
     ),
+  );
+}
+
+DescribeInboundCrossClusterSearchConnectionsResponse
+    _$DescribeInboundCrossClusterSearchConnectionsResponseFromJson(
+        Map<String, dynamic> json) {
+  return DescribeInboundCrossClusterSearchConnectionsResponse(
+    crossClusterSearchConnections:
+        (json['CrossClusterSearchConnections'] as List)
+            ?.map((e) => e == null
+                ? null
+                : InboundCrossClusterSearchConnection.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+DescribeOutboundCrossClusterSearchConnectionsResponse
+    _$DescribeOutboundCrossClusterSearchConnectionsResponseFromJson(
+        Map<String, dynamic> json) {
+  return DescribeOutboundCrossClusterSearchConnectionsResponse(
+    crossClusterSearchConnections:
+        (json['CrossClusterSearchConnections'] as List)
+            ?.map((e) => e == null
+                ? null
+                : OutboundCrossClusterSearchConnection.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+    nextToken: json['NextToken'] as String,
   );
 }
 
@@ -297,6 +387,10 @@ DissociatePackageResponse _$DissociatePackageResponseFromJson(
 DomainEndpointOptions _$DomainEndpointOptionsFromJson(
     Map<String, dynamic> json) {
   return DomainEndpointOptions(
+    customEndpoint: json['CustomEndpoint'] as String,
+    customEndpointCertificateArn:
+        json['CustomEndpointCertificateArn'] as String,
+    customEndpointEnabled: json['CustomEndpointEnabled'] as bool,
     enforceHTTPS: json['EnforceHTTPS'] as bool,
     tLSSecurityPolicy: _$enumDecodeNullable(
         _$TLSSecurityPolicyEnumMap, json['TLSSecurityPolicy']),
@@ -313,6 +407,10 @@ Map<String, dynamic> _$DomainEndpointOptionsToJson(
     }
   }
 
+  writeNotNull('CustomEndpoint', instance.customEndpoint);
+  writeNotNull(
+      'CustomEndpointCertificateArn', instance.customEndpointCertificateArn);
+  writeNotNull('CustomEndpointEnabled', instance.customEndpointEnabled);
   writeNotNull('EnforceHTTPS', instance.enforceHTTPS);
   writeNotNull('TLSSecurityPolicy',
       _$TLSSecurityPolicyEnumMap[instance.tLSSecurityPolicy]);
@@ -375,6 +473,29 @@ DomainInfo _$DomainInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
+DomainInformation _$DomainInformationFromJson(Map<String, dynamic> json) {
+  return DomainInformation(
+    domainName: json['DomainName'] as String,
+    ownerId: json['OwnerId'] as String,
+    region: json['Region'] as String,
+  );
+}
+
+Map<String, dynamic> _$DomainInformationToJson(DomainInformation instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('OwnerId', instance.ownerId);
+  writeNotNull('Region', instance.region);
+  return val;
+}
+
 DomainPackageDetails _$DomainPackageDetailsFromJson(Map<String, dynamic> json) {
   return DomainPackageDetails(
     domainName: json['DomainName'] as String,
@@ -388,6 +509,7 @@ DomainPackageDetails _$DomainPackageDetailsFromJson(Map<String, dynamic> json) {
     packageName: json['PackageName'] as String,
     packageType:
         _$enumDecodeNullable(_$PackageTypeEnumMap, json['PackageType']),
+    packageVersion: json['PackageVersion'] as String,
     referencePath: json['ReferencePath'] as String,
   );
 }
@@ -706,6 +828,7 @@ const _$LogTypeEnumMap = {
   LogType.indexSlowLogs: 'INDEX_SLOW_LOGS',
   LogType.searchSlowLogs: 'SEARCH_SLOW_LOGS',
   LogType.esApplicationLogs: 'ES_APPLICATION_LOGS',
+  LogType.auditLogs: 'AUDIT_LOGS',
 };
 
 ElasticsearchVersionStatus _$ElasticsearchVersionStatusFromJson(
@@ -761,6 +884,20 @@ ErrorDetails _$ErrorDetailsFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$FilterToJson(Filter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Values', instance.values);
+  return val;
+}
+
 GetCompatibleElasticsearchVersionsResponse
     _$GetCompatibleElasticsearchVersionsResponseFromJson(
         Map<String, dynamic> json) {
@@ -771,6 +908,19 @@ GetCompatibleElasticsearchVersionsResponse
                 ? null
                 : CompatibleVersionsMap.fromJson(e as Map<String, dynamic>))
             ?.toList(),
+  );
+}
+
+GetPackageVersionHistoryResponse _$GetPackageVersionHistoryResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetPackageVersionHistoryResponse(
+    nextToken: json['NextToken'] as String,
+    packageID: json['PackageID'] as String,
+    packageVersionHistoryList: (json['PackageVersionHistoryList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PackageVersionHistory.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -808,6 +958,47 @@ const _$UpgradeStepEnumMap = {
   UpgradeStep.preUpgradeCheck: 'PRE_UPGRADE_CHECK',
   UpgradeStep.snapshot: 'SNAPSHOT',
   UpgradeStep.upgrade: 'UPGRADE',
+};
+
+InboundCrossClusterSearchConnection
+    _$InboundCrossClusterSearchConnectionFromJson(Map<String, dynamic> json) {
+  return InboundCrossClusterSearchConnection(
+    connectionStatus: json['ConnectionStatus'] == null
+        ? null
+        : InboundCrossClusterSearchConnectionStatus.fromJson(
+            json['ConnectionStatus'] as Map<String, dynamic>),
+    crossClusterSearchConnectionId:
+        json['CrossClusterSearchConnectionId'] as String,
+    destinationDomainInfo: json['DestinationDomainInfo'] == null
+        ? null
+        : DomainInformation.fromJson(
+            json['DestinationDomainInfo'] as Map<String, dynamic>),
+    sourceDomainInfo: json['SourceDomainInfo'] == null
+        ? null
+        : DomainInformation.fromJson(
+            json['SourceDomainInfo'] as Map<String, dynamic>),
+  );
+}
+
+InboundCrossClusterSearchConnectionStatus
+    _$InboundCrossClusterSearchConnectionStatusFromJson(
+        Map<String, dynamic> json) {
+  return InboundCrossClusterSearchConnectionStatus(
+    message: json['Message'] as String,
+    statusCode: _$enumDecodeNullable(
+        _$InboundCrossClusterSearchConnectionStatusCodeEnumMap,
+        json['StatusCode']),
+  );
+}
+
+const _$InboundCrossClusterSearchConnectionStatusCodeEnumMap = {
+  InboundCrossClusterSearchConnectionStatusCode.pendingAcceptance:
+      'PENDING_ACCEPTANCE',
+  InboundCrossClusterSearchConnectionStatusCode.approved: 'APPROVED',
+  InboundCrossClusterSearchConnectionStatusCode.rejecting: 'REJECTING',
+  InboundCrossClusterSearchConnectionStatusCode.rejected: 'REJECTED',
+  InboundCrossClusterSearchConnectionStatusCode.deleting: 'DELETING',
+  InboundCrossClusterSearchConnectionStatusCode.deleted: 'DELETED',
 };
 
 InstanceCountLimits _$InstanceCountLimitsFromJson(Map<String, dynamic> json) {
@@ -1009,12 +1200,60 @@ const _$OptionStateEnumMap = {
   OptionState.active: 'Active',
 };
 
+OutboundCrossClusterSearchConnection
+    _$OutboundCrossClusterSearchConnectionFromJson(Map<String, dynamic> json) {
+  return OutboundCrossClusterSearchConnection(
+    connectionAlias: json['ConnectionAlias'] as String,
+    connectionStatus: json['ConnectionStatus'] == null
+        ? null
+        : OutboundCrossClusterSearchConnectionStatus.fromJson(
+            json['ConnectionStatus'] as Map<String, dynamic>),
+    crossClusterSearchConnectionId:
+        json['CrossClusterSearchConnectionId'] as String,
+    destinationDomainInfo: json['DestinationDomainInfo'] == null
+        ? null
+        : DomainInformation.fromJson(
+            json['DestinationDomainInfo'] as Map<String, dynamic>),
+    sourceDomainInfo: json['SourceDomainInfo'] == null
+        ? null
+        : DomainInformation.fromJson(
+            json['SourceDomainInfo'] as Map<String, dynamic>),
+  );
+}
+
+OutboundCrossClusterSearchConnectionStatus
+    _$OutboundCrossClusterSearchConnectionStatusFromJson(
+        Map<String, dynamic> json) {
+  return OutboundCrossClusterSearchConnectionStatus(
+    message: json['Message'] as String,
+    statusCode: _$enumDecodeNullable(
+        _$OutboundCrossClusterSearchConnectionStatusCodeEnumMap,
+        json['StatusCode']),
+  );
+}
+
+const _$OutboundCrossClusterSearchConnectionStatusCodeEnumMap = {
+  OutboundCrossClusterSearchConnectionStatusCode.pendingAcceptance:
+      'PENDING_ACCEPTANCE',
+  OutboundCrossClusterSearchConnectionStatusCode.validating: 'VALIDATING',
+  OutboundCrossClusterSearchConnectionStatusCode.validationFailed:
+      'VALIDATION_FAILED',
+  OutboundCrossClusterSearchConnectionStatusCode.provisioning: 'PROVISIONING',
+  OutboundCrossClusterSearchConnectionStatusCode.active: 'ACTIVE',
+  OutboundCrossClusterSearchConnectionStatusCode.rejected: 'REJECTED',
+  OutboundCrossClusterSearchConnectionStatusCode.deleting: 'DELETING',
+  OutboundCrossClusterSearchConnectionStatusCode.deleted: 'DELETED',
+};
+
 PackageDetails _$PackageDetailsFromJson(Map<String, dynamic> json) {
   return PackageDetails(
+    availablePackageVersion: json['AvailablePackageVersion'] as String,
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     errorDetails: json['ErrorDetails'] == null
         ? null
         : ErrorDetails.fromJson(json['ErrorDetails'] as Map<String, dynamic>),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
     packageDescription: json['PackageDescription'] as String,
     packageID: json['PackageID'] as String,
     packageName: json['PackageName'] as String,
@@ -1050,6 +1289,15 @@ Map<String, dynamic> _$PackageSourceToJson(PackageSource instance) {
   return val;
 }
 
+PackageVersionHistory _$PackageVersionHistoryFromJson(
+    Map<String, dynamic> json) {
+  return PackageVersionHistory(
+    commitMessage: json['CommitMessage'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
+    packageVersion: json['PackageVersion'] as String,
+  );
+}
+
 PurchaseReservedElasticsearchInstanceOfferingResponse
     _$PurchaseReservedElasticsearchInstanceOfferingResponseFromJson(
         Map<String, dynamic> json) {
@@ -1064,6 +1312,17 @@ RecurringCharge _$RecurringChargeFromJson(Map<String, dynamic> json) {
   return RecurringCharge(
     recurringChargeAmount: (json['RecurringChargeAmount'] as num)?.toDouble(),
     recurringChargeFrequency: json['RecurringChargeFrequency'] as String,
+  );
+}
+
+RejectInboundCrossClusterSearchConnectionResponse
+    _$RejectInboundCrossClusterSearchConnectionResponseFromJson(
+        Map<String, dynamic> json) {
+  return RejectInboundCrossClusterSearchConnectionResponse(
+    crossClusterSearchConnection: json['CrossClusterSearchConnection'] == null
+        ? null
+        : InboundCrossClusterSearchConnection.fromJson(
+            json['CrossClusterSearchConnection'] as Map<String, dynamic>),
   );
 }
 
@@ -1123,6 +1382,58 @@ ReservedElasticsearchInstanceOffering
   );
 }
 
+SAMLIdp _$SAMLIdpFromJson(Map<String, dynamic> json) {
+  return SAMLIdp(
+    entityId: json['EntityId'] as String,
+    metadataContent: json['MetadataContent'] as String,
+  );
+}
+
+Map<String, dynamic> _$SAMLIdpToJson(SAMLIdp instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EntityId', instance.entityId);
+  writeNotNull('MetadataContent', instance.metadataContent);
+  return val;
+}
+
+Map<String, dynamic> _$SAMLOptionsInputToJson(SAMLOptionsInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Enabled', instance.enabled);
+  writeNotNull('Idp', instance.idp?.toJson());
+  writeNotNull('MasterBackendRole', instance.masterBackendRole);
+  writeNotNull('MasterUserName', instance.masterUserName);
+  writeNotNull('RolesKey', instance.rolesKey);
+  writeNotNull('SessionTimeoutMinutes', instance.sessionTimeoutMinutes);
+  writeNotNull('SubjectKey', instance.subjectKey);
+  return val;
+}
+
+SAMLOptionsOutput _$SAMLOptionsOutputFromJson(Map<String, dynamic> json) {
+  return SAMLOptionsOutput(
+    enabled: json['Enabled'] as bool,
+    idp: json['Idp'] == null
+        ? null
+        : SAMLIdp.fromJson(json['Idp'] as Map<String, dynamic>),
+    rolesKey: json['RolesKey'] as String,
+    sessionTimeoutMinutes: json['SessionTimeoutMinutes'] as int,
+    subjectKey: json['SubjectKey'] as String,
+  );
+}
+
 ServiceSoftwareOptions _$ServiceSoftwareOptionsFromJson(
     Map<String, dynamic> json) {
   return ServiceSoftwareOptions(
@@ -1132,6 +1443,7 @@ ServiceSoftwareOptions _$ServiceSoftwareOptionsFromJson(
     currentVersion: json['CurrentVersion'] as String,
     description: json['Description'] as String,
     newVersion: json['NewVersion'] as String,
+    optionalDeployment: json['OptionalDeployment'] as bool,
     updateAvailable: json['UpdateAvailable'] as bool,
     updateStatus:
         _$enumDecodeNullable(_$DeploymentStatusEnumMap, json['UpdateStatus']),
@@ -1238,6 +1550,16 @@ UpdateElasticsearchDomainConfigResponse
         ? null
         : ElasticsearchDomainConfig.fromJson(
             json['DomainConfig'] as Map<String, dynamic>),
+  );
+}
+
+UpdatePackageResponse _$UpdatePackageResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdatePackageResponse(
+    packageDetails: json['PackageDetails'] == null
+        ? null
+        : PackageDetails.fromJson(
+            json['PackageDetails'] as Map<String, dynamic>),
   );
 }
 

@@ -390,7 +390,7 @@ class ElastiCache {
   ///
   /// When using this parameter to export a snapshot, be sure Amazon ElastiCache
   /// has the needed permissions to this S3 bucket. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access">Step
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access">Step
   /// 2: Grant ElastiCache Access to Your Amazon S3 Bucket</a> in the <i>Amazon
   /// ElastiCache User Guide</i>.
   ///
@@ -513,6 +513,18 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
+  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
+  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
+  /// <code>cache.m6g.16xlarge</code>
+  /// <note>
+  /// At this time, M6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and
+  /// ap-northeast-1.
+  /// </note>
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -559,6 +571,18 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  /// <note>
+  /// At this time, R6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and
+  /// ap-northeast-1.
+  /// </note>
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -661,13 +685,17 @@ class ElastiCache {
   /// the ElastiCache Limit Increase Request form at <a
   /// href="http://aws.amazon.com/contact-us/elasticache-node-limit-request/">http://aws.amazon.com/contact-us/elasticache-node-limit-request/</a>.
   ///
+  /// Parameter [outpostMode] :
+  /// Specifies whether the nodes in the cluster are created in a single outpost
+  /// or across multiple outposts.
+  ///
   /// Parameter [port] :
   /// The port number on which each of the cache nodes accepts connections.
   ///
   /// Parameter [preferredAvailabilityZone] :
   /// The EC2 Availability Zone in which the cluster is created.
   ///
-  /// All nodes belonging to this Memcached cluster are placed in the preferred
+  /// All nodes belonging to this cluster are placed in the preferred
   /// Availability Zone. If you want to create your nodes across multiple
   /// Availability Zones, use <code>PreferredAvailabilityZones</code>.
   ///
@@ -729,6 +757,12 @@ class ElastiCache {
   /// </li>
   /// </ul>
   /// Example: <code>sun:23:00-mon:01:30</code>
+  ///
+  /// Parameter [preferredOutpostArn] :
+  /// The outpost ARN in which the cache cluster is created.
+  ///
+  /// Parameter [preferredOutpostArns] :
+  /// The outpost ARNs in which the cache cluster is created.
   ///
   /// Parameter [replicationGroupId] :
   /// The ID of the replication group to which this cluster should belong. If
@@ -811,10 +845,13 @@ class ElastiCache {
     String engineVersion,
     String notificationTopicArn,
     int numCacheNodes,
+    OutpostMode outpostMode,
     int port,
     String preferredAvailabilityZone,
     List<String> preferredAvailabilityZones,
     String preferredMaintenanceWindow,
+    String preferredOutpostArn,
+    List<String> preferredOutpostArns,
     String replicationGroupId,
     List<String> securityGroupIds,
     List<String> snapshotArns,
@@ -840,6 +877,7 @@ class ElastiCache {
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
     notificationTopicArn?.also((arg) => $request['NotificationTopicArn'] = arg);
     numCacheNodes?.also((arg) => $request['NumCacheNodes'] = arg);
+    outpostMode?.also((arg) => $request['OutpostMode'] = arg.toValue());
     port?.also((arg) => $request['Port'] = arg);
     preferredAvailabilityZone
         ?.also((arg) => $request['PreferredAvailabilityZone'] = arg);
@@ -847,6 +885,8 @@ class ElastiCache {
         ?.also((arg) => $request['PreferredAvailabilityZones'] = arg);
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
+    preferredOutpostArn?.also((arg) => $request['PreferredOutpostArn'] = arg);
+    preferredOutpostArns?.also((arg) => $request['PreferredOutpostArns'] = arg);
     replicationGroupId?.also((arg) => $request['ReplicationGroupId'] = arg);
     securityGroupIds?.also((arg) => $request['SecurityGroupIds'] = arg);
     snapshotArns?.also((arg) => $request['SnapshotArns'] = arg);
@@ -903,8 +943,9 @@ class ElastiCache {
   /// group can be used with.
   ///
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
-  /// <code>redis2.6</code> | <code>redis2.8</code> | <code>redis3.2</code> |
-  /// <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code>
+  /// | <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>redis6.x</code> |
   ///
   /// Parameter [cacheParameterGroupName] :
   /// A user-specified name for the cache parameter group.
@@ -997,6 +1038,7 @@ class ElastiCache {
   /// May throw [CacheSubnetGroupQuotaExceededFault].
   /// May throw [CacheSubnetQuotaExceededFault].
   /// May throw [InvalidSubnet].
+  /// May throw [SubnetNotAllowedFault].
   ///
   /// Parameter [cacheSubnetGroupDescription] :
   /// A description for the cache subnet group.
@@ -1044,12 +1086,13 @@ class ElastiCache {
   /// cross-region read replica clusters for ElastiCache for Redis to enable
   /// low-latency reads and disaster recovery across regions. For more
   /// information, see <a
-  /// href="/AmazonElastiCache/latest/red-ug/Redis-Global-Clusters.html">Replication
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Redis-Global-Datastore.html">Replication
   /// Across Regions Using Global Datastore</a>.
   ///
   /// <ul>
   /// <li>
-  /// The <b>GlobalReplicationGroupId</b> is the name of the Global Datastore.
+  /// The <b>GlobalReplicationGroupIdSuffix</b> is the name of the Global
+  /// Datastore.
   /// </li>
   /// <li>
   /// The <b>PrimaryReplicationGroupId</b> represents the name of the primary
@@ -1065,8 +1108,18 @@ class ElastiCache {
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [globalReplicationGroupIdSuffix] :
-  /// The suffix for name of a Global Datastore. The suffix guarantees
-  /// uniqueness of the Global Datastore name across multiple regions.
+  /// The suffix name of a Global Datastore. Amazon ElastiCache automatically
+  /// applies a prefix to the Global Datastore ID when it is created. Each AWS
+  /// Region has its own prefix. For instance, a Global Datastore ID created in
+  /// the US-West-1 region will begin with "dsdfu" along with the suffix name
+  /// you provide. The suffix, combined with the auto-generated prefix,
+  /// guarantees uniqueness of the Global Datastore name across multiple
+  /// regions.
+  ///
+  /// For a full list of AWS Regions and their respective Global Datastore iD
+  /// prefixes, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Redis-Global-Datastores-CLI.html">Using
+  /// the AWS CLI with Global Datastores </a>.
   ///
   /// Parameter [primaryReplicationGroupId] :
   /// The name of the primary cluster that accepts writes and will replicate
@@ -1122,14 +1175,11 @@ class ElastiCache {
   ///
   /// When a Redis (cluster mode disabled) replication group has been
   /// successfully created, you can add one or more read replicas to it, up to a
-  /// total of 5 read replicas. You cannot alter a Redis (cluster mode enabled)
-  /// replication group after it has been created. However, if you need to
-  /// increase or decrease the number of node groups (console: shards), you can
-  /// avail yourself of ElastiCache for Redis' enhanced backup and restore. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-restoring.html">Restoring
-  /// From a Backup with Cluster Resizing</a> in the <i>ElastiCache User
-  /// Guide</i>.
+  /// total of 5 read replicas. If you need to increase or decrease the number
+  /// of node groups (console: shards), you can avail yourself of ElastiCache
+  /// for Redis' scaling. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Scaling.html">Scaling
+  /// ElastiCache for Redis Clusters</a> in the <i>ElastiCache User Guide</i>.
   /// <note>
   /// This operation is valid for Redis only.
   /// </note>
@@ -1137,6 +1187,8 @@ class ElastiCache {
   /// May throw [CacheClusterNotFoundFault].
   /// May throw [InvalidCacheClusterStateFault].
   /// May throw [ReplicationGroupAlreadyExistsFault].
+  /// May throw [InvalidUserGroupStateFault].
+  /// May throw [UserGroupNotFoundFault].
   /// May throw [InsufficientCacheClusterCapacityFault].
   /// May throw [CacheSecurityGroupNotFoundFault].
   /// May throw [CacheSubnetGroupNotFoundFault].
@@ -1223,28 +1275,10 @@ class ElastiCache {
   /// Specifies whether a read-only replica is automatically promoted to
   /// read/write primary if the existing primary fails.
   ///
-  /// If <code>true</code>, Multi-AZ is enabled for this replication group. If
-  /// <code>false</code>, Multi-AZ is disabled for this replication group.
-  ///
   /// <code>AutomaticFailoverEnabled</code> must be enabled for Redis (cluster
   /// mode enabled) replication groups.
   ///
   /// Default: false
-  ///
-  /// Amazon ElastiCache for Redis does not support Multi-AZ with automatic
-  /// failover on:
-  ///
-  /// <ul>
-  /// <li>
-  /// Redis versions earlier than 2.8.6.
-  /// </li>
-  /// <li>
-  /// Redis (cluster mode disabled): T1 node types.
-  /// </li>
-  /// <li>
-  /// Redis (cluster mode enabled): T1 node types.
-  /// </li>
-  /// </ul>
   ///
   /// Parameter [cacheNodeType] :
   /// The compute and memory capacity of the nodes in the node group (shard).
@@ -1262,6 +1296,18 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
+  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
+  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
+  /// <code>cache.m6g.16xlarge</code>
+  /// <note>
+  /// At this time, M6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and
+  /// ap-northeast-1.
+  /// </note>
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -1308,6 +1354,18 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  /// <note>
+  /// At this time, R6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and
+  /// ap-northeast-1.
+  /// </note>
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -1410,6 +1468,12 @@ class ElastiCache {
   /// Parameter [kmsKeyId] :
   /// The ID of the KMS key used to encrypt the disk in the cluster.
   ///
+  /// Parameter [multiAZEnabled] :
+  /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance.
+  /// For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html">Minimizing
+  /// Downtime: Multi-AZ</a>.
+  ///
   /// Parameter [nodeGroupConfiguration] :
   /// A list of node group (shard) configuration options. Each node group
   /// (shard) configuration has the following members:
@@ -1420,9 +1484,10 @@ class ElastiCache {
   /// If you're creating a Redis (cluster mode disabled) or a Redis (cluster
   /// mode enabled) replication group, you can use this parameter to
   /// individually configure each node group (shard), or you can omit this
-  /// parameter. However, when seeding a Redis (cluster mode enabled) cluster
-  /// from a S3 rdb file, you must configure each node group (shard) using this
-  /// parameter because you must specify the slots for each node group.
+  /// parameter. However, it is required when seeding a Redis (cluster mode
+  /// enabled) cluster from a S3 rdb file. You must configure each node group
+  /// (shard) using this parameter because you must specify the slots for each
+  /// node group.
   ///
   /// Parameter [notificationTopicArn] :
   /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
@@ -1601,6 +1666,9 @@ class ElastiCache {
   /// <code>TransitEncryptionEnabled</code> as <code>true</code>, an
   /// <code>AuthToken</code>, and a <code>CacheSubnetGroup</code>.
   /// </important>
+  ///
+  /// Parameter [userGroupIds] :
+  /// The list of user groups to associate with the replication group.
   Future<CreateReplicationGroupResult> createReplicationGroup({
     @_s.required String replicationGroupDescription,
     @_s.required String replicationGroupId,
@@ -1616,6 +1684,7 @@ class ElastiCache {
     String engineVersion,
     String globalReplicationGroupId,
     String kmsKeyId,
+    bool multiAZEnabled,
     List<NodeGroupConfiguration> nodeGroupConfiguration,
     String notificationTopicArn,
     int numCacheClusters,
@@ -1632,6 +1701,7 @@ class ElastiCache {
     String snapshotWindow,
     List<Tag> tags,
     bool transitEncryptionEnabled,
+    List<String> userGroupIds,
   }) async {
     ArgumentError.checkNotNull(
         replicationGroupDescription, 'replicationGroupDescription');
@@ -1657,6 +1727,7 @@ class ElastiCache {
     globalReplicationGroupId
         ?.also((arg) => $request['GlobalReplicationGroupId'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
+    multiAZEnabled?.also((arg) => $request['MultiAZEnabled'] = arg);
     nodeGroupConfiguration
         ?.also((arg) => $request['NodeGroupConfiguration'] = arg);
     notificationTopicArn?.also((arg) => $request['NotificationTopicArn'] = arg);
@@ -1678,6 +1749,7 @@ class ElastiCache {
     tags?.also((arg) => $request['Tags'] = arg);
     transitEncryptionEnabled
         ?.also((arg) => $request['TransitEncryptionEnabled'] = arg);
+    userGroupIds?.also((arg) => $request['UserGroupIds'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'CreateReplicationGroup',
@@ -1745,6 +1817,151 @@ class ElastiCache {
       resultWrapper: 'CreateSnapshotResult',
     );
     return CreateSnapshotResult.fromXml($result);
+  }
+
+  /// For Redis engine version 6.x onwards: Creates a Redis user. For more
+  /// information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
+  /// Role Based Access Control (RBAC)</a>.
+  ///
+  /// May throw [UserAlreadyExistsFault].
+  /// May throw [UserQuotaExceededFault].
+  /// May throw [DuplicateUserNameFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [accessString] :
+  /// Access permissions string used for this user.
+  ///
+  /// Parameter [engine] :
+  /// The current supported value is Redis.
+  ///
+  /// Parameter [userId] :
+  /// The ID of the user.
+  ///
+  /// Parameter [userName] :
+  /// The username of the user.
+  ///
+  /// Parameter [noPasswordRequired] :
+  /// Indicates a password is not required for this user.
+  ///
+  /// Parameter [passwords] :
+  /// Passwords used for this user. You can create up to two passwords for each
+  /// user.
+  Future<User> createUser({
+    @_s.required String accessString,
+    @_s.required String engine,
+    @_s.required String userId,
+    @_s.required String userName,
+    bool noPasswordRequired,
+    List<String> passwords,
+  }) async {
+    ArgumentError.checkNotNull(accessString, 'accessString');
+    _s.validateStringPattern(
+      'accessString',
+      accessString,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(engine, 'engine');
+    _s.validateStringPattern(
+      'engine',
+      engine,
+      r'''[a-zA-Z]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(userId, 'userId');
+    _s.validateStringLength(
+      'userId',
+      userId,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'userId',
+      userId,
+      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(userName, 'userName');
+    _s.validateStringLength(
+      'userName',
+      userName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final $request = <String, dynamic>{};
+    $request['AccessString'] = accessString;
+    $request['Engine'] = engine;
+    $request['UserId'] = userId;
+    $request['UserName'] = userName;
+    noPasswordRequired?.also((arg) => $request['NoPasswordRequired'] = arg);
+    passwords?.also((arg) => $request['Passwords'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateUser',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateUserMessage'],
+      shapes: shapes,
+      resultWrapper: 'CreateUserResult',
+    );
+    return User.fromXml($result);
+  }
+
+  /// For Redis engine version 6.x onwards: Creates a Redis user group. For more
+  /// information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
+  /// Role Based Access Control (RBAC)</a>
+  ///
+  /// May throw [UserNotFoundFault].
+  /// May throw [DuplicateUserNameFault].
+  /// May throw [UserGroupAlreadyExistsFault].
+  /// May throw [DefaultUserRequired].
+  /// May throw [UserGroupQuotaExceededFault].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [engine] :
+  /// The current supported value is Redis.
+  ///
+  /// Parameter [userGroupId] :
+  /// The ID of the user group.
+  ///
+  /// Parameter [userIds] :
+  /// The list of user IDs that belong to the user group.
+  Future<UserGroup> createUserGroup({
+    @_s.required String engine,
+    @_s.required String userGroupId,
+    List<String> userIds,
+  }) async {
+    ArgumentError.checkNotNull(engine, 'engine');
+    _s.validateStringPattern(
+      'engine',
+      engine,
+      r'''[a-zA-Z]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(userGroupId, 'userGroupId');
+    final $request = <String, dynamic>{};
+    $request['Engine'] = engine;
+    $request['UserGroupId'] = userGroupId;
+    userIds?.also((arg) => $request['UserIds'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateUserGroup',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateUserGroupMessage'],
+      shapes: shapes,
+      resultWrapper: 'CreateUserGroupResult',
+    );
+    return UserGroup.fromXml($result);
   }
 
   /// Decreases the number of node groups in a Global Datastore
@@ -1854,10 +2071,10 @@ class ElastiCache {
   ///
   /// <ul>
   /// <li>
-  /// If Multi-AZ with Automatic Failover is enabled: 1
+  /// If Multi-AZ is enabled: 1
   /// </li>
   /// <li>
-  /// If Multi-AZ with Automatic Failover is not enabled: 0
+  /// If Multi-AZ is not enabled: 0
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -2090,9 +2307,6 @@ class ElastiCache {
   /// When you receive a successful response from this operation, Amazon
   /// ElastiCache immediately begins deleting the selected resources; you cannot
   /// cancel or revert this operation.
-  /// <note>
-  /// This operation is valid for Redis only.
-  /// </note>
   ///
   /// May throw [GlobalReplicationGroupNotFoundFault].
   /// May throw [InvalidGlobalReplicationGroupStateFault].
@@ -2102,8 +2316,8 @@ class ElastiCache {
   /// The name of the Global Datastore
   ///
   /// Parameter [retainPrimaryReplicationGroup] :
-  /// If set to <code>true</code>, the primary replication is retained as a
-  /// standalone replication group.
+  /// The primary replication group is retained as a standalone replication
+  /// group.
   Future<DeleteGlobalReplicationGroupResult> deleteGlobalReplicationGroup({
     @_s.required String globalReplicationGroupId,
     @_s.required bool retainPrimaryReplicationGroup,
@@ -2222,6 +2436,84 @@ class ElastiCache {
     return DeleteSnapshotResult.fromXml($result);
   }
 
+  /// For Redis engine version 6.x onwards: Deletes a user. The user will be
+  /// removed from all user groups and in turn removed from all replication
+  /// groups. For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
+  /// Role Based Access Control (RBAC)</a>.
+  ///
+  /// May throw [InvalidUserStateFault].
+  /// May throw [UserNotFoundFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [DefaultUserAssociatedToUserGroupFault].
+  ///
+  /// Parameter [userId] :
+  /// The ID of the user.
+  Future<User> deleteUser({
+    @_s.required String userId,
+  }) async {
+    ArgumentError.checkNotNull(userId, 'userId');
+    _s.validateStringLength(
+      'userId',
+      userId,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'userId',
+      userId,
+      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
+      isRequired: true,
+    );
+    final $request = <String, dynamic>{};
+    $request['UserId'] = userId;
+    final $result = await _protocol.send(
+      $request,
+      action: 'DeleteUser',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteUserMessage'],
+      shapes: shapes,
+      resultWrapper: 'DeleteUserResult',
+    );
+    return User.fromXml($result);
+  }
+
+  /// For Redis engine version 6.x onwards: Deletes a ser group. The user group
+  /// must first be disassociated from the replcation group before it can be
+  /// deleted. For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html">Using
+  /// Role Based Access Control (RBAC)</a>.
+  ///
+  /// May throw [UserGroupNotFoundFault].
+  /// May throw [InvalidUserGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [userGroupId] :
+  /// The ID of the user group.
+  Future<UserGroup> deleteUserGroup({
+    @_s.required String userGroupId,
+  }) async {
+    ArgumentError.checkNotNull(userGroupId, 'userGroupId');
+    final $request = <String, dynamic>{};
+    $request['UserGroupId'] = userGroupId;
+    final $result = await _protocol.send(
+      $request,
+      action: 'DeleteUserGroup',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteUserGroupMessage'],
+      shapes: shapes,
+      resultWrapper: 'DeleteUserGroupResult',
+    );
+    return UserGroup.fromXml($result);
+  }
+
   /// Returns information about all provisioned clusters if no cluster
   /// identifier is specified, or about a specific cache cluster if a cluster
   /// identifier is supplied.
@@ -2314,8 +2606,9 @@ class ElastiCache {
   /// The name of a specific cache parameter group family to return details for.
   ///
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
-  /// <code>redis2.6</code> | <code>redis2.8</code> | <code>redis3.2</code> |
-  /// <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code>
+  /// | <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>redis6.x</code> |
   ///
   /// Constraints:
   ///
@@ -2601,8 +2894,9 @@ class ElastiCache {
   /// The name of the cache parameter group family.
   ///
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
-  /// <code>redis2.6</code> | <code>redis2.8</code> | <code>redis3.2</code> |
-  /// <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code>
+  /// | <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>redis6.x</code> |
   ///
   /// Parameter [marker] :
   /// An optional marker returned from a prior request. Use this marker for
@@ -2852,6 +3146,18 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
+  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
+  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
+  /// <code>cache.m6g.16xlarge</code>
+  /// <note>
+  /// At this time, M6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and
+  /// ap-northeast-1.
+  /// </note>
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -2898,6 +3204,18 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  /// <note>
+  /// At this time, R6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and
+  /// ap-northeast-1.
+  /// </note>
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -2966,7 +3284,7 @@ class ElastiCache {
   /// available offerings matching the specified offering type.
   ///
   /// Valid values: <code>"Light Utilization"|"Medium Utilization"|"Heavy
-  /// Utilization"</code>
+  /// Utilization"|"All Upfront"|"Partial Upfront"| "No Upfront"</code>
   ///
   /// Parameter [productDescription] :
   /// The product description filter value. Use this parameter to show only
@@ -3036,6 +3354,18 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
+  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
+  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
+  /// <code>cache.m6g.16xlarge</code>
+  /// <note>
+  /// At this time, M6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and
+  /// ap-northeast-1.
+  /// </note>
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -3082,6 +3412,18 @@ class ElastiCache {
   /// <li>
   /// Current generation:
   ///
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6
+  /// onward and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  /// <note>
+  /// At this time, R6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and
+  /// ap-northeast-1.
+  /// </note>
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -3150,7 +3492,7 @@ class ElastiCache {
   /// available offerings matching the specified offering type.
   ///
   /// Valid Values: <code>"Light Utilization"|"Medium Utilization"|"Heavy
-  /// Utilization"</code>
+  /// Utilization" |"All Upfront"|"Partial Upfront"| "No Upfront"</code>
   ///
   /// Parameter [productDescription] :
   /// The product description filter value. Use this parameter to show only the
@@ -3401,6 +3743,114 @@ class ElastiCache {
     return UpdateActionsMessage.fromXml($result);
   }
 
+  /// Returns a list of user groups.
+  ///
+  /// May throw [UserGroupNotFoundFault].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [marker] :
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by MaxRecords. &gt;
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified MaxRecords value, a marker is included in the
+  /// response so that the remaining results can be retrieved.
+  ///
+  /// Parameter [userGroupId] :
+  /// The ID of the user group.
+  Future<DescribeUserGroupsResult> describeUserGroups({
+    String marker,
+    int maxRecords,
+    String userGroupId,
+  }) async {
+    final $request = <String, dynamic>{};
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    userGroupId?.also((arg) => $request['UserGroupId'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeUserGroups',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeUserGroupsMessage'],
+      shapes: shapes,
+      resultWrapper: 'DescribeUserGroupsResult',
+    );
+    return DescribeUserGroupsResult.fromXml($result);
+  }
+
+  /// Returns a list of users.
+  ///
+  /// May throw [UserNotFoundFault].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [engine] :
+  /// The Redis engine.
+  ///
+  /// Parameter [filters] :
+  /// Filter to determine the list of User IDs to return.
+  ///
+  /// Parameter [marker] :
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by MaxRecords. &gt;
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified MaxRecords value, a marker is included in the
+  /// response so that the remaining results can be retrieved.
+  ///
+  /// Parameter [userId] :
+  /// The ID of the user.
+  Future<DescribeUsersResult> describeUsers({
+    String engine,
+    List<Filter> filters,
+    String marker,
+    int maxRecords,
+    String userId,
+  }) async {
+    _s.validateStringPattern(
+      'engine',
+      engine,
+      r'''[a-zA-Z]*''',
+    );
+    _s.validateStringLength(
+      'userId',
+      userId,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringPattern(
+      'userId',
+      userId,
+      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
+    );
+    final $request = <String, dynamic>{};
+    engine?.also((arg) => $request['Engine'] = arg);
+    filters?.also((arg) => $request['Filters'] = arg);
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    userId?.also((arg) => $request['UserId'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeUsers',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeUsersMessage'],
+      shapes: shapes,
+      resultWrapper: 'DescribeUsersResult',
+    );
+    return DescribeUsersResult.fromXml($result);
+  }
+
   /// Remove a secondary cluster from the Global Datastore using the Global
   /// Datastore name. The secondary cluster will no longer receive updates from
   /// the primary cluster, but will remain as a standalone cluster in that AWS
@@ -3450,7 +3900,9 @@ class ElastiCache {
     return DisassociateGlobalReplicationGroupResult.fromXml($result);
   }
 
-  /// Used to failover the primary region to a selected secondary region.
+  /// Used to failover the primary region to a selected secondary region. The
+  /// selected secondary region will become primary, and all other clusters will
+  /// become secondary.
   ///
   /// May throw [GlobalReplicationGroupNotFoundFault].
   /// May throw [InvalidGlobalReplicationGroupStateFault].
@@ -3794,7 +4246,7 @@ class ElastiCache {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html">Authenticating
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html">Authenticating
   /// Users with Redis AUTH</a>
   ///
   /// Parameter [autoMinorVersionUpgrade] :
@@ -4163,6 +4615,7 @@ class ElastiCache {
   /// May throw [CacheSubnetQuotaExceededFault].
   /// May throw [SubnetInUse].
   /// May throw [InvalidSubnet].
+  /// May throw [SubnetNotAllowedFault].
   ///
   /// Parameter [cacheSubnetGroupName] :
   /// The name for the cache subnet group. This value is stored as a lowercase
@@ -4210,12 +4663,10 @@ class ElastiCache {
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [applyImmediately] :
-  /// If true, this parameter causes the modifications in this request and any
-  /// pending modifications to be applied, asynchronously and as soon as
-  /// possible, regardless of the PreferredMaintenanceWindow setting for the
-  /// replication group. If false, changes to the nodes in the replication group
-  /// are applied on the next maintenance reboot, or the next failure reboot,
-  /// whichever occurs first.
+  /// This parameter causes the modifications in this request and any pending
+  /// modifications to be applied, asynchronously and as soon as possible.
+  /// Modifications to Global Replication Groups cannot be requested to be
+  /// applied in PreferredMaintenceWindow.
   ///
   /// Parameter [globalReplicationGroupId] :
   /// The name of the Global Datastore
@@ -4269,10 +4720,6 @@ class ElastiCache {
 
   /// Modifies the settings for a replication group.
   ///
-  /// For Redis (cluster mode enabled) clusters, this operation cannot be used
-  /// to change a cluster's node type or engine version. For more information,
-  /// see:
-  ///
   /// <ul>
   /// <li>
   /// <a
@@ -4291,6 +4738,8 @@ class ElastiCache {
   ///
   /// May throw [ReplicationGroupNotFoundFault].
   /// May throw [InvalidReplicationGroupStateFault].
+  /// May throw [InvalidUserGroupStateFault].
+  /// May throw [UserGroupNotFoundFault].
   /// May throw [InvalidCacheClusterStateFault].
   /// May throw [InvalidCacheSecurityGroupStateFault].
   /// May throw [InsufficientCacheClusterCapacityFault].
@@ -4354,7 +4803,7 @@ class ElastiCache {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html">Authenticating
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html">Authenticating
   /// Users with Redis AUTH</a>
   ///
   /// Parameter [autoMinorVersionUpgrade] :
@@ -4365,21 +4814,6 @@ class ElastiCache {
   /// primary if the existing primary encounters a failure.
   ///
   /// Valid values: <code>true</code> | <code>false</code>
-  ///
-  /// Amazon ElastiCache for Redis does not support Multi-AZ with automatic
-  /// failover on:
-  ///
-  /// <ul>
-  /// <li>
-  /// Redis versions earlier than 2.8.6.
-  /// </li>
-  /// <li>
-  /// Redis (cluster mode disabled): T1 node types.
-  /// </li>
-  /// <li>
-  /// Redis (cluster mode enabled): T1 node types.
-  /// </li>
-  /// </ul>
   ///
   /// Parameter [cacheNodeType] :
   /// A valid cache node type that you want to scale this replication group to.
@@ -4411,6 +4845,12 @@ class ElastiCache {
   /// engine version. If you want to use an earlier engine version, you must
   /// delete the existing replication group and create it anew with the earlier
   /// engine version.
+  ///
+  /// Parameter [multiAZEnabled] :
+  /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance.
+  /// For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html">Minimizing
+  /// Downtime: Multi-AZ</a>.
   ///
   /// Parameter [nodeGroupId] :
   /// Deprecated. This parameter is not used.
@@ -4467,6 +4907,9 @@ class ElastiCache {
   /// replication group to the primary role. The nodes of all other clusters in
   /// the replication group are read replicas.
   ///
+  /// Parameter [removeUserGroups] :
+  /// Removes the user groups that can access this replication group.
+  ///
   /// Parameter [replicationGroupDescription] :
   /// A description for the replication group. Maximum length is 255 characters.
   ///
@@ -4500,6 +4943,13 @@ class ElastiCache {
   /// The cluster ID that is used as the daily snapshot source for the
   /// replication group. This parameter cannot be set for Redis (cluster mode
   /// enabled) replication groups.
+  ///
+  /// Parameter [userGroupIdsToAdd] :
+  /// A list of user group IDs.
+  ///
+  /// Parameter [userGroupIdsToRemove] :
+  /// A list of users groups to remove, meaning the users in the group no longer
+  /// can access thereplication group.
   Future<ModifyReplicationGroupResult> modifyReplicationGroup({
     @_s.required String replicationGroupId,
     bool applyImmediately,
@@ -4511,16 +4961,20 @@ class ElastiCache {
     String cacheParameterGroupName,
     List<String> cacheSecurityGroupNames,
     String engineVersion,
+    bool multiAZEnabled,
     String nodeGroupId,
     String notificationTopicArn,
     String notificationTopicStatus,
     String preferredMaintenanceWindow,
     String primaryClusterId,
+    bool removeUserGroups,
     String replicationGroupDescription,
     List<String> securityGroupIds,
     int snapshotRetentionLimit,
     String snapshotWindow,
     String snapshottingClusterId,
+    List<String> userGroupIdsToAdd,
+    List<String> userGroupIdsToRemove,
   }) async {
     ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{};
@@ -4539,6 +4993,7 @@ class ElastiCache {
     cacheSecurityGroupNames
         ?.also((arg) => $request['CacheSecurityGroupNames'] = arg);
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
+    multiAZEnabled?.also((arg) => $request['MultiAZEnabled'] = arg);
     nodeGroupId?.also((arg) => $request['NodeGroupId'] = arg);
     notificationTopicArn?.also((arg) => $request['NotificationTopicArn'] = arg);
     notificationTopicStatus
@@ -4546,6 +5001,7 @@ class ElastiCache {
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     primaryClusterId?.also((arg) => $request['PrimaryClusterId'] = arg);
+    removeUserGroups?.also((arg) => $request['RemoveUserGroups'] = arg);
     replicationGroupDescription
         ?.also((arg) => $request['ReplicationGroupDescription'] = arg);
     securityGroupIds?.also((arg) => $request['SecurityGroupIds'] = arg);
@@ -4554,6 +5010,8 @@ class ElastiCache {
     snapshotWindow?.also((arg) => $request['SnapshotWindow'] = arg);
     snapshottingClusterId
         ?.also((arg) => $request['SnapshottingClusterId'] = arg);
+    userGroupIdsToAdd?.also((arg) => $request['UserGroupIdsToAdd'] = arg);
+    userGroupIdsToRemove?.also((arg) => $request['UserGroupIdsToRemove'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'ModifyReplicationGroup',
@@ -4660,6 +5118,120 @@ class ElastiCache {
     return ModifyReplicationGroupShardConfigurationResult.fromXml($result);
   }
 
+  /// Changes user password(s) and/or access string.
+  ///
+  /// May throw [UserNotFoundFault].
+  /// May throw [InvalidUserStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [userId] :
+  /// The ID of the user.
+  ///
+  /// Parameter [accessString] :
+  /// Access permissions string used for this user.
+  ///
+  /// Parameter [appendAccessString] :
+  /// Adds additional user permissions to the access string.
+  ///
+  /// Parameter [noPasswordRequired] :
+  /// Indicates no password is required for the user.
+  ///
+  /// Parameter [passwords] :
+  /// The passwords belonging to the user. You are allowed up to two.
+  Future<User> modifyUser({
+    @_s.required String userId,
+    String accessString,
+    String appendAccessString,
+    bool noPasswordRequired,
+    List<String> passwords,
+  }) async {
+    ArgumentError.checkNotNull(userId, 'userId');
+    _s.validateStringLength(
+      'userId',
+      userId,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'userId',
+      userId,
+      r'''[a-zA-Z][a-zA-Z0-9\-]*''',
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'accessString',
+      accessString,
+      r'''.*\S.*''',
+    );
+    _s.validateStringPattern(
+      'appendAccessString',
+      appendAccessString,
+      r'''.*\S.*''',
+    );
+    final $request = <String, dynamic>{};
+    $request['UserId'] = userId;
+    accessString?.also((arg) => $request['AccessString'] = arg);
+    appendAccessString?.also((arg) => $request['AppendAccessString'] = arg);
+    noPasswordRequired?.also((arg) => $request['NoPasswordRequired'] = arg);
+    passwords?.also((arg) => $request['Passwords'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyUser',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyUserMessage'],
+      shapes: shapes,
+      resultWrapper: 'ModifyUserResult',
+    );
+    return User.fromXml($result);
+  }
+
+  /// Changes the list of users that belong to the user group.
+  ///
+  /// May throw [UserGroupNotFoundFault].
+  /// May throw [UserNotFoundFault].
+  /// May throw [DuplicateUserNameFault].
+  /// May throw [DefaultUserRequired].
+  /// May throw [InvalidUserGroupStateFault].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidParameterCombinationException].
+  ///
+  /// Parameter [userGroupId] :
+  /// The ID of the user group.
+  ///
+  /// Parameter [userIdsToAdd] :
+  /// The list of user IDs to add to the user group.
+  ///
+  /// Parameter [userIdsToRemove] :
+  /// The list of user IDs to remove from the user group.
+  Future<UserGroup> modifyUserGroup({
+    @_s.required String userGroupId,
+    List<String> userIdsToAdd,
+    List<String> userIdsToRemove,
+  }) async {
+    ArgumentError.checkNotNull(userGroupId, 'userGroupId');
+    final $request = <String, dynamic>{};
+    $request['UserGroupId'] = userGroupId;
+    userIdsToAdd?.also((arg) => $request['UserIdsToAdd'] = arg);
+    userIdsToRemove?.also((arg) => $request['UserIdsToRemove'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyUserGroup',
+      version: '2015-02-02',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyUserGroupMessage'],
+      shapes: shapes,
+      resultWrapper: 'ModifyUserGroupResult',
+    );
+    return UserGroup.fromXml($result);
+  }
+
   /// Allows you to purchase a reserved cache node offering.
   ///
   /// May throw [ReservedCacheNodesOfferingNotFoundFault].
@@ -4712,7 +5284,7 @@ class ElastiCache {
     return PurchaseReservedCacheNodesOfferingResult.fromXml($result);
   }
 
-  /// Redistribute slots to ensure unifirom distribution across existing shards
+  /// Redistribute slots to ensure uniform distribution across existing shards
   /// in the cluster.
   ///
   /// May throw [GlobalReplicationGroupNotFoundFault].
@@ -5020,11 +5592,11 @@ class ElastiCache {
   /// &lt;node-group-id&gt;</code>
   /// </li>
   /// <li>
-  /// Cache cluster message: <code>Failover from master node
+  /// Cache cluster message: <code>Failover from primary node
   /// &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed</code>
   /// </li>
   /// <li>
-  /// Replication group message: <code>Failover from master node
+  /// Replication group message: <code>Failover from primary node
   /// &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed</code>
   /// </li>
   /// <li>
@@ -5051,7 +5623,7 @@ class ElastiCache {
   /// </ul>
   /// Also see, <a
   /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html#auto-failover-test">Testing
-  /// Multi-AZ with Automatic Failover</a> in the <i>ElastiCache User Guide</i>.
+  /// Multi-AZ </a> in the <i>ElastiCache User Guide</i>.
   ///
   /// May throw [APICallRateForCustomerExceededFault].
   /// May throw [InvalidCacheClusterStateFault].
@@ -5198,6 +5770,8 @@ enum AuthTokenUpdateStrategyType {
   set,
   @_s.JsonValue('ROTATE')
   rotate,
+  @_s.JsonValue('DELETE')
+  delete,
 }
 
 extension on AuthTokenUpdateStrategyType {
@@ -5207,6 +5781,8 @@ extension on AuthTokenUpdateStrategyType {
         return 'SET';
       case AuthTokenUpdateStrategyType.rotate:
         return 'ROTATE';
+      case AuthTokenUpdateStrategyType.delete:
+        return 'DELETE';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -5219,6 +5795,47 @@ extension on String {
         return AuthTokenUpdateStrategyType.set;
       case 'ROTATE':
         return AuthTokenUpdateStrategyType.rotate;
+      case 'DELETE':
+        return AuthTokenUpdateStrategyType.delete;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Indicates whether the user requires a password to authenticate.
+class Authentication {
+  /// The number of passwords belonging to the user. The maximum is two.
+  final int passwordCount;
+
+  /// Indicates whether the user requires a password to authenticate.
+  final AuthenticationType type;
+
+  Authentication({
+    this.passwordCount,
+    this.type,
+  });
+  factory Authentication.fromXml(_s.XmlElement elem) {
+    return Authentication(
+      passwordCount: _s.extractXmlIntValue(elem, 'PasswordCount'),
+      type: _s.extractXmlStringValue(elem, 'Type')?.toAuthenticationType(),
+    );
+  }
+}
+
+enum AuthenticationType {
+  @_s.JsonValue('password')
+  password,
+  @_s.JsonValue('no-password')
+  noPassword,
+}
+
+extension on String {
+  AuthenticationType toAuthenticationType() {
+    switch (this) {
+      case 'password':
+        return AuthenticationType.password;
+      case 'no-password':
+        return AuthenticationType.noPassword;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -5283,6 +5900,9 @@ class AvailabilityZone {
 
 /// Contains all of the attributes of a specific cluster.
 class CacheCluster {
+  /// The ARN (Amazon Resource Name) of the cache cluster.
+  final String arn;
+
   /// A flag that enables encryption at-rest when set to <code>true</code>.
   ///
   /// You cannot modify the value of <code>AtRestEncryptionEnabled</code> after
@@ -5338,6 +5958,17 @@ class CacheCluster {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
+  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
+  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
+  /// <code>cache.m6g.16xlarge</code>
+  /// <note>
+  /// At this time, M6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.
+  /// </note>
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -5384,6 +6015,17 @@ class CacheCluster {
   /// <li>
   /// Current generation:
   ///
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  /// <note>
+  /// At this time, R6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.
+  /// </note>
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -5506,6 +6148,9 @@ class CacheCluster {
   /// Example: <code>sun:23:00-mon:01:30</code>
   final String preferredMaintenanceWindow;
 
+  /// The outpost ARN in which the cache cluster is created.
+  final String preferredOutpostArn;
+
   /// The replication group to which this cluster belongs. If this field is empty,
   /// the cluster is not associated with any replication group.
   final String replicationGroupId;
@@ -5544,6 +6189,7 @@ class CacheCluster {
   final bool transitEncryptionEnabled;
 
   CacheCluster({
+    this.arn,
     this.atRestEncryptionEnabled,
     this.authTokenEnabled,
     this.authTokenLastModifiedDate,
@@ -5565,6 +6211,7 @@ class CacheCluster {
     this.pendingModifiedValues,
     this.preferredAvailabilityZone,
     this.preferredMaintenanceWindow,
+    this.preferredOutpostArn,
     this.replicationGroupId,
     this.securityGroups,
     this.snapshotRetentionLimit,
@@ -5573,6 +6220,7 @@ class CacheCluster {
   });
   factory CacheCluster.fromXml(_s.XmlElement elem) {
     return CacheCluster(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
       atRestEncryptionEnabled:
           _s.extractXmlBoolValue(elem, 'AtRestEncryptionEnabled'),
       authTokenEnabled: _s.extractXmlBoolValue(elem, 'AuthTokenEnabled'),
@@ -5617,6 +6265,8 @@ class CacheCluster {
           _s.extractXmlStringValue(elem, 'PreferredAvailabilityZone'),
       preferredMaintenanceWindow:
           _s.extractXmlStringValue(elem, 'PreferredMaintenanceWindow'),
+      preferredOutpostArn:
+          _s.extractXmlStringValue(elem, 'PreferredOutpostArn'),
       replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
       securityGroups: _s.extractXmlChild(elem, 'SecurityGroups')?.let((elem) =>
           elem
@@ -5669,8 +6319,9 @@ class CacheEngineVersion {
   /// engine.
   ///
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
-  /// <code>redis2.6</code> | <code>redis2.8</code> | <code>redis3.2</code> |
-  /// <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
+  /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>redis6.x</code> |
   final String cacheParameterGroupFamily;
 
   /// The name of the cache engine.
@@ -5742,6 +6393,17 @@ class CacheEngineVersionMessage {
 /// <li>
 /// Current generation:
 ///
+/// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
+/// and for Memcached engine version 1.5.16 onward).
+///
+/// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
+/// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
+/// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
+/// <code>cache.m6g.16xlarge</code>
+/// <note>
+/// At this time, M6g node types are available in the following regions:
+/// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.
+/// </note>
 /// <b>M5 node types:</b> <code>cache.m5.large</code>,
 /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
 /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -5788,6 +6450,17 @@ class CacheEngineVersionMessage {
 /// <li>
 /// Current generation:
 ///
+/// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
+/// and for Memcached engine version 1.5.16 onward).
+///
+/// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+/// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+/// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+/// <code>cache.r6g.16xlarge</code>
+/// <note>
+/// At this time, R6g node types are available in the following regions:
+/// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.
+/// </note>
 /// <b>R5 node types:</b> <code>cache.r5.large</code>,
 /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
 /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -5845,6 +6518,9 @@ class CacheNode {
   /// The Availability Zone where this node was created and now resides.
   final String customerAvailabilityZone;
 
+  /// The customer outpost ARN of the cache node.
+  final String customerOutpostArn;
+
   /// The hostname for connecting to this cache node.
   final Endpoint endpoint;
 
@@ -5860,6 +6536,7 @@ class CacheNode {
     this.cacheNodeId,
     this.cacheNodeStatus,
     this.customerAvailabilityZone,
+    this.customerOutpostArn,
     this.endpoint,
     this.parameterGroupStatus,
     this.sourceCacheNodeId,
@@ -5872,6 +6549,7 @@ class CacheNode {
       cacheNodeStatus: _s.extractXmlStringValue(elem, 'CacheNodeStatus'),
       customerAvailabilityZone:
           _s.extractXmlStringValue(elem, 'CustomerAvailabilityZone'),
+      customerOutpostArn: _s.extractXmlStringValue(elem, 'CustomerOutpostArn'),
       endpoint:
           _s.extractXmlChild(elem, 'Endpoint')?.let((e) => Endpoint.fromXml(e)),
       parameterGroupStatus:
@@ -6033,12 +6711,16 @@ class CacheNodeUpdateStatus {
 
 /// Represents the output of a <code>CreateCacheParameterGroup</code> operation.
 class CacheParameterGroup {
+  /// The ARN (Amazon Resource Name) of the cache parameter group.
+  final String arn;
+
   /// The name of the cache parameter group family that this cache parameter group
   /// is compatible with.
   ///
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
-  /// <code>redis2.6</code> | <code>redis2.8</code> | <code>redis3.2</code> |
-  /// <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
+  /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>redis6.x</code> |
   final String cacheParameterGroupFamily;
 
   /// The name of the cache parameter group.
@@ -6051,6 +6733,7 @@ class CacheParameterGroup {
   final bool isGlobal;
 
   CacheParameterGroup({
+    this.arn,
     this.cacheParameterGroupFamily,
     this.cacheParameterGroupName,
     this.description,
@@ -6058,6 +6741,7 @@ class CacheParameterGroup {
   });
   factory CacheParameterGroup.fromXml(_s.XmlElement elem) {
     return CacheParameterGroup(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
       cacheParameterGroupFamily:
           _s.extractXmlStringValue(elem, 'CacheParameterGroupFamily'),
       cacheParameterGroupName:
@@ -6198,6 +6882,9 @@ class CacheParameterGroupsMessage {
 /// </li>
 /// </ul>
 class CacheSecurityGroup {
+  /// The ARN of the cache security group,
+  final String arn;
+
   /// The name of the cache security group.
   final String cacheSecurityGroupName;
 
@@ -6212,6 +6899,7 @@ class CacheSecurityGroup {
   final String ownerId;
 
   CacheSecurityGroup({
+    this.arn,
     this.cacheSecurityGroupName,
     this.description,
     this.eC2SecurityGroups,
@@ -6219,6 +6907,7 @@ class CacheSecurityGroup {
   });
   factory CacheSecurityGroup.fromXml(_s.XmlElement elem) {
     return CacheSecurityGroup(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
       cacheSecurityGroupName:
           _s.extractXmlStringValue(elem, 'CacheSecurityGroupName'),
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -6292,6 +6981,9 @@ class CacheSecurityGroupMessage {
 /// </li>
 /// </ul>
 class CacheSubnetGroup {
+  /// The ARN (Amazon Resource Name) of the cache subnet group.
+  final String arn;
+
   /// The description of the cache subnet group.
   final String cacheSubnetGroupDescription;
 
@@ -6306,6 +6998,7 @@ class CacheSubnetGroup {
   final String vpcId;
 
   CacheSubnetGroup({
+    this.arn,
     this.cacheSubnetGroupDescription,
     this.cacheSubnetGroupName,
     this.subnets,
@@ -6313,6 +7006,7 @@ class CacheSubnetGroup {
   });
   factory CacheSubnetGroup.fromXml(_s.XmlElement elem) {
     return CacheSubnetGroup(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
       cacheSubnetGroupDescription:
           _s.extractXmlStringValue(elem, 'CacheSubnetGroupDescription'),
       cacheSubnetGroupName:
@@ -6405,10 +7099,10 @@ class ConfigureShard {
   ///
   /// <ul>
   /// <li>
-  /// If Multi-AZ with Automatic Failover is enabled: 1
+  /// If Multi-AZ: 1
   /// </li>
   /// <li>
-  /// If Multi-AZ with Automatic Failover is not enable: 0
+  /// If Multi-AZ: 0
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -6436,10 +7130,15 @@ class ConfigureShard {
   @_s.JsonKey(name: 'PreferredAvailabilityZones')
   final List<String> preferredAvailabilityZones;
 
+  /// The outpost ARNs in which the cache cluster is created.
+  @_s.JsonKey(name: 'PreferredOutpostArns')
+  final List<String> preferredOutpostArns;
+
   ConfigureShard({
     @_s.required this.newReplicaCount,
     @_s.required this.nodeGroupId,
     this.preferredAvailabilityZones,
+    this.preferredOutpostArns,
   });
   Map<String, dynamic> toJson() => _$ConfigureShardToJson(this);
 }
@@ -6743,6 +7442,54 @@ class DescribeSnapshotsListMessage {
   }
 }
 
+class DescribeUserGroupsResult {
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by MaxRecords. &gt;
+  final String marker;
+
+  /// Returns a list of user groups.
+  final List<UserGroup> userGroups;
+
+  DescribeUserGroupsResult({
+    this.marker,
+    this.userGroups,
+  });
+  factory DescribeUserGroupsResult.fromXml(_s.XmlElement elem) {
+    return DescribeUserGroupsResult(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      userGroups: _s.extractXmlChild(elem, 'UserGroups')?.let((elem) => elem
+          .findElements('member')
+          .map((c) => UserGroup.fromXml(c))
+          .toList()),
+    );
+  }
+}
+
+class DescribeUsersResult {
+  /// An optional marker returned from a prior request. Use this marker for
+  /// pagination of results from this operation. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by MaxRecords. &gt;
+  final String marker;
+
+  /// A list of users.
+  final List<User> users;
+
+  DescribeUsersResult({
+    this.marker,
+    this.users,
+  });
+  factory DescribeUsersResult.fromXml(_s.XmlElement elem) {
+    return DescribeUsersResult(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      users: _s.extractXmlChild(elem, 'Users')?.let((elem) =>
+          elem.findElements('member').map((c) => User.fromXml(c)).toList()),
+    );
+  }
+}
+
 class DisassociateGlobalReplicationGroupResult {
   final GlobalReplicationGroup globalReplicationGroup;
 
@@ -6817,8 +7564,9 @@ class EngineDefaults {
   /// default parameters apply.
   ///
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
-  /// <code>redis2.6</code> | <code>redis2.8</code> | <code>redis3.2</code> |
-  /// <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
+  /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
+  /// <code>redis6.x</code> |
   final String cacheParameterGroupFamily;
 
   /// Provides an identifier to allow retrieval of paginated results.
@@ -6924,6 +7672,28 @@ class FailoverGlobalReplicationGroupResult {
   }
 }
 
+/// Used to streamline results of a search based on the property being filtered.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class Filter {
+  /// The property being filtered. For example, UserId.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The property values to filter on. For example, "user-123".
+  @_s.JsonKey(name: 'Values')
+  final List<String> values;
+
+  Filter({
+    @_s.required this.name,
+    @_s.required this.values,
+  });
+  Map<String, dynamic> toJson() => _$FilterToJson(this);
+}
+
 /// Indicates the slot configuration and global identifier for a slice group.
 class GlobalNodeGroup {
   /// The name of the global node group
@@ -6951,11 +7721,14 @@ class GlobalNodeGroup {
 ///
 /// <ul>
 /// <li>
-/// The <b>GlobalReplicationGroupId</b> represents the name of the Global
+/// The <b>GlobalReplicationGroupIdSuffix</b> represents the name of the Global
 /// Datastore, which is what you use to associate a secondary cluster.
 /// </li>
 /// </ul>
 class GlobalReplicationGroup {
+  /// The ARN (Amazon Resource Name) of the global replication group.
+  final String arn;
+
   /// A flag that enables encryption at rest when set to <code>true</code>.
   ///
   /// You cannot modify the value of <code>AtRestEncryptionEnabled</code> after
@@ -6980,11 +7753,10 @@ class GlobalReplicationGroup {
   /// A flag that indicates whether the Global Datastore is cluster enabled.
   final bool clusterEnabled;
 
-  /// The Elasticache engine. For preview, it is Redis only.
+  /// The Elasticache engine. For Redis only.
   final String engine;
 
-  /// The Elasticache Redis engine version. For preview, it is Redis version 5.0.5
-  /// only.
+  /// The Elasticache Redis engine version.
   final String engineVersion;
 
   /// Indicates the slot configuration and global identifier for each slice group.
@@ -7009,6 +7781,7 @@ class GlobalReplicationGroup {
   final bool transitEncryptionEnabled;
 
   GlobalReplicationGroup({
+    this.arn,
     this.atRestEncryptionEnabled,
     this.authTokenEnabled,
     this.cacheNodeType,
@@ -7024,6 +7797,7 @@ class GlobalReplicationGroup {
   });
   factory GlobalReplicationGroup.fromXml(_s.XmlElement elem) {
     return GlobalReplicationGroup(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
       atRestEncryptionEnabled:
           _s.extractXmlBoolValue(elem, 'AtRestEncryptionEnabled'),
       authTokenEnabled: _s.extractXmlBoolValue(elem, 'AuthTokenEnabled'),
@@ -7221,6 +7995,25 @@ class ModifyReplicationGroupShardConfigurationResult {
   }
 }
 
+enum MultiAZStatus {
+  @_s.JsonValue('enabled')
+  enabled,
+  @_s.JsonValue('disabled')
+  disabled,
+}
+
+extension on String {
+  MultiAZStatus toMultiAZStatus() {
+    switch (this) {
+      case 'enabled':
+        return MultiAZStatus.enabled;
+      case 'disabled':
+        return MultiAZStatus.disabled;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents a collection of cache nodes in a replication group. One node in
 /// the node group is the read/write primary node. All the other nodes are
 /// read-only Replica nodes.
@@ -7246,7 +8039,7 @@ class NodeGroup {
   final String slots;
 
   /// The current state of this replication group - <code>creating</code>,
-  /// <code>available</code>, etc.
+  /// <code>available</code>, <code>modifying</code>, <code>deleting</code>.
   final String status;
 
   NodeGroup({
@@ -7297,6 +8090,10 @@ class NodeGroupConfiguration {
   @_s.JsonKey(name: 'PrimaryAvailabilityZone')
   final String primaryAvailabilityZone;
 
+  /// The outpost ARN of the primary node.
+  @_s.JsonKey(name: 'PrimaryOutpostArn')
+  final String primaryOutpostArn;
+
   /// A list of Availability Zones to be used for the read replicas. The number of
   /// Availability Zones in this list must match the value of
   /// <code>ReplicaCount</code> or <code>ReplicasPerNodeGroup</code> if not
@@ -7307,6 +8104,10 @@ class NodeGroupConfiguration {
   /// The number of read replica nodes in this node group (shard).
   @_s.JsonKey(name: 'ReplicaCount')
   final int replicaCount;
+
+  /// The outpost ARN of the node replicas.
+  @_s.JsonKey(name: 'ReplicaOutpostArns')
+  final List<String> replicaOutpostArns;
 
   /// A string that specifies the keyspace for a particular node group. Keyspaces
   /// range from 0 to 16,383. The string is in the format
@@ -7319,8 +8120,10 @@ class NodeGroupConfiguration {
   NodeGroupConfiguration({
     this.nodeGroupId,
     this.primaryAvailabilityZone,
+    this.primaryOutpostArn,
     this.replicaAvailabilityZones,
     this.replicaCount,
+    this.replicaOutpostArns,
     this.slots,
   });
   factory NodeGroupConfiguration.fromXml(_s.XmlElement elem) {
@@ -7328,11 +8131,15 @@ class NodeGroupConfiguration {
       nodeGroupId: _s.extractXmlStringValue(elem, 'NodeGroupId'),
       primaryAvailabilityZone:
           _s.extractXmlStringValue(elem, 'PrimaryAvailabilityZone'),
+      primaryOutpostArn: _s.extractXmlStringValue(elem, 'PrimaryOutpostArn'),
       replicaAvailabilityZones: _s
           .extractXmlChild(elem, 'ReplicaAvailabilityZones')
           ?.let((elem) =>
               _s.extractXmlStringListValues(elem, 'AvailabilityZone')),
       replicaCount: _s.extractXmlIntValue(elem, 'ReplicaCount'),
+      replicaOutpostArns: _s
+          .extractXmlChild(elem, 'ReplicaOutpostArns')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'OutpostArn')),
       slots: _s.extractXmlStringValue(elem, 'Slots'),
     );
   }
@@ -7357,6 +8164,9 @@ class NodeGroupMember {
   /// The name of the Availability Zone in which the node is located.
   final String preferredAvailabilityZone;
 
+  /// The outpost ARN of the node group member.
+  final String preferredOutpostArn;
+
   /// The information required for client programs to connect to a node for read
   /// operations. The read endpoint is only applicable on Redis (cluster mode
   /// disabled) clusters.
@@ -7367,6 +8177,7 @@ class NodeGroupMember {
     this.cacheNodeId,
     this.currentRole,
     this.preferredAvailabilityZone,
+    this.preferredOutpostArn,
     this.readEndpoint,
   });
   factory NodeGroupMember.fromXml(_s.XmlElement elem) {
@@ -7376,6 +8187,8 @@ class NodeGroupMember {
       currentRole: _s.extractXmlStringValue(elem, 'CurrentRole'),
       preferredAvailabilityZone:
           _s.extractXmlStringValue(elem, 'PreferredAvailabilityZone'),
+      preferredOutpostArn:
+          _s.extractXmlStringValue(elem, 'PreferredOutpostArn'),
       readEndpoint: _s
           .extractXmlChild(elem, 'ReadEndpoint')
           ?.let((e) => Endpoint.fromXml(e)),
@@ -7594,6 +8407,37 @@ class NotificationConfiguration {
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
       topicStatus: _s.extractXmlStringValue(elem, 'TopicStatus'),
     );
+  }
+}
+
+enum OutpostMode {
+  @_s.JsonValue('single-outpost')
+  singleOutpost,
+  @_s.JsonValue('cross-outpost')
+  crossOutpost,
+}
+
+extension on OutpostMode {
+  String toValue() {
+    switch (this) {
+      case OutpostMode.singleOutpost:
+        return 'single-outpost';
+      case OutpostMode.crossOutpost:
+        return 'cross-outpost';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  OutpostMode toOutpostMode() {
+    switch (this) {
+      case 'single-outpost':
+        return OutpostMode.singleOutpost;
+      case 'cross-outpost':
+        return OutpostMode.crossOutpost;
+    }
+    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7878,6 +8722,9 @@ class RegionalConfiguration {
 
 /// Contains all of the attributes of a specific Redis replication group.
 class ReplicationGroup {
+  /// The ARN (Amazon Resource Name) of the replication group.
+  final String arn;
+
   /// A flag that enables encryption at-rest when set to <code>true</code>.
   ///
   /// You cannot modify the value of <code>AtRestEncryptionEnabled</code> after
@@ -7901,23 +8748,7 @@ class ReplicationGroup {
   /// The date the auth token was last modified
   final DateTime authTokenLastModifiedDate;
 
-  /// Indicates the status of Multi-AZ with automatic failover for this Redis
-  /// replication group.
-  ///
-  /// Amazon ElastiCache for Redis does not support Multi-AZ with automatic
-  /// failover on:
-  ///
-  /// <ul>
-  /// <li>
-  /// Redis versions earlier than 2.8.6.
-  /// </li>
-  /// <li>
-  /// Redis (cluster mode disabled): T1 node types.
-  /// </li>
-  /// <li>
-  /// Redis (cluster mode enabled): T1 node types.
-  /// </li>
-  /// </ul>
+  /// Indicates the status of automatic failover for this Redis replication group.
   final AutomaticFailoverStatus automaticFailover;
 
   /// The name of the compute and memory capacity node type for each node in the
@@ -7947,6 +8778,15 @@ class ReplicationGroup {
 
   /// The names of all the cache clusters that are part of this replication group.
   final List<String> memberClusters;
+
+  /// The outpost ARNs of the replication group's member clusters.
+  final List<String> memberClustersOutpostArns;
+
+  /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance.
+  /// For more information, see <a
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html">Minimizing
+  /// Downtime: Multi-AZ</a>
+  final MultiAZStatus multiAZ;
 
   /// A list of node groups in this replication group. For Redis (cluster mode
   /// disabled) replication groups, this is a single-element list. For Redis
@@ -8007,7 +8847,11 @@ class ReplicationGroup {
   /// Default: <code>false</code>
   final bool transitEncryptionEnabled;
 
+  /// The list of user group IDs that have access to the replication group.
+  final List<String> userGroupIds;
+
   ReplicationGroup({
+    this.arn,
     this.atRestEncryptionEnabled,
     this.authTokenEnabled,
     this.authTokenLastModifiedDate,
@@ -8019,6 +8863,8 @@ class ReplicationGroup {
     this.globalReplicationGroupInfo,
     this.kmsKeyId,
     this.memberClusters,
+    this.memberClustersOutpostArns,
+    this.multiAZ,
     this.nodeGroups,
     this.pendingModifiedValues,
     this.replicationGroupId,
@@ -8027,9 +8873,11 @@ class ReplicationGroup {
     this.snapshottingClusterId,
     this.status,
     this.transitEncryptionEnabled,
+    this.userGroupIds,
   });
   factory ReplicationGroup.fromXml(_s.XmlElement elem) {
     return ReplicationGroup(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
       atRestEncryptionEnabled:
           _s.extractXmlBoolValue(elem, 'AtRestEncryptionEnabled'),
       authTokenEnabled: _s.extractXmlBoolValue(elem, 'AuthTokenEnabled'),
@@ -8051,6 +8899,11 @@ class ReplicationGroup {
       memberClusters: _s
           .extractXmlChild(elem, 'MemberClusters')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'ClusterId')),
+      memberClustersOutpostArns: _s
+          .extractXmlChild(elem, 'MemberClustersOutpostArns')
+          ?.let((elem) => _s.extractXmlStringListValues(
+              elem, 'ReplicationGroupOutpostArn')),
+      multiAZ: _s.extractXmlStringValue(elem, 'MultiAZ')?.toMultiAZStatus(),
       nodeGroups: _s.extractXmlChild(elem, 'NodeGroups')?.let((elem) => elem
           .findElements('NodeGroup')
           .map((c) => NodeGroup.fromXml(c))
@@ -8067,6 +8920,9 @@ class ReplicationGroup {
       status: _s.extractXmlStringValue(elem, 'Status'),
       transitEncryptionEnabled:
           _s.extractXmlBoolValue(elem, 'TransitEncryptionEnabled'),
+      userGroupIds: _s
+          .extractXmlChild(elem, 'UserGroupIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -8102,23 +8958,7 @@ class ReplicationGroupPendingModifiedValues {
   /// The auth token status
   final AuthTokenUpdateStatus authTokenStatus;
 
-  /// Indicates the status of Multi-AZ with automatic failover for this Redis
-  /// replication group.
-  ///
-  /// Amazon ElastiCache for Redis does not support Multi-AZ with automatic
-  /// failover on:
-  ///
-  /// <ul>
-  /// <li>
-  /// Redis versions earlier than 2.8.6.
-  /// </li>
-  /// <li>
-  /// Redis (cluster mode disabled): T1 node types.
-  /// </li>
-  /// <li>
-  /// Redis (cluster mode enabled): T1 node types.
-  /// </li>
-  /// </ul>
+  /// Indicates the status of automatic failover for this Redis replication group.
   final PendingAutomaticFailoverStatus automaticFailoverStatus;
 
   /// The primary cluster ID that is applied immediately (if
@@ -8129,11 +8969,15 @@ class ReplicationGroupPendingModifiedValues {
   /// The status of an online resharding operation.
   final ReshardingStatus resharding;
 
+  /// The user groups being modified.
+  final UserGroupsUpdateStatus userGroups;
+
   ReplicationGroupPendingModifiedValues({
     this.authTokenStatus,
     this.automaticFailoverStatus,
     this.primaryClusterId,
     this.resharding,
+    this.userGroups,
   });
   factory ReplicationGroupPendingModifiedValues.fromXml(_s.XmlElement elem) {
     return ReplicationGroupPendingModifiedValues(
@@ -8147,6 +8991,9 @@ class ReplicationGroupPendingModifiedValues {
       resharding: _s
           .extractXmlChild(elem, 'Resharding')
           ?.let((e) => ReshardingStatus.fromXml(e)),
+      userGroups: _s
+          .extractXmlChild(elem, 'UserGroups')
+          ?.let((e) => UserGroupsUpdateStatus.fromXml(e)),
     );
   }
 }
@@ -8172,6 +9019,17 @@ class ReservedCacheNode {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
+  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
+  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
+  /// <code>cache.m6g.16xlarge</code>
+  /// <note>
+  /// At this time, M6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.
+  /// </note>
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -8218,6 +9076,17 @@ class ReservedCacheNode {
   /// <li>
   /// Current generation:
   ///
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  /// <note>
+  /// At this time, R6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.
+  /// </note>
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -8379,6 +9248,17 @@ class ReservedCacheNodesOffering {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
+  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
+  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
+  /// <code>cache.m6g.16xlarge</code>
+  /// <note>
+  /// At this time, M6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.
+  /// </note>
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -8425,6 +9305,17 @@ class ReservedCacheNodesOffering {
   /// <li>
   /// Current generation:
   ///
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  /// <note>
+  /// At this time, R6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.
+  /// </note>
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -8856,26 +9747,14 @@ class SlotMigration {
 /// Represents a copy of an entire Redis cluster as of the time when the
 /// snapshot was taken.
 class Snapshot {
+  /// The ARN (Amazon Resource Name) of the snapshot.
+  final String arn;
+
   /// This parameter is currently disabled.
   final bool autoMinorVersionUpgrade;
 
-  /// Indicates the status of Multi-AZ with automatic failover for the source
-  /// Redis replication group.
-  ///
-  /// Amazon ElastiCache for Redis does not support Multi-AZ with automatic
-  /// failover on:
-  ///
-  /// <ul>
-  /// <li>
-  /// Redis versions earlier than 2.8.6.
-  /// </li>
-  /// <li>
-  /// Redis (cluster mode disabled): T1 node types.
-  /// </li>
-  /// <li>
-  /// Redis (cluster mode enabled): T1 node types.
-  /// </li>
-  /// </ul>
+  /// Indicates the status of automatic failover for the source Redis replication
+  /// group.
   final AutomaticFailoverStatus automaticFailover;
 
   /// The date and time when the source cluster was created.
@@ -8900,6 +9779,17 @@ class Snapshot {
   /// <li>
   /// Current generation:
   ///
+  /// <b>M6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.m6g.large</code>, <code>cache.m6g.xlarge</code>,
+  /// <code>cache.m6g.2xlarge</code>, <code>cache.m6g.4xlarge</code>,
+  /// <code>cache.m6g.8xlarge</code>, <code>cache.m6g.12xlarge</code>,
+  /// <code>cache.m6g.16xlarge</code>
+  /// <note>
+  /// At this time, M6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.
+  /// </note>
   /// <b>M5 node types:</b> <code>cache.m5.large</code>,
   /// <code>cache.m5.xlarge</code>, <code>cache.m5.2xlarge</code>,
   /// <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
@@ -8946,6 +9836,17 @@ class Snapshot {
   /// <li>
   /// Current generation:
   ///
+  /// <b>R6g node types</b> (available only for Redis engine version 5.0.6 onward
+  /// and for Memcached engine version 1.5.16 onward).
+  ///
+  /// <code>cache.r6g.large</code>, <code>cache.r6g.xlarge</code>,
+  /// <code>cache.r6g.2xlarge</code>, <code>cache.r6g.4xlarge</code>,
+  /// <code>cache.r6g.8xlarge</code>, <code>cache.r6g.12xlarge</code>,
+  /// <code>cache.r6g.16xlarge</code>
+  /// <note>
+  /// At this time, R6g node types are available in the following regions:
+  /// us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.
+  /// </note>
   /// <b>R5 node types:</b> <code>cache.r5.large</code>,
   /// <code>cache.r5.xlarge</code>, <code>cache.r5.2xlarge</code>,
   /// <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
@@ -9056,6 +9957,9 @@ class Snapshot {
   /// Example: <code>sun:23:00-mon:01:30</code>
   final String preferredMaintenanceWindow;
 
+  /// The ARN (Amazon Resource Name) of the preferred outpost.
+  final String preferredOutpostArn;
+
   /// A description of the source replication group.
   final String replicationGroupDescription;
 
@@ -9101,6 +10005,7 @@ class Snapshot {
   final String vpcId;
 
   Snapshot({
+    this.arn,
     this.autoMinorVersionUpgrade,
     this.automaticFailover,
     this.cacheClusterCreateTime,
@@ -9117,6 +10022,7 @@ class Snapshot {
     this.port,
     this.preferredAvailabilityZone,
     this.preferredMaintenanceWindow,
+    this.preferredOutpostArn,
     this.replicationGroupDescription,
     this.replicationGroupId,
     this.snapshotName,
@@ -9129,6 +10035,7 @@ class Snapshot {
   });
   factory Snapshot.fromXml(_s.XmlElement elem) {
     return Snapshot(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
       autoMinorVersionUpgrade:
           _s.extractXmlBoolValue(elem, 'AutoMinorVersionUpgrade'),
       automaticFailover: _s
@@ -9157,6 +10064,8 @@ class Snapshot {
           _s.extractXmlStringValue(elem, 'PreferredAvailabilityZone'),
       preferredMaintenanceWindow:
           _s.extractXmlStringValue(elem, 'PreferredMaintenanceWindow'),
+      preferredOutpostArn:
+          _s.extractXmlStringValue(elem, 'PreferredOutpostArn'),
       replicationGroupDescription:
           _s.extractXmlStringValue(elem, 'ReplicationGroupDescription'),
       replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
@@ -9183,6 +10092,10 @@ enum SourceType {
   cacheSubnetGroup,
   @_s.JsonValue('replication-group')
   replicationGroup,
+  @_s.JsonValue('user')
+  user,
+  @_s.JsonValue('user-group')
+  userGroup,
 }
 
 extension on SourceType {
@@ -9198,6 +10111,10 @@ extension on SourceType {
         return 'cache-subnet-group';
       case SourceType.replicationGroup:
         return 'replication-group';
+      case SourceType.user:
+        return 'user';
+      case SourceType.userGroup:
+        return 'user-group';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -9216,6 +10133,10 @@ extension on String {
         return SourceType.cacheSubnetGroup;
       case 'replication-group':
         return SourceType.replicationGroup;
+      case 'user':
+        return SourceType.user;
+      case 'user-group':
+        return SourceType.userGroup;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -9246,9 +10167,13 @@ class Subnet {
   /// The unique identifier for the subnet.
   final String subnetIdentifier;
 
+  /// The outpost ARN of the subnet.
+  final SubnetOutpost subnetOutpost;
+
   Subnet({
     this.subnetAvailabilityZone,
     this.subnetIdentifier,
+    this.subnetOutpost,
   });
   factory Subnet.fromXml(_s.XmlElement elem) {
     return Subnet(
@@ -9256,6 +10181,24 @@ class Subnet {
           .extractXmlChild(elem, 'SubnetAvailabilityZone')
           ?.let((e) => AvailabilityZone.fromXml(e)),
       subnetIdentifier: _s.extractXmlStringValue(elem, 'SubnetIdentifier'),
+      subnetOutpost: _s
+          .extractXmlChild(elem, 'SubnetOutpost')
+          ?.let((e) => SubnetOutpost.fromXml(e)),
+    );
+  }
+}
+
+/// The ID of the outpost subnet.
+class SubnetOutpost {
+  /// The outpost ARN of the subnet.
+  final String subnetOutpostArn;
+
+  SubnetOutpost({
+    this.subnetOutpostArn,
+  });
+  factory SubnetOutpost.fromXml(_s.XmlElement elem) {
+    return SubnetOutpost(
+      subnetOutpostArn: _s.extractXmlStringValue(elem, 'SubnetOutpostArn'),
     );
   }
 }
@@ -9552,6 +10495,12 @@ enum UpdateActionStatus {
   stopped,
   @_s.JsonValue('complete')
   complete,
+  @_s.JsonValue('scheduling')
+  scheduling,
+  @_s.JsonValue('scheduled')
+  scheduled,
+  @_s.JsonValue('not-applicable')
+  notApplicable,
 }
 
 extension on UpdateActionStatus {
@@ -9569,6 +10518,12 @@ extension on UpdateActionStatus {
         return 'stopped';
       case UpdateActionStatus.complete:
         return 'complete';
+      case UpdateActionStatus.scheduling:
+        return 'scheduling';
+      case UpdateActionStatus.scheduled:
+        return 'scheduled';
+      case UpdateActionStatus.notApplicable:
+        return 'not-applicable';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -9589,6 +10544,12 @@ extension on String {
         return UpdateActionStatus.stopped;
       case 'complete':
         return UpdateActionStatus.complete;
+      case 'scheduling':
+        return UpdateActionStatus.scheduling;
+      case 'scheduled':
+        return UpdateActionStatus.scheduled;
+      case 'not-applicable':
+        return UpdateActionStatus.notApplicable;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -9616,6 +10577,158 @@ class UpdateActionsMessage {
               .findElements('UpdateAction')
               .map((c) => UpdateAction.fromXml(c))
               .toList()),
+    );
+  }
+}
+
+class User {
+  /// The Amazon Resource Name (ARN) of the user.
+  final String arn;
+
+  /// Access permissions string used for this user.
+  final String accessString;
+
+  /// Denotes whether the user requires a password to authenticate.
+  final Authentication authentication;
+
+  /// The current supported value is Redis.
+  final String engine;
+
+  /// Indicates the user status. Can be "active", "modifying" or "deleting".
+  final String status;
+
+  /// Returns a list of the user group IDs the user belongs to.
+  final List<String> userGroupIds;
+
+  /// The ID of the user.
+  final String userId;
+
+  /// The username of the user.
+  final String userName;
+
+  User({
+    this.arn,
+    this.accessString,
+    this.authentication,
+    this.engine,
+    this.status,
+    this.userGroupIds,
+    this.userId,
+    this.userName,
+  });
+  factory User.fromXml(_s.XmlElement elem) {
+    return User(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
+      accessString: _s.extractXmlStringValue(elem, 'AccessString'),
+      authentication: _s
+          .extractXmlChild(elem, 'Authentication')
+          ?.let((e) => Authentication.fromXml(e)),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      userGroupIds: _s
+          .extractXmlChild(elem, 'UserGroupIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      userId: _s.extractXmlStringValue(elem, 'UserId'),
+      userName: _s.extractXmlStringValue(elem, 'UserName'),
+    );
+  }
+}
+
+class UserGroup {
+  /// The Amazon Resource Name (ARN) of the user group.
+  final String arn;
+
+  /// The current supported value is Redis.
+  final String engine;
+
+  /// A list of updates being applied to the user groups.
+  final UserGroupPendingChanges pendingChanges;
+
+  /// A list of replication groups that the user group can access.
+  final List<String> replicationGroups;
+
+  /// Indicates user group status. Can be "creating", "active", "modifying",
+  /// "deleting".
+  final String status;
+
+  /// The ID of the user group.
+  final String userGroupId;
+
+  /// The list of user IDs that belong to the user group.
+  final List<String> userIds;
+
+  UserGroup({
+    this.arn,
+    this.engine,
+    this.pendingChanges,
+    this.replicationGroups,
+    this.status,
+    this.userGroupId,
+    this.userIds,
+  });
+  factory UserGroup.fromXml(_s.XmlElement elem) {
+    return UserGroup(
+      arn: _s.extractXmlStringValue(elem, 'ARN'),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      pendingChanges: _s
+          .extractXmlChild(elem, 'PendingChanges')
+          ?.let((e) => UserGroupPendingChanges.fromXml(e)),
+      replicationGroups: _s
+          .extractXmlChild(elem, 'ReplicationGroups')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      userGroupId: _s.extractXmlStringValue(elem, 'UserGroupId'),
+      userIds: _s
+          .extractXmlChild(elem, 'UserIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+}
+
+/// Returns the updates being applied to the user group.
+class UserGroupPendingChanges {
+  /// The list of user IDs to add.
+  final List<String> userIdsToAdd;
+
+  /// The list of user IDs to remove.
+  final List<String> userIdsToRemove;
+
+  UserGroupPendingChanges({
+    this.userIdsToAdd,
+    this.userIdsToRemove,
+  });
+  factory UserGroupPendingChanges.fromXml(_s.XmlElement elem) {
+    return UserGroupPendingChanges(
+      userIdsToAdd: _s
+          .extractXmlChild(elem, 'UserIdsToAdd')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      userIdsToRemove: _s
+          .extractXmlChild(elem, 'UserIdsToRemove')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+}
+
+/// The status of the user group update.
+class UserGroupsUpdateStatus {
+  /// The list of user group IDs to add.
+  final List<String> userGroupIdsToAdd;
+
+  /// The list of user group IDs to remove.
+  final List<String> userGroupIdsToRemove;
+
+  UserGroupsUpdateStatus({
+    this.userGroupIdsToAdd,
+    this.userGroupIdsToRemove,
+  });
+  factory UserGroupsUpdateStatus.fromXml(_s.XmlElement elem) {
+    return UserGroupsUpdateStatus(
+      userGroupIdsToAdd: _s
+          .extractXmlChild(elem, 'UserGroupIdsToAdd')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      userGroupIdsToRemove: _s
+          .extractXmlChild(elem, 'UserGroupIdsToRemove')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 }
@@ -9747,6 +10860,24 @@ class ClusterQuotaForCustomerExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+class DefaultUserAssociatedToUserGroupFault extends _s.GenericAwsException {
+  DefaultUserAssociatedToUserGroupFault({String type, String message})
+      : super(
+            type: type,
+            code: 'DefaultUserAssociatedToUserGroupFault',
+            message: message);
+}
+
+class DefaultUserRequired extends _s.GenericAwsException {
+  DefaultUserRequired({String type, String message})
+      : super(type: type, code: 'DefaultUserRequired', message: message);
+}
+
+class DuplicateUserNameFault extends _s.GenericAwsException {
+  DuplicateUserNameFault({String type, String message})
+      : super(type: type, code: 'DuplicateUserNameFault', message: message);
+}
+
 class GlobalReplicationGroupAlreadyExistsFault extends _s.GenericAwsException {
   GlobalReplicationGroupAlreadyExistsFault({String type, String message})
       : super(
@@ -9845,6 +10976,16 @@ class InvalidSnapshotStateFault extends _s.GenericAwsException {
 class InvalidSubnet extends _s.GenericAwsException {
   InvalidSubnet({String type, String message})
       : super(type: type, code: 'InvalidSubnet', message: message);
+}
+
+class InvalidUserGroupStateFault extends _s.GenericAwsException {
+  InvalidUserGroupStateFault({String type, String message})
+      : super(type: type, code: 'InvalidUserGroupStateFault', message: message);
+}
+
+class InvalidUserStateFault extends _s.GenericAwsException {
+  InvalidUserStateFault({String type, String message})
+      : super(type: type, code: 'InvalidUserStateFault', message: message);
 }
 
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
@@ -9994,6 +11135,11 @@ class SubnetInUse extends _s.GenericAwsException {
       : super(type: type, code: 'SubnetInUse', message: message);
 }
 
+class SubnetNotAllowedFault extends _s.GenericAwsException {
+  SubnetNotAllowedFault({String type, String message})
+      : super(type: type, code: 'SubnetNotAllowedFault', message: message);
+}
+
 class TagNotFoundFault extends _s.GenericAwsException {
   TagNotFoundFault({String type, String message})
       : super(type: type, code: 'TagNotFoundFault', message: message);
@@ -10011,6 +11157,38 @@ class TestFailoverNotAvailableFault extends _s.GenericAwsException {
             type: type,
             code: 'TestFailoverNotAvailableFault',
             message: message);
+}
+
+class UserAlreadyExistsFault extends _s.GenericAwsException {
+  UserAlreadyExistsFault({String type, String message})
+      : super(type: type, code: 'UserAlreadyExistsFault', message: message);
+}
+
+class UserGroupAlreadyExistsFault extends _s.GenericAwsException {
+  UserGroupAlreadyExistsFault({String type, String message})
+      : super(
+            type: type, code: 'UserGroupAlreadyExistsFault', message: message);
+}
+
+class UserGroupNotFoundFault extends _s.GenericAwsException {
+  UserGroupNotFoundFault({String type, String message})
+      : super(type: type, code: 'UserGroupNotFoundFault', message: message);
+}
+
+class UserGroupQuotaExceededFault extends _s.GenericAwsException {
+  UserGroupQuotaExceededFault({String type, String message})
+      : super(
+            type: type, code: 'UserGroupQuotaExceededFault', message: message);
+}
+
+class UserNotFoundFault extends _s.GenericAwsException {
+  UserNotFoundFault({String type, String message})
+      : super(type: type, code: 'UserNotFoundFault', message: message);
+}
+
+class UserQuotaExceededFault extends _s.GenericAwsException {
+  UserQuotaExceededFault({String type, String message})
+      : super(type: type, code: 'UserQuotaExceededFault', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
@@ -10048,6 +11226,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CacheSubnetQuotaExceededFault(type: type, message: message),
   'ClusterQuotaForCustomerExceededFault': (type, message) =>
       ClusterQuotaForCustomerExceededFault(type: type, message: message),
+  'DefaultUserAssociatedToUserGroupFault': (type, message) =>
+      DefaultUserAssociatedToUserGroupFault(type: type, message: message),
+  'DefaultUserRequired': (type, message) =>
+      DefaultUserRequired(type: type, message: message),
+  'DuplicateUserNameFault': (type, message) =>
+      DuplicateUserNameFault(type: type, message: message),
   'GlobalReplicationGroupAlreadyExistsFault': (type, message) =>
       GlobalReplicationGroupAlreadyExistsFault(type: type, message: message),
   'GlobalReplicationGroupNotFoundFault': (type, message) =>
@@ -10076,6 +11260,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidSnapshotStateFault(type: type, message: message),
   'InvalidSubnet': (type, message) =>
       InvalidSubnet(type: type, message: message),
+  'InvalidUserGroupStateFault': (type, message) =>
+      InvalidUserGroupStateFault(type: type, message: message),
+  'InvalidUserStateFault': (type, message) =>
+      InvalidUserStateFault(type: type, message: message),
   'InvalidVPCNetworkStateFault': (type, message) =>
       InvalidVPCNetworkStateFault(type: type, message: message),
   'NoOperationFault': (type, message) =>
@@ -10118,10 +11306,24 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'SnapshotQuotaExceededFault': (type, message) =>
       SnapshotQuotaExceededFault(type: type, message: message),
   'SubnetInUse': (type, message) => SubnetInUse(type: type, message: message),
+  'SubnetNotAllowedFault': (type, message) =>
+      SubnetNotAllowedFault(type: type, message: message),
   'TagNotFoundFault': (type, message) =>
       TagNotFoundFault(type: type, message: message),
   'TagQuotaPerResourceExceeded': (type, message) =>
       TagQuotaPerResourceExceeded(type: type, message: message),
   'TestFailoverNotAvailableFault': (type, message) =>
       TestFailoverNotAvailableFault(type: type, message: message),
+  'UserAlreadyExistsFault': (type, message) =>
+      UserAlreadyExistsFault(type: type, message: message),
+  'UserGroupAlreadyExistsFault': (type, message) =>
+      UserGroupAlreadyExistsFault(type: type, message: message),
+  'UserGroupNotFoundFault': (type, message) =>
+      UserGroupNotFoundFault(type: type, message: message),
+  'UserGroupQuotaExceededFault': (type, message) =>
+      UserGroupQuotaExceededFault(type: type, message: message),
+  'UserNotFoundFault': (type, message) =>
+      UserNotFoundFault(type: type, message: message),
+  'UserQuotaExceededFault': (type, message) =>
+      UserQuotaExceededFault(type: type, message: message),
 };

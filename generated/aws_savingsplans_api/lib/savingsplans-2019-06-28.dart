@@ -68,6 +68,10 @@ class SavingsPlans {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
   ///
+  /// Parameter [purchaseTime] :
+  /// The time at which to purchase the Savings Plan, in UTC format
+  /// (YYYY-MM-DDTHH:MM:SSZ).
+  ///
   /// Parameter [tags] :
   /// One or more tags.
   ///
@@ -79,6 +83,7 @@ class SavingsPlans {
     @_s.required String commitment,
     @_s.required String savingsPlanOfferingId,
     String clientToken,
+    DateTime purchaseTime,
     Map<String, String> tags,
     String upfrontPaymentAmount,
   }) async {
@@ -88,6 +93,8 @@ class SavingsPlans {
       'commitment': commitment,
       'savingsPlanOfferingId': savingsPlanOfferingId,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (purchaseTime != null)
+        'purchaseTime': unixTimestampToJson(purchaseTime),
       if (tags != null) 'tags': tags,
       if (upfrontPaymentAmount != null)
         'upfrontPaymentAmount': upfrontPaymentAmount,
@@ -99,6 +106,31 @@ class SavingsPlans {
       exceptionFnMap: _exceptionFns,
     );
     return CreateSavingsPlanResponse.fromJson(response);
+  }
+
+  /// Deletes the queued purchase for the specified Savings Plan.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [savingsPlanId] :
+  /// The ID of the Savings Plan.
+  Future<void> deleteQueuedSavingsPlan({
+    @_s.required String savingsPlanId,
+  }) async {
+    ArgumentError.checkNotNull(savingsPlanId, 'savingsPlanId');
+    final $payload = <String, dynamic>{
+      'savingsPlanId': savingsPlanId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/DeleteQueuedSavingsPlan',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteQueuedSavingsPlanResponse.fromJson(response);
   }
 
   /// Describes the specified Savings Plans rates.
@@ -559,6 +591,17 @@ extension on CurrencyCode {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteQueuedSavingsPlanResponse {
+  DeleteQueuedSavingsPlanResponse();
+  factory DeleteQueuedSavingsPlanResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteQueuedSavingsPlanResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1305,6 +1348,10 @@ enum SavingsPlanState {
   active,
   @_s.JsonValue('retired')
   retired,
+  @_s.JsonValue('queued')
+  queued,
+  @_s.JsonValue('queued-deleted')
+  queuedDeleted,
 }
 
 extension on SavingsPlanState {
@@ -1318,6 +1365,10 @@ extension on SavingsPlanState {
         return 'active';
       case SavingsPlanState.retired:
         return 'retired';
+      case SavingsPlanState.queued:
+        return 'queued';
+      case SavingsPlanState.queuedDeleted:
+        return 'queued-deleted';
     }
     throw Exception('Unknown enum value: $this');
   }

@@ -167,6 +167,10 @@ class Firehose {
   /// Parameter [extendedS3DestinationConfiguration] :
   /// The destination in Amazon S3. You can specify only one destination.
   ///
+  /// Parameter [httpEndpointDestinationConfiguration] :
+  /// Enables configuring Kinesis Firehose to deliver data to any HTTP endpoint
+  /// destination. You can specify only one destination.
+  ///
   /// Parameter [kinesisStreamSourceConfiguration] :
   /// When a Kinesis data stream is used as the source for the delivery stream,
   /// a <a>KinesisStreamSourceConfiguration</a> containing the Kinesis data
@@ -200,6 +204,7 @@ class Firehose {
     DeliveryStreamType deliveryStreamType,
     ElasticsearchDestinationConfiguration elasticsearchDestinationConfiguration,
     ExtendedS3DestinationConfiguration extendedS3DestinationConfiguration,
+    HttpEndpointDestinationConfiguration httpEndpointDestinationConfiguration,
     KinesisStreamSourceConfiguration kinesisStreamSourceConfiguration,
     RedshiftDestinationConfiguration redshiftDestinationConfiguration,
     S3DestinationConfiguration s3DestinationConfiguration,
@@ -243,6 +248,9 @@ class Firehose {
         if (extendedS3DestinationConfiguration != null)
           'ExtendedS3DestinationConfiguration':
               extendedS3DestinationConfiguration,
+        if (httpEndpointDestinationConfiguration != null)
+          'HttpEndpointDestinationConfiguration':
+              httpEndpointDestinationConfiguration,
         if (kinesisStreamSourceConfiguration != null)
           'KinesisStreamSourceConfiguration': kinesisStreamSourceConfiguration,
         if (redshiftDestinationConfiguration != null)
@@ -377,6 +385,11 @@ class Firehose {
       exclusiveStartDestinationId,
       1,
       100,
+    );
+    _s.validateStringPattern(
+      'exclusiveStartDestinationId',
+      exclusiveStartDestinationId,
+      r'''[a-zA-Z0-9-]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -530,6 +543,11 @@ class Firehose {
       1,
       128,
     );
+    _s.validateStringPattern(
+      'exclusiveStartTagKey',
+      exclusiveStartTagKey,
+      r'''^(?!aws:)[\p{L}\p{Z}\p{N}_.:\/=+\-@%]*$''',
+    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -656,13 +674,9 @@ class Firehose {
   /// <a>PutRecord</a>. Applications using these operations are referred to as
   /// producers.
   ///
-  /// By default, each delivery stream can take in up to 2,000 transactions per
-  /// second, 5,000 records per second, or 5 MB per second. If you use
-  /// <a>PutRecord</a> and <a>PutRecordBatch</a>, the limits are an aggregate
-  /// across these two operations for each delivery stream. For more information
-  /// about limits, see <a
+  /// For information about service quota, see <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
-  /// Kinesis Data Firehose Limits</a>.
+  /// Kinesis Data Firehose Quota</a>.
   ///
   /// Each <a>PutRecordBatch</a> request supports up to 500 records. Each record
   /// in the request can be as large as 1,000 KB (before 64-bit encoding), up to
@@ -793,9 +807,12 @@ class Firehose {
   ///
   /// Even if encryption is currently enabled for a delivery stream, you can
   /// still invoke this operation on it to change the ARN of the CMK or both its
-  /// type and ARN. In this case, Kinesis Data Firehose schedules the grant it
-  /// had on the old CMK for retirement and creates a grant that enables it to
-  /// use the new CMK to encrypt and decrypt data and to manage the grant.
+  /// type and ARN. If you invoke this method to change the CMK, and the old CMK
+  /// is of type <code>CUSTOMER_MANAGED_CMK</code>, Kinesis Data Firehose
+  /// schedules the grant it had on the old CMK for retirement. If the new CMK
+  /// is of type <code>CUSTOMER_MANAGED_CMK</code>, Kinesis Data Firehose
+  /// creates a grant that enables it to use the new CMK to encrypt and decrypt
+  /// data and to manage the grant.
   ///
   /// If a delivery stream already has encryption enabled and then you invoke
   /// this operation to change the ARN of the CMK or both its type and ARN and
@@ -804,10 +821,13 @@ class Firehose {
   /// old CMK.
   ///
   /// If the encryption status of your delivery stream is
-  /// <code>ENABLING_FAILED</code>, you can invoke this operation again.
+  /// <code>ENABLING_FAILED</code>, you can invoke this operation again with a
+  /// valid CMK. The CMK must be enabled and the key policy mustn't explicitly
+  /// deny the permission for Kinesis Data Firehose to invoke KMS encrypt and
+  /// decrypt operations.
   ///
-  /// You can only enable SSE for a delivery stream that uses
-  /// <code>DirectPut</code> as its source.
+  /// You can enable SSE for a delivery stream only if it's a delivery stream
+  /// that uses <code>DirectPut</code> as its source.
   ///
   /// The <code>StartDeliveryStreamEncryption</code> and
   /// <code>StopDeliveryStreamEncryption</code> operations have a combined limit
@@ -1120,6 +1140,9 @@ class Firehose {
   /// Parameter [extendedS3DestinationUpdate] :
   /// Describes an update for a destination in Amazon S3.
   ///
+  /// Parameter [httpEndpointDestinationUpdate] :
+  /// Describes an update to the specified HTTP endpoint destination.
+  ///
   /// Parameter [redshiftDestinationUpdate] :
   /// Describes an update for a destination in Amazon Redshift.
   ///
@@ -1134,6 +1157,7 @@ class Firehose {
     @_s.required String destinationId,
     ElasticsearchDestinationUpdate elasticsearchDestinationUpdate,
     ExtendedS3DestinationUpdate extendedS3DestinationUpdate,
+    HttpEndpointDestinationUpdate httpEndpointDestinationUpdate,
     RedshiftDestinationUpdate redshiftDestinationUpdate,
     S3DestinationUpdate s3DestinationUpdate,
     SplunkDestinationUpdate splunkDestinationUpdate,
@@ -1175,6 +1199,12 @@ class Firehose {
       100,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'destinationId',
+      destinationId,
+      r'''[a-zA-Z0-9-]+''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.UpdateDestination'
@@ -1193,6 +1223,8 @@ class Firehose {
           'ElasticsearchDestinationUpdate': elasticsearchDestinationUpdate,
         if (extendedS3DestinationUpdate != null)
           'ExtendedS3DestinationUpdate': extendedS3DestinationUpdate,
+        if (httpEndpointDestinationUpdate != null)
+          'HttpEndpointDestinationUpdate': httpEndpointDestinationUpdate,
         if (redshiftDestinationUpdate != null)
           'RedshiftDestinationUpdate': redshiftDestinationUpdate,
         if (s3DestinationUpdate != null)
@@ -1288,6 +1320,15 @@ enum CompressionFormat {
   zip,
   @_s.JsonValue('Snappy')
   snappy,
+  @_s.JsonValue('HADOOP_SNAPPY')
+  hadoopSnappy,
+}
+
+enum ContentEncoding {
+  @_s.JsonValue('NONE')
+  none,
+  @_s.JsonValue('GZIP')
+  gzip,
 }
 
 /// Describes a <code>COPY</code> command for Amazon Redshift.
@@ -1381,17 +1422,20 @@ class DataFormatConversionConfiguration {
   final bool enabled;
 
   /// Specifies the deserializer that you want Kinesis Data Firehose to use to
-  /// convert the format of your data from JSON.
+  /// convert the format of your data from JSON. This parameter is required if
+  /// <code>Enabled</code> is set to true.
   @_s.JsonKey(name: 'InputFormatConfiguration')
   final InputFormatConfiguration inputFormatConfiguration;
 
   /// Specifies the serializer that you want Kinesis Data Firehose to use to
-  /// convert the format of your data to the Parquet or ORC format.
+  /// convert the format of your data to the Parquet or ORC format. This parameter
+  /// is required if <code>Enabled</code> is set to true.
   @_s.JsonKey(name: 'OutputFormatConfiguration')
   final OutputFormatConfiguration outputFormatConfiguration;
 
   /// Specifies the AWS Glue Data Catalog table that contains the column
-  /// information.
+  /// information. This parameter is required if <code>Enabled</code> is set to
+  /// true.
   @_s.JsonKey(name: 'SchemaConfiguration')
   final SchemaConfiguration schemaConfiguration;
 
@@ -1575,8 +1619,8 @@ class DeliveryStreamEncryptionConfiguration {
       _$DeliveryStreamEncryptionConfigurationFromJson(json);
 }
 
-/// Used to specify the type and Amazon Resource Name (ARN) of the CMK needed
-/// for Server-Side Encryption (SSE).
+/// Specifies the type and Amazon Resource Name (ARN) of the CMK to use for
+/// Server-Side Encryption (SSE).
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1597,9 +1641,21 @@ class DeliveryStreamEncryptionConfigurationInput {
   /// Firehose manages that grant.
   ///
   /// When you invoke <a>StartDeliveryStreamEncryption</a> to change the CMK for a
-  /// delivery stream that is already encrypted with a customer managed CMK,
-  /// Kinesis Data Firehose schedules the grant it had on the old CMK for
-  /// retirement.
+  /// delivery stream that is encrypted with a customer managed CMK, Kinesis Data
+  /// Firehose schedules the grant it had on the old CMK for retirement.
+  ///
+  /// You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 delivery
+  /// streams. If a <a>CreateDeliveryStream</a> or
+  /// <a>StartDeliveryStreamEncryption</a> operation exceeds this limit, Kinesis
+  /// Data Firehose throws a <code>LimitExceededException</code>.
+  /// <important>
+  /// To encrypt your delivery stream, use symmetric CMKs. Kinesis Data Firehose
+  /// doesn't support asymmetric CMKs. For information about symmetric and
+  /// asymmetric CMKs, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html">About
+  /// Symmetric and Asymmetric CMKs</a> in the AWS Key Management Service
+  /// developer guide.
+  /// </important>
   @_s.JsonKey(name: 'KeyType')
   final KeyType keyType;
 
@@ -1648,6 +1704,20 @@ enum DeliveryStreamFailureType {
   kmsKeyNotFound,
   @_s.JsonValue('KMS_OPT_IN_REQUIRED')
   kmsOptInRequired,
+  @_s.JsonValue('CREATE_ENI_FAILED')
+  createEniFailed,
+  @_s.JsonValue('DELETE_ENI_FAILED')
+  deleteEniFailed,
+  @_s.JsonValue('SUBNET_NOT_FOUND')
+  subnetNotFound,
+  @_s.JsonValue('SECURITY_GROUP_NOT_FOUND')
+  securityGroupNotFound,
+  @_s.JsonValue('ENI_ACCESS_DENIED')
+  eniAccessDenied,
+  @_s.JsonValue('SUBNET_ACCESS_DENIED')
+  subnetAccessDenied,
+  @_s.JsonValue('SECURITY_GROUP_ACCESS_DENIED')
+  securityGroupAccessDenied,
   @_s.JsonValue('UNKNOWN_ERROR')
   unknownError,
 }
@@ -1759,6 +1829,10 @@ class DestinationDescription {
   @_s.JsonKey(name: 'ExtendedS3DestinationDescription')
   final ExtendedS3DestinationDescription extendedS3DestinationDescription;
 
+  /// Describes the specified HTTP endpoint destination.
+  @_s.JsonKey(name: 'HttpEndpointDestinationDescription')
+  final HttpEndpointDestinationDescription httpEndpointDestinationDescription;
+
   /// The destination in Amazon Redshift.
   @_s.JsonKey(name: 'RedshiftDestinationDescription')
   final RedshiftDestinationDescription redshiftDestinationDescription;
@@ -1775,6 +1849,7 @@ class DestinationDescription {
     @_s.required this.destinationId,
     this.elasticsearchDestinationDescription,
     this.extendedS3DestinationDescription,
+    this.httpEndpointDestinationDescription,
     this.redshiftDestinationDescription,
     this.s3DestinationDescription,
     this.splunkDestinationDescription,
@@ -1896,6 +1971,8 @@ class ElasticsearchDestinationConfiguration {
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-s3-backup">Amazon
   /// S3 Backup for the Amazon ES Destination</a>. Default value is
   /// <code>FailedDocumentsOnly</code>.
+  ///
+  /// You can't change this backup mode after you create the delivery stream.
   @_s.JsonKey(name: 'S3BackupMode')
   final ElasticsearchS3BackupMode s3BackupMode;
 
@@ -1907,6 +1984,10 @@ class ElasticsearchDestinationConfiguration {
   /// For Elasticsearch 7.x, don't specify a <code>TypeName</code>.
   @_s.JsonKey(name: 'TypeName')
   final String typeName;
+
+  /// The details of the VPC of the Amazon ES destination.
+  @_s.JsonKey(name: 'VpcConfiguration')
+  final VpcConfiguration vpcConfiguration;
 
   ElasticsearchDestinationConfiguration({
     @_s.required this.indexName,
@@ -1921,6 +2002,7 @@ class ElasticsearchDestinationConfiguration {
     this.retryOptions,
     this.s3BackupMode,
     this.typeName,
+    this.vpcConfiguration,
   });
   Map<String, dynamic> toJson() =>
       _$ElasticsearchDestinationConfigurationToJson(this);
@@ -1992,6 +2074,10 @@ class ElasticsearchDestinationDescription {
   @_s.JsonKey(name: 'TypeName')
   final String typeName;
 
+  /// The details of the VPC of the Amazon ES destination.
+  @_s.JsonKey(name: 'VpcConfigurationDescription')
+  final VpcConfigurationDescription vpcConfigurationDescription;
+
   ElasticsearchDestinationDescription({
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
@@ -2005,6 +2091,7 @@ class ElasticsearchDestinationDescription {
     this.s3BackupMode,
     this.s3DestinationDescription,
     this.typeName,
+    this.vpcConfigurationDescription,
   });
   factory ElasticsearchDestinationDescription.fromJson(
           Map<String, dynamic> json) =>
@@ -2245,7 +2332,9 @@ class ExtendedS3DestinationConfiguration {
   @_s.JsonKey(name: 'S3BackupConfiguration')
   final S3DestinationConfiguration s3BackupConfiguration;
 
-  /// The Amazon S3 backup mode.
+  /// The Amazon S3 backup mode. After you create a delivery stream, you can
+  /// update it to enable Amazon S3 backup if it is disabled. If backup is
+  /// enabled, you can't update the delivery stream to disable it.
   @_s.JsonKey(name: 'S3BackupMode')
   final S3BackupMode s3BackupMode;
 
@@ -2418,7 +2507,9 @@ class ExtendedS3DestinationUpdate {
   @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
-  /// Enables or disables Amazon S3 backup mode.
+  /// You can update a delivery stream to enable Amazon S3 backup if it is
+  /// disabled. If backup is enabled, you can't update the delivery stream to
+  /// disable it.
   @_s.JsonKey(name: 'S3BackupMode')
   final S3BackupMode s3BackupMode;
 
@@ -2508,8 +2599,387 @@ class HiveJsonSerDe {
   Map<String, dynamic> toJson() => _$HiveJsonSerDeToJson(this);
 }
 
+/// Describes the buffering options that can be applied before data is delivered
+/// to the HTTP endpoint destination. Kinesis Data Firehose treats these options
+/// as hints, and it might choose to use more optimal values. The
+/// <code>SizeInMBs</code> and <code>IntervalInSeconds</code> parameters are
+/// optional. However, if specify a value for one of them, you must also provide
+/// a value for the other.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class HttpEndpointBufferingHints {
+  /// Buffer incoming data for the specified period of time, in seconds, before
+  /// delivering it to the destination. The default value is 300 (5 minutes).
+  @_s.JsonKey(name: 'IntervalInSeconds')
+  final int intervalInSeconds;
+
+  /// Buffer incoming data to the specified size, in MBs, before delivering it to
+  /// the destination. The default value is 5.
+  ///
+  /// We recommend setting this parameter to a value greater than the amount of
+  /// data you typically ingest into the delivery stream in 10 seconds. For
+  /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
+  /// or higher.
+  @_s.JsonKey(name: 'SizeInMBs')
+  final int sizeInMBs;
+
+  HttpEndpointBufferingHints({
+    this.intervalInSeconds,
+    this.sizeInMBs,
+  });
+  factory HttpEndpointBufferingHints.fromJson(Map<String, dynamic> json) =>
+      _$HttpEndpointBufferingHintsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$HttpEndpointBufferingHintsToJson(this);
+}
+
+/// Describes the metadata that's delivered to the specified HTTP endpoint
+/// destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class HttpEndpointCommonAttribute {
+  /// The name of the HTTP endpoint common attribute.
+  @_s.JsonKey(name: 'AttributeName')
+  final String attributeName;
+
+  /// The value of the HTTP endpoint common attribute.
+  @_s.JsonKey(name: 'AttributeValue')
+  final String attributeValue;
+
+  HttpEndpointCommonAttribute({
+    @_s.required this.attributeName,
+    @_s.required this.attributeValue,
+  });
+  factory HttpEndpointCommonAttribute.fromJson(Map<String, dynamic> json) =>
+      _$HttpEndpointCommonAttributeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$HttpEndpointCommonAttributeToJson(this);
+}
+
+/// Describes the configuration of the HTTP endpoint to which Kinesis Firehose
+/// delivers data.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class HttpEndpointConfiguration {
+  /// The URL of the HTTP endpoint selected as the destination.
+  @_s.JsonKey(name: 'Url')
+  final String url;
+
+  /// The access key required for Kinesis Firehose to authenticate with the HTTP
+  /// endpoint selected as the destination.
+  @_s.JsonKey(name: 'AccessKey')
+  final String accessKey;
+
+  /// The name of the HTTP endpoint selected as the destination.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  HttpEndpointConfiguration({
+    @_s.required this.url,
+    this.accessKey,
+    this.name,
+  });
+  Map<String, dynamic> toJson() => _$HttpEndpointConfigurationToJson(this);
+}
+
+/// Describes the HTTP endpoint selected as the destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class HttpEndpointDescription {
+  /// The name of the HTTP endpoint selected as the destination.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The URL of the HTTP endpoint selected as the destination.
+  @_s.JsonKey(name: 'Url')
+  final String url;
+
+  HttpEndpointDescription({
+    this.name,
+    this.url,
+  });
+  factory HttpEndpointDescription.fromJson(Map<String, dynamic> json) =>
+      _$HttpEndpointDescriptionFromJson(json);
+}
+
+/// Describes the configuration of the HTTP endpoint destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class HttpEndpointDestinationConfiguration {
+  /// The configuration of the HTTP endpoint selected as the destination.
+  @_s.JsonKey(name: 'EndpointConfiguration')
+  final HttpEndpointConfiguration endpointConfiguration;
+  @_s.JsonKey(name: 'S3Configuration')
+  final S3DestinationConfiguration s3Configuration;
+
+  /// The buffering options that can be used before data is delivered to the
+  /// specified destination. Kinesis Data Firehose treats these options as hints,
+  /// and it might choose to use more optimal values. The <code>SizeInMBs</code>
+  /// and <code>IntervalInSeconds</code> parameters are optional. However, if you
+  /// specify a value for one of them, you must also provide a value for the
+  /// other.
+  @_s.JsonKey(name: 'BufferingHints')
+  final HttpEndpointBufferingHints bufferingHints;
+  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
+  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+  @_s.JsonKey(name: 'ProcessingConfiguration')
+  final ProcessingConfiguration processingConfiguration;
+
+  /// The configuration of the requeste sent to the HTTP endpoint specified as the
+  /// destination.
+  @_s.JsonKey(name: 'RequestConfiguration')
+  final HttpEndpointRequestConfiguration requestConfiguration;
+
+  /// Describes the retry behavior in case Kinesis Data Firehose is unable to
+  /// deliver data to the specified HTTP endpoint destination, or if it doesn't
+  /// receive a valid acknowledgment of receipt from the specified HTTP endpoint
+  /// destination.
+  @_s.JsonKey(name: 'RetryOptions')
+  final HttpEndpointRetryOptions retryOptions;
+
+  /// Kinesis Data Firehose uses this IAM role for all the permissions that the
+  /// delivery stream needs.
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// Describes the S3 bucket backup options for the data that Kinesis Data
+  /// Firehose delivers to the HTTP endpoint destination. You can back up all
+  /// documents (<code>AllData</code>) or only the documents that Kinesis Data
+  /// Firehose could not deliver to the specified HTTP endpoint destination
+  /// (<code>FailedDataOnly</code>).
+  @_s.JsonKey(name: 'S3BackupMode')
+  final HttpEndpointS3BackupMode s3BackupMode;
+
+  HttpEndpointDestinationConfiguration({
+    @_s.required this.endpointConfiguration,
+    @_s.required this.s3Configuration,
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.processingConfiguration,
+    this.requestConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3BackupMode,
+  });
+  Map<String, dynamic> toJson() =>
+      _$HttpEndpointDestinationConfigurationToJson(this);
+}
+
+/// Describes the HTTP endpoint destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class HttpEndpointDestinationDescription {
+  /// Describes buffering options that can be applied to the data before it is
+  /// delivered to the HTTPS endpoint destination. Kinesis Data Firehose teats
+  /// these options as hints, and it might choose to use more optimal values. The
+  /// <code>SizeInMBs</code> and <code>IntervalInSeconds</code> parameters are
+  /// optional. However, if specify a value for one of them, you must also provide
+  /// a value for the other.
+  @_s.JsonKey(name: 'BufferingHints')
+  final HttpEndpointBufferingHints bufferingHints;
+  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
+  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+
+  /// The configuration of the specified HTTP endpoint destination.
+  @_s.JsonKey(name: 'EndpointConfiguration')
+  final HttpEndpointDescription endpointConfiguration;
+  @_s.JsonKey(name: 'ProcessingConfiguration')
+  final ProcessingConfiguration processingConfiguration;
+
+  /// The configuration of request sent to the HTTP endpoint specified as the
+  /// destination.
+  @_s.JsonKey(name: 'RequestConfiguration')
+  final HttpEndpointRequestConfiguration requestConfiguration;
+
+  /// Describes the retry behavior in case Kinesis Data Firehose is unable to
+  /// deliver data to the specified HTTP endpoint destination, or if it doesn't
+  /// receive a valid acknowledgment of receipt from the specified HTTP endpoint
+  /// destination.
+  @_s.JsonKey(name: 'RetryOptions')
+  final HttpEndpointRetryOptions retryOptions;
+
+  /// Kinesis Data Firehose uses this IAM role for all the permissions that the
+  /// delivery stream needs.
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// Describes the S3 bucket backup options for the data that Kinesis Firehose
+  /// delivers to the HTTP endpoint destination. You can back up all documents
+  /// (<code>AllData</code>) or only the documents that Kinesis Data Firehose
+  /// could not deliver to the specified HTTP endpoint destination
+  /// (<code>FailedDataOnly</code>).
+  @_s.JsonKey(name: 'S3BackupMode')
+  final HttpEndpointS3BackupMode s3BackupMode;
+  @_s.JsonKey(name: 'S3DestinationDescription')
+  final S3DestinationDescription s3DestinationDescription;
+
+  HttpEndpointDestinationDescription({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.endpointConfiguration,
+    this.processingConfiguration,
+    this.requestConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3BackupMode,
+    this.s3DestinationDescription,
+  });
+  factory HttpEndpointDestinationDescription.fromJson(
+          Map<String, dynamic> json) =>
+      _$HttpEndpointDestinationDescriptionFromJson(json);
+}
+
+/// Updates the specified HTTP endpoint destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class HttpEndpointDestinationUpdate {
+  /// Describes buffering options that can be applied to the data before it is
+  /// delivered to the HTTPS endpoint destination. Kinesis Data Firehose teats
+  /// these options as hints, and it might choose to use more optimal values. The
+  /// <code>SizeInMBs</code> and <code>IntervalInSeconds</code> parameters are
+  /// optional. However, if specify a value for one of them, you must also provide
+  /// a value for the other.
+  @_s.JsonKey(name: 'BufferingHints')
+  final HttpEndpointBufferingHints bufferingHints;
+  @_s.JsonKey(name: 'CloudWatchLoggingOptions')
+  final CloudWatchLoggingOptions cloudWatchLoggingOptions;
+
+  /// Describes the configuration of the HTTP endpoint destination.
+  @_s.JsonKey(name: 'EndpointConfiguration')
+  final HttpEndpointConfiguration endpointConfiguration;
+  @_s.JsonKey(name: 'ProcessingConfiguration')
+  final ProcessingConfiguration processingConfiguration;
+
+  /// The configuration of the request sent to the HTTP endpoint specified as the
+  /// destination.
+  @_s.JsonKey(name: 'RequestConfiguration')
+  final HttpEndpointRequestConfiguration requestConfiguration;
+
+  /// Describes the retry behavior in case Kinesis Data Firehose is unable to
+  /// deliver data to the specified HTTP endpoint destination, or if it doesn't
+  /// receive a valid acknowledgment of receipt from the specified HTTP endpoint
+  /// destination.
+  @_s.JsonKey(name: 'RetryOptions')
+  final HttpEndpointRetryOptions retryOptions;
+
+  /// Kinesis Data Firehose uses this IAM role for all the permissions that the
+  /// delivery stream needs.
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// Describes the S3 bucket backup options for the data that Kinesis Firehose
+  /// delivers to the HTTP endpoint destination. You can back up all documents
+  /// (<code>AllData</code>) or only the documents that Kinesis Data Firehose
+  /// could not deliver to the specified HTTP endpoint destination
+  /// (<code>FailedDataOnly</code>).
+  @_s.JsonKey(name: 'S3BackupMode')
+  final HttpEndpointS3BackupMode s3BackupMode;
+  @_s.JsonKey(name: 'S3Update')
+  final S3DestinationUpdate s3Update;
+
+  HttpEndpointDestinationUpdate({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.endpointConfiguration,
+    this.processingConfiguration,
+    this.requestConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3BackupMode,
+    this.s3Update,
+  });
+  Map<String, dynamic> toJson() => _$HttpEndpointDestinationUpdateToJson(this);
+}
+
+/// The configuration of the HTTP endpoint request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class HttpEndpointRequestConfiguration {
+  /// Describes the metadata sent to the HTTP endpoint destination.
+  @_s.JsonKey(name: 'CommonAttributes')
+  final List<HttpEndpointCommonAttribute> commonAttributes;
+
+  /// Kinesis Data Firehose uses the content encoding to compress the body of a
+  /// request before sending the request to the destination. For more information,
+  /// see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding">Content-Encoding</a>
+  /// in MDN Web Docs, the official Mozilla documentation.
+  @_s.JsonKey(name: 'ContentEncoding')
+  final ContentEncoding contentEncoding;
+
+  HttpEndpointRequestConfiguration({
+    this.commonAttributes,
+    this.contentEncoding,
+  });
+  factory HttpEndpointRequestConfiguration.fromJson(
+          Map<String, dynamic> json) =>
+      _$HttpEndpointRequestConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$HttpEndpointRequestConfigurationToJson(this);
+}
+
+/// Describes the retry behavior in case Kinesis Data Firehose is unable to
+/// deliver data to the specified HTTP endpoint destination, or if it doesn't
+/// receive a valid acknowledgment of receipt from the specified HTTP endpoint
+/// destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class HttpEndpointRetryOptions {
+  /// The total amount of time that Kinesis Data Firehose spends on retries. This
+  /// duration starts after the initial attempt to send data to the custom
+  /// destination via HTTPS endpoint fails. It doesn't include the periods during
+  /// which Kinesis Data Firehose waits for acknowledgment from the specified
+  /// destination after each attempt.
+  @_s.JsonKey(name: 'DurationInSeconds')
+  final int durationInSeconds;
+
+  HttpEndpointRetryOptions({
+    this.durationInSeconds,
+  });
+  factory HttpEndpointRetryOptions.fromJson(Map<String, dynamic> json) =>
+      _$HttpEndpointRetryOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$HttpEndpointRetryOptionsToJson(this);
+}
+
+enum HttpEndpointS3BackupMode {
+  @_s.JsonValue('FailedDataOnly')
+  failedDataOnly,
+  @_s.JsonValue('AllData')
+  allData,
+}
+
 /// Specifies the deserializer you want to use to convert the format of the
-/// input data.
+/// input data. This parameter is required if <code>Enabled</code> is set to
+/// true.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2837,7 +3307,8 @@ class OrcSerDe {
 }
 
 /// Specifies the serializer that you want Kinesis Data Firehose to use to
-/// convert the format of your data before it writes it to Amazon S3.
+/// convert the format of your data before it writes it to Amazon S3. This
+/// parameter is required if <code>Enabled</code> is set to true.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3188,7 +3659,9 @@ class RedshiftDestinationConfiguration {
   @_s.JsonKey(name: 'S3BackupConfiguration')
   final S3DestinationConfiguration s3BackupConfiguration;
 
-  /// The Amazon S3 backup mode.
+  /// The Amazon S3 backup mode. After you create a delivery stream, you can
+  /// update it to enable Amazon S3 backup if it is disabled. If backup is
+  /// enabled, you can't update the delivery stream to disable it.
   @_s.JsonKey(name: 'S3BackupMode')
   final RedshiftS3BackupMode s3BackupMode;
 
@@ -3315,7 +3788,9 @@ class RedshiftDestinationUpdate {
   @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
 
-  /// The Amazon S3 backup mode.
+  /// You can update a delivery stream to enable Amazon S3 backup if it is
+  /// disabled. If backup is enabled, you can't update the delivery stream to
+  /// disable it.
   @_s.JsonKey(name: 'S3BackupMode')
   final RedshiftS3BackupMode s3BackupMode;
 
@@ -3604,7 +4079,8 @@ class S3DestinationUpdate {
 }
 
 /// Specifies the schema to which you want Kinesis Data Firehose to configure
-/// your data before it writes it to Amazon S3.
+/// your data before it writes it to Amazon S3. This parameter is required if
+/// <code>Enabled</code> is set to true.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3759,11 +4235,15 @@ class SplunkDestinationConfiguration {
   final SplunkRetryOptions retryOptions;
 
   /// Defines how documents should be delivered to Amazon S3. When set to
-  /// <code>FailedDocumentsOnly</code>, Kinesis Data Firehose writes any data that
+  /// <code>FailedEventsOnly</code>, Kinesis Data Firehose writes any data that
   /// could not be indexed to the configured Amazon S3 destination. When set to
-  /// <code>AllDocuments</code>, Kinesis Data Firehose delivers all incoming
-  /// records to Amazon S3, and also writes failed documents to Amazon S3. Default
-  /// value is <code>FailedDocumentsOnly</code>.
+  /// <code>AllEvents</code>, Kinesis Data Firehose delivers all incoming records
+  /// to Amazon S3, and also writes failed documents to Amazon S3. The default
+  /// value is <code>FailedEventsOnly</code>.
+  ///
+  /// You can update this backup mode from <code>FailedEventsOnly</code> to
+  /// <code>AllEvents</code>. You can't update it from <code>AllEvents</code> to
+  /// <code>FailedEventsOnly</code>.
   @_s.JsonKey(name: 'S3BackupMode')
   final SplunkS3BackupMode s3BackupMode;
 
@@ -3891,12 +4371,16 @@ class SplunkDestinationUpdate {
   @_s.JsonKey(name: 'RetryOptions')
   final SplunkRetryOptions retryOptions;
 
-  /// Defines how documents should be delivered to Amazon S3. When set to
-  /// <code>FailedDocumentsOnly</code>, Kinesis Data Firehose writes any data that
-  /// could not be indexed to the configured Amazon S3 destination. When set to
-  /// <code>AllDocuments</code>, Kinesis Data Firehose delivers all incoming
-  /// records to Amazon S3, and also writes failed documents to Amazon S3. Default
-  /// value is <code>FailedDocumentsOnly</code>.
+  /// Specifies how you want Kinesis Data Firehose to back up documents to Amazon
+  /// S3. When set to <code>FailedDocumentsOnly</code>, Kinesis Data Firehose
+  /// writes any data that could not be indexed to the configured Amazon S3
+  /// destination. When set to <code>AllEvents</code>, Kinesis Data Firehose
+  /// delivers all incoming records to Amazon S3, and also writes failed documents
+  /// to Amazon S3. The default value is <code>FailedEventsOnly</code>.
+  ///
+  /// You can update this backup mode from <code>FailedEventsOnly</code> to
+  /// <code>AllEvents</code>. You can't update it from <code>AllEvents</code> to
+  /// <code>FailedEventsOnly</code>.
   @_s.JsonKey(name: 'S3BackupMode')
   final SplunkS3BackupMode s3BackupMode;
 
@@ -4032,6 +4516,186 @@ class UpdateDestinationOutput {
   UpdateDestinationOutput();
   factory UpdateDestinationOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdateDestinationOutputFromJson(json);
+}
+
+/// The details of the VPC of the Amazon ES destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class VpcConfiguration {
+  /// The ARN of the IAM role that you want the delivery stream to use to create
+  /// endpoints in the destination VPC. You can use your existing Kinesis Data
+  /// Firehose delivery role or you can specify a new role. In either case, make
+  /// sure that the role trusts the Kinesis Data Firehose service principal and
+  /// that it grants the following permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ec2:DescribeVpcs</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeVpcAttribute</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeSubnets</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeSecurityGroups</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeNetworkInterfaces</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:CreateNetworkInterface</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:CreateNetworkInterfacePermission</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DeleteNetworkInterface</code>
+  /// </li>
+  /// </ul>
+  /// If you revoke these permissions after you create the delivery stream,
+  /// Kinesis Data Firehose can't scale out by creating more ENIs when necessary.
+  /// You might therefore see a degradation in performance.
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// The IDs of the security groups that you want Kinesis Data Firehose to use
+  /// when it creates ENIs in the VPC of the Amazon ES destination. You can use
+  /// the same security group that the Amazon ES domain uses or different ones. If
+  /// you specify different security groups here, ensure that they allow outbound
+  /// HTTPS traffic to the Amazon ES domain's security group. Also ensure that the
+  /// Amazon ES domain's security group allows HTTPS traffic from the security
+  /// groups specified here. If you use the same security group for both your
+  /// delivery stream and the Amazon ES domain, make sure the security group
+  /// inbound rule allows HTTPS traffic. For more information about security group
+  /// rules, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SecurityGroupRules">Security
+  /// group rules</a> in the Amazon VPC documentation.
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// The IDs of the subnets that you want Kinesis Data Firehose to use to create
+  /// ENIs in the VPC of the Amazon ES destination. Make sure that the routing
+  /// tables and inbound and outbound rules allow traffic to flow from the subnets
+  /// whose IDs are specified here to the subnets that have the destination Amazon
+  /// ES endpoints. Kinesis Data Firehose creates at least one ENI in each of the
+  /// subnets that are specified here. Do not delete or modify these ENIs.
+  ///
+  /// The number of ENIs that Kinesis Data Firehose creates in the subnets
+  /// specified here scales up and down automatically based on throughput. To
+  /// enable Kinesis Data Firehose to scale up the number of ENIs to match
+  /// throughput, ensure that you have sufficient quota. To help you calculate the
+  /// quota you need, assume that Kinesis Data Firehose can create up to three
+  /// ENIs for this delivery stream for each of the subnets specified here. For
+  /// more information about ENI quota, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-enis">Network
+  /// Interfaces </a> in the Amazon VPC Quotas topic.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  VpcConfiguration({
+    @_s.required this.roleARN,
+    @_s.required this.securityGroupIds,
+    @_s.required this.subnetIds,
+  });
+  Map<String, dynamic> toJson() => _$VpcConfigurationToJson(this);
+}
+
+/// The details of the VPC of the Amazon ES destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class VpcConfigurationDescription {
+  /// The ARN of the IAM role that the delivery stream uses to create endpoints in
+  /// the destination VPC. You can use your existing Kinesis Data Firehose
+  /// delivery role or you can specify a new role. In either case, make sure that
+  /// the role trusts the Kinesis Data Firehose service principal and that it
+  /// grants the following permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ec2:DescribeVpcs</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeVpcAttribute</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeSubnets</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeSecurityGroups</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeNetworkInterfaces</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:CreateNetworkInterface</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:CreateNetworkInterfacePermission</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DeleteNetworkInterface</code>
+  /// </li>
+  /// </ul>
+  /// If you revoke these permissions after you create the delivery stream,
+  /// Kinesis Data Firehose can't scale out by creating more ENIs when necessary.
+  /// You might therefore see a degradation in performance.
+  @_s.JsonKey(name: 'RoleARN')
+  final String roleARN;
+
+  /// The IDs of the security groups that Kinesis Data Firehose uses when it
+  /// creates ENIs in the VPC of the Amazon ES destination. You can use the same
+  /// security group that the Amazon ES domain uses or different ones. If you
+  /// specify different security groups, ensure that they allow outbound HTTPS
+  /// traffic to the Amazon ES domain's security group. Also ensure that the
+  /// Amazon ES domain's security group allows HTTPS traffic from the security
+  /// groups specified here. If you use the same security group for both your
+  /// delivery stream and the Amazon ES domain, make sure the security group
+  /// inbound rule allows HTTPS traffic. For more information about security group
+  /// rules, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SecurityGroupRules">Security
+  /// group rules</a> in the Amazon VPC documentation.
+  @_s.JsonKey(name: 'SecurityGroupIds')
+  final List<String> securityGroupIds;
+
+  /// The IDs of the subnets that Kinesis Data Firehose uses to create ENIs in the
+  /// VPC of the Amazon ES destination. Make sure that the routing tables and
+  /// inbound and outbound rules allow traffic to flow from the subnets whose IDs
+  /// are specified here to the subnets that have the destination Amazon ES
+  /// endpoints. Kinesis Data Firehose creates at least one ENI in each of the
+  /// subnets that are specified here. Do not delete or modify these ENIs.
+  ///
+  /// The number of ENIs that Kinesis Data Firehose creates in the subnets
+  /// specified here scales up and down automatically based on throughput. To
+  /// enable Kinesis Data Firehose to scale up the number of ENIs to match
+  /// throughput, ensure that you have sufficient quota. To help you calculate the
+  /// quota you need, assume that Kinesis Data Firehose can create up to three
+  /// ENIs for this delivery stream for each of the subnets specified here. For
+  /// more information about ENI quota, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-enis">Network
+  /// Interfaces </a> in the Amazon VPC Quotas topic.
+  @_s.JsonKey(name: 'SubnetIds')
+  final List<String> subnetIds;
+
+  /// The ID of the Amazon ES destination's VPC.
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
+  VpcConfigurationDescription({
+    @_s.required this.roleARN,
+    @_s.required this.securityGroupIds,
+    @_s.required this.subnetIds,
+    @_s.required this.vpcId,
+  });
+  factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) =>
+      _$VpcConfigurationDescriptionFromJson(json);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

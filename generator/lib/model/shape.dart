@@ -31,8 +31,8 @@ class Shape {
   final Descriptor member;
   final Descriptor key;
   final Descriptor value;
-  final int max;
-  final int min;
+  final num max;
+  final num min;
   final List<String> xmlOrder;
   final String pattern;
   final String documentation;
@@ -62,6 +62,10 @@ class Shape {
   final XmlNamespace xmlNamespace;
   @JsonKey(defaultValue: false)
   final bool eventstream;
+  @JsonKey(defaultValue: false)
+  final bool union;
+  @JsonKey(defaultValue: false)
+  final bool requiresLength;
   List<Member> _members;
 
   Shape(
@@ -94,6 +98,8 @@ class Shape {
     this.event,
     this.xmlNamespace,
     this.eventstream,
+    this.union,
+    this.requiresLength,
   ) {
     membersMap?.entries?.forEach((e) {
       e.value.name = e.key;
@@ -290,6 +296,7 @@ extension NameStuff on String {
   bool get isReserved => <String>{
         'bool',
         'break',
+        'case',
         'continue',
         'default',
         'do',

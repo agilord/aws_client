@@ -137,22 +137,35 @@ const _$ReportFormatEnumMap = {
 };
 
 const _$AWSRegionEnumMap = {
-  AWSRegion.usEast_1: 'us-east-1',
-  AWSRegion.usWest_1: 'us-west-1',
-  AWSRegion.usWest_2: 'us-west-2',
-  AWSRegion.euCentral_1: 'eu-central-1',
-  AWSRegion.euWest_1: 'eu-west-1',
+  AWSRegion.afSouth_1: 'af-south-1',
+  AWSRegion.apEast_1: 'ap-east-1',
+  AWSRegion.apSouth_1: 'ap-south-1',
   AWSRegion.apSoutheast_1: 'ap-southeast-1',
   AWSRegion.apSoutheast_2: 'ap-southeast-2',
   AWSRegion.apNortheast_1: 'ap-northeast-1',
-  AWSRegion.euNorth_1: 'eu-north-1',
+  AWSRegion.apNortheast_2: 'ap-northeast-2',
   AWSRegion.apNortheast_3: 'ap-northeast-3',
-  AWSRegion.apEast_1: 'ap-east-1',
+  AWSRegion.caCentral_1: 'ca-central-1',
+  AWSRegion.euCentral_1: 'eu-central-1',
+  AWSRegion.euWest_1: 'eu-west-1',
+  AWSRegion.euWest_2: 'eu-west-2',
+  AWSRegion.euWest_3: 'eu-west-3',
+  AWSRegion.euNorth_1: 'eu-north-1',
+  AWSRegion.euSouth_1: 'eu-south-1',
+  AWSRegion.meSouth_1: 'me-south-1',
+  AWSRegion.saEast_1: 'sa-east-1',
+  AWSRegion.usEast_1: 'us-east-1',
+  AWSRegion.usEast_2: 'us-east-2',
+  AWSRegion.usWest_1: 'us-west-1',
+  AWSRegion.usWest_2: 'us-west-2',
+  AWSRegion.cnNorth_1: 'cn-north-1',
+  AWSRegion.cnNorthwest_1: 'cn-northwest-1',
 };
 
 const _$TimeUnitEnumMap = {
   TimeUnit.hourly: 'HOURLY',
   TimeUnit.daily: 'DAILY',
+  TimeUnit.monthly: 'MONTHLY',
 };
 
 const _$AdditionalArtifactEnumMap = {

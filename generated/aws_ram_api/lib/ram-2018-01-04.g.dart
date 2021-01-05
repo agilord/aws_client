@@ -188,6 +188,18 @@ ListResourceSharePermissionsResponse
   );
 }
 
+ListResourceTypesResponse _$ListResourceTypesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListResourceTypesResponse(
+    nextToken: json['nextToken'] as String,
+    resourceTypes: (json['resourceTypes'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ServiceNameAndResourceType.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 ListResourcesResponse _$ListResourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourcesResponse(
@@ -401,6 +413,14 @@ ResourceSharePermissionSummary _$ResourceSharePermissionSummaryFromJson(
     resourceType: json['resourceType'] as String,
     status: json['status'] as String,
     version: json['version'] as String,
+  );
+}
+
+ServiceNameAndResourceType _$ServiceNameAndResourceTypeFromJson(
+    Map<String, dynamic> json) {
+  return ServiceNameAndResourceType(
+    resourceType: json['resourceType'] as String,
+    serviceName: json['serviceName'] as String,
   );
 }
 

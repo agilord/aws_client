@@ -4,7 +4,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "DBClusterIdentifier": {"shape": "String", "flattened": false},
-      "RoleArn": {"shape": "String", "flattened": false}
+      "RoleArn": {"shape": "String", "flattened": false},
+      "FeatureName": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -168,6 +169,37 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "DBParameterGroup": {"shape": "DBParameterGroup", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateDBClusterEndpointMessage": {
+    "type": "structure",
+    "members": {
+      "DBClusterIdentifier": {"shape": "String", "flattened": false},
+      "DBClusterEndpointIdentifier": {"shape": "String", "flattened": false},
+      "EndpointType": {"shape": "String", "flattened": false},
+      "StaticMembers": {"shape": "StringList", "flattened": false},
+      "ExcludedMembers": {"shape": "StringList", "flattened": false},
+      "Tags": {"shape": "TagList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateDBClusterEndpointOutput": {
+    "type": "structure",
+    "members": {
+      "DBClusterEndpointIdentifier": {"shape": "String", "flattened": false},
+      "DBClusterIdentifier": {"shape": "String", "flattened": false},
+      "DBClusterEndpointResourceIdentifier": {
+        "shape": "String",
+        "flattened": false
+      },
+      "Endpoint": {"shape": "String", "flattened": false},
+      "Status": {"shape": "String", "flattened": false},
+      "EndpointType": {"shape": "String", "flattened": false},
+      "CustomEndpointType": {"shape": "String", "flattened": false},
+      "StaticMembers": {"shape": "StringList", "flattened": false},
+      "ExcludedMembers": {"shape": "StringList", "flattened": false},
+      "DBClusterEndpointArn": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -439,6 +471,44 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DBClusterEndpoint": {
+    "type": "structure",
+    "members": {
+      "DBClusterEndpointIdentifier": {"shape": "String", "flattened": false},
+      "DBClusterIdentifier": {"shape": "String", "flattened": false},
+      "DBClusterEndpointResourceIdentifier": {
+        "shape": "String",
+        "flattened": false
+      },
+      "Endpoint": {"shape": "String", "flattened": false},
+      "Status": {"shape": "String", "flattened": false},
+      "EndpointType": {"shape": "String", "flattened": false},
+      "CustomEndpointType": {"shape": "String", "flattened": false},
+      "StaticMembers": {"shape": "StringList", "flattened": false},
+      "ExcludedMembers": {"shape": "StringList", "flattened": false},
+      "DBClusterEndpointArn": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DBClusterEndpointList": {
+    "type": "list",
+    "member": {
+      "shape": "DBClusterEndpoint",
+      "locationName": "DBClusterEndpointList"
+    },
+    "flattened": false
+  },
+  "DBClusterEndpointMessage": {
+    "type": "structure",
+    "members": {
+      "Marker": {"shape": "String", "flattened": false},
+      "DBClusterEndpoints": {
+        "shape": "DBClusterEndpointList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "DBClusterList": {
     "type": "list",
     "member": {"shape": "DBCluster", "locationName": "DBCluster"},
@@ -531,7 +601,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "RoleArn": {"shape": "String", "flattened": false},
-      "Status": {"shape": "String", "flattened": false}
+      "Status": {"shape": "String", "flattened": false},
+      "FeatureName": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -884,6 +955,32 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "DBSubnetGroup", "locationName": "DBSubnetGroup"},
     "flattened": false
   },
+  "DeleteDBClusterEndpointMessage": {
+    "type": "structure",
+    "members": {
+      "DBClusterEndpointIdentifier": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteDBClusterEndpointOutput": {
+    "type": "structure",
+    "members": {
+      "DBClusterEndpointIdentifier": {"shape": "String", "flattened": false},
+      "DBClusterIdentifier": {"shape": "String", "flattened": false},
+      "DBClusterEndpointResourceIdentifier": {
+        "shape": "String",
+        "flattened": false
+      },
+      "Endpoint": {"shape": "String", "flattened": false},
+      "Status": {"shape": "String", "flattened": false},
+      "EndpointType": {"shape": "String", "flattened": false},
+      "CustomEndpointType": {"shape": "String", "flattened": false},
+      "StaticMembers": {"shape": "StringList", "flattened": false},
+      "ExcludedMembers": {"shape": "StringList", "flattened": false},
+      "DBClusterEndpointArn": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "DeleteDBClusterMessage": {
     "type": "structure",
     "members": {
@@ -962,6 +1059,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "EventSubscription": {"shape": "EventSubscription", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeDBClusterEndpointsMessage": {
+    "type": "structure",
+    "members": {
+      "DBClusterIdentifier": {"shape": "String", "flattened": false},
+      "DBClusterEndpointIdentifier": {"shape": "String", "flattened": false},
+      "Filters": {"shape": "FilterList", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1389,6 +1497,35 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "String"},
     "flattened": false
   },
+  "ModifyDBClusterEndpointMessage": {
+    "type": "structure",
+    "members": {
+      "DBClusterEndpointIdentifier": {"shape": "String", "flattened": false},
+      "EndpointType": {"shape": "String", "flattened": false},
+      "StaticMembers": {"shape": "StringList", "flattened": false},
+      "ExcludedMembers": {"shape": "StringList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ModifyDBClusterEndpointOutput": {
+    "type": "structure",
+    "members": {
+      "DBClusterEndpointIdentifier": {"shape": "String", "flattened": false},
+      "DBClusterIdentifier": {"shape": "String", "flattened": false},
+      "DBClusterEndpointResourceIdentifier": {
+        "shape": "String",
+        "flattened": false
+      },
+      "Endpoint": {"shape": "String", "flattened": false},
+      "Status": {"shape": "String", "flattened": false},
+      "EndpointType": {"shape": "String", "flattened": false},
+      "CustomEndpointType": {"shape": "String", "flattened": false},
+      "StaticMembers": {"shape": "StringList", "flattened": false},
+      "ExcludedMembers": {"shape": "StringList", "flattened": false},
+      "DBClusterEndpointArn": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "ModifyDBClusterMessage": {
     "type": "structure",
     "members": {
@@ -1790,7 +1927,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "DBClusterIdentifier": {"shape": "String", "flattened": false},
-      "RoleArn": {"shape": "String", "flattened": false}
+      "RoleArn": {"shape": "String", "flattened": false},
+      "FeatureName": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1956,6 +2094,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "String": {"type": "string", "flattened": false},
+  "StringList": {
+    "type": "list",
+    "member": {"shape": "String"},
+    "flattened": false
+  },
   "Subnet": {
     "type": "structure",
     "members": {

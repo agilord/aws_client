@@ -20,6 +20,10 @@ AddIpRoutesResult _$AddIpRoutesResultFromJson(Map<String, dynamic> json) {
   return AddIpRoutesResult();
 }
 
+AddRegionResult _$AddRegionResultFromJson(Map<String, dynamic> json) {
+  return AddRegionResult();
+}
+
 AddTagsToResourceResult _$AddTagsToResourceResultFromJson(
     Map<String, dynamic> json) {
   return AddTagsToResourceResult();
@@ -54,6 +58,10 @@ CancelSchemaExtensionResult _$CancelSchemaExtensionResultFromJson(
 Certificate _$CertificateFromJson(Map<String, dynamic> json) {
   return Certificate(
     certificateId: json['CertificateId'] as String,
+    clientCertAuthSettings: json['ClientCertAuthSettings'] == null
+        ? null
+        : ClientCertAuthSettings.fromJson(
+            json['ClientCertAuthSettings'] as Map<String, dynamic>),
     commonName: json['CommonName'] as String,
     expiryDateTime:
         const UnixDateTimeConverter().fromJson(json['ExpiryDateTime']),
@@ -61,6 +69,7 @@ Certificate _$CertificateFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['RegisteredDateTime']),
     state: _$enumDecodeNullable(_$CertificateStateEnumMap, json['State']),
     stateReason: json['StateReason'] as String,
+    type: _$enumDecodeNullable(_$CertificateTypeEnumMap, json['Type']),
   );
 }
 
@@ -105,6 +114,11 @@ const _$CertificateStateEnumMap = {
   CertificateState.deregisterFailed: 'DeregisterFailed',
 };
 
+const _$CertificateTypeEnumMap = {
+  CertificateType.clientCertAuth: 'ClientCertAuth',
+  CertificateType.clientLDAPS: 'ClientLDAPS',
+};
+
 CertificateInfo _$CertificateInfoFromJson(Map<String, dynamic> json) {
   return CertificateInfo(
     certificateId: json['CertificateId'] as String,
@@ -112,7 +126,29 @@ CertificateInfo _$CertificateInfoFromJson(Map<String, dynamic> json) {
     expiryDateTime:
         const UnixDateTimeConverter().fromJson(json['ExpiryDateTime']),
     state: _$enumDecodeNullable(_$CertificateStateEnumMap, json['State']),
+    type: _$enumDecodeNullable(_$CertificateTypeEnumMap, json['Type']),
   );
+}
+
+ClientCertAuthSettings _$ClientCertAuthSettingsFromJson(
+    Map<String, dynamic> json) {
+  return ClientCertAuthSettings(
+    oCSPUrl: json['OCSPUrl'] as String,
+  );
+}
+
+Map<String, dynamic> _$ClientCertAuthSettingsToJson(
+    ClientCertAuthSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OCSPUrl', instance.oCSPUrl);
+  return val;
 }
 
 Computer _$ComputerFromJson(Map<String, dynamic> json) {
@@ -302,6 +338,18 @@ DescribeLDAPSSettingsResult _$DescribeLDAPSSettingsResultFromJson(
   );
 }
 
+DescribeRegionsResult _$DescribeRegionsResultFromJson(
+    Map<String, dynamic> json) {
+  return DescribeRegionsResult(
+    nextToken: json['NextToken'] as String,
+    regionsDescription: (json['RegionsDescription'] as List)
+        ?.map((e) => e == null
+            ? null
+            : RegionDescription.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 DescribeSharedDirectoriesResult _$DescribeSharedDirectoriesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeSharedDirectoriesResult(
@@ -391,6 +439,9 @@ DirectoryDescription _$DirectoryDescriptionFromJson(Map<String, dynamic> json) {
             json['RadiusSettings'] as Map<String, dynamic>),
     radiusStatus:
         _$enumDecodeNullable(_$RadiusStatusEnumMap, json['RadiusStatus']),
+    regionsInfo: json['RegionsInfo'] == null
+        ? null
+        : RegionsInfo.fromJson(json['RegionsInfo'] as Map<String, dynamic>),
     shareMethod:
         _$enumDecodeNullable(_$ShareMethodEnumMap, json['ShareMethod']),
     shareNotes: json['ShareNotes'] as String,
@@ -485,6 +536,13 @@ DirectoryLimits _$DirectoryLimitsFromJson(Map<String, dynamic> json) {
   );
 }
 
+DirectoryVpcSettings _$DirectoryVpcSettingsFromJson(Map<String, dynamic> json) {
+  return DirectoryVpcSettings(
+    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
+    vpcId: json['VpcId'] as String,
+  );
+}
+
 Map<String, dynamic> _$DirectoryVpcSettingsToJson(
     DirectoryVpcSettings instance) {
   final val = <String, dynamic>{};
@@ -509,6 +567,11 @@ DirectoryVpcSettingsDescription _$DirectoryVpcSettingsDescriptionFromJson(
     subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
     vpcId: json['VpcId'] as String,
   );
+}
+
+DisableClientAuthenticationResult _$DisableClientAuthenticationResultFromJson(
+    Map<String, dynamic> json) {
+  return DisableClientAuthenticationResult();
 }
 
 DisableLDAPSResult _$DisableLDAPSResultFromJson(Map<String, dynamic> json) {
@@ -549,6 +612,11 @@ const _$DomainControllerStatusEnumMap = {
   DomainControllerStatus.deleted: 'Deleted',
   DomainControllerStatus.failed: 'Failed',
 };
+
+EnableClientAuthenticationResult _$EnableClientAuthenticationResultFromJson(
+    Map<String, dynamic> json) {
+  return EnableClientAuthenticationResult();
+}
 
 EnableLDAPSResult _$EnableLDAPSResultFromJson(Map<String, dynamic> json) {
   return EnableLDAPSResult();
@@ -780,6 +848,39 @@ const _$RadiusAuthenticationProtocolEnumMap = {
   RadiusAuthenticationProtocol.msCHAPv2: 'MS-CHAPv2',
 };
 
+RegionDescription _$RegionDescriptionFromJson(Map<String, dynamic> json) {
+  return RegionDescription(
+    desiredNumberOfDomainControllers:
+        json['DesiredNumberOfDomainControllers'] as int,
+    directoryId: json['DirectoryId'] as String,
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedDateTime']),
+    launchTime: const UnixDateTimeConverter().fromJson(json['LaunchTime']),
+    regionName: json['RegionName'] as String,
+    regionType: _$enumDecodeNullable(_$RegionTypeEnumMap, json['RegionType']),
+    status: _$enumDecodeNullable(_$DirectoryStageEnumMap, json['Status']),
+    statusLastUpdatedDateTime: const UnixDateTimeConverter()
+        .fromJson(json['StatusLastUpdatedDateTime']),
+    vpcSettings: json['VpcSettings'] == null
+        ? null
+        : DirectoryVpcSettings.fromJson(
+            json['VpcSettings'] as Map<String, dynamic>),
+  );
+}
+
+const _$RegionTypeEnumMap = {
+  RegionType.primary: 'Primary',
+  RegionType.additional: 'Additional',
+};
+
+RegionsInfo _$RegionsInfoFromJson(Map<String, dynamic> json) {
+  return RegionsInfo(
+    additionalRegions:
+        (json['AdditionalRegions'] as List)?.map((e) => e as String)?.toList(),
+    primaryRegion: json['PrimaryRegion'] as String,
+  );
+}
+
 RegisterCertificateResult _$RegisterCertificateResultFromJson(
     Map<String, dynamic> json) {
   return RegisterCertificateResult(
@@ -801,6 +902,10 @@ RejectSharedDirectoryResult _$RejectSharedDirectoryResultFromJson(
 
 RemoveIpRoutesResult _$RemoveIpRoutesResultFromJson(Map<String, dynamic> json) {
   return RemoveIpRoutesResult();
+}
+
+RemoveRegionResult _$RemoveRegionResultFromJson(Map<String, dynamic> json) {
+  return RemoveRegionResult();
 }
 
 RemoveTagsFromResourceResult _$RemoveTagsFromResourceResultFromJson(

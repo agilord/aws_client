@@ -1698,6 +1698,8 @@ enum FailureReason {
   pcaInvalidDuration,
   @_s.JsonValue('PCA_ACCESS_DENIED')
   pcaAccessDenied,
+  @_s.JsonValue('SLR_NOT_FOUND')
+  slrNotFound,
   @_s.JsonValue('OTHER')
   other,
 }

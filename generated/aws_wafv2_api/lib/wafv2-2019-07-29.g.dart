@@ -363,11 +363,43 @@ FirewallManagerStatement _$FirewallManagerStatementFromJson(
   );
 }
 
+ForwardedIPConfig _$ForwardedIPConfigFromJson(Map<String, dynamic> json) {
+  return ForwardedIPConfig(
+    fallbackBehavior: _$enumDecodeNullable(
+        _$FallbackBehaviorEnumMap, json['FallbackBehavior']),
+    headerName: json['HeaderName'] as String,
+  );
+}
+
+Map<String, dynamic> _$ForwardedIPConfigToJson(ForwardedIPConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'FallbackBehavior', _$FallbackBehaviorEnumMap[instance.fallbackBehavior]);
+  writeNotNull('HeaderName', instance.headerName);
+  return val;
+}
+
+const _$FallbackBehaviorEnumMap = {
+  FallbackBehavior.match: 'MATCH',
+  FallbackBehavior.noMatch: 'NO_MATCH',
+};
+
 GeoMatchStatement _$GeoMatchStatementFromJson(Map<String, dynamic> json) {
   return GeoMatchStatement(
     countryCodes: (json['CountryCodes'] as List)
         ?.map((e) => _$enumDecodeNullable(_$CountryCodeEnumMap, e))
         ?.toList(),
+    forwardedIPConfig: json['ForwardedIPConfig'] == null
+        ? null
+        : ForwardedIPConfig.fromJson(
+            json['ForwardedIPConfig'] as Map<String, dynamic>),
   );
 }
 
@@ -382,6 +414,7 @@ Map<String, dynamic> _$GeoMatchStatementToJson(GeoMatchStatement instance) {
 
   writeNotNull('CountryCodes',
       instance.countryCodes?.map((e) => _$CountryCodeEnumMap[e])?.toList());
+  writeNotNull('ForwardedIPConfig', instance.forwardedIPConfig?.toJson());
   return val;
 }
 
@@ -769,10 +802,48 @@ const _$IPAddressVersionEnumMap = {
   IPAddressVersion.ipv6: 'IPV6',
 };
 
+IPSetForwardedIPConfig _$IPSetForwardedIPConfigFromJson(
+    Map<String, dynamic> json) {
+  return IPSetForwardedIPConfig(
+    fallbackBehavior: _$enumDecodeNullable(
+        _$FallbackBehaviorEnumMap, json['FallbackBehavior']),
+    headerName: json['HeaderName'] as String,
+    position:
+        _$enumDecodeNullable(_$ForwardedIPPositionEnumMap, json['Position']),
+  );
+}
+
+Map<String, dynamic> _$IPSetForwardedIPConfigToJson(
+    IPSetForwardedIPConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'FallbackBehavior', _$FallbackBehaviorEnumMap[instance.fallbackBehavior]);
+  writeNotNull('HeaderName', instance.headerName);
+  writeNotNull('Position', _$ForwardedIPPositionEnumMap[instance.position]);
+  return val;
+}
+
+const _$ForwardedIPPositionEnumMap = {
+  ForwardedIPPosition.first: 'FIRST',
+  ForwardedIPPosition.last: 'LAST',
+  ForwardedIPPosition.any: 'ANY',
+};
+
 IPSetReferenceStatement _$IPSetReferenceStatementFromJson(
     Map<String, dynamic> json) {
   return IPSetReferenceStatement(
     arn: json['ARN'] as String,
+    iPSetForwardedIPConfig: json['IPSetForwardedIPConfig'] == null
+        ? null
+        : IPSetForwardedIPConfig.fromJson(
+            json['IPSetForwardedIPConfig'] as Map<String, dynamic>),
   );
 }
 
@@ -787,6 +858,8 @@ Map<String, dynamic> _$IPSetReferenceStatementToJson(
   }
 
   writeNotNull('ARN', instance.arn);
+  writeNotNull(
+      'IPSetForwardedIPConfig', instance.iPSetForwardedIPConfig?.toJson());
   return val;
 }
 
@@ -895,6 +968,7 @@ LoggingConfiguration _$LoggingConfigurationFromJson(Map<String, dynamic> json) {
         ?.map((e) => e as String)
         ?.toList(),
     resourceArn: json['ResourceArn'] as String,
+    managedByFirewallManager: json['ManagedByFirewallManager'] as bool,
     redactedFields: (json['RedactedFields'] as List)
         ?.map((e) =>
             e == null ? null : FieldToMatch.fromJson(e as Map<String, dynamic>))
@@ -914,6 +988,7 @@ Map<String, dynamic> _$LoggingConfigurationToJson(
 
   writeNotNull('LogDestinationConfigs', instance.logDestinationConfigs);
   writeNotNull('ResourceArn', instance.resourceArn);
+  writeNotNull('ManagedByFirewallManager', instance.managedByFirewallManager);
   writeNotNull('RedactedFields',
       instance.redactedFields?.map((e) => e?.toJson())?.toList());
   return val;
@@ -1066,6 +1141,10 @@ RateBasedStatement _$RateBasedStatementFromJson(Map<String, dynamic> json) {
     aggregateKeyType: _$enumDecodeNullable(
         _$RateBasedStatementAggregateKeyTypeEnumMap, json['AggregateKeyType']),
     limit: json['Limit'] as int,
+    forwardedIPConfig: json['ForwardedIPConfig'] == null
+        ? null
+        : ForwardedIPConfig.fromJson(
+            json['ForwardedIPConfig'] as Map<String, dynamic>),
     scopeDownStatement: json['ScopeDownStatement'] == null
         ? null
         : Statement.fromJson(
@@ -1085,12 +1164,14 @@ Map<String, dynamic> _$RateBasedStatementToJson(RateBasedStatement instance) {
   writeNotNull('AggregateKeyType',
       _$RateBasedStatementAggregateKeyTypeEnumMap[instance.aggregateKeyType]);
   writeNotNull('Limit', instance.limit);
+  writeNotNull('ForwardedIPConfig', instance.forwardedIPConfig?.toJson());
   writeNotNull('ScopeDownStatement', instance.scopeDownStatement?.toJson());
   return val;
 }
 
 const _$RateBasedStatementAggregateKeyTypeEnumMap = {
   RateBasedStatementAggregateKeyType.ip: 'IP',
+  RateBasedStatementAggregateKeyType.forwardedIp: 'FORWARDED_IP',
 };
 
 RateBasedStatementManagedKeysIPSet _$RateBasedStatementManagedKeysIPSetFromJson(

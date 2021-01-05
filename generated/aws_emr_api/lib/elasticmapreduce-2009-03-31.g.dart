@@ -383,11 +383,17 @@ Cluster _$ClusterFromJson(Map<String, dynamic> json) {
         ? null
         : KerberosAttributes.fromJson(
             json['KerberosAttributes'] as Map<String, dynamic>),
+    logEncryptionKmsKeyId: json['LogEncryptionKmsKeyId'] as String,
     logUri: json['LogUri'] as String,
     masterPublicDnsName: json['MasterPublicDnsName'] as String,
     name: json['Name'] as String,
     normalizedInstanceHours: json['NormalizedInstanceHours'] as int,
     outpostArn: json['OutpostArn'] as String,
+    placementGroups: (json['PlacementGroups'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PlacementGroupConfig.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     releaseLabel: json['ReleaseLabel'] as String,
     repoUpgradeOnBoot: _$enumDecodeNullable(
         _$RepoUpgradeOnBootEnumMap, json['RepoUpgradeOnBoot']),
@@ -498,6 +504,41 @@ Command _$CommandFromJson(Map<String, dynamic> json) {
   );
 }
 
+ComputeLimits _$ComputeLimitsFromJson(Map<String, dynamic> json) {
+  return ComputeLimits(
+    maximumCapacityUnits: json['MaximumCapacityUnits'] as int,
+    minimumCapacityUnits: json['MinimumCapacityUnits'] as int,
+    unitType:
+        _$enumDecodeNullable(_$ComputeLimitsUnitTypeEnumMap, json['UnitType']),
+    maximumCoreCapacityUnits: json['MaximumCoreCapacityUnits'] as int,
+    maximumOnDemandCapacityUnits: json['MaximumOnDemandCapacityUnits'] as int,
+  );
+}
+
+Map<String, dynamic> _$ComputeLimitsToJson(ComputeLimits instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaximumCapacityUnits', instance.maximumCapacityUnits);
+  writeNotNull('MinimumCapacityUnits', instance.minimumCapacityUnits);
+  writeNotNull('UnitType', _$ComputeLimitsUnitTypeEnumMap[instance.unitType]);
+  writeNotNull('MaximumCoreCapacityUnits', instance.maximumCoreCapacityUnits);
+  writeNotNull(
+      'MaximumOnDemandCapacityUnits', instance.maximumOnDemandCapacityUnits);
+  return val;
+}
+
+const _$ComputeLimitsUnitTypeEnumMap = {
+  ComputeLimitsUnitType.instanceFleetUnits: 'InstanceFleetUnits',
+  ComputeLimitsUnitType.instances: 'Instances',
+  ComputeLimitsUnitType.vcpu: 'VCPU',
+};
+
 Configuration _$ConfigurationFromJson(Map<String, dynamic> json) {
   return Configuration(
     classification: json['Classification'] as String,
@@ -537,6 +578,13 @@ CreateSecurityConfigurationOutput _$CreateSecurityConfigurationOutputFromJson(
   );
 }
 
+CreateStudioOutput _$CreateStudioOutputFromJson(Map<String, dynamic> json) {
+  return CreateStudioOutput(
+    studioId: json['StudioId'] as String,
+    url: json['Url'] as String,
+  );
+}
+
 DeleteSecurityConfigurationOutput _$DeleteSecurityConfigurationOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteSecurityConfigurationOutput();
@@ -562,6 +610,16 @@ DescribeJobFlowsOutput _$DescribeJobFlowsOutputFromJson(
   );
 }
 
+DescribeNotebookExecutionOutput _$DescribeNotebookExecutionOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeNotebookExecutionOutput(
+    notebookExecution: json['NotebookExecution'] == null
+        ? null
+        : NotebookExecution.fromJson(
+            json['NotebookExecution'] as Map<String, dynamic>),
+  );
+}
+
 DescribeSecurityConfigurationOutput
     _$DescribeSecurityConfigurationOutputFromJson(Map<String, dynamic> json) {
   return DescribeSecurityConfigurationOutput(
@@ -577,6 +635,14 @@ DescribeStepOutput _$DescribeStepOutputFromJson(Map<String, dynamic> json) {
     step: json['Step'] == null
         ? null
         : Step.fromJson(json['Step'] as Map<String, dynamic>),
+  );
+}
+
+DescribeStudioOutput _$DescribeStudioOutputFromJson(Map<String, dynamic> json) {
+  return DescribeStudioOutput(
+    studio: json['Studio'] == null
+        ? null
+        : Studio.fromJson(json['Studio'] as Map<String, dynamic>),
   );
 }
 
@@ -657,6 +723,37 @@ Ec2InstanceAttributes _$Ec2InstanceAttributesFromJson(
   );
 }
 
+ExecutionEngineConfig _$ExecutionEngineConfigFromJson(
+    Map<String, dynamic> json) {
+  return ExecutionEngineConfig(
+    id: json['Id'] as String,
+    masterInstanceSecurityGroupId:
+        json['MasterInstanceSecurityGroupId'] as String,
+    type: _$enumDecodeNullable(_$ExecutionEngineTypeEnumMap, json['Type']),
+  );
+}
+
+Map<String, dynamic> _$ExecutionEngineConfigToJson(
+    ExecutionEngineConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull(
+      'MasterInstanceSecurityGroupId', instance.masterInstanceSecurityGroupId);
+  writeNotNull('Type', _$ExecutionEngineTypeEnumMap[instance.type]);
+  return val;
+}
+
+const _$ExecutionEngineTypeEnumMap = {
+  ExecutionEngineType.emr: 'EMR',
+};
+
 FailureDetails _$FailureDetailsFromJson(Map<String, dynamic> json) {
   return FailureDetails(
     logFile: json['LogFile'] as String,
@@ -680,6 +777,26 @@ GetBlockPublicAccessConfigurationOutput
             : BlockPublicAccessConfigurationMetadata.fromJson(
                 json['BlockPublicAccessConfigurationMetadata']
                     as Map<String, dynamic>),
+  );
+}
+
+GetManagedScalingPolicyOutput _$GetManagedScalingPolicyOutputFromJson(
+    Map<String, dynamic> json) {
+  return GetManagedScalingPolicyOutput(
+    managedScalingPolicy: json['ManagedScalingPolicy'] == null
+        ? null
+        : ManagedScalingPolicy.fromJson(
+            json['ManagedScalingPolicy'] as Map<String, dynamic>),
+  );
+}
+
+GetStudioSessionMappingOutput _$GetStudioSessionMappingOutputFromJson(
+    Map<String, dynamic> json) {
+  return GetStudioSessionMappingOutput(
+    sessionMapping: json['SessionMapping'] == null
+        ? null
+        : SessionMappingDetail.fromJson(
+            json['SessionMapping'] as Map<String, dynamic>),
   );
 }
 
@@ -821,6 +938,10 @@ InstanceFleetProvisioningSpecifications
     _$InstanceFleetProvisioningSpecificationsFromJson(
         Map<String, dynamic> json) {
   return InstanceFleetProvisioningSpecifications(
+    onDemandSpecification: json['OnDemandSpecification'] == null
+        ? null
+        : OnDemandProvisioningSpecification.fromJson(
+            json['OnDemandSpecification'] as Map<String, dynamic>),
     spotSpecification: json['SpotSpecification'] == null
         ? null
         : SpotProvisioningSpecification.fromJson(
@@ -838,6 +959,8 @@ Map<String, dynamic> _$InstanceFleetProvisioningSpecificationsToJson(
     }
   }
 
+  writeNotNull(
+      'OnDemandSpecification', instance.onDemandSpecification?.toJson());
   writeNotNull('SpotSpecification', instance.spotSpecification?.toJson());
   return val;
 }
@@ -1207,6 +1330,7 @@ JobFlowDetail _$JobFlowDetailFromJson(Map<String, dynamic> json) {
             : BootstrapActionDetail.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     jobFlowRole: json['JobFlowRole'] as String,
+    logEncryptionKmsKeyId: json['LogEncryptionKmsKeyId'] as String,
     logUri: json['LogUri'] as String,
     scaleDownBehavior: _$enumDecodeNullable(
         _$ScaleDownBehaviorEnumMap, json['ScaleDownBehavior']),
@@ -1416,6 +1540,18 @@ ListInstancesOutput _$ListInstancesOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListNotebookExecutionsOutput _$ListNotebookExecutionsOutputFromJson(
+    Map<String, dynamic> json) {
+  return ListNotebookExecutionsOutput(
+    marker: json['Marker'] as String,
+    notebookExecutions: (json['NotebookExecutions'] as List)
+        ?.map((e) => e == null
+            ? null
+            : NotebookExecutionSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 ListSecurityConfigurationsOutput _$ListSecurityConfigurationsOutputFromJson(
     Map<String, dynamic> json) {
   return ListSecurityConfigurationsOutput(
@@ -1436,6 +1572,51 @@ ListStepsOutput _$ListStepsOutputFromJson(Map<String, dynamic> json) {
             e == null ? null : StepSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+ListStudioSessionMappingsOutput _$ListStudioSessionMappingsOutputFromJson(
+    Map<String, dynamic> json) {
+  return ListStudioSessionMappingsOutput(
+    marker: json['Marker'] as String,
+    sessionMappings: (json['SessionMappings'] as List)
+        ?.map((e) => e == null
+            ? null
+            : SessionMappingSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListStudiosOutput _$ListStudiosOutputFromJson(Map<String, dynamic> json) {
+  return ListStudiosOutput(
+    marker: json['Marker'] as String,
+    studios: (json['Studios'] as List)
+        ?.map((e) => e == null
+            ? null
+            : StudioSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ManagedScalingPolicy _$ManagedScalingPolicyFromJson(Map<String, dynamic> json) {
+  return ManagedScalingPolicy(
+    computeLimits: json['ComputeLimits'] == null
+        ? null
+        : ComputeLimits.fromJson(json['ComputeLimits'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$ManagedScalingPolicyToJson(
+    ManagedScalingPolicy instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComputeLimits', instance.computeLimits?.toJson());
+  return val;
 }
 
 MetricDimension _$MetricDimensionFromJson(Map<String, dynamic> json) {
@@ -1464,6 +1645,120 @@ ModifyClusterOutput _$ModifyClusterOutputFromJson(Map<String, dynamic> json) {
     stepConcurrencyLevel: json['StepConcurrencyLevel'] as int,
   );
 }
+
+NotebookExecution _$NotebookExecutionFromJson(Map<String, dynamic> json) {
+  return NotebookExecution(
+    arn: json['Arn'] as String,
+    editorId: json['EditorId'] as String,
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    executionEngine: json['ExecutionEngine'] == null
+        ? null
+        : ExecutionEngineConfig.fromJson(
+            json['ExecutionEngine'] as Map<String, dynamic>),
+    lastStateChangeReason: json['LastStateChangeReason'] as String,
+    notebookExecutionId: json['NotebookExecutionId'] as String,
+    notebookExecutionName: json['NotebookExecutionName'] as String,
+    notebookInstanceSecurityGroupId:
+        json['NotebookInstanceSecurityGroupId'] as String,
+    notebookParams: json['NotebookParams'] as String,
+    outputNotebookURI: json['OutputNotebookURI'] as String,
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+    status:
+        _$enumDecodeNullable(_$NotebookExecutionStatusEnumMap, json['Status']),
+    tags: (json['Tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+const _$NotebookExecutionStatusEnumMap = {
+  NotebookExecutionStatus.startPending: 'START_PENDING',
+  NotebookExecutionStatus.starting: 'STARTING',
+  NotebookExecutionStatus.running: 'RUNNING',
+  NotebookExecutionStatus.finishing: 'FINISHING',
+  NotebookExecutionStatus.finished: 'FINISHED',
+  NotebookExecutionStatus.failing: 'FAILING',
+  NotebookExecutionStatus.failed: 'FAILED',
+  NotebookExecutionStatus.stopPending: 'STOP_PENDING',
+  NotebookExecutionStatus.stopping: 'STOPPING',
+  NotebookExecutionStatus.stopped: 'STOPPED',
+};
+
+NotebookExecutionSummary _$NotebookExecutionSummaryFromJson(
+    Map<String, dynamic> json) {
+  return NotebookExecutionSummary(
+    editorId: json['EditorId'] as String,
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    notebookExecutionId: json['NotebookExecutionId'] as String,
+    notebookExecutionName: json['NotebookExecutionName'] as String,
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+    status:
+        _$enumDecodeNullable(_$NotebookExecutionStatusEnumMap, json['Status']),
+  );
+}
+
+OnDemandProvisioningSpecification _$OnDemandProvisioningSpecificationFromJson(
+    Map<String, dynamic> json) {
+  return OnDemandProvisioningSpecification(
+    allocationStrategy: _$enumDecodeNullable(
+        _$OnDemandProvisioningAllocationStrategyEnumMap,
+        json['AllocationStrategy']),
+  );
+}
+
+Map<String, dynamic> _$OnDemandProvisioningSpecificationToJson(
+    OnDemandProvisioningSpecification instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'AllocationStrategy',
+      _$OnDemandProvisioningAllocationStrategyEnumMap[
+          instance.allocationStrategy]);
+  return val;
+}
+
+const _$OnDemandProvisioningAllocationStrategyEnumMap = {
+  OnDemandProvisioningAllocationStrategy.lowestPrice: 'lowest-price',
+};
+
+PlacementGroupConfig _$PlacementGroupConfigFromJson(Map<String, dynamic> json) {
+  return PlacementGroupConfig(
+    instanceRole:
+        _$enumDecodeNullable(_$InstanceRoleTypeEnumMap, json['InstanceRole']),
+    placementStrategy: _$enumDecodeNullable(
+        _$PlacementGroupStrategyEnumMap, json['PlacementStrategy']),
+  );
+}
+
+Map<String, dynamic> _$PlacementGroupConfigToJson(
+    PlacementGroupConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'InstanceRole', _$InstanceRoleTypeEnumMap[instance.instanceRole]);
+  writeNotNull('PlacementStrategy',
+      _$PlacementGroupStrategyEnumMap[instance.placementStrategy]);
+  return val;
+}
+
+const _$PlacementGroupStrategyEnumMap = {
+  PlacementGroupStrategy.spread: 'SPREAD',
+  PlacementGroupStrategy.partition: 'PARTITION',
+  PlacementGroupStrategy.cluster: 'CLUSTER',
+  PlacementGroupStrategy.none: 'NONE',
+};
 
 PlacementType _$PlacementTypeFromJson(Map<String, dynamic> json) {
   return PlacementType(
@@ -1527,9 +1822,19 @@ PutBlockPublicAccessConfigurationOutput
   return PutBlockPublicAccessConfigurationOutput();
 }
 
+PutManagedScalingPolicyOutput _$PutManagedScalingPolicyOutputFromJson(
+    Map<String, dynamic> json) {
+  return PutManagedScalingPolicyOutput();
+}
+
 RemoveAutoScalingPolicyOutput _$RemoveAutoScalingPolicyOutputFromJson(
     Map<String, dynamic> json) {
   return RemoveAutoScalingPolicyOutput();
+}
+
+RemoveManagedScalingPolicyOutput _$RemoveManagedScalingPolicyOutputFromJson(
+    Map<String, dynamic> json) {
+  return RemoveManagedScalingPolicyOutput();
 }
 
 RemoveTagsOutput _$RemoveTagsOutputFromJson(Map<String, dynamic> json) {
@@ -1675,6 +1980,38 @@ SecurityConfigurationSummary _$SecurityConfigurationSummaryFromJson(
   );
 }
 
+SessionMappingDetail _$SessionMappingDetailFromJson(Map<String, dynamic> json) {
+  return SessionMappingDetail(
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    identityId: json['IdentityId'] as String,
+    identityName: json['IdentityName'] as String,
+    identityType:
+        _$enumDecodeNullable(_$IdentityTypeEnumMap, json['IdentityType']),
+    lastModifiedTime:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
+    sessionPolicyArn: json['SessionPolicyArn'] as String,
+    studioId: json['StudioId'] as String,
+  );
+}
+
+const _$IdentityTypeEnumMap = {
+  IdentityType.user: 'USER',
+  IdentityType.group: 'GROUP',
+};
+
+SessionMappingSummary _$SessionMappingSummaryFromJson(
+    Map<String, dynamic> json) {
+  return SessionMappingSummary(
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    identityId: json['IdentityId'] as String,
+    identityName: json['IdentityName'] as String,
+    identityType:
+        _$enumDecodeNullable(_$IdentityTypeEnumMap, json['IdentityType']),
+    sessionPolicyArn: json['SessionPolicyArn'] as String,
+    studioId: json['StudioId'] as String,
+  );
+}
+
 ShrinkPolicy _$ShrinkPolicyFromJson(Map<String, dynamic> json) {
   return ShrinkPolicy(
     decommissionTimeout: json['DecommissionTimeout'] as int,
@@ -1738,6 +2075,9 @@ SpotProvisioningSpecification _$SpotProvisioningSpecificationFromJson(
     timeoutAction: _$enumDecodeNullable(
         _$SpotProvisioningTimeoutActionEnumMap, json['TimeoutAction']),
     timeoutDurationMinutes: json['TimeoutDurationMinutes'] as int,
+    allocationStrategy: _$enumDecodeNullable(
+        _$SpotProvisioningAllocationStrategyEnumMap,
+        json['AllocationStrategy']),
     blockDurationMinutes: json['BlockDurationMinutes'] as int,
   );
 }
@@ -1755,6 +2095,8 @@ Map<String, dynamic> _$SpotProvisioningSpecificationToJson(
   writeNotNull('TimeoutAction',
       _$SpotProvisioningTimeoutActionEnumMap[instance.timeoutAction]);
   writeNotNull('TimeoutDurationMinutes', instance.timeoutDurationMinutes);
+  writeNotNull('AllocationStrategy',
+      _$SpotProvisioningAllocationStrategyEnumMap[instance.allocationStrategy]);
   writeNotNull('BlockDurationMinutes', instance.blockDurationMinutes);
   return val;
 }
@@ -1763,6 +2105,17 @@ const _$SpotProvisioningTimeoutActionEnumMap = {
   SpotProvisioningTimeoutAction.switchToOnDemand: 'SWITCH_TO_ON_DEMAND',
   SpotProvisioningTimeoutAction.terminateCluster: 'TERMINATE_CLUSTER',
 };
+
+const _$SpotProvisioningAllocationStrategyEnumMap = {
+  SpotProvisioningAllocationStrategy.capacityOptimized: 'capacity-optimized',
+};
+
+StartNotebookExecutionOutput _$StartNotebookExecutionOutputFromJson(
+    Map<String, dynamic> json) {
+  return StartNotebookExecutionOutput(
+    notebookExecutionId: json['NotebookExecutionId'] as String,
+  );
+}
 
 Step _$StepFromJson(Map<String, dynamic> json) {
   return Step(
@@ -1911,6 +2264,44 @@ StepTimeline _$StepTimelineFromJson(Map<String, dynamic> json) {
     endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
     startDateTime:
         const UnixDateTimeConverter().fromJson(json['StartDateTime']),
+  );
+}
+
+Studio _$StudioFromJson(Map<String, dynamic> json) {
+  return Studio(
+    authMode: _$enumDecodeNullable(_$AuthModeEnumMap, json['AuthMode']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    defaultS3Location: json['DefaultS3Location'] as String,
+    description: json['Description'] as String,
+    engineSecurityGroupId: json['EngineSecurityGroupId'] as String,
+    name: json['Name'] as String,
+    serviceRole: json['ServiceRole'] as String,
+    studioArn: json['StudioArn'] as String,
+    studioId: json['StudioId'] as String,
+    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
+    tags: (json['Tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    url: json['Url'] as String,
+    userRole: json['UserRole'] as String,
+    vpcId: json['VpcId'] as String,
+    workspaceSecurityGroupId: json['WorkspaceSecurityGroupId'] as String,
+  );
+}
+
+const _$AuthModeEnumMap = {
+  AuthMode.sso: 'SSO',
+  AuthMode.iam: 'IAM',
+};
+
+StudioSummary _$StudioSummaryFromJson(Map<String, dynamic> json) {
+  return StudioSummary(
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    description: json['Description'] as String,
+    name: json['Name'] as String,
+    studioId: json['StudioId'] as String,
+    url: json['Url'] as String,
+    vpcId: json['VpcId'] as String,
   );
 }
 

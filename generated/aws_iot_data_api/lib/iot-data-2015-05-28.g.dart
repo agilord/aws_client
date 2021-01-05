@@ -6,12 +6,6 @@ part of 'iot-data-2015-05-28.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ConflictException _$ConflictExceptionFromJson(Map<String, dynamic> json) {
-  return ConflictException(
-    message: json['message'] as String,
-  );
-}
-
 DeleteThingShadowResponse _$DeleteThingShadowResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteThingShadowResponse(
@@ -26,65 +20,12 @@ GetThingShadowResponse _$GetThingShadowResponseFromJson(
   );
 }
 
-InternalFailureException _$InternalFailureExceptionFromJson(
+ListNamedShadowsForThingResponse _$ListNamedShadowsForThingResponseFromJson(
     Map<String, dynamic> json) {
-  return InternalFailureException(
-    message: json['message'] as String,
-  );
-}
-
-InvalidRequestException _$InvalidRequestExceptionFromJson(
-    Map<String, dynamic> json) {
-  return InvalidRequestException(
-    message: json['message'] as String,
-  );
-}
-
-MethodNotAllowedException _$MethodNotAllowedExceptionFromJson(
-    Map<String, dynamic> json) {
-  return MethodNotAllowedException(
-    message: json['message'] as String,
-  );
-}
-
-RequestEntityTooLargeException _$RequestEntityTooLargeExceptionFromJson(
-    Map<String, dynamic> json) {
-  return RequestEntityTooLargeException(
-    message: json['message'] as String,
-  );
-}
-
-ResourceNotFoundException _$ResourceNotFoundExceptionFromJson(
-    Map<String, dynamic> json) {
-  return ResourceNotFoundException(
-    message: json['message'] as String,
-  );
-}
-
-ServiceUnavailableException _$ServiceUnavailableExceptionFromJson(
-    Map<String, dynamic> json) {
-  return ServiceUnavailableException(
-    message: json['message'] as String,
-  );
-}
-
-ThrottlingException _$ThrottlingExceptionFromJson(Map<String, dynamic> json) {
-  return ThrottlingException(
-    message: json['message'] as String,
-  );
-}
-
-UnauthorizedException _$UnauthorizedExceptionFromJson(
-    Map<String, dynamic> json) {
-  return UnauthorizedException(
-    message: json['message'] as String,
-  );
-}
-
-UnsupportedDocumentEncodingException
-    _$UnsupportedDocumentEncodingExceptionFromJson(Map<String, dynamic> json) {
-  return UnsupportedDocumentEncodingException(
-    message: json['message'] as String,
+  return ListNamedShadowsForThingResponse(
+    nextToken: json['nextToken'] as String,
+    results: (json['results'] as List)?.map((e) => e as String)?.toList(),
+    timestamp: json['timestamp'] as int,
   );
 }
 

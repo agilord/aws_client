@@ -14,7 +14,7 @@ endpoints are also displayed on the domain dashboard in the Amazon
 CloudSearch console. You submit suggest requests to the search endpoint.
 
 For more information, see the <a
-href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide">Amazon
+href="https://docs.aws.amazon.com/cloudsearch/latest/developerguide">Amazon
 CloudSearch Developer Guide</a>.
 
 ## Links

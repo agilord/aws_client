@@ -10,6 +10,69 @@ AddTagsResponse _$AddTagsResponseFromJson(Map<String, dynamic> json) {
   return AddTagsResponse();
 }
 
+AdvancedEventSelector _$AdvancedEventSelectorFromJson(
+    Map<String, dynamic> json) {
+  return AdvancedEventSelector(
+    fieldSelectors: (json['FieldSelectors'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AdvancedFieldSelector.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    name: json['Name'] as String,
+  );
+}
+
+Map<String, dynamic> _$AdvancedEventSelectorToJson(
+    AdvancedEventSelector instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FieldSelectors',
+      instance.fieldSelectors?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+AdvancedFieldSelector _$AdvancedFieldSelectorFromJson(
+    Map<String, dynamic> json) {
+  return AdvancedFieldSelector(
+    field: json['Field'] as String,
+    endsWith: (json['EndsWith'] as List)?.map((e) => e as String)?.toList(),
+    equals: (json['Equals'] as List)?.map((e) => e as String)?.toList(),
+    notEndsWith:
+        (json['NotEndsWith'] as List)?.map((e) => e as String)?.toList(),
+    notEquals: (json['NotEquals'] as List)?.map((e) => e as String)?.toList(),
+    notStartsWith:
+        (json['NotStartsWith'] as List)?.map((e) => e as String)?.toList(),
+    startsWith: (json['StartsWith'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Map<String, dynamic> _$AdvancedFieldSelectorToJson(
+    AdvancedFieldSelector instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Field', instance.field);
+  writeNotNull('EndsWith', instance.endsWith);
+  writeNotNull('Equals', instance.equals);
+  writeNotNull('NotEndsWith', instance.notEndsWith);
+  writeNotNull('NotEquals', instance.notEquals);
+  writeNotNull('NotStartsWith', instance.notStartsWith);
+  writeNotNull('StartsWith', instance.startsWith);
+  return val;
+}
+
 CreateTrailResponse _$CreateTrailResponseFromJson(Map<String, dynamic> json) {
   return CreateTrailResponse(
     cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String,
@@ -155,6 +218,11 @@ const _$ReadWriteTypeEnumMap = {
 GetEventSelectorsResponse _$GetEventSelectorsResponseFromJson(
     Map<String, dynamic> json) {
   return GetEventSelectorsResponse(
+    advancedEventSelectors: (json['AdvancedEventSelectors'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     eventSelectors: (json['EventSelectors'] as List)
         ?.map((e) => e == null
             ? null
@@ -322,6 +390,11 @@ PublicKey _$PublicKeyFromJson(Map<String, dynamic> json) {
 PutEventSelectorsResponse _$PutEventSelectorsResponseFromJson(
     Map<String, dynamic> json) {
   return PutEventSelectorsResponse(
+    advancedEventSelectors: (json['AdvancedEventSelectors'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AdvancedEventSelector.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     eventSelectors: (json['EventSelectors'] as List)
         ?.map((e) => e == null
             ? null

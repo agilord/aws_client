@@ -53,12 +53,20 @@ part 'securityhub-2018-10-26.g.dart';
 ///
 /// <ul>
 /// <li>
+/// <code> <a>BatchEnableStandards</a> </code> - <code>RateLimit</code> of 1
+/// request per second, <code>BurstLimit</code> of 1 request per second.
+/// </li>
+/// <li>
 /// <code> <a>GetFindings</a> </code> - <code>RateLimit</code> of 3 requests per
 /// second. <code>BurstLimit</code> of 6 requests per second.
 /// </li>
 /// <li>
 /// <code> <a>UpdateFindings</a> </code> - <code>RateLimit</code> of 1 request
 /// per second. <code>BurstLimit</code> of 5 requests per second.
+/// </li>
+/// <li>
+/// <code> <a>UpdateStandardsControl</a> </code> - <code>RateLimit</code> of 1
+/// request per second, <code>BurstLimit</code> of 5 requests per second.
 /// </li>
 /// <li>
 /// All other operations - <code>RateLimit</code> of 10 requests per second.
@@ -85,6 +93,9 @@ class SecurityHub {
 
   /// Accepts the invitation to be a member account and be monitored by the
   /// Security Hub master account that the invitation was sent from.
+  ///
+  /// This operation is only used by member accounts that are not added through
+  /// Organizations.
   ///
   /// When the member account accepts the invitation, permission is granted to
   /// the master account to view findings generated in the member account.
@@ -209,22 +220,7 @@ class SecurityHub {
   ///
   /// <ul>
   /// <li>
-  /// <code>Confidence</code>
-  /// </li>
-  /// <li>
-  /// <code>Criticality</code>
-  /// </li>
-  /// <li>
   /// <code>Note</code>
-  /// </li>
-  /// <li>
-  /// <code>RelatedFindings</code>
-  /// </li>
-  /// <li>
-  /// <code>Severity</code>
-  /// </li>
-  /// <li>
-  /// <code>Types</code>
   /// </li>
   /// <li>
   /// <code>UserDefinedFields</code>
@@ -234,6 +230,29 @@ class SecurityHub {
   /// </li>
   /// <li>
   /// <code>Workflow</code>
+  /// </li>
+  /// </ul>
+  /// <code>BatchImportFindings</code> can be used to update the following
+  /// finding fields and objects only if they have not been updated using
+  /// <code>BatchUpdateFindings</code>. After they are updated using
+  /// <code>BatchUpdateFindings</code>, these fields cannot be updated using
+  /// <code>BatchImportFindings</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Confidence</code>
+  /// </li>
+  /// <li>
+  /// <code>Criticality</code>
+  /// </li>
+  /// <li>
+  /// <code>RelatedFindings</code>
+  /// </li>
+  /// <li>
+  /// <code>Severity</code>
+  /// </li>
+  /// <li>
+  /// <code>Types</code>
   /// </li>
   /// </ul>
   ///
@@ -271,8 +290,8 @@ class SecurityHub {
   /// Updates from <code>BatchUpdateFindings</code> do not affect the value of
   /// <code>UpdatedAt</code> for a finding.
   ///
-  /// Master accounts can use <code>BatchUpdateFindings</code> to update the
-  /// following finding fields and objects.
+  /// Master and member accounts can use <code>BatchUpdateFindings</code> to
+  /// update the following finding fields and objects.
   ///
   /// <ul>
   /// <li>
@@ -303,8 +322,12 @@ class SecurityHub {
   /// <code>Workflow</code>
   /// </li>
   /// </ul>
-  /// Member accounts can only use <code>BatchUpdateFindings</code> to update
-  /// the Note object.
+  /// You can configure IAM policies to restrict access to fields and field
+  /// values. For example, you might not want member accounts to be able to
+  /// suppress findings or change the finding severity. See <a
+  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchupdatefindings.html#batchupdatefindings-configure-access">Configuring
+  /// access to BatchUpdateFindings</a> in the <i>AWS Security Hub User
+  /// Guide</i>.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -563,20 +586,42 @@ class SecurityHub {
 
   /// Creates a member association in Security Hub between the specified
   /// accounts and the account used to make the request, which is the master
-  /// account. To successfully create a member, you must use this action from an
-  /// account that already has Security Hub enabled. To enable Security Hub, you
-  /// can use the <code> <a>EnableSecurityHub</a> </code> operation.
+  /// account. If you are integrated with Organizations, then the master account
+  /// is the Security Hub administrator account that is designated by the
+  /// organization management account.
   ///
-  /// After you use <code>CreateMembers</code> to create member account
-  /// associations in Security Hub, you must use the <code> <a>InviteMembers</a>
-  /// </code> operation to invite the accounts to enable Security Hub and become
-  /// member accounts in Security Hub.
+  /// <code>CreateMembers</code> is always used to add accounts that are not
+  /// organization members.
   ///
-  /// If the account owner accepts the invitation, the account becomes a member
-  /// account in Security Hub, and a permission policy is added that permits the
-  /// master account to view the findings generated in the member account. When
-  /// Security Hub is enabled in the invited account, findings start to be sent
-  /// to both the member and master accounts.
+  /// For accounts that are part of an organization, <code>CreateMembers</code>
+  /// is only used in the following cases:
+  ///
+  /// <ul>
+  /// <li>
+  /// Security Hub is not configured to automatically add new accounts in an
+  /// organization.
+  /// </li>
+  /// <li>
+  /// The account was disassociated or deleted in Security Hub.
+  /// </li>
+  /// </ul>
+  /// This action can only be used by an account that has Security Hub enabled.
+  /// To enable Security Hub, you can use the <code> <a>EnableSecurityHub</a>
+  /// </code> operation.
+  ///
+  /// For accounts that are not organization members, you create the account
+  /// association and then send an invitation to the member account. To send the
+  /// invitation, you use the <code> <a>InviteMembers</a> </code> operation. If
+  /// the account owner accepts the invitation, the account becomes a member
+  /// account in Security Hub.
+  ///
+  /// Accounts that are part of an organization do not receive an invitation.
+  /// They automatically become a member account in Security Hub.
+  ///
+  /// A permissions policy is added that permits the master account to view the
+  /// findings generated in the member account. When Security Hub is enabled in
+  /// a member account, findings are sent to both the member and master
+  /// accounts.
   ///
   /// To remove the association between the master and member accounts, use the
   /// <code> <a>DisassociateFromMasterAccount</a> </code> or <code>
@@ -590,12 +635,14 @@ class SecurityHub {
   ///
   /// Parameter [accountDetails] :
   /// The list of accounts to associate with the Security Hub master account.
-  /// For each account, the list includes the account ID and the email address.
+  /// For each account, the list includes the account ID and optionally the
+  /// email address.
   Future<CreateMembersResponse> createMembers({
-    List<AccountDetails> accountDetails,
+    @_s.required List<AccountDetails> accountDetails,
   }) async {
+    ArgumentError.checkNotNull(accountDetails, 'accountDetails');
     final $payload = <String, dynamic>{
-      if (accountDetails != null) 'AccountDetails': accountDetails,
+      'AccountDetails': accountDetails,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -607,6 +654,9 @@ class SecurityHub {
   }
 
   /// Declines invitations to become a member account.
+  ///
+  /// This operation is only used by accounts that are not part of an
+  /// organization. Organization accounts do not receive invitations.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -698,6 +748,9 @@ class SecurityHub {
   /// Deletes invitations received by the AWS account to become a member
   /// account.
   ///
+  /// This operation is only used by accounts that are not part of an
+  /// organization. Organization accounts do not receive invitations.
+  ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
@@ -724,6 +777,9 @@ class SecurityHub {
 
   /// Deletes the specified member accounts from Security Hub.
   ///
+  /// Can be used to delete member accounts that belong to an organization as
+  /// well as member accounts that were invited manually.
+  ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
   /// May throw [InvalidAccessException].
@@ -733,10 +789,11 @@ class SecurityHub {
   /// Parameter [accountIds] :
   /// The list of account IDs for the member accounts to delete.
   Future<DeleteMembersResponse> deleteMembers({
-    List<String> accountIds,
+    @_s.required List<String> accountIds,
   }) async {
+    ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
-      if (accountIds != null) 'AccountIds': accountIds,
+      'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -824,6 +881,24 @@ class SecurityHub {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeHubResponse.fromJson(response);
+  }
+
+  /// Returns information about the Organizations configuration for Security
+  /// Hub. Can only be called from a Security Hub administrator account.
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidInputException].
+  /// May throw [InvalidAccessException].
+  /// May throw [LimitExceededException].
+  Future<DescribeOrganizationConfigurationResponse>
+      describeOrganizationConfiguration() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/organization/configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeOrganizationConfigurationResponse.fromJson(response);
   }
 
   /// Returns information about the available products that you can subscribe to
@@ -923,7 +998,8 @@ class SecurityHub {
   ///
   /// Parameter [standardsSubscriptionArn] :
   /// The ARN of a resource that represents your subscription to a supported
-  /// standard.
+  /// standard. To get the subscription ARNs of the standards you have enabled,
+  /// use the <code> <a>GetEnabledStandards</a> </code> operation.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of security standard controls to return.
@@ -1002,6 +1078,38 @@ class SecurityHub {
     return DisableImportFindingsForProductResponse.fromJson(response);
   }
 
+  /// Disables a Security Hub administrator account. Can only be called by the
+  /// organization management account.
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidInputException].
+  /// May throw [InvalidAccessException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [adminAccountId] :
+  /// The AWS account identifier of the Security Hub administrator account.
+  Future<void> disableOrganizationAdminAccount({
+    @_s.required String adminAccountId,
+  }) async {
+    ArgumentError.checkNotNull(adminAccountId, 'adminAccountId');
+    _s.validateStringPattern(
+      'adminAccountId',
+      adminAccountId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'AdminAccountId': adminAccountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/organization/admin/disable',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DisableOrganizationAdminAccountResponse.fromJson(response);
+  }
+
   /// Disables Security Hub in your account only in the current Region. To
   /// disable Security Hub in all Regions, you must submit one request per
   /// Region where you have enabled Security Hub.
@@ -1034,6 +1142,10 @@ class SecurityHub {
   /// Disassociates the current Security Hub member account from the associated
   /// master account.
   ///
+  /// This operation is only used by accounts that are not part of an
+  /// organization. For organization accounts, only the master account (the
+  /// designated Security Hub administrator) can disassociate a member account.
+  ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
   /// May throw [InvalidAccessException].
@@ -1052,6 +1164,9 @@ class SecurityHub {
   /// Disassociates the specified member accounts from the associated master
   /// account.
   ///
+  /// Can be used to disassociate both accounts that are in an organization and
+  /// accounts that were invited manually.
+  ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
   /// May throw [InvalidAccessException].
@@ -1062,10 +1177,11 @@ class SecurityHub {
   /// The account IDs of the member accounts to disassociate from the master
   /// account.
   Future<void> disassociateMembers({
-    List<String> accountIds,
+    @_s.required List<String> accountIds,
   }) async {
+    ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
-      if (accountIds != null) 'AccountIds': accountIds,
+      'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1079,7 +1195,7 @@ class SecurityHub {
   /// Enables the integration of a partner product with Security Hub. Integrated
   /// products send findings to Security Hub.
   ///
-  /// When you enable a product integration, a permission policy that grants
+  /// When you enable a product integration, a permissions policy that grants
   /// permission for the product to send findings to Security Hub is applied.
   ///
   /// May throw [InternalException].
@@ -1113,6 +1229,39 @@ class SecurityHub {
     return EnableImportFindingsForProductResponse.fromJson(response);
   }
 
+  /// Designates the Security Hub administrator account for an organization. Can
+  /// only be called by the organization management account.
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidInputException].
+  /// May throw [InvalidAccessException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [adminAccountId] :
+  /// The AWS account identifier of the account to designate as the Security Hub
+  /// administrator account.
+  Future<void> enableOrganizationAdminAccount({
+    @_s.required String adminAccountId,
+  }) async {
+    ArgumentError.checkNotNull(adminAccountId, 'adminAccountId');
+    _s.validateStringPattern(
+      'adminAccountId',
+      adminAccountId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'AdminAccountId': adminAccountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/organization/admin/enable',
+      exceptionFnMap: _exceptionFns,
+    );
+    return EnableOrganizationAdminAccountResponse.fromJson(response);
+  }
+
   /// Enables Security Hub for your account in the current Region or the Region
   /// you specify in the request.
   ///
@@ -1121,10 +1270,21 @@ class SecurityHub {
   /// Security Hub.
   ///
   /// When you use the <code>EnableSecurityHub</code> operation to enable
-  /// Security Hub, you also automatically enable the CIS AWS Foundations
-  /// standard. You do not enable the Payment Card Industry Data Security
-  /// Standard (PCI DSS) standard. To not enable the CIS AWS Foundations
-  /// standard, set <code>EnableDefaultStandards</code> to <code>false</code>.
+  /// Security Hub, you also automatically enable the following standards.
+  ///
+  /// <ul>
+  /// <li>
+  /// CIS AWS Foundations
+  /// </li>
+  /// <li>
+  /// AWS Foundational Security Best Practices
+  /// </li>
+  /// </ul>
+  /// You do not enable the Payment Card Industry Data Security Standard (PCI
+  /// DSS) standard.
+  ///
+  /// To not enable the automatically enabled standards, set
+  /// <code>EnableDefaultStandards</code> to <code>false</code>.
   ///
   /// After you enable Security Hub, to enable a standard, use the <code>
   /// <a>BatchEnableStandards</a> </code> operation. To disable a standard, use
@@ -1148,7 +1308,7 @@ class SecurityHub {
   /// <code>EnableDefaultStandards</code> to <code>false</code>.
   ///
   /// Parameter [tags] :
-  /// The tags to add to the Hub resource when you enable Security Hub.
+  /// The tags to add to the hub resource when you enable Security Hub.
   Future<void> enableSecurityHub({
     bool enableDefaultStandards,
     Map<String, String> tags,
@@ -1223,6 +1383,13 @@ class SecurityHub {
   /// Parameter [filters] :
   /// The finding attributes used to define a condition to filter the returned
   /// findings.
+  ///
+  /// You can filter by up to 10 finding attributes. For each attribute, you can
+  /// provide up to 20 filter values.
+  ///
+  /// Note that in the available filter fields, <code>WorkflowState</code> is
+  /// deprecated. To search for a finding based on its workflow status, use
+  /// <code>WorkflowStatus</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of findings to return.
@@ -1364,6 +1531,9 @@ class SecurityHub {
   /// Provides the details for the Security Hub master account for the current
   /// member account.
   ///
+  /// Can be used by both member accounts that are in an organization and
+  /// accounts that were invited manually.
+  ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
   /// May throw [InvalidAccessException].
@@ -1381,6 +1551,13 @@ class SecurityHub {
 
   /// Returns the details for the Security Hub member accounts for the specified
   /// account IDs.
+  ///
+  /// A master account can be either a delegated Security Hub administrator
+  /// account for an organization or a master account that enabled Security Hub
+  /// manually.
+  ///
+  /// The results include both member accounts that are in an organization and
+  /// accounts that were invited manually.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -1410,12 +1587,15 @@ class SecurityHub {
   /// Invites other AWS accounts to become member accounts for the Security Hub
   /// master account that the invitation is sent from.
   ///
+  /// This operation is only used to invite accounts that do not belong to an
+  /// organization. Organization accounts do not receive invitations.
+  ///
   /// Before you can use this action to invite a member, you must first use the
   /// <code> <a>CreateMembers</a> </code> action to create the member account in
   /// Security Hub.
   ///
-  /// When the account owner accepts the invitation to become a member account
-  /// and enables Security Hub, the master account can view the findings
+  /// When the account owner enables Security Hub and accepts the invitation to
+  /// become a member account, the master account can view the findings
   /// generated from the member account.
   ///
   /// May throw [InternalException].
@@ -1428,10 +1608,11 @@ class SecurityHub {
   /// The list of account IDs of the AWS accounts to invite to Security Hub as
   /// members.
   Future<InviteMembersResponse> inviteMembers({
-    List<String> accountIds,
+    @_s.required List<String> accountIds,
   }) async {
+    ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
-      if (accountIds != null) 'AccountIds': accountIds,
+      'AccountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1486,6 +1667,9 @@ class SecurityHub {
   /// Lists all Security Hub membership invitations that were sent to the
   /// current AWS account.
   ///
+  /// This operation is only used by accounts that do not belong to an
+  /// organization. Organization accounts do not receive invitations.
+  ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
   /// May throw [InvalidAccessException].
@@ -1509,7 +1693,7 @@ class SecurityHub {
       'maxResults',
       maxResults,
       1,
-      100,
+      50,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -1527,6 +1711,9 @@ class SecurityHub {
 
   /// Lists details about all member accounts for the current Security Hub
   /// master account.
+  ///
+  /// The results include both member accounts that belong to an organization
+  /// and member accounts that were invited manually.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -1551,7 +1738,7 @@ class SecurityHub {
   ///
   /// If <code>OnlyAssociated</code> is set to <code>TRUE</code>, the response
   /// includes member accounts whose relationship status with the master is set
-  /// to <code>ENABLED</code> or <code>DISABLED</code>.
+  /// to <code>ENABLED</code>.
   ///
   /// If <code>OnlyAssociated</code> is set to <code>FALSE</code>, the response
   /// includes all existing member accounts.
@@ -1564,7 +1751,7 @@ class SecurityHub {
       'maxResults',
       maxResults,
       1,
-      100,
+      50,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -1579,6 +1766,47 @@ class SecurityHub {
       exceptionFnMap: _exceptionFns,
     );
     return ListMembersResponse.fromJson(response);
+  }
+
+  /// Lists the Security Hub administrator accounts. Can only be called by the
+  /// organization management account.
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidInputException].
+  /// May throw [InvalidAccessException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that is required for pagination. On your first call to the
+  /// <code>ListOrganizationAdminAccounts</code> operation, set the value of
+  /// this parameter to <code>NULL</code>. For subsequent calls to the
+  /// operation, to continue listing data, set the value of this parameter to
+  /// the value returned from the previous response.
+  Future<ListOrganizationAdminAccountsResponse> listOrganizationAdminAccounts({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/organization/admin',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListOrganizationAdminAccountsResponse.fromJson(response);
   }
 
   /// Returns a list of tags associated with a resource.
@@ -1830,6 +2058,69 @@ class SecurityHub {
     return UpdateInsightResponse.fromJson(response);
   }
 
+  /// Used to update the configuration related to Organizations. Can only be
+  /// called from a Security Hub administrator account.
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidInputException].
+  /// May throw [InvalidAccessException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [autoEnable] :
+  /// Whether to automatically enable Security Hub for new accounts in the
+  /// organization.
+  ///
+  /// By default, this is <code>false</code>, and new accounts are not added
+  /// automatically.
+  ///
+  /// To automatically enable Security Hub for new accounts, set this to
+  /// <code>true</code>.
+  Future<void> updateOrganizationConfiguration({
+    @_s.required bool autoEnable,
+  }) async {
+    ArgumentError.checkNotNull(autoEnable, 'autoEnable');
+    final $payload = <String, dynamic>{
+      'AutoEnable': autoEnable,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/organization/configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateOrganizationConfigurationResponse.fromJson(response);
+  }
+
+  /// Updates configuration options for Security Hub.
+  ///
+  /// May throw [InternalException].
+  /// May throw [InvalidInputException].
+  /// May throw [InvalidAccessException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [autoEnableControls] :
+  /// Whether to automatically enable new controls when they are added to
+  /// standards that are enabled.
+  ///
+  /// By default, this is set to <code>true</code>, and new controls are enabled
+  /// automatically. To not automatically enable new controls, set this to
+  /// <code>false</code>.
+  Future<void> updateSecurityHubConfiguration({
+    bool autoEnableControls,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (autoEnableControls != null) 'AutoEnableControls': autoEnableControls,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/accounts',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateSecurityHubConfigurationResponse.fromJson(response);
+  }
+
   /// Used to control whether an individual security standard control is enabled
   /// or disabled.
   ///
@@ -1846,7 +2137,7 @@ class SecurityHub {
   ///
   /// Parameter [disabledReason] :
   /// A description of the reason why you are disabling a security standard
-  /// control.
+  /// control. If you are disabling a control, then this is required.
   Future<void> updateStandardsControl({
     @_s.required String standardsControlArn,
     ControlStatus controlStatus,
@@ -1906,7 +2197,7 @@ class AccountDetails {
   final String email;
 
   AccountDetails({
-    this.accountId,
+    @_s.required this.accountId,
     this.email,
   });
   Map<String, dynamic> toJson() => _$AccountDetailsToJson(this);
@@ -1940,6 +2231,38 @@ class ActionTarget {
       _$ActionTargetFromJson(json);
 }
 
+/// Represents a Security Hub administrator account designated by an
+/// organization management account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AdminAccount {
+  /// The AWS account identifier of the Security Hub administrator account.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The current status of the Security Hub administrator account. Indicates
+  /// whether the account is currently enabled as a Security Hub administrator.
+  @_s.JsonKey(name: 'Status')
+  final AdminStatus status;
+
+  AdminAccount({
+    this.accountId,
+    this.status,
+  });
+  factory AdminAccount.fromJson(Map<String, dynamic> json) =>
+      _$AdminAccountFromJson(json);
+}
+
+enum AdminStatus {
+  @_s.JsonValue('ENABLED')
+  enabled,
+  @_s.JsonValue('DISABLE_IN_PROGRESS')
+  disableInProgress,
+}
+
 /// Information about an Availability Zone.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1965,6 +2288,1215 @@ class AvailabilityZone {
   Map<String, dynamic> toJson() => _$AvailabilityZoneToJson(this);
 }
 
+/// Contains information about settings for logging access for the stage.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsApiGatewayAccessLogSettings {
+  /// The ARN of the CloudWatch Logs log group that receives the access logs.
+  @_s.JsonKey(name: 'DestinationArn')
+  final String destinationArn;
+
+  /// A single-line format of the access logs of data, as specified by selected
+  /// <code>$context</code> variables. The format must include at least
+  /// <code>$context.requestId</code>.
+  @_s.JsonKey(name: 'Format')
+  final String format;
+
+  AwsApiGatewayAccessLogSettings({
+    this.destinationArn,
+    this.format,
+  });
+  factory AwsApiGatewayAccessLogSettings.fromJson(Map<String, dynamic> json) =>
+      _$AwsApiGatewayAccessLogSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsApiGatewayAccessLogSettingsToJson(this);
+}
+
+/// Contains information about settings for canary deployment in the stage.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsApiGatewayCanarySettings {
+  /// The deployment identifier for the canary deployment.
+  @_s.JsonKey(name: 'DeploymentId')
+  final String deploymentId;
+
+  /// The percentage of traffic that is diverted to a canary deployment.
+  @_s.JsonKey(name: 'PercentTraffic')
+  final double percentTraffic;
+
+  /// Stage variables that are overridden in the canary release deployment. The
+  /// variables include new stage variables that are introduced in the canary.
+  ///
+  /// Each variable is represented as a string-to-string map between the stage
+  /// variable name and the variable value.
+  @_s.JsonKey(name: 'StageVariableOverrides')
+  final Map<String, String> stageVariableOverrides;
+
+  /// Indicates whether the canary deployment uses the stage cache.
+  @_s.JsonKey(name: 'UseStageCache')
+  final bool useStageCache;
+
+  AwsApiGatewayCanarySettings({
+    this.deploymentId,
+    this.percentTraffic,
+    this.stageVariableOverrides,
+    this.useStageCache,
+  });
+  factory AwsApiGatewayCanarySettings.fromJson(Map<String, dynamic> json) =>
+      _$AwsApiGatewayCanarySettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsApiGatewayCanarySettingsToJson(this);
+}
+
+/// Contains information about the endpoints for the API.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsApiGatewayEndpointConfiguration {
+  /// A list of endpoint types for the REST API.
+  ///
+  /// For an edge-optimized API, the endpoint type is <code>EDGE</code>. For a
+  /// Regional API, the endpoint type is <code>REGIONAL</code>. For a private API,
+  /// the endpoint type is <code>PRIVATE</code>.
+  @_s.JsonKey(name: 'Types')
+  final List<String> types;
+
+  AwsApiGatewayEndpointConfiguration({
+    this.types,
+  });
+  factory AwsApiGatewayEndpointConfiguration.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsApiGatewayEndpointConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsApiGatewayEndpointConfigurationToJson(this);
+}
+
+/// Defines settings for a method for the stage.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsApiGatewayMethodSettings {
+  /// Indicates whether the cached responses are encrypted.
+  @_s.JsonKey(name: 'CacheDataEncrypted')
+  final bool cacheDataEncrypted;
+
+  /// Specifies the time to live (TTL), in seconds, for cached responses. The
+  /// higher the TTL, the longer the response is cached.
+  @_s.JsonKey(name: 'CacheTtlInSeconds')
+  final int cacheTtlInSeconds;
+
+  /// Indicates whether responses are cached and returned for requests. For
+  /// responses to be cached, a cache cluster must be enabled on the stage.
+  @_s.JsonKey(name: 'CachingEnabled')
+  final bool cachingEnabled;
+
+  /// Indicates whether data trace logging is enabled for the method. Data trace
+  /// logging affects the log entries that are pushed to CloudWatch Logs.
+  @_s.JsonKey(name: 'DataTraceEnabled')
+  final bool dataTraceEnabled;
+
+  /// The HTTP method. You can use an asterisk (*) as a wildcard to apply method
+  /// settings to multiple methods.
+  @_s.JsonKey(name: 'HttpMethod')
+  final String httpMethod;
+
+  /// The logging level for this method. The logging level affects the log entries
+  /// that are pushed to CloudWatch Logs.
+  ///
+  /// If the logging level is <code>ERROR</code>, then the logs only include
+  /// error-level entries.
+  ///
+  /// If the logging level is <code>INFO</code>, then the logs include both
+  /// <code>ERROR</code> events and extra informational events.
+  ///
+  /// Valid values: <code>OFF</code> | <code>ERROR</code> | <code>INFO</code>
+  @_s.JsonKey(name: 'LoggingLevel')
+  final String loggingLevel;
+
+  /// Indicates whether CloudWatch metrics are enabled for the method.
+  @_s.JsonKey(name: 'MetricsEnabled')
+  final bool metricsEnabled;
+
+  /// Indicates whether authorization is required for a cache invalidation
+  /// request.
+  @_s.JsonKey(name: 'RequireAuthorizationForCacheControl')
+  final bool requireAuthorizationForCacheControl;
+
+  /// The resource path for this method. Forward slashes (/) are encoded as ~1 .
+  /// The initial slash must include a forward slash.
+  ///
+  /// For example, the path value <code>/resource/subresource</code> must be
+  /// encoded as <code>/~1resource~1subresource</code>.
+  ///
+  /// To specify the root path, use only a slash (/). You can use an asterisk (*)
+  /// as a wildcard to apply method settings to multiple methods.
+  @_s.JsonKey(name: 'ResourcePath')
+  final String resourcePath;
+
+  /// The throttling burst limit for the method.
+  @_s.JsonKey(name: 'ThrottlingBurstLimit')
+  final int throttlingBurstLimit;
+
+  /// The throttling rate limit for the method.
+  @_s.JsonKey(name: 'ThrottlingRateLimit')
+  final double throttlingRateLimit;
+
+  /// Indicates how to handle unauthorized requests for cache invalidation.
+  ///
+  /// Valid values: <code>FAIL_WITH_403</code> |
+  /// <code>SUCCEED_WITH_RESPONSE_HEADER</code> |
+  /// <code>SUCCEED_WITHOUT_RESPONSE_HEADER</code>
+  @_s.JsonKey(name: 'UnauthorizedCacheControlHeaderStrategy')
+  final String unauthorizedCacheControlHeaderStrategy;
+
+  AwsApiGatewayMethodSettings({
+    this.cacheDataEncrypted,
+    this.cacheTtlInSeconds,
+    this.cachingEnabled,
+    this.dataTraceEnabled,
+    this.httpMethod,
+    this.loggingLevel,
+    this.metricsEnabled,
+    this.requireAuthorizationForCacheControl,
+    this.resourcePath,
+    this.throttlingBurstLimit,
+    this.throttlingRateLimit,
+    this.unauthorizedCacheControlHeaderStrategy,
+  });
+  factory AwsApiGatewayMethodSettings.fromJson(Map<String, dynamic> json) =>
+      _$AwsApiGatewayMethodSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsApiGatewayMethodSettingsToJson(this);
+}
+
+/// contains information about a REST API in version 1 of Amazon API Gateway.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsApiGatewayRestApiDetails {
+  /// The source of the API key for metering requests according to a usage plan.
+  ///
+  /// <code>HEADER</code> indicates whether to read the API key from the X-API-Key
+  /// header of a request.
+  ///
+  /// <code>AUTHORIZER</code> indicates whether to read the API key from the
+  /// <code>UsageIdentifierKey</code> from a custom authorizer.
+  @_s.JsonKey(name: 'ApiKeySource')
+  final String apiKeySource;
+
+  /// The list of binary media types supported by the REST API.
+  @_s.JsonKey(name: 'BinaryMediaTypes')
+  final List<String> binaryMediaTypes;
+
+  /// Indicates when the API was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreatedDate')
+  final String createdDate;
+
+  /// A description of the REST API.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The endpoint configuration of the REST API.
+  @_s.JsonKey(name: 'EndpointConfiguration')
+  final AwsApiGatewayEndpointConfiguration endpointConfiguration;
+
+  /// The identifier of the REST API.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The minimum size in bytes of a payload before compression is enabled.
+  ///
+  /// If <code>null</code>, then compression is disabled.
+  ///
+  /// If 0, then all payloads are compressed.
+  @_s.JsonKey(name: 'MinimumCompressionSize')
+  final int minimumCompressionSize;
+
+  /// The name of the REST API.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The version identifier for the REST API.
+  @_s.JsonKey(name: 'Version')
+  final String version;
+
+  AwsApiGatewayRestApiDetails({
+    this.apiKeySource,
+    this.binaryMediaTypes,
+    this.createdDate,
+    this.description,
+    this.endpointConfiguration,
+    this.id,
+    this.minimumCompressionSize,
+    this.name,
+    this.version,
+  });
+  factory AwsApiGatewayRestApiDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsApiGatewayRestApiDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsApiGatewayRestApiDetailsToJson(this);
+}
+
+/// Provides information about a version 1 Amazon API Gateway stage.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsApiGatewayStageDetails {
+  /// Settings for logging access for the stage.
+  @_s.JsonKey(name: 'AccessLogSettings')
+  final AwsApiGatewayAccessLogSettings accessLogSettings;
+
+  /// Indicates whether a cache cluster is enabled for the stage.
+  @_s.JsonKey(name: 'CacheClusterEnabled')
+  final bool cacheClusterEnabled;
+
+  /// If a cache cluster is enabled, the size of the cache cluster.
+  @_s.JsonKey(name: 'CacheClusterSize')
+  final String cacheClusterSize;
+
+  /// If a cache cluster is enabled, the status of the cache cluster.
+  @_s.JsonKey(name: 'CacheClusterStatus')
+  final String cacheClusterStatus;
+
+  /// Information about settings for canary deployment in the stage.
+  @_s.JsonKey(name: 'CanarySettings')
+  final AwsApiGatewayCanarySettings canarySettings;
+
+  /// The identifier of the client certificate for the stage.
+  @_s.JsonKey(name: 'ClientCertificateId')
+  final String clientCertificateId;
+
+  /// Indicates when the stage was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreatedDate')
+  final String createdDate;
+
+  /// The identifier of the deployment that the stage points to.
+  @_s.JsonKey(name: 'DeploymentId')
+  final String deploymentId;
+
+  /// A description of the stage.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The version of the API documentation that is associated with the stage.
+  @_s.JsonKey(name: 'DocumentationVersion')
+  final String documentationVersion;
+
+  /// Indicates when the stage was most recently updated.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'LastUpdatedDate')
+  final String lastUpdatedDate;
+
+  /// Defines the method settings for the stage.
+  @_s.JsonKey(name: 'MethodSettings')
+  final List<AwsApiGatewayMethodSettings> methodSettings;
+
+  /// The name of the stage.
+  @_s.JsonKey(name: 'StageName')
+  final String stageName;
+
+  /// Indicates whether active tracing with AWS X-Ray is enabled for the stage.
+  @_s.JsonKey(name: 'TracingEnabled')
+  final bool tracingEnabled;
+
+  /// A map that defines the stage variables for the stage.
+  ///
+  /// Variable names can have alphanumeric and underscore characters.
+  ///
+  /// Variable values can contain the following characters:
+  ///
+  /// <ul>
+  /// <li>
+  /// Uppercase and lowercase letters
+  /// </li>
+  /// <li>
+  /// Numbers
+  /// </li>
+  /// <li>
+  /// Special characters -._~:/?#&amp;=,
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Variables')
+  final Map<String, String> variables;
+
+  /// The ARN of the web ACL associated with the stage.
+  @_s.JsonKey(name: 'WebAclArn')
+  final String webAclArn;
+
+  AwsApiGatewayStageDetails({
+    this.accessLogSettings,
+    this.cacheClusterEnabled,
+    this.cacheClusterSize,
+    this.cacheClusterStatus,
+    this.canarySettings,
+    this.clientCertificateId,
+    this.createdDate,
+    this.deploymentId,
+    this.description,
+    this.documentationVersion,
+    this.lastUpdatedDate,
+    this.methodSettings,
+    this.stageName,
+    this.tracingEnabled,
+    this.variables,
+    this.webAclArn,
+  });
+  factory AwsApiGatewayStageDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsApiGatewayStageDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsApiGatewayStageDetailsToJson(this);
+}
+
+/// Contains information about a version 2 API in Amazon API Gateway.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsApiGatewayV2ApiDetails {
+  /// The URI of the API.
+  ///
+  /// Uses the format <code>
+  /// <i>&lt;api-id&gt;</i>.execute-api.<i>&lt;region&gt;</i>.amazonaws.com</code>
+  ///
+  /// The stage name is typically appended to the URI to form a complete path to a
+  /// deployed API stage.
+  @_s.JsonKey(name: 'ApiEndpoint')
+  final String apiEndpoint;
+
+  /// The identifier of the API.
+  @_s.JsonKey(name: 'ApiId')
+  final String apiId;
+
+  /// An API key selection expression. Supported only for WebSocket APIs.
+  @_s.JsonKey(name: 'ApiKeySelectionExpression')
+  final String apiKeySelectionExpression;
+
+  /// A cross-origin resource sharing (CORS) configuration. Supported only for
+  /// HTTP APIs.
+  @_s.JsonKey(name: 'CorsConfiguration')
+  final AwsCorsConfiguration corsConfiguration;
+
+  /// Indicates when the API was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreatedDate')
+  final String createdDate;
+
+  /// A description of the API.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name of the API.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The API protocol for the API.
+  ///
+  /// Valid values: <code>WEBSOCKET</code> | <code>HTTP</code>
+  @_s.JsonKey(name: 'ProtocolType')
+  final String protocolType;
+
+  /// The route selection expression for the API.
+  ///
+  /// For HTTP APIs, must be <code>${request.method} ${request.path}</code>. This
+  /// is the default value for HTTP APIs.
+  ///
+  /// For WebSocket APIs, there is no default value.
+  @_s.JsonKey(name: 'RouteSelectionExpression')
+  final String routeSelectionExpression;
+
+  /// The version identifier for the API.
+  @_s.JsonKey(name: 'Version')
+  final String version;
+
+  AwsApiGatewayV2ApiDetails({
+    this.apiEndpoint,
+    this.apiId,
+    this.apiKeySelectionExpression,
+    this.corsConfiguration,
+    this.createdDate,
+    this.description,
+    this.name,
+    this.protocolType,
+    this.routeSelectionExpression,
+    this.version,
+  });
+  factory AwsApiGatewayV2ApiDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsApiGatewayV2ApiDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsApiGatewayV2ApiDetailsToJson(this);
+}
+
+/// Contains route settings for a stage.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsApiGatewayV2RouteSettings {
+  /// Indicates whether data trace logging is enabled. Data trace logging affects
+  /// the log entries that are pushed to CloudWatch Logs. Supported only for
+  /// WebSocket APIs.
+  @_s.JsonKey(name: 'DataTraceEnabled')
+  final bool dataTraceEnabled;
+
+  /// Indicates whether detailed metrics are enabled.
+  @_s.JsonKey(name: 'DetailedMetricsEnabled')
+  final bool detailedMetricsEnabled;
+
+  /// The logging level. The logging level affects the log entries that are pushed
+  /// to CloudWatch Logs. Supported only for WebSocket APIs.
+  ///
+  /// If the logging level is <code>ERROR</code>, then the logs only include
+  /// error-level entries.
+  ///
+  /// If the logging level is <code>INFO</code>, then the logs include both
+  /// <code>ERROR</code> events and extra informational events.
+  ///
+  /// Valid values: <code>OFF</code> | <code>ERROR</code> | <code>INFO</code>
+  @_s.JsonKey(name: 'LoggingLevel')
+  final String loggingLevel;
+
+  /// The throttling burst limit.
+  @_s.JsonKey(name: 'ThrottlingBurstLimit')
+  final int throttlingBurstLimit;
+
+  /// The throttling rate limit.
+  @_s.JsonKey(name: 'ThrottlingRateLimit')
+  final double throttlingRateLimit;
+
+  AwsApiGatewayV2RouteSettings({
+    this.dataTraceEnabled,
+    this.detailedMetricsEnabled,
+    this.loggingLevel,
+    this.throttlingBurstLimit,
+    this.throttlingRateLimit,
+  });
+  factory AwsApiGatewayV2RouteSettings.fromJson(Map<String, dynamic> json) =>
+      _$AwsApiGatewayV2RouteSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsApiGatewayV2RouteSettingsToJson(this);
+}
+
+/// Contains information about a version 2 stage for Amazon API Gateway.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsApiGatewayV2StageDetails {
+  /// Information about settings for logging access for the stage.
+  @_s.JsonKey(name: 'AccessLogSettings')
+  final AwsApiGatewayAccessLogSettings accessLogSettings;
+
+  /// Indicates whether the stage is managed by API Gateway.
+  @_s.JsonKey(name: 'ApiGatewayManaged')
+  final bool apiGatewayManaged;
+
+  /// Indicates whether updates to an API automatically trigger a new deployment.
+  @_s.JsonKey(name: 'AutoDeploy')
+  final bool autoDeploy;
+
+  /// Indicates when the stage was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreatedDate')
+  final String createdDate;
+
+  /// Default route settings for the stage.
+  @_s.JsonKey(name: 'DefaultRouteSettings')
+  final AwsApiGatewayV2RouteSettings defaultRouteSettings;
+
+  /// The identifier of the deployment that the stage is associated with.
+  @_s.JsonKey(name: 'DeploymentId')
+  final String deploymentId;
+
+  /// The description of the stage.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The status of the last deployment of a stage. Supported only if the stage
+  /// has automatic deployment enabled.
+  @_s.JsonKey(name: 'LastDeploymentStatusMessage')
+  final String lastDeploymentStatusMessage;
+
+  /// Indicates when the stage was most recently updated.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'LastUpdatedDate')
+  final String lastUpdatedDate;
+
+  /// The route settings for the stage.
+  @_s.JsonKey(name: 'RouteSettings')
+  final AwsApiGatewayV2RouteSettings routeSettings;
+
+  /// The name of the stage.
+  @_s.JsonKey(name: 'StageName')
+  final String stageName;
+
+  /// A map that defines the stage variables for the stage.
+  ///
+  /// Variable names can have alphanumeric and underscore characters.
+  ///
+  /// Variable values can contain the following characters:
+  ///
+  /// <ul>
+  /// <li>
+  /// Uppercase and lowercase letters
+  /// </li>
+  /// <li>
+  /// Numbers
+  /// </li>
+  /// <li>
+  /// Special characters -._~:/?#&amp;=,
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'StageVariables')
+  final Map<String, String> stageVariables;
+
+  AwsApiGatewayV2StageDetails({
+    this.accessLogSettings,
+    this.apiGatewayManaged,
+    this.autoDeploy,
+    this.createdDate,
+    this.defaultRouteSettings,
+    this.deploymentId,
+    this.description,
+    this.lastDeploymentStatusMessage,
+    this.lastUpdatedDate,
+    this.routeSettings,
+    this.stageName,
+    this.stageVariables,
+  });
+  factory AwsApiGatewayV2StageDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsApiGatewayV2StageDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsApiGatewayV2StageDetailsToJson(this);
+}
+
+/// Provides details about an auto scaling group.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsAutoScalingAutoScalingGroupDetails {
+  /// Indicates when the auto scaling group was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreatedTime')
+  final String createdTime;
+
+  /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before it
+  /// checks the health status of an EC2 instance that has come into service.
+  @_s.JsonKey(name: 'HealthCheckGracePeriod')
+  final int healthCheckGracePeriod;
+
+  /// The service to use for the health checks.
+  @_s.JsonKey(name: 'HealthCheckType')
+  final String healthCheckType;
+
+  /// The name of the launch configuration.
+  @_s.JsonKey(name: 'LaunchConfigurationName')
+  final String launchConfigurationName;
+
+  /// The list of load balancers associated with the group.
+  @_s.JsonKey(name: 'LoadBalancerNames')
+  final List<String> loadBalancerNames;
+
+  AwsAutoScalingAutoScalingGroupDetails({
+    this.createdTime,
+    this.healthCheckGracePeriod,
+    this.healthCheckType,
+    this.launchConfigurationName,
+    this.loadBalancerNames,
+  });
+  factory AwsAutoScalingAutoScalingGroupDetails.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsAutoScalingAutoScalingGroupDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsAutoScalingAutoScalingGroupDetailsToJson(this);
+}
+
+/// Provides details about an AWS Certificate Manager certificate.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCertificateManagerCertificateDetails {
+  /// The ARN of the private certificate authority (CA) that will be used to issue
+  /// the certificate.
+  @_s.JsonKey(name: 'CertificateAuthorityArn')
+  final String certificateAuthorityArn;
+
+  /// Indicates when the certificate was requested.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreatedAt')
+  final String createdAt;
+
+  /// The fully qualified domain name (FQDN), such as www.example.com, that is
+  /// secured by the certificate.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// Contains information about the initial validation of each domain name that
+  /// occurs as a result of the <code>RequestCertificate</code> request.
+  ///
+  /// Only provided if the certificate type is <code>AMAZON_ISSUED</code>.
+  @_s.JsonKey(name: 'DomainValidationOptions')
+  final List<AwsCertificateManagerCertificateDomainValidationOption>
+      domainValidationOptions;
+
+  /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each
+  /// object specifies a purpose for which the certificate public key can be used
+  /// and consists of a name and an object identifier (OID).
+  @_s.JsonKey(name: 'ExtendedKeyUsages')
+  final List<AwsCertificateManagerCertificateExtendedKeyUsage>
+      extendedKeyUsages;
+
+  /// For a failed certificate request, the reason for the failure.
+  ///
+  /// Valid values: <code>NO_AVAILABLE_CONTACTS</code> |
+  /// <code>ADDITIONAL_VERIFICATION_REQUIRED</code> |
+  /// <code>DOMAIN_NOT_ALLOWED</code> | <code>INVALID_PUBLIC_DOMAIN</code> |
+  /// <code>DOMAIN_VALIDATION_DENIED</code> | <code>CAA_ERROR</code> |
+  /// <code>PCA_LIMIT_EXCEEDED</code> | <code>PCA_INVALID_ARN</code> |
+  /// <code>PCA_INVALID_STATE</code> | <code>PCA_REQUEST_FAILED</code> |
+  /// <code>PCA_NAME_CONSTRAINTS_VALIDATION</code> |
+  /// <code>PCA_RESOURCE_NOT_FOUND</code> | <code>PCA_INVALID_ARGS</code> |
+  /// <code>PCA_INVALID_DURATION</code> | <code>PCA_ACCESS_DENIED</code> |
+  /// <code>SLR_NOT_FOUND</code> | <code>OTHER</code>
+  @_s.JsonKey(name: 'FailureReason')
+  final String failureReason;
+
+  /// Indicates when the certificate was imported. Provided if the certificate
+  /// type is <code>IMPORTED</code>.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'ImportedAt')
+  final String importedAt;
+
+  /// The list of ARNs for the AWS resources that use the certificate.
+  @_s.JsonKey(name: 'InUseBy')
+  final List<String> inUseBy;
+
+  /// Indicates when the certificate was issued. Provided if the certificate type
+  /// is <code>AMAZON_ISSUED</code>.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'IssuedAt')
+  final String issuedAt;
+
+  /// The name of the certificate authority that issued and signed the
+  /// certificate.
+  @_s.JsonKey(name: 'Issuer')
+  final String issuer;
+
+  /// The algorithm that was used to generate the public-private key pair.
+  ///
+  /// Valid values: <code>RSA_2048</code> | <code>RSA_1024</code> |<code>
+  /// RSA_4096</code> | <code>EC_prime256v1</code> | <code>EC_secp384r1</code> |
+  /// <code>EC_secp521r1</code>
+  @_s.JsonKey(name: 'KeyAlgorithm')
+  final String keyAlgorithm;
+
+  /// A list of key usage X.509 v3 extension objects.
+  @_s.JsonKey(name: 'KeyUsages')
+  final List<AwsCertificateManagerCertificateKeyUsage> keyUsages;
+
+  /// The time after which the certificate becomes invalid.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'NotAfter')
+  final String notAfter;
+
+  /// The time before which the certificate is not valid.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'NotBefore')
+  final String notBefore;
+
+  /// Provides a value that specifies whether to add the certificate to a
+  /// transparency log.
+  @_s.JsonKey(name: 'Options')
+  final AwsCertificateManagerCertificateOptions options;
+
+  /// Whether the certificate is eligible for renewal.
+  ///
+  /// Valid values: <code>ELIGIBLE</code> | <code>INELIGIBLE</code>
+  @_s.JsonKey(name: 'RenewalEligibility')
+  final String renewalEligibility;
+
+  /// Information about the status of the AWS Certificate Manager managed renewal
+  /// for the certificate. Provided only when the certificate type is
+  /// <code>AMAZON_ISSUED</code>.
+  @_s.JsonKey(name: 'RenewalSummary')
+  final AwsCertificateManagerCertificateRenewalSummary renewalSummary;
+
+  /// The serial number of the certificate.
+  @_s.JsonKey(name: 'Serial')
+  final String serial;
+
+  /// The algorithm that was used to sign the certificate.
+  @_s.JsonKey(name: 'SignatureAlgorithm')
+  final String signatureAlgorithm;
+
+  /// The status of the certificate.
+  ///
+  /// Valid values: <code>PENDING_VALIDATION</code> | <code>ISSUED</code> |
+  /// <code>INACTIVE</code> | <code>EXPIRED</code> |
+  /// <code>VALIDATION_TIMED_OUT</code> | <code>REVOKED</code> |
+  /// <code>FAILED</code>
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  /// The name of the entity that is associated with the public key contained in
+  /// the certificate.
+  @_s.JsonKey(name: 'Subject')
+  final String subject;
+
+  /// One or more domain names (subject alternative names) included in the
+  /// certificate. This list contains the domain names that are bound to the
+  /// public key that is contained in the certificate.
+  ///
+  /// The subject alternative names include the canonical domain name (CN) of the
+  /// certificate and additional domain names that can be used to connect to the
+  /// website.
+  @_s.JsonKey(name: 'SubjectAlternativeNames')
+  final List<String> subjectAlternativeNames;
+
+  /// The source of the certificate. For certificates that AWS Certificate Manager
+  /// provides, <code>Type</code> is <code>AMAZON_ISSUED</code>. For certificates
+  /// that are imported with <code>ImportCertificate</code>, <code>Type</code> is
+  /// <code>IMPORTED</code>.
+  ///
+  /// Valid values: <code>IMPORTED</code> | <code>AMAZON_ISSUED</code> |
+  /// <code>PRIVATE</code>
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  AwsCertificateManagerCertificateDetails({
+    this.certificateAuthorityArn,
+    this.createdAt,
+    this.domainName,
+    this.domainValidationOptions,
+    this.extendedKeyUsages,
+    this.failureReason,
+    this.importedAt,
+    this.inUseBy,
+    this.issuedAt,
+    this.issuer,
+    this.keyAlgorithm,
+    this.keyUsages,
+    this.notAfter,
+    this.notBefore,
+    this.options,
+    this.renewalEligibility,
+    this.renewalSummary,
+    this.serial,
+    this.signatureAlgorithm,
+    this.status,
+    this.subject,
+    this.subjectAlternativeNames,
+    this.type,
+  });
+  factory AwsCertificateManagerCertificateDetails.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCertificateManagerCertificateDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCertificateManagerCertificateDetailsToJson(this);
+}
+
+/// Contains information about one of the following:
+///
+/// <ul>
+/// <li>
+/// The initial validation of each domain name that occurs as a result of the
+/// <code>RequestCertificate</code> request
+/// </li>
+/// <li>
+/// The validation of each domain name in the certificate, as it pertains to AWS
+/// Certificate Manager managed renewal
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCertificateManagerCertificateDomainValidationOption {
+  /// A fully qualified domain name (FQDN) in the certificate.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The CNAME record that is added to the DNS database for domain validation.
+  @_s.JsonKey(name: 'ResourceRecord')
+  final AwsCertificateManagerCertificateResourceRecord resourceRecord;
+
+  /// The domain name that AWS Certificate Manager uses to send domain validation
+  /// emails.
+  @_s.JsonKey(name: 'ValidationDomain')
+  final String validationDomain;
+
+  /// A list of email addresses that AWS Certificate Manager uses to send domain
+  /// validation emails.
+  @_s.JsonKey(name: 'ValidationEmails')
+  final List<String> validationEmails;
+
+  /// The method used to validate the domain name.
+  @_s.JsonKey(name: 'ValidationMethod')
+  final String validationMethod;
+
+  /// The validation status of the domain name.
+  @_s.JsonKey(name: 'ValidationStatus')
+  final String validationStatus;
+
+  AwsCertificateManagerCertificateDomainValidationOption({
+    this.domainName,
+    this.resourceRecord,
+    this.validationDomain,
+    this.validationEmails,
+    this.validationMethod,
+    this.validationStatus,
+  });
+  factory AwsCertificateManagerCertificateDomainValidationOption.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCertificateManagerCertificateDomainValidationOptionFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCertificateManagerCertificateDomainValidationOptionToJson(this);
+}
+
+/// Contains information about an extended key usage X.509 v3 extension object.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCertificateManagerCertificateExtendedKeyUsage {
+  /// The name of an extension value. Indicates the purpose for which the
+  /// certificate public key can be used.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// An object identifier (OID) for the extension value.
+  ///
+  /// The format is numbers separated by periods.
+  @_s.JsonKey(name: 'OId')
+  final String oId;
+
+  AwsCertificateManagerCertificateExtendedKeyUsage({
+    this.name,
+    this.oId,
+  });
+  factory AwsCertificateManagerCertificateExtendedKeyUsage.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCertificateManagerCertificateExtendedKeyUsageFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCertificateManagerCertificateExtendedKeyUsageToJson(this);
+}
+
+/// Contains information about a key usage X.509 v3 extension object.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCertificateManagerCertificateKeyUsage {
+  /// The key usage extension name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  AwsCertificateManagerCertificateKeyUsage({
+    this.name,
+  });
+  factory AwsCertificateManagerCertificateKeyUsage.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCertificateManagerCertificateKeyUsageFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCertificateManagerCertificateKeyUsageToJson(this);
+}
+
+/// Contains other options for the certificate.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCertificateManagerCertificateOptions {
+  /// Whether to add the certificate to a transparency log.
+  ///
+  /// Valid values: <code>DISABLED</code> | <code>ENABLED</code>
+  @_s.JsonKey(name: 'CertificateTransparencyLoggingPreference')
+  final String certificateTransparencyLoggingPreference;
+
+  AwsCertificateManagerCertificateOptions({
+    this.certificateTransparencyLoggingPreference,
+  });
+  factory AwsCertificateManagerCertificateOptions.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCertificateManagerCertificateOptionsFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCertificateManagerCertificateOptionsToJson(this);
+}
+
+/// Contains information about the AWS Certificate Manager managed renewal for
+/// an <code>AMAZON_ISSUED</code> certificate.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCertificateManagerCertificateRenewalSummary {
+  /// Information about the validation of each domain name in the certificate, as
+  /// it pertains to AWS Certificate Manager managed renewal. Provided only when
+  /// the certificate type is <code>AMAZON_ISSUED</code>.
+  @_s.JsonKey(name: 'DomainValidationOptions')
+  final List<AwsCertificateManagerCertificateDomainValidationOption>
+      domainValidationOptions;
+
+  /// The status of the AWS Certificate Manager managed renewal of the
+  /// certificate.
+  ///
+  /// Valid values: <code>PENDING_AUTO_RENEWAL</code> |
+  /// <code>PENDING_VALIDATION</code> | <code>SUCCESS</code> | <code>FAILED</code>
+  @_s.JsonKey(name: 'RenewalStatus')
+  final String renewalStatus;
+
+  /// The reason that a renewal request was unsuccessful.
+  ///
+  /// Valid values: <code>NO_AVAILABLE_CONTACTS</code> |
+  /// <code>ADDITIONAL_VERIFICATION_REQUIRED</code> |
+  /// <code>DOMAIN_NOT_ALLOWED</code> | <code>INVALID_PUBLIC_DOMAIN</code> |
+  /// <code>DOMAIN_VALIDATION_DENIED</code> | <code>CAA_ERROR</code> |
+  /// <code>PCA_LIMIT_EXCEEDED</code> | <code>PCA_INVALID_ARN</code> |
+  /// <code>PCA_INVALID_STATE</code> | <code>PCA_REQUEST_FAILED</code> |
+  /// <code>PCA_NAME_CONSTRAINTS_VALIDATION</code> |
+  /// <code>PCA_RESOURCE_NOT_FOUND</code> | <code>PCA_INVALID_ARGS</code> |
+  /// <code>PCA_INVALID_DURATION</code> | <code>PCA_ACCESS_DENIED</code> |
+  /// <code>SLR_NOT_FOUND</code> | <code>OTHER</code>
+  @_s.JsonKey(name: 'RenewalStatusReason')
+  final String renewalStatusReason;
+
+  /// Indicates when the renewal summary was last updated.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'UpdatedAt')
+  final String updatedAt;
+
+  AwsCertificateManagerCertificateRenewalSummary({
+    this.domainValidationOptions,
+    this.renewalStatus,
+    this.renewalStatusReason,
+    this.updatedAt,
+  });
+  factory AwsCertificateManagerCertificateRenewalSummary.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCertificateManagerCertificateRenewalSummaryFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCertificateManagerCertificateRenewalSummaryToJson(this);
+}
+
+/// Provides details about the CNAME record that is added to the DNS database
+/// for domain validation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCertificateManagerCertificateResourceRecord {
+  /// The name of the resource.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The type of resource.
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  /// The value of the resource.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  AwsCertificateManagerCertificateResourceRecord({
+    this.name,
+    this.type,
+    this.value,
+  });
+  factory AwsCertificateManagerCertificateResourceRecord.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCertificateManagerCertificateResourceRecordFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCertificateManagerCertificateResourceRecordToJson(this);
+}
+
+/// Information about a cache behavior for the distribution.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCloudFrontDistributionCacheBehavior {
+  /// The protocol that viewers can use to access the files in an origin. You can
+  /// specify the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>allow-all</code> - Viewers can use HTTP or HTTPS.
+  /// </li>
+  /// <li>
+  /// <code>redirect-to-https</code> - CloudFront responds to HTTP requests with
+  /// an HTTP status code of 301 (Moved Permanently) and the HTTPS URL. The viewer
+  /// then uses the new URL to resubmit.
+  /// </li>
+  /// <li>
+  /// <code>https-only</code> - CloudFront responds to HTTP request with an HTTP
+  /// status code of 403 (Forbidden).
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ViewerProtocolPolicy')
+  final String viewerProtocolPolicy;
+
+  AwsCloudFrontDistributionCacheBehavior({
+    this.viewerProtocolPolicy,
+  });
+  factory AwsCloudFrontDistributionCacheBehavior.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCloudFrontDistributionCacheBehaviorFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCloudFrontDistributionCacheBehaviorToJson(this);
+}
+
+/// Provides information about caching for the distribution.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCloudFrontDistributionCacheBehaviors {
+  /// The cache behaviors for the distribution.
+  @_s.JsonKey(name: 'Items')
+  final List<AwsCloudFrontDistributionCacheBehavior> items;
+
+  AwsCloudFrontDistributionCacheBehaviors({
+    this.items,
+  });
+  factory AwsCloudFrontDistributionCacheBehaviors.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCloudFrontDistributionCacheBehaviorsFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCloudFrontDistributionCacheBehaviorsToJson(this);
+}
+
+/// Contains information about the default cache configuration for the
+/// distribution.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCloudFrontDistributionDefaultCacheBehavior {
+  /// The protocol that viewers can use to access the files in an origin. You can
+  /// specify the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>allow-all</code> - Viewers can use HTTP or HTTPS.
+  /// </li>
+  /// <li>
+  /// <code>redirect-to-https</code> - CloudFront responds to HTTP requests with
+  /// an HTTP status code of 301 (Moved Permanently) and the HTTPS URL. The viewer
+  /// then uses the new URL to resubmit.
+  /// </li>
+  /// <li>
+  /// <code>https-only</code> - CloudFront responds to HTTP request with an HTTP
+  /// status code of 403 (Forbidden).
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ViewerProtocolPolicy')
+  final String viewerProtocolPolicy;
+
+  AwsCloudFrontDistributionDefaultCacheBehavior({
+    this.viewerProtocolPolicy,
+  });
+  factory AwsCloudFrontDistributionDefaultCacheBehavior.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCloudFrontDistributionDefaultCacheBehaviorFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCloudFrontDistributionDefaultCacheBehaviorToJson(this);
+}
+
 /// A distribution configuration.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1972,6 +3504,21 @@ class AvailabilityZone {
     createFactory: true,
     createToJson: true)
 class AwsCloudFrontDistributionDetails {
+  /// Provides information about the cache configuration for the distribution.
+  @_s.JsonKey(name: 'CacheBehaviors')
+  final AwsCloudFrontDistributionCacheBehaviors cacheBehaviors;
+
+  /// The default cache behavior for the configuration.
+  @_s.JsonKey(name: 'DefaultCacheBehavior')
+  final AwsCloudFrontDistributionDefaultCacheBehavior defaultCacheBehavior;
+
+  /// The object that CloudFront sends in response to requests from the origin
+  /// (for example, index.html) when a viewer requests the root URL for the
+  /// distribution (http://www.example.com) instead of an object in your
+  /// distribution (http://www.example.com/product-description.html).
+  @_s.JsonKey(name: 'DefaultRootObject')
+  final String defaultRootObject;
+
   /// The domain name corresponding to the distribution.
   @_s.JsonKey(name: 'DomainName')
   final String domainName;
@@ -1980,7 +3527,12 @@ class AwsCloudFrontDistributionDetails {
   @_s.JsonKey(name: 'ETag')
   final String eTag;
 
-  /// The date and time that the distribution was last modified.
+  /// Indicates when that the distribution was last modified.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'LastModifiedTime')
   final String lastModifiedTime;
 
@@ -1988,6 +3540,10 @@ class AwsCloudFrontDistributionDetails {
   /// distribution.
   @_s.JsonKey(name: 'Logging')
   final AwsCloudFrontDistributionLogging logging;
+
+  /// Provides information about the origin groups in the distribution.
+  @_s.JsonKey(name: 'OriginGroups')
+  final AwsCloudFrontDistributionOriginGroups originGroups;
 
   /// A complex type that contains information about origins for this
   /// distribution.
@@ -2004,10 +3560,14 @@ class AwsCloudFrontDistributionDetails {
   final String webAclId;
 
   AwsCloudFrontDistributionDetails({
+    this.cacheBehaviors,
+    this.defaultCacheBehavior,
+    this.defaultRootObject,
     this.domainName,
     this.eTag,
     this.lastModifiedTime,
     this.logging,
+    this.originGroups,
     this.origins,
     this.status,
     this.webAclId,
@@ -2059,9 +3619,103 @@ class AwsCloudFrontDistributionLogging {
       _$AwsCloudFrontDistributionLoggingToJson(this);
 }
 
+/// Information about an origin group for the distribution.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCloudFrontDistributionOriginGroup {
+  /// Provides the criteria for an origin group to fail over.
+  @_s.JsonKey(name: 'FailoverCriteria')
+  final AwsCloudFrontDistributionOriginGroupFailover failoverCriteria;
+
+  AwsCloudFrontDistributionOriginGroup({
+    this.failoverCriteria,
+  });
+  factory AwsCloudFrontDistributionOriginGroup.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCloudFrontDistributionOriginGroupFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCloudFrontDistributionOriginGroupToJson(this);
+}
+
+/// Provides information about when an origin group fails over.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCloudFrontDistributionOriginGroupFailover {
+  /// Information about the status codes that cause an origin group to fail over.
+  @_s.JsonKey(name: 'StatusCodes')
+  final AwsCloudFrontDistributionOriginGroupFailoverStatusCodes statusCodes;
+
+  AwsCloudFrontDistributionOriginGroupFailover({
+    this.statusCodes,
+  });
+  factory AwsCloudFrontDistributionOriginGroupFailover.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCloudFrontDistributionOriginGroupFailoverFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCloudFrontDistributionOriginGroupFailoverToJson(this);
+}
+
+/// The status codes that cause an origin group to fail over.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCloudFrontDistributionOriginGroupFailoverStatusCodes {
+  /// The list of status code values that can cause a failover to the next origin.
+  @_s.JsonKey(name: 'Items')
+  final List<int> items;
+
+  /// The number of status codes that can cause a failover.
+  @_s.JsonKey(name: 'Quantity')
+  final int quantity;
+
+  AwsCloudFrontDistributionOriginGroupFailoverStatusCodes({
+    this.items,
+    this.quantity,
+  });
+  factory AwsCloudFrontDistributionOriginGroupFailoverStatusCodes.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCloudFrontDistributionOriginGroupFailoverStatusCodesFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCloudFrontDistributionOriginGroupFailoverStatusCodesToJson(this);
+}
+
+/// Provides information about origin groups that are associated with the
+/// distribution.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCloudFrontDistributionOriginGroups {
+  /// The list of origin groups.
+  @_s.JsonKey(name: 'Items')
+  final List<AwsCloudFrontDistributionOriginGroup> items;
+
+  AwsCloudFrontDistributionOriginGroups({
+    this.items,
+  });
+  factory AwsCloudFrontDistributionOriginGroups.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCloudFrontDistributionOriginGroupsFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCloudFrontDistributionOriginGroupsToJson(this);
+}
+
 /// A complex type that describes the Amazon S3 bucket, HTTP server (for
-/// example, a web server), Amazon MediaStore, or other server from which
-/// CloudFront gets your files.
+/// example, a web server), Amazon Elemental MediaStore, or other server from
+/// which CloudFront gets your files.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2082,10 +3736,16 @@ class AwsCloudFrontDistributionOriginItem {
   @_s.JsonKey(name: 'OriginPath')
   final String originPath;
 
+  /// An origin that is an S3 bucket that is not configured with static website
+  /// hosting.
+  @_s.JsonKey(name: 'S3OriginConfig')
+  final AwsCloudFrontDistributionOriginS3OriginConfig s3OriginConfig;
+
   AwsCloudFrontDistributionOriginItem({
     this.domainName,
     this.id,
     this.originPath,
+    this.s3OriginConfig,
   });
   factory AwsCloudFrontDistributionOriginItem.fromJson(
           Map<String, dynamic> json) =>
@@ -2093,6 +3753,29 @@ class AwsCloudFrontDistributionOriginItem {
 
   Map<String, dynamic> toJson() =>
       _$AwsCloudFrontDistributionOriginItemToJson(this);
+}
+
+/// Information about an origin that is an S3 bucket that is not configured with
+/// static website hosting.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCloudFrontDistributionOriginS3OriginConfig {
+  /// The CloudFront origin access identity to associate with the origin.
+  @_s.JsonKey(name: 'OriginAccessIdentity')
+  final String originAccessIdentity;
+
+  AwsCloudFrontDistributionOriginS3OriginConfig({
+    this.originAccessIdentity,
+  });
+  factory AwsCloudFrontDistributionOriginS3OriginConfig.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsCloudFrontDistributionOriginS3OriginConfigFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsCloudFrontDistributionOriginS3OriginConfigToJson(this);
 }
 
 /// A complex type that contains information about origins and origin groups for
@@ -2116,6 +3799,103 @@ class AwsCloudFrontDistributionOrigins {
 
   Map<String, dynamic> toJson() =>
       _$AwsCloudFrontDistributionOriginsToJson(this);
+}
+
+/// Provides details about a CloudTrail trail.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCloudTrailTrailDetails {
+  /// The ARN of the log group that CloudTrail logs are delivered to.
+  @_s.JsonKey(name: 'CloudWatchLogsLogGroupArn')
+  final String cloudWatchLogsLogGroupArn;
+
+  /// The ARN of the role that the CloudWatch Logs endpoint assumes when it writes
+  /// to the log group.
+  @_s.JsonKey(name: 'CloudWatchLogsRoleArn')
+  final String cloudWatchLogsRoleArn;
+
+  /// Indicates whether the trail has custom event selectors.
+  @_s.JsonKey(name: 'HasCustomEventSelectors')
+  final bool hasCustomEventSelectors;
+
+  /// The Region where the trail was created.
+  @_s.JsonKey(name: 'HomeRegion')
+  final String homeRegion;
+
+  /// Indicates whether the trail publishes events from global services such as
+  /// IAM to the log files.
+  @_s.JsonKey(name: 'IncludeGlobalServiceEvents')
+  final bool includeGlobalServiceEvents;
+
+  /// Indicates whether the trail applies only to the current Region or to all
+  /// Regions.
+  @_s.JsonKey(name: 'IsMultiRegionTrail')
+  final bool isMultiRegionTrail;
+
+  /// Whether the trail is created for all accounts in an organization in AWS
+  /// Organizations, or only for the current AWS account.
+  @_s.JsonKey(name: 'IsOrganizationTrail')
+  final bool isOrganizationTrail;
+
+  /// The AWS KMS key ID to use to encrypt the logs.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// Indicates whether CloudTrail log file validation is enabled.
+  @_s.JsonKey(name: 'LogFileValidationEnabled')
+  final bool logFileValidationEnabled;
+
+  /// The name of the trail.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The name of the S3 bucket where the log files are published.
+  @_s.JsonKey(name: 'S3BucketName')
+  final String s3BucketName;
+
+  /// The S3 key prefix. The key prefix is added after the name of the S3 bucket
+  /// where the log files are published.
+  @_s.JsonKey(name: 'S3KeyPrefix')
+  final String s3KeyPrefix;
+
+  /// The ARN of the SNS topic that is used for notifications of log file
+  /// delivery.
+  @_s.JsonKey(name: 'SnsTopicArn')
+  final String snsTopicArn;
+
+  /// The name of the SNS topic that is used for notifications of log file
+  /// delivery.
+  @_s.JsonKey(name: 'SnsTopicName')
+  final String snsTopicName;
+
+  /// The ARN of the trail.
+  @_s.JsonKey(name: 'TrailArn')
+  final String trailArn;
+
+  AwsCloudTrailTrailDetails({
+    this.cloudWatchLogsLogGroupArn,
+    this.cloudWatchLogsRoleArn,
+    this.hasCustomEventSelectors,
+    this.homeRegion,
+    this.includeGlobalServiceEvents,
+    this.isMultiRegionTrail,
+    this.isOrganizationTrail,
+    this.kmsKeyId,
+    this.logFileValidationEnabled,
+    this.name,
+    this.s3BucketName,
+    this.s3KeyPrefix,
+    this.snsTopicArn,
+    this.snsTopicName,
+    this.trailArn,
+  });
+  factory AwsCloudTrailTrailDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsCloudTrailTrailDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsCloudTrailTrailDetailsToJson(this);
 }
 
 /// Information about an AWS CodeBuild project.
@@ -2206,23 +3986,23 @@ class AwsCodeBuildProjectEnvironment {
 
   /// The type of build environment to use for related builds.
   ///
-  /// The environment type <code>ARM_CONTAINER</code> is available only in regions
+  /// The environment type <code>ARM_CONTAINER</code> is available only in Regions
   /// US East (N. Virginia), US East (Ohio), US West (Oregon), Europe (Ireland),
   /// Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and
   /// Europe (Frankfurt).
   ///
   /// The environment type <code>LINUX_CONTAINER</code> with compute type
-  /// build.general1.2xlarge is available only in regions US East (N. Virginia),
+  /// build.general1.2xlarge is available only in Regions US East (N. Virginia),
   /// US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland),
   /// Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific
   /// (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing),
   /// and China (Ningxia).
   ///
   /// The environment type <code>LINUX_GPU_CONTAINER</code> is available only in
-  /// regions US East (N. Virginia), US East (N. Virginia), US West (Oregon),
+  /// Regions US East (N. Virginia), US East (N. Virginia), US West (Oregon),
   /// Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt),
   /// Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia
-  /// Pacific (Sydney) , China (Beijing), and China (Ningxia).
+  /// Pacific (Sydney), China (Beijing), and China (Ningxia).
   ///
   /// Valid values: <code>WINDOWS_CONTAINER</code> | <code>LINUX_CONTAINER</code>
   /// | <code>LINUX_GPU_CONTAINER</code> | <code>ARM_CONTAINER</code>
@@ -2304,7 +4084,7 @@ class AwsCodeBuildProjectSource {
   /// </li>
   /// <li>
   /// For source code in an AWS CodeCommit repository, the HTTPS clone URL to the
-  /// repository that contains the source code and the buildspec file (for
+  /// repository that contains the source code and the build spec file (for
   /// example,
   /// <code>https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name</code>
   /// ).
@@ -2324,11 +4104,11 @@ class AwsCodeBuildProjectSource {
   /// </ul> </li>
   /// <li>
   /// For source code in a GitHub repository, the HTTPS clone URL to the
-  /// repository that contains the source and the buildspec file.
+  /// repository that contains the source and the build spec file.
   /// </li>
   /// <li>
   /// For source code in a Bitbucket repository, the HTTPS clone URL to the
-  /// repository that contains the source and the buildspec file.
+  /// repository that contains the source and the build spec file.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'Location')
@@ -2408,6 +4188,718 @@ class AwsCodeBuildProjectVpcConfig {
   Map<String, dynamic> toJson() => _$AwsCodeBuildProjectVpcConfigToJson(this);
 }
 
+/// Contains the cross-origin resource sharing (CORS) configuration for the API.
+/// CORS is only supported for HTTP APIs.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsCorsConfiguration {
+  /// Indicates whether the CORS request includes credentials.
+  @_s.JsonKey(name: 'AllowCredentials')
+  final bool allowCredentials;
+
+  /// The allowed headers for CORS requests.
+  @_s.JsonKey(name: 'AllowHeaders')
+  final List<String> allowHeaders;
+
+  /// The allowed methods for CORS requests.
+  @_s.JsonKey(name: 'AllowMethods')
+  final List<String> allowMethods;
+
+  /// The allowed origins for CORS requests.
+  @_s.JsonKey(name: 'AllowOrigins')
+  final List<String> allowOrigins;
+
+  /// The exposed headers for CORS requests.
+  @_s.JsonKey(name: 'ExposeHeaders')
+  final List<String> exposeHeaders;
+
+  /// The number of seconds for which the browser caches preflight request
+  /// results.
+  @_s.JsonKey(name: 'MaxAge')
+  final int maxAge;
+
+  AwsCorsConfiguration({
+    this.allowCredentials,
+    this.allowHeaders,
+    this.allowMethods,
+    this.allowOrigins,
+    this.exposeHeaders,
+    this.maxAge,
+  });
+  factory AwsCorsConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$AwsCorsConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsCorsConfigurationToJson(this);
+}
+
+/// Contains a definition of an attribute for the table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableAttributeDefinition {
+  /// The name of the attribute.
+  @_s.JsonKey(name: 'AttributeName')
+  final String attributeName;
+
+  /// The type of the attribute.
+  @_s.JsonKey(name: 'AttributeType')
+  final String attributeType;
+
+  AwsDynamoDbTableAttributeDefinition({
+    this.attributeName,
+    this.attributeType,
+  });
+  factory AwsDynamoDbTableAttributeDefinition.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableAttributeDefinitionFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsDynamoDbTableAttributeDefinitionToJson(this);
+}
+
+/// Provides information about the billing for read/write capacity on the table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableBillingModeSummary {
+  /// The method used to charge for read and write throughput and to manage
+  /// capacity.
+  @_s.JsonKey(name: 'BillingMode')
+  final String billingMode;
+
+  /// If the billing mode is <code>PAY_PER_REQUEST</code>, indicates when the
+  /// billing mode was set to that value.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'LastUpdateToPayPerRequestDateTime')
+  final String lastUpdateToPayPerRequestDateTime;
+
+  AwsDynamoDbTableBillingModeSummary({
+    this.billingMode,
+    this.lastUpdateToPayPerRequestDateTime,
+  });
+  factory AwsDynamoDbTableBillingModeSummary.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableBillingModeSummaryFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsDynamoDbTableBillingModeSummaryToJson(this);
+}
+
+/// Provides details about a DynamoDB table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableDetails {
+  /// A list of attribute definitions for the table.
+  @_s.JsonKey(name: 'AttributeDefinitions')
+  final List<AwsDynamoDbTableAttributeDefinition> attributeDefinitions;
+
+  /// Information about the billing for read/write capacity on the table.
+  @_s.JsonKey(name: 'BillingModeSummary')
+  final AwsDynamoDbTableBillingModeSummary billingModeSummary;
+
+  /// Indicates when the table was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreationDateTime')
+  final String creationDateTime;
+
+  /// List of global secondary indexes for the table.
+  @_s.JsonKey(name: 'GlobalSecondaryIndexes')
+  final List<AwsDynamoDbTableGlobalSecondaryIndex> globalSecondaryIndexes;
+
+  /// The version of global tables being used.
+  @_s.JsonKey(name: 'GlobalTableVersion')
+  final String globalTableVersion;
+
+  /// The number of items in the table.
+  @_s.JsonKey(name: 'ItemCount')
+  final int itemCount;
+
+  /// The primary key structure for the table.
+  @_s.JsonKey(name: 'KeySchema')
+  final List<AwsDynamoDbTableKeySchema> keySchema;
+
+  /// The ARN of the latest stream for the table.
+  @_s.JsonKey(name: 'LatestStreamArn')
+  final String latestStreamArn;
+
+  /// The label of the latest stream. The label is not a unique identifier.
+  @_s.JsonKey(name: 'LatestStreamLabel')
+  final String latestStreamLabel;
+
+  /// The list of local secondary indexes for the table.
+  @_s.JsonKey(name: 'LocalSecondaryIndexes')
+  final List<AwsDynamoDbTableLocalSecondaryIndex> localSecondaryIndexes;
+
+  /// Information about the provisioned throughput for the table.
+  @_s.JsonKey(name: 'ProvisionedThroughput')
+  final AwsDynamoDbTableProvisionedThroughput provisionedThroughput;
+
+  /// The list of replicas of this table.
+  @_s.JsonKey(name: 'Replicas')
+  final List<AwsDynamoDbTableReplica> replicas;
+
+  /// Information about the restore for the table.
+  @_s.JsonKey(name: 'RestoreSummary')
+  final AwsDynamoDbTableRestoreSummary restoreSummary;
+
+  /// Information about the server-side encryption for the table.
+  @_s.JsonKey(name: 'SseDescription')
+  final AwsDynamoDbTableSseDescription sseDescription;
+
+  /// The current DynamoDB Streams configuration for the table.
+  @_s.JsonKey(name: 'StreamSpecification')
+  final AwsDynamoDbTableStreamSpecification streamSpecification;
+
+  /// The identifier of the table.
+  @_s.JsonKey(name: 'TableId')
+  final String tableId;
+
+  /// The name of the table.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  /// The total size of the table in bytes.
+  @_s.JsonKey(name: 'TableSizeBytes')
+  final int tableSizeBytes;
+
+  /// The current status of the table.
+  @_s.JsonKey(name: 'TableStatus')
+  final String tableStatus;
+
+  AwsDynamoDbTableDetails({
+    this.attributeDefinitions,
+    this.billingModeSummary,
+    this.creationDateTime,
+    this.globalSecondaryIndexes,
+    this.globalTableVersion,
+    this.itemCount,
+    this.keySchema,
+    this.latestStreamArn,
+    this.latestStreamLabel,
+    this.localSecondaryIndexes,
+    this.provisionedThroughput,
+    this.replicas,
+    this.restoreSummary,
+    this.sseDescription,
+    this.streamSpecification,
+    this.tableId,
+    this.tableName,
+    this.tableSizeBytes,
+    this.tableStatus,
+  });
+  factory AwsDynamoDbTableDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsDynamoDbTableDetailsToJson(this);
+}
+
+/// Information abut a global secondary index for the table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableGlobalSecondaryIndex {
+  /// Whether the index is currently backfilling.
+  @_s.JsonKey(name: 'Backfilling')
+  final bool backfilling;
+
+  /// The ARN of the index.
+  @_s.JsonKey(name: 'IndexArn')
+  final String indexArn;
+
+  /// The name of the index.
+  @_s.JsonKey(name: 'IndexName')
+  final String indexName;
+
+  /// The total size in bytes of the index.
+  @_s.JsonKey(name: 'IndexSizeBytes')
+  final int indexSizeBytes;
+
+  /// The current status of the index.
+  @_s.JsonKey(name: 'IndexStatus')
+  final String indexStatus;
+
+  /// The number of items in the index.
+  @_s.JsonKey(name: 'ItemCount')
+  final int itemCount;
+
+  /// The key schema for the index.
+  @_s.JsonKey(name: 'KeySchema')
+  final List<AwsDynamoDbTableKeySchema> keySchema;
+
+  /// Attributes that are copied from the table into an index.
+  @_s.JsonKey(name: 'Projection')
+  final AwsDynamoDbTableProjection projection;
+
+  /// Information about the provisioned throughput settings for the indexes.
+  @_s.JsonKey(name: 'ProvisionedThroughput')
+  final AwsDynamoDbTableProvisionedThroughput provisionedThroughput;
+
+  AwsDynamoDbTableGlobalSecondaryIndex({
+    this.backfilling,
+    this.indexArn,
+    this.indexName,
+    this.indexSizeBytes,
+    this.indexStatus,
+    this.itemCount,
+    this.keySchema,
+    this.projection,
+    this.provisionedThroughput,
+  });
+  factory AwsDynamoDbTableGlobalSecondaryIndex.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableGlobalSecondaryIndexFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsDynamoDbTableGlobalSecondaryIndexToJson(this);
+}
+
+/// A component of the key schema for the DynamoDB table, a global secondary
+/// index, or a local secondary index.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableKeySchema {
+  /// The name of the key schema attribute.
+  @_s.JsonKey(name: 'AttributeName')
+  final String attributeName;
+
+  /// The type of key used for the key schema attribute.
+  @_s.JsonKey(name: 'KeyType')
+  final String keyType;
+
+  AwsDynamoDbTableKeySchema({
+    this.attributeName,
+    this.keyType,
+  });
+  factory AwsDynamoDbTableKeySchema.fromJson(Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableKeySchemaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsDynamoDbTableKeySchemaToJson(this);
+}
+
+/// Information about a local secondary index for a DynamoDB table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableLocalSecondaryIndex {
+  /// The ARN of the index.
+  @_s.JsonKey(name: 'IndexArn')
+  final String indexArn;
+
+  /// The name of the index.
+  @_s.JsonKey(name: 'IndexName')
+  final String indexName;
+
+  /// The complete key schema for the index.
+  @_s.JsonKey(name: 'KeySchema')
+  final List<AwsDynamoDbTableKeySchema> keySchema;
+
+  /// Attributes that are copied from the table into the index. These are in
+  /// addition to the primary key attributes and index key attributes, which are
+  /// automatically projected.
+  @_s.JsonKey(name: 'Projection')
+  final AwsDynamoDbTableProjection projection;
+
+  AwsDynamoDbTableLocalSecondaryIndex({
+    this.indexArn,
+    this.indexName,
+    this.keySchema,
+    this.projection,
+  });
+  factory AwsDynamoDbTableLocalSecondaryIndex.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableLocalSecondaryIndexFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsDynamoDbTableLocalSecondaryIndexToJson(this);
+}
+
+/// For global and local secondary indexes, identifies the attributes that are
+/// copied from the table into the index.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableProjection {
+  /// The nonkey attributes that are projected into the index. For each attribute,
+  /// provide the attribute name.
+  @_s.JsonKey(name: 'NonKeyAttributes')
+  final List<String> nonKeyAttributes;
+
+  /// The types of attributes that are projected into the index.
+  @_s.JsonKey(name: 'ProjectionType')
+  final String projectionType;
+
+  AwsDynamoDbTableProjection({
+    this.nonKeyAttributes,
+    this.projectionType,
+  });
+  factory AwsDynamoDbTableProjection.fromJson(Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableProjectionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsDynamoDbTableProjectionToJson(this);
+}
+
+/// Information about the provisioned throughput for the table or for a global
+/// secondary index.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableProvisionedThroughput {
+  /// Indicates when the provisioned throughput was last decreased.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'LastDecreaseDateTime')
+  final String lastDecreaseDateTime;
+
+  /// Indicates when the provisioned throughput was last increased.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'LastIncreaseDateTime')
+  final String lastIncreaseDateTime;
+
+  /// The number of times during the current UTC calendar day that the provisioned
+  /// throughput was decreased.
+  @_s.JsonKey(name: 'NumberOfDecreasesToday')
+  final int numberOfDecreasesToday;
+
+  /// The maximum number of strongly consistent reads consumed per second before
+  /// DynamoDB returns a <code>ThrottlingException</code>.
+  @_s.JsonKey(name: 'ReadCapacityUnits')
+  final int readCapacityUnits;
+
+  /// The maximum number of writes consumed per second before DynamoDB returns a
+  /// <code>ThrottlingException</code>.
+  @_s.JsonKey(name: 'WriteCapacityUnits')
+  final int writeCapacityUnits;
+
+  AwsDynamoDbTableProvisionedThroughput({
+    this.lastDecreaseDateTime,
+    this.lastIncreaseDateTime,
+    this.numberOfDecreasesToday,
+    this.readCapacityUnits,
+    this.writeCapacityUnits,
+  });
+  factory AwsDynamoDbTableProvisionedThroughput.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableProvisionedThroughputFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsDynamoDbTableProvisionedThroughputToJson(this);
+}
+
+/// Replica-specific configuration for the provisioned throughput.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableProvisionedThroughputOverride {
+  /// The read capacity units for the replica.
+  @_s.JsonKey(name: 'ReadCapacityUnits')
+  final int readCapacityUnits;
+
+  AwsDynamoDbTableProvisionedThroughputOverride({
+    this.readCapacityUnits,
+  });
+  factory AwsDynamoDbTableProvisionedThroughputOverride.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableProvisionedThroughputOverrideFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsDynamoDbTableProvisionedThroughputOverrideToJson(this);
+}
+
+/// Information about a replica of a DynamoDB table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableReplica {
+  /// List of global secondary indexes for the replica.
+  @_s.JsonKey(name: 'GlobalSecondaryIndexes')
+  final List<AwsDynamoDbTableReplicaGlobalSecondaryIndex>
+      globalSecondaryIndexes;
+
+  /// The identifier of the AWS KMS customer master key (CMK) that will be used
+  /// for AWS KMS encryption for the replica.
+  @_s.JsonKey(name: 'KmsMasterKeyId')
+  final String kmsMasterKeyId;
+
+  /// Replica-specific configuration for the provisioned throughput.
+  @_s.JsonKey(name: 'ProvisionedThroughputOverride')
+  final AwsDynamoDbTableProvisionedThroughputOverride
+      provisionedThroughputOverride;
+
+  /// The name of the Region where the replica is located.
+  @_s.JsonKey(name: 'RegionName')
+  final String regionName;
+
+  /// The current status of the replica.
+  @_s.JsonKey(name: 'ReplicaStatus')
+  final String replicaStatus;
+
+  /// Detailed information about the replica status.
+  @_s.JsonKey(name: 'ReplicaStatusDescription')
+  final String replicaStatusDescription;
+
+  AwsDynamoDbTableReplica({
+    this.globalSecondaryIndexes,
+    this.kmsMasterKeyId,
+    this.provisionedThroughputOverride,
+    this.regionName,
+    this.replicaStatus,
+    this.replicaStatusDescription,
+  });
+  factory AwsDynamoDbTableReplica.fromJson(Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableReplicaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsDynamoDbTableReplicaToJson(this);
+}
+
+/// Information about a global secondary index for a DynamoDB table replica.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableReplicaGlobalSecondaryIndex {
+  /// The name of the index.
+  @_s.JsonKey(name: 'IndexName')
+  final String indexName;
+
+  /// Replica-specific configuration for the provisioned throughput for the index.
+  @_s.JsonKey(name: 'ProvisionedThroughputOverride')
+  final AwsDynamoDbTableProvisionedThroughputOverride
+      provisionedThroughputOverride;
+
+  AwsDynamoDbTableReplicaGlobalSecondaryIndex({
+    this.indexName,
+    this.provisionedThroughputOverride,
+  });
+  factory AwsDynamoDbTableReplicaGlobalSecondaryIndex.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableReplicaGlobalSecondaryIndexFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsDynamoDbTableReplicaGlobalSecondaryIndexToJson(this);
+}
+
+/// Information about the restore for the table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableRestoreSummary {
+  /// Indicates the point in time that the table was restored to.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'RestoreDateTime')
+  final String restoreDateTime;
+
+  /// Whether a restore is currently in progress.
+  @_s.JsonKey(name: 'RestoreInProgress')
+  final bool restoreInProgress;
+
+  /// The ARN of the source backup from which the table was restored.
+  @_s.JsonKey(name: 'SourceBackupArn')
+  final String sourceBackupArn;
+
+  /// The ARN of the source table for the backup.
+  @_s.JsonKey(name: 'SourceTableArn')
+  final String sourceTableArn;
+
+  AwsDynamoDbTableRestoreSummary({
+    this.restoreDateTime,
+    this.restoreInProgress,
+    this.sourceBackupArn,
+    this.sourceTableArn,
+  });
+  factory AwsDynamoDbTableRestoreSummary.fromJson(Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableRestoreSummaryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsDynamoDbTableRestoreSummaryToJson(this);
+}
+
+/// Information about the server-side encryption for the table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableSseDescription {
+  /// If the key is inaccessible, the date and time when DynamoDB detected that
+  /// the key was inaccessible.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'InaccessibleEncryptionDateTime')
+  final String inaccessibleEncryptionDateTime;
+
+  /// The ARN of the AWS KMS customer master key (CMK) that is used for the AWS
+  /// KMS encryption.
+  @_s.JsonKey(name: 'KmsMasterKeyArn')
+  final String kmsMasterKeyArn;
+
+  /// The type of server-side encryption.
+  @_s.JsonKey(name: 'SseType')
+  final String sseType;
+
+  /// The status of the server-side encryption.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  AwsDynamoDbTableSseDescription({
+    this.inaccessibleEncryptionDateTime,
+    this.kmsMasterKeyArn,
+    this.sseType,
+    this.status,
+  });
+  factory AwsDynamoDbTableSseDescription.fromJson(Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableSseDescriptionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsDynamoDbTableSseDescriptionToJson(this);
+}
+
+/// The current DynamoDB Streams configuration for the table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsDynamoDbTableStreamSpecification {
+  /// Indicates whether DynamoDB Streams is enabled on the table.
+  @_s.JsonKey(name: 'StreamEnabled')
+  final bool streamEnabled;
+
+  /// Determines the information that is written to the table.
+  @_s.JsonKey(name: 'StreamViewType')
+  final String streamViewType;
+
+  AwsDynamoDbTableStreamSpecification({
+    this.streamEnabled,
+    this.streamViewType,
+  });
+  factory AwsDynamoDbTableStreamSpecification.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsDynamoDbTableStreamSpecificationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsDynamoDbTableStreamSpecificationToJson(this);
+}
+
+/// Information about an Elastic IP address.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsEc2EipDetails {
+  /// The identifier that AWS assigns to represent the allocation of the Elastic
+  /// IP address for use with Amazon VPC.
+  @_s.JsonKey(name: 'AllocationId')
+  final String allocationId;
+
+  /// The identifier that represents the association of the Elastic IP address
+  /// with an EC2 instance.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  /// The domain in which to allocate the address.
+  ///
+  /// If the address is for use with EC2 instances in a VPC, then
+  /// <code>Domain</code> is <code>vpc</code>. Otherwise, <code>Domain</code> is
+  /// <code>standard</code>.
+  @_s.JsonKey(name: 'Domain')
+  final String domain;
+
+  /// The identifier of the EC2 instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The name of the location from which the Elastic IP address is advertised.
+  @_s.JsonKey(name: 'NetworkBorderGroup')
+  final String networkBorderGroup;
+
+  /// The identifier of the network interface.
+  @_s.JsonKey(name: 'NetworkInterfaceId')
+  final String networkInterfaceId;
+
+  /// The AWS account ID of the owner of the network interface.
+  @_s.JsonKey(name: 'NetworkInterfaceOwnerId')
+  final String networkInterfaceOwnerId;
+
+  /// The private IP address that is associated with the Elastic IP address.
+  @_s.JsonKey(name: 'PrivateIpAddress')
+  final String privateIpAddress;
+
+  /// A public IP address that is associated with the EC2 instance.
+  @_s.JsonKey(name: 'PublicIp')
+  final String publicIp;
+
+  /// The identifier of an IP address pool. This parameter allows Amazon EC2 to
+  /// select an IP address from the address pool.
+  @_s.JsonKey(name: 'PublicIpv4Pool')
+  final String publicIpv4Pool;
+
+  AwsEc2EipDetails({
+    this.allocationId,
+    this.associationId,
+    this.domain,
+    this.instanceId,
+    this.networkBorderGroup,
+    this.networkInterfaceId,
+    this.networkInterfaceOwnerId,
+    this.privateIpAddress,
+    this.publicIp,
+    this.publicIpv4Pool,
+  });
+  factory AwsEc2EipDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsEc2EipDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsEc2EipDetailsToJson(this);
+}
+
 /// The details of an Amazon EC2 instance.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2435,7 +4927,12 @@ class AwsEc2InstanceDetails {
   @_s.JsonKey(name: 'KeyName')
   final String keyName;
 
-  /// The date/time the instance was launched.
+  /// Indicates when the instance was launched.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'LaunchedAt')
   final String launchedAt;
 
@@ -2475,7 +4972,12 @@ class AwsEc2InstanceDetails {
     createFactory: true,
     createToJson: true)
 class AwsEc2NetworkInterfaceAttachment {
-  /// The timestamp indicating when the attachment initiated.
+  /// Indicates when the attachment initiated.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'AttachTime')
   final String attachTime;
 
@@ -2713,7 +5215,7 @@ class AwsEc2SecurityGroupIpPermission {
     createFactory: true,
     createToJson: true)
 class AwsEc2SecurityGroupIpRange {
-  /// The IPv4 CIDR range. You can either specify either a CIDR range or a source
+  /// The IPv4 CIDR range. You can specify either a CIDR range or a source
   /// security group, but not both. To specify a single IPv4 address, use the /32
   /// prefix length.
   @_s.JsonKey(name: 'CidrIp')
@@ -2735,7 +5237,7 @@ class AwsEc2SecurityGroupIpRange {
     createFactory: true,
     createToJson: true)
 class AwsEc2SecurityGroupIpv6Range {
-  /// The IPv6 CIDR range. You can either specify either a CIDR range or a source
+  /// The IPv6 CIDR range. You can specify either a CIDR range or a source
   /// security group, but not both. To specify a single IPv6 address, use the /128
   /// prefix length.
   @_s.JsonKey(name: 'CidrIpv6')
@@ -2823,6 +5325,134 @@ class AwsEc2SecurityGroupUserIdGroupPair {
 
   Map<String, dynamic> toJson() =>
       _$AwsEc2SecurityGroupUserIdGroupPairToJson(this);
+}
+
+/// An attachment to an AWS EC2 volume.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsEc2VolumeAttachment {
+  /// The datetime when the attachment initiated.
+  @_s.JsonKey(name: 'AttachTime')
+  final String attachTime;
+
+  /// Whether the EBS volume is deleted when the EC2 instance is terminated.
+  @_s.JsonKey(name: 'DeleteOnTermination')
+  final bool deleteOnTermination;
+
+  /// The identifier of the EC2 instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The attachment state of the volume.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  AwsEc2VolumeAttachment({
+    this.attachTime,
+    this.deleteOnTermination,
+    this.instanceId,
+    this.status,
+  });
+  factory AwsEc2VolumeAttachment.fromJson(Map<String, dynamic> json) =>
+      _$AwsEc2VolumeAttachmentFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsEc2VolumeAttachmentToJson(this);
+}
+
+/// Details about an EC2 volume.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsEc2VolumeDetails {
+  /// The volume attachments.
+  @_s.JsonKey(name: 'Attachments')
+  final List<AwsEc2VolumeAttachment> attachments;
+
+  /// Indicates when the volume was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreateTime')
+  final String createTime;
+
+  /// Whether the volume is encrypted.
+  @_s.JsonKey(name: 'Encrypted')
+  final bool encrypted;
+
+  /// The ARN of the AWS Key Management Service (AWS KMS) customer master key
+  /// (CMK) that was used to protect the volume encryption key for the volume.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// The size of the volume, in GiBs.
+  @_s.JsonKey(name: 'Size')
+  final int size;
+
+  /// The snapshot from which the volume was created.
+  @_s.JsonKey(name: 'SnapshotId')
+  final String snapshotId;
+
+  /// The volume state.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  AwsEc2VolumeDetails({
+    this.attachments,
+    this.createTime,
+    this.encrypted,
+    this.kmsKeyId,
+    this.size,
+    this.snapshotId,
+    this.status,
+  });
+  factory AwsEc2VolumeDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsEc2VolumeDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsEc2VolumeDetailsToJson(this);
+}
+
+/// Details about an EC2 VPC.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsEc2VpcDetails {
+  /// Information about the IPv4 CIDR blocks associated with the VPC.
+  @_s.JsonKey(name: 'CidrBlockAssociationSet')
+  final List<CidrBlockAssociation> cidrBlockAssociationSet;
+
+  /// The identifier of the set of Dynamic Host Configuration Protocol (DHCP)
+  /// options that are associated with the VPC. If the default options are
+  /// associated with the VPC, then this is default.
+  @_s.JsonKey(name: 'DhcpOptionsId')
+  final String dhcpOptionsId;
+
+  /// Information about the IPv6 CIDR blocks associated with the VPC.
+  @_s.JsonKey(name: 'Ipv6CidrBlockAssociationSet')
+  final List<Ipv6CidrBlockAssociation> ipv6CidrBlockAssociationSet;
+
+  /// The current state of the VPC.
+  @_s.JsonKey(name: 'State')
+  final String state;
+
+  AwsEc2VpcDetails({
+    this.cidrBlockAssociationSet,
+    this.dhcpOptionsId,
+    this.ipv6CidrBlockAssociationSet,
+    this.state,
+  });
+  factory AwsEc2VpcDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsEc2VpcDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsEc2VpcDetailsToJson(this);
 }
 
 /// Information about an Elasticsearch domain.
@@ -3032,6 +5662,589 @@ class AwsElasticsearchDomainVPCOptions {
       _$AwsElasticsearchDomainVPCOptionsToJson(this);
 }
 
+/// Contains information about a stickiness policy that was created using
+/// <code>CreateAppCookieStickinessPolicy</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbAppCookieStickinessPolicy {
+  /// The name of the application cookie used for stickiness.
+  @_s.JsonKey(name: 'CookieName')
+  final String cookieName;
+
+  /// The mnemonic name for the policy being created. The name must be unique
+  /// within the set of policies for the load balancer.
+  @_s.JsonKey(name: 'PolicyName')
+  final String policyName;
+
+  AwsElbAppCookieStickinessPolicy({
+    this.cookieName,
+    this.policyName,
+  });
+  factory AwsElbAppCookieStickinessPolicy.fromJson(Map<String, dynamic> json) =>
+      _$AwsElbAppCookieStickinessPolicyFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsElbAppCookieStickinessPolicyToJson(this);
+}
+
+/// Contains information about a stickiness policy that was created using
+/// <code>CreateLBCookieStickinessPolicy</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLbCookieStickinessPolicy {
+  /// The amount of time, in seconds, after which the cookie is considered stale.
+  /// If an expiration period is not specified, the stickiness session lasts for
+  /// the duration of the browser session.
+  @_s.JsonKey(name: 'CookieExpirationPeriod')
+  final int cookieExpirationPeriod;
+
+  /// The name of the policy. The name must be unique within the set of policies
+  /// for the load balancer.
+  @_s.JsonKey(name: 'PolicyName')
+  final String policyName;
+
+  AwsElbLbCookieStickinessPolicy({
+    this.cookieExpirationPeriod,
+    this.policyName,
+  });
+  factory AwsElbLbCookieStickinessPolicy.fromJson(Map<String, dynamic> json) =>
+      _$AwsElbLbCookieStickinessPolicyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsElbLbCookieStickinessPolicyToJson(this);
+}
+
+/// Contains information about the access log configuration for the load
+/// balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerAccessLog {
+  /// The interval in minutes for publishing the access logs.
+  ///
+  /// You can publish access logs either every 5 minutes or every 60 minutes.
+  @_s.JsonKey(name: 'EmitInterval')
+  final int emitInterval;
+
+  /// Indicates whether access logs are enabled for the load balancer.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// The name of the S3 bucket where the access logs are stored.
+  @_s.JsonKey(name: 'S3BucketName')
+  final String s3BucketName;
+
+  /// The logical hierarchy that was created for the S3 bucket.
+  ///
+  /// If a prefix is not provided, the log is placed at the root level of the
+  /// bucket.
+  @_s.JsonKey(name: 'S3BucketPrefix')
+  final String s3BucketPrefix;
+
+  AwsElbLoadBalancerAccessLog({
+    this.emitInterval,
+    this.enabled,
+    this.s3BucketName,
+    this.s3BucketPrefix,
+  });
+  factory AwsElbLoadBalancerAccessLog.fromJson(Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerAccessLogFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsElbLoadBalancerAccessLogToJson(this);
+}
+
+/// Contains attributes for the load balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerAttributes {
+  /// Information about the access log configuration for the load balancer.
+  ///
+  /// If the access log is enabled, the load balancer captures detailed
+  /// information about all requests. It delivers the information to a specified
+  /// S3 bucket.
+  @_s.JsonKey(name: 'AccessLog')
+  final AwsElbLoadBalancerAccessLog accessLog;
+
+  /// Information about the connection draining configuration for the load
+  /// balancer.
+  ///
+  /// If connection draining is enabled, the load balancer allows existing
+  /// requests to complete before it shifts traffic away from a deregistered or
+  /// unhealthy instance.
+  @_s.JsonKey(name: 'ConnectionDraining')
+  final AwsElbLoadBalancerConnectionDraining connectionDraining;
+
+  /// Connection settings for the load balancer.
+  ///
+  /// If an idle timeout is configured, the load balancer allows connections to
+  /// remain idle for the specified duration. When a connection is idle, no data
+  /// is sent over the connection.
+  @_s.JsonKey(name: 'ConnectionSettings')
+  final AwsElbLoadBalancerConnectionSettings connectionSettings;
+
+  /// Cross-zone load balancing settings for the load balancer.
+  ///
+  /// If cross-zone load balancing is enabled, the load balancer routes the
+  /// request traffic evenly across all instances regardless of the Availability
+  /// Zones.
+  @_s.JsonKey(name: 'CrossZoneLoadBalancing')
+  final AwsElbLoadBalancerCrossZoneLoadBalancing crossZoneLoadBalancing;
+
+  AwsElbLoadBalancerAttributes({
+    this.accessLog,
+    this.connectionDraining,
+    this.connectionSettings,
+    this.crossZoneLoadBalancing,
+  });
+  factory AwsElbLoadBalancerAttributes.fromJson(Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerAttributesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsElbLoadBalancerAttributesToJson(this);
+}
+
+/// Provides information about the configuration of an EC2 instance for the load
+/// balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerBackendServerDescription {
+  /// The port on which the EC2 instance is listening.
+  @_s.JsonKey(name: 'InstancePort')
+  final int instancePort;
+
+  /// The names of the policies that are enabled for the EC2 instance.
+  @_s.JsonKey(name: 'PolicyNames')
+  final List<String> policyNames;
+
+  AwsElbLoadBalancerBackendServerDescription({
+    this.instancePort,
+    this.policyNames,
+  });
+  factory AwsElbLoadBalancerBackendServerDescription.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerBackendServerDescriptionFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsElbLoadBalancerBackendServerDescriptionToJson(this);
+}
+
+/// Contains information about the connection draining configuration for the
+/// load balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerConnectionDraining {
+  /// Indicates whether connection draining is enabled for the load balancer.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// The maximum time, in seconds, to keep the existing connections open before
+  /// deregistering the instances.
+  @_s.JsonKey(name: 'Timeout')
+  final int timeout;
+
+  AwsElbLoadBalancerConnectionDraining({
+    this.enabled,
+    this.timeout,
+  });
+  factory AwsElbLoadBalancerConnectionDraining.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerConnectionDrainingFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsElbLoadBalancerConnectionDrainingToJson(this);
+}
+
+/// Contains connection settings for the load balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerConnectionSettings {
+  /// The time, in seconds, that the connection can be idle (no data is sent over
+  /// the connection) before it is closed by the load balancer.
+  @_s.JsonKey(name: 'IdleTimeout')
+  final int idleTimeout;
+
+  AwsElbLoadBalancerConnectionSettings({
+    this.idleTimeout,
+  });
+  factory AwsElbLoadBalancerConnectionSettings.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerConnectionSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsElbLoadBalancerConnectionSettingsToJson(this);
+}
+
+/// Contains cross-zone load balancing settings for the load balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerCrossZoneLoadBalancing {
+  /// Indicates whether cross-zone load balancing is enabled for the load
+  /// balancer.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  AwsElbLoadBalancerCrossZoneLoadBalancing({
+    this.enabled,
+  });
+  factory AwsElbLoadBalancerCrossZoneLoadBalancing.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerCrossZoneLoadBalancingFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsElbLoadBalancerCrossZoneLoadBalancingToJson(this);
+}
+
+/// Contains details about a Classic Load Balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerDetails {
+  /// The list of Availability Zones for the load balancer.
+  @_s.JsonKey(name: 'AvailabilityZones')
+  final List<String> availabilityZones;
+
+  /// Information about the configuration of the EC2 instances.
+  @_s.JsonKey(name: 'BackendServerDescriptions')
+  final List<AwsElbLoadBalancerBackendServerDescription>
+      backendServerDescriptions;
+
+  /// The name of the Amazon Route 53 hosted zone for the load balancer.
+  @_s.JsonKey(name: 'CanonicalHostedZoneName')
+  final String canonicalHostedZoneName;
+
+  /// The ID of the Amazon Route 53 hosted zone for the load balancer.
+  @_s.JsonKey(name: 'CanonicalHostedZoneNameID')
+  final String canonicalHostedZoneNameID;
+
+  /// Indicates when the load balancer was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreatedTime')
+  final String createdTime;
+
+  /// The DNS name of the load balancer.
+  @_s.JsonKey(name: 'DnsName')
+  final String dnsName;
+
+  /// Information about the health checks that are conducted on the load balancer.
+  @_s.JsonKey(name: 'HealthCheck')
+  final AwsElbLoadBalancerHealthCheck healthCheck;
+
+  /// List of EC2 instances for the load balancer.
+  @_s.JsonKey(name: 'Instances')
+  final List<AwsElbLoadBalancerInstance> instances;
+
+  /// The policies that are enabled for the load balancer listeners.
+  @_s.JsonKey(name: 'ListenerDescriptions')
+  final List<AwsElbLoadBalancerListenerDescription> listenerDescriptions;
+
+  /// The attributes for a load balancer.
+  @_s.JsonKey(name: 'LoadBalancerAttributes')
+  final AwsElbLoadBalancerAttributes loadBalancerAttributes;
+
+  /// The name of the load balancer.
+  @_s.JsonKey(name: 'LoadBalancerName')
+  final String loadBalancerName;
+
+  /// The policies for a load balancer.
+  @_s.JsonKey(name: 'Policies')
+  final AwsElbLoadBalancerPolicies policies;
+
+  /// The type of load balancer. Only provided if the load balancer is in a VPC.
+  ///
+  /// If <code>Scheme</code> is <code>internet-facing</code>, the load balancer
+  /// has a public DNS name that resolves to a public IP address.
+  ///
+  /// If <code>Scheme</code> is <code>internal</code>, the load balancer has a
+  /// public DNS name that resolves to a private IP address.
+  @_s.JsonKey(name: 'Scheme')
+  final String scheme;
+
+  /// The security groups for the load balancer. Only provided if the load
+  /// balancer is in a VPC.
+  @_s.JsonKey(name: 'SecurityGroups')
+  final List<String> securityGroups;
+
+  /// Information about the security group for the load balancer. This is the
+  /// security group that is used for inbound rules.
+  @_s.JsonKey(name: 'SourceSecurityGroup')
+  final AwsElbLoadBalancerSourceSecurityGroup sourceSecurityGroup;
+
+  /// The list of subnet identifiers for the load balancer.
+  @_s.JsonKey(name: 'Subnets')
+  final List<String> subnets;
+
+  /// The identifier of the VPC for the load balancer.
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
+  AwsElbLoadBalancerDetails({
+    this.availabilityZones,
+    this.backendServerDescriptions,
+    this.canonicalHostedZoneName,
+    this.canonicalHostedZoneNameID,
+    this.createdTime,
+    this.dnsName,
+    this.healthCheck,
+    this.instances,
+    this.listenerDescriptions,
+    this.loadBalancerAttributes,
+    this.loadBalancerName,
+    this.policies,
+    this.scheme,
+    this.securityGroups,
+    this.sourceSecurityGroup,
+    this.subnets,
+    this.vpcId,
+  });
+  factory AwsElbLoadBalancerDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsElbLoadBalancerDetailsToJson(this);
+}
+
+/// Contains information about the health checks that are conducted on the load
+/// balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerHealthCheck {
+  /// The number of consecutive health check successes required before the
+  /// instance is moved to the Healthy state.
+  @_s.JsonKey(name: 'HealthyThreshold')
+  final int healthyThreshold;
+
+  /// The approximate interval, in seconds, between health checks of an individual
+  /// instance.
+  @_s.JsonKey(name: 'Interval')
+  final int interval;
+
+  /// The instance that is being checked. The target specifies the protocol and
+  /// port. The available protocols are TCP, SSL, HTTP, and HTTPS. The range of
+  /// valid ports is 1 through 65535.
+  ///
+  /// For the HTTP and HTTPS protocols, the target also specifies the ping path.
+  ///
+  /// For the TCP protocol, the target is specified as <code>TCP:
+  /// <i>&lt;port&gt;</i> </code>.
+  ///
+  /// For the SSL protocol, the target is specified as
+  /// <code>SSL.<i>&lt;port&gt;</i> </code>.
+  ///
+  /// For the HTTP and HTTPS protocols, the target is specified as <code>
+  /// <i>&lt;protocol&gt;</i>:<i>&lt;port&gt;</i>/<i>&lt;path to ping&gt;</i>
+  /// </code>.
+  @_s.JsonKey(name: 'Target')
+  final String target;
+
+  /// The amount of time, in seconds, during which no response means a failed
+  /// health check.
+  @_s.JsonKey(name: 'Timeout')
+  final int timeout;
+
+  /// The number of consecutive health check failures that must occur before the
+  /// instance is moved to the Unhealthy state.
+  @_s.JsonKey(name: 'UnhealthyThreshold')
+  final int unhealthyThreshold;
+
+  AwsElbLoadBalancerHealthCheck({
+    this.healthyThreshold,
+    this.interval,
+    this.target,
+    this.timeout,
+    this.unhealthyThreshold,
+  });
+  factory AwsElbLoadBalancerHealthCheck.fromJson(Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerHealthCheckFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsElbLoadBalancerHealthCheckToJson(this);
+}
+
+/// Provides information about an EC2 instance for a load balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerInstance {
+  /// The instance identifier.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  AwsElbLoadBalancerInstance({
+    this.instanceId,
+  });
+  factory AwsElbLoadBalancerInstance.fromJson(Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerInstanceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsElbLoadBalancerInstanceToJson(this);
+}
+
+/// Information about a load balancer listener.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerListener {
+  /// The port on which the instance is listening.
+  @_s.JsonKey(name: 'InstancePort')
+  final int instancePort;
+
+  /// The protocol to use to route traffic to instances.
+  ///
+  /// Valid values: <code>HTTP</code> | <code>HTTPS</code> | <code>TCP</code> |
+  /// <code>SSL</code>
+  @_s.JsonKey(name: 'InstanceProtocol')
+  final String instanceProtocol;
+
+  /// The port on which the load balancer is listening.
+  ///
+  /// On EC2-VPC, you can specify any port from the range 1-65535.
+  ///
+  /// On EC2-Classic, you can specify any port from the following list: 25, 80,
+  /// 443, 465, 587, 1024-65535.
+  @_s.JsonKey(name: 'LoadBalancerPort')
+  final int loadBalancerPort;
+
+  /// The load balancer transport protocol to use for routing.
+  ///
+  /// Valid values: <code>HTTP</code> | <code>HTTPS</code> | <code>TCP</code> |
+  /// <code>SSL</code>
+  @_s.JsonKey(name: 'Protocol')
+  final String protocol;
+
+  /// The ARN of the server certificate.
+  @_s.JsonKey(name: 'SslCertificateId')
+  final String sslCertificateId;
+
+  AwsElbLoadBalancerListener({
+    this.instancePort,
+    this.instanceProtocol,
+    this.loadBalancerPort,
+    this.protocol,
+    this.sslCertificateId,
+  });
+  factory AwsElbLoadBalancerListener.fromJson(Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerListenerFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsElbLoadBalancerListenerToJson(this);
+}
+
+/// Lists the policies that are enabled for a load balancer listener.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerListenerDescription {
+  /// Information about the listener.
+  @_s.JsonKey(name: 'Listener')
+  final AwsElbLoadBalancerListener listener;
+
+  /// The policies enabled for the listener.
+  @_s.JsonKey(name: 'PolicyNames')
+  final List<String> policyNames;
+
+  AwsElbLoadBalancerListenerDescription({
+    this.listener,
+    this.policyNames,
+  });
+  factory AwsElbLoadBalancerListenerDescription.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerListenerDescriptionFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsElbLoadBalancerListenerDescriptionToJson(this);
+}
+
+/// Contains information about the policies for a load balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerPolicies {
+  /// The stickiness policies that are created using
+  /// <code>CreateAppCookieStickinessPolicy</code>.
+  @_s.JsonKey(name: 'AppCookieStickinessPolicies')
+  final List<AwsElbAppCookieStickinessPolicy> appCookieStickinessPolicies;
+
+  /// The stickiness policies that are created using
+  /// <code>CreateLBCookieStickinessPolicy</code>.
+  @_s.JsonKey(name: 'LbCookieStickinessPolicies')
+  final List<AwsElbLbCookieStickinessPolicy> lbCookieStickinessPolicies;
+
+  /// The policies other than the stickiness policies.
+  @_s.JsonKey(name: 'OtherPolicies')
+  final List<String> otherPolicies;
+
+  AwsElbLoadBalancerPolicies({
+    this.appCookieStickinessPolicies,
+    this.lbCookieStickinessPolicies,
+    this.otherPolicies,
+  });
+  factory AwsElbLoadBalancerPolicies.fromJson(Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerPoliciesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsElbLoadBalancerPoliciesToJson(this);
+}
+
+/// Contains information about the security group for the load balancer.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsElbLoadBalancerSourceSecurityGroup {
+  /// The name of the security group.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The owner of the security group.
+  @_s.JsonKey(name: 'OwnerAlias')
+  final String ownerAlias;
+
+  AwsElbLoadBalancerSourceSecurityGroup({
+    this.groupName,
+    this.ownerAlias,
+  });
+  factory AwsElbLoadBalancerSourceSecurityGroup.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsElbLoadBalancerSourceSecurityGroupFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsElbLoadBalancerSourceSecurityGroupToJson(this);
+}
+
 /// Information about a load balancer.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3047,7 +6260,12 @@ class AwsElbv2LoadBalancerDetails {
   @_s.JsonKey(name: 'CanonicalHostedZoneId')
   final String canonicalHostedZoneId;
 
-  /// The date and time the load balancer was created.
+  /// Indicates when the load balancer was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'CreatedTime')
   final String createdTime;
 
@@ -3106,7 +6324,20 @@ class AwsElbv2LoadBalancerDetails {
     createFactory: true,
     createToJson: true)
 class AwsIamAccessKeyDetails {
-  /// The creation date/time of the IAM access key related to a finding.
+  /// The identifier of the access key.
+  @_s.JsonKey(name: 'AccessKeyId')
+  final String accessKeyId;
+
+  /// The AWS account ID of the account for the key.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// Indicates when the IAM access key was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'CreatedAt')
   final String createdAt;
 
@@ -3122,6 +6353,10 @@ class AwsIamAccessKeyDetails {
   @_s.JsonKey(name: 'PrincipalType')
   final String principalType;
 
+  /// Information about the session that the key was used for.
+  @_s.JsonKey(name: 'SessionContext')
+  final AwsIamAccessKeySessionContext sessionContext;
+
   /// The status of the IAM access key related to a finding.
   @_s.JsonKey(name: 'Status')
   final AwsIamAccessKeyStatus status;
@@ -3135,10 +6370,13 @@ class AwsIamAccessKeyDetails {
   final String userName;
 
   AwsIamAccessKeyDetails({
+    this.accessKeyId,
+    this.accountId,
     this.createdAt,
     this.principalId,
     this.principalName,
     this.principalType,
+    this.sessionContext,
     this.status,
     this.userName,
   });
@@ -3148,11 +6386,448 @@ class AwsIamAccessKeyDetails {
   Map<String, dynamic> toJson() => _$AwsIamAccessKeyDetailsToJson(this);
 }
 
+/// Provides information about the session that the key was used for.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamAccessKeySessionContext {
+  /// Attributes of the session that the key was used for.
+  @_s.JsonKey(name: 'Attributes')
+  final AwsIamAccessKeySessionContextAttributes attributes;
+
+  /// Information about the entity that created the session.
+  @_s.JsonKey(name: 'SessionIssuer')
+  final AwsIamAccessKeySessionContextSessionIssuer sessionIssuer;
+
+  AwsIamAccessKeySessionContext({
+    this.attributes,
+    this.sessionIssuer,
+  });
+  factory AwsIamAccessKeySessionContext.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamAccessKeySessionContextFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamAccessKeySessionContextToJson(this);
+}
+
+/// Attributes of the session that the key was used for.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamAccessKeySessionContextAttributes {
+  /// Indicates when the session was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreationDate')
+  final String creationDate;
+
+  /// Indicates whether the session used multi-factor authentication (MFA).
+  @_s.JsonKey(name: 'MfaAuthenticated')
+  final bool mfaAuthenticated;
+
+  AwsIamAccessKeySessionContextAttributes({
+    this.creationDate,
+    this.mfaAuthenticated,
+  });
+  factory AwsIamAccessKeySessionContextAttributes.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsIamAccessKeySessionContextAttributesFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsIamAccessKeySessionContextAttributesToJson(this);
+}
+
+/// Information about the entity that created the session.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamAccessKeySessionContextSessionIssuer {
+  /// The identifier of the AWS account that created the session.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The ARN of the session.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The principal ID of the principal (user, role, or group) that created the
+  /// session.
+  @_s.JsonKey(name: 'PrincipalId')
+  final String principalId;
+
+  /// The type of principal (user, role, or group) that created the session.
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  /// The name of the principal that created the session.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  AwsIamAccessKeySessionContextSessionIssuer({
+    this.accountId,
+    this.arn,
+    this.principalId,
+    this.type,
+    this.userName,
+  });
+  factory AwsIamAccessKeySessionContextSessionIssuer.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsIamAccessKeySessionContextSessionIssuerFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsIamAccessKeySessionContextSessionIssuerToJson(this);
+}
+
 enum AwsIamAccessKeyStatus {
   @_s.JsonValue('Active')
   active,
   @_s.JsonValue('Inactive')
   inactive,
+}
+
+/// A managed policy that is attached to an IAM principal.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamAttachedManagedPolicy {
+  /// The ARN of the policy.
+  @_s.JsonKey(name: 'PolicyArn')
+  final String policyArn;
+
+  /// The name of the policy.
+  @_s.JsonKey(name: 'PolicyName')
+  final String policyName;
+
+  AwsIamAttachedManagedPolicy({
+    this.policyArn,
+    this.policyName,
+  });
+  factory AwsIamAttachedManagedPolicy.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamAttachedManagedPolicyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamAttachedManagedPolicyToJson(this);
+}
+
+/// Contains details about an IAM group.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamGroupDetails {
+  /// A list of the managed policies that are attached to the IAM group.
+  @_s.JsonKey(name: 'AttachedManagedPolicies')
+  final List<AwsIamAttachedManagedPolicy> attachedManagedPolicies;
+
+  /// Indicates when the IAM group was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreateDate')
+  final String createDate;
+
+  /// The identifier of the IAM group.
+  @_s.JsonKey(name: 'GroupId')
+  final String groupId;
+
+  /// The name of the IAM group.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The list of inline policies that are embedded in the group.
+  @_s.JsonKey(name: 'GroupPolicyList')
+  final List<AwsIamGroupPolicy> groupPolicyList;
+
+  /// The path to the group.
+  @_s.JsonKey(name: 'Path')
+  final String path;
+
+  AwsIamGroupDetails({
+    this.attachedManagedPolicies,
+    this.createDate,
+    this.groupId,
+    this.groupName,
+    this.groupPolicyList,
+    this.path,
+  });
+  factory AwsIamGroupDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamGroupDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamGroupDetailsToJson(this);
+}
+
+/// A managed policy that is attached to the IAM group.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamGroupPolicy {
+  /// The name of the policy.
+  @_s.JsonKey(name: 'PolicyName')
+  final String policyName;
+
+  AwsIamGroupPolicy({
+    this.policyName,
+  });
+  factory AwsIamGroupPolicy.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamGroupPolicyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamGroupPolicyToJson(this);
+}
+
+/// Information about an instance profile.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamInstanceProfile {
+  /// The ARN of the instance profile.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// Indicates when the instance profile was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreateDate')
+  final String createDate;
+
+  /// The identifier of the instance profile.
+  @_s.JsonKey(name: 'InstanceProfileId')
+  final String instanceProfileId;
+
+  /// The name of the instance profile.
+  @_s.JsonKey(name: 'InstanceProfileName')
+  final String instanceProfileName;
+
+  /// The path to the instance profile.
+  @_s.JsonKey(name: 'Path')
+  final String path;
+
+  /// The roles associated with the instance profile.
+  @_s.JsonKey(name: 'Roles')
+  final List<AwsIamInstanceProfileRole> roles;
+
+  AwsIamInstanceProfile({
+    this.arn,
+    this.createDate,
+    this.instanceProfileId,
+    this.instanceProfileName,
+    this.path,
+    this.roles,
+  });
+  factory AwsIamInstanceProfile.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamInstanceProfileFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamInstanceProfileToJson(this);
+}
+
+/// Information about a role associated with an instance profile.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamInstanceProfileRole {
+  /// The ARN of the role.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The policy that grants an entity permission to assume the role.
+  @_s.JsonKey(name: 'AssumeRolePolicyDocument')
+  final String assumeRolePolicyDocument;
+
+  /// Indicates when the role was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreateDate')
+  final String createDate;
+
+  /// The path to the role.
+  @_s.JsonKey(name: 'Path')
+  final String path;
+
+  /// The identifier of the role.
+  @_s.JsonKey(name: 'RoleId')
+  final String roleId;
+
+  /// The name of the role.
+  @_s.JsonKey(name: 'RoleName')
+  final String roleName;
+
+  AwsIamInstanceProfileRole({
+    this.arn,
+    this.assumeRolePolicyDocument,
+    this.createDate,
+    this.path,
+    this.roleId,
+    this.roleName,
+  });
+  factory AwsIamInstanceProfileRole.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamInstanceProfileRoleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamInstanceProfileRoleToJson(this);
+}
+
+/// Information about the policy used to set the permissions boundary for an IAM
+/// principal.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamPermissionsBoundary {
+  /// The ARN of the policy used to set the permissions boundary.
+  @_s.JsonKey(name: 'PermissionsBoundaryArn')
+  final String permissionsBoundaryArn;
+
+  /// The usage type for the permissions boundary.
+  @_s.JsonKey(name: 'PermissionsBoundaryType')
+  final String permissionsBoundaryType;
+
+  AwsIamPermissionsBoundary({
+    this.permissionsBoundaryArn,
+    this.permissionsBoundaryType,
+  });
+  factory AwsIamPermissionsBoundary.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamPermissionsBoundaryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamPermissionsBoundaryToJson(this);
+}
+
+/// Represents an IAM permissions policy.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamPolicyDetails {
+  /// The number of users, groups, and roles that the policy is attached to.
+  @_s.JsonKey(name: 'AttachmentCount')
+  final int attachmentCount;
+
+  /// When the policy was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreateDate')
+  final String createDate;
+
+  /// The identifier of the default version of the policy.
+  @_s.JsonKey(name: 'DefaultVersionId')
+  final String defaultVersionId;
+
+  /// A description of the policy.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Whether the policy can be attached to a user, group, or role.
+  @_s.JsonKey(name: 'IsAttachable')
+  final bool isAttachable;
+
+  /// The path to the policy.
+  @_s.JsonKey(name: 'Path')
+  final String path;
+
+  /// The number of users and roles that use the policy to set the permissions
+  /// boundary.
+  @_s.JsonKey(name: 'PermissionsBoundaryUsageCount')
+  final int permissionsBoundaryUsageCount;
+
+  /// The unique identifier of the policy.
+  @_s.JsonKey(name: 'PolicyId')
+  final String policyId;
+
+  /// The name of the policy.
+  @_s.JsonKey(name: 'PolicyName')
+  final String policyName;
+
+  /// List of versions of the policy.
+  @_s.JsonKey(name: 'PolicyVersionList')
+  final List<AwsIamPolicyVersion> policyVersionList;
+
+  /// When the policy was most recently updated.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'UpdateDate')
+  final String updateDate;
+
+  AwsIamPolicyDetails({
+    this.attachmentCount,
+    this.createDate,
+    this.defaultVersionId,
+    this.description,
+    this.isAttachable,
+    this.path,
+    this.permissionsBoundaryUsageCount,
+    this.policyId,
+    this.policyName,
+    this.policyVersionList,
+    this.updateDate,
+  });
+  factory AwsIamPolicyDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamPolicyDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamPolicyDetailsToJson(this);
+}
+
+/// A version of an IAM policy.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamPolicyVersion {
+  /// Indicates when the version was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreateDate')
+  final String createDate;
+
+  /// Whether the version is the default version.
+  @_s.JsonKey(name: 'IsDefaultVersion')
+  final bool isDefaultVersion;
+
+  /// The identifier of the policy version.
+  @_s.JsonKey(name: 'VersionId')
+  final String versionId;
+
+  AwsIamPolicyVersion({
+    this.createDate,
+    this.isDefaultVersion,
+    this.versionId,
+  });
+  factory AwsIamPolicyVersion.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamPolicyVersionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamPolicyVersionToJson(this);
 }
 
 /// Contains information about an IAM role, including all of the role's
@@ -3167,9 +6842,22 @@ class AwsIamRoleDetails {
   @_s.JsonKey(name: 'AssumeRolePolicyDocument')
   final String assumeRolePolicyDocument;
 
-  /// The date and time, in ISO 8601 date-time format, when the role was created.
+  /// The list of the managed policies that are attached to the role.
+  @_s.JsonKey(name: 'AttachedManagedPolicies')
+  final List<AwsIamAttachedManagedPolicy> attachedManagedPolicies;
+
+  /// Indicates when the role was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'CreateDate')
   final String createDate;
+
+  /// The list of instance profiles that contain this role.
+  @_s.JsonKey(name: 'InstanceProfileList')
+  final List<AwsIamInstanceProfile> instanceProfileList;
 
   /// The maximum session duration (in seconds) that you want to set for the
   /// specified role.
@@ -3179,6 +6867,8 @@ class AwsIamRoleDetails {
   /// The path to the role.
   @_s.JsonKey(name: 'Path')
   final String path;
+  @_s.JsonKey(name: 'PermissionsBoundary')
+  final AwsIamPermissionsBoundary permissionsBoundary;
 
   /// The stable and unique string identifying the role.
   @_s.JsonKey(name: 'RoleId')
@@ -3188,18 +6878,126 @@ class AwsIamRoleDetails {
   @_s.JsonKey(name: 'RoleName')
   final String roleName;
 
+  /// The list of inline policies that are embedded in the role.
+  @_s.JsonKey(name: 'RolePolicyList')
+  final List<AwsIamRolePolicy> rolePolicyList;
+
   AwsIamRoleDetails({
     this.assumeRolePolicyDocument,
+    this.attachedManagedPolicies,
     this.createDate,
+    this.instanceProfileList,
     this.maxSessionDuration,
     this.path,
+    this.permissionsBoundary,
     this.roleId,
     this.roleName,
+    this.rolePolicyList,
   });
   factory AwsIamRoleDetails.fromJson(Map<String, dynamic> json) =>
       _$AwsIamRoleDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$AwsIamRoleDetailsToJson(this);
+}
+
+/// An inline policy that is embedded in the role.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamRolePolicy {
+  /// The name of the policy.
+  @_s.JsonKey(name: 'PolicyName')
+  final String policyName;
+
+  AwsIamRolePolicy({
+    this.policyName,
+  });
+  factory AwsIamRolePolicy.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamRolePolicyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamRolePolicyToJson(this);
+}
+
+/// Information about an IAM user.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamUserDetails {
+  /// A list of the managed policies that are attached to the user.
+  @_s.JsonKey(name: 'AttachedManagedPolicies')
+  final List<AwsIamAttachedManagedPolicy> attachedManagedPolicies;
+
+  /// Indicates when the user was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'CreateDate')
+  final String createDate;
+
+  /// A list of IAM groups that the user belongs to.
+  @_s.JsonKey(name: 'GroupList')
+  final List<String> groupList;
+
+  /// The path to the user.
+  @_s.JsonKey(name: 'Path')
+  final String path;
+
+  /// The permissions boundary for the user.
+  @_s.JsonKey(name: 'PermissionsBoundary')
+  final AwsIamPermissionsBoundary permissionsBoundary;
+
+  /// The unique identifier for the user.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  /// The name of the user.
+  @_s.JsonKey(name: 'UserName')
+  final String userName;
+
+  /// The list of inline policies that are embedded in the user.
+  @_s.JsonKey(name: 'UserPolicyList')
+  final List<AwsIamUserPolicy> userPolicyList;
+
+  AwsIamUserDetails({
+    this.attachedManagedPolicies,
+    this.createDate,
+    this.groupList,
+    this.path,
+    this.permissionsBoundary,
+    this.userId,
+    this.userName,
+    this.userPolicyList,
+  });
+  factory AwsIamUserDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamUserDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamUserDetailsToJson(this);
+}
+
+/// Information about an inline policy that is embedded in the user.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsIamUserPolicy {
+  /// The name of the policy.
+  @_s.JsonKey(name: 'PolicyName')
+  final String policyName;
+
+  AwsIamUserPolicy({
+    this.policyName,
+  });
+  factory AwsIamUserPolicy.fromJson(Map<String, dynamic> json) =>
+      _$AwsIamUserPolicyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsIamUserPolicyToJson(this);
 }
 
 /// Contains metadata about a customer master key (CMK).
@@ -3213,9 +7011,18 @@ class AwsKmsKeyDetails {
   @_s.JsonKey(name: 'AWSAccountId')
   final String awsAccountId;
 
-  /// The date and time when the CMK was created.
+  /// Indicates when the CMK was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'CreationDate')
   final double creationDate;
+
+  /// A description of the key.
+  @_s.JsonKey(name: 'Description')
+  final String description;
 
   /// The globally unique identifier for the CMK.
   @_s.JsonKey(name: 'KeyId')
@@ -3245,6 +7052,7 @@ class AwsKmsKeyDetails {
   AwsKmsKeyDetails({
     this.awsAccountId,
     this.creationDate,
+    this.description,
     this.keyId,
     this.keyManager,
     this.keyState,
@@ -3352,8 +7160,12 @@ class AwsLambdaFunctionDetails {
   @_s.JsonKey(name: 'KmsKeyArn')
   final String kmsKeyArn;
 
-  /// The date and time that the function was last updated, in ISO-8601 format
-  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  /// Indicates when the function was last updated.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'LastModified')
   final String lastModified;
 
@@ -3558,7 +7370,7 @@ class AwsLambdaFunctionVpcConfig {
     createFactory: true,
     createToJson: true)
 class AwsLambdaLayerVersionDetails {
-  /// The layer's compatible runtimes. Maximum number of 5 items.
+  /// The layer's compatible runtimes. Maximum number of five items.
   ///
   /// Valid values: <code>nodejs10.x</code> | <code>nodejs12.x</code> |
   /// <code>java8</code> | <code>java11</code> | <code>python2.7</code> |
@@ -3568,8 +7380,12 @@ class AwsLambdaLayerVersionDetails {
   @_s.JsonKey(name: 'CompatibleRuntimes')
   final List<String> compatibleRuntimes;
 
-  /// The date that the version was created, in ISO 8601 format. For example,
-  /// 2018-11-27T15:10:45.123+0000.
+  /// Indicates when the version was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'CreatedDate')
   final String createdDate;
 
@@ -3586,6 +7402,482 @@ class AwsLambdaLayerVersionDetails {
       _$AwsLambdaLayerVersionDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$AwsLambdaLayerVersionDetailsToJson(this);
+}
+
+/// An IAM role that is associated with the Amazon RDS DB cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbClusterAssociatedRole {
+  /// The ARN of the IAM role.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// The status of the association between the IAM role and the DB cluster.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  AwsRdsDbClusterAssociatedRole({
+    this.roleArn,
+    this.status,
+  });
+  factory AwsRdsDbClusterAssociatedRole.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbClusterAssociatedRoleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbClusterAssociatedRoleToJson(this);
+}
+
+/// Information about an Amazon RDS DB cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbClusterDetails {
+  /// The status of the database activity stream.
+  @_s.JsonKey(name: 'ActivityStreamStatus')
+  final String activityStreamStatus;
+
+  /// For all database engines except Aurora, specifies the allocated storage size
+  /// in gibibytes (GiB).
+  @_s.JsonKey(name: 'AllocatedStorage')
+  final int allocatedStorage;
+
+  /// A list of the IAM roles that are associated with the DB cluster.
+  @_s.JsonKey(name: 'AssociatedRoles')
+  final List<AwsRdsDbClusterAssociatedRole> associatedRoles;
+
+  /// A list of Availability Zones (AZs) where instances in the DB cluster can be
+  /// created.
+  @_s.JsonKey(name: 'AvailabilityZones')
+  final List<String> availabilityZones;
+
+  /// The number of days for which automated backups are retained.
+  @_s.JsonKey(name: 'BackupRetentionPeriod')
+  final int backupRetentionPeriod;
+
+  /// Indicates when the DB cluster was created, in Universal Coordinated Time
+  /// (UTC).
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'ClusterCreateTime')
+  final String clusterCreateTime;
+
+  /// Whether tags are copied from the DB cluster to snapshots of the DB cluster.
+  @_s.JsonKey(name: 'CopyTagsToSnapshot')
+  final bool copyTagsToSnapshot;
+
+  /// Whether the DB cluster is a clone of a DB cluster owned by a different AWS
+  /// account.
+  @_s.JsonKey(name: 'CrossAccountClone')
+  final bool crossAccountClone;
+
+  /// A list of custom endpoints for the DB cluster.
+  @_s.JsonKey(name: 'CustomEndpoints')
+  final List<String> customEndpoints;
+
+  /// The name of the database.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The DB cluster identifier that the user assigned to the cluster. This
+  /// identifier is the unique key that identifies a DB cluster.
+  @_s.JsonKey(name: 'DbClusterIdentifier')
+  final String dbClusterIdentifier;
+
+  /// The list of instances that make up the DB cluster.
+  @_s.JsonKey(name: 'DbClusterMembers')
+  final List<AwsRdsDbClusterMember> dbClusterMembers;
+
+  /// The list of option group memberships for this DB cluster.
+  @_s.JsonKey(name: 'DbClusterOptionGroupMemberships')
+  final List<AwsRdsDbClusterOptionGroupMembership>
+      dbClusterOptionGroupMemberships;
+
+  /// The name of the DB cluster parameter group for the DB cluster.
+  @_s.JsonKey(name: 'DbClusterParameterGroup')
+  final String dbClusterParameterGroup;
+
+  /// The identifier of the DB cluster. The identifier must be unique within each
+  /// AWS Region and is immutable.
+  @_s.JsonKey(name: 'DbClusterResourceId')
+  final String dbClusterResourceId;
+
+  /// The subnet group that is associated with the DB cluster, including the name,
+  /// description, and subnets in the subnet group.
+  @_s.JsonKey(name: 'DbSubnetGroup')
+  final String dbSubnetGroup;
+
+  /// Whether the DB cluster has deletion protection enabled.
+  @_s.JsonKey(name: 'DeletionProtection')
+  final bool deletionProtection;
+
+  /// The Active Directory domain membership records that are associated with the
+  /// DB cluster.
+  @_s.JsonKey(name: 'DomainMemberships')
+  final List<AwsRdsDbDomainMembership> domainMemberships;
+
+  /// A list of log types that this DB cluster is configured to export to
+  /// CloudWatch Logs.
+  @_s.JsonKey(name: 'EnabledCloudWatchLogsExports')
+  final List<String> enabledCloudWatchLogsExports;
+
+  /// The connection endpoint for the primary instance of the DB cluster.
+  @_s.JsonKey(name: 'Endpoint')
+  final String endpoint;
+
+  /// The name of the database engine to use for this DB cluster.
+  @_s.JsonKey(name: 'Engine')
+  final String engine;
+
+  /// The database engine mode of the DB cluster.
+  @_s.JsonKey(name: 'EngineMode')
+  final String engineMode;
+
+  /// The version number of the database engine to use.
+  @_s.JsonKey(name: 'EngineVersion')
+  final String engineVersion;
+
+  /// Specifies the identifier that Amazon Route 53 assigns when you create a
+  /// hosted zone.
+  @_s.JsonKey(name: 'HostedZoneId')
+  final String hostedZoneId;
+
+  /// Whether the HTTP endpoint for an Aurora Serverless DB cluster is enabled.
+  @_s.JsonKey(name: 'HttpEndpointEnabled')
+  final bool httpEndpointEnabled;
+
+  /// Whether the mapping of IAM accounts to database accounts is enabled.
+  @_s.JsonKey(name: 'IamDatabaseAuthenticationEnabled')
+  final bool iamDatabaseAuthenticationEnabled;
+
+  /// The ARN of the AWS KMS master key that is used to encrypt the database
+  /// instances in the DB cluster.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// The name of the master user for the DB cluster.
+  @_s.JsonKey(name: 'MasterUsername')
+  final String masterUsername;
+
+  /// Whether the DB cluster has instances in multiple Availability Zones.
+  @_s.JsonKey(name: 'MultiAz')
+  final bool multiAz;
+
+  /// The port number on which the DB instances in the DB cluster accept
+  /// connections.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  /// The range of time each day when automated backups are created, if automated
+  /// backups are enabled.
+  ///
+  /// Uses the format <code>HH:MM-HH:MM</code>. For example,
+  /// <code>04:52-05:22</code>.
+  @_s.JsonKey(name: 'PreferredBackupWindow')
+  final String preferredBackupWindow;
+
+  /// The weekly time range during which system maintenance can occur, in
+  /// Universal Coordinated Time (UTC).
+  ///
+  /// Uses the format <code>&lt;day&gt;:HH:MM-&lt;day&gt;:HH:MM</code>.
+  ///
+  /// For the day values, use
+  /// <code>mon</code>|<code>tue</code>|<code>wed</code>|<code>thu</code>|<code>fri</code>|<code>sat</code>|<code>sun</code>.
+  ///
+  /// For example, <code>sun:09:32-sun:10:02</code>.
+  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
+  final String preferredMaintenanceWindow;
+
+  /// The identifiers of the read replicas that are associated with this DB
+  /// cluster.
+  @_s.JsonKey(name: 'ReadReplicaIdentifiers')
+  final List<String> readReplicaIdentifiers;
+
+  /// The reader endpoint for the DB cluster.
+  @_s.JsonKey(name: 'ReaderEndpoint')
+  final String readerEndpoint;
+
+  /// The current status of this DB cluster.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  /// Whether the DB cluster is encrypted.
+  @_s.JsonKey(name: 'StorageEncrypted')
+  final bool storageEncrypted;
+
+  /// A list of VPC security groups that the DB cluster belongs to.
+  @_s.JsonKey(name: 'VpcSecurityGroups')
+  final List<AwsRdsDbInstanceVpcSecurityGroup> vpcSecurityGroups;
+
+  AwsRdsDbClusterDetails({
+    this.activityStreamStatus,
+    this.allocatedStorage,
+    this.associatedRoles,
+    this.availabilityZones,
+    this.backupRetentionPeriod,
+    this.clusterCreateTime,
+    this.copyTagsToSnapshot,
+    this.crossAccountClone,
+    this.customEndpoints,
+    this.databaseName,
+    this.dbClusterIdentifier,
+    this.dbClusterMembers,
+    this.dbClusterOptionGroupMemberships,
+    this.dbClusterParameterGroup,
+    this.dbClusterResourceId,
+    this.dbSubnetGroup,
+    this.deletionProtection,
+    this.domainMemberships,
+    this.enabledCloudWatchLogsExports,
+    this.endpoint,
+    this.engine,
+    this.engineMode,
+    this.engineVersion,
+    this.hostedZoneId,
+    this.httpEndpointEnabled,
+    this.iamDatabaseAuthenticationEnabled,
+    this.kmsKeyId,
+    this.masterUsername,
+    this.multiAz,
+    this.port,
+    this.preferredBackupWindow,
+    this.preferredMaintenanceWindow,
+    this.readReplicaIdentifiers,
+    this.readerEndpoint,
+    this.status,
+    this.storageEncrypted,
+    this.vpcSecurityGroups,
+  });
+  factory AwsRdsDbClusterDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbClusterDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbClusterDetailsToJson(this);
+}
+
+/// Information about an instance in the DB cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbClusterMember {
+  /// The status of the DB cluster parameter group for this member of the DB
+  /// cluster.
+  @_s.JsonKey(name: 'DbClusterParameterGroupStatus')
+  final String dbClusterParameterGroupStatus;
+
+  /// The instance identifier for this member of the DB cluster.
+  @_s.JsonKey(name: 'DbInstanceIdentifier')
+  final String dbInstanceIdentifier;
+
+  /// Whether the cluster member is the primary instance for the DB cluster.
+  @_s.JsonKey(name: 'IsClusterWriter')
+  final bool isClusterWriter;
+
+  /// Specifies the order in which an Aurora replica is promoted to the primary
+  /// instance when the existing primary instance fails.
+  @_s.JsonKey(name: 'PromotionTier')
+  final int promotionTier;
+
+  AwsRdsDbClusterMember({
+    this.dbClusterParameterGroupStatus,
+    this.dbInstanceIdentifier,
+    this.isClusterWriter,
+    this.promotionTier,
+  });
+  factory AwsRdsDbClusterMember.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbClusterMemberFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbClusterMemberToJson(this);
+}
+
+/// Information about an option group membership for a DB cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbClusterOptionGroupMembership {
+  /// The name of the DB cluster option group.
+  @_s.JsonKey(name: 'DbClusterOptionGroupName')
+  final String dbClusterOptionGroupName;
+
+  /// The status of the DB cluster option group.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  AwsRdsDbClusterOptionGroupMembership({
+    this.dbClusterOptionGroupName,
+    this.status,
+  });
+  factory AwsRdsDbClusterOptionGroupMembership.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsRdsDbClusterOptionGroupMembershipFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRdsDbClusterOptionGroupMembershipToJson(this);
+}
+
+/// Information about an Amazon RDS DB cluster snapshot.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbClusterSnapshotDetails {
+  /// Specifies the allocated storage size in gibibytes (GiB).
+  @_s.JsonKey(name: 'AllocatedStorage')
+  final int allocatedStorage;
+
+  /// A list of Availability Zones where instances in the DB cluster can be
+  /// created.
+  @_s.JsonKey(name: 'AvailabilityZones')
+  final List<String> availabilityZones;
+
+  /// Indicates when the DB cluster was created, in Universal Coordinated Time
+  /// (UTC).
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'ClusterCreateTime')
+  final String clusterCreateTime;
+
+  /// The DB cluster identifier.
+  @_s.JsonKey(name: 'DbClusterIdentifier')
+  final String dbClusterIdentifier;
+
+  /// The identifier of the DB cluster snapshot.
+  @_s.JsonKey(name: 'DbClusterSnapshotIdentifier')
+  final String dbClusterSnapshotIdentifier;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Engine')
+  final String engine;
+
+  /// The version of the database engine to use.
+  @_s.JsonKey(name: 'EngineVersion')
+  final String engineVersion;
+
+  /// Whether mapping of IAM accounts to database accounts is enabled.
+  @_s.JsonKey(name: 'IamDatabaseAuthenticationEnabled')
+  final bool iamDatabaseAuthenticationEnabled;
+
+  /// The ARN of the AWS KMS master key that is used to encrypt the database
+  /// instances in the DB cluster.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// The license model information for this DB cluster snapshot.
+  @_s.JsonKey(name: 'LicenseModel')
+  final String licenseModel;
+
+  /// The name of the master user for the DB cluster.
+  @_s.JsonKey(name: 'MasterUsername')
+  final String masterUsername;
+
+  /// Specifies the percentage of the estimated data that has been transferred.
+  @_s.JsonKey(name: 'PercentProgress')
+  final int percentProgress;
+
+  /// The port number on which the DB instances in the DB cluster accept
+  /// connections.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  /// Indicates when the snapshot was taken.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'SnapshotCreateTime')
+  final String snapshotCreateTime;
+
+  /// The type of DB cluster snapshot.
+  @_s.JsonKey(name: 'SnapshotType')
+  final String snapshotType;
+
+  /// The status of this DB cluster snapshot.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  /// Whether the DB cluster is encrypted.
+  @_s.JsonKey(name: 'StorageEncrypted')
+  final bool storageEncrypted;
+
+  /// The VPC ID that is associated with the DB cluster snapshot.
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
+  AwsRdsDbClusterSnapshotDetails({
+    this.allocatedStorage,
+    this.availabilityZones,
+    this.clusterCreateTime,
+    this.dbClusterIdentifier,
+    this.dbClusterSnapshotIdentifier,
+    this.engine,
+    this.engineVersion,
+    this.iamDatabaseAuthenticationEnabled,
+    this.kmsKeyId,
+    this.licenseModel,
+    this.masterUsername,
+    this.percentProgress,
+    this.port,
+    this.snapshotCreateTime,
+    this.snapshotType,
+    this.status,
+    this.storageEncrypted,
+    this.vpcId,
+  });
+  factory AwsRdsDbClusterSnapshotDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbClusterSnapshotDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbClusterSnapshotDetailsToJson(this);
+}
+
+/// Information about an Active Directory domain membership record associated
+/// with the DB instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbDomainMembership {
+  /// The identifier of the Active Directory domain.
+  @_s.JsonKey(name: 'Domain')
+  final String domain;
+
+  /// The fully qualified domain name of the Active Directory domain.
+  @_s.JsonKey(name: 'Fqdn')
+  final String fqdn;
+
+  /// The name of the IAM role to use when making API calls to the Directory
+  /// Service.
+  @_s.JsonKey(name: 'IamRoleName')
+  final String iamRoleName;
+
+  /// The status of the Active Directory Domain membership for the DB instance.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  AwsRdsDbDomainMembership({
+    this.domain,
+    this.fqdn,
+    this.iamRoleName,
+    this.status,
+  });
+  factory AwsRdsDbDomainMembership.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbDomainMembershipFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbDomainMembershipToJson(this);
 }
 
 /// An AWS Identity and Access Management (IAM) role associated with the DB
@@ -3611,16 +7903,16 @@ class AwsRdsDbInstanceAssociatedRole {
   ///
   /// <ul>
   /// <li>
-  /// <code>ACTIVE</code> - the IAM role ARN is associated with the DB instance
+  /// <code>ACTIVE</code> - The IAM role ARN is associated with the DB instance
   /// and can be used to access other AWS services on your behalf.
   /// </li>
   /// <li>
-  /// <code>PENDING</code> - the IAM role ARN is being associated with the DB
+  /// <code>PENDING</code> - The IAM role ARN is being associated with the DB
   /// instance.
   /// </li>
   /// <li>
-  /// <code>INVALID</code> - the IAM role ARN is associated with the DB instance,
-  /// but the DB instance is unable to assume the IAM role in order to access
+  /// <code>INVALID</code> - The IAM role ARN is associated with the DB instance.
+  /// But the DB instance is unable to assume the IAM role in order to access
   /// other AWS services on your behalf.
   /// </li>
   /// </ul>
@@ -3645,14 +7937,39 @@ class AwsRdsDbInstanceAssociatedRole {
     createFactory: true,
     createToJson: true)
 class AwsRdsDbInstanceDetails {
+  /// The amount of storage (in gigabytes) to initially allocate for the DB
+  /// instance.
+  @_s.JsonKey(name: 'AllocatedStorage')
+  final int allocatedStorage;
+
   /// The AWS Identity and Access Management (IAM) roles associated with the DB
   /// instance.
   @_s.JsonKey(name: 'AssociatedRoles')
   final List<AwsRdsDbInstanceAssociatedRole> associatedRoles;
 
+  /// Indicates whether minor version patches are applied automatically.
+  @_s.JsonKey(name: 'AutoMinorVersionUpgrade')
+  final bool autoMinorVersionUpgrade;
+
+  /// The Availability Zone where the DB instance will be created.
+  @_s.JsonKey(name: 'AvailabilityZone')
+  final String availabilityZone;
+
+  /// The number of days for which to retain automated backups.
+  @_s.JsonKey(name: 'BackupRetentionPeriod')
+  final int backupRetentionPeriod;
+
   /// The identifier of the CA certificate for this DB instance.
   @_s.JsonKey(name: 'CACertificateIdentifier')
   final String cACertificateIdentifier;
+
+  /// The name of the character set that this DB instance is associated with.
+  @_s.JsonKey(name: 'CharacterSetName')
+  final String characterSetName;
+
+  /// Whether to copy resource tags to snapshots of the DB instance.
+  @_s.JsonKey(name: 'CopyTagsToSnapshot')
+  final bool copyTagsToSnapshot;
 
   /// If the DB instance is a member of a DB cluster, contains the name of the DB
   /// cluster that the DB instance is a member of.
@@ -3690,6 +8007,22 @@ class AwsRdsDbInstanceDetails {
   @_s.JsonKey(name: 'DbInstancePort')
   final int dbInstancePort;
 
+  /// The current status of the DB instance.
+  @_s.JsonKey(name: 'DbInstanceStatus')
+  final String dbInstanceStatus;
+
+  /// A list of the DB parameter groups to assign to the DB instance.
+  @_s.JsonKey(name: 'DbParameterGroups')
+  final List<AwsRdsDbParameterGroup> dbParameterGroups;
+
+  /// A list of the DB security groups to assign to the DB instance.
+  @_s.JsonKey(name: 'DbSecurityGroups')
+  final List<String> dbSecurityGroups;
+
+  /// Information about the subnet group that is associated with the DB instance.
+  @_s.JsonKey(name: 'DbSubnetGroup')
+  final AwsRdsDbSubnetGroup dbSubnetGroup;
+
   /// The AWS Region-unique, immutable identifier for the DB instance. This
   /// identifier is found in AWS CloudTrail log entries whenever the AWS KMS key
   /// for the DB instance is accessed.
@@ -3702,6 +8035,16 @@ class AwsRdsDbInstanceDetails {
   @_s.JsonKey(name: 'DeletionProtection')
   final bool deletionProtection;
 
+  /// The Active Directory domain membership records associated with the DB
+  /// instance.
+  @_s.JsonKey(name: 'DomainMemberships')
+  final List<AwsRdsDbDomainMembership> domainMemberships;
+
+  /// A list of log types that this DB instance is configured to export to
+  /// CloudWatch Logs.
+  @_s.JsonKey(name: 'EnabledCloudWatchLogsExports')
+  final List<String> enabledCloudWatchLogsExports;
+
   /// Specifies the connection endpoint.
   @_s.JsonKey(name: 'Endpoint')
   final AwsRdsDbInstanceEndpoint endpoint;
@@ -3713,6 +8056,11 @@ class AwsRdsDbInstanceDetails {
   /// Indicates the database engine version.
   @_s.JsonKey(name: 'EngineVersion')
   final String engineVersion;
+
+  /// The ARN of the CloudWatch Logs log stream that receives the enhanced
+  /// monitoring metrics data for the DB instance.
+  @_s.JsonKey(name: 'EnhancedMonitoringResourceArn')
+  final String enhancedMonitoringResourceArn;
 
   /// True if mapping of AWS Identity and Access Management (IAM) accounts to
   /// database accounts is enabled, and otherwise false.
@@ -3734,14 +8082,114 @@ class AwsRdsDbInstanceDetails {
   @_s.JsonKey(name: 'IAMDatabaseAuthenticationEnabled')
   final bool iAMDatabaseAuthenticationEnabled;
 
-  /// Provides the date and time the DB instance was created.
+  /// Indicates when the DB instance was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'InstanceCreateTime')
   final String instanceCreateTime;
+
+  /// Specifies the provisioned IOPS (I/O operations per second) for this DB
+  /// instance.
+  @_s.JsonKey(name: 'Iops')
+  final int iops;
 
   /// If <code>StorageEncrypted</code> is true, the AWS KMS key identifier for the
   /// encrypted DB instance.
   @_s.JsonKey(name: 'KmsKeyId')
   final String kmsKeyId;
+
+  /// Specifies the latest time to which a database can be restored with
+  /// point-in-time restore.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'LatestRestorableTime')
+  final String latestRestorableTime;
+
+  /// License model information for this DB instance.
+  @_s.JsonKey(name: 'LicenseModel')
+  final String licenseModel;
+  @_s.JsonKey(name: 'ListenerEndpoint')
+  final AwsRdsDbInstanceEndpoint listenerEndpoint;
+
+  /// The master user name of the DB instance.
+  @_s.JsonKey(name: 'MasterUsername')
+  final String masterUsername;
+
+  /// The upper limit to which Amazon RDS can automatically scale the storage of
+  /// the DB instance.
+  @_s.JsonKey(name: 'MaxAllocatedStorage')
+  final int maxAllocatedStorage;
+
+  /// The interval, in seconds, between points when enhanced monitoring metrics
+  /// are collected for the DB instance.
+  @_s.JsonKey(name: 'MonitoringInterval')
+  final int monitoringInterval;
+
+  /// The ARN for the IAM role that permits Amazon RDS to send enhanced monitoring
+  /// metrics to CloudWatch Logs.
+  @_s.JsonKey(name: 'MonitoringRoleArn')
+  final String monitoringRoleArn;
+
+  /// Whether the DB instance is a multiple Availability Zone deployment.
+  @_s.JsonKey(name: 'MultiAz')
+  final bool multiAz;
+
+  /// The list of option group memberships for this DB instance.
+  @_s.JsonKey(name: 'OptionGroupMemberships')
+  final List<AwsRdsDbOptionGroupMembership> optionGroupMemberships;
+
+  /// Changes to the DB instance that are currently pending.
+  @_s.JsonKey(name: 'PendingModifiedValues')
+  final AwsRdsDbPendingModifiedValues pendingModifiedValues;
+
+  /// Indicates whether Performance Insights is enabled for the DB instance.
+  @_s.JsonKey(name: 'PerformanceInsightsEnabled')
+  final bool performanceInsightsEnabled;
+
+  /// The identifier of the AWS KMS key used to encrypt the Performance Insights
+  /// data.
+  @_s.JsonKey(name: 'PerformanceInsightsKmsKeyId')
+  final String performanceInsightsKmsKeyId;
+
+  /// The number of days to retain Performance Insights data.
+  @_s.JsonKey(name: 'PerformanceInsightsRetentionPeriod')
+  final int performanceInsightsRetentionPeriod;
+
+  /// The range of time each day when automated backups are created, if automated
+  /// backups are enabled.
+  ///
+  /// Uses the format <code>HH:MM-HH:MM</code>. For example,
+  /// <code>04:52-05:22</code>.
+  @_s.JsonKey(name: 'PreferredBackupWindow')
+  final String preferredBackupWindow;
+
+  /// The weekly time range during which system maintenance can occur, in
+  /// Universal Coordinated Time (UTC).
+  ///
+  /// Uses the format <code>&lt;day&gt;:HH:MM-&lt;day&gt;:HH:MM</code>.
+  ///
+  /// For the day values, use
+  /// <code>mon</code>|<code>tue</code>|<code>wed</code>|<code>thu</code>|<code>fri</code>|<code>sat</code>|<code>sun</code>.
+  ///
+  /// For example, <code>sun:09:32-sun:10:02</code>.
+  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
+  final String preferredMaintenanceWindow;
+
+  /// The number of CPU cores and the number of threads per core for the DB
+  /// instance class of the DB instance.
+  @_s.JsonKey(name: 'ProcessorFeatures')
+  final List<AwsRdsDbProcessorFeature> processorFeatures;
+
+  /// The order in which to promote an Aurora replica to the primary instance
+  /// after a failure of the existing primary instance.
+  @_s.JsonKey(name: 'PromotionTier')
+  final int promotionTier;
 
   /// Specifies the accessibility options for the DB instance.
   ///
@@ -3753,38 +8201,108 @@ class AwsRdsDbInstanceDetails {
   @_s.JsonKey(name: 'PubliclyAccessible')
   final bool publiclyAccessible;
 
+  /// List of identifiers of Aurora DB clusters to which the RDS DB instance is
+  /// replicated as a read replica.
+  @_s.JsonKey(name: 'ReadReplicaDBClusterIdentifiers')
+  final List<String> readReplicaDBClusterIdentifiers;
+
+  /// List of identifiers of the read replicas associated with this DB instance.
+  @_s.JsonKey(name: 'ReadReplicaDBInstanceIdentifiers')
+  final List<String> readReplicaDBInstanceIdentifiers;
+
+  /// If this DB instance is a read replica, contains the identifier of the source
+  /// DB instance.
+  @_s.JsonKey(name: 'ReadReplicaSourceDBInstanceIdentifier')
+  final String readReplicaSourceDBInstanceIdentifier;
+
+  /// For a DB instance with multi-Availability Zone support, the name of the
+  /// secondary Availability Zone.
+  @_s.JsonKey(name: 'SecondaryAvailabilityZone')
+  final String secondaryAvailabilityZone;
+
+  /// The status of a read replica. If the instance isn't a read replica, this is
+  /// empty.
+  @_s.JsonKey(name: 'StatusInfos')
+  final List<AwsRdsDbStatusInfo> statusInfos;
+
   /// Specifies whether the DB instance is encrypted.
   @_s.JsonKey(name: 'StorageEncrypted')
   final bool storageEncrypted;
+
+  /// The storage type for the DB instance.
+  @_s.JsonKey(name: 'StorageType')
+  final String storageType;
 
   /// The ARN from the key store with which the instance is associated for TDE
   /// encryption.
   @_s.JsonKey(name: 'TdeCredentialArn')
   final String tdeCredentialArn;
 
+  /// The time zone of the DB instance.
+  @_s.JsonKey(name: 'Timezone')
+  final String timezone;
+
   /// A list of VPC security groups that the DB instance belongs to.
   @_s.JsonKey(name: 'VpcSecurityGroups')
   final List<AwsRdsDbInstanceVpcSecurityGroup> vpcSecurityGroups;
 
   AwsRdsDbInstanceDetails({
+    this.allocatedStorage,
     this.associatedRoles,
+    this.autoMinorVersionUpgrade,
+    this.availabilityZone,
+    this.backupRetentionPeriod,
     this.cACertificateIdentifier,
+    this.characterSetName,
+    this.copyTagsToSnapshot,
     this.dBClusterIdentifier,
     this.dBInstanceClass,
     this.dBInstanceIdentifier,
     this.dBName,
     this.dbInstancePort,
+    this.dbInstanceStatus,
+    this.dbParameterGroups,
+    this.dbSecurityGroups,
+    this.dbSubnetGroup,
     this.dbiResourceId,
     this.deletionProtection,
+    this.domainMemberships,
+    this.enabledCloudWatchLogsExports,
     this.endpoint,
     this.engine,
     this.engineVersion,
+    this.enhancedMonitoringResourceArn,
     this.iAMDatabaseAuthenticationEnabled,
     this.instanceCreateTime,
+    this.iops,
     this.kmsKeyId,
+    this.latestRestorableTime,
+    this.licenseModel,
+    this.listenerEndpoint,
+    this.masterUsername,
+    this.maxAllocatedStorage,
+    this.monitoringInterval,
+    this.monitoringRoleArn,
+    this.multiAz,
+    this.optionGroupMemberships,
+    this.pendingModifiedValues,
+    this.performanceInsightsEnabled,
+    this.performanceInsightsKmsKeyId,
+    this.performanceInsightsRetentionPeriod,
+    this.preferredBackupWindow,
+    this.preferredMaintenanceWindow,
+    this.processorFeatures,
+    this.promotionTier,
     this.publiclyAccessible,
+    this.readReplicaDBClusterIdentifiers,
+    this.readReplicaDBInstanceIdentifiers,
+    this.readReplicaSourceDBInstanceIdentifier,
+    this.secondaryAvailabilityZone,
+    this.statusInfos,
     this.storageEncrypted,
+    this.storageType,
     this.tdeCredentialArn,
+    this.timezone,
     this.vpcSecurityGroups,
   });
   factory AwsRdsDbInstanceDetails.fromJson(Map<String, dynamic> json) =>
@@ -3850,6 +8368,1327 @@ class AwsRdsDbInstanceVpcSecurityGroup {
       _$AwsRdsDbInstanceVpcSecurityGroupToJson(this);
 }
 
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbOptionGroupMembership {
+  /// <p/>
+  @_s.JsonKey(name: 'OptionGroupName')
+  final String optionGroupName;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  AwsRdsDbOptionGroupMembership({
+    this.optionGroupName,
+    this.status,
+  });
+  factory AwsRdsDbOptionGroupMembership.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbOptionGroupMembershipFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbOptionGroupMembershipToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbParameterGroup {
+  /// <p/>
+  @_s.JsonKey(name: 'DbParameterGroupName')
+  final String dbParameterGroupName;
+
+  /// <p/>
+  @_s.JsonKey(name: 'ParameterApplyStatus')
+  final String parameterApplyStatus;
+
+  AwsRdsDbParameterGroup({
+    this.dbParameterGroupName,
+    this.parameterApplyStatus,
+  });
+  factory AwsRdsDbParameterGroup.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbParameterGroupFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbParameterGroupToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbPendingModifiedValues {
+  /// <p/>
+  @_s.JsonKey(name: 'AllocatedStorage')
+  final int allocatedStorage;
+
+  /// <p/>
+  @_s.JsonKey(name: 'BackupRetentionPeriod')
+  final int backupRetentionPeriod;
+
+  /// <p/>
+  @_s.JsonKey(name: 'CaCertificateIdentifier')
+  final String caCertificateIdentifier;
+
+  /// <p/>
+  @_s.JsonKey(name: 'DbInstanceClass')
+  final String dbInstanceClass;
+
+  /// <p/>
+  @_s.JsonKey(name: 'DbInstanceIdentifier')
+  final String dbInstanceIdentifier;
+
+  /// <p/>
+  @_s.JsonKey(name: 'DbSubnetGroupName')
+  final String dbSubnetGroupName;
+
+  /// <p/>
+  @_s.JsonKey(name: 'EngineVersion')
+  final String engineVersion;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Iops')
+  final int iops;
+
+  /// <p/>
+  @_s.JsonKey(name: 'LicenseModel')
+  final String licenseModel;
+
+  /// <p/>
+  @_s.JsonKey(name: 'MasterUserPassword')
+  final String masterUserPassword;
+
+  /// <p/>
+  @_s.JsonKey(name: 'MultiAZ')
+  final bool multiAZ;
+
+  /// <p/>
+  @_s.JsonKey(name: 'PendingCloudWatchLogsExports')
+  final AwsRdsPendingCloudWatchLogsExports pendingCloudWatchLogsExports;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  /// <p/>
+  @_s.JsonKey(name: 'ProcessorFeatures')
+  final List<AwsRdsDbProcessorFeature> processorFeatures;
+
+  /// <p/>
+  @_s.JsonKey(name: 'StorageType')
+  final String storageType;
+
+  AwsRdsDbPendingModifiedValues({
+    this.allocatedStorage,
+    this.backupRetentionPeriod,
+    this.caCertificateIdentifier,
+    this.dbInstanceClass,
+    this.dbInstanceIdentifier,
+    this.dbSubnetGroupName,
+    this.engineVersion,
+    this.iops,
+    this.licenseModel,
+    this.masterUserPassword,
+    this.multiAZ,
+    this.pendingCloudWatchLogsExports,
+    this.port,
+    this.processorFeatures,
+    this.storageType,
+  });
+  factory AwsRdsDbPendingModifiedValues.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbPendingModifiedValuesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbPendingModifiedValuesToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbProcessorFeature {
+  /// <p/>
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  AwsRdsDbProcessorFeature({
+    this.name,
+    this.value,
+  });
+  factory AwsRdsDbProcessorFeature.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbProcessorFeatureFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbProcessorFeatureToJson(this);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbSnapshotDetails {
+  /// <p/>
+  @_s.JsonKey(name: 'AllocatedStorage')
+  final int allocatedStorage;
+
+  /// <p/>
+  @_s.JsonKey(name: 'AvailabilityZone')
+  final String availabilityZone;
+
+  /// <p/>
+  @_s.JsonKey(name: 'DbInstanceIdentifier')
+  final String dbInstanceIdentifier;
+
+  /// <p/>
+  @_s.JsonKey(name: 'DbSnapshotIdentifier')
+  final String dbSnapshotIdentifier;
+
+  /// <p/>
+  @_s.JsonKey(name: 'DbiResourceId')
+  final String dbiResourceId;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Encrypted')
+  final bool encrypted;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Engine')
+  final String engine;
+
+  /// <p/>
+  @_s.JsonKey(name: 'EngineVersion')
+  final String engineVersion;
+
+  /// <p/>
+  @_s.JsonKey(name: 'IamDatabaseAuthenticationEnabled')
+  final bool iamDatabaseAuthenticationEnabled;
+
+  /// <p/>
+  @_s.JsonKey(name: 'InstanceCreateTime')
+  final String instanceCreateTime;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Iops')
+  final int iops;
+
+  /// <p/>
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// <p/>
+  @_s.JsonKey(name: 'LicenseModel')
+  final String licenseModel;
+
+  /// <p/>
+  @_s.JsonKey(name: 'MasterUsername')
+  final String masterUsername;
+
+  /// <p/>
+  @_s.JsonKey(name: 'OptionGroupName')
+  final String optionGroupName;
+
+  /// <p/>
+  @_s.JsonKey(name: 'PercentProgress')
+  final int percentProgress;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  /// <p/>
+  @_s.JsonKey(name: 'ProcessorFeatures')
+  final List<AwsRdsDbProcessorFeature> processorFeatures;
+
+  /// <p/>
+  @_s.JsonKey(name: 'SnapshotCreateTime')
+  final String snapshotCreateTime;
+
+  /// <p/>
+  @_s.JsonKey(name: 'SnapshotType')
+  final String snapshotType;
+
+  /// <p/>
+  @_s.JsonKey(name: 'SourceDbSnapshotIdentifier')
+  final String sourceDbSnapshotIdentifier;
+
+  /// <p/>
+  @_s.JsonKey(name: 'SourceRegion')
+  final String sourceRegion;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  /// <p/>
+  @_s.JsonKey(name: 'StorageType')
+  final String storageType;
+
+  /// <p/>
+  @_s.JsonKey(name: 'TdeCredentialArn')
+  final String tdeCredentialArn;
+
+  /// <p/>
+  @_s.JsonKey(name: 'Timezone')
+  final String timezone;
+
+  /// <p/>
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
+  AwsRdsDbSnapshotDetails({
+    this.allocatedStorage,
+    this.availabilityZone,
+    this.dbInstanceIdentifier,
+    this.dbSnapshotIdentifier,
+    this.dbiResourceId,
+    this.encrypted,
+    this.engine,
+    this.engineVersion,
+    this.iamDatabaseAuthenticationEnabled,
+    this.instanceCreateTime,
+    this.iops,
+    this.kmsKeyId,
+    this.licenseModel,
+    this.masterUsername,
+    this.optionGroupName,
+    this.percentProgress,
+    this.port,
+    this.processorFeatures,
+    this.snapshotCreateTime,
+    this.snapshotType,
+    this.sourceDbSnapshotIdentifier,
+    this.sourceRegion,
+    this.status,
+    this.storageType,
+    this.tdeCredentialArn,
+    this.timezone,
+    this.vpcId,
+  });
+  factory AwsRdsDbSnapshotDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbSnapshotDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbSnapshotDetailsToJson(this);
+}
+
+/// Information about the status of a read replica.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbStatusInfo {
+  /// If the read replica is currently in an error state, provides the error
+  /// details.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  /// Whether the read replica instance is operating normally.
+  @_s.JsonKey(name: 'Normal')
+  final bool normal;
+
+  /// The status of the read replica instance.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  /// The type of status. For a read replica, the status type is read replication.
+  @_s.JsonKey(name: 'StatusType')
+  final String statusType;
+
+  AwsRdsDbStatusInfo({
+    this.message,
+    this.normal,
+    this.status,
+    this.statusType,
+  });
+  factory AwsRdsDbStatusInfo.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbStatusInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbStatusInfoToJson(this);
+}
+
+/// Information about the subnet group for the database instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbSubnetGroup {
+  /// The ARN of the subnet group.
+  @_s.JsonKey(name: 'DbSubnetGroupArn')
+  final String dbSubnetGroupArn;
+
+  /// The description of the subnet group.
+  @_s.JsonKey(name: 'DbSubnetGroupDescription')
+  final String dbSubnetGroupDescription;
+
+  /// The name of the subnet group.
+  @_s.JsonKey(name: 'DbSubnetGroupName')
+  final String dbSubnetGroupName;
+
+  /// The status of the subnet group.
+  @_s.JsonKey(name: 'SubnetGroupStatus')
+  final String subnetGroupStatus;
+
+  /// A list of subnets in the subnet group.
+  @_s.JsonKey(name: 'Subnets')
+  final List<AwsRdsDbSubnetGroupSubnet> subnets;
+
+  /// The VPC ID of the subnet group.
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
+  AwsRdsDbSubnetGroup({
+    this.dbSubnetGroupArn,
+    this.dbSubnetGroupDescription,
+    this.dbSubnetGroupName,
+    this.subnetGroupStatus,
+    this.subnets,
+    this.vpcId,
+  });
+  factory AwsRdsDbSubnetGroup.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbSubnetGroupFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbSubnetGroupToJson(this);
+}
+
+/// Information about a subnet in a subnet group.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbSubnetGroupSubnet {
+  /// Information about the Availability Zone for a subnet in the subnet group.
+  @_s.JsonKey(name: 'SubnetAvailabilityZone')
+  final AwsRdsDbSubnetGroupSubnetAvailabilityZone subnetAvailabilityZone;
+
+  /// The identifier of a subnet in the subnet group.
+  @_s.JsonKey(name: 'SubnetIdentifier')
+  final String subnetIdentifier;
+
+  /// The status of a subnet in the subnet group.
+  @_s.JsonKey(name: 'SubnetStatus')
+  final String subnetStatus;
+
+  AwsRdsDbSubnetGroupSubnet({
+    this.subnetAvailabilityZone,
+    this.subnetIdentifier,
+    this.subnetStatus,
+  });
+  factory AwsRdsDbSubnetGroupSubnet.fromJson(Map<String, dynamic> json) =>
+      _$AwsRdsDbSubnetGroupSubnetFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRdsDbSubnetGroupSubnetToJson(this);
+}
+
+/// An Availability Zone for a subnet in a subnet group.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsDbSubnetGroupSubnetAvailabilityZone {
+  /// The name of the Availability Zone for a subnet in the subnet group.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  AwsRdsDbSubnetGroupSubnetAvailabilityZone({
+    this.name,
+  });
+  factory AwsRdsDbSubnetGroupSubnetAvailabilityZone.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsRdsDbSubnetGroupSubnetAvailabilityZoneFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRdsDbSubnetGroupSubnetAvailabilityZoneToJson(this);
+}
+
+/// Identifies the log types to enable and disable.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRdsPendingCloudWatchLogsExports {
+  /// A list of log types that are being disabled.
+  @_s.JsonKey(name: 'LogTypesToDisable')
+  final List<String> logTypesToDisable;
+
+  /// A list of log types that are being enabled.
+  @_s.JsonKey(name: 'LogTypesToEnable')
+  final List<String> logTypesToEnable;
+
+  AwsRdsPendingCloudWatchLogsExports({
+    this.logTypesToDisable,
+    this.logTypesToEnable,
+  });
+  factory AwsRdsPendingCloudWatchLogsExports.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsRdsPendingCloudWatchLogsExportsFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRdsPendingCloudWatchLogsExportsToJson(this);
+}
+
+/// A node in an Amazon Redshift cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterClusterNode {
+  /// The role of the node. A node might be a leader node or a compute node.
+  @_s.JsonKey(name: 'NodeRole')
+  final String nodeRole;
+
+  /// The private IP address of the node.
+  @_s.JsonKey(name: 'PrivateIpAddress')
+  final String privateIpAddress;
+
+  /// The public IP address of the node.
+  @_s.JsonKey(name: 'PublicIpAddress')
+  final String publicIpAddress;
+
+  AwsRedshiftClusterClusterNode({
+    this.nodeRole,
+    this.privateIpAddress,
+    this.publicIpAddress,
+  });
+  factory AwsRedshiftClusterClusterNode.fromJson(Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterClusterNodeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRedshiftClusterClusterNodeToJson(this);
+}
+
+/// A cluster parameter group that is associated with an Amazon Redshift
+/// cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterClusterParameterGroup {
+  /// The list of parameter statuses.
+  @_s.JsonKey(name: 'ClusterParameterStatusList')
+  final List<AwsRedshiftClusterClusterParameterStatus>
+      clusterParameterStatusList;
+
+  /// The status of updates to the parameters.
+  @_s.JsonKey(name: 'ParameterApplyStatus')
+  final String parameterApplyStatus;
+
+  /// The name of the parameter group.
+  @_s.JsonKey(name: 'ParameterGroupName')
+  final String parameterGroupName;
+
+  AwsRedshiftClusterClusterParameterGroup({
+    this.clusterParameterStatusList,
+    this.parameterApplyStatus,
+    this.parameterGroupName,
+  });
+  factory AwsRedshiftClusterClusterParameterGroup.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterClusterParameterGroupFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRedshiftClusterClusterParameterGroupToJson(this);
+}
+
+/// The status of a parameter in a cluster parameter group for an Amazon
+/// Redshift cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterClusterParameterStatus {
+  /// The error that prevented the parameter from being applied to the database.
+  @_s.JsonKey(name: 'ParameterApplyErrorDescription')
+  final String parameterApplyErrorDescription;
+
+  /// The status of the parameter. Indicates whether the parameter is in sync with
+  /// the database, waiting for a cluster reboot, or encountered an error when it
+  /// was applied.
+  ///
+  /// Valid values: <code>in-sync</code> | <code>pending-reboot</code> |
+  /// <code>applying</code> | <code>invalid-parameter</code> |
+  /// <code>apply-deferred</code> | <code>apply-error</code> |
+  /// <code>unknown-error</code>
+  @_s.JsonKey(name: 'ParameterApplyStatus')
+  final String parameterApplyStatus;
+
+  /// The name of the parameter.
+  @_s.JsonKey(name: 'ParameterName')
+  final String parameterName;
+
+  AwsRedshiftClusterClusterParameterStatus({
+    this.parameterApplyErrorDescription,
+    this.parameterApplyStatus,
+    this.parameterName,
+  });
+  factory AwsRedshiftClusterClusterParameterStatus.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterClusterParameterStatusFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRedshiftClusterClusterParameterStatusToJson(this);
+}
+
+/// A security group that is associated with the cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterClusterSecurityGroup {
+  /// The name of the cluster security group.
+  @_s.JsonKey(name: 'ClusterSecurityGroupName')
+  final String clusterSecurityGroupName;
+
+  /// The status of the cluster security group.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  AwsRedshiftClusterClusterSecurityGroup({
+    this.clusterSecurityGroupName,
+    this.status,
+  });
+  factory AwsRedshiftClusterClusterSecurityGroup.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterClusterSecurityGroupFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRedshiftClusterClusterSecurityGroupToJson(this);
+}
+
+/// Information about a cross-Region snapshot copy.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterClusterSnapshotCopyStatus {
+  /// The destination Region that snapshots are automatically copied to when
+  /// cross-Region snapshot copy is enabled.
+  @_s.JsonKey(name: 'DestinationRegion')
+  final String destinationRegion;
+
+  /// The number of days that manual snapshots are retained in the destination
+  /// region after they are copied from a source region.
+  ///
+  /// If the value is -1, then the manual snapshot is retained indefinitely.
+  ///
+  /// Valid values: Either -1 or an integer between 1 and 3,653
+  @_s.JsonKey(name: 'ManualSnapshotRetentionPeriod')
+  final int manualSnapshotRetentionPeriod;
+
+  /// The number of days to retain automated snapshots in the destination Region
+  /// after they are copied from a source Region.
+  @_s.JsonKey(name: 'RetentionPeriod')
+  final int retentionPeriod;
+
+  /// The name of the snapshot copy grant.
+  @_s.JsonKey(name: 'SnapshotCopyGrantName')
+  final String snapshotCopyGrantName;
+
+  AwsRedshiftClusterClusterSnapshotCopyStatus({
+    this.destinationRegion,
+    this.manualSnapshotRetentionPeriod,
+    this.retentionPeriod,
+    this.snapshotCopyGrantName,
+  });
+  factory AwsRedshiftClusterClusterSnapshotCopyStatus.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterClusterSnapshotCopyStatusFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRedshiftClusterClusterSnapshotCopyStatusToJson(this);
+}
+
+/// A time windows during which maintenance was deferred for an Amazon Redshift
+/// cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterDeferredMaintenanceWindow {
+  /// The end of the time window for which maintenance was deferred.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'DeferMaintenanceEndTime')
+  final String deferMaintenanceEndTime;
+
+  /// The identifier of the maintenance window.
+  @_s.JsonKey(name: 'DeferMaintenanceIdentifier')
+  final String deferMaintenanceIdentifier;
+
+  /// The start of the time window for which maintenance was deferred.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'DeferMaintenanceStartTime')
+  final String deferMaintenanceStartTime;
+
+  AwsRedshiftClusterDeferredMaintenanceWindow({
+    this.deferMaintenanceEndTime,
+    this.deferMaintenanceIdentifier,
+    this.deferMaintenanceStartTime,
+  });
+  factory AwsRedshiftClusterDeferredMaintenanceWindow.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterDeferredMaintenanceWindowFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRedshiftClusterDeferredMaintenanceWindowToJson(this);
+}
+
+/// Details about an Amazon Redshift cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterDetails {
+  /// Indicates whether major version upgrades are applied automatically to the
+  /// cluster during the maintenance window.
+  @_s.JsonKey(name: 'AllowVersionUpgrade')
+  final bool allowVersionUpgrade;
+
+  /// The number of days that automatic cluster snapshots are retained.
+  @_s.JsonKey(name: 'AutomatedSnapshotRetentionPeriod')
+  final int automatedSnapshotRetentionPeriod;
+
+  /// The name of the Availability Zone in which the cluster is located.
+  @_s.JsonKey(name: 'AvailabilityZone')
+  final String availabilityZone;
+
+  /// The availability status of the cluster for queries. Possible values are the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Available</code> - The cluster is available for queries.
+  /// </li>
+  /// <li>
+  /// <code>Unavailable</code> - The cluster is not available for queries.
+  /// </li>
+  /// <li>
+  /// <code>Maintenance</code> - The cluster is intermittently available for
+  /// queries due to maintenance activities.
+  /// </li>
+  /// <li>
+  /// <code>Modifying</code> -The cluster is intermittently available for queries
+  /// due to changes that modify the cluster.
+  /// </li>
+  /// <li>
+  /// <code>Failed</code> - The cluster failed and is not available for queries.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ClusterAvailabilityStatus')
+  final String clusterAvailabilityStatus;
+
+  /// Indicates when the cluster was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'ClusterCreateTime')
+  final String clusterCreateTime;
+
+  /// The unique identifier of the cluster.
+  @_s.JsonKey(name: 'ClusterIdentifier')
+  final String clusterIdentifier;
+
+  /// The nodes in the cluster.
+  @_s.JsonKey(name: 'ClusterNodes')
+  final List<AwsRedshiftClusterClusterNode> clusterNodes;
+
+  /// The list of cluster parameter groups that are associated with this cluster.
+  @_s.JsonKey(name: 'ClusterParameterGroups')
+  final List<AwsRedshiftClusterClusterParameterGroup> clusterParameterGroups;
+
+  /// The public key for the cluster.
+  @_s.JsonKey(name: 'ClusterPublicKey')
+  final String clusterPublicKey;
+
+  /// The specific revision number of the database in the cluster.
+  @_s.JsonKey(name: 'ClusterRevisionNumber')
+  final String clusterRevisionNumber;
+
+  /// A list of cluster security groups that are associated with the cluster.
+  @_s.JsonKey(name: 'ClusterSecurityGroups')
+  final List<AwsRedshiftClusterClusterSecurityGroup> clusterSecurityGroups;
+
+  /// Information about the destination Region and retention period for the
+  /// cross-Region snapshot copy.
+  @_s.JsonKey(name: 'ClusterSnapshotCopyStatus')
+  final AwsRedshiftClusterClusterSnapshotCopyStatus clusterSnapshotCopyStatus;
+
+  /// The current status of the cluster.
+  ///
+  /// Valid values: <code>available</code> | <code>available,
+  /// prep-for-resize</code> | <code>available, resize-cleanup</code> |<code>
+  /// cancelling-resize</code> | <code>creating</code> | <code>deleting</code> |
+  /// <code>final-snapshot</code> | <code>hardware-failure</code> |
+  /// <code>incompatible-hsm</code> |<code> incompatible-network</code> |
+  /// <code>incompatible-parameters</code> | <code>incompatible-restore</code> |
+  /// <code>modifying</code> | <code>paused</code> | <code>rebooting</code> |
+  /// <code>renaming</code> | <code>resizing</code> | <code>rotating-keys</code> |
+  /// <code>storage-full</code> | <code>updating-hsm</code>
+  @_s.JsonKey(name: 'ClusterStatus')
+  final String clusterStatus;
+
+  /// The name of the subnet group that is associated with the cluster. This
+  /// parameter is valid only when the cluster is in a VPC.
+  @_s.JsonKey(name: 'ClusterSubnetGroupName')
+  final String clusterSubnetGroupName;
+
+  /// The version ID of the Amazon Redshift engine that runs on the cluster.
+  @_s.JsonKey(name: 'ClusterVersion')
+  final String clusterVersion;
+
+  /// The name of the initial database that was created when the cluster was
+  /// created.
+  ///
+  /// The same name is returned for the life of the cluster.
+  ///
+  /// If an initial database is not specified, a database named
+  /// <code>devdev</code> is created by default.
+  @_s.JsonKey(name: 'DBName')
+  final String dBName;
+
+  /// List of time windows during which maintenance was deferred.
+  @_s.JsonKey(name: 'DeferredMaintenanceWindows')
+  final List<AwsRedshiftClusterDeferredMaintenanceWindow>
+      deferredMaintenanceWindows;
+
+  /// Information about the status of the Elastic IP (EIP) address.
+  @_s.JsonKey(name: 'ElasticIpStatus')
+  final AwsRedshiftClusterElasticIpStatus elasticIpStatus;
+
+  /// The number of nodes that you can use the elastic resize method to resize the
+  /// cluster to.
+  @_s.JsonKey(name: 'ElasticResizeNumberOfNodeOptions')
+  final String elasticResizeNumberOfNodeOptions;
+
+  /// Indicates whether the data in the cluster is encrypted at rest.
+  @_s.JsonKey(name: 'Encrypted')
+  final bool encrypted;
+
+  /// The connection endpoint.
+  @_s.JsonKey(name: 'Endpoint')
+  final AwsRedshiftClusterEndpoint endpoint;
+
+  /// Indicates whether to create the cluster with enhanced VPC routing enabled.
+  @_s.JsonKey(name: 'EnhancedVpcRouting')
+  final bool enhancedVpcRouting;
+
+  /// Indicates when the next snapshot is expected to be taken. The cluster must
+  /// have a valid snapshot schedule and have backups enabled.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'ExpectedNextSnapshotScheduleTime')
+  final String expectedNextSnapshotScheduleTime;
+
+  /// The status of the next expected snapshot.
+  ///
+  /// Valid values: <code>OnTrack</code> | <code>Pending</code>
+  @_s.JsonKey(name: 'ExpectedNextSnapshotScheduleTimeStatus')
+  final String expectedNextSnapshotScheduleTimeStatus;
+
+  /// Information about whether the Amazon Redshift cluster finished applying any
+  /// changes to hardware security module (HSM) settings that were specified in a
+  /// modify cluster command.
+  @_s.JsonKey(name: 'HsmStatus')
+  final AwsRedshiftClusterHsmStatus hsmStatus;
+
+  /// A list of IAM roles that the cluster can use to access other AWS services.
+  @_s.JsonKey(name: 'IamRoles')
+  final List<AwsRedshiftClusterIamRole> iamRoles;
+
+  /// The identifier of the AWS KMS encryption key that is used to encrypt data in
+  /// the cluster.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// The name of the maintenance track for the cluster.
+  @_s.JsonKey(name: 'MaintenanceTrackName')
+  final String maintenanceTrackName;
+
+  /// The default number of days to retain a manual snapshot.
+  ///
+  /// If the value is -1, the snapshot is retained indefinitely.
+  ///
+  /// This setting doesn't change the retention period of existing snapshots.
+  ///
+  /// Valid values: Either -1 or an integer between 1 and 3,653
+  @_s.JsonKey(name: 'ManualSnapshotRetentionPeriod')
+  final int manualSnapshotRetentionPeriod;
+
+  /// The master user name for the cluster. This name is used to connect to the
+  /// database that is specified in as the value of <code>DBName</code>.
+  @_s.JsonKey(name: 'MasterUsername')
+  final String masterUsername;
+
+  /// Indicates the start of the next maintenance window.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'NextMaintenanceWindowStartTime')
+  final String nextMaintenanceWindowStartTime;
+
+  /// The node type for the nodes in the cluster.
+  @_s.JsonKey(name: 'NodeType')
+  final String nodeType;
+
+  /// The number of compute nodes in the cluster.
+  @_s.JsonKey(name: 'NumberOfNodes')
+  final int numberOfNodes;
+
+  /// A list of cluster operations that are waiting to start.
+  @_s.JsonKey(name: 'PendingActions')
+  final List<String> pendingActions;
+
+  /// A list of changes to the cluster that are currently pending.
+  @_s.JsonKey(name: 'PendingModifiedValues')
+  final AwsRedshiftClusterPendingModifiedValues pendingModifiedValues;
+
+  /// The weekly time range, in Universal Coordinated Time (UTC), during which
+  /// system maintenance can occur.
+  ///
+  /// Format: <code> <i>&lt;day&gt;</i>:HH:MM-<i>&lt;day&gt;</i>:HH:MM</code>
+  ///
+  /// For the day values, use <code>mon</code> | <code>tue</code> |
+  /// <code>wed</code> | <code>thu</code> | <code>fri</code> | <code>sat</code> |
+  /// <code>sun</code>
+  ///
+  /// For example, <code>sun:09:32-sun:10:02</code>
+  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
+  final String preferredMaintenanceWindow;
+
+  /// Whether the cluster can be accessed from a public network.
+  @_s.JsonKey(name: 'PubliclyAccessible')
+  final bool publiclyAccessible;
+
+  /// Information about the resize operation for the cluster.
+  @_s.JsonKey(name: 'ResizeInfo')
+  final AwsRedshiftClusterResizeInfo resizeInfo;
+
+  /// Information about the status of a cluster restore action. Only applies to a
+  /// cluster that was created by restoring a snapshot.
+  @_s.JsonKey(name: 'RestoreStatus')
+  final AwsRedshiftClusterRestoreStatus restoreStatus;
+
+  /// A unique identifier for the cluster snapshot schedule.
+  @_s.JsonKey(name: 'SnapshotScheduleIdentifier')
+  final String snapshotScheduleIdentifier;
+
+  /// The current state of the cluster snapshot schedule.
+  ///
+  /// Valid values: <code>MODIFYING</code> | <code>ACTIVE</code> |
+  /// <code>FAILED</code>
+  @_s.JsonKey(name: 'SnapshotScheduleState')
+  final String snapshotScheduleState;
+
+  /// The identifier of the VPC that the cluster is in, if the cluster is in a
+  /// VPC.
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
+  /// The list of VPC security groups that the cluster belongs to, if the cluster
+  /// is in a VPC.
+  @_s.JsonKey(name: 'VpcSecurityGroups')
+  final List<AwsRedshiftClusterVpcSecurityGroup> vpcSecurityGroups;
+
+  AwsRedshiftClusterDetails({
+    this.allowVersionUpgrade,
+    this.automatedSnapshotRetentionPeriod,
+    this.availabilityZone,
+    this.clusterAvailabilityStatus,
+    this.clusterCreateTime,
+    this.clusterIdentifier,
+    this.clusterNodes,
+    this.clusterParameterGroups,
+    this.clusterPublicKey,
+    this.clusterRevisionNumber,
+    this.clusterSecurityGroups,
+    this.clusterSnapshotCopyStatus,
+    this.clusterStatus,
+    this.clusterSubnetGroupName,
+    this.clusterVersion,
+    this.dBName,
+    this.deferredMaintenanceWindows,
+    this.elasticIpStatus,
+    this.elasticResizeNumberOfNodeOptions,
+    this.encrypted,
+    this.endpoint,
+    this.enhancedVpcRouting,
+    this.expectedNextSnapshotScheduleTime,
+    this.expectedNextSnapshotScheduleTimeStatus,
+    this.hsmStatus,
+    this.iamRoles,
+    this.kmsKeyId,
+    this.maintenanceTrackName,
+    this.manualSnapshotRetentionPeriod,
+    this.masterUsername,
+    this.nextMaintenanceWindowStartTime,
+    this.nodeType,
+    this.numberOfNodes,
+    this.pendingActions,
+    this.pendingModifiedValues,
+    this.preferredMaintenanceWindow,
+    this.publiclyAccessible,
+    this.resizeInfo,
+    this.restoreStatus,
+    this.snapshotScheduleIdentifier,
+    this.snapshotScheduleState,
+    this.vpcId,
+    this.vpcSecurityGroups,
+  });
+  factory AwsRedshiftClusterDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRedshiftClusterDetailsToJson(this);
+}
+
+/// The status of the elastic IP (EIP) address for an Amazon Redshift cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterElasticIpStatus {
+  /// The elastic IP address for the cluster.
+  @_s.JsonKey(name: 'ElasticIp')
+  final String elasticIp;
+
+  /// The status of the elastic IP address.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  AwsRedshiftClusterElasticIpStatus({
+    this.elasticIp,
+    this.status,
+  });
+  factory AwsRedshiftClusterElasticIpStatus.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterElasticIpStatusFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRedshiftClusterElasticIpStatusToJson(this);
+}
+
+/// The connection endpoint for an Amazon Redshift cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterEndpoint {
+  /// The DNS address of the cluster.
+  @_s.JsonKey(name: 'Address')
+  final String address;
+
+  /// The port that the database engine listens on.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  AwsRedshiftClusterEndpoint({
+    this.address,
+    this.port,
+  });
+  factory AwsRedshiftClusterEndpoint.fromJson(Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterEndpointFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRedshiftClusterEndpointToJson(this);
+}
+
+/// Information about whether an Amazon Redshift cluster finished applying any
+/// hardware changes to security module (HSM) settings that were specified in a
+/// modify cluster command.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterHsmStatus {
+  /// The name of the HSM client certificate that the Amazon Redshift cluster uses
+  /// to retrieve the data encryption keys that are stored in an HSM.
+  @_s.JsonKey(name: 'HsmClientCertificateIdentifier')
+  final String hsmClientCertificateIdentifier;
+
+  /// The name of the HSM configuration that contains the information that the
+  /// Amazon Redshift cluster can use to retrieve and store keys in an HSM.
+  @_s.JsonKey(name: 'HsmConfigurationIdentifier')
+  final String hsmConfigurationIdentifier;
+
+  /// Indicates whether the Amazon Redshift cluster has finished applying any HSM
+  /// settings changes specified in a modify cluster command.
+  ///
+  /// Type: String
+  ///
+  /// Valid values: <code>active</code> | <code>applying</code>
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  AwsRedshiftClusterHsmStatus({
+    this.hsmClientCertificateIdentifier,
+    this.hsmConfigurationIdentifier,
+    this.status,
+  });
+  factory AwsRedshiftClusterHsmStatus.fromJson(Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterHsmStatusFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRedshiftClusterHsmStatusToJson(this);
+}
+
+/// An IAM role that the cluster can use to access other AWS services.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterIamRole {
+  /// The status of the IAM role's association with the cluster.
+  ///
+  /// Valid values: <code>in-sync</code> | <code>adding</code> |
+  /// <code>removing</code>
+  @_s.JsonKey(name: 'ApplyStatus')
+  final String applyStatus;
+
+  /// The ARN of the IAM role.
+  @_s.JsonKey(name: 'IamRoleArn')
+  final String iamRoleArn;
+
+  AwsRedshiftClusterIamRole({
+    this.applyStatus,
+    this.iamRoleArn,
+  });
+  factory AwsRedshiftClusterIamRole.fromJson(Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterIamRoleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRedshiftClusterIamRoleToJson(this);
+}
+
+/// Changes to the Amazon Redshift cluster that are currently pending.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterPendingModifiedValues {
+  /// The pending or in-progress change to the automated snapshot retention
+  /// period.
+  @_s.JsonKey(name: 'AutomatedSnapshotRetentionPeriod')
+  final int automatedSnapshotRetentionPeriod;
+
+  /// The pending or in-progress change to the identifier for the cluster.
+  @_s.JsonKey(name: 'ClusterIdentifier')
+  final String clusterIdentifier;
+
+  /// The pending or in-progress change to the cluster type.
+  @_s.JsonKey(name: 'ClusterType')
+  final String clusterType;
+
+  /// The pending or in-progress change to the service version.
+  @_s.JsonKey(name: 'ClusterVersion')
+  final String clusterVersion;
+
+  /// The encryption type for a cluster.
+  @_s.JsonKey(name: 'EncryptionType')
+  final String encryptionType;
+
+  /// Indicates whether to create the cluster with enhanced VPC routing enabled.
+  @_s.JsonKey(name: 'EnhancedVpcRouting')
+  final bool enhancedVpcRouting;
+
+  /// The name of the maintenance track that the cluster changes to during the
+  /// next maintenance window.
+  @_s.JsonKey(name: 'MaintenanceTrackName')
+  final String maintenanceTrackName;
+
+  /// The pending or in-progress change to the master user password for the
+  /// cluster.
+  @_s.JsonKey(name: 'MasterUserPassword')
+  final String masterUserPassword;
+
+  /// The pending or in-progress change to the cluster's node type.
+  @_s.JsonKey(name: 'NodeType')
+  final String nodeType;
+
+  /// The pending or in-progress change to the number of nodes in the cluster.
+  @_s.JsonKey(name: 'NumberOfNodes')
+  final int numberOfNodes;
+
+  /// The pending or in-progress change to whether the cluster can be connected to
+  /// from the public network.
+  @_s.JsonKey(name: 'PubliclyAccessible')
+  final bool publiclyAccessible;
+
+  AwsRedshiftClusterPendingModifiedValues({
+    this.automatedSnapshotRetentionPeriod,
+    this.clusterIdentifier,
+    this.clusterType,
+    this.clusterVersion,
+    this.encryptionType,
+    this.enhancedVpcRouting,
+    this.maintenanceTrackName,
+    this.masterUserPassword,
+    this.nodeType,
+    this.numberOfNodes,
+    this.publiclyAccessible,
+  });
+  factory AwsRedshiftClusterPendingModifiedValues.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterPendingModifiedValuesFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRedshiftClusterPendingModifiedValuesToJson(this);
+}
+
+/// Information about the resize operation for the cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterResizeInfo {
+  /// Indicates whether the resize operation can be canceled.
+  @_s.JsonKey(name: 'AllowCancelResize')
+  final bool allowCancelResize;
+
+  /// The type of resize operation.
+  ///
+  /// Valid values: <code>ClassicResize</code>
+  @_s.JsonKey(name: 'ResizeType')
+  final String resizeType;
+
+  AwsRedshiftClusterResizeInfo({
+    this.allowCancelResize,
+    this.resizeType,
+  });
+  factory AwsRedshiftClusterResizeInfo.fromJson(Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterResizeInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsRedshiftClusterResizeInfoToJson(this);
+}
+
+/// Information about the status of a cluster restore action. It only applies if
+/// the cluster was created by restoring a snapshot.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterRestoreStatus {
+  /// The number of megabytes per second being transferred from the backup
+  /// storage. Returns the average rate for a completed backup.
+  ///
+  /// This field is only updated when you restore to DC2 and DS2 node types.
+  @_s.JsonKey(name: 'CurrentRestoreRateInMegaBytesPerSecond')
+  final double currentRestoreRateInMegaBytesPerSecond;
+
+  /// The amount of time an in-progress restore has been running, or the amount of
+  /// time it took a completed restore to finish.
+  ///
+  /// This field is only updated when you restore to DC2 and DS2 node types.
+  @_s.JsonKey(name: 'ElapsedTimeInSeconds')
+  final int elapsedTimeInSeconds;
+
+  /// The estimate of the time remaining before the restore is complete. Returns 0
+  /// for a completed restore.
+  ///
+  /// This field is only updated when you restore to DC2 and DS2 node types.
+  @_s.JsonKey(name: 'EstimatedTimeToCompletionInSeconds')
+  final int estimatedTimeToCompletionInSeconds;
+
+  /// The number of megabytes that were transferred from snapshot storage.
+  ///
+  /// This field is only updated when you restore to DC2 and DS2 node types.
+  @_s.JsonKey(name: 'ProgressInMegaBytes')
+  final int progressInMegaBytes;
+
+  /// The size of the set of snapshot data that was used to restore the cluster.
+  ///
+  /// This field is only updated when you restore to DC2 and DS2 node types.
+  @_s.JsonKey(name: 'SnapshotSizeInMegaBytes')
+  final int snapshotSizeInMegaBytes;
+
+  /// The status of the restore action.
+  ///
+  /// Valid values: <code>starting</code> | <code>restoring</code> |
+  /// <code>completed</code> | <code>failed</code>
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  AwsRedshiftClusterRestoreStatus({
+    this.currentRestoreRateInMegaBytesPerSecond,
+    this.elapsedTimeInSeconds,
+    this.estimatedTimeToCompletionInSeconds,
+    this.progressInMegaBytes,
+    this.snapshotSizeInMegaBytes,
+    this.status,
+  });
+  factory AwsRedshiftClusterRestoreStatus.fromJson(Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterRestoreStatusFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRedshiftClusterRestoreStatusToJson(this);
+}
+
+/// A VPC security group that the cluster belongs to, if the cluster is in a
+/// VPC.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsRedshiftClusterVpcSecurityGroup {
+  /// The status of the VPC security group.
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  /// The identifier of the VPC security group.
+  @_s.JsonKey(name: 'VpcSecurityGroupId')
+  final String vpcSecurityGroupId;
+
+  AwsRedshiftClusterVpcSecurityGroup({
+    this.status,
+    this.vpcSecurityGroupId,
+  });
+  factory AwsRedshiftClusterVpcSecurityGroup.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsRedshiftClusterVpcSecurityGroupFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsRedshiftClusterVpcSecurityGroupToJson(this);
+}
+
 /// The details of an Amazon S3 bucket.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3857,7 +9696,12 @@ class AwsRdsDbInstanceVpcSecurityGroup {
     createFactory: true,
     createToJson: true)
 class AwsS3BucketDetails {
-  /// The date and time when the S3 bucket was created.
+  /// Indicates when the S3 bucket was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'CreatedAt')
   final String createdAt;
 
@@ -3944,7 +9788,7 @@ class AwsS3BucketServerSideEncryptionConfiguration {
     createToJson: true)
 class AwsS3BucketServerSideEncryptionRule {
   /// Specifies the default server-side encryption to apply to new objects in the
-  /// bucket. If a <code>PUT</code> Object request doesn't specify any server-side
+  /// bucket. If a <code>PUT</code> object request doesn't specify any server-side
   /// encryption, this default encryption is applied.
   @_s.JsonKey(name: 'ApplyServerSideEncryptionByDefault')
   final AwsS3BucketServerSideEncryptionByDefault
@@ -3961,7 +9805,7 @@ class AwsS3BucketServerSideEncryptionRule {
       _$AwsS3BucketServerSideEncryptionRuleToJson(this);
 }
 
-/// Details about an AWS S3 object.
+/// Details about an Amazon S3 object.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3977,7 +9821,12 @@ class AwsS3ObjectDetails {
   @_s.JsonKey(name: 'ETag')
   final String eTag;
 
-  /// The date and time when the object was last modified.
+  /// Indicates when the object was last modified.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'LastModified')
   final String lastModified;
 
@@ -4009,6 +9858,85 @@ class AwsS3ObjectDetails {
   Map<String, dynamic> toJson() => _$AwsS3ObjectDetailsToJson(this);
 }
 
+/// Details about an AWS Secrets Manager secret.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsSecretsManagerSecretDetails {
+  /// Whether the secret is deleted.
+  @_s.JsonKey(name: 'Deleted')
+  final bool deleted;
+
+  /// The user-provided description of the secret.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The ARN, Key ID, or alias of the AWS KMS customer master key (CMK) used to
+  /// encrypt the <code>SecretString</code> or <code>SecretBinary</code> values
+  /// for versions of this secret.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// The name of the secret.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Whether rotation is enabled.
+  @_s.JsonKey(name: 'RotationEnabled')
+  final bool rotationEnabled;
+
+  /// The ARN of the Lambda function that rotates the secret.
+  @_s.JsonKey(name: 'RotationLambdaArn')
+  final String rotationLambdaArn;
+
+  /// Whether the rotation occurred within the specified rotation frequency.
+  @_s.JsonKey(name: 'RotationOccurredWithinFrequency')
+  final bool rotationOccurredWithinFrequency;
+
+  /// Defines the rotation schedule for the secret.
+  @_s.JsonKey(name: 'RotationRules')
+  final AwsSecretsManagerSecretRotationRules rotationRules;
+
+  AwsSecretsManagerSecretDetails({
+    this.deleted,
+    this.description,
+    this.kmsKeyId,
+    this.name,
+    this.rotationEnabled,
+    this.rotationLambdaArn,
+    this.rotationOccurredWithinFrequency,
+    this.rotationRules,
+  });
+  factory AwsSecretsManagerSecretDetails.fromJson(Map<String, dynamic> json) =>
+      _$AwsSecretsManagerSecretDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsSecretsManagerSecretDetailsToJson(this);
+}
+
+/// Defines the rotation schedule for the secret.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsSecretsManagerSecretRotationRules {
+  /// The number of days after the previous rotation to rotate the secret.
+  @_s.JsonKey(name: 'AutomaticallyAfterDays')
+  final int automaticallyAfterDays;
+
+  AwsSecretsManagerSecretRotationRules({
+    this.automaticallyAfterDays,
+  });
+  factory AwsSecretsManagerSecretRotationRules.fromJson(
+          Map<String, dynamic> json) =>
+      _$AwsSecretsManagerSecretRotationRulesFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AwsSecretsManagerSecretRotationRulesToJson(this);
+}
+
 /// Provides consistent format for the contents of the Security Hub-aggregated
 /// findings. <code>AwsSecurityFinding</code> format enables you to share
 /// findings between AWS security services and third-party solutions, and
@@ -4028,8 +9956,13 @@ class AwsSecurityFinding {
   @_s.JsonKey(name: 'AwsAccountId')
   final String awsAccountId;
 
-  /// An ISO8601-formatted timestamp that indicates when the security-findings
-  /// provider created the potential security issue that a finding captured.
+  /// Indicates when the security-findings provider created the potential security
+  /// issue that a finding captured.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'CreatedAt')
   final String createdAt;
 
@@ -4043,7 +9976,7 @@ class AwsSecurityFinding {
   /// The identifier for the solution-specific component (a discrete unit of
   /// logic) that generated a finding. In various security-findings providers'
   /// solutions, this generator can be called a rule, a check, a detector, a
-  /// plug-in, etc.
+  /// plugin, etc.
   @_s.JsonKey(name: 'GeneratorId')
   final String generatorId;
 
@@ -4085,8 +10018,13 @@ class AwsSecurityFinding {
   @_s.JsonKey(name: 'Types')
   final List<String> types;
 
-  /// An ISO8601-formatted timestamp that indicates when the security-findings
-  /// provider last updated the finding record.
+  /// Indicates when the security-findings provider last updated the finding
+  /// record.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'UpdatedAt')
   final String updatedAt;
 
@@ -4113,15 +10051,23 @@ class AwsSecurityFinding {
   @_s.JsonKey(name: 'Criticality')
   final int criticality;
 
-  /// An ISO8601-formatted timestamp that indicates when the security-findings
-  /// provider first observed the potential security issue that a finding
-  /// captured.
+  /// Indicates when the security-findings provider first observed the potential
+  /// security issue that a finding captured.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'FirstObservedAt')
   final String firstObservedAt;
 
-  /// An ISO8601-formatted timestamp that indicates when the security-findings
-  /// provider most recently observed the potential security issue that a finding
-  /// captured.
+  /// Indicates when the security-findings provider most recently observed the
+  /// potential security issue that a finding captured.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'LastObservedAt')
   final String lastObservedAt;
 
@@ -4133,9 +10079,20 @@ class AwsSecurityFinding {
   @_s.JsonKey(name: 'Network')
   final Network network;
 
+  /// Provides information about a network path that is relevant to a finding.
+  /// Each entry under <code>NetworkPath</code> represents a component of that
+  /// path.
+  @_s.JsonKey(name: 'NetworkPath')
+  final List<NetworkPathComponent> networkPath;
+
   /// A user-defined note added to a finding.
   @_s.JsonKey(name: 'Note')
   final Note note;
+
+  /// Provides an overview of the patch compliance status for an instance against
+  /// a selected compliance standard.
+  @_s.JsonKey(name: 'PatchSummary')
+  final PatchSummary patchSummary;
 
   /// The details of process-related information about a finding.
   @_s.JsonKey(name: 'Process')
@@ -4177,6 +10134,10 @@ class AwsSecurityFinding {
   @_s.JsonKey(name: 'VerificationState')
   final VerificationState verificationState;
 
+  /// Provides a list of vulnerabilities associated with the findings.
+  @_s.JsonKey(name: 'Vulnerabilities')
+  final List<Vulnerability> vulnerabilities;
+
   /// Provides information about the status of the investigation into a finding.
   @_s.JsonKey(name: 'Workflow')
   final Workflow workflow;
@@ -4205,7 +10166,9 @@ class AwsSecurityFinding {
     this.lastObservedAt,
     this.malware,
     this.network,
+    this.networkPath,
     this.note,
+    this.patchSummary,
     this.process,
     this.productFields,
     this.recordState,
@@ -4215,6 +10178,7 @@ class AwsSecurityFinding {
     this.threatIntelIndicators,
     this.userDefinedFields,
     this.verificationState,
+    this.vulnerabilities,
     this.workflow,
     this.workflowState,
   });
@@ -4227,6 +10191,9 @@ class AwsSecurityFinding {
 /// A collection of attributes that are applied to all active Security
 /// Hub-aggregated findings and that result in a subset of findings that are
 /// included in this insight.
+///
+/// You can filter by up to 10 finding attributes. For each attribute, you can
+/// provide up to 20 filter values.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4283,7 +10250,7 @@ class AwsSecurityFindingFilters {
   /// The identifier for the solution-specific component (a discrete unit of
   /// logic) that generated a finding. In various security-findings providers'
   /// solutions, this generator can be called a rule, a check, a detector, a
-  /// plug-in, etc.
+  /// plugin, etc.
   @_s.JsonKey(name: 'GeneratorId')
   final List<StringFilter> generatorId;
 
@@ -4594,6 +10561,9 @@ class AwsSecurityFindingFilters {
   final List<StringFilter> verificationState;
 
   /// The workflow state of a finding.
+  ///
+  /// Note that this field is deprecated. To search for a finding based on its
+  /// workflow status, use <code>WorkflowStatus</code>.
   @_s.JsonKey(name: 'WorkflowState')
   final List<StringFilter> workflowState;
 
@@ -4747,7 +10717,7 @@ class AwsSecurityFindingIdentifier {
     createFactory: true,
     createToJson: true)
 class AwsSnsTopicDetails {
-  /// The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a
+  /// The ID of an AWS managed customer master key (CMK) for Amazon SNS or a
   /// custom CMK.
   @_s.JsonKey(name: 'KmsMasterKeyId')
   final String kmsMasterKeyId;
@@ -4819,7 +10789,7 @@ class AwsSqsQueueDetails {
   @_s.JsonKey(name: 'KmsDataKeyReusePeriodSeconds')
   final int kmsDataKeyReusePeriodSeconds;
 
-  /// The ID of an AWS-managed customer master key (CMK) for Amazon SQS or a
+  /// The ID of an AWS managed customer master key (CMK) for Amazon SQS or a
   /// custom CMK.
   @_s.JsonKey(name: 'KmsMasterKeyId')
   final String kmsMasterKeyId;
@@ -4847,7 +10817,7 @@ class AwsSqsQueueDetails {
     createFactory: true,
     createToJson: true)
 class AwsWafWebAclDetails {
-  /// The action to perform if none of the Rules contained in the WebACL match.
+  /// The action to perform if none of the rules contained in the WebACL match.
   @_s.JsonKey(name: 'DefaultAction')
   final String defaultAction;
 
@@ -4885,7 +10855,7 @@ class AwsWafWebAclDetails {
     createToJson: true)
 class AwsWafWebAclRule {
   /// Specifies the action that CloudFront or AWS WAF takes when a web request
-  /// matches the conditions in the Rule.
+  /// matches the conditions in the rule.
   @_s.JsonKey(name: 'Action')
   final WafAction action;
 
@@ -4914,14 +10884,14 @@ class AwsWafWebAclRule {
   @_s.JsonKey(name: 'OverrideAction')
   final WafOverrideAction overrideAction;
 
-  /// Specifies the order in which the Rules in a WebACL are evaluated. Rules with
-  /// a lower value for Priority are evaluated before Rules with a higher value.
-  /// The value must be a unique integer. If you add multiple Rules to a WebACL,
-  /// the values do not need to be consecutive.
+  /// Specifies the order in which the rules in a WebACL are evaluated. Rules with
+  /// a lower value for <code>Priority</code> are evaluated before rules with a
+  /// higher value. The value must be a unique integer. If you add multiple rules
+  /// to a WebACL, the values do not need to be consecutive.
   @_s.JsonKey(name: 'Priority')
   final int priority;
 
-  /// The identifier for a Rule.
+  /// The identifier for a rule.
   @_s.JsonKey(name: 'RuleId')
   final String ruleId;
 
@@ -5061,54 +11031,92 @@ class BatchUpdateFindingsUnprocessedFinding {
       _$BatchUpdateFindingsUnprocessedFindingFromJson(json);
 }
 
-/// Exclusive to findings that are generated as the result of a check run
-/// against a specific rule in a supported security standard, such as CIS AWS
-/// Foundations. Contains security standard-related finding details.
-///
-/// Values include the following:
-///
-/// <ul>
-/// <li>
-/// Allowed values are the following:
-///
-/// <ul>
-/// <li>
-/// <code>PASSED</code> - Standards check passed for all evaluated resources.
-/// </li>
-/// <li>
-/// <code>WARNING</code> - Some information is missing or this check is not
-/// supported given your configuration.
-/// </li>
-/// <li>
-/// <code>FAILED</code> - Standards check failed for at least one evaluated
-/// resource.
-/// </li>
-/// <li>
-/// <code>NOT_AVAILABLE</code> - Check could not be performed due to a service
-/// outage, API error, or because the result of the AWS Config evaluation was
-/// <code>NOT_APPLICABLE</code>. If the AWS Config evaluation result was <code>
-/// NOT_APPLICABLE</code>, then after 3 days, Security Hub automatically
-/// archives the finding.
-/// </li>
-/// </ul> </li>
-/// </ul>
+/// An IPv4 CIDR block association.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CidrBlockAssociation {
+  /// The association ID for the IPv4 CIDR block.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  /// The IPv4 CIDR block.
+  @_s.JsonKey(name: 'CidrBlock')
+  final String cidrBlock;
+
+  /// Information about the state of the IPv4 CIDR block.
+  @_s.JsonKey(name: 'CidrBlockState')
+  final String cidrBlockState;
+
+  CidrBlockAssociation({
+    this.associationId,
+    this.cidrBlock,
+    this.cidrBlockState,
+  });
+  factory CidrBlockAssociation.fromJson(Map<String, dynamic> json) =>
+      _$CidrBlockAssociationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CidrBlockAssociationToJson(this);
+}
+
+/// Contains finding details that are specific to control-based findings. Only
+/// returned for findings generated from controls.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class Compliance {
-  /// List of requirements that are related to a standards control.
+  /// For a control, the industry or regulatory framework requirements that are
+  /// related to the control. The check for that control is aligned with these
+  /// requirements.
   @_s.JsonKey(name: 'RelatedRequirements')
   final List<String> relatedRequirements;
 
   /// The result of a standards check.
+  ///
+  /// The valid values for <code>Status</code> are as follows.
+  ///
+  /// <ul>
+  /// <li>
+  /// <ul>
+  /// <li>
+  /// <code>PASSED</code> - Standards check passed for all evaluated resources.
+  /// </li>
+  /// <li>
+  /// <code>WARNING</code> - Some information is missing or this check is not
+  /// supported for your configuration.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - Standards check failed for at least one evaluated
+  /// resource.
+  /// </li>
+  /// <li>
+  /// <code>NOT_AVAILABLE</code> - Check could not be performed due to a service
+  /// outage, API error, or because the result of the AWS Config evaluation was
+  /// <code>NOT_APPLICABLE</code>. If the AWS Config evaluation result was
+  /// <code>NOT_APPLICABLE</code>, then after 3 days, Security Hub automatically
+  /// archives the finding.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
   @_s.JsonKey(name: 'Status')
   final ComplianceStatus status;
+
+  /// For findings generated from controls, a list of reasons behind the value of
+  /// <code>Status</code>. For the list of status reason codes and their meanings,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-results.html#securityhub-standards-results-asff">Standards-related
+  /// information in the ASFF</a> in the <i>AWS Security Hub User Guide</i>.
+  @_s.JsonKey(name: 'StatusReasons')
+  final List<StatusReason> statusReasons;
 
   Compliance({
     this.relatedRequirements,
     this.status,
+    this.statusReasons,
   });
   factory Compliance.fromJson(Map<String, dynamic> json) =>
       _$ComplianceFromJson(json);
@@ -5142,7 +11150,12 @@ class ContainerDetails {
   @_s.JsonKey(name: 'ImageName')
   final String imageName;
 
-  /// The date and time when the container started.
+  /// Indicates when the container started.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'LaunchedAt')
   final String launchedAt;
 
@@ -5231,6 +11244,35 @@ class CreateMembersResponse {
   });
   factory CreateMembersResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateMembersResponseFromJson(json);
+}
+
+/// CVSS scores from the advisory related to the vulnerability.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Cvss {
+  /// The base CVSS score.
+  @_s.JsonKey(name: 'BaseScore')
+  final double baseScore;
+
+  /// The base scoring vector for the CVSS score.
+  @_s.JsonKey(name: 'BaseVector')
+  final String baseVector;
+
+  /// The version of CVSS for the CVSS score.
+  @_s.JsonKey(name: 'Version')
+  final String version;
+
+  Cvss({
+    this.baseScore,
+    this.baseVector,
+    this.version,
+  });
+  factory Cvss.fromJson(Map<String, dynamic> json) => _$CvssFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CvssToJson(this);
 }
 
 /// A date filter for querying findings.
@@ -5411,6 +11453,15 @@ class DescribeActionTargetsResponse {
     createFactory: true,
     createToJson: false)
 class DescribeHubResponse {
+  /// Whether to automatically enable new controls when they are added to
+  /// standards that are enabled.
+  ///
+  /// If set to <code>true</code>, then new controls for enabled standards are
+  /// enabled automatically. If set to <code>false</code>, then new controls are
+  /// not enabled.
+  @_s.JsonKey(name: 'AutoEnableControls')
+  final bool autoEnableControls;
+
   /// The ARN of the Hub resource that was retrieved.
   @_s.JsonKey(name: 'HubArn')
   final String hubArn;
@@ -5420,11 +11471,40 @@ class DescribeHubResponse {
   final String subscribedAt;
 
   DescribeHubResponse({
+    this.autoEnableControls,
     this.hubArn,
     this.subscribedAt,
   });
   factory DescribeHubResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeHubResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeOrganizationConfigurationResponse {
+  /// Whether to automatically enable Security Hub for new accounts in the
+  /// organization.
+  ///
+  /// If set to <code>true</code>, then Security Hub is enabled for new accounts.
+  /// If set to false, then new accounts are not added automatically.
+  @_s.JsonKey(name: 'AutoEnable')
+  final bool autoEnable;
+
+  /// Whether the maximum number of allowed member accounts are already associated
+  /// with the Security Hub administrator account.
+  @_s.JsonKey(name: 'MemberAccountLimitReached')
+  final bool memberAccountLimitReached;
+
+  DescribeOrganizationConfigurationResponse({
+    this.autoEnable,
+    this.memberAccountLimitReached,
+  });
+  factory DescribeOrganizationConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeOrganizationConfigurationResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -5511,6 +11591,18 @@ class DisableImportFindingsForProductResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DisableOrganizationAdminAccountResponse {
+  DisableOrganizationAdminAccountResponse();
+  factory DisableOrganizationAdminAccountResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DisableOrganizationAdminAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DisableSecurityHubResponse {
   DisableSecurityHubResponse();
   factory DisableSecurityHubResponse.fromJson(Map<String, dynamic> json) =>
@@ -5556,6 +11648,18 @@ class EnableImportFindingsForProductResponse {
   factory EnableImportFindingsForProductResponse.fromJson(
           Map<String, dynamic> json) =>
       _$EnableImportFindingsForProductResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class EnableOrganizationAdminAccountResponse {
+  EnableOrganizationAdminAccountResponse();
+  factory EnableOrganizationAdminAccountResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$EnableOrganizationAdminAccountResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -5919,6 +12023,36 @@ class IpFilter {
   Map<String, dynamic> toJson() => _$IpFilterToJson(this);
 }
 
+/// An IPV6 CIDR block association.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Ipv6CidrBlockAssociation {
+  /// The association ID for the IPv6 CIDR block.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  /// Information about the state of the CIDR block.
+  @_s.JsonKey(name: 'CidrBlockState')
+  final String cidrBlockState;
+
+  /// The IPv6 CIDR block.
+  @_s.JsonKey(name: 'Ipv6CidrBlock')
+  final String ipv6CidrBlock;
+
+  Ipv6CidrBlockAssociation({
+    this.associationId,
+    this.cidrBlockState,
+    this.ipv6CidrBlock,
+  });
+  factory Ipv6CidrBlockAssociation.fromJson(Map<String, dynamic> json) =>
+      _$Ipv6CidrBlockAssociationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$Ipv6CidrBlockAssociationToJson(this);
+}
+
 /// A keyword filter for querying findings.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6005,6 +12139,29 @@ class ListMembersResponse {
   });
   factory ListMembersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListMembersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListOrganizationAdminAccountsResponse {
+  /// The list of Security Hub administrator accounts.
+  @_s.JsonKey(name: 'AdminAccounts')
+  final List<AdminAccount> adminAccounts;
+
+  /// The pagination token to use to request the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListOrganizationAdminAccountsResponse({
+    this.adminAccounts,
+    this.nextToken,
+  });
+  factory ListOrganizationAdminAccountsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListOrganizationAdminAccountsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -6131,23 +12288,49 @@ enum MalwareType {
   worm,
 }
 
-/// The map filter for querying findings.
+/// A map filter for querying findings. Each map filter provides the field to
+/// check, the value to look for, and the comparison operator.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class MapFilter {
-  /// The condition to apply to a key value when querying for findings with a map
-  /// filter.
+  /// The condition to apply to the key value when querying for findings with a
+  /// map filter.
+  ///
+  /// To search for values that exactly match the filter value, use
+  /// <code>EQUALS</code>. For example, for the <code>ResourceTags</code> field,
+  /// the filter <code>Department EQUALS Security</code> matches findings that
+  /// have the value <code>Security</code> for the tag <code>Department</code>.
+  ///
+  /// To search for values other than the filter value, use
+  /// <code>NOT_EQUALS</code>. For example, for the <code>ResourceTags</code>
+  /// field, the filter <code>Department NOT_EQUALS Finance</code> matches
+  /// findings that do not have the value <code>Finance</code> for the tag
+  /// <code>Department</code>.
+  ///
+  /// <code>EQUALS</code> filters on the same field are joined by <code>OR</code>.
+  /// A finding matches if it matches any one of those filters.
+  ///
+  /// <code>NOT_EQUALS</code> filters on the same field are joined by
+  /// <code>AND</code>. A finding matches only if it matches all of those filters.
+  ///
+  /// You cannot have both an <code>EQUALS</code> filter and a
+  /// <code>NOT_EQUALS</code> filter on the same field.
   @_s.JsonKey(name: 'Comparison')
   final MapFilterComparison comparison;
 
-  /// The key of the map filter.
+  /// The key of the map filter. For example, for <code>ResourceTags</code>,
+  /// <code>Key</code> identifies the name of the tag. For
+  /// <code>UserDefinedFields</code>, <code>Key</code> is the name of the field.
   @_s.JsonKey(name: 'Key')
   final String key;
 
-  /// The value for the key in the map filter.
+  /// The value for the key in the map filter. Filter values are case sensitive.
+  /// For example, one of the values for a tag called <code>Department</code>
+  /// might be <code>Security</code>. If you provide <code>security</code> as the
+  /// filter value, then there is no match.
   @_s.JsonKey(name: 'Value')
   final String value;
 
@@ -6165,6 +12348,8 @@ class MapFilter {
 enum MapFilterComparison {
   @_s.JsonValue('EQUALS')
   equals,
+  @_s.JsonValue('NOT_EQUALS')
+  notEquals,
 }
 
 /// The details about a member account.
@@ -6195,6 +12380,36 @@ class Member {
 
   /// The status of the relationship between the member account and its master
   /// account.
+  ///
+  /// The status can have one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATED</code> - Indicates that the master account added the member
+  /// account, but has not yet invited the member account.
+  /// </li>
+  /// <li>
+  /// <code>INVITED</code> - Indicates that the master account invited the member
+  /// account. The member account has not yet responded to the invitation.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED</code> - Indicates that the member account is currently
+  /// active. For manually invited member accounts, indicates that the member
+  /// account accepted the invitation.
+  /// </li>
+  /// <li>
+  /// <code>REMOVED</code> - Indicates that the master account disassociated the
+  /// member account.
+  /// </li>
+  /// <li>
+  /// <code>RESIGNED</code> - Indicates that the member account disassociated
+  /// themselves from the master account.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - Indicates that the master account deleted the member
+  /// account.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'MemberStatus')
   final String memberStatus;
 
@@ -6241,6 +12456,10 @@ class Network {
   @_s.JsonKey(name: 'Direction')
   final NetworkDirection direction;
 
+  /// The range of open ports that is present on the network.
+  @_s.JsonKey(name: 'OpenPortRange')
+  final PortRange openPortRange;
+
   /// The protocol of network-related information about a finding.
   @_s.JsonKey(name: 'Protocol')
   final String protocol;
@@ -6272,6 +12491,7 @@ class Network {
     this.destinationIpV6,
     this.destinationPort,
     this.direction,
+    this.openPortRange,
     this.protocol,
     this.sourceDomain,
     this.sourceIpV4,
@@ -6292,6 +12512,99 @@ enum NetworkDirection {
   out,
 }
 
+/// Details about a network path component that occurs before or after the
+/// current component.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class NetworkHeader {
+  /// Information about the destination of the component.
+  @_s.JsonKey(name: 'Destination')
+  final NetworkPathComponentDetails destination;
+
+  /// The protocol used for the component.
+  @_s.JsonKey(name: 'Protocol')
+  final String protocol;
+
+  /// Information about the origin of the component.
+  @_s.JsonKey(name: 'Source')
+  final NetworkPathComponentDetails source;
+
+  NetworkHeader({
+    this.destination,
+    this.protocol,
+    this.source,
+  });
+  factory NetworkHeader.fromJson(Map<String, dynamic> json) =>
+      _$NetworkHeaderFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NetworkHeaderToJson(this);
+}
+
+/// Information about a network path component.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class NetworkPathComponent {
+  /// The identifier of a component in the network path.
+  @_s.JsonKey(name: 'ComponentId')
+  final String componentId;
+
+  /// The type of component.
+  @_s.JsonKey(name: 'ComponentType')
+  final String componentType;
+
+  /// Information about the component that comes after the current component in
+  /// the network path.
+  @_s.JsonKey(name: 'Egress')
+  final NetworkHeader egress;
+
+  /// Information about the component that comes before the current node in the
+  /// network path.
+  @_s.JsonKey(name: 'Ingress')
+  final NetworkHeader ingress;
+
+  NetworkPathComponent({
+    this.componentId,
+    this.componentType,
+    this.egress,
+    this.ingress,
+  });
+  factory NetworkPathComponent.fromJson(Map<String, dynamic> json) =>
+      _$NetworkPathComponentFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NetworkPathComponentToJson(this);
+}
+
+/// Information about the destination of the next component in the network path.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class NetworkPathComponentDetails {
+  /// The IP addresses of the destination.
+  @_s.JsonKey(name: 'Address')
+  final List<String> address;
+
+  /// A list of port ranges for the destination.
+  @_s.JsonKey(name: 'PortRanges')
+  final List<PortRange> portRanges;
+
+  NetworkPathComponentDetails({
+    this.address,
+    this.portRanges,
+  });
+  factory NetworkPathComponentDetails.fromJson(Map<String, dynamic> json) =>
+      _$NetworkPathComponentDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NetworkPathComponentDetailsToJson(this);
+}
+
 /// A user-defined note added to a finding.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6304,6 +12617,11 @@ class Note {
   final String text;
 
   /// The timestamp of when the note was updated.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'UpdatedAt')
   final String updatedAt;
 
@@ -6385,6 +12703,119 @@ enum Partition {
   awsUsGov,
 }
 
+/// Provides an overview of the patch compliance status for an instance against
+/// a selected compliance standard.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class PatchSummary {
+  /// The identifier of the compliance standard that was used to determine the
+  /// patch compliance status.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The number of patches from the compliance standard that failed to install.
+  @_s.JsonKey(name: 'FailedCount')
+  final int failedCount;
+
+  /// The number of patches from the compliance standard that were installed
+  /// successfully.
+  @_s.JsonKey(name: 'InstalledCount')
+  final int installedCount;
+
+  /// The number of installed patches that are not part of the compliance
+  /// standard.
+  @_s.JsonKey(name: 'InstalledOtherCount')
+  final int installedOtherCount;
+
+  /// The number of patches that were applied, but that require the instance to be
+  /// rebooted in order to be marked as installed.
+  @_s.JsonKey(name: 'InstalledPendingReboot')
+  final int installedPendingReboot;
+
+  /// The number of patches that are installed but are also on a list of patches
+  /// that the customer rejected.
+  @_s.JsonKey(name: 'InstalledRejectedCount')
+  final int installedRejectedCount;
+
+  /// The number of patches that are part of the compliance standard but are not
+  /// installed. The count includes patches that failed to install.
+  @_s.JsonKey(name: 'MissingCount')
+  final int missingCount;
+
+  /// The type of patch operation performed. For Patch Manager, the values are
+  /// <code>SCAN</code> and <code>INSTALL</code>.
+  @_s.JsonKey(name: 'Operation')
+  final String operation;
+
+  /// Indicates when the operation completed.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'OperationEndTime')
+  final String operationEndTime;
+
+  /// Indicates when the operation started.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'OperationStartTime')
+  final String operationStartTime;
+
+  /// The reboot option specified for the instance.
+  @_s.JsonKey(name: 'RebootOption')
+  final String rebootOption;
+
+  PatchSummary({
+    @_s.required this.id,
+    this.failedCount,
+    this.installedCount,
+    this.installedOtherCount,
+    this.installedPendingReboot,
+    this.installedRejectedCount,
+    this.missingCount,
+    this.operation,
+    this.operationEndTime,
+    this.operationStartTime,
+    this.rebootOption,
+  });
+  factory PatchSummary.fromJson(Map<String, dynamic> json) =>
+      _$PatchSummaryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PatchSummaryToJson(this);
+}
+
+/// A range of ports.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class PortRange {
+  /// The first port in the port range.
+  @_s.JsonKey(name: 'Begin')
+  final int begin;
+
+  /// The last port in the port range.
+  @_s.JsonKey(name: 'End')
+  final int end;
+
+  PortRange({
+    this.begin,
+    this.end,
+  });
+  factory PortRange.fromJson(Map<String, dynamic> json) =>
+      _$PortRangeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PortRangeToJson(this);
+}
+
 /// The details of process-related information about a finding.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6392,7 +12823,12 @@ enum Partition {
     createFactory: true,
     createToJson: true)
 class ProcessDetails {
-  /// The date/time that the process was launched.
+  /// Indicates when the process was launched.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'LaunchedAt')
   final String launchedAt;
 
@@ -6412,7 +12848,12 @@ class ProcessDetails {
   @_s.JsonKey(name: 'Pid')
   final int pid;
 
-  /// The date and time when the process was terminated.
+  /// Indicates when the process was terminated.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'TerminatedAt')
   final String terminatedAt;
 
@@ -6625,6 +13066,10 @@ class Resource {
   @_s.JsonKey(name: 'Region')
   final String region;
 
+  /// <p/>
+  @_s.JsonKey(name: 'ResourceRole')
+  final String resourceRole;
+
   /// A list of AWS tags associated with a resource at the time the finding was
   /// processed.
   @_s.JsonKey(name: 'Tags')
@@ -6636,6 +13081,7 @@ class Resource {
     this.details,
     this.partition,
     this.region,
+    this.resourceRole,
     this.tags,
   });
   factory Resource.fromJson(Map<String, dynamic> json) =>
@@ -6662,19 +13108,56 @@ class Resource {
     createFactory: true,
     createToJson: true)
 class ResourceDetails {
+  /// <p/>
+  @_s.JsonKey(name: 'AwsApiGatewayRestApi')
+  final AwsApiGatewayRestApiDetails awsApiGatewayRestApi;
+
+  /// <p/>
+  @_s.JsonKey(name: 'AwsApiGatewayStage')
+  final AwsApiGatewayStageDetails awsApiGatewayStage;
+
+  /// <p/>
+  @_s.JsonKey(name: 'AwsApiGatewayV2Api')
+  final AwsApiGatewayV2ApiDetails awsApiGatewayV2Api;
+
+  /// <p/>
+  @_s.JsonKey(name: 'AwsApiGatewayV2Stage')
+  final AwsApiGatewayV2StageDetails awsApiGatewayV2Stage;
+
+  /// Details for an autoscaling group.
+  @_s.JsonKey(name: 'AwsAutoScalingAutoScalingGroup')
+  final AwsAutoScalingAutoScalingGroupDetails awsAutoScalingAutoScalingGroup;
+
+  /// <p/>
+  @_s.JsonKey(name: 'AwsCertificateManagerCertificate')
+  final AwsCertificateManagerCertificateDetails
+      awsCertificateManagerCertificate;
+
   /// Details about a CloudFront distribution.
   @_s.JsonKey(name: 'AwsCloudFrontDistribution')
   final AwsCloudFrontDistributionDetails awsCloudFrontDistribution;
+
+  /// <p/>
+  @_s.JsonKey(name: 'AwsCloudTrailTrail')
+  final AwsCloudTrailTrailDetails awsCloudTrailTrail;
 
   /// Details for an AWS CodeBuild project.
   @_s.JsonKey(name: 'AwsCodeBuildProject')
   final AwsCodeBuildProjectDetails awsCodeBuildProject;
 
+  /// Details about a DynamoDB table.
+  @_s.JsonKey(name: 'AwsDynamoDbTable')
+  final AwsDynamoDbTableDetails awsDynamoDbTable;
+
+  /// Details about an Elastic IP address.
+  @_s.JsonKey(name: 'AwsEc2Eip')
+  final AwsEc2EipDetails awsEc2Eip;
+
   /// Details about an Amazon EC2 instance related to a finding.
   @_s.JsonKey(name: 'AwsEc2Instance')
   final AwsEc2InstanceDetails awsEc2Instance;
 
-  /// Details for an AWS EC2 network interface.
+  /// Details for an Amazon EC2 network interface.
   @_s.JsonKey(name: 'AwsEc2NetworkInterface')
   final AwsEc2NetworkInterfaceDetails awsEc2NetworkInterface;
 
@@ -6682,9 +13165,21 @@ class ResourceDetails {
   @_s.JsonKey(name: 'AwsEc2SecurityGroup')
   final AwsEc2SecurityGroupDetails awsEc2SecurityGroup;
 
+  /// Details for an EC2 volume.
+  @_s.JsonKey(name: 'AwsEc2Volume')
+  final AwsEc2VolumeDetails awsEc2Volume;
+
+  /// Details for an EC2 VPC.
+  @_s.JsonKey(name: 'AwsEc2Vpc')
+  final AwsEc2VpcDetails awsEc2Vpc;
+
   /// Details for an Elasticsearch domain.
   @_s.JsonKey(name: 'AwsElasticsearchDomain')
   final AwsElasticsearchDomainDetails awsElasticsearchDomain;
+
+  /// <p/>
+  @_s.JsonKey(name: 'AwsElbLoadBalancer')
+  final AwsElbLoadBalancerDetails awsElbLoadBalancer;
 
   /// Details about a load balancer.
   @_s.JsonKey(name: 'AwsElbv2LoadBalancer')
@@ -6694,9 +13189,21 @@ class ResourceDetails {
   @_s.JsonKey(name: 'AwsIamAccessKey')
   final AwsIamAccessKeyDetails awsIamAccessKey;
 
+  /// <p/>
+  @_s.JsonKey(name: 'AwsIamGroup')
+  final AwsIamGroupDetails awsIamGroup;
+
+  /// Details about an IAM permissions policy.
+  @_s.JsonKey(name: 'AwsIamPolicy')
+  final AwsIamPolicyDetails awsIamPolicy;
+
   /// Details about an IAM role.
   @_s.JsonKey(name: 'AwsIamRole')
   final AwsIamRoleDetails awsIamRole;
+
+  /// Details about an IAM user.
+  @_s.JsonKey(name: 'AwsIamUser')
+  final AwsIamUserDetails awsIamUser;
 
   /// Details about a KMS key.
   @_s.JsonKey(name: 'AwsKmsKey')
@@ -6710,17 +13217,37 @@ class ResourceDetails {
   @_s.JsonKey(name: 'AwsLambdaLayerVersion')
   final AwsLambdaLayerVersionDetails awsLambdaLayerVersion;
 
-  /// Details for an RDS database instance.
+  /// Details about an Amazon RDS database cluster.
+  @_s.JsonKey(name: 'AwsRdsDbCluster')
+  final AwsRdsDbClusterDetails awsRdsDbCluster;
+
+  /// Details about an Amazon RDS database cluster snapshot.
+  @_s.JsonKey(name: 'AwsRdsDbClusterSnapshot')
+  final AwsRdsDbClusterSnapshotDetails awsRdsDbClusterSnapshot;
+
+  /// Details about an Amazon RDS database instance.
   @_s.JsonKey(name: 'AwsRdsDbInstance')
   final AwsRdsDbInstanceDetails awsRdsDbInstance;
 
-  /// Details about an Amazon S3 Bucket related to a finding.
+  /// Details about an Amazon RDS database snapshot.
+  @_s.JsonKey(name: 'AwsRdsDbSnapshot')
+  final AwsRdsDbSnapshotDetails awsRdsDbSnapshot;
+
+  /// <p/>
+  @_s.JsonKey(name: 'AwsRedshiftCluster')
+  final AwsRedshiftClusterDetails awsRedshiftCluster;
+
+  /// Details about an Amazon S3 bucket related to a finding.
   @_s.JsonKey(name: 'AwsS3Bucket')
   final AwsS3BucketDetails awsS3Bucket;
 
   /// Details about an Amazon S3 object related to a finding.
   @_s.JsonKey(name: 'AwsS3Object')
   final AwsS3ObjectDetails awsS3Object;
+
+  /// Details about a Secrets Manager secret.
+  @_s.JsonKey(name: 'AwsSecretsManagerSecret')
+  final AwsSecretsManagerSecretDetails awsSecretsManagerSecret;
 
   /// Details about an SNS topic.
   @_s.JsonKey(name: 'AwsSnsTopic')
@@ -6757,21 +13284,41 @@ class ResourceDetails {
   final Map<String, String> other;
 
   ResourceDetails({
+    this.awsApiGatewayRestApi,
+    this.awsApiGatewayStage,
+    this.awsApiGatewayV2Api,
+    this.awsApiGatewayV2Stage,
+    this.awsAutoScalingAutoScalingGroup,
+    this.awsCertificateManagerCertificate,
     this.awsCloudFrontDistribution,
+    this.awsCloudTrailTrail,
     this.awsCodeBuildProject,
+    this.awsDynamoDbTable,
+    this.awsEc2Eip,
     this.awsEc2Instance,
     this.awsEc2NetworkInterface,
     this.awsEc2SecurityGroup,
+    this.awsEc2Volume,
+    this.awsEc2Vpc,
     this.awsElasticsearchDomain,
+    this.awsElbLoadBalancer,
     this.awsElbv2LoadBalancer,
     this.awsIamAccessKey,
+    this.awsIamGroup,
+    this.awsIamPolicy,
     this.awsIamRole,
+    this.awsIamUser,
     this.awsKmsKey,
     this.awsLambdaFunction,
     this.awsLambdaLayerVersion,
+    this.awsRdsDbCluster,
+    this.awsRdsDbClusterSnapshot,
     this.awsRdsDbInstance,
+    this.awsRdsDbSnapshot,
+    this.awsRedshiftCluster,
     this.awsS3Bucket,
     this.awsS3Object,
+    this.awsSecretsManagerSecret,
     this.awsSnsTopic,
     this.awsSqsQueue,
     this.awsWafWebAcl,
@@ -6807,6 +13354,15 @@ class Result {
 }
 
 /// The severity of the finding.
+///
+/// The finding provider can provide the initial severity. The finding provider
+/// can only update the severity if it has not been updated using
+/// <code>BatchUpdateFindings</code>.
+///
+/// The finding must have either <code>Label</code> or <code>Normalized</code>
+/// populated. If only one of these attributes is populated, then Security Hub
+/// automatically populates the other one. If neither attribute is populated,
+/// then the finding is invalid. <code>Label</code> is the preferred attribute.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6833,14 +13389,8 @@ class Severity {
   /// escalating.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Label')
-  final SeverityLabel label;
-
-  /// Deprecated. This attribute is being deprecated. Instead of providing
-  /// <code>Normalized</code>, provide <code>Label</code>.
-  ///
   /// If you provide <code>Normalized</code> and do not provide
-  /// <code>Label</code>, <code>Label</code> is set automatically as follows.
+  /// <code>Label</code>, then <code>Label</code> is set automatically as follows.
   ///
   /// <ul>
   /// <li>
@@ -6859,9 +13409,44 @@ class Severity {
   /// 90–100 - <code>CRITICAL</code>
   /// </li>
   /// </ul>
+  @_s.JsonKey(name: 'Label')
+  final SeverityLabel label;
+
+  /// Deprecated. The normalized severity of a finding. This attribute is being
+  /// deprecated. Instead of providing <code>Normalized</code>, provide
+  /// <code>Label</code>.
+  ///
+  /// If you provide <code>Label</code> and do not provide
+  /// <code>Normalized</code>, then <code>Normalized</code> is set automatically
+  /// as follows.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>INFORMATIONAL</code> - 0
+  /// </li>
+  /// <li>
+  /// <code>LOW</code> - 1
+  /// </li>
+  /// <li>
+  /// <code>MEDIUM</code> - 40
+  /// </li>
+  /// <li>
+  /// <code>HIGH</code> - 70
+  /// </li>
+  /// <li>
+  /// <code>CRITICAL</code> - 90
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'Normalized')
   final int normalized;
 
+  /// The native severity from the finding product that generated the finding.
+  @_s.JsonKey(name: 'Original')
+  final String original;
+
+  /// Deprecated. This attribute is being deprecated. Instead of providing
+  /// <code>Product</code>, provide <code>Original</code>.
+  ///
   /// The native severity as defined by the AWS service or integrated partner
   /// product that generated the finding.
   @_s.JsonKey(name: 'Product')
@@ -6870,6 +13455,7 @@ class Severity {
   Severity({
     this.label,
     this.normalized,
+    this.original,
     this.product,
   });
   factory Severity.fromJson(Map<String, dynamic> json) =>
@@ -6969,6 +13555,46 @@ class SeverityUpdate {
     this.product,
   });
   Map<String, dynamic> toJson() => _$SeverityUpdateToJson(this);
+}
+
+/// Information about a software package.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SoftwarePackage {
+  /// The architecture used for the software package.
+  @_s.JsonKey(name: 'Architecture')
+  final String architecture;
+
+  /// The epoch of the software package.
+  @_s.JsonKey(name: 'Epoch')
+  final String epoch;
+
+  /// The name of the software package.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The release of the software package.
+  @_s.JsonKey(name: 'Release')
+  final String release;
+
+  /// The version of the software package.
+  @_s.JsonKey(name: 'Version')
+  final String version;
+
+  SoftwarePackage({
+    this.architecture,
+    this.epoch,
+    this.name,
+    this.release,
+    this.version,
+  });
+  factory SoftwarePackage.fromJson(Map<String, dynamic> json) =>
+      _$SoftwarePackageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SoftwarePackageToJson(this);
 }
 
 /// A collection of finding attributes used to sort findings.
@@ -7182,6 +13808,34 @@ class StandardsSubscriptionRequest {
   Map<String, dynamic> toJson() => _$StandardsSubscriptionRequestToJson(this);
 }
 
+/// Provides additional context for the value of <code>Compliance.Status</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class StatusReason {
+  /// A code that represents a reason for the control status. For the list of
+  /// status reason codes and their meanings, see <a
+  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-results.html#securityhub-standards-results-asff">Standards-related
+  /// information in the ASFF</a> in the <i>AWS Security Hub User Guide</i>.
+  @_s.JsonKey(name: 'ReasonCode')
+  final String reasonCode;
+
+  /// The corresponding description for the status reason code.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  StatusReason({
+    @_s.required this.reasonCode,
+    this.description,
+  });
+  factory StatusReason.fromJson(Map<String, dynamic> json) =>
+      _$StatusReasonFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StatusReasonToJson(this);
+}
+
 /// A string filter for querying findings.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7189,11 +13843,98 @@ class StandardsSubscriptionRequest {
     createFactory: true,
     createToJson: true)
 class StringFilter {
-  /// The condition to be applied to a string value when querying for findings.
+  /// The condition to apply to a string value when querying for findings. To
+  /// search for values that contain the filter criteria value, use one of the
+  /// following comparison operators:
+  ///
+  /// <ul>
+  /// <li>
+  /// To search for values that exactly match the filter value, use
+  /// <code>EQUALS</code>.
+  ///
+  /// For example, the filter <code>ResourceType EQUALS AwsEc2SecurityGroup</code>
+  /// only matches findings that have a resource type of
+  /// <code>AwsEc2SecurityGroup</code>.
+  /// </li>
+  /// <li>
+  /// To search for values that start with the filter value, use
+  /// <code>PREFIX</code>.
+  ///
+  /// For example, the filter <code>ResourceType PREFIX AwsIam</code> matches
+  /// findings that have a resource type that starts with <code>AwsIam</code>.
+  /// Findings with a resource type of <code>AwsIamPolicy</code>,
+  /// <code>AwsIamRole</code>, or <code>AwsIamUser</code> would all match.
+  /// </li>
+  /// </ul>
+  /// <code>EQUALS</code> and <code>PREFIX</code> filters on the same field are
+  /// joined by <code>OR</code>. A finding matches if it matches any one of those
+  /// filters.
+  ///
+  /// To search for values that do not contain the filter criteria value, use one
+  /// of the following comparison operators:
+  ///
+  /// <ul>
+  /// <li>
+  /// To search for values that do not exactly match the filter value, use
+  /// <code>NOT_EQUALS</code>.
+  ///
+  /// For example, the filter <code>ResourceType NOT_EQUALS AwsIamPolicy</code>
+  /// matches findings that have a resource type other than
+  /// <code>AwsIamPolicy</code>.
+  /// </li>
+  /// <li>
+  /// To search for values that do not start with the filter value, use
+  /// <code>PREFIX_NOT_EQUALS</code>.
+  ///
+  /// For example, the filter <code>ResourceType PREFIX_NOT_EQUALS AwsIam</code>
+  /// matches findings that have a resource type that does not start with
+  /// <code>AwsIam</code>. Findings with a resource type of
+  /// <code>AwsIamPolicy</code>, <code>AwsIamRole</code>, or
+  /// <code>AwsIamUser</code> would all be excluded from the results.
+  /// </li>
+  /// </ul>
+  /// <code>NOT_EQUALS</code> and <code>PREFIX_NOT_EQUALS</code> filters on the
+  /// same field are joined by <code>AND</code>. A finding matches only if it
+  /// matches all of those filters.
+  ///
+  /// For filters on the same field, you cannot provide both an
+  /// <code>EQUALS</code> filter and a <code>NOT_EQUALS</code> or
+  /// <code>PREFIX_NOT_EQUALS</code> filter. Combining filters in this way always
+  /// returns an error, even if the provided filter values would return valid
+  /// results.
+  ///
+  /// You can combine <code>PREFIX</code> filters with <code>NOT_EQUALS</code> or
+  /// <code>PREFIX_NOT_EQUALS</code> filters for the same field. Security Hub
+  /// first processes the <code>PREFIX</code> filters, then the
+  /// <code>NOT_EQUALS</code> or <code>PREFIX_NOT_EQUALS</code> filters.
+  ///
+  /// For example, for the following filter, Security Hub first identifies
+  /// findings that have resource types that start with either <code>AwsIAM</code>
+  /// or <code>AwsEc2</code>. It then excludes findings that have a resource type
+  /// of <code>AwsIamPolicy</code> and findings that have a resource type of
+  /// <code>AwsEc2NetworkInterface</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ResourceType PREFIX AwsIam</code>
+  /// </li>
+  /// <li>
+  /// <code>ResourceType PREFIX AwsEc2</code>
+  /// </li>
+  /// <li>
+  /// <code>ResourceType NOT_EQUALS AwsIamPolicy</code>
+  /// </li>
+  /// <li>
+  /// <code>ResourceType NOT_EQUALS AwsEc2NetworkInterface</code>
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'Comparison')
   final StringFilterComparison comparison;
 
-  /// The string filter value.
+  /// The string filter value. Filter values are case sensitive. For example, the
+  /// product name for control-based findings is <code>Security Hub</code>. If you
+  /// provide <code>security hub</code> as the filter text, then there is no
+  /// match.
   @_s.JsonKey(name: 'Value')
   final String value;
 
@@ -7212,6 +13953,10 @@ enum StringFilterComparison {
   equals,
   @_s.JsonValue('PREFIX')
   prefix,
+  @_s.JsonValue('NOT_EQUALS')
+  notEquals,
+  @_s.JsonValue('PREFIX_NOT_EQUALS')
+  prefixNotEquals,
 }
 
 @_s.JsonSerializable(
@@ -7236,8 +13981,13 @@ class ThreatIntelIndicator {
   @_s.JsonKey(name: 'Category')
   final ThreatIntelIndicatorCategory category;
 
-  /// The date and time when the most recent instance of a threat intelligence
-  /// indicator was observed.
+  /// Indicates when the most recent instance of a threat intelligence indicator
+  /// was observed.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
   @_s.JsonKey(name: 'LastObservedAt')
   final String lastObservedAt;
 
@@ -7361,6 +14111,30 @@ class UpdateInsightResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateOrganizationConfigurationResponse {
+  UpdateOrganizationConfigurationResponse();
+  factory UpdateOrganizationConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateOrganizationConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateSecurityHubConfigurationResponse {
+  UpdateSecurityHubConfigurationResponse();
+  factory UpdateSecurityHubConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateSecurityHubConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdateStandardsControlResponse {
   UpdateStandardsControlResponse();
   factory UpdateStandardsControlResponse.fromJson(Map<String, dynamic> json) =>
@@ -7394,8 +14168,103 @@ extension on VerificationState {
   }
 }
 
+/// A vulnerability associated with a finding.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Vulnerability {
+  /// The identifier of the vulnerability.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// CVSS scores from the advisory related to the vulnerability.
+  @_s.JsonKey(name: 'Cvss')
+  final List<Cvss> cvss;
+
+  /// A list of URLs that provide additional information about the vulnerability.
+  @_s.JsonKey(name: 'ReferenceUrls')
+  final List<String> referenceUrls;
+
+  /// List of vulnerabilities that are related to this vulnerability.
+  @_s.JsonKey(name: 'RelatedVulnerabilities')
+  final List<String> relatedVulnerabilities;
+
+  /// Information about the vendor that generates the vulnerability report.
+  @_s.JsonKey(name: 'Vendor')
+  final VulnerabilityVendor vendor;
+
+  /// List of software packages that have the vulnerability.
+  @_s.JsonKey(name: 'VulnerablePackages')
+  final List<SoftwarePackage> vulnerablePackages;
+
+  Vulnerability({
+    @_s.required this.id,
+    this.cvss,
+    this.referenceUrls,
+    this.relatedVulnerabilities,
+    this.vendor,
+    this.vulnerablePackages,
+  });
+  factory Vulnerability.fromJson(Map<String, dynamic> json) =>
+      _$VulnerabilityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VulnerabilityToJson(this);
+}
+
+/// A vendor that generates a vulnerability report.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class VulnerabilityVendor {
+  /// The name of the vendor.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The URL of the vulnerability advisory.
+  @_s.JsonKey(name: 'Url')
+  final String url;
+
+  /// Indicates when the vulnerability advisory was created.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'VendorCreatedAt')
+  final String vendorCreatedAt;
+
+  /// The severity that the vendor assigned to the vulnerability.
+  @_s.JsonKey(name: 'VendorSeverity')
+  final String vendorSeverity;
+
+  /// Indicates when the vulnerability advisory was last updated.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  @_s.JsonKey(name: 'VendorUpdatedAt')
+  final String vendorUpdatedAt;
+
+  VulnerabilityVendor({
+    @_s.required this.name,
+    this.url,
+    this.vendorCreatedAt,
+    this.vendorSeverity,
+    this.vendorUpdatedAt,
+  });
+  factory VulnerabilityVendor.fromJson(Map<String, dynamic> json) =>
+      _$VulnerabilityVendorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VulnerabilityVendorToJson(this);
+}
+
 /// Details about the action that CloudFront or AWS WAF takes when a web request
-/// matches the conditions in the Rule.
+/// matches the conditions in the rule.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7403,7 +14272,7 @@ extension on VerificationState {
     createToJson: true)
 class WafAction {
   /// Specifies how you want AWS WAF to respond to requests that match the
-  /// settings in a Rule.
+  /// settings in a rule.
   ///
   /// Valid settings include the following:
   ///
@@ -7461,7 +14330,7 @@ class WafExcludedRule {
     createToJson: true)
 class WafOverrideAction {
   /// <code>COUNT</code> overrides the action specified by the individual rule
-  /// within a RuleGroup .
+  /// within a <code>RuleGroup</code> .
   ///
   /// If set to <code>NONE</code>, the rule's action takes place.
   @_s.JsonKey(name: 'Type')

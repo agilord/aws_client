@@ -62,8 +62,7 @@ class KMS {
 
   /// Cancels the deletion of a customer master key (CMK). When this operation
   /// succeeds, the key state of the CMK is <code>Disabled</code>. To enable the
-  /// CMK, use <a>EnableKey</a>. You cannot perform this operation on a CMK in a
-  /// different AWS account.
+  /// CMK, use <a>EnableKey</a>.
   ///
   /// For more information about scheduling and canceling deletion of a CMK, see
   /// <a
@@ -76,6 +75,15 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:CancelKeyDeletion</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>: <a>ScheduleKeyDeletion</a>
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -180,6 +188,33 @@ class KMS {
   /// a Custom Key Store</a> in the <i>AWS Key Management Service Developer
   /// Guide</i>.
   ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a
+  /// custom key store in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ConnectCustomKeyStore</a>
+  /// (IAM policy)
+  ///
+  /// <b>Related operations</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeCustomKeyStores</a>
+  /// </li>
+  /// <li>
+  /// <a>DisconnectCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateCustomKeyStore</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [CloudHsmClusterNotActiveException].
   /// May throw [CustomKeyStoreInvalidStateException].
   /// May throw [CustomKeyStoreNotFoundException].
@@ -219,90 +254,71 @@ class KMS {
     return ConnectCustomKeyStoreResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a display name for a customer managed customer master key (CMK).
-  /// You can use an alias to identify a CMK in cryptographic operations, such
-  /// as <a>Encrypt</a> and <a>GenerateDataKey</a>. You can change the CMK
-  /// associated with the alias at any time.
+  /// Creates a friendly name for a customer master key (CMK). You can use an
+  /// alias to identify a CMK in the AWS KMS console, in the <a>DescribeKey</a>
+  /// operation and in <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operations</a>, such as <a>Encrypt</a> and <a>GenerateDataKey</a>.
   ///
-  /// Aliases are easier to remember than key IDs. They can also help to
-  /// simplify your applications. For example, if you use an alias in your code,
-  /// you can change the CMK your code uses by associating a given alias with a
-  /// different CMK.
+  /// You can also change the CMK that's associated with the alias
+  /// (<a>UpdateAlias</a>) or delete the alias (<a>DeleteAlias</a>) at any time.
+  /// These operations don't affect the underlying CMK.
   ///
-  /// To run the same code in multiple AWS regions, use an alias in your code,
-  /// such as <code>alias/ApplicationKey</code>. Then, in each AWS Region,
-  /// create an <code>alias/ApplicationKey</code> alias that is associated with
-  /// a CMK in that Region. When you run your code, it uses the
-  /// <code>alias/ApplicationKey</code> CMK for that AWS Region without any
-  /// Region-specific code.
+  /// You can associate the alias with any customer managed CMK in the same AWS
+  /// Region. Each alias is associated with only on CMK at a time, but a CMK can
+  /// have multiple aliases. A valid CMK is required. You can't create an alias
+  /// without a CMK.
+  ///
+  /// The alias must be unique in the account and Region, but you can have
+  /// aliases with the same name in different Regions. For detailed information
+  /// about aliases, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-alias.html">Using
+  /// aliases</a> in the <i>AWS Key Management Service Developer Guide</i>.
   ///
   /// This operation does not return a response. To get the alias that you
   /// created, use the <a>ListAliases</a> operation.
-  ///
-  /// To use aliases successfully, be aware of the following information.
-  ///
-  /// <ul>
-  /// <li>
-  /// Each alias points to only one CMK at a time, although a single CMK can
-  /// have multiple aliases. The alias and its associated CMK must be in the
-  /// same AWS account and Region.
-  /// </li>
-  /// <li>
-  /// You can associate an alias with any customer managed CMK in the same AWS
-  /// account and Region. However, you do not have permission to associate an
-  /// alias with an <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">AWS
-  /// managed CMK</a> or an <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk">AWS
-  /// owned CMK</a>.
-  /// </li>
-  /// <li>
-  /// To change the CMK associated with an alias, use the <a>UpdateAlias</a>
-  /// operation. The current CMK and the new CMK must be the same type (both
-  /// symmetric or both asymmetric) and they must have the same key usage
-  /// (<code>ENCRYPT_DECRYPT</code> or <code>SIGN_VERIFY</code>). This
-  /// restriction prevents cryptographic errors in code that uses aliases.
-  /// </li>
-  /// <li>
-  /// The alias name must begin with <code>alias/</code> followed by a name,
-  /// such as <code>alias/ExampleAlias</code>. It can contain only alphanumeric
-  /// characters, forward slashes (/), underscores (_), and dashes (-). The
-  /// alias name cannot begin with <code>alias/aws/</code>. The
-  /// <code>alias/aws/</code> prefix is reserved for <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">AWS
-  /// managed CMKs</a>.
-  /// </li>
-  /// <li>
-  /// The alias name must be unique within an AWS Region. However, you can use
-  /// the same alias name in multiple Regions of the same AWS account. Each
-  /// instance of the alias is associated with a CMK in its Region.
-  /// </li>
-  /// <li>
-  /// After you create an alias, you cannot change its alias name. However, you
-  /// can use the <a>DeleteAlias</a> operation to delete the alias and then
-  /// create a new alias with the desired name.
-  /// </li>
-  /// <li>
-  /// You can use an alias name or alias ARN to identify a CMK in AWS KMS
-  /// cryptographic operations and in the <a>DescribeKey</a> operation. However,
-  /// you cannot use alias names or alias ARNs in API operations that manage
-  /// CMKs, such as <a>DisableKey</a> or <a>GetKeyPolicy</a>. For information
-  /// about the valid CMK identifiers for each AWS KMS API operation, see the
-  /// descriptions of the <code>KeyId</code> parameter in the API operation
-  /// documentation.
-  /// </li>
-  /// </ul>
-  /// Because an alias is not a property of a CMK, you can delete and change the
-  /// aliases of a CMK without affecting the CMK. Also, aliases do not appear in
-  /// the response from the <a>DescribeKey</a> operation. To get the aliases and
-  /// alias ARNs of CMKs in each AWS account and Region, use the
-  /// <a>ListAliases</a> operation.
   ///
   /// The CMK that you use for this operation must be in a compatible key state.
   /// For details, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on an
+  /// alias in a different AWS account.
+  ///
+  /// <b>Required permissions</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:CreateAlias</a>
+  /// on the alias (IAM policy).
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:CreateAlias</a>
+  /// on the CMK (key policy).
+  /// </li>
+  /// </ul>
+  /// For details, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-alias.html#alias-access">Controlling
+  /// access to aliases</a> in the <i>AWS Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>DeleteAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>ListAliases</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateAlias</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [DependencyTimeoutException].
   /// May throw [AlreadyExistsException].
@@ -314,17 +330,44 @@ class KMS {
   ///
   /// Parameter [aliasName] :
   /// Specifies the alias name. This value must begin with <code>alias/</code>
-  /// followed by a name, such as <code>alias/ExampleAlias</code>. The alias
-  /// name cannot begin with <code>alias/aws/</code>. The
-  /// <code>alias/aws/</code> prefix is reserved for AWS managed CMKs.
+  /// followed by a name, such as <code>alias/ExampleAlias</code>.
+  ///
+  /// The <code>AliasName</code> value must be string of 1-256 characters. It
+  /// can contain only alphanumeric characters, forward slashes (/), underscores
+  /// (_), and dashes (-). The alias name cannot begin with
+  /// <code>alias/aws/</code>. The <code>alias/aws/</code> prefix is reserved
+  /// for <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">AWS
+  /// managed CMKs</a>.
   ///
   /// Parameter [targetKeyId] :
-  /// Identifies the CMK to which the alias refers. Specify the key ID or the
-  /// Amazon Resource Name (ARN) of the CMK. You cannot specify another alias.
+  /// Associates the alias with the specified <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk">customer
+  /// managed CMK</a>. The CMK must be in the same AWS Region.
+  ///
+  /// A valid CMK ID is required. If you supply a null or empty string value,
+  /// this operation returns an error.
+  ///
   /// For help finding the key ID and ARN, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html#find-cmk-id-arn">Finding
   /// the Key ID and ARN</a> in the <i>AWS Key Management Service Developer
   /// Guide</i>.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
   Future<void> createAlias({
     @_s.required String aliasName,
     @_s.required String targetKeyId,
@@ -399,6 +442,33 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html">Troubleshooting
   /// a Custom Key Store</a> in the <i>AWS Key Management Service Developer
   /// Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a
+  /// custom key store in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:CreateCustomKeyStore</a>
+  /// (IAM policy).
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>ConnectCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeCustomKeyStores</a>
+  /// </li>
+  /// <li>
+  /// <a>DisconnectCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateCustomKeyStore</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [CloudHsmClusterInUseException].
   /// May throw [CustomKeyStoreNameInUseException].
@@ -502,8 +572,9 @@ class KMS {
   /// principal to use the CMK when the conditions specified in the grant are
   /// met. When setting permissions, grants are an alternative to key policies.
   ///
-  /// To create a grant that allows a cryptographic operation only when the
-  /// request includes a particular <a
+  /// To create a grant that allows a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operation</a> only when the request includes a particular <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">encryption
   /// context</a>, use the <code>Constraints</code> parameter. For details, see
   /// <a>GrantConstraints</a>.
@@ -549,11 +620,7 @@ class KMS {
   /// For information about symmetric and asymmetric CMKs, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
   /// Symmetric and Asymmetric CMKs</a> in the <i>AWS Key Management Service
-  /// Developer Guide</i>.
-  ///
-  /// To perform this operation on a CMK in a different AWS account, specify the
-  /// key ARN in the value of the <code>KeyId</code> parameter. For more
-  /// information about grants, see <a
+  /// Developer Guide</i>. For more information about grants, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/grants.html">Grants</a>
   /// in the <i> <i>AWS Key Management Service Developer Guide</i> </i>.
   ///
@@ -562,6 +629,31 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: Yes. To perform this operation on a CMK in a
+  /// different AWS account, specify the key ARN in the value of the
+  /// <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:CreateGrant</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>ListGrants</a>
+  /// </li>
+  /// <li>
+  /// <a>ListRetirableGrants</a>
+  /// </li>
+  /// <li>
+  /// <a>RetireGrant</a>
+  /// </li>
+  /// <li>
+  /// <a>RevokeGrant</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -611,12 +703,19 @@ class KMS {
   /// A list of operations that the grant permits.
   ///
   /// Parameter [constraints] :
-  /// Allows a cryptographic operation only when the encryption context matches
-  /// or includes the encryption context specified in this structure. For more
-  /// information about encryption context, see <a
+  /// Allows a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operation</a> only when the encryption context matches or includes the
+  /// encryption context specified in this structure. For more information about
+  /// encryption context, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
   /// Context</a> in the <i> <i>AWS Key Management Service Developer Guide</i>
   /// </i>.
+  ///
+  /// Grant constraints are not applied to operations that do not support an
+  /// encryption context, such as cryptographic operations with asymmetric CMKs
+  /// and management operations, such as <a>DescribeKey</a> or
+  /// <a>RetireGrant</a>.
   ///
   /// Parameter [grantTokens] :
   /// A list of grant tokens.
@@ -626,8 +725,8 @@ class KMS {
   /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
   ///
   /// Parameter [name] :
-  /// A friendly name for identifying the grant. Use this value to prevent the
-  /// unintended creation of duplicate grants when retrying this request.
+  /// A friendly name for the grant. Use this value to prevent the unintended
+  /// creation of duplicate grants when retrying this request.
   ///
   /// When this value is absent, all <code>CreateGrant</code> requests result in
   /// a new grant with a unique <code>GrantId</code> even if all the supplied
@@ -639,7 +738,7 @@ class KMS {
   /// original <code>GrantId</code> is returned without creating a new grant.
   /// Note that the returned grant token is unique with every
   /// <code>CreateGrant</code> request, even when a duplicate
-  /// <code>GrantId</code> is returned. All grant tokens obtained in this way
+  /// <code>GrantId</code> is returned. All grant tokens for the same grant ID
   /// can be used interchangeably.
   ///
   /// Parameter [retiringPrincipal] :
@@ -734,8 +833,7 @@ class KMS {
 
   /// Creates a unique customer managed <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master-keys">customer
-  /// master key</a> (CMK) in your AWS account and Region. You cannot use this
-  /// operation to create a CMK in a different AWS account.
+  /// master key</a> (CMK) in your AWS account and Region.
   ///
   /// You can use the <code>CreateKey</code> operation to create symmetric or
   /// asymmetric CMKs.
@@ -813,6 +911,32 @@ class KMS {
   /// Custom Key Stores</a> in the <i> <i>AWS Key Management Service Developer
   /// Guide</i> </i>.
   /// </dd> </dl>
+  /// <b>Cross-account use</b>: No. You cannot use this operation to create a
+  /// CMK in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:CreateKey</a>
+  /// (IAM policy). To use the <code>Tags</code> parameter, <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:TagResource</a>
+  /// (IAM policy). For examples and information about related permissions, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/iam-policies.html#iam-policy-example-create-key">Allow
+  /// a user to create CMKs</a> in the <i>AWS Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>DescribeKey</a>
+  /// </li>
+  /// <li>
+  /// <a>ListKeys</a>
+  /// </li>
+  /// <li>
+  /// <a>ScheduleKeyDeletion</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [DependencyTimeoutException].
@@ -953,10 +1077,12 @@ class KMS {
   /// a task.
   ///
   /// Parameter [keyUsage] :
-  /// Determines the cryptographic operations for which you can use the CMK. The
-  /// default value is <code>ENCRYPT_DECRYPT</code>. This parameter is required
-  /// only for asymmetric CMKs. You can't change the <code>KeyUsage</code> value
-  /// after the CMK is created.
+  /// Determines the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operations</a> for which you can use the CMK. The default value is
+  /// <code>ENCRYPT_DECRYPT</code>. This parameter is required only for
+  /// asymmetric CMKs. You can't change the <code>KeyUsage</code> value after
+  /// the CMK is created.
   ///
   /// Select only one valid value.
   ///
@@ -1031,6 +1157,10 @@ class KMS {
   ///
   /// The key policy size quota is 32 kilobytes (32768 bytes).
   ///
+  /// For help writing and formatting a JSON policy document, see the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html">IAM
+  /// JSON Policy Reference</a> in the <i> <i>IAM User Guide</i> </i>.
+  ///
   /// Parameter [tags] :
   /// One or more tags. Each tag consists of a tag key and a tag value. Both the
   /// tag key and the tag value are required, but the tag value can be an empty
@@ -1044,6 +1174,10 @@ class KMS {
   ///
   /// Use this parameter to tag the CMK when it is created. To add tags to an
   /// existing CMK, use the <a>TagResource</a> operation.
+  ///
+  /// To use this parameter, you must have <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:TagResource</a>
+  /// permission in an IAM policy.
   Future<CreateKeyResponse> createKey({
     bool bypassPolicyLockoutSafetyCheck,
     String customKeyStoreId,
@@ -1141,28 +1275,59 @@ class KMS {
   /// S3 client-side encryption</a>. These libraries return a ciphertext format
   /// that is incompatible with AWS KMS.
   ///
-  /// If the ciphertext was encrypted under a symmetric CMK, you do not need to
-  /// specify the CMK or the encryption algorithm. AWS KMS can get this
-  /// information from metadata that it adds to the symmetric ciphertext blob.
-  /// However, if you prefer, you can specify the <code>KeyId</code> to ensure
-  /// that a particular CMK is used to decrypt the ciphertext. If you specify a
-  /// different CMK than the one used to encrypt the ciphertext, the
-  /// <code>Decrypt</code> operation fails.
+  /// If the ciphertext was encrypted under a symmetric CMK, the
+  /// <code>KeyId</code> parameter is optional. AWS KMS can get this information
+  /// from metadata that it adds to the symmetric ciphertext blob. This feature
+  /// adds durability to your implementation by ensuring that authorized users
+  /// can decrypt ciphertext decades after it was encrypted, even if they've
+  /// lost track of the CMK ID. However, specifying the CMK is always
+  /// recommended as a best practice. When you use the <code>KeyId</code>
+  /// parameter to specify a CMK, AWS KMS only uses the CMK you specify. If the
+  /// ciphertext was encrypted under a different CMK, the <code>Decrypt</code>
+  /// operation fails. This practice ensures that you use the CMK that you
+  /// intend.
   ///
   /// Whenever possible, use key policies to give users permission to call the
-  /// Decrypt operation on a particular CMK, instead of using IAM policies.
-  /// Otherwise, you might create an IAM user policy that gives the user Decrypt
-  /// permission on all CMKs. This user could decrypt ciphertext that was
-  /// encrypted by CMKs in other accounts if the key policy for the
-  /// cross-account CMK permits it. If you must use an IAM policy for
+  /// <code>Decrypt</code> operation on a particular CMK, instead of using IAM
+  /// policies. Otherwise, you might create an IAM user policy that gives the
+  /// user <code>Decrypt</code> permission on all CMKs. This user could decrypt
+  /// ciphertext that was encrypted by CMKs in other accounts if the key policy
+  /// for the cross-account CMK permits it. If you must use an IAM policy for
   /// <code>Decrypt</code> permissions, limit the user to particular CMKs or
-  /// particular trusted accounts.
+  /// particular trusted accounts. For details, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/iam-policies.html#iam-policies-best-practices">Best
+  /// practices for IAM policies</a> in the <i>AWS Key Management Service
+  /// Developer Guide</i>.
   ///
   /// The CMK that you use for this operation must be in a compatible key state.
   /// For details, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: Yes. You can decrypt a ciphertext using a CMK in
+  /// a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:Decrypt</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>Encrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKey</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyPair</a>
+  /// </li>
+  /// <li>
+  /// <a>ReEncrypt</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -1190,9 +1355,10 @@ class KMS {
   ///
   /// Parameter [encryptionContext] :
   /// Specifies the encryption context to use when decrypting the data. An
-  /// encryption context is valid only for cryptographic operations with a
-  /// symmetric CMK. The standard asymmetric encryption algorithms that AWS KMS
-  /// uses do not support an encryption context.
+  /// encryption context is valid only for <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operations</a> with a symmetric CMK. The standard asymmetric encryption
+  /// algorithms that AWS KMS uses do not support an encryption context.
   ///
   /// An <i>encryption context</i> is a collection of non-secret key-value pairs
   /// that represents additional authenticated data. When you use an encryption
@@ -1213,23 +1379,20 @@ class KMS {
   /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
   ///
   /// Parameter [keyId] :
-  /// Specifies the customer master key (CMK) that AWS KMS will use to decrypt
-  /// the ciphertext. Enter a key ID of the CMK that was used to encrypt the
-  /// ciphertext.
-  ///
-  /// If you specify a <code>KeyId</code> value, the <code>Decrypt</code>
-  /// operation succeeds only if the specified CMK was used to encrypt the
+  /// Specifies the customer master key (CMK) that AWS KMS uses to decrypt the
+  /// ciphertext. Enter a key ID of the CMK that was used to encrypt the
   /// ciphertext.
   ///
   /// This parameter is required only when the ciphertext was encrypted under an
-  /// asymmetric CMK. Otherwise, AWS KMS uses the metadata that it adds to the
-  /// ciphertext blob to determine which CMK was used to encrypt the ciphertext.
-  /// However, you can use this parameter to ensure that a particular CMK (of
-  /// any kind) is used to decrypt the ciphertext.
+  /// asymmetric CMK. If you used a symmetric CMK, AWS KMS can get the CMK from
+  /// metadata that it adds to the symmetric ciphertext blob. However, it is
+  /// always recommended as a best practice. This practice ensures that you use
+  /// the CMK that you intend.
   ///
   /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name,
   /// or alias ARN. When using an alias name, prefix it with
-  /// <code>"alias/"</code>.
+  /// <code>"alias/"</code>. To specify a CMK in a different AWS account, you
+  /// must use the key ARN or alias ARN.
   ///
   /// For example:
   ///
@@ -1289,8 +1452,7 @@ class KMS {
     return DecryptResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes the specified alias. You cannot perform this operation on an alias
-  /// in a different AWS account.
+  /// Deletes the specified alias.
   ///
   /// Because an alias is not a property of a CMK, you can delete and change the
   /// aliases of a CMK without affecting the CMK. Also, aliases do not appear in
@@ -1301,6 +1463,42 @@ class KMS {
   /// <a>DeleteAlias</a> to delete the current alias and <a>CreateAlias</a> to
   /// create a new alias. To associate an existing alias with a different
   /// customer master key (CMK), call <a>UpdateAlias</a>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on an
+  /// alias in a different AWS account.
+  ///
+  /// <b>Required permissions</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:DeleteAlias</a>
+  /// on the alias (IAM policy).
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:DeleteAlias</a>
+  /// on the CMK (key policy).
+  /// </li>
+  /// </ul>
+  /// For details, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-alias.html#alias-access">Controlling
+  /// access to aliases</a> in the <i>AWS Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>ListAliases</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateAlias</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [DependencyTimeoutException].
   /// May throw [NotFoundException].
@@ -1353,13 +1551,13 @@ class KMS {
   /// The custom key store that you delete cannot contain any AWS KMS <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">customer
   /// master keys (CMKs)</a>. Before deleting the key store, verify that you
-  /// will never need to use any of the CMKs in the key store for any
-  /// cryptographic operations. Then, use <a>ScheduleKeyDeletion</a> to delete
-  /// the AWS KMS customer master keys (CMKs) from the key store. When the
-  /// scheduled waiting period expires, the <code>ScheduleKeyDeletion</code>
-  /// operation deletes the CMKs. Then it makes a best effort to delete the key
-  /// material from the associated cluster. However, you might need to manually
-  /// <a
+  /// will never need to use any of the CMKs in the key store for any <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operations</a>. Then, use <a>ScheduleKeyDeletion</a> to delete the AWS KMS
+  /// customer master keys (CMKs) from the key store. When the scheduled waiting
+  /// period expires, the <code>ScheduleKeyDeletion</code> operation deletes the
+  /// CMKs. Then it makes a best effort to delete the key material from the
+  /// associated cluster. However, you might need to manually <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-orphaned-key">delete
   /// the orphaned key material</a> from the cluster and its backups.
   ///
@@ -1380,6 +1578,33 @@ class KMS {
   /// Key Store feature</a> feature in AWS KMS, which combines the convenience
   /// and extensive integration of AWS KMS with the isolation and control of a
   /// single-tenant key store.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a
+  /// custom key store in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:DeleteCustomKeyStore</a>
+  /// (IAM policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>ConnectCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>CreateCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeCustomKeyStores</a>
+  /// </li>
+  /// <li>
+  /// <a>DisconnectCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateCustomKeyStore</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [CustomKeyStoreHasCMKsException].
   /// May throw [CustomKeyStoreInvalidStateException].
@@ -1423,7 +1648,6 @@ class KMS {
   /// about importing key material into AWS KMS, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">Importing
   /// Key Material</a> in the <i>AWS Key Management Service Developer Guide</i>.
-  /// You cannot perform this operation on a CMK in a different AWS account.
   ///
   /// When the specified CMK is in the <code>PendingDeletion</code> state, this
   /// operation does not change the CMK's state. Otherwise, it changes the CMK's
@@ -1437,6 +1661,24 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:DeleteImportedKeyMaterial</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>GetParametersForImport</a>
+  /// </li>
+  /// <li>
+  /// <a>ImportKeyMaterial</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [InvalidArnException].
   /// May throw [UnsupportedOperationException].
@@ -1525,6 +1767,33 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html">Troubleshooting
   /// Custom Key Stores</a> topic in the <i>AWS Key Management Service Developer
   /// Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a
+  /// custom key store in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:DescribeCustomKeyStores</a>
+  /// (IAM policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>ConnectCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>CreateCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>DisconnectCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateCustomKeyStore</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [CustomKeyStoreNotFoundException].
   /// May throw [KMSInternalException].
@@ -1660,8 +1929,39 @@ class KMS {
   /// returns the <code>KeyId</code> and <code>Arn</code> of the new CMK in the
   /// response.
   ///
-  /// To perform this operation on a CMK in a different AWS account, specify the
-  /// key ARN or alias ARN in the value of the KeyId parameter.
+  /// <b>Cross-account use</b>: Yes. To perform this operation with a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN in the value of
+  /// the <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:DescribeKey</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>GetKeyPolicy</a>
+  /// </li>
+  /// <li>
+  /// <a>GetKeyRotationStatus</a>
+  /// </li>
+  /// <li>
+  /// <a>ListAliases</a>
+  /// </li>
+  /// <li>
+  /// <a>ListGrants</a>
+  /// </li>
+  /// <li>
+  /// <a>ListKeys</a>
+  /// </li>
+  /// <li>
+  /// <a>ListResourceTags</a>
+  /// </li>
+  /// <li>
+  /// <a>ListRetirableGrants</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -1741,9 +2041,10 @@ class KMS {
     return DescribeKeyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Sets the state of a customer master key (CMK) to disabled, thereby
-  /// preventing its use for cryptographic operations. You cannot perform this
-  /// operation on a CMK in a different AWS account.
+  /// Sets the state of a customer master key (CMK) to disabled. This change
+  /// temporarily prevents use of the CMK for <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operations</a>.
   ///
   /// For more information about how key state affects the use of a CMK, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
@@ -1755,6 +2056,15 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:DisableKey</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>: <a>EnableKey</a>
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -1815,14 +2125,31 @@ class KMS {
   /// You cannot enable automatic rotation of asymmetric CMKs, CMKs with
   /// imported key material, or CMKs in a <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
-  /// key store</a>. You cannot perform this operation on a CMK in a different
-  /// AWS account.
+  /// key store</a>.
   ///
   /// The CMK that you use for this operation must be in a compatible key state.
   /// For details, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:DisableKeyRotation</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>EnableKeyRotation</a>
+  /// </li>
+  /// <li>
+  /// <a>GetKeyRotationStatus</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -1833,8 +2160,8 @@ class KMS {
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [keyId] :
-  /// Identifies a symmetric customer master key (CMK). You cannot enable
-  /// automatic rotation of <a
+  /// Identifies a symmetric customer master key (CMK). You cannot enable or
+  /// disable automatic rotation of <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html#asymmetric-cmks">asymmetric
   /// CMKs</a>, CMKs with <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html">imported
@@ -1892,9 +2219,10 @@ class KMS {
   /// custom key store. You can reconnect the custom key store at any time.
   /// <note>
   /// While a custom key store is disconnected, all attempts to create customer
-  /// master keys (CMKs) in the custom key store or to use existing CMKs in
-  /// cryptographic operations will fail. This action can prevent users from
-  /// storing and accessing sensitive data.
+  /// master keys (CMKs) in the custom key store or to use existing CMKs in <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operations</a> will fail. This action can prevent users from storing and
+  /// accessing sensitive data.
   /// </note> <p/>
   /// To find the connection state of a custom key store, use the
   /// <a>DescribeCustomKeyStores</a> operation. To reconnect a custom key store,
@@ -1907,6 +2235,33 @@ class KMS {
   /// Key Store feature</a> feature in AWS KMS, which combines the convenience
   /// and extensive integration of AWS KMS with the isolation and control of a
   /// single-tenant key store.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a
+  /// custom key store in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:DisconnectCustomKeyStore</a>
+  /// (IAM policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>ConnectCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>CreateCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeCustomKeyStores</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateCustomKeyStore</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [CustomKeyStoreInvalidStateException].
   /// May throw [CustomKeyStoreNotFoundException].
@@ -1946,14 +2301,24 @@ class KMS {
   }
 
   /// Sets the key state of a customer master key (CMK) to enabled. This allows
-  /// you to use the CMK for cryptographic operations. You cannot perform this
-  /// operation on a CMK in a different AWS account.
+  /// you to use the CMK for <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operations</a>.
   ///
   /// The CMK that you use for this operation must be in a compatible key state.
   /// For details, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:EnableKey</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>: <a>DisableKey</a>
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -2010,8 +2375,7 @@ class KMS {
   /// Enables <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html">automatic
   /// rotation of the key material</a> for the specified symmetric customer
-  /// master key (CMK). You cannot perform this operation on a CMK in a
-  /// different AWS account.
+  /// master key (CMK).
   ///
   /// You cannot enable automatic rotation of asymmetric CMKs, CMKs with
   /// imported key material, or CMKs in a <a
@@ -2023,6 +2387,24 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:EnableKeyRotation</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>DisableKeyRotation</a>
+  /// </li>
+  /// <li>
+  /// <a>GetKeyRotationStatus</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -2091,11 +2473,12 @@ class KMS {
   /// </li>
   /// <li>
   /// You can use the <code>Encrypt</code> operation to move encrypted data from
-  /// one AWS region to another. In the first region, generate a data key and
-  /// use the plaintext key to encrypt the data. Then, in the new region, call
-  /// the <code>Encrypt</code> method on same plaintext data key. Now, you can
-  /// safely move the encrypted data and encrypted data key to the new region,
-  /// and decrypt in the new region when necessary.
+  /// one AWS Region to another. For example, in Region A, generate a data key
+  /// and use the plaintext key to encrypt your data. Then, in Region A, use the
+  /// <code>Encrypt</code> operation to encrypt the plaintext data key under a
+  /// CMK in Region B. Now, you can move the encrypted data and the encrypted
+  /// data key to Region B. When necessary, you can decrypt the encrypted data
+  /// key and the encrypted data entirely within in Region B.
   /// </li>
   /// </ul>
   /// You don't need to use the <code>Encrypt</code> operation to encrypt a data
@@ -2183,8 +2566,27 @@ class KMS {
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
   ///
-  /// To perform this operation on a CMK in a different AWS account, specify the
-  /// key ARN or alias ARN in the value of the KeyId parameter.
+  /// <b>Cross-account use</b>: Yes. To perform this operation with a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN in the value of
+  /// the <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:Encrypt</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>Decrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKey</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyPair</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -2239,9 +2641,10 @@ class KMS {
   ///
   /// Parameter [encryptionContext] :
   /// Specifies the encryption context that will be used to encrypt the data. An
-  /// encryption context is valid only for cryptographic operations with a
-  /// symmetric CMK. The standard asymmetric encryption algorithms that AWS KMS
-  /// uses do not support an encryption context.
+  /// encryption context is valid only for <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operations</a> with a symmetric CMK. The standard asymmetric encryption
+  /// algorithms that AWS KMS uses do not support an encryption context.
   ///
   /// An <i>encryption context</i> is a collection of non-secret key-value pairs
   /// that represents additional authenticated data. When you use an encryption
@@ -2299,28 +2702,22 @@ class KMS {
     return EncryptResponse.fromJson(jsonResponse.body);
   }
 
-  /// Generates a unique symmetric data key. This operation returns a plaintext
-  /// copy of the data key and a copy that is encrypted under a customer master
-  /// key (CMK) that you specify. You can use the plaintext key to encrypt your
-  /// data outside of AWS KMS and store the encrypted data key with the
-  /// encrypted data.
+  /// Generates a unique symmetric data key for client-side encryption. This
+  /// operation returns a plaintext copy of the data key and a copy that is
+  /// encrypted under a customer master key (CMK) that you specify. You can use
+  /// the plaintext key to encrypt your data outside of AWS KMS and store the
+  /// encrypted data key with the encrypted data.
   ///
   /// <code>GenerateDataKey</code> returns a unique data key for each request.
-  /// The bytes in the key are not related to the caller or CMK that is used to
-  /// encrypt the data key.
+  /// The bytes in the plaintext key are not related to the caller or the CMK.
   ///
   /// To generate a data key, specify the symmetric CMK that will be used to
   /// encrypt the data key. You cannot use an asymmetric CMK to generate data
   /// keys. To get the type of your CMK, use the <a>DescribeKey</a> operation.
-  ///
   /// You must also specify the length of the data key. Use either the
   /// <code>KeySpec</code> or <code>NumberOfBytes</code> parameters (but not
   /// both). For 128-bit and 256-bit data keys, use the <code>KeySpec</code>
   /// parameter.
-  ///
-  /// If the operation succeeds, the plaintext copy of the data key is in the
-  /// <code>Plaintext</code> field of the response, and the encrypted copy of
-  /// the data key in the <code>CiphertextBlob</code> field.
   ///
   /// To get only an encrypted copy of the data key, use
   /// <a>GenerateDataKeyWithoutPlaintext</a>. To generate an asymmetric data key
@@ -2333,7 +2730,7 @@ class KMS {
   /// <code>EncryptionContext</code>, you must specify the same encryption
   /// context (a case-sensitive exact match) when decrypting the encrypted data
   /// key. Otherwise, the request to decrypt fails with an
-  /// InvalidCiphertextException. For more information, see <a
+  /// <code>InvalidCiphertextException</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
   /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
   ///
@@ -2343,32 +2740,69 @@ class KMS {
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
   ///
+  /// <b>How to use your data key</b>
+  ///
   /// We recommend that you use the following pattern to encrypt data locally in
-  /// your application:
+  /// your application. You can write your own code or use a client-side
+  /// encryption library, such as the <a
+  /// href="https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/">AWS
+  /// Encryption SDK</a>, the <a
+  /// href="https://docs.aws.amazon.com/dynamodb-encryption-client/latest/devguide/">Amazon
+  /// DynamoDB Encryption Client</a>, or <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">Amazon
+  /// S3 client-side encryption</a> to do these tasks for you.
+  ///
+  /// To encrypt data outside of AWS KMS:
   /// <ol>
   /// <li>
-  /// Use the <code>GenerateDataKey</code> operation to get a data encryption
-  /// key.
+  /// Use the <code>GenerateDataKey</code> operation to get a data key.
   /// </li>
   /// <li>
-  /// Use the plaintext data key (returned in the <code>Plaintext</code> field
-  /// of the response) to encrypt data locally, then erase the plaintext data
-  /// key from memory.
+  /// Use the plaintext data key (in the <code>Plaintext</code> field of the
+  /// response) to encrypt your data outside of AWS KMS. Then erase the
+  /// plaintext data key from memory.
   /// </li>
   /// <li>
-  /// Store the encrypted data key (returned in the <code>CiphertextBlob</code>
-  /// field of the response) alongside the locally encrypted data.
+  /// Store the encrypted data key (in the <code>CiphertextBlob</code> field of
+  /// the response) with the encrypted data.
   /// </li> </ol>
-  /// To decrypt data locally:
+  /// To decrypt data outside of AWS KMS:
   /// <ol>
   /// <li>
   /// Use the <a>Decrypt</a> operation to decrypt the encrypted data key. The
   /// operation returns a plaintext copy of the data key.
   /// </li>
   /// <li>
-  /// Use the plaintext data key to decrypt data locally, then erase the
-  /// plaintext data key from memory.
+  /// Use the plaintext data key to decrypt data outside of AWS KMS, then erase
+  /// the plaintext data key from memory.
   /// </li> </ol>
+  /// <b>Cross-account use</b>: Yes. To perform this operation with a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN in the value of
+  /// the <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:GenerateDataKey</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>Decrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>Encrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyPair</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyPairWithoutPlaintext</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyWithoutPlaintext</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -2510,8 +2944,8 @@ class KMS {
   ///
   /// To generate a data key pair, you must specify a symmetric customer master
   /// key (CMK) to encrypt the private key in a data key pair. You cannot use an
-  /// asymmetric CMK. To get the type of your CMK, use the <a>DescribeKey</a>
-  /// operation.
+  /// asymmetric CMK or a CMK in a custom key store. To get the type and origin
+  /// of your CMK, use the <a>DescribeKey</a> operation.
   ///
   /// If you are using the data key pair to encrypt data, or for any operation
   /// where you don't immediately need a private key, consider using the
@@ -2528,7 +2962,7 @@ class KMS {
   /// <code>EncryptionContext</code>, you must specify the same encryption
   /// context (a case-sensitive exact match) when decrypting the encrypted data
   /// key. Otherwise, the request to decrypt fails with an
-  /// InvalidCiphertextException. For more information, see <a
+  /// <code>InvalidCiphertextException</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
   /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
   ///
@@ -2538,6 +2972,34 @@ class KMS {
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
   ///
+  /// <b>Cross-account use</b>: Yes. To perform this operation with a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN in the value of
+  /// the <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:GenerateDataKeyPair</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>Decrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>Encrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKey</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyPairWithoutPlaintext</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyWithoutPlaintext</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
   /// May throw [KeyUnavailableException].
@@ -2546,10 +3008,13 @@ class KMS {
   /// May throw [InvalidGrantTokenException].
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [keyId] :
   /// Specifies the symmetric CMK that encrypts the private key in the data key
-  /// pair. You cannot specify an asymmetric CMKs.
+  /// pair. You cannot specify an asymmetric CMK or a CMK in a custom key store.
+  /// To get the type and origin of your CMK, use the <a>DescribeKey</a>
+  /// operation.
   ///
   /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name,
   /// or alias ARN. When using an alias name, prefix it with
@@ -2651,8 +3116,9 @@ class KMS {
   ///
   /// To generate a data key pair, you must specify a symmetric customer master
   /// key (CMK) to encrypt the private key in the data key pair. You cannot use
-  /// an asymmetric CMK. To get the type of your CMK, use the
-  /// <code>KeySpec</code> field in the <a>DescribeKey</a> response.
+  /// an asymmetric CMK or a CMK in a custom key store. To get the type and
+  /// origin of your CMK, use the <code>KeySpec</code> field in the
+  /// <a>DescribeKey</a> response.
   ///
   /// You can use the public key that
   /// <code>GenerateDataKeyPairWithoutPlaintext</code> returns to encrypt data
@@ -2670,7 +3136,7 @@ class KMS {
   /// <code>EncryptionContext</code>, you must specify the same encryption
   /// context (a case-sensitive exact match) when decrypting the encrypted data
   /// key. Otherwise, the request to decrypt fails with an
-  /// InvalidCiphertextException. For more information, see <a
+  /// <code>InvalidCiphertextException</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
   /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
   ///
@@ -2680,6 +3146,34 @@ class KMS {
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
   ///
+  /// <b>Cross-account use</b>: Yes. To perform this operation with a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN in the value of
+  /// the <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:GenerateDataKeyPairWithoutPlaintext</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>Decrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>Encrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKey</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyPair</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyWithoutPlaintext</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
   /// May throw [KeyUnavailableException].
@@ -2688,15 +3182,18 @@ class KMS {
   /// May throw [InvalidGrantTokenException].
   /// May throw [KMSInternalException].
   /// May throw [KMSInvalidStateException].
+  /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [keyId] :
   /// Specifies the CMK that encrypts the private key in the data key pair. You
-  /// must specify a symmetric CMK. You cannot use an asymmetric CMK. To get the
-  /// type of your CMK, use the <a>DescribeKey</a> operation.
+  /// must specify a symmetric CMK. You cannot use an asymmetric CMK or a CMK in
+  /// a custom key store. To get the type and origin of your CMK, use the
+  /// <a>DescribeKey</a> operation.
   ///
   /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name,
   /// or alias ARN. When using an alias name, prefix it with
-  /// <code>"alias/"</code>.
+  /// <code>"alias/"</code>. To specify a CMK in a different AWS account, you
+  /// must use the key ARN or alias ARN.
   ///
   /// For example:
   ///
@@ -2825,7 +3322,7 @@ class KMS {
   /// <code>EncryptionContext</code>, you must specify the same encryption
   /// context (a case-sensitive exact match) when decrypting the encrypted data
   /// key. Otherwise, the request to decrypt fails with an
-  /// InvalidCiphertextException. For more information, see <a
+  /// <code>InvalidCiphertextException</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
   /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
   ///
@@ -2834,6 +3331,34 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: Yes. To perform this operation with a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN in the value of
+  /// the <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:GenerateDataKeyWithoutPlaintext</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>Decrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>Encrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKey</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyPair</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyPairWithoutPlaintext</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -2963,6 +3488,10 @@ class KMS {
   /// href="https://d0.awsstatic.com/whitepapers/KMS-Cryptographic-Details.pdf">AWS
   /// Key Management Service Cryptographic Details</a> whitepaper.
   ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:GenerateRandom</a>
+  /// (IAM policy)
+  ///
   /// May throw [DependencyTimeoutException].
   /// May throw [KMSInternalException].
   /// May throw [CustomKeyStoreNotFoundException].
@@ -3012,8 +3541,16 @@ class KMS {
     return GenerateRandomResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets a key policy attached to the specified customer master key (CMK). You
-  /// cannot perform this operation on a CMK in a different AWS account.
+  /// Gets a key policy attached to the specified customer master key (CMK).
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:GetKeyPolicy</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>: <a>PutKeyPolicy</a>
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -3118,8 +3655,24 @@ class KMS {
   /// cancel the deletion, the original key rotation status is restored.
   /// </li>
   /// </ul>
-  /// To perform this operation on a CMK in a different AWS account, specify the
-  /// key ARN in the value of the <code>KeyId</code> parameter.
+  /// <b>Cross-account use</b>: Yes. To perform this operation on a CMK in a
+  /// different AWS account, specify the key ARN in the value of the
+  /// <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:GetKeyRotationStatus</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>DisableKeyRotation</a>
+  /// </li>
+  /// <li>
+  /// <a>EnableKeyRotation</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -3205,6 +3758,24 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:GetParametersForImport</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>ImportKeyMaterial</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteImportedKeyMaterial</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [InvalidArnException].
   /// May throw [UnsupportedOperationException].
@@ -3337,6 +3908,16 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: Yes. To perform this operation with a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN in the value of
+  /// the <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:GetPublicKey</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>: <a>CreateKey</a>
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -3480,6 +4061,24 @@ class KMS {
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
   ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ImportKeyMaterial</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>DeleteImportedKeyMaterial</a>
+  /// </li>
+  /// <li>
+  /// <a>GetParametersForImport</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [InvalidArnException].
   /// May throw [UnsupportedOperationException].
   /// May throw [DependencyTimeoutException].
@@ -3577,13 +4176,13 @@ class KMS {
     return ImportKeyMaterialResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets a list of aliases in the caller's AWS account and region. You cannot
-  /// list aliases in other accounts. For more information about aliases, see
-  /// <a>CreateAlias</a>.
+  /// Gets a list of aliases in the caller's AWS account and region. For more
+  /// information about aliases, see <a>CreateAlias</a>.
   ///
-  /// By default, the ListAliases command returns all aliases in the account and
-  /// region. To get only the aliases that point to a particular customer master
-  /// key (CMK), use the <code>KeyId</code> parameter.
+  /// By default, the <code>ListAliases</code> operation returns all aliases in
+  /// the account and region. To get only the aliases associated with a
+  /// particular customer master key (CMK), use the <code>KeyId</code>
+  /// parameter.
   ///
   /// The <code>ListAliases</code> response can include aliases that you created
   /// and associated with your customer managed CMKs, and aliases that AWS
@@ -3598,6 +4197,32 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#aliases-limit">AWS
   /// KMS aliases quota</a>.
   ///
+  /// <b>Cross-account use</b>: No. <code>ListAliases</code> does not return
+  /// aliases in other AWS accounts.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ListAliases</a>
+  /// (IAM policy)
+  ///
+  /// For details, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-alias.html#alias-access">Controlling
+  /// access to aliases</a> in the <i>AWS Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateAlias</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [DependencyTimeoutException].
   /// May throw [InvalidMarkerException].
   /// May throw [KMSInternalException].
@@ -3605,13 +4230,27 @@ class KMS {
   /// May throw [NotFoundException].
   ///
   /// Parameter [keyId] :
-  /// Lists only aliases that refer to the specified CMK. The value of this
-  /// parameter can be the ID or Amazon Resource Name (ARN) of a CMK in the
-  /// caller's account and region. You cannot use an alias name or alias ARN in
-  /// this value.
+  /// Lists only aliases that are associated with the specified CMK. Enter a CMK
+  /// in your AWS account.
   ///
   /// This parameter is optional. If you omit it, <code>ListAliases</code>
-  /// returns all aliases in the account and region.
+  /// returns all aliases in the account and Region.
+  ///
+  /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
+  /// <a>DescribeKey</a>.
   ///
   /// Parameter [limit] :
   /// Use this parameter to specify the maximum number of items to return. When
@@ -3674,9 +4313,38 @@ class KMS {
   }
 
   /// Gets a list of all grants for the specified customer master key (CMK).
+  /// <note>
+  /// The <code>GranteePrincipal</code> field in the <code>ListGrants</code>
+  /// response usually contains the user or role designated as the grantee
+  /// principal in the grant. However, when the grantee principal in the grant
+  /// is an AWS service, the <code>GranteePrincipal</code> field contains the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services">service
+  /// principal</a>, which might represent several different grantee principals.
+  /// </note>
+  /// <b>Cross-account use</b>: Yes. To perform this operation on a CMK in a
+  /// different AWS account, specify the key ARN in the value of the
+  /// <code>KeyId</code> parameter.
   ///
-  /// To perform this operation on a CMK in a different AWS account, specify the
-  /// key ARN in the value of the <code>KeyId</code> parameter.
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ListGrants</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateGrant</a>
+  /// </li>
+  /// <li>
+  /// <a>ListRetirableGrants</a>
+  /// </li>
+  /// <li>
+  /// <a>RetireGrant</a>
+  /// </li>
+  /// <li>
+  /// <a>RevokeGrant</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [DependencyTimeoutException].
@@ -3770,8 +4438,25 @@ class KMS {
   /// Gets the names of the key policies that are attached to a customer master
   /// key (CMK). This operation is designed to get policy names that you can use
   /// in a <a>GetKeyPolicy</a> operation. However, the only valid policy name is
-  /// <code>default</code>. You cannot perform this operation on a CMK in a
-  /// different AWS account.
+  /// <code>default</code>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ListKeyPolicies</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>GetKeyPolicy</a>
+  /// </li>
+  /// <li>
+  /// <a>PutKeyPolicy</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -3865,6 +4550,30 @@ class KMS {
   /// Gets a list of all customer master keys (CMKs) in the caller's AWS account
   /// and Region.
   ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ListKeys</a>
+  /// (IAM policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateKey</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeKey</a>
+  /// </li>
+  /// <li>
+  /// <a>ListAliases</a>
+  /// </li>
+  /// <li>
+  /// <a>ListResourceTags</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [DependencyTimeoutException].
   /// May throw [KMSInternalException].
   /// May throw [InvalidMarkerException].
@@ -3921,9 +4630,33 @@ class KMS {
     return ListKeysResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of all tags for the specified customer master key (CMK).
+  /// Returns all tags on the specified customer master key (CMK).
   ///
-  /// You cannot perform this operation on a CMK in a different AWS account.
+  /// For general information about tags, including the format and syntax, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// AWS resources</a> in the <i>Amazon Web Services General Reference</i>. For
+  /// information about using tags in AWS KMS, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/tagging-keys.html">Tagging
+  /// keys</a>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ListResourceTags</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>TagResource</a>
+  /// </li>
+  /// <li>
+  /// <a>UntagResource</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [KMSInternalException].
   /// May throw [NotFoundException].
@@ -4014,11 +4747,41 @@ class KMS {
     return ListResourceTagsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of all grants for which the grant's
-  /// <code>RetiringPrincipal</code> matches the one specified.
+  /// Returns all grants in which the specified principal is the
+  /// <code>RetiringPrincipal</code> in the grant.
   ///
-  /// A typical use is to list all grants that you are able to retire. To retire
-  /// a grant, use <a>RetireGrant</a>.
+  /// You can specify any principal in your AWS account. The grants that are
+  /// returned include grants for CMKs in your AWS account and other AWS
+  /// accounts.
+  ///
+  /// You might use this operation to determine which grants you may retire. To
+  /// retire a grant, use the <a>RetireGrant</a> operation.
+  ///
+  /// <b>Cross-account use</b>: You must specify a principal in your AWS
+  /// account. However, this operation can return grants in any AWS account. You
+  /// do not need <code>kms:ListRetirableGrants</code> permission (or any other
+  /// additional permission) in any AWS account other than your own.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ListRetirableGrants</a>
+  /// (IAM policy) in your AWS account.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateGrant</a>
+  /// </li>
+  /// <li>
+  /// <a>ListGrants</a>
+  /// </li>
+  /// <li>
+  /// <a>RetireGrant</a>
+  /// </li>
+  /// <li>
+  /// <a>RevokeGrant</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [DependencyTimeoutException].
   /// May throw [InvalidMarkerException].
@@ -4027,7 +4790,8 @@ class KMS {
   /// May throw [KMSInternalException].
   ///
   /// Parameter [retiringPrincipal] :
-  /// The retiring principal for which to list grants.
+  /// The retiring principal for which to list grants. Enter a principal in your
+  /// AWS account.
   ///
   /// To specify the retiring principal, use the <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -4106,12 +4870,26 @@ class KMS {
     return ListGrantsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Attaches a key policy to the specified customer master key (CMK). You
-  /// cannot perform this operation on a CMK in a different AWS account.
+  /// Attaches a key policy to the specified customer master key (CMK).
   ///
   /// For more information about key policies, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html">Key
-  /// Policies</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  /// Policies</a> in the <i>AWS Key Management Service Developer Guide</i>. For
+  /// help writing and formatting a JSON policy document, see the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html">IAM
+  /// JSON Policy Reference</a> in the <i> <i>IAM User Guide</i> </i>. For
+  /// examples of adding a key policy in multiple programming languages, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/programming-key-policies.html#put-policy">Setting
+  /// a key policy</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:PutKeyPolicy</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>: <a>GetKeyPolicy</a>
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -4262,14 +5040,17 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotate-keys-manually">manually
   /// rotate</a> a CMK or change the CMK that protects a ciphertext. You can
   /// also use it to reencrypt ciphertext under the same CMK, such as to change
-  /// the encryption context of a ciphertext.
+  /// the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">encryption
+  /// context</a> of a ciphertext.
   ///
   /// The <code>ReEncrypt</code> operation can decrypt ciphertext that was
   /// encrypted by using an AWS KMS CMK in an AWS KMS operation, such as
   /// <a>Encrypt</a> or <a>GenerateDataKey</a>. It can also decrypt ciphertext
-  /// that was encrypted by using the public key of an asymmetric CMK outside of
-  /// AWS KMS. However, it cannot decrypt ciphertext produced by other
-  /// libraries, such as the <a
+  /// that was encrypted by using the public key of an <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html#asymmetric-cmks">asymmetric
+  /// CMK</a> outside of AWS KMS. However, it cannot decrypt ciphertext produced
+  /// by other libraries, such as the <a
   /// href="https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/">AWS
   /// Encryption SDK</a> or <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">Amazon
@@ -4282,21 +5063,28 @@ class KMS {
   ///
   /// <ul>
   /// <li>
-  /// If your ciphertext was encrypted under an asymmetric CMK, you must
-  /// identify the <i>source CMK</i>, that is, the CMK that encrypted the
+  /// If your ciphertext was encrypted under an asymmetric CMK, you must use the
+  /// <code>SourceKeyId</code> parameter to identify the CMK that encrypted the
   /// ciphertext. You must also supply the encryption algorithm that was used.
   /// This information is required to decrypt the data.
   /// </li>
   /// <li>
-  /// It is optional, but you can specify a source CMK even when the ciphertext
-  /// was encrypted under a symmetric CMK. This ensures that the ciphertext is
-  /// decrypted only by using a particular CMK. If the CMK that you specify
-  /// cannot decrypt the ciphertext, the <code>ReEncrypt</code> operation fails.
+  /// If your ciphertext was encrypted under a symmetric CMK, the
+  /// <code>SourceKeyId</code> parameter is optional. AWS KMS can get this
+  /// information from metadata that it adds to the symmetric ciphertext blob.
+  /// This feature adds durability to your implementation by ensuring that
+  /// authorized users can decrypt ciphertext decades after it was encrypted,
+  /// even if they've lost track of the CMK ID. However, specifying the source
+  /// CMK is always recommended as a best practice. When you use the
+  /// <code>SourceKeyId</code> parameter to specify a CMK, AWS KMS uses only the
+  /// CMK you specify. If the ciphertext was encrypted under a different CMK,
+  /// the <code>ReEncrypt</code> operation fails. This practice ensures that you
+  /// use the CMK that you intend.
   /// </li>
   /// <li>
-  /// To reencrypt the data, you must specify the <i>destination CMK</i>, that
-  /// is, the CMK that re-encrypts the data after it is decrypted. You can
-  /// select a symmetric or asymmetric CMK. If the destination CMK is an
+  /// To reencrypt the data, you must use the <code>DestinationKeyId</code>
+  /// parameter specify the CMK that re-encrypts the data after it is decrypted.
+  /// You can select a symmetric or asymmetric CMK. If the destination CMK is an
   /// asymmetric CMK, you must also provide the encryption algorithm. The
   /// algorithm that you choose must be compatible with the CMK.
   /// <important>
@@ -4313,32 +5101,54 @@ class KMS {
   /// does not include configurable fields.
   /// </important> </li>
   /// </ul>
-  /// Unlike other AWS KMS API operations, <code>ReEncrypt</code> callers must
-  /// have two permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>kms:EncryptFrom</code> permission on the source CMK
-  /// </li>
-  /// <li>
-  /// <code>kms:EncryptTo</code> permission on the destination CMK
-  /// </li>
-  /// </ul>
-  /// To permit reencryption from
-  ///
-  /// or to a CMK, include the <code>"kms:ReEncrypt*"</code> permission in your
-  /// <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html">key
-  /// policy</a>. This permission is automatically included in the key policy
-  /// when you use the console to create a CMK. But you must include it manually
-  /// when you create a CMK programmatically or when you use the
-  /// <a>PutKeyPolicy</a> operation set a key policy.
-  ///
   /// The CMK that you use for this operation must be in a compatible key state.
   /// For details, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: Yes. The source CMK and destination CMK can be
+  /// in different AWS accounts. Either or both CMKs can be in a different
+  /// account than the caller.
+  ///
+  /// <b>Required permissions</b>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ReEncryptFrom</a>
+  /// permission on the source CMK (key policy)
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ReEncryptTo</a>
+  /// permission on the destination CMK (key policy)
+  /// </li>
+  /// </ul>
+  /// To permit reencryption from or to a CMK, include the
+  /// <code>"kms:ReEncrypt*"</code> permission in your <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html">key
+  /// policy</a>. This permission is automatically included in the key policy
+  /// when you use the console to create a CMK. But you must include it manually
+  /// when you create a CMK programmatically or when you use the
+  /// <a>PutKeyPolicy</a> operation to set a key policy.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>Decrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>Encrypt</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKey</a>
+  /// </li>
+  /// <li>
+  /// <a>GenerateDataKeyPair</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -4449,22 +5259,20 @@ class KMS {
   /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
   ///
   /// Parameter [sourceKeyId] :
-  /// A unique identifier for the CMK that is used to decrypt the ciphertext
-  /// before it reencrypts it using the destination CMK.
+  /// Specifies the customer master key (CMK) that AWS KMS will use to decrypt
+  /// the ciphertext before it is re-encrypted. Enter a key ID of the CMK that
+  /// was used to encrypt the ciphertext.
   ///
   /// This parameter is required only when the ciphertext was encrypted under an
-  /// asymmetric CMK. Otherwise, AWS KMS uses the metadata that it adds to the
-  /// ciphertext blob to determine which CMK was used to encrypt the ciphertext.
-  /// However, you can use this parameter to ensure that a particular CMK (of
-  /// any kind) is used to decrypt the ciphertext before it is reencrypted.
-  ///
-  /// If you specify a <code>KeyId</code> value, the decrypt part of the
-  /// <code>ReEncrypt</code> operation succeeds only if the specified CMK was
-  /// used to encrypt the ciphertext.
+  /// asymmetric CMK. If you used a symmetric CMK, AWS KMS can get the CMK from
+  /// metadata that it adds to the symmetric ciphertext blob. However, it is
+  /// always recommended as a best practice. This practice ensures that you use
+  /// the CMK that you intend.
   ///
   /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name,
   /// or alias ARN. When using an alias name, prefix it with
-  /// <code>"alias/"</code>.
+  /// <code>"alias/"</code>. To specify a CMK in a different AWS account, you
+  /// must use the key ARN or alias ARN.
   ///
   /// For example:
   ///
@@ -4565,6 +5373,32 @@ class KMS {
   /// base64-encoded string. A grant ID is a 64 character unique identifier of a
   /// grant. The <a>CreateGrant</a> operation returns both.
   ///
+  /// <b>Cross-account use</b>: Yes. You can retire a grant on a CMK in a
+  /// different AWS account.
+  ///
+  /// <b>Required permissions:</b>: Permission to retire a grant is specified in
+  /// the grant. You cannot control access to this operation in a policy. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/grants.html">Using
+  /// grants</a> in the <i>AWS Key Management Service Developer Guide</i>.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateGrant</a>
+  /// </li>
+  /// <li>
+  /// <a>ListGrants</a>
+  /// </li>
+  /// <li>
+  /// <a>ListRetirableGrants</a>
+  /// </li>
+  /// <li>
+  /// <a>RevokeGrant</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [InvalidArnException].
   /// May throw [InvalidGrantTokenException].
   /// May throw [InvalidGrantIdException].
@@ -4636,8 +5470,30 @@ class KMS {
   /// Revokes the specified grant for the specified customer master key (CMK).
   /// You can revoke a grant to actively deny operations that depend on it.
   ///
-  /// To perform this operation on a CMK in a different AWS account, specify the
-  /// key ARN in the value of the <code>KeyId</code> parameter.
+  /// <b>Cross-account use</b>: Yes. To perform this operation on a CMK in a
+  /// different AWS account, specify the key ARN in the value of the
+  /// <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:RevokeGrant</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateGrant</a>
+  /// </li>
+  /// <li>
+  /// <a>ListGrants</a>
+  /// </li>
+  /// <li>
+  /// <a>ListRetirableGrants</a>
+  /// </li>
+  /// <li>
+  /// <a>RetireGrant</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [DependencyTimeoutException].
@@ -4728,8 +5584,6 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-orphaned-key">delete
   /// the orphaned key material</a> from the cluster and its backups.
   ///
-  /// You cannot perform this operation on a CMK in a different AWS account.
-  ///
   /// For more information about scheduling a CMK for deletion, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html">Deleting
   /// Customer Master Keys</a> in the <i>AWS Key Management Service Developer
@@ -4740,6 +5594,24 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:ScheduleKeyDeletion</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CancelKeyDeletion</a>
+  /// </li>
+  /// <li>
+  /// <a>DisableKey</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -4863,6 +5735,16 @@ class KMS {
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
   ///
+  /// <b>Cross-account use</b>: Yes. To perform this operation with a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN in the value of
+  /// the <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:Sign</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>: <a>Verify</a>
+  ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
   /// May throw [KeyUnavailableException].
@@ -4968,26 +5850,55 @@ class KMS {
     return SignResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds or edits tags for a customer master key (CMK). You cannot perform
-  /// this operation on a CMK in a different AWS account.
+  /// Adds or edits tags on a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk">customer
+  /// managed CMK</a>.
   ///
-  /// Each tag consists of a tag key and a tag value. Tag keys and tag values
-  /// are both required, but tag values can be empty (null) strings.
+  /// Each tag consists of a tag key and a tag value, both of which are
+  /// case-sensitive strings. The tag value can be an empty (null) string.
   ///
-  /// You can only use a tag key once for each CMK. If you use the tag key
-  /// again, AWS KMS replaces the current tag value with the specified value.
+  /// To add a tag, specify a new tag key and a tag value. To edit a tag,
+  /// specify an existing tag key and a new tag value.
   ///
-  /// For information about the rules that apply to tag keys and tag values, see
+  /// You can use this operation to tag a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk">customer
+  /// managed CMK</a>, but you cannot tag an <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">AWS
+  /// managed CMK</a>, an <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk">AWS
+  /// owned CMK</a>, or an alias.
+  ///
+  /// For general information about tags, including the format and syntax, see
   /// <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
-  /// Tag Restrictions</a> in the <i>AWS Billing and Cost Management User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// AWS resources</a> in the <i>Amazon Web Services General Reference</i>. For
+  /// information about using tags in AWS KMS, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/tagging-keys.html">Tagging
+  /// keys</a>.
   ///
   /// The CMK that you use for this operation must be in a compatible key state.
   /// For details, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:TagResource</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>UntagResource</a>
+  /// </li>
+  /// <li>
+  /// <a>ListResourceTags</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [KMSInternalException].
   /// May throw [NotFoundException].
@@ -4997,7 +5908,7 @@ class KMS {
   /// May throw [TagException].
   ///
   /// Parameter [keyId] :
-  /// A unique identifier for the CMK you are tagging.
+  /// Identifies a customer managed CMK in the account and Region.
   ///
   /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
   ///
@@ -5016,7 +5927,14 @@ class KMS {
   /// <a>DescribeKey</a>.
   ///
   /// Parameter [tags] :
-  /// One or more tags. Each tag consists of a tag key and a tag value.
+  /// One or more tags.
+  ///
+  /// Each tag consists of a tag key and a tag value. The tag value can be an
+  /// empty (null) string.
+  ///
+  /// You cannot have more than one tag on a CMK with the same tag key. If you
+  /// specify an existing tag key with a different tag value, AWS KMS replaces
+  /// the current tag value with the specified one.
   Future<void> tagResource({
     @_s.required String keyId,
     @_s.required List<Tag> tags,
@@ -5047,17 +5965,46 @@ class KMS {
     );
   }
 
-  /// Removes the specified tags from the specified customer master key (CMK).
-  /// You cannot perform this operation on a CMK in a different AWS account.
+  /// Deletes tags from a <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk">customer
+  /// managed CMK</a>. To delete a tag, specify the tag key and the CMK.
   ///
-  /// To remove a tag, specify the tag key. To change the tag value of an
-  /// existing tag key, use <a>TagResource</a>.
+  /// When it succeeds, the <code>UntagResource</code> operation doesn't return
+  /// any output. Also, if the specified tag key isn't found on the CMK, it
+  /// doesn't throw an exception or return a response. To confirm that the
+  /// operation worked, use the <a>ListResourceTags</a> operation.
+  ///
+  /// For general information about tags, including the format and syntax, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// AWS resources</a> in the <i>Amazon Web Services General Reference</i>. For
+  /// information about using tags in AWS KMS, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/tagging-keys.html">Tagging
+  /// keys</a>.
   ///
   /// The CMK that you use for this operation must be in a compatible key state.
   /// For details, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:UntagResource</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>TagResource</a>
+  /// </li>
+  /// <li>
+  /// <a>ListResourceTags</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [KMSInternalException].
   /// May throw [NotFoundException].
@@ -5066,7 +6013,7 @@ class KMS {
   /// May throw [TagException].
   ///
   /// Parameter [keyId] :
-  /// A unique identifier for the CMK from which you are removing tags.
+  /// Identifies the CMK from which you are removing tags.
   ///
   /// Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
   ///
@@ -5119,8 +6066,7 @@ class KMS {
   /// Associates an existing AWS KMS alias with a different customer master key
   /// (CMK). Each alias is associated with only one CMK at a time, although a
   /// CMK can have multiple aliases. The alias and the CMK must be in the same
-  /// AWS account and region. You cannot perform this operation on an alias in a
-  /// different AWS account.
+  /// AWS account and region.
   ///
   /// The current and new CMK must be the same type (both symmetric or both
   /// asymmetric), and they must have the same key usage
@@ -5145,9 +6091,51 @@ class KMS {
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
   ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:UpdateAlias</a>
+  /// on the alias (IAM policy).
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:UpdateAlias</a>
+  /// on the current CMK (key policy).
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:UpdateAlias</a>
+  /// on the new CMK (key policy).
+  /// </li>
+  /// </ul>
+  /// For details, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-alias.html#alias-access">Controlling
+  /// access to aliases</a> in the <i>AWS Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteAlias</a>
+  /// </li>
+  /// <li>
+  /// <a>ListAliases</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [DependencyTimeoutException].
   /// May throw [NotFoundException].
   /// May throw [KMSInternalException].
+  /// May throw [LimitExceededException].
   /// May throw [KMSInvalidStateException].
   ///
   /// Parameter [aliasName] :
@@ -5157,8 +6145,12 @@ class KMS {
   /// alias name.
   ///
   /// Parameter [targetKeyId] :
-  /// Identifies the CMK to associate with the alias. When the update operation
-  /// completes, the alias will point to this CMK.
+  /// Identifies the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk">customer
+  /// managed CMK</a> to associate with the alias. You don't have permission to
+  /// associate an alias with an <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">AWS
+  /// managed CMK</a>.
   ///
   /// The CMK must be in the same AWS account and Region as the alias. Also, the
   /// new target CMK must be the same type as the current target CMK (both
@@ -5275,6 +6267,33 @@ class KMS {
   /// and extensive integration of AWS KMS with the isolation and control of a
   /// single-tenant key store.
   ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a
+  /// custom key store in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:UpdateCustomKeyStore</a>
+  /// (IAM policy)
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>ConnectCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>CreateCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteCustomKeyStore</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeCustomKeyStores</a>
+  /// </li>
+  /// <li>
+  /// <a>DisconnectCustomKeyStore</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [CustomKeyStoreNotFoundException].
   /// May throw [CustomKeyStoreNameInUseException].
   /// May throw [CloudHsmClusterNotFoundException].
@@ -5371,13 +6390,29 @@ class KMS {
   /// Updates the description of a customer master key (CMK). To see the
   /// description of a CMK, use <a>DescribeKey</a>.
   ///
-  /// You cannot perform this operation on a CMK in a different AWS account.
-  ///
   /// The CMK that you use for this operation must be in a compatible key state.
   /// For details, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: No. You cannot perform this operation on a CMK
+  /// in a different AWS account.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:UpdateKeyDescription</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateKey</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeKey</a>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NotFoundException].
   /// May throw [InvalidArnException].
@@ -5480,6 +6515,16 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
   /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
   /// Management Service Developer Guide</i>.
+  ///
+  /// <b>Cross-account use</b>: Yes. To perform this operation with a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN in the value of
+  /// the <code>KeyId</code> parameter.
+  ///
+  /// <b>Required permissions</b>: <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:Verify</a>
+  /// (key policy)
+  ///
+  /// <b>Related operations</b>: <a>Sign</a>
   ///
   /// May throw [NotFoundException].
   /// May throw [DisabledException].
@@ -5638,13 +6683,28 @@ class AliasListEntry {
   @_s.JsonKey(name: 'AliasName')
   final String aliasName;
 
-  /// String that contains the key identifier referred to by the alias.
+  /// Date and time that the alias was most recently created in the account and
+  /// Region. Formatted as Unix time.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
+  final DateTime creationDate;
+
+  /// Date and time that the alias was most recently associated with a CMK in the
+  /// account and Region. Formatted as Unix time.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedDate')
+  final DateTime lastUpdatedDate;
+
+  /// String that contains the key identifier of the CMK associated with the
+  /// alias.
   @_s.JsonKey(name: 'TargetKeyId')
   final String targetKeyId;
 
   AliasListEntry({
     this.aliasArn,
     this.aliasName,
+    this.creationDate,
+    this.lastUpdatedDate,
     this.targetKeyId,
   });
   factory AliasListEntry.fromJson(Map<String, dynamic> json) =>
@@ -5657,7 +6717,9 @@ class AliasListEntry {
     createFactory: true,
     createToJson: false)
 class CancelKeyDeletionResponse {
-  /// The unique identifier of the master key for which deletion is canceled.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the CMK whose deletion is canceled.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -5826,11 +6888,12 @@ class CustomKeyStoresListEntry {
   /// </li>
   /// <li>
   /// <code>SUBNET_NOT_FOUND</code> - A subnet in the AWS CloudHSM cluster
-  /// configuration was deleted. If AWS KMS cannot find all of the subnets that
-  /// were configured for the cluster when the custom key store was created,
-  /// attempts to connect fail. To fix this error, create a cluster from a backup
-  /// and associate it with your custom key store. This process includes selecting
-  /// a VPC and subnets. For details, see <a
+  /// configuration was deleted. If AWS KMS cannot find all of the subnets in the
+  /// cluster configuration, attempts to connect the custom key store to the AWS
+  /// CloudHSM cluster fail. To fix this error, create a cluster from a recent
+  /// backup and associate it with your custom key store. (This process creates a
+  /// new cluster configuration with a VPC and private subnets.) For details, see
+  /// <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-failed">How
   /// to Fix a Connection Failure</a> in the <i>AWS Key Management Service
   /// Developer Guide</i>.
@@ -6033,7 +7096,9 @@ class DecryptResponse {
   @_s.JsonKey(name: 'EncryptionAlgorithm')
   final EncryptionAlgorithmSpec encryptionAlgorithm;
 
-  /// The ARN of the customer master key that was used to perform the decryption.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the CMK that was used to decrypt the ciphertext.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -6140,7 +7205,9 @@ class EncryptResponse {
   @_s.JsonKey(name: 'EncryptionAlgorithm')
   final EncryptionAlgorithmSpec encryptionAlgorithm;
 
-  /// The ID of the key used during encryption.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the CMK that was used to encrypt the plaintext.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -6201,7 +7268,9 @@ extension on ExpirationModelType {
     createFactory: true,
     createToJson: false)
 class GenerateDataKeyPairResponse {
-  /// The identifier of the CMK that encrypted the private key.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the CMK that encrypted the private key.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -6243,34 +7312,9 @@ class GenerateDataKeyPairResponse {
     createFactory: true,
     createToJson: false)
 class GenerateDataKeyPairWithoutPlaintextResponse {
-  /// Specifies the CMK that encrypted the private key in the data key pair. You
-  /// must specify a symmetric CMK. You cannot use an asymmetric CMK. To get the
-  /// type of your CMK, use the <a>DescribeKey</a> operation.
-  ///
-  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
-  /// alias ARN. When using an alias name, prefix it with <code>"alias/"</code>.
-  ///
-  /// For example:
-  ///
-  /// <ul>
-  /// <li>
-  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
-  /// </li>
-  /// <li>
-  /// Key ARN:
-  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
-  /// </li>
-  /// <li>
-  /// Alias name: <code>alias/ExampleAlias</code>
-  /// </li>
-  /// <li>
-  /// Alias ARN:
-  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
-  /// </li>
-  /// </ul>
-  /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
-  /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
-  /// <a>ListAliases</a>.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the CMK that encrypted the private key.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -6312,7 +7356,9 @@ class GenerateDataKeyResponse {
   @_s.JsonKey(name: 'CiphertextBlob')
   final Uint8List ciphertextBlob;
 
-  /// The identifier of the CMK that encrypted the data key.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the CMK that encrypted the data key.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -6345,7 +7391,9 @@ class GenerateDataKeyWithoutPlaintextResponse {
   @_s.JsonKey(name: 'CiphertextBlob')
   final Uint8List ciphertextBlob;
 
-  /// The identifier of the CMK that encrypted the data key.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the CMK that encrypted the data key.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -6422,9 +7470,11 @@ class GetParametersForImportResponse {
   @_s.JsonKey(name: 'ImportToken')
   final Uint8List importToken;
 
-  /// The identifier of the CMK to use in a subsequent <a>ImportKeyMaterial</a>
-  /// request. This is the same CMK specified in the
-  /// <code>GetParametersForImport</code> request.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the CMK to use in a subsequent <a>ImportKeyMaterial</a> request.
+  /// This is the same CMK specified in the <code>GetParametersForImport</code>
+  /// request.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -6473,8 +7523,9 @@ class GetPublicKeyResponse {
   @_s.JsonKey(name: 'EncryptionAlgorithms')
   final List<EncryptionAlgorithmSpec> encryptionAlgorithms;
 
-  /// The identifier of the asymmetric CMK from which the public key was
-  /// downloaded.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the asymmetric CMK from which the public key was downloaded.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -6518,34 +7569,20 @@ class GetPublicKeyResponse {
       _$GetPublicKeyResponseFromJson(json);
 }
 
-/// Use this structure to allow cryptographic operations in the grant only when
-/// the operation request includes the specified <a
+/// Use this structure to allow <a
+/// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+/// operations</a> in the grant only when the operation request includes the
+/// specified <a
 /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">encryption
 /// context</a>.
 ///
-/// AWS KMS applies the grant constraints only when the grant allows a
-/// cryptographic operation that accepts an encryption context as input, such as
-/// the following.
-///
-/// <ul>
-/// <li>
-/// <a>Encrypt</a>
-/// </li>
-/// <li>
-/// <a>Decrypt</a>
-/// </li>
-/// <li>
-/// <a>GenerateDataKey</a>
-/// </li>
-/// <li>
-/// <a>GenerateDataKeyWithoutPlaintext</a>
-/// </li>
-/// <li>
-/// <a>ReEncrypt</a>
-/// </li>
-/// </ul>
-/// AWS KMS does not apply the grant constraints to other operations, such as
-/// <a>DescribeKey</a> or <a>ScheduleKeyDeletion</a>.
+/// AWS KMS applies the grant constraints only to cryptographic operations that
+/// support an encryption context, that is, all cryptographic operations with a
+/// <a
+/// href="https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html#symmetric-cmks">symmetric
+/// CMK</a>. Grant constraints are not applied to operations that do not support
+/// an encryption context, such as cryptographic operations with asymmetric CMKs
+/// and management operations, such as <a>DescribeKey</a> or <a>RetireGrant</a>.
 /// <important>
 /// In a cryptographic operation, the encryption context in the decryption
 /// operation must be an exact, case-sensitive match for the keys and values in
@@ -6569,18 +7606,21 @@ class GetPublicKeyResponse {
     createFactory: true,
     createToJson: true)
 class GrantConstraints {
-  /// A list of key-value pairs that must match the encryption context in the
-  /// cryptographic operation request. The grant allows the operation only when
-  /// the encryption context in the request is the same as the encryption context
+  /// A list of key-value pairs that must match the encryption context in the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operation</a> request. The grant allows the operation only when the
+  /// encryption context in the request is the same as the encryption context
   /// specified in this constraint.
   @_s.JsonKey(name: 'EncryptionContextEquals')
   final Map<String, String> encryptionContextEquals;
 
   /// A list of key-value pairs that must be included in the encryption context of
-  /// the cryptographic operation request. The grant allows the cryptographic
-  /// operation only when the encryption context in the request includes the
-  /// key-value pairs specified in this constraint, although it can include
-  /// additional key-value pairs.
+  /// the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operation</a> request. The grant allows the cryptographic operation only
+  /// when the encryption context in the request includes the key-value pairs
+  /// specified in this constraint, although it can include additional key-value
+  /// pairs.
   @_s.JsonKey(name: 'EncryptionContextSubset')
   final Map<String, String> encryptionContextSubset;
 
@@ -6594,7 +7634,7 @@ class GrantConstraints {
   Map<String, dynamic> toJson() => _$GrantConstraintsToJson(this);
 }
 
-/// Contains information about an entry in a list of grants.
+/// Contains information about a grant.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6615,7 +7655,14 @@ class GrantListEntry {
   @_s.JsonKey(name: 'GrantId')
   final String grantId;
 
-  /// The principal that receives the grant's permissions.
+  /// The identity that gets the permissions in the grant.
+  ///
+  /// The <code>GranteePrincipal</code> field in the <code>ListGrants</code>
+  /// response usually contains the user or role designated as the grantee
+  /// principal in the grant. However, when the grantee principal in the grant is
+  /// an AWS service, the <code>GranteePrincipal</code> field contains the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services">service
+  /// principal</a>, which might represent several different grantee principals.
   @_s.JsonKey(name: 'GranteePrincipal')
   final String granteePrincipal;
 
@@ -6830,8 +7877,8 @@ class KeyMetadata {
   @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
-  /// A list of encryption algorithms that the CMK supports. You cannot use the
-  /// CMK with other encryption algorithms within AWS KMS.
+  /// The encryption algorithms that the CMK supports. You cannot use the CMK with
+  /// other encryption algorithms within AWS KMS.
   ///
   /// This field appears only when the <code>KeyUsage</code> of the CMK is
   /// <code>ENCRYPT_DECRYPT</code>.
@@ -6851,16 +7898,18 @@ class KeyMetadata {
   @_s.JsonKey(name: 'KeyManager')
   final KeyManagerType keyManager;
 
-  /// The state of the CMK.
+  /// The current status of the CMK.
   ///
   /// For more information about how key state affects the use of a CMK, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
-  /// Key State Affects the Use of a Customer Master Key</a> in the <i>AWS Key
-  /// Management Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">Key
+  /// state: Effect on your CMK</a> in the <i>AWS Key Management Service Developer
+  /// Guide</i>.
   @_s.JsonKey(name: 'KeyState')
   final KeyState keyState;
 
-  /// The cryptographic operations for which you can use the CMK.
+  /// The <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
+  /// operations</a> for which you can use the CMK.
   @_s.JsonKey(name: 'KeyUsage')
   final KeyUsageType keyUsage;
 
@@ -6873,8 +7922,8 @@ class KeyMetadata {
   @_s.JsonKey(name: 'Origin')
   final OriginType origin;
 
-  /// A list of signing algorithms that the CMK supports. You cannot use the CMK
-  /// with other signing algorithms within AWS KMS.
+  /// The signing algorithms that the CMK supports. You cannot use the CMK with
+  /// other signing algorithms within AWS KMS.
   ///
   /// This field appears only when the <code>KeyUsage</code> of the CMK is
   /// <code>SIGN_VERIFY</code>.
@@ -7166,7 +8215,9 @@ class ReEncryptResponse {
   @_s.JsonKey(name: 'DestinationEncryptionAlgorithm')
   final EncryptionAlgorithmSpec destinationEncryptionAlgorithm;
 
-  /// Unique identifier of the CMK used to reencrypt the data.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the CMK that was used to reencrypt the data.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -7201,8 +8252,9 @@ class ScheduleKeyDeletionResponse {
   @_s.JsonKey(name: 'DeletionDate')
   final DateTime deletionDate;
 
-  /// The unique identifier of the customer master key (CMK) for which deletion is
-  /// scheduled.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the CMK whose deletion is scheduled.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -7220,8 +8272,9 @@ class ScheduleKeyDeletionResponse {
     createFactory: true,
     createToJson: false)
 class SignResponse {
-  /// The Amazon Resource Name (ARN) of the asymmetric CMK that was used to sign
-  /// the message.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the asymmetric CMK that was used to sign the message.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
@@ -7356,8 +8409,9 @@ class UpdateCustomKeyStoreResponse {
     createFactory: true,
     createToJson: false)
 class VerifyResponse {
-  /// The unique identifier for the asymmetric CMK that was used to verify the
-  /// signature.
+  /// The Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
+  /// ARN</a>) of the asymmetric CMK that was used to verify the signature.
   @_s.JsonKey(name: 'KeyId')
   final String keyId;
 

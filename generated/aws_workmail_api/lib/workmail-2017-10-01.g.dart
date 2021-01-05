@@ -97,6 +97,11 @@ Map<String, dynamic> _$BookingOptionsToJson(BookingOptions instance) {
   return val;
 }
 
+CancelMailboxExportJobResponse _$CancelMailboxExportJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return CancelMailboxExportJobResponse();
+}
+
 CreateAliasResponse _$CreateAliasResponseFromJson(Map<String, dynamic> json) {
   return CreateAliasResponse();
 }
@@ -104,6 +109,13 @@ CreateAliasResponse _$CreateAliasResponseFromJson(Map<String, dynamic> json) {
 CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
   return CreateGroupResponse(
     groupId: json['GroupId'] as String,
+  );
+}
+
+CreateOrganizationResponse _$CreateOrganizationResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateOrganizationResponse(
+    organizationId: json['OrganizationId'] as String,
   );
 }
 
@@ -150,9 +162,22 @@ DeleteMailboxPermissionsResponse _$DeleteMailboxPermissionsResponseFromJson(
   return DeleteMailboxPermissionsResponse();
 }
 
+DeleteOrganizationResponse _$DeleteOrganizationResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteOrganizationResponse(
+    organizationId: json['OrganizationId'] as String,
+    state: json['State'] as String,
+  );
+}
+
 DeleteResourceResponse _$DeleteResourceResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteResourceResponse();
+}
+
+DeleteRetentionPolicyResponse _$DeleteRetentionPolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteRetentionPolicyResponse();
 }
 
 DeleteUserResponse _$DeleteUserResponseFromJson(Map<String, dynamic> json) {
@@ -180,6 +205,31 @@ const _$EntityStateEnumMap = {
   EntityState.enabled: 'ENABLED',
   EntityState.disabled: 'DISABLED',
   EntityState.deleted: 'DELETED',
+};
+
+DescribeMailboxExportJobResponse _$DescribeMailboxExportJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeMailboxExportJobResponse(
+    description: json['Description'] as String,
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    entityId: json['EntityId'] as String,
+    errorInfo: json['ErrorInfo'] as String,
+    estimatedProgress: json['EstimatedProgress'] as int,
+    kmsKeyArn: json['KmsKeyArn'] as String,
+    roleArn: json['RoleArn'] as String,
+    s3BucketName: json['S3BucketName'] as String,
+    s3Path: json['S3Path'] as String,
+    s3Prefix: json['S3Prefix'] as String,
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+    state: _$enumDecodeNullable(_$MailboxExportJobStateEnumMap, json['State']),
+  );
+}
+
+const _$MailboxExportJobStateEnumMap = {
+  MailboxExportJobState.running: 'RUNNING',
+  MailboxExportJobState.completed: 'COMPLETED',
+  MailboxExportJobState.failed: 'FAILED',
+  MailboxExportJobState.cancelled: 'CANCELLED',
 };
 
 DescribeOrganizationResponse _$DescribeOrganizationResponseFromJson(
@@ -250,6 +300,57 @@ DisassociateMemberFromGroupResponse
   return DisassociateMemberFromGroupResponse();
 }
 
+Map<String, dynamic> _$DomainToJson(Domain instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DomainName', instance.domainName);
+  writeNotNull('HostedZoneId', instance.hostedZoneId);
+  return val;
+}
+
+FolderConfiguration _$FolderConfigurationFromJson(Map<String, dynamic> json) {
+  return FolderConfiguration(
+    action: _$enumDecodeNullable(_$RetentionActionEnumMap, json['Action']),
+    name: _$enumDecodeNullable(_$FolderNameEnumMap, json['Name']),
+    period: json['Period'] as int,
+  );
+}
+
+Map<String, dynamic> _$FolderConfigurationToJson(FolderConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Action', _$RetentionActionEnumMap[instance.action]);
+  writeNotNull('Name', _$FolderNameEnumMap[instance.name]);
+  writeNotNull('Period', instance.period);
+  return val;
+}
+
+const _$RetentionActionEnumMap = {
+  RetentionAction.none: 'NONE',
+  RetentionAction.delete: 'DELETE',
+  RetentionAction.permanentlyDelete: 'PERMANENTLY_DELETE',
+};
+
+const _$FolderNameEnumMap = {
+  FolderName.inbox: 'INBOX',
+  FolderName.deletedItems: 'DELETED_ITEMS',
+  FolderName.sentItems: 'SENT_ITEMS',
+  FolderName.drafts: 'DRAFTS',
+  FolderName.junkEmail: 'JUNK_EMAIL',
+};
+
 GetAccessControlEffectResponse _$GetAccessControlEffectResponseFromJson(
     Map<String, dynamic> json) {
   return GetAccessControlEffectResponse(
@@ -257,6 +358,20 @@ GetAccessControlEffectResponse _$GetAccessControlEffectResponseFromJson(
         _$enumDecodeNullable(_$AccessControlRuleEffectEnumMap, json['Effect']),
     matchedRules:
         (json['MatchedRules'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+GetDefaultRetentionPolicyResponse _$GetDefaultRetentionPolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetDefaultRetentionPolicyResponse(
+    description: json['Description'] as String,
+    folderConfigurations: (json['FolderConfigurations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : FolderConfiguration.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    id: json['Id'] as String,
+    name: json['Name'] as String,
   );
 }
 
@@ -313,6 +428,18 @@ ListGroupsResponse _$ListGroupsResponseFromJson(Map<String, dynamic> json) {
     groups: (json['Groups'] as List)
         ?.map(
             (e) => e == null ? null : Group.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListMailboxExportJobsResponse _$ListMailboxExportJobsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListMailboxExportJobsResponse(
+    jobs: (json['Jobs'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MailboxExportJob.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
@@ -382,6 +509,20 @@ ListUsersResponse _$ListUsersResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+MailboxExportJob _$MailboxExportJobFromJson(Map<String, dynamic> json) {
+  return MailboxExportJob(
+    description: json['Description'] as String,
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    entityId: json['EntityId'] as String,
+    estimatedProgress: json['EstimatedProgress'] as int,
+    jobId: json['JobId'] as String,
+    s3BucketName: json['S3BucketName'] as String,
+    s3Path: json['S3Path'] as String,
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+    state: _$enumDecodeNullable(_$MailboxExportJobStateEnumMap, json['State']),
+  );
+}
+
 Member _$MemberFromJson(Map<String, dynamic> json) {
   return Member(
     disabledDate: const UnixDateTimeConverter().fromJson(json['DisabledDate']),
@@ -396,6 +537,7 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
 OrganizationSummary _$OrganizationSummaryFromJson(Map<String, dynamic> json) {
   return OrganizationSummary(
     alias: json['Alias'] as String,
+    defaultMailDomain: json['DefaultMailDomain'] as String,
     errorMessage: json['ErrorMessage'] as String,
     organizationId: json['OrganizationId'] as String,
     state: json['State'] as String,
@@ -428,6 +570,11 @@ PutMailboxPermissionsResponse _$PutMailboxPermissionsResponseFromJson(
   return PutMailboxPermissionsResponse();
 }
 
+PutRetentionPolicyResponse _$PutRetentionPolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return PutRetentionPolicyResponse();
+}
+
 RegisterToWorkMailResponse _$RegisterToWorkMailResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterToWorkMailResponse();
@@ -447,6 +594,13 @@ Resource _$ResourceFromJson(Map<String, dynamic> json) {
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
     type: _$enumDecodeNullable(_$ResourceTypeEnumMap, json['Type']),
+  );
+}
+
+StartMailboxExportJobResponse _$StartMailboxExportJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return StartMailboxExportJobResponse(
+    jobId: json['JobId'] as String,
   );
 }
 

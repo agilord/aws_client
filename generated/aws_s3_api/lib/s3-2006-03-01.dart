@@ -40,8 +40,9 @@ class S3 {
   /// consumed by all parts.
   ///
   /// To verify that all parts have been removed, so you don't get charged for
-  /// the part storage, you should call the <a>ListParts</a> operation and
-  /// ensure that the parts list is empty.
+  /// the part storage, you should call the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html">ListParts</a>
+  /// operation and ensure that the parts list is empty.
   ///
   /// For information about permissions required to use the multipart upload
   /// API, see <a
@@ -52,19 +53,24 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>UploadPart</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
   /// </li>
   /// <li>
-  /// <a>CompleteMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html">CompleteMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>ListParts</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html">ListParts</a>
   /// </li>
   /// <li>
-  /// <a>ListMultipartUploads</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html">ListMultipartUploads</a>
   /// </li>
   /// </ul>
   ///
@@ -76,11 +82,21 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
   /// Parameter [key] :
@@ -88,10 +104,16 @@ class S3 {
   ///
   /// Parameter [uploadId] :
   /// Upload ID that identifies the multipart upload.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<AbortMultipartUploadOutput> abortMultipartUpload({
     @_s.required String bucket,
     @_s.required String key,
     @_s.required String uploadId,
+    String expectedBucketOwner,
     RequestPayer requestPayer,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -105,6 +127,8 @@ class S3 {
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
       if (uploadId != null) 'uploadId': [uploadId],
@@ -128,15 +152,16 @@ class S3 {
   /// Completes a multipart upload by assembling previously uploaded parts.
   ///
   /// You first initiate the multipart upload and then upload all parts using
-  /// the <a>UploadPart</a> operation. After successfully uploading all relevant
-  /// parts of an upload, you call this operation to complete the upload. Upon
-  /// receiving this request, Amazon S3 concatenates all the parts in ascending
-  /// order by part number to create a new object. In the Complete Multipart
-  /// Upload request, you must provide the parts list. You must ensure that the
-  /// parts list is complete. This operation concatenates the parts that you
-  /// provide in the list. For each part in the list, you must provide the part
-  /// number and the <code>ETag</code> value, returned after that part was
-  /// uploaded.
+  /// the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
+  /// operation. After successfully uploading all relevant parts of an upload,
+  /// you call this operation to complete the upload. Upon receiving this
+  /// request, Amazon S3 concatenates all the parts in ascending order by part
+  /// number to create a new object. In the Complete Multipart Upload request,
+  /// you must provide the parts list. You must ensure that the parts list is
+  /// complete. This operation concatenates the parts that you provide in the
+  /// list. For each part in the list, you must provide the part number and the
+  /// <code>ETag</code> value, returned after that part was uploaded.
   ///
   /// Processing of a Complete Multipart Upload request could take several
   /// minutes to complete. After Amazon S3 begins processing the request, it
@@ -161,7 +186,7 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
   /// Upload API and Permissions</a>.
   ///
-  /// <code>GetBucketLifecycle</code> has the following special errors:
+  /// <code>CompleteMultipartUpload</code> has the following special errors:
   ///
   /// <ul>
   /// <li>
@@ -217,23 +242,28 @@ class S3 {
   /// </ul> </li>
   /// </ul>
   /// The following operations are related to
-  /// <code>DeleteBucketMetricsConfiguration</code>:
+  /// <code>CompleteMultipartUpload</code>:
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>UploadPart</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
   /// </li>
   /// <li>
-  /// <a>AbortMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html">AbortMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>ListParts</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html">ListParts</a>
   /// </li>
   /// <li>
-  /// <a>ListMultipartUploads</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html">ListMultipartUploads</a>
   /// </li>
   /// </ul>
   ///
@@ -246,12 +276,18 @@ class S3 {
   /// Parameter [uploadId] :
   /// ID for the initiated multipart upload.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [multipartUpload] :
   /// The container for the multipart upload request information.
   Future<CompleteMultipartUploadOutput> completeMultipartUpload({
     @_s.required String bucket,
     @_s.required String key,
     @_s.required String uploadId,
+    String expectedBucketOwner,
     CompletedMultipartUpload multipartUpload,
     RequestPayer requestPayer,
   }) async {
@@ -266,6 +302,8 @@ class S3 {
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
       if (uploadId != null) 'uploadId': [uploadId],
@@ -285,6 +323,8 @@ class S3 {
       eTag: _s.extractXmlStringValue($elem, 'ETag'),
       key: _s.extractXmlStringValue($elem, 'Key'),
       location: _s.extractXmlStringValue($elem, 'Location'),
+      bucketKeyEnabled: _s.extractHeaderBoolValue(
+          $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
       expiration:
           _s.extractHeaderStringValue($result.headers, 'x-amz-expiration'),
       requestCharged: _s
@@ -305,25 +345,11 @@ class S3 {
   /// <note>
   /// You can store individual objects of up to 5 TB in Amazon S3. You create a
   /// copy of your object up to 5 GB in size in a single atomic operation using
-  /// this API. However, for copying an object greater than 5 GB, you must use
-  /// the multipart upload Upload Part - Copy API. For more information, see <a
+  /// this API. However, to copy an object greater than 5 GB, you must use the
+  /// multipart upload Upload Part - Copy API. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjctsUsingRESTMPUapi.html">Copy
   /// Object Using the REST Multipart Upload API</a>.
   /// </note>
-  /// When copying an object, you can preserve all metadata (default) or specify
-  /// new metadata. However, the ACL is not preserved and is set to private for
-  /// the user making the request. To override the default ACL setting, specify
-  /// a new ACL when generating a copy request. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
-  /// ACLs</a>.
-  /// <important>
-  /// Amazon S3 transfer acceleration does not support cross-region copies. If
-  /// you request a cross-region copy using a transfer acceleration endpoint,
-  /// you get a 400 <code>Bad Request</code> error. For more information about
-  /// transfer acceleration, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html">Transfer
-  /// Acceleration</a>.
-  /// </important>
   /// All copy requests must be authenticated. Additionally, you must have
   /// <i>read</i> access to the source object and <i>write</i> access to the
   /// destination bucket. For more information, see <a
@@ -331,35 +357,6 @@ class S3 {
   /// Authentication</a>. Both the Region that you want to copy the object from
   /// and the Region that you want to copy the object to must be enabled for
   /// your account.
-  ///
-  /// To only copy an object under certain conditions, such as whether the
-  /// <code>Etag</code> matches or whether the object was modified before or
-  /// after a specified date, use the request parameters
-  /// <code>x-amz-copy-source-if-match</code>,
-  /// <code>x-amz-copy-source-if-none-match</code>,
-  /// <code>x-amz-copy-source-if-unmodified-since</code>, or <code>
-  /// x-amz-copy-source-if-modified-since</code>.
-  /// <note>
-  /// All headers with the <code>x-amz-</code> prefix, including
-  /// <code>x-amz-copy-source</code>, must be signed.
-  /// </note>
-  /// You can use this operation to change the storage class of an object that
-  /// is already stored in Amazon S3 using the <code>StorageClass</code>
-  /// parameter. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
-  /// Classes</a>.
-  ///
-  /// The source object that you are copying can be encrypted or unencrypted. If
-  /// the source object is encrypted, it can be encrypted by server-side
-  /// encryption using AWS managed encryption keys or by using a
-  /// customer-provided encryption key. When copying an object, you can request
-  /// that Amazon S3 encrypt the target object by using either the AWS managed
-  /// encryption keys or by using your own encryption key. You can do this
-  /// regardless of the form of server-side encryption that was used to encrypt
-  /// the source, or even if the source object was not encrypted. For more
-  /// information about server-side encryption, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Using
-  /// Server-Side Encryption</a>.
   ///
   /// A copy request might return an error when Amazon S3 receives the copy
   /// request or while Amazon S3 is copying the files. If the error occurs
@@ -377,14 +374,61 @@ class S3 {
   /// it were not, it would not contain the content-length, and you would need
   /// to read the entire body.
   /// </note>
-  /// Consider the following when using request headers:
+  /// The copy request charge is based on the storage class and Region that you
+  /// specify for the destination object. For pricing information, see <a
+  /// href="https://aws.amazon.com/s3/pricing/">Amazon S3 pricing</a>.
+  /// <important>
+  /// Amazon S3 transfer acceleration does not support cross-Region copies. If
+  /// you request a cross-Region copy using a transfer acceleration endpoint,
+  /// you get a 400 <code>Bad Request</code> error. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html">Transfer
+  /// Acceleration</a>.
+  /// </important>
+  /// <b>Metadata</b>
+  ///
+  /// When copying an object, you can preserve all metadata (default) or specify
+  /// new metadata. However, the ACL is not preserved and is set to private for
+  /// the user making the request. To override the default ACL setting, specify
+  /// a new ACL when generating a copy request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
+  /// ACLs</a>.
+  ///
+  /// To specify whether you want the object metadata copied from the source
+  /// object or replaced with metadata provided in the request, you can
+  /// optionally add the <code>x-amz-metadata-directive</code> header. When you
+  /// grant permissions, you can use the
+  /// <code>s3:x-amz-metadata-directive</code> condition key to enforce certain
+  /// metadata behavior when objects are uploaded. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/amazon-s3-policy-keys.html">Specifying
+  /// Conditions in a Policy</a> in the <i>Amazon S3 Developer Guide</i>. For a
+  /// complete list of Amazon S3-specific condition keys, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/list_amazons3.html">Actions,
+  /// Resources, and Condition Keys for Amazon S3</a>.
+  ///
+  /// <b> <code>x-amz-copy-source-if</code> Headers</b>
+  ///
+  /// To only copy an object under certain conditions, such as whether the
+  /// <code>Etag</code> matches or whether the object was modified before or
+  /// after a specified date, use the following request parameters:
   ///
   /// <ul>
   /// <li>
-  /// Consideration 1 – If both the <code>x-amz-copy-source-if-match</code> and
+  /// <code>x-amz-copy-source-if-match</code>
+  /// </li>
+  /// <li>
+  /// <code>x-amz-copy-source-if-none-match</code>
+  /// </li>
+  /// <li>
+  /// <code>x-amz-copy-source-if-unmodified-since</code>
+  /// </li>
+  /// <li>
+  /// <code>x-amz-copy-source-if-modified-since</code>
+  /// </li>
+  /// </ul>
+  /// If both the <code>x-amz-copy-source-if-match</code> and
   /// <code>x-amz-copy-source-if-unmodified-since</code> headers are present in
-  /// the request and evaluate as follows, Amazon S3 returns 200 OK and copies
-  /// the data:
+  /// the request and evaluate as follows, Amazon S3 returns <code>200 OK</code>
+  /// and copies the data:
   ///
   /// <ul>
   /// <li>
@@ -394,10 +438,8 @@ class S3 {
   /// <code>x-amz-copy-source-if-unmodified-since</code> condition evaluates to
   /// false
   /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// Consideration 2 – If both of the
-  /// <code>x-amz-copy-source-if-none-match</code> and
+  /// </ul>
+  /// If both the <code>x-amz-copy-source-if-none-match</code> and
   /// <code>x-amz-copy-source-if-modified-since</code> headers are present in
   /// the request and evaluate as follows, Amazon S3 returns the <code>412
   /// Precondition Failed</code> response code:
@@ -410,18 +452,55 @@ class S3 {
   /// <code>x-amz-copy-source-if-modified-since</code> condition evaluates to
   /// true
   /// </li>
-  /// </ul> </li>
-  /// </ul>
-  /// The copy request charge is based on the storage class and Region you
-  /// specify for the destination object. For pricing information, see <a
-  /// href="https://aws.amazon.com/s3/pricing/">Amazon S3 Pricing</a>.
+  /// </ul> <note>
+  /// All headers with the <code>x-amz-</code> prefix, including
+  /// <code>x-amz-copy-source</code>, must be signed.
+  /// </note>
+  /// <b>Server-side encryption</b>
   ///
-  /// Following are other considerations when using <code>CopyObject</code>:
-  /// <dl> <dt>Versioning</dt> <dd>
+  /// When you perform a CopyObject operation, you can optionally use the
+  /// appropriate encryption-related headers to encrypt the object using
+  /// server-side encryption with AWS managed encryption keys (SSE-S3 or
+  /// SSE-KMS) or a customer-provided encryption key. With server-side
+  /// encryption, Amazon S3 encrypts your data as it writes it to disks in its
+  /// data centers and decrypts the data when you access it. For more
+  /// information about server-side encryption, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Using
+  /// Server-Side Encryption</a>.
+  ///
+  /// If a target object uses SSE-KMS, you can enable an S3 Bucket Key for the
+  /// object. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html">Amazon
+  /// S3 Bucket Keys</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// <b>Access Control List (ACL)-Specific Request Headers</b>
+  ///
+  /// When copying an object, you can optionally use headers to grant ACL-based
+  /// permissions. By default, all objects are private. Only the owner has full
+  /// access control. When adding a new object, you can grant permissions to
+  /// individual AWS accounts or to predefined groups defined by Amazon S3.
+  /// These permissions are then added to the ACL on the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+  /// Control List (ACL) Overview</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-using-rest-api.html">Managing
+  /// ACLs Using the REST API</a>.
+  ///
+  /// <b>Storage Class Options</b>
+  ///
+  /// You can use the <code>CopyObject</code> operation to change the storage
+  /// class of an object that is already stored in Amazon S3 using the
+  /// <code>StorageClass</code> parameter. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
+  /// Classes</a> in the <i>Amazon S3 Service Developer Guide</i>.
+  ///
+  /// <b>Versioning</b>
+  ///
   /// By default, <code>x-amz-copy-source</code> identifies the current version
-  /// of an object to copy. (If the current version is a delete marker, Amazon
-  /// S3 behaves as if the object was deleted.) To copy a different version, use
-  /// the <code>versionId</code> subresource.
+  /// of an object to copy. If the current version is a delete marker, Amazon S3
+  /// behaves as if the object was deleted. To copy a different version, use the
+  /// <code>versionId</code> subresource.
   ///
   /// If you enable versioning on the target bucket, Amazon S3 generates a
   /// unique version ID for the object being copied. This version ID is
@@ -434,188 +513,19 @@ class S3 {
   ///
   /// If the source object's storage class is GLACIER, you must restore a copy
   /// of this object before you can use it as a source object for the copy
-  /// operation. For more information, see .
-  /// </dd> <dt>Access Permissions</dt> <dd>
-  /// When copying an object, you can optionally specify the accounts or groups
-  /// that should be granted specific permissions on the new object. There are
-  /// two ways to grant the permissions using the request headers:
+  /// operation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html">RestoreObject</a>.
   ///
-  /// <ul>
-  /// <li>
-  /// Specify a canned ACL with the <code>x-amz-acl</code> request header. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
-  /// ACL</a>.
-  /// </li>
-  /// <li>
-  /// Specify access permissions explicitly with the
-  /// <code>x-amz-grant-read</code>, <code>x-amz-grant-read-acp</code>,
-  /// <code>x-amz-grant-write-acp</code>, and
-  /// <code>x-amz-grant-full-control</code> headers. These parameters map to the
-  /// set of permissions that Amazon S3 supports in an ACL. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
-  /// Control List (ACL) Overview</a>.
-  /// </li>
-  /// </ul>
-  /// You can use either a canned ACL or specify access permissions explicitly.
-  /// You cannot do both.
-  /// </dd> <dt>Server-Side- Encryption-Specific Request Headers</dt> <dd>
-  /// To encrypt the target object, you must provide the appropriate
-  /// encryption-related request headers. The one you use depends on whether you
-  /// want to use AWS managed encryption keys or provide your own encryption
-  /// key.
-  ///
-  /// <ul>
-  /// <li>
-  /// To encrypt the target object using server-side encryption with an AWS
-  /// managed encryption key, provide the following request headers, as
-  /// appropriate.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>x-amz-server-side​-encryption</code>
-  /// </li>
-  /// <li>
-  /// <code>x-amz-server-side-encryption-aws-kms-key-id</code>
-  /// </li>
-  /// <li>
-  /// <code>x-amz-server-side-encryption-context</code>
-  /// </li>
-  /// </ul> <note>
-  /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but
-  /// don't provide <code>x-amz-server-side-encryption-aws-kms-key-id</code>,
-  /// Amazon S3 uses the AWS managed CMK in AWS KMS to protect the data. If you
-  /// want to use a customer managed AWS KMS CMK, you must provide the
-  /// <code>x-amz-server-side-encryption-aws-kms-key-id</code> of the symmetric
-  /// customer managed CMK. Amazon S3 only supports symmetric CMKs and not
-  /// asymmetric CMKs. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
-  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
-  /// Developer Guide</i>.
-  /// </note> <important>
-  /// All GET and PUT requests for an object protected by AWS KMS fail if you
-  /// don't make them with SSL or by using SigV4.
-  /// </important>
-  /// For more information about server-side encryption with CMKs stored in AWS
-  /// KMS (SSE-KMS), see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
-  /// Data Using Server-Side Encryption with CMKs stored in KMS</a>.
-  /// </li>
-  /// <li>
-  /// To encrypt the target object using server-side encryption with an
-  /// encryption key that you provide, use the following headers.
-  ///
-  /// <ul>
-  /// <li>
-  /// x-amz-server-side​-encryption​-customer-algorithm
-  /// </li>
-  /// <li>
-  /// x-amz-server-side​-encryption​-customer-key
-  /// </li>
-  /// <li>
-  /// x-amz-server-side​-encryption​-customer-key-MD5
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// If the source object is encrypted using server-side encryption with
-  /// customer-provided encryption keys, you must use the following headers.
-  ///
-  /// <ul>
-  /// <li>
-  /// x-amz-copy-source​-server-side​-encryption​-customer-algorithm
-  /// </li>
-  /// <li>
-  /// x-amz-copy-source​-server-side​-encryption​-customer-key
-  /// </li>
-  /// <li>
-  /// x-amz-copy-source-​server-side​-encryption​-customer-key-MD5
-  /// </li>
-  /// </ul>
-  /// For more information about server-side encryption with CMKs stored in AWS
-  /// KMS (SSE-KMS), see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
-  /// Data Using Server-Side Encryption with CMKs stored in Amazon KMS</a>.
-  /// </li>
-  /// </ul> </dd> <dt>Access-Control-List (ACL)-Specific Request Headers</dt>
-  /// <dd>
-  /// You also can use the following access control–related headers with this
-  /// operation. By default, all objects are private. Only the owner has full
-  /// access control. When adding a new object, you can grant permissions to
-  /// individual AWS accounts or to predefined groups defined by Amazon S3.
-  /// These permissions are then added to the access control list (ACL) on the
-  /// object. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
-  /// ACLs</a>. With this operation, you can grant access permissions using one
-  /// of the following two methods:
-  ///
-  /// <ul>
-  /// <li>
-  /// Specify a canned ACL (<code>x-amz-acl</code>) — Amazon S3 supports a set
-  /// of predefined ACLs, known as <i>canned ACLs</i>. Each canned ACL has a
-  /// predefined set of grantees and permissions. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
-  /// ACL</a>.
-  /// </li>
-  /// <li>
-  /// Specify access permissions explicitly — To explicitly grant access
-  /// permissions to specific AWS accounts or groups, use the following headers.
-  /// Each header maps to specific permissions that Amazon S3 supports in an
-  /// ACL. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
-  /// Control List (ACL) Overview</a>. In the header, you specify a list of
-  /// grantees who get the specific permission. To grant permissions explicitly,
-  /// use:
-  ///
-  /// <ul>
-  /// <li>
-  /// x-amz-grant-read
-  /// </li>
-  /// <li>
-  /// x-amz-grant-write
-  /// </li>
-  /// <li>
-  /// x-amz-grant-read-acp
-  /// </li>
-  /// <li>
-  /// x-amz-grant-write-acp
-  /// </li>
-  /// <li>
-  /// x-amz-grant-full-control
-  /// </li>
-  /// </ul>
-  /// You specify each grantee as a type=value pair, where the type is one of
-  /// the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>emailAddress</code> – if the value specified is the email address of
-  /// an AWS account
-  /// </li>
-  /// <li>
-  /// <code>id</code> – if the value specified is the canonical user ID of an
-  /// AWS account
-  /// </li>
-  /// <li>
-  /// <code>uri</code> – if you are granting permissions to a predefined group
-  /// </li>
-  /// </ul>
-  /// For example, the following <code>x-amz-grant-read</code> header grants the
-  /// AWS accounts identified by email addresses permissions to read object data
-  /// and its metadata:
-  ///
-  /// <code>x-amz-grant-read: emailAddress="xyz@amazon.com",
-  /// emailAddress="abc@amazon.com" </code>
-  /// </li>
-  /// </ul> </dd> </dl>
   /// The following operations are related to <code>CopyObject</code>:
   ///
   /// <ul>
   /// <li>
-  /// <a>PutObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
   /// </li>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -627,15 +537,89 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the destination bucket.
   ///
+  /// When using this API with an access point, you must direct requests to the
+  /// access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this operation with an access point through the AWS SDKs, you
+  /// provide the access point ARN in place of the bucket name. For more
+  /// information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
+  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [copySource] :
-  /// The name of the source bucket and key name of the source object, separated
-  /// by a slash (/). Must be URL-encoded.
+  /// Specifies the source object for the copy operation. You specify the value
+  /// in one of two formats, depending on whether you want to access the source
+  /// object through an <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-points.html">access
+  /// point</a>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For objects not accessed through an access point, specify the name of the
+  /// source bucket and the key of the source object, separated by a slash (/).
+  /// For example, to copy the object <code>reports/january.pdf</code> from the
+  /// bucket <code>awsexamplebucket</code>, use
+  /// <code>awsexamplebucket/reports/january.pdf</code>. The value must be URL
+  /// encoded.
+  /// </li>
+  /// <li>
+  /// For objects accessed through access points, specify the Amazon Resource
+  /// Name (ARN) of the object as accessed through the access point, in the
+  /// format
+  /// <code>arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:accesspoint/&lt;access-point-name&gt;/object/&lt;key&gt;</code>.
+  /// For example, to copy the object <code>reports/january.pdf</code> through
+  /// access point <code>my-access-point</code> owned by account
+  /// <code>123456789012</code> in Region <code>us-west-2</code>, use the URL
+  /// encoding of
+  /// <code>arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf</code>.
+  /// The value must be URL encoded.
+  /// <note>
+  /// Amazon S3 supports copy operations using access points only when the
+  /// source and destination buckets are in the same AWS Region.
+  /// </note>
+  /// Alternatively, for objects accessed through Amazon S3 on Outposts, specify
+  /// the ARN of the object as accessed in the format
+  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/object/&lt;key&gt;</code>.
+  /// For example, to copy the object <code>reports/january.pdf</code> through
+  /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
+  /// in Region <code>us-west-2</code>, use the URL encoding of
+  /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf</code>.
+  /// The value must be URL encoded.
+  /// </li>
+  /// </ul>
+  /// To copy a specific version of an object, append
+  /// <code>?versionId=&lt;version-id&gt;</code> to the value (for example,
+  /// <code>awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893</code>).
+  /// If you don't specify a version ID, Amazon S3 copies the latest version of
+  /// the source object.
   ///
   /// Parameter [key] :
   /// The key of the destination object.
   ///
   /// Parameter [acl] :
   /// The canned ACL to apply to the object.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
+  /// Parameter [bucketKeyEnabled] :
+  /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
+  /// encryption with server-side encryption using AWS KMS (SSE-KMS). Setting
+  /// this header to <code>true</code> causes Amazon S3 to use an S3 Bucket Key
+  /// for object encryption with SSE-KMS.
+  ///
+  /// Specifying this header with a COPY operation doesn’t affect bucket-level
+  /// settings for S3 Bucket Key.
   ///
   /// Parameter [cacheControl] :
   /// Specifies caching behavior along the request/reply chain.
@@ -681,20 +665,38 @@ class S3 {
   /// 1321. Amazon S3 uses this header for a message integrity check to ensure
   /// that the encryption key was transmitted without error.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected destination bucket owner. If the
+  /// destination bucket is owned by a different account, the request will fail
+  /// with an HTTP <code>403 (Access Denied)</code> error.
+  ///
+  /// Parameter [expectedSourceBucketOwner] :
+  /// The account id of the expected source bucket owner. If the source bucket
+  /// is owned by a different account, the request will fail with an HTTP
+  /// <code>403 (Access Denied)</code> error.
+  ///
   /// Parameter [expires] :
   /// The date and time at which the object is no longer cacheable.
   ///
   /// Parameter [grantFullControl] :
   /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// Parameter [grantRead] :
   /// Allows grantee to read the object data and its metadata.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// Parameter [grantReadACP] :
   /// Allows grantee to read the object ACL.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// Parameter [grantWriteACP] :
   /// Allows grantee to write the ACL for the applicable object.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// Parameter [metadata] :
   /// A map of metadata to store with the object in S3.
@@ -721,7 +723,7 @@ class S3 {
   /// encrypting data. This value is used to store the object and then it is
   /// discarded; Amazon S3 does not store the encryption key. The key must be
   /// appropriate for use with the algorithm specified in the
-  /// <code>x-amz-server-side​-encryption​-customer-algorithm</code> header.
+  /// <code>x-amz-server-side-encryption-customer-algorithm</code> header.
   ///
   /// Parameter [sSECustomerKeyMD5] :
   /// Specifies the 128-bit MD5 digest of the encryption key according to RFC
@@ -747,7 +749,13 @@ class S3 {
   /// Amazon S3 (for example, AES256, aws:kms).
   ///
   /// Parameter [storageClass] :
-  /// The type of storage to use for the object. Defaults to 'STANDARD'.
+  /// By default, Amazon S3 uses the STANDARD Storage Class to store newly
+  /// created objects. The STANDARD storage class provides high durability and
+  /// high availability. Depending on performance needs, you can specify a
+  /// different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS
+  /// Storage Class. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
+  /// Classes</a> in the <i>Amazon S3 Service Developer Guide</i>.
   ///
   /// Parameter [tagging] :
   /// The tag-set for the object destination object this value must be used in
@@ -767,6 +775,7 @@ class S3 {
     @_s.required String copySource,
     @_s.required String key,
     ObjectCannedACL acl,
+    bool bucketKeyEnabled,
     String cacheControl,
     String contentDisposition,
     String contentEncoding,
@@ -779,6 +788,8 @@ class S3 {
     String copySourceSSECustomerAlgorithm,
     Uint8List copySourceSSECustomerKey,
     String copySourceSSECustomerKeyMD5,
+    String expectedBucketOwner,
+    String expectedSourceBucketOwner,
     DateTime expires,
     String grantFullControl,
     String grantRead,
@@ -820,6 +831,9 @@ class S3 {
     final headers = <String, String>{};
     copySource?.let((v) => headers['x-amz-copy-source'] = v.toString());
     acl?.let((v) => headers['x-amz-acl'] = v.toValue());
+    bucketKeyEnabled?.let((v) =>
+        headers['x-amz-server-side-encryption-bucket-key-enabled'] =
+            v.toString());
     cacheControl?.let((v) => headers['Cache-Control'] = v.toString());
     contentDisposition
         ?.let((v) => headers['Content-Disposition'] = v.toString());
@@ -843,6 +857,10 @@ class S3 {
     copySourceSSECustomerKeyMD5?.let((v) =>
         headers['x-amz-copy-source-server-side-encryption-customer-key-MD5'] =
             v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    expectedSourceBucketOwner?.let(
+        (v) => headers['x-amz-source-expected-bucket-owner'] = v.toString());
     expires?.let((v) => headers['Expires'] = _s.rfc822ToJson(v));
     grantFullControl
         ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
@@ -888,6 +906,8 @@ class S3 {
     final $elem = await _s.xmlFromResponse($result);
     return CopyObjectOutput(
       copyObjectResult: CopyObjectResult.fromXml($elem),
+      bucketKeyEnabled: _s.extractHeaderBoolValue(
+          $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
       copySourceVersionId: _s.extractHeaderStringValue(
           $result.headers, 'x-amz-copy-source-version-id'),
       expiration:
@@ -912,24 +932,28 @@ class S3 {
     );
   }
 
-  /// Creates a new bucket. To create a bucket, you must register with Amazon S3
-  /// and have a valid AWS Access Key ID to authenticate requests. Anonymous
+  /// Creates a new S3 bucket. To create a bucket, you must register with Amazon
+  /// S3 and have a valid AWS Access Key ID to authenticate requests. Anonymous
   /// requests are never allowed to create buckets. By creating the bucket, you
   /// become the bucket owner.
   ///
-  /// Not every string is an acceptable bucket name. For information on bucket
-  /// naming restrictions, see <a
+  /// Not every string is an acceptable bucket name. For information about
+  /// bucket naming restrictions, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html">Working
-  /// with Amazon S3 Buckets</a>.
+  /// with Amazon S3 buckets</a>.
+  ///
+  /// If you want to create an Amazon S3 on Outposts bucket, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html">Create
+  /// Bucket</a>.
   ///
   /// By default, the bucket is created in the US East (N. Virginia) Region. You
   /// can optionally specify a Region in the request body. You might choose a
   /// Region to optimize latency, minimize costs, or address regulatory
   /// requirements. For example, if you reside in Europe, you will probably find
-  /// it advantageous to create buckets in the EU (Ireland) Region. For more
+  /// it advantageous to create buckets in the Europe (Ireland) Region. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro">How
-  /// to Select a Region for Your Buckets</a>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro">Accessing
+  /// a bucket</a>.
   /// <note>
   /// If you send your create bucket request to the
   /// <code>s3.amazonaws.com</code> endpoint, the request goes to the us-east-1
@@ -940,7 +964,7 @@ class S3 {
   /// application must be able to handle 307 redirect. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html">Virtual
-  /// Hosting of Buckets</a>.
+  /// hosting of buckets</a>.
   /// </note>
   /// When creating a bucket using this operation, you can optionally specify
   /// the accounts or groups that should be granted specific permissions on the
@@ -964,16 +988,12 @@ class S3 {
   /// set of permissions Amazon S3 supports in an ACL. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
-  /// Control List (ACL) Overview</a>.
+  /// control list (ACL) overview</a>.
   ///
   /// You specify each grantee as a type=value pair, where the type is one of
   /// the following:
   ///
   /// <ul>
-  /// <li>
-  /// <code>emailAddress</code> – if the value specified is the email address of
-  /// an AWS account
-  /// </li>
   /// <li>
   /// <code>id</code> – if the value specified is the canonical user ID of an
   /// AWS account
@@ -981,13 +1001,49 @@ class S3 {
   /// <li>
   /// <code>uri</code> – if you are granting permissions to a predefined group
   /// </li>
+  /// <li>
+  /// <code>emailAddress</code> – if the value specified is the email address of
+  /// an AWS account
+  /// <note>
+  /// Using email addresses to specify a grantee is only supported in the
+  /// following AWS Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// US East (N. Virginia)
+  /// </li>
+  /// <li>
+  /// US West (N. California)
+  /// </li>
+  /// <li>
+  /// US West (Oregon)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Singapore)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Sydney)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Tokyo)
+  /// </li>
+  /// <li>
+  /// Europe (Ireland)
+  /// </li>
+  /// <li>
+  /// South America (São Paulo)
+  /// </li>
+  /// </ul>
+  /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
+  /// and Endpoints</a> in the AWS General Reference.
+  /// </note> </li>
   /// </ul>
   /// For example, the following <code>x-amz-grant-read</code> header grants the
-  /// AWS accounts identified by email addresses permissions to read object data
-  /// and its metadata:
+  /// AWS accounts identified by account IDs permissions to read object data and
+  /// its metadata:
   ///
-  /// <code>x-amz-grant-read: emailAddress="xyz@amazon.com",
-  /// emailAddress="abc@amazon.com" </code>
+  /// <code>x-amz-grant-read: id="11112222333", id="444455556666" </code>
   /// </li>
   /// </ul> <note>
   /// You can use either a canned ACL or specify access permissions explicitly.
@@ -997,10 +1053,12 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html">DeleteBucket</a>
   /// </li>
   /// </ul>
   ///
@@ -1073,8 +1131,10 @@ class S3 {
   /// This operation initiates a multipart upload and returns an upload ID. This
   /// upload ID is used to associate all of the parts in the specific multipart
   /// upload. You specify this upload ID in each of your subsequent upload part
-  /// requests (see <a>UploadPart</a>). You also include this upload ID in the
-  /// final request to either complete or abort the multipart upload request.
+  /// requests (see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>).
+  /// You also include this upload ID in the final request to either complete or
+  /// abort the multipart upload request.
   ///
   /// For more information about multipart uploads, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html">Multipart
@@ -1112,10 +1172,11 @@ class S3 {
   /// data centers and decrypts it when you access it. You can provide your own
   /// encryption key, or use AWS Key Management Service (AWS KMS) customer
   /// master keys (CMKs) or Amazon S3-managed encryption keys. If you choose to
-  /// provide your own encryption key, the request headers you provide in
-  /// <a>UploadPart</a>) and <a>UploadPartCopy</a>) requests must match the
-  /// headers you used in the request to initiate the upload by using
-  /// <code>CreateMultipartUpload</code>.
+  /// provide your own encryption key, the request headers you provide in <a
+  /// href="AmazonS3/latest/API/API_UploadPart.html">UploadPart</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html">UploadPartCopy</a>
+  /// requests must match the headers you used in the request to initiate the
+  /// upload by using <code>CreateMultipartUpload</code>.
   ///
   /// To perform a multipart upload with encryption using an AWS KMS CMK, the
   /// requester must have permission to the <code>kms:Encrypt</code>,
@@ -1176,7 +1237,7 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// x-amz-server-side​-encryption
+  /// x-amz-server-side-encryption
   /// </li>
   /// <li>
   /// x-amz-server-side-encryption-aws-kms-key-id
@@ -1203,13 +1264,13 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-algorithm
+  /// x-amz-server-side-encryption-customer-algorithm
   /// </li>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-key
+  /// x-amz-server-side-encryption-customer-key
   /// </li>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-key-MD5
+  /// x-amz-server-side-encryption-customer-key-MD5
   /// </li>
   /// </ul>
   /// For more information about server-side encryption with CMKs stored in AWS
@@ -1269,23 +1330,55 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <code>emailAddress</code> – if the value specified is the email address of
-  /// an AWS account
-  /// </li>
-  /// <li>
   /// <code>id</code> – if the value specified is the canonical user ID of an
   /// AWS account
   /// </li>
   /// <li>
   /// <code>uri</code> – if you are granting permissions to a predefined group
   /// </li>
+  /// <li>
+  /// <code>emailAddress</code> – if the value specified is the email address of
+  /// an AWS account
+  /// <note>
+  /// Using email addresses to specify a grantee is only supported in the
+  /// following AWS Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// US East (N. Virginia)
+  /// </li>
+  /// <li>
+  /// US West (N. California)
+  /// </li>
+  /// <li>
+  /// US West (Oregon)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Singapore)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Sydney)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Tokyo)
+  /// </li>
+  /// <li>
+  /// Europe (Ireland)
+  /// </li>
+  /// <li>
+  /// South America (São Paulo)
+  /// </li>
+  /// </ul>
+  /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
+  /// and Endpoints</a> in the AWS General Reference.
+  /// </note> </li>
   /// </ul>
   /// For example, the following <code>x-amz-grant-read</code> header grants the
-  /// AWS accounts identified by email addresses permissions to read object data
-  /// and its metadata:
+  /// AWS accounts identified by account IDs permissions to read object data and
+  /// its metadata:
   ///
-  /// <code>x-amz-grant-read: emailAddress="xyz@amazon.com",
-  /// emailAddress="abc@amazon.com" </code>
+  /// <code>x-amz-grant-read: id="11112222333", id="444455556666" </code>
   /// </li>
   /// </ul> </dd> </dl>
   /// The following operations are related to
@@ -1293,30 +1386,66 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>UploadPart</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
   /// </li>
   /// <li>
-  /// <a>CompleteMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html">CompleteMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>AbortMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html">AbortMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>ListParts</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html">ListParts</a>
   /// </li>
   /// <li>
-  /// <a>ListMultipartUploads</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html">ListMultipartUploads</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the bucket to which to initiate the upload
   ///
+  /// When using this API with an access point, you must direct requests to the
+  /// access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this operation with an access point through the AWS SDKs, you
+  /// provide the access point ARN in place of the bucket name. For more
+  /// information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
+  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [key] :
   /// Object key for which the multipart upload is to be initiated.
   ///
   /// Parameter [acl] :
   /// The canned ACL to apply to the object.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
+  /// Parameter [bucketKeyEnabled] :
+  /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
+  /// encryption with server-side encryption using AWS KMS (SSE-KMS). Setting
+  /// this header to <code>true</code> causes Amazon S3 to use an S3 Bucket Key
+  /// for object encryption with SSE-KMS.
+  ///
+  /// Specifying this header with an object operation doesn’t affect
+  /// bucket-level settings for S3 Bucket Key.
   ///
   /// Parameter [cacheControl] :
   /// Specifies caching behavior along the request/reply chain.
@@ -1335,20 +1464,33 @@ class S3 {
   /// Parameter [contentType] :
   /// A standard MIME type describing the format of the object data.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [expires] :
   /// The date and time at which the object is no longer cacheable.
   ///
   /// Parameter [grantFullControl] :
   /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// Parameter [grantRead] :
   /// Allows grantee to read the object data and its metadata.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// Parameter [grantReadACP] :
   /// Allows grantee to read the object ACL.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// Parameter [grantWriteACP] :
   /// Allows grantee to write the ACL for the applicable object.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// Parameter [metadata] :
   /// A map of metadata to store with the object in S3.
@@ -1372,7 +1514,7 @@ class S3 {
   /// encrypting data. This value is used to store the object and then it is
   /// discarded; Amazon S3 does not store the encryption key. The key must be
   /// appropriate for use with the algorithm specified in the
-  /// <code>x-amz-server-side​-encryption​-customer-algorithm</code> header.
+  /// <code>x-amz-server-side-encryption-customer-algorithm</code> header.
   ///
   /// Parameter [sSECustomerKeyMD5] :
   /// Specifies the 128-bit MD5 digest of the encryption key according to RFC
@@ -1399,7 +1541,13 @@ class S3 {
   /// Amazon S3 (for example, AES256, aws:kms).
   ///
   /// Parameter [storageClass] :
-  /// The type of storage to use for the object. Defaults to 'STANDARD'.
+  /// By default, Amazon S3 uses the STANDARD Storage Class to store newly
+  /// created objects. The STANDARD storage class provides high durability and
+  /// high availability. Depending on performance needs, you can specify a
+  /// different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS
+  /// Storage Class. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
+  /// Classes</a> in the <i>Amazon S3 Service Developer Guide</i>.
   ///
   /// Parameter [tagging] :
   /// The tag-set for the object. The tag-set must be encoded as URL Query
@@ -1413,11 +1561,13 @@ class S3 {
     @_s.required String bucket,
     @_s.required String key,
     ObjectCannedACL acl,
+    bool bucketKeyEnabled,
     String cacheControl,
     String contentDisposition,
     String contentEncoding,
     String contentLanguage,
     String contentType,
+    String expectedBucketOwner,
     DateTime expires,
     String grantFullControl,
     String grantRead,
@@ -1449,12 +1599,17 @@ class S3 {
     );
     final headers = <String, String>{};
     acl?.let((v) => headers['x-amz-acl'] = v.toValue());
+    bucketKeyEnabled?.let((v) =>
+        headers['x-amz-server-side-encryption-bucket-key-enabled'] =
+            v.toString());
     cacheControl?.let((v) => headers['Cache-Control'] = v.toString());
     contentDisposition
         ?.let((v) => headers['Content-Disposition'] = v.toString());
     contentEncoding?.let((v) => headers['Content-Encoding'] = v.toString());
     contentLanguage?.let((v) => headers['Content-Language'] = v.toString());
     contentType?.let((v) => headers['Content-Type'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     expires?.let((v) => headers['Expires'] = _s.rfc822ToJson(v));
     grantFullControl
         ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
@@ -1502,6 +1657,8 @@ class S3 {
           _s.extractHeaderDateTimeValue($result.headers, 'x-amz-abort-date'),
       abortRuleId:
           _s.extractHeaderStringValue($result.headers, 'x-amz-abort-rule-id'),
+      bucketKeyEnabled: _s.extractHeaderBoolValue(
+          $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
       requestCharged: _s
           .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
           ?.toRequestCharged(),
@@ -1520,29 +1677,41 @@ class S3 {
     );
   }
 
-  /// Deletes the bucket. All objects (including all object versions and delete
-  /// markers) in the bucket must be deleted before the bucket itself can be
-  /// deleted.
+  /// Deletes the S3 bucket. All objects (including all object versions and
+  /// delete markers) in the bucket must be deleted before the bucket itself can
+  /// be deleted.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html">DeleteObject</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// Specifies the bucket being deleted.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deleteBucket({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1554,7 +1723,7 @@ class S3 {
   /// <code>s3:PutAnalyticsConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
@@ -1568,13 +1737,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketAnalyticsConfiguration.html">GetBucketAnalyticsConfiguration</a>
   /// </li>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketAnalyticsConfigurations.html">ListBucketAnalyticsConfigurations</a>
   /// </li>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html">PutBucketAnalyticsConfiguration</a>
   /// </li>
   /// </ul>
   ///
@@ -1583,12 +1755,21 @@ class S3 {
   ///
   /// Parameter [id] :
   /// The ID that identifies the analytics configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deleteBucketAnalyticsConfiguration({
     @_s.required String bucket,
     @_s.required String id,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (id != null) 'id': [id],
     };
@@ -1596,6 +1777,7 @@ class S3 {
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?analytics',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1615,23 +1797,35 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html">PutBucketCors</a>
   /// </li>
   /// <li>
-  /// <a>RESTOPTIONSobject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html">RESTOPTIONSobject</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// Specifies the bucket whose <code>cors</code> configuration is being
   /// deleted.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deleteBucketCors({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?cors',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1639,7 +1833,7 @@ class S3 {
   /// This implementation of the DELETE operation removes default encryption
   /// from the bucket. For information about the Amazon S3 default encryption
   /// feature, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//bucket-encryption.html">Amazon
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon
   /// S3 Default Bucket Encryption</a> in the <i>Amazon Simple Storage Service
   /// Developer Guide</i>.
   ///
@@ -1647,32 +1841,106 @@ class S3 {
   /// <code>s3:PutEncryptionConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
   /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon Simple
   /// Storage Service Developer Guide</i>.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketEncryption</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketEncryption.html">PutBucketEncryption</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketEncryption</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html">GetBucketEncryption</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the bucket containing the server-side encryption configuration
   /// to delete.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deleteBucketEncryption({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?encryption',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the S3 Intelligent-Tiering configuration from the specified
+  /// bucket.
+  ///
+  /// The S3 Intelligent-Tiering storage class is designed to optimize storage
+  /// costs by automatically moving data to the most cost-effective storage
+  /// access tier, without additional operational overhead. S3
+  /// Intelligent-Tiering delivers automatic cost savings by moving data between
+  /// access tiers, when access patterns change.
+  ///
+  /// The S3 Intelligent-Tiering storage class is suitable for objects larger
+  /// than 128 KB that you plan to store for at least 30 days. If the size of an
+  /// object is less than 128 KB, it is not eligible for auto-tiering. Smaller
+  /// objects can be stored, but they are always charged at the frequent access
+  /// tier rates in the S3 Intelligent-Tiering storage class.
+  ///
+  /// If you delete an object before the end of the 30-day minimum storage
+  /// duration period, you are charged for 30 days. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
+  /// class for automatically optimizing frequently and infrequently accessed
+  /// objects</a>.
+  ///
+  /// Operations related to
+  /// <code>DeleteBucketIntelligentTieringConfiguration</code> include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketIntelligentTieringConfiguration.html">GetBucketIntelligentTieringConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketIntelligentTieringConfiguration.html">PutBucketIntelligentTieringConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html">ListBucketIntelligentTieringConfigurations</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [bucket] :
+  /// The name of the Amazon S3 bucket whose configuration you want to modify or
+  /// retrieve.
+  ///
+  /// Parameter [id] :
+  /// The ID used to identify the S3 Intelligent-Tiering configuration.
+  Future<void> deleteBucketIntelligentTieringConfiguration({
+    @_s.required String bucket,
+    @_s.required String id,
+  }) async {
+    ArgumentError.checkNotNull(bucket, 'bucket');
+    ArgumentError.checkNotNull(id, 'id');
+    final $query = <String, List<String>>{
+      if (id != null) 'id': [id],
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri: '/${Uri.encodeComponent(bucket)}?intelligent-tiering',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1698,13 +1966,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketInventoryConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketInventoryConfiguration.html">GetBucketInventoryConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketInventoryConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html">PutBucketInventoryConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>ListBucketInventoryConfigurations</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html">ListBucketInventoryConfigurations</a>
   /// </li>
   /// </ul>
   ///
@@ -1713,12 +1984,21 @@ class S3 {
   ///
   /// Parameter [id] :
   /// The ID used to identify the inventory configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deleteBucketInventoryConfiguration({
     @_s.required String bucket,
     @_s.required String id,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (id != null) 'id': [id],
     };
@@ -1726,6 +2006,7 @@ class S3 {
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?inventory',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1752,22 +2033,34 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketLifecycleConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketLifecycleConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html">GetBucketLifecycleConfiguration</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name of the lifecycle to delete.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deleteBucketLifecycle({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1794,13 +2087,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketMetricsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html">GetBucketMetricsConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketMetricsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html">PutBucketMetricsConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>ListBucketMetricsConfigurations</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketMetricsConfigurations.html">ListBucketMetricsConfigurations</a>
   /// </li>
   /// <li>
   /// <a
@@ -1814,12 +2110,21 @@ class S3 {
   ///
   /// Parameter [id] :
   /// The ID used to identify the metrics configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deleteBucketMetricsConfiguration({
     @_s.required String bucket,
     @_s.required String id,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (id != null) 'id': [id],
     };
@@ -1827,6 +2132,54 @@ class S3 {
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?metrics',
       queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes <code>OwnershipControls</code> for an Amazon S3 bucket. To use
+  /// this operation, you must have the
+  /// <code>s3:PutBucketOwnershipControls</code> permission. For more
+  /// information about Amazon S3 permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+  /// Permissions in a Policy</a>.
+  ///
+  /// For information about Amazon S3 Object Ownership, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/about-object-ownership.html">Using
+  /// Object Ownership</a>.
+  ///
+  /// The following operations are related to
+  /// <code>DeleteBucketOwnershipControls</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>GetBucketOwnershipControls</a>
+  /// </li>
+  /// <li>
+  /// <a>PutBucketOwnershipControls</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [bucket] :
+  /// The Amazon S3 bucket whose <code>OwnershipControls</code> you want to
+  /// delete.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  Future<void> deleteBucketOwnershipControls({
+    @_s.required String bucket,
+    String expectedBucketOwner,
+  }) async {
+    ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri: '/${Uri.encodeComponent(bucket)}?ownershipControls',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1856,22 +2209,34 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// <li>
-  /// <a>DeleteObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html">DeleteObject</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deleteBucketPolicy({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?policy',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1899,22 +2264,34 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketReplication</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html">PutBucketReplication</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketReplication</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html">GetBucketReplication</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deleteBucketReplication({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?replication',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1929,22 +2306,34 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketTagging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketTagging.html">GetBucketTagging</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketTagging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketTagging.html">PutBucketTagging</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket that has the tag set to be removed.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deleteBucketTagging({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?tagging',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1970,22 +2359,34 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketWebsite</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketWebsite.html">GetBucketWebsite</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketWebsite</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketWebsite.html">PutBucketWebsite</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name for which you want to remove the website configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deleteBucketWebsite({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?website',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2011,17 +2412,20 @@ class S3 {
   /// Request</a>.
   ///
   /// You can delete objects by explicitly calling the DELETE Object API or
-  /// configure its lifecycle (<a>PutBucketLifecycle</a>) to enable Amazon S3 to
-  /// remove them for you. If you want to block users or accounts from removing
-  /// or deleting objects from your bucket, you must deny them the
-  /// <code>s3:DeleteObject</code>, <code>s3:DeleteObjectVersion</code>, and
+  /// configure its lifecycle (<a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html">PutBucketLifecycle</a>)
+  /// to enable Amazon S3 to remove them for you. If you want to block users or
+  /// accounts from removing or deleting objects from your bucket, you must deny
+  /// them the <code>s3:DeleteObject</code>,
+  /// <code>s3:DeleteObjectVersion</code>, and
   /// <code>s3:PutLifeCycleConfiguration</code> actions.
   ///
   /// The following operation is related to <code>DeleteObject</code>:
   ///
   /// <ul>
   /// <li>
-  /// <a>PutObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
   /// </li>
   /// </ul>
   ///
@@ -2031,11 +2435,21 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
   /// Parameter [key] :
@@ -2044,6 +2458,11 @@ class S3 {
   /// Parameter [bypassGovernanceRetention] :
   /// Indicates whether S3 Object Lock should bypass Governance-mode
   /// restrictions to process this operation.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [mfa] :
   /// The concatenation of the authentication device's serial number, a space,
@@ -2057,6 +2476,7 @@ class S3 {
     @_s.required String bucket,
     @_s.required String key,
     bool bypassGovernanceRetention,
+    String expectedBucketOwner,
     String mfa,
     RequestPayer requestPayer,
     String versionId,
@@ -2073,6 +2493,8 @@ class S3 {
     final headers = <String, String>{};
     bypassGovernanceRetention?.let(
         (v) => headers['x-amz-bypass-governance-retention'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     mfa?.let((v) => headers['x-amz-mfa'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
@@ -2115,10 +2537,12 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutObjectTagging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html">PutObjectTagging</a>
   /// </li>
   /// <li>
-  /// <a>GetObjectTagging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html">GetObjectTagging</a>
   /// </li>
   /// </ul>
   ///
@@ -2128,21 +2552,37 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [key] :
-  /// Name of the tag.
+  /// Name of the object key.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [versionId] :
   /// The versionId of the object that the tag-set will be removed from.
   Future<DeleteObjectTaggingOutput> deleteObjectTagging({
     @_s.required String bucket,
     @_s.required String key,
+    String expectedBucketOwner,
     String versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -2154,6 +2594,9 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -2162,6 +2605,7 @@ class S3 {
       requestUri:
           '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?tagging',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -2209,19 +2653,24 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>UploadPart</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
   /// </li>
   /// <li>
-  /// <a>CompleteMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html">CompleteMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>ListParts</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html">ListParts</a>
   /// </li>
   /// <li>
-  /// <a>AbortMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html">AbortMultipartUpload</a>
   /// </li>
   /// </ul>
   ///
@@ -2231,11 +2680,21 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
   /// Parameter [delete] :
@@ -2246,6 +2705,11 @@ class S3 {
   /// Governance-type Object Lock in place. You must have sufficient permissions
   /// to perform this operation.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [mfa] :
   /// The concatenation of the authentication device's serial number, a space,
   /// and the value that is displayed on your authentication device. Required to
@@ -2255,6 +2719,7 @@ class S3 {
     @_s.required String bucket,
     @_s.required Delete delete,
     bool bypassGovernanceRetention,
+    String expectedBucketOwner,
     String mfa,
     RequestPayer requestPayer,
   }) async {
@@ -2263,6 +2728,8 @@ class S3 {
     final headers = <String, String>{};
     bypassGovernanceRetention?.let(
         (v) => headers['x-amz-bypass-governance-retention'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     mfa?.let((v) => headers['x-amz-mfa'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $result = await _protocol.sendRaw(
@@ -2295,7 +2762,7 @@ class S3 {
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// The following operations are related to
-  /// <code>DeleteBucketMetricsConfiguration</code>:
+  /// <code>DeletePublicAccessBlock</code>:
   ///
   /// <ul>
   /// <li>
@@ -2304,26 +2771,39 @@ class S3 {
   /// Amazon S3 Block Public Access</a>
   /// </li>
   /// <li>
-  /// <a>GetPublicAccessBlock</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetPublicAccessBlock.html">GetPublicAccessBlock</a>
   /// </li>
   /// <li>
-  /// <a>PutPublicAccessBlock</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutPublicAccessBlock.html">PutPublicAccessBlock</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketPolicyStatus</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketPolicyStatus.html">GetBucketPolicyStatus</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The Amazon S3 bucket whose <code>PublicAccessBlock</code> configuration
   /// you want to delete.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> deletePublicAccessBlock({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?publicAccessBlock',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2338,41 +2818,54 @@ class S3 {
   /// <code>s3:GetAccelerateConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
   /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon Simple
   /// Storage Service Developer Guide</i>.
   ///
   /// You set the Transfer Acceleration state of an existing bucket to
-  /// <code>Enabled</code> or <code>Suspended</code> by using the
-  /// <a>PutBucketAccelerateConfiguration</a> operation.
+  /// <code>Enabled</code> or <code>Suspended</code> by using the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAccelerateConfiguration.html">PutBucketAccelerateConfiguration</a>
+  /// operation.
   ///
   /// A GET <code>accelerate</code> request does not return a state value for a
   /// bucket that has no transfer acceleration state. A bucket has no Transfer
   /// Acceleration state if a state has never been set on the bucket.
   ///
   /// For more information about transfer acceleration, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//transfer-acceleration.html">Transfer
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html">Transfer
   /// Acceleration</a> in the Amazon Simple Storage Service Developer Guide.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketAccelerateConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAccelerateConfiguration.html">PutBucketAccelerateConfiguration</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
-  /// Name of the bucket for which the accelerate configuration is retrieved.
+  /// The name of the bucket for which the accelerate configuration is
+  /// retrieved.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketAccelerateConfigurationOutput>
       getBucketAccelerateConfiguration({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?accelerate',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketAccelerateConfigurationOutput.fromXml($result.body);
@@ -2388,19 +2881,30 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html">ListObjects</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// Specifies the S3 bucket whose ACL is being requested.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketAclOutput> getBucketAcl({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?acl',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketAclOutput.fromXml($result.body);
@@ -2428,13 +2932,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketAnalyticsConfiguration.html">DeleteBucketAnalyticsConfiguration</a>
   /// </li>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketAnalyticsConfigurations.html">ListBucketAnalyticsConfigurations</a>
   /// </li>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html">PutBucketAnalyticsConfiguration</a>
   /// </li>
   /// </ul>
   ///
@@ -2443,13 +2950,22 @@ class S3 {
   ///
   /// Parameter [id] :
   /// The ID that identifies the analytics configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketAnalyticsConfigurationOutput>
       getBucketAnalyticsConfiguration({
     @_s.required String bucket,
     @_s.required String id,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (id != null) 'id': [id],
     };
@@ -2457,6 +2973,7 @@ class S3 {
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?analytics',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -2479,22 +2996,34 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketCors</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html">PutBucketCors</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketCors</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketCors.html">DeleteBucketCors</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name for which to get the cors configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketCorsOutput> getBucketCors({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?cors',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketCorsOutput.fromXml($result.body);
@@ -2518,29 +3047,108 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketEncryption</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketEncryption.html">PutBucketEncryption</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketEncryption</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html">DeleteBucketEncryption</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the bucket from which the server-side encryption configuration
   /// is retrieved.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketEncryptionOutput> getBucketEncryption({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?encryption',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
     return GetBucketEncryptionOutput(
       serverSideEncryptionConfiguration:
           ServerSideEncryptionConfiguration.fromXml($elem),
+    );
+  }
+
+  /// Gets the S3 Intelligent-Tiering configuration from the specified bucket.
+  ///
+  /// The S3 Intelligent-Tiering storage class is designed to optimize storage
+  /// costs by automatically moving data to the most cost-effective storage
+  /// access tier, without additional operational overhead. S3
+  /// Intelligent-Tiering delivers automatic cost savings by moving data between
+  /// access tiers, when access patterns change.
+  ///
+  /// The S3 Intelligent-Tiering storage class is suitable for objects larger
+  /// than 128 KB that you plan to store for at least 30 days. If the size of an
+  /// object is less than 128 KB, it is not eligible for auto-tiering. Smaller
+  /// objects can be stored, but they are always charged at the frequent access
+  /// tier rates in the S3 Intelligent-Tiering storage class.
+  ///
+  /// If you delete an object before the end of the 30-day minimum storage
+  /// duration period, you are charged for 30 days. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
+  /// class for automatically optimizing frequently and infrequently accessed
+  /// objects</a>.
+  ///
+  /// Operations related to
+  /// <code>GetBucketIntelligentTieringConfiguration</code> include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketIntelligentTieringConfiguration.html">DeleteBucketIntelligentTieringConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketIntelligentTieringConfiguration.html">PutBucketIntelligentTieringConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html">ListBucketIntelligentTieringConfigurations</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [bucket] :
+  /// The name of the Amazon S3 bucket whose configuration you want to modify or
+  /// retrieve.
+  ///
+  /// Parameter [id] :
+  /// The ID used to identify the S3 Intelligent-Tiering configuration.
+  Future<GetBucketIntelligentTieringConfigurationOutput>
+      getBucketIntelligentTieringConfiguration({
+    @_s.required String bucket,
+    @_s.required String id,
+  }) async {
+    ArgumentError.checkNotNull(bucket, 'bucket');
+    ArgumentError.checkNotNull(id, 'id');
+    final $query = <String, List<String>>{
+      if (id != null) 'id': [id],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/${Uri.encodeComponent(bucket)}?intelligent-tiering',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return GetBucketIntelligentTieringConfigurationOutput(
+      intelligentTieringConfiguration:
+          IntelligentTieringConfiguration.fromXml($elem),
     );
   }
 
@@ -2565,13 +3173,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>DeleteBucketInventoryConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketInventoryConfiguration.html">DeleteBucketInventoryConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>ListBucketInventoryConfigurations</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html">ListBucketInventoryConfigurations</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketInventoryConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html">PutBucketInventoryConfiguration</a>
   /// </li>
   /// </ul>
   ///
@@ -2580,13 +3191,22 @@ class S3 {
   ///
   /// Parameter [id] :
   /// The ID used to identify the inventory configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketInventoryConfigurationOutput>
       getBucketInventoryConfiguration({
     @_s.required String bucket,
     @_s.required String id,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (id != null) 'id': [id],
     };
@@ -2594,6 +3214,7 @@ class S3 {
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?inventory',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -2603,11 +3224,11 @@ class S3 {
   }
 
   /// <important>
-  /// For an updated version of this API, see
-  /// <a>GetBucketLifecycleConfiguration</a>. If you configured a bucket
-  /// lifecycle using the <code>filter</code> element, you should see the
-  /// updated version of this topic. This topic is provided for backward
-  /// compatibility.
+  /// For an updated version of this API, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html">GetBucketLifecycleConfiguration</a>.
+  /// If you configured a bucket lifecycle using the <code>filter</code>
+  /// element, you should see the updated version of this topic. This topic is
+  /// provided for backward compatibility.
   /// </important>
   /// Returns the lifecycle configuration information set on the bucket. For
   /// information about lifecycle configuration, see <a
@@ -2645,26 +3266,39 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketLifecycleConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html">GetBucketLifecycleConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketLifecycle</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html">PutBucketLifecycle</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketLifecycle</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html">DeleteBucketLifecycle</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the bucket for which to get the lifecycle information.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   @Deprecated('Deprecated')
   Future<GetBucketLifecycleOutput> getBucketLifecycle({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketLifecycleOutput.fromXml($result.body);
@@ -2675,9 +3309,10 @@ class S3 {
   /// using an object key name prefix, one or more object tags, or a combination
   /// of both. Accordingly, this section describes the latest API. The response
   /// describes the new filter element that you can use to specify a filter to
-  /// select a subset of objects to which the rule applies. If you are still
-  /// using previous version of the lifecycle configuration, it works. For the
-  /// earlier API description, see <a>GetBucketLifecycle</a>.
+  /// select a subset of objects to which the rule applies. If you are using a
+  /// previous version of the lifecycle configuration, it still works. For the
+  /// earlier API description, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycle.html">GetBucketLifecycle</a>.
   /// </note>
   /// Returns the lifecycle configuration information set on the bucket. For
   /// information about lifecycle configuration, see <a
@@ -2713,30 +3348,43 @@ class S3 {
   /// </ul> </li>
   /// </ul>
   /// The following operations are related to
-  /// <code>DeleteBucketMetricsConfiguration</code>:
+  /// <code>GetBucketLifecycleConfiguration</code>:
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketLifecycle</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycle.html">GetBucketLifecycle</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketLifecycle</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html">PutBucketLifecycle</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketLifecycle</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html">DeleteBucketLifecycle</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the bucket for which to get the lifecycle information.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketLifecycleConfigurationOutput>
       getBucketLifecycleConfiguration({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketLifecycleConfigurationOutput.fromXml($result.body);
@@ -2744,8 +3392,8 @@ class S3 {
 
   /// Returns the Region the bucket resides in. You set the bucket's Region
   /// using the <code>LocationConstraint</code> request parameter in a
-  /// <code>CreateBucket</code> request. For more information, see
-  /// <a>CreateBucket</a>.
+  /// <code>CreateBucket</code> request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>.
   ///
   /// To use this implementation of the operation, you must be the bucket owner.
   ///
@@ -2753,22 +3401,34 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// <li>
-  /// <a>CreateBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the bucket for which to get the location.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketLocationOutput> getBucketLocation({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?location',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketLocationOutput.fromXml($result.body);
@@ -2781,22 +3441,34 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketLogging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLogging.html">PutBucketLogging</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name for which to get the logging information.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketLoggingOutput> getBucketLogging({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?logging',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketLoggingOutput.fromXml($result.body);
@@ -2823,13 +3495,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketMetricsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html">PutBucketMetricsConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketMetricsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html">DeleteBucketMetricsConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>ListBucketMetricsConfigurations</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketMetricsConfigurations.html">ListBucketMetricsConfigurations</a>
   /// </li>
   /// <li>
   /// <a
@@ -2843,12 +3518,21 @@ class S3 {
   ///
   /// Parameter [id] :
   /// The ID used to identify the metrics configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketMetricsConfigurationOutput> getBucketMetricsConfiguration({
     @_s.required String bucket,
     @_s.required String id,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (id != null) 'id': [id],
     };
@@ -2856,6 +3540,7 @@ class S3 {
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?metrics',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -2864,18 +3549,29 @@ class S3 {
     );
   }
 
-  /// No longer used, see <a>GetBucketNotificationConfiguration</a>.
+  /// No longer used, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html">GetBucketNotificationConfiguration</a>.
   ///
   /// Parameter [bucket] :
-  /// Name of the bucket for which to get the notification configuration
+  /// The name of the bucket for which to get the notification configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   @Deprecated('Deprecated')
   Future<NotificationConfigurationDeprecated> getBucketNotification({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?notification',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return NotificationConfigurationDeprecated.fromXml($result.body);
@@ -2903,22 +3599,84 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketNotification</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotification.html">PutBucketNotification</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
-  /// Name of the bucket for which to get the notification configuration
+  /// The name of the bucket for which to get the notification configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<NotificationConfiguration> getBucketNotificationConfiguration({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?notification',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return NotificationConfiguration.fromXml($result.body);
+  }
+
+  /// Retrieves <code>OwnershipControls</code> for an Amazon S3 bucket. To use
+  /// this operation, you must have the
+  /// <code>s3:GetBucketOwnershipControls</code> permission. For more
+  /// information about Amazon S3 permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+  /// Permissions in a Policy</a>.
+  ///
+  /// For information about Amazon S3 Object Ownership, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/about-object-ownership.html">Using
+  /// Object Ownership</a>.
+  ///
+  /// The following operations are related to
+  /// <code>GetBucketOwnershipControls</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>PutBucketOwnershipControls</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteBucketOwnershipControls</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [bucket] :
+  /// The name of the Amazon S3 bucket whose <code>OwnershipControls</code> you
+  /// want to retrieve.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  Future<GetBucketOwnershipControlsOutput> getBucketOwnershipControls({
+    @_s.required String bucket,
+    String expectedBucketOwner,
+  }) async {
+    ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/${Uri.encodeComponent(bucket)}?ownershipControls',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return GetBucketOwnershipControlsOutput(
+      ownershipControls: OwnershipControls.fromXml($elem),
+    );
   }
 
   /// Returns the policy of a specified bucket. If you are using an identity
@@ -2945,19 +3703,30 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name for which to get the bucket policy.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketPolicyOutput> getBucketPolicy({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?policy',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketPolicyOutput(
@@ -2987,25 +3756,38 @@ class S3 {
   /// Amazon S3 Block Public Access</a>
   /// </li>
   /// <li>
-  /// <a>GetPublicAccessBlock</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetPublicAccessBlock.html">GetPublicAccessBlock</a>
   /// </li>
   /// <li>
-  /// <a>PutPublicAccessBlock</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutPublicAccessBlock.html">PutPublicAccessBlock</a>
   /// </li>
   /// <li>
-  /// <a>DeletePublicAccessBlock</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html">DeletePublicAccessBlock</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the Amazon S3 bucket whose policy status you want to retrieve.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketPolicyStatusOutput> getBucketPolicyStatus({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?policyStatus',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -3035,29 +3817,42 @@ class S3 {
   /// <code>DeleteMarkerReplication</code> and <code>Priority</code> elements.
   /// The response also returns those elements.
   ///
-  /// For information about <code>GetBucketReplication</code> errors, see
-  /// <a>ReplicationErrorCodeList</a>
+  /// For information about <code>GetBucketReplication</code> errors, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ReplicationErrorCodeList">List
+  /// of replication-related error codes</a>
   ///
   /// The following operations are related to <code>GetBucketReplication</code>:
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketReplication</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html">PutBucketReplication</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketReplication</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html">DeleteBucketReplication</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name for which to get the replication information.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketReplicationOutput> getBucketReplication({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?replication',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -3077,19 +3872,30 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>ListObjects</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html">ListObjects</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the bucket for which to get the payment request configuration
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketRequestPaymentOutput> getBucketRequestPayment({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?requestPayment',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketRequestPaymentOutput.fromXml($result.body);
@@ -3117,22 +3923,34 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketTagging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketTagging.html">PutBucketTagging</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketTagging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html">DeleteBucketTagging</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the bucket for which to get the tagging information.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketTaggingOutput> getBucketTagging({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?tagging',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketTaggingOutput.fromXml($result.body);
@@ -3152,25 +3970,38 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// <li>
-  /// <a>PutObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
   /// </li>
   /// <li>
-  /// <a>DeleteObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html">DeleteObject</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the bucket for which to get the versioning information.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketVersioningOutput> getBucketVersioning({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?versioning',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketVersioningOutput.fromXml($result.body);
@@ -3192,22 +4023,34 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>DeleteBucketWebsite</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketWebsite.html">DeleteBucketWebsite</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketWebsite</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketWebsite.html">PutBucketWebsite</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name for which to get the website configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetBucketWebsiteOutput> getBucketWebsite({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?website',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetBucketWebsiteOutput.fromXml($result.body);
@@ -3241,13 +4084,16 @@ class S3 {
   /// using BitTorrent. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3Torrent.html">Amazon
   /// S3 Torrent</a>. For more information about returning the ACL of an object,
-  /// see <a>GetObjectAcl</a>.
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html">GetObjectAcl</a>.
   ///
-  /// If the object you are retrieving is stored in the GLACIER or DEEP_ARCHIVE
-  /// storage classes, before you can retrieve the object you must first restore
-  /// a copy using . Otherwise, this operation returns an
-  /// <code>InvalidObjectStateError</code> error. For information about
-  /// restoring archived objects, see <a
+  /// If the object you are retrieving is stored in the S3 Glacier or S3 Glacier
+  /// Deep Archive storage class, or S3 Intelligent-Tiering Archive or S3
+  /// Intelligent-Tiering Deep Archive tiers, before you can retrieve the object
+  /// you must first restore a copy using <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html">RestoreObject</a>.
+  /// Otherwise, this operation returns an <code>InvalidObjectStateError</code>
+  /// error. For information about restoring archived objects, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html">Restoring
   /// Archived Objects</a>.
   ///
@@ -3265,13 +4111,13 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-algorithm
+  /// x-amz-server-side-encryption-customer-algorithm
   /// </li>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-key
+  /// x-amz-server-side-encryption-customer-key
   /// </li>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-key-MD5
+  /// x-amz-server-side-encryption-customer-key-MD5
   /// </li>
   /// </ul>
   /// For more information about SSE-C, see <a
@@ -3281,8 +4127,9 @@ class S3 {
   /// Assuming you have permission to read object tags (permission for the
   /// <code>s3:GetObjectVersionTagging</code> action), the response also returns
   /// the <code>x-amz-tagging-count</code> header that provides the count of
-  /// number of tags associated with the object. You can use
-  /// <a>GetObjectTagging</a> to retrieve the tag set associated with an object.
+  /// number of tags associated with the object. You can use <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html">GetObjectTagging</a>
+  /// to retrieve the tag set associated with an object.
   ///
   /// <b>Permissions</b>
   ///
@@ -3312,7 +4159,8 @@ class S3 {
   /// as if the object was deleted and includes <code>x-amz-delete-marker:
   /// true</code> in the response.
   /// </note>
-  /// For more information about versioning, see <a>PutBucketVersioning</a>.
+  /// For more information about versioning, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketVersioning.html">PutBucketVersioning</a>.
   ///
   /// <b>Overriding Response Header Values</b>
   ///
@@ -3378,14 +4226,17 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>ListBuckets</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html">ListBuckets</a>
   /// </li>
   /// <li>
-  /// <a>GetObjectAcl</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html">GetObjectAcl</a>
   /// </li>
   /// </ul>
   ///
   /// May throw [NoSuchKey].
+  /// May throw [InvalidObjectState].
   ///
   /// Parameter [bucket] :
   /// The bucket name containing the object.
@@ -3393,15 +4244,30 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [key] :
   /// Key of the object to get.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [ifMatch] :
   /// Return the object only if its entity tag (ETag) is the same as the one
@@ -3427,7 +4293,11 @@ class S3 {
   /// Parameter [range] :
   /// Downloads the specified range bytes of an object. For more information
   /// about the HTTP Range header, see <a
-  /// href="">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35</a>.
+  /// href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35">https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35</a>.
+  /// <note>
+  /// Amazon S3 doesn't support retrieving multiple ranges of data per
+  /// <code>GET</code> request.
+  /// </note>
   ///
   /// Parameter [responseCacheControl] :
   /// Sets the <code>Cache-Control</code> header of the response.
@@ -3456,7 +4326,7 @@ class S3 {
   /// encrypting data. This value is used to store the object and then it is
   /// discarded; Amazon S3 does not store the encryption key. The key must be
   /// appropriate for use with the algorithm specified in the
-  /// <code>x-amz-server-side​-encryption​-customer-algorithm</code> header.
+  /// <code>x-amz-server-side-encryption-customer-algorithm</code> header.
   ///
   /// Parameter [sSECustomerKeyMD5] :
   /// Specifies the 128-bit MD5 digest of the encryption key according to RFC
@@ -3468,6 +4338,7 @@ class S3 {
   Future<GetObjectOutput> getObject({
     @_s.required String bucket,
     @_s.required String key,
+    String expectedBucketOwner,
     String ifMatch,
     DateTime ifModifiedSince,
     String ifNoneMatch,
@@ -3496,6 +4367,8 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     ifModifiedSince
         ?.let((v) => headers['If-Modified-Since'] = _s.rfc822ToJson(v));
@@ -3525,7 +4398,7 @@ class S3 {
       if (responseContentType != null)
         'response-content-type': [responseContentType],
       if (responseExpires != null)
-        'response-expires': [_s.iso8601ToJson(responseExpires).toString()],
+        'response-expires': [_s.rfc822ToJson(responseExpires).toString()],
       if (versionId != null) 'versionId': [versionId],
     };
     final $result = await _protocol.sendRaw(
@@ -3540,6 +4413,8 @@ class S3 {
       body: await $result.stream.toBytes(),
       acceptRanges:
           _s.extractHeaderStringValue($result.headers, 'accept-ranges'),
+      bucketKeyEnabled: _s.extractHeaderBoolValue(
+          $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
       cacheControl:
           _s.extractHeaderStringValue($result.headers, 'Cache-Control'),
       contentDisposition:
@@ -3606,7 +4481,9 @@ class S3 {
   }
 
   /// Returns the access control list (ACL) of an object. To use this operation,
-  /// you must have READ_ACP access to the object.
+  /// you must have <code>READ_ACP</code> access to the object.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// <b>Versioning</b>
   ///
@@ -3618,13 +4495,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// <li>
-  /// <a>DeleteObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html">DeleteObject</a>
   /// </li>
   /// <li>
-  /// <a>PutObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
   /// </li>
   /// </ul>
   ///
@@ -3637,7 +4517,7 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
@@ -3647,11 +4527,17 @@ class S3 {
   /// Parameter [key] :
   /// The key of the object for which to get the ACL information.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [versionId] :
   /// VersionId used to reference a specific version of the object.
   Future<GetObjectAclOutput> getObjectAcl({
     @_s.required String bucket,
     @_s.required String key,
+    String expectedBucketOwner,
     RequestPayer requestPayer,
     String versionId,
   }) async {
@@ -3665,6 +4551,8 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
@@ -3692,6 +4580,8 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
   /// Objects</a>.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// Parameter [bucket] :
   /// The bucket name containing the object whose Legal Hold status you want to
   /// retrieve.
@@ -3699,7 +4589,7 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
@@ -3709,11 +4599,17 @@ class S3 {
   /// Parameter [key] :
   /// The key name for the object whose Legal Hold status you want to retrieve.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [versionId] :
   /// The version ID of the object whose Legal Hold status you want to retrieve.
   Future<GetObjectLegalHoldOutput> getObjectLegalHold({
     @_s.required String bucket,
     @_s.required String key,
+    String expectedBucketOwner,
     RequestPayer requestPayer,
     String versionId,
   }) async {
@@ -3727,6 +4623,8 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
@@ -3753,13 +4651,33 @@ class S3 {
   ///
   /// Parameter [bucket] :
   /// The bucket whose Object Lock configuration you want to retrieve.
+  ///
+  /// When using this API with an access point, you must direct requests to the
+  /// access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this operation with an access point through the AWS SDKs, you
+  /// provide the access point ARN in place of the bucket name. For more
+  /// information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
+  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetObjectLockConfigurationOutput> getObjectLockConfiguration({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?object-lock',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -3772,6 +4690,8 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
   /// Objects</a>.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// Parameter [bucket] :
   /// The bucket name containing the object whose retention settings you want to
   /// retrieve.
@@ -3779,7 +4699,7 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
@@ -3789,12 +4709,18 @@ class S3 {
   /// Parameter [key] :
   /// The key name for the object whose retention settings you want to retrieve.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [versionId] :
   /// The version ID for the object whose retention settings you want to
   /// retrieve.
   Future<GetObjectRetentionOutput> getObjectRetention({
     @_s.required String bucket,
     @_s.required String key,
+    String expectedBucketOwner,
     RequestPayer requestPayer,
     String versionId,
   }) async {
@@ -3808,6 +4734,8 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
@@ -3848,7 +4776,8 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutObjectTagging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html">PutObjectTagging</a>
   /// </li>
   /// </ul>
   ///
@@ -3859,21 +4788,37 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [key] :
   /// Object key for which to get the tagging information.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [versionId] :
   /// The versionId of the object for which to get the tagging information.
   Future<GetObjectTaggingOutput> getObjectTagging({
     @_s.required String bucket,
     @_s.required String key,
+    String expectedBucketOwner,
     String versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -3885,6 +4830,9 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -3893,6 +4841,7 @@ class S3 {
       requestUri:
           '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?tagging',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -3904,23 +4853,26 @@ class S3 {
     );
   }
 
-  /// Return torrent files from a bucket. BitTorrent can save you bandwidth when
-  /// you're distributing large files. For more information about BitTorrent,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3Torrent.html">Amazon
-  /// S3 Torrent</a>.
+  /// Returns torrent files from a bucket. BitTorrent can save you bandwidth
+  /// when you're distributing large files. For more information about
+  /// BitTorrent, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3Torrent.html">Using
+  /// BitTorrent with Amazon S3</a>.
   /// <note>
-  /// You can get torrent only for objects that are less than 5 GB in size and
-  /// that are not encrypted using server-side encryption with customer-provided
-  /// encryption key.
+  /// You can get torrent only for objects that are less than 5 GB in size, and
+  /// that are not encrypted using server-side encryption with a
+  /// customer-provided encryption key.
   /// </note>
   /// To use GET, you must have READ access to the object.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// The following operation is related to <code>GetObjectTorrent</code>:
   ///
   /// <ul>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// </ul>
   ///
@@ -3930,9 +4882,15 @@ class S3 {
   ///
   /// Parameter [key] :
   /// The object key for which to get the information.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetObjectTorrentOutput> getObjectTorrent({
     @_s.required String bucket,
     @_s.required String key,
+    String expectedBucketOwner,
     RequestPayer requestPayer,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -3945,6 +4903,8 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $result = await _protocol.sendRaw(
       method: 'GET',
@@ -3990,26 +4950,39 @@ class S3 {
   /// Amazon S3 Block Public Access</a>
   /// </li>
   /// <li>
-  /// <a>PutPublicAccessBlock</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutPublicAccessBlock.html">PutPublicAccessBlock</a>
   /// </li>
   /// <li>
-  /// <a>GetPublicAccessBlock</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetPublicAccessBlock.html">GetPublicAccessBlock</a>
   /// </li>
   /// <li>
-  /// <a>DeletePublicAccessBlock</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html">DeletePublicAccessBlock</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the Amazon S3 bucket whose <code>PublicAccessBlock</code>
   /// configuration you want to retrieve.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<GetPublicAccessBlockOutput> getPublicAccessBlock({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?publicAccessBlock',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -4038,13 +5011,43 @@ class S3 {
   ///
   /// Parameter [bucket] :
   /// The bucket name.
+  ///
+  /// When using this API with an access point, you must direct requests to the
+  /// access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this operation with an access point through the AWS SDKs, you
+  /// provide the access point ARN in place of the bucket name. For more
+  /// information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
+  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> headBucket({
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'HEAD',
       requestUri: '/${Uri.encodeComponent(bucket)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4064,13 +5067,13 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-algorithm
+  /// x-amz-server-side-encryption-customer-algorithm
   /// </li>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-key
+  /// x-amz-server-side-encryption-customer-key
   /// </li>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-key-MD5
+  /// x-amz-server-side-encryption-customer-key-MD5
   /// </li>
   /// </ul>
   /// For more information about SSE-C, see <a
@@ -4149,7 +5152,8 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// </ul>
   ///
@@ -4158,8 +5162,33 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the bucket containing the object.
   ///
+  /// When using this API with an access point, you must direct requests to the
+  /// access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this operation with an access point through the AWS SDKs, you
+  /// provide the access point ARN in place of the bucket name. For more
+  /// information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
+  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [key] :
   /// The object key.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [ifMatch] :
   /// Return the object only if its entity tag (ETag) is the same as the one
@@ -4186,7 +5215,11 @@ class S3 {
   /// Parameter [range] :
   /// Downloads the specified range bytes of an object. For more information
   /// about the HTTP Range header, see <a
-  /// href="">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35</a>.
+  /// href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35</a>.
+  /// <note>
+  /// Amazon S3 doesn't support retrieving multiple ranges of data per
+  /// <code>GET</code> request.
+  /// </note>
   ///
   /// Parameter [sSECustomerAlgorithm] :
   /// Specifies the algorithm to use to when encrypting the object (for example,
@@ -4197,7 +5230,7 @@ class S3 {
   /// encrypting data. This value is used to store the object and then it is
   /// discarded; Amazon S3 does not store the encryption key. The key must be
   /// appropriate for use with the algorithm specified in the
-  /// <code>x-amz-server-side​-encryption​-customer-algorithm</code> header.
+  /// <code>x-amz-server-side-encryption-customer-algorithm</code> header.
   ///
   /// Parameter [sSECustomerKeyMD5] :
   /// Specifies the 128-bit MD5 digest of the encryption key according to RFC
@@ -4209,6 +5242,7 @@ class S3 {
   Future<HeadObjectOutput> headObject({
     @_s.required String bucket,
     @_s.required String key,
+    String expectedBucketOwner,
     String ifMatch,
     DateTime ifModifiedSince,
     String ifNoneMatch,
@@ -4231,6 +5265,8 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     ifModifiedSince
         ?.let((v) => headers['If-Modified-Since'] = _s.rfc822ToJson(v));
@@ -4263,6 +5299,11 @@ class S3 {
     return HeadObjectOutput(
       acceptRanges:
           _s.extractHeaderStringValue($result.headers, 'accept-ranges'),
+      archiveStatus: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-archive-status')
+          ?.toArchiveStatus(),
+      bucketKeyEnabled: _s.extractHeaderBoolValue(
+          $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
       cacheControl:
           _s.extractHeaderStringValue($result.headers, 'Cache-Control'),
       contentDisposition:
@@ -4355,13 +5396,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketAnalyticsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketAnalyticsConfiguration.html">GetBucketAnalyticsConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketAnalyticsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketAnalyticsConfiguration.html">DeleteBucketAnalyticsConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketAnalyticsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html">PutBucketAnalyticsConfiguration</a>
   /// </li>
   /// </ul>
   ///
@@ -4371,8 +5415,81 @@ class S3 {
   /// Parameter [continuationToken] :
   /// The ContinuationToken that represents a placeholder from where this
   /// request should begin.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<ListBucketAnalyticsConfigurationsOutput>
       listBucketAnalyticsConfigurations({
+    @_s.required String bucket,
+    String continuationToken,
+    String expectedBucketOwner,
+  }) async {
+    ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final $query = <String, List<String>>{
+      if (continuationToken != null) 'continuation-token': [continuationToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/${Uri.encodeComponent(bucket)}?analytics',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListBucketAnalyticsConfigurationsOutput.fromXml($result.body);
+  }
+
+  /// Lists the S3 Intelligent-Tiering configuration from the specified bucket.
+  ///
+  /// The S3 Intelligent-Tiering storage class is designed to optimize storage
+  /// costs by automatically moving data to the most cost-effective storage
+  /// access tier, without additional operational overhead. S3
+  /// Intelligent-Tiering delivers automatic cost savings by moving data between
+  /// access tiers, when access patterns change.
+  ///
+  /// The S3 Intelligent-Tiering storage class is suitable for objects larger
+  /// than 128 KB that you plan to store for at least 30 days. If the size of an
+  /// object is less than 128 KB, it is not eligible for auto-tiering. Smaller
+  /// objects can be stored, but they are always charged at the frequent access
+  /// tier rates in the S3 Intelligent-Tiering storage class.
+  ///
+  /// If you delete an object before the end of the 30-day minimum storage
+  /// duration period, you are charged for 30 days. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
+  /// class for automatically optimizing frequently and infrequently accessed
+  /// objects</a>.
+  ///
+  /// Operations related to
+  /// <code>ListBucketIntelligentTieringConfigurations</code> include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketIntelligentTieringConfiguration.html">DeleteBucketIntelligentTieringConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketIntelligentTieringConfiguration.html">PutBucketIntelligentTieringConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketIntelligentTieringConfiguration.html">GetBucketIntelligentTieringConfiguration</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [bucket] :
+  /// The name of the Amazon S3 bucket whose configuration you want to modify or
+  /// retrieve.
+  ///
+  /// Parameter [continuationToken] :
+  /// The ContinuationToken that represents a placeholder from where this
+  /// request should begin.
+  Future<ListBucketIntelligentTieringConfigurationsOutput>
+      listBucketIntelligentTieringConfigurations({
     @_s.required String bucket,
     String continuationToken,
   }) async {
@@ -4382,11 +5499,12 @@ class S3 {
     };
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(bucket)}?analytics',
+      requestUri: '/${Uri.encodeComponent(bucket)}?intelligent-tiering',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return ListBucketAnalyticsConfigurationsOutput.fromXml($result.body);
+    return ListBucketIntelligentTieringConfigurationsOutput.fromXml(
+        $result.body);
   }
 
   /// Returns a list of inventory configurations for the bucket. You can have up
@@ -4420,13 +5538,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketInventoryConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketInventoryConfiguration.html">GetBucketInventoryConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketInventoryConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketInventoryConfiguration.html">DeleteBucketInventoryConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketInventoryConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html">PutBucketInventoryConfiguration</a>
   /// </li>
   /// </ul>
   ///
@@ -4439,12 +5560,21 @@ class S3 {
   /// been truncated. Use the NextContinuationToken from a previously truncated
   /// list response to continue the listing. The continuation token is an opaque
   /// value that Amazon S3 understands.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<ListBucketInventoryConfigurationsOutput>
       listBucketInventoryConfigurations({
     @_s.required String bucket,
     String continuationToken,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (continuationToken != null) 'continuation-token': [continuationToken],
     };
@@ -4452,6 +5582,7 @@ class S3 {
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?inventory',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListBucketInventoryConfigurationsOutput.fromXml($result.body);
@@ -4491,13 +5622,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketMetricsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html">PutBucketMetricsConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketMetricsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html">GetBucketMetricsConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketMetricsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html">DeleteBucketMetricsConfiguration</a>
   /// </li>
   /// </ul>
   ///
@@ -4509,12 +5643,21 @@ class S3 {
   /// has been truncated. Use the NextContinuationToken from a previously
   /// truncated list response to continue the listing. The continuation token is
   /// an opaque value that Amazon S3 understands.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<ListBucketMetricsConfigurationsOutput>
       listBucketMetricsConfigurations({
     @_s.required String bucket,
     String continuationToken,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (continuationToken != null) 'continuation-token': [continuationToken],
     };
@@ -4522,6 +5665,7 @@ class S3 {
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?metrics',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListBucketMetricsConfigurationsOutput.fromXml($result.body);
@@ -4571,33 +5715,48 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>UploadPart</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
   /// </li>
   /// <li>
-  /// <a>CompleteMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html">CompleteMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>ListParts</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html">ListParts</a>
   /// </li>
   /// <li>
-  /// <a>AbortMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html">AbortMultipartUpload</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
-  /// Name of the bucket to which the multipart upload was initiated.
+  /// The name of the bucket to which the multipart upload was initiated.
   ///
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
   /// Parameter [delimiter] :
@@ -4609,6 +5768,11 @@ class S3 {
   /// specify the prefix parameter, then the substring starts at the beginning
   /// of the key. The keys that are grouped under <code>CommonPrefixes</code>
   /// result element are not returned elsewhere in the response.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [keyMarker] :
   /// Together with upload-id-marker, this parameter specifies the multipart
@@ -4645,12 +5809,16 @@ class S3 {
     @_s.required String bucket,
     String delimiter,
     EncodingType encodingType,
+    String expectedBucketOwner,
     String keyMarker,
     int maxUploads,
     String prefix,
     String uploadIdMarker,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (delimiter != null) 'delimiter': [delimiter],
       if (encodingType != null) 'encoding-type': [encodingType.toValue()],
@@ -4663,12 +5831,13 @@ class S3 {
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?uploads',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListMultipartUploadsOutput.fromXml($result.body);
   }
 
-  /// Returns metadata about all of the versions of objects in a bucket. You can
+  /// Returns metadata about all versions of the objects in a bucket. You can
   /// also use request parameters as selection criteria to return metadata about
   /// a subset of all the object versions.
   /// <note>
@@ -4678,35 +5847,31 @@ class S3 {
   /// </note>
   /// To use this operation, you must have READ access to the bucket.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// The following operations are related to <code>ListObjectVersions</code>:
   ///
   /// <ul>
   /// <li>
-  /// <a>ListObjectsV2</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html">ListObjectsV2</a>
   /// </li>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// <li>
-  /// <a>PutObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
   /// </li>
   /// <li>
-  /// <a>DeleteObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html">DeleteObject</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name that contains the objects.
-  ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
-  /// provide the access point ARN in place of the bucket name. For more
-  /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
   ///
   /// Parameter [delimiter] :
   /// A delimiter is a character that you specify to group keys. All keys that
@@ -4716,16 +5881,21 @@ class S3 {
   /// max-keys limitation. These keys are not returned elsewhere in the
   /// response.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [keyMarker] :
   /// Specifies the key to start with when listing objects in a bucket.
   ///
   /// Parameter [maxKeys] :
-  /// Sets the maximum number of keys returned in the response. The response
-  /// might contain fewer keys but will never contain more. If additional keys
-  /// satisfy the search criteria, but were not returned because max-keys was
-  /// exceeded, the response contains
-  /// &lt;isTruncated&gt;true&lt;/isTruncated&gt;. To return the additional
-  /// keys, see key-marker and version-id-marker.
+  /// Sets the maximum number of keys returned in the response. By default the
+  /// API returns up to 1,000 key names. The response might contain fewer keys
+  /// but will never contain more. If additional keys satisfy the search
+  /// criteria, but were not returned because max-keys was exceeded, the
+  /// response contains &lt;isTruncated&gt;true&lt;/isTruncated&gt;. To return
+  /// the additional keys, see key-marker and version-id-marker.
   ///
   /// Parameter [prefix] :
   /// Use this parameter to select only those keys that begin with the specified
@@ -4740,12 +5910,16 @@ class S3 {
     @_s.required String bucket,
     String delimiter,
     EncodingType encodingType,
+    String expectedBucketOwner,
     String keyMarker,
     int maxKeys,
     String prefix,
     String versionIdMarker,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (delimiter != null) 'delimiter': [delimiter],
       if (encodingType != null) 'encoding-type': [encodingType.toValue()],
@@ -4758,6 +5932,7 @@ class S3 {
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?versions',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListObjectVersionsOutput.fromXml($result.body);
@@ -4769,27 +5944,33 @@ class S3 {
   /// Be sure to design your application to parse the contents of the response
   /// and handle it appropriately.
   /// <important>
-  /// This API has been revised. We recommend that you use the newer version,
-  /// <a>ListObjectsV2</a>, when developing applications. For backward
-  /// compatibility, Amazon S3 continues to support <code>ListObjects</code>.
+  /// This API has been revised. We recommend that you use the newer version, <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html">ListObjectsV2</a>,
+  /// when developing applications. For backward compatibility, Amazon S3
+  /// continues to support <code>ListObjects</code>.
   /// </important>
   /// The following operations are related to <code>ListObjects</code>:
   ///
   /// <ul>
   /// <li>
-  /// <a>ListObjectsV2</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html">ListObjectsV2</a>
   /// </li>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// <li>
-  /// <a>PutObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
   /// </li>
   /// <li>
-  /// <a>CreateBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// <li>
-  /// <a>ListBuckets</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html">ListBuckets</a>
   /// </li>
   /// </ul>
   ///
@@ -4798,15 +5979,41 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the bucket containing the objects.
   ///
+  /// When using this API with an access point, you must direct requests to the
+  /// access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this operation with an access point through the AWS SDKs, you
+  /// provide the access point ARN in place of the bucket name. For more
+  /// information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
+  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [delimiter] :
   /// A delimiter is a character you use to group keys.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [marker] :
   /// Specifies the key to start with when listing objects in a bucket.
   ///
   /// Parameter [maxKeys] :
-  /// Sets the maximum number of keys returned in the response. The response
-  /// might contain fewer keys but will never contain more.
+  /// Sets the maximum number of keys returned in the response. By default the
+  /// API returns up to 1,000 key names. The response might contain fewer keys
+  /// but will never contain more.
   ///
   /// Parameter [prefix] :
   /// Limits the response to keys that begin with the specified prefix.
@@ -4819,6 +6026,7 @@ class S3 {
     @_s.required String bucket,
     String delimiter,
     EncodingType encodingType,
+    String expectedBucketOwner,
     String marker,
     int maxKeys,
     String prefix,
@@ -4826,6 +6034,8 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
       if (delimiter != null) 'delimiter': [delimiter],
@@ -4865,21 +6075,26 @@ class S3 {
   /// This section describes the latest revision of the API. We recommend that
   /// you use this revised API for application development. For backward
   /// compatibility, Amazon S3 continues to support the prior version of this
-  /// API, <a>ListObjects</a>.
+  /// API, <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html">ListObjects</a>.
   /// </important>
-  /// To get a list of your buckets, see <a>ListBuckets</a>.
+  /// To get a list of your buckets, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html">ListBuckets</a>.
   ///
   /// The following operations are related to <code>ListObjectsV2</code>:
   ///
   /// <ul>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// <li>
-  /// <a>PutObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
   /// </li>
   /// <li>
-  /// <a>CreateBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// </ul>
   ///
@@ -4891,11 +6106,21 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
   /// Parameter [continuationToken] :
@@ -4909,14 +6134,20 @@ class S3 {
   /// Parameter [encodingType] :
   /// Encoding type used by Amazon S3 to encode object keys in the response.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [fetchOwner] :
   /// The owner field is not present in listV2 by default, if you want to return
   /// owner field with each key in the result then set the fetch owner field to
   /// true.
   ///
   /// Parameter [maxKeys] :
-  /// Sets the maximum number of keys returned in the response. The response
-  /// might contain fewer keys but will never contain more.
+  /// Sets the maximum number of keys returned in the response. By default the
+  /// API returns up to 1,000 key names. The response might contain fewer keys
+  /// but will never contain more.
   ///
   /// Parameter [prefix] :
   /// Limits the response to keys that begin with the specified prefix.
@@ -4935,6 +6166,7 @@ class S3 {
     String continuationToken,
     String delimiter,
     EncodingType encodingType,
+    String expectedBucketOwner,
     bool fetchOwner,
     int maxKeys,
     String prefix,
@@ -4943,6 +6175,8 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
       if (continuationToken != null) 'continuation-token': [continuationToken],
@@ -4965,9 +6199,10 @@ class S3 {
 
   /// Lists the parts that have been uploaded for a specific multipart upload.
   /// This operation must include the upload ID, which you obtain by sending the
-  /// initiate multipart upload request (see <a>CreateMultipartUpload</a>). This
-  /// request returns a maximum of 1,000 uploaded parts. The default number of
-  /// parts returned is 1,000 parts. You can restrict the number of parts
+  /// initiate multipart upload request (see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>).
+  /// This request returns a maximum of 1,000 uploaded parts. The default number
+  /// of parts returned is 1,000 parts. You can restrict the number of parts
   /// returned by specifying the <code>max-parts</code> request parameter. If
   /// your multipart upload consists of more than 1,000 parts, the response
   /// returns an <code>IsTruncated</code> field with the value of true, and a
@@ -4989,33 +6224,48 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>UploadPart</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
   /// </li>
   /// <li>
-  /// <a>CompleteMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html">CompleteMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>AbortMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html">AbortMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>ListMultipartUploads</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html">ListMultipartUploads</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
-  /// Name of the bucket to which the parts are being uploaded.
+  /// The name of the bucket to which the parts are being uploaded.
   ///
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
   /// Parameter [key] :
@@ -5023,6 +6273,11 @@ class S3 {
   ///
   /// Parameter [uploadId] :
   /// Upload ID identifying the multipart upload whose parts are being listed.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [maxParts] :
   /// Sets the maximum number of parts to return.
@@ -5034,6 +6289,7 @@ class S3 {
     @_s.required String bucket,
     @_s.required String key,
     @_s.required String uploadId,
+    String expectedBucketOwner,
     int maxParts,
     int partNumberMarker,
     RequestPayer requestPayer,
@@ -5049,6 +6305,8 @@ class S3 {
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
       if (uploadId != null) 'uploadId': [uploadId],
@@ -5115,8 +6373,9 @@ class S3 {
   /// Suspended – Disables accelerated data transfers to the bucket.
   /// </li>
   /// </ul>
-  /// The <a>GetBucketAccelerateConfiguration</a> operation returns the transfer
-  /// acceleration state of a bucket.
+  /// The <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketAccelerateConfiguration.html">GetBucketAccelerateConfiguration</a>
+  /// operation returns the transfer acceleration state of a bucket.
   ///
   /// After setting the Transfer Acceleration state of a bucket to Enabled, it
   /// might take up to thirty minutes before the data transfer rates to the
@@ -5134,10 +6393,12 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketAccelerateConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketAccelerateConfiguration.html">GetBucketAccelerateConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>CreateBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// </ul>
   ///
@@ -5145,17 +6406,27 @@ class S3 {
   /// Container for setting the transfer acceleration state.
   ///
   /// Parameter [bucket] :
-  /// Name of the bucket for which the accelerate configuration is set.
+  /// The name of the bucket for which the accelerate configuration is set.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketAccelerateConfiguration({
     @_s.required AccelerateConfiguration accelerateConfiguration,
     @_s.required String bucket,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(
         accelerateConfiguration, 'accelerateConfiguration');
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?accelerate',
+      headers: headers,
       payload: accelerateConfiguration.toXml('AccelerateConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
@@ -5218,16 +6489,49 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <code>emailAddress</code> – if the value specified is the email address of
-  /// an AWS account
-  /// </li>
-  /// <li>
   /// <code>id</code> – if the value specified is the canonical user ID of an
   /// AWS account
   /// </li>
   /// <li>
   /// <code>uri</code> – if you are granting permissions to a predefined group
   /// </li>
+  /// <li>
+  /// <code>emailAddress</code> – if the value specified is the email address of
+  /// an AWS account
+  /// <note>
+  /// Using email addresses to specify a grantee is only supported in the
+  /// following AWS Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// US East (N. Virginia)
+  /// </li>
+  /// <li>
+  /// US West (N. California)
+  /// </li>
+  /// <li>
+  /// US West (Oregon)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Singapore)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Sydney)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Tokyo)
+  /// </li>
+  /// <li>
+  /// Europe (Ireland)
+  /// </li>
+  /// <li>
+  /// South America (São Paulo)
+  /// </li>
+  /// </ul>
+  /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
+  /// and Endpoints</a> in the AWS General Reference.
+  /// </note> </li>
   /// </ul>
   /// For example, the following <code>x-amz-grant-write</code> header grants
   /// create, overwrite, and delete objects permission to LogDelivery group
@@ -5235,8 +6539,8 @@ class S3 {
   /// addresses.
   ///
   /// <code>x-amz-grant-write:
-  /// uri="http://acs.amazonaws.com/groups/s3/LogDelivery",
-  /// emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com" </code>
+  /// uri="http://acs.amazonaws.com/groups/s3/LogDelivery", id="111122223333",
+  /// id="555566667777" </code>
   /// </li>
   /// </ul>
   /// You can use either a canned ACL or specify access permissions explicitly.
@@ -5248,15 +6552,6 @@ class S3 {
   /// rights (using request elements) in the following ways:
   ///
   /// <ul>
-  /// <li>
-  /// By Email address:
-  ///
-  /// <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  /// xsi:type="AmazonCustomerByEmail"&gt;&lt;EmailAddress&gt;&lt;&gt;Grantees@email.com&lt;&gt;&lt;/EmailAddress&gt;lt;/Grantee&gt;</code>
-  ///
-  /// The grantee is resolved to the CanonicalUser and, in a response to a GET
-  /// Object acl request, appears as the CanonicalUser.
-  /// </li>
   /// <li>
   /// By the person's ID:
   ///
@@ -5272,17 +6567,62 @@ class S3 {
   /// <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   /// xsi:type="Group"&gt;&lt;URI&gt;&lt;&gt;http://acs.amazonaws.com/groups/global/AuthenticatedUsers&lt;&gt;&lt;/URI&gt;&lt;/Grantee&gt;</code>
   /// </li>
+  /// <li>
+  /// By Email address:
+  ///
+  /// <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  /// xsi:type="AmazonCustomerByEmail"&gt;&lt;EmailAddress&gt;&lt;&gt;Grantees@email.com&lt;&gt;&lt;/EmailAddress&gt;lt;/Grantee&gt;</code>
+  ///
+  /// The grantee is resolved to the CanonicalUser and, in a response to a GET
+  /// Object acl request, appears as the CanonicalUser.
+  /// <note>
+  /// Using email addresses to specify a grantee is only supported in the
+  /// following AWS Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// US East (N. Virginia)
+  /// </li>
+  /// <li>
+  /// US West (N. California)
+  /// </li>
+  /// <li>
+  /// US West (Oregon)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Singapore)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Sydney)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Tokyo)
+  /// </li>
+  /// <li>
+  /// Europe (Ireland)
+  /// </li>
+  /// <li>
+  /// South America (São Paulo)
+  /// </li>
+  /// </ul>
+  /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
+  /// and Endpoints</a> in the AWS General Reference.
+  /// </note> </li>
   /// </ul> <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html">DeleteBucket</a>
   /// </li>
   /// <li>
-  /// <a>GetObjectAcl</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html">GetObjectAcl</a>
   /// </li>
   /// </ul>
   ///
@@ -5301,6 +6641,14 @@ class S3 {
   /// used as a message integrity check to verify that the request body was not
   /// corrupted in transit. For more information, go to <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864.</a>
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [grantFullControl] :
   /// Allows grantee the read, write, read ACP, and write ACP permissions on the
@@ -5322,6 +6670,7 @@ class S3 {
     BucketCannedACL acl,
     AccessControlPolicy accessControlPolicy,
     String contentMD5,
+    String expectedBucketOwner,
     String grantFullControl,
     String grantRead,
     String grantReadACP,
@@ -5332,6 +6681,8 @@ class S3 {
     final headers = <String, String>{};
     acl?.let((v) => headers['x-amz-acl'] = v.toValue());
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     grantFullControl
         ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
     grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
@@ -5423,13 +6774,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketAnalyticsConfiguration.html">GetBucketAnalyticsConfiguration</a>
   /// </li>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketAnalyticsConfiguration.html">DeleteBucketAnalyticsConfiguration</a>
   /// </li>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketAnalyticsConfigurations.html">ListBucketAnalyticsConfigurations</a>
   /// </li>
   /// </ul>
   ///
@@ -5441,15 +6795,24 @@ class S3 {
   ///
   /// Parameter [id] :
   /// The ID that identifies the analytics configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketAnalyticsConfiguration({
     @_s.required AnalyticsConfiguration analyticsConfiguration,
     @_s.required String bucket,
     @_s.required String id,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(
         analyticsConfiguration, 'analyticsConfiguration');
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (id != null) 'id': [id],
     };
@@ -5457,6 +6820,7 @@ class S3 {
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?analytics',
       queryParams: $query,
+      headers: headers,
       payload: analyticsConfiguration.toXml('AnalyticsConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
@@ -5512,13 +6876,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketCors</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketCors.html">GetBucketCors</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketCors</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketCors.html">DeleteBucketCors</a>
   /// </li>
   /// <li>
-  /// <a>RESTOPTIONSobject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html">RESTOPTIONSobject</a>
   /// </li>
   /// </ul>
   ///
@@ -5528,7 +6895,7 @@ class S3 {
   /// Parameter [cORSConfiguration] :
   /// Describes the cross-origin access configuration for objects in an Amazon
   /// S3 bucket. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//cors.html">Enabling
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
   /// Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service
   /// Developer Guide</i>.
   ///
@@ -5537,15 +6904,26 @@ class S3 {
   /// used as a message integrity check to verify that the request body was not
   /// corrupted in transit. For more information, go to <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864.</a>
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketCors({
     @_s.required String bucket,
     @_s.required CORSConfiguration cORSConfiguration,
     String contentMD5,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(cORSConfiguration, 'cORSConfiguration');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?cors',
@@ -5555,13 +6933,19 @@ class S3 {
     );
   }
 
-  /// This implementation of the <code>PUT</code> operation uses the
-  /// <code>encryption</code> subresource to set the default encryption state of
-  /// an existing bucket.
+  /// This operation uses the <code>encryption</code> subresource to configure
+  /// default encryption and Amazon S3 Bucket Key for an existing bucket.
   ///
-  /// This implementation of the <code>PUT</code> operation sets default
-  /// encryption for a bucket using server-side encryption with Amazon
-  /// S3-managed keys SSE-S3 or AWS KMS customer master keys (CMKs) (SSE-KMS).
+  /// Default encryption for a bucket can use server-side encryption with Amazon
+  /// S3-managed keys (SSE-S3) or AWS KMS customer master keys (SSE-KMS). If you
+  /// specify default encryption using SSE-KMS, you can also configure Amazon S3
+  /// Bucket Key. For information about default encryption, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon
+  /// S3 default bucket encryption</a> in the <i>Amazon Simple Storage Service
+  /// Developer Guide</i>. For more information about S3 Bucket Keys, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html">Amazon
+  /// S3 Bucket Keys</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
   /// <important>
   /// This operation requires AWS Signature Version 4. For more information, see
   /// <a href="sig-v4-authenticating-requests.html"> Authenticating Requests
@@ -5580,10 +6964,12 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketEncryption</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html">GetBucketEncryption</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketEncryption</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html">DeleteBucketEncryption</a>
   /// </li>
   /// </ul>
   ///
@@ -5598,25 +6984,105 @@ class S3 {
   ///
   /// Parameter [contentMD5] :
   /// The base64-encoded 128-bit MD5 digest of the server-side encryption
-  /// configuration. This parameter is auto-populated when using the command
-  /// from the CLI.
+  /// configuration.
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketEncryption({
     @_s.required String bucket,
     @_s.required
         ServerSideEncryptionConfiguration serverSideEncryptionConfiguration,
     String contentMD5,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         serverSideEncryptionConfiguration, 'serverSideEncryptionConfiguration');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?encryption',
       headers: headers,
       payload: serverSideEncryptionConfiguration
           .toXml('ServerSideEncryptionConfiguration'),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Puts a S3 Intelligent-Tiering configuration to the specified bucket.
+  ///
+  /// The S3 Intelligent-Tiering storage class is designed to optimize storage
+  /// costs by automatically moving data to the most cost-effective storage
+  /// access tier, without additional operational overhead. S3
+  /// Intelligent-Tiering delivers automatic cost savings by moving data between
+  /// access tiers, when access patterns change.
+  ///
+  /// The S3 Intelligent-Tiering storage class is suitable for objects larger
+  /// than 128 KB that you plan to store for at least 30 days. If the size of an
+  /// object is less than 128 KB, it is not eligible for auto-tiering. Smaller
+  /// objects can be stored, but they are always charged at the frequent access
+  /// tier rates in the S3 Intelligent-Tiering storage class.
+  ///
+  /// If you delete an object before the end of the 30-day minimum storage
+  /// duration period, you are charged for 30 days. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
+  /// class for automatically optimizing frequently and infrequently accessed
+  /// objects</a>.
+  ///
+  /// Operations related to
+  /// <code>PutBucketIntelligentTieringConfiguration</code> include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketIntelligentTieringConfiguration.html">DeleteBucketIntelligentTieringConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketIntelligentTieringConfiguration.html">GetBucketIntelligentTieringConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html">ListBucketIntelligentTieringConfigurations</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [bucket] :
+  /// The name of the Amazon S3 bucket whose configuration you want to modify or
+  /// retrieve.
+  ///
+  /// Parameter [id] :
+  /// The ID used to identify the S3 Intelligent-Tiering configuration.
+  ///
+  /// Parameter [intelligentTieringConfiguration] :
+  /// Container for S3 Intelligent-Tiering configuration.
+  Future<void> putBucketIntelligentTieringConfiguration({
+    @_s.required String bucket,
+    @_s.required String id,
+    @_s.required
+        IntelligentTieringConfiguration intelligentTieringConfiguration,
+  }) async {
+    ArgumentError.checkNotNull(bucket, 'bucket');
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(
+        intelligentTieringConfiguration, 'intelligentTieringConfiguration');
+    final $query = <String, List<String>>{
+      if (id != null) 'id': [id],
+    };
+    await _protocol.send(
+      method: 'PUT',
+      requestUri: '/${Uri.encodeComponent(bucket)}?intelligent-tiering',
+      queryParams: $query,
+      payload: intelligentTieringConfiguration
+          .toXml('IntelligentTieringConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -5637,7 +7103,7 @@ class S3 {
   /// and whether to generate the inventory daily or weekly. You can also
   /// configure what object metadata to include and whether to inventory all
   /// object versions or only current versions. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//storage-inventory.html">Amazon
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html">Amazon
   /// S3 Inventory</a> in the Amazon Simple Storage Service Developer Guide.
   /// <important>
   /// You must create a bucket policy on the <i>destination</i> bucket to grant
@@ -5645,15 +7111,15 @@ class S3 {
   /// location. For an example policy, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-9">
   /// Granting Permissions for Amazon S3 Inventory and Storage Class
-  /// Analysis.</a>
+  /// Analysis</a>.
   /// </important>
   /// To use this operation, you must have permissions to perform the
   /// <code>s3:PutInventoryConfiguration</code> action. The bucket owner has
   /// this permission by default and can grant this permission to others. For
   /// more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a> in the Amazon Simple
   /// Storage Service Developer Guide.
   /// <p class="title"> <b>Special Errors</b>
@@ -5689,20 +7155,23 @@ class S3 {
   /// <li>
   /// <i>Cause:</i> You are not the owner of the specified bucket, or you do not
   /// have the <code>s3:PutInventoryConfiguration</code> bucket permission to
-  /// set the configuration on the bucket
+  /// set the configuration on the bucket.
   /// </li>
   /// </ul> </li>
   /// </ul> <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketInventoryConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketInventoryConfiguration.html">GetBucketInventoryConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketInventoryConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketInventoryConfiguration.html">DeleteBucketInventoryConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>ListBucketInventoryConfigurations</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html">ListBucketInventoryConfigurations</a>
   /// </li>
   /// </ul>
   ///
@@ -5714,15 +7183,24 @@ class S3 {
   ///
   /// Parameter [inventoryConfiguration] :
   /// Specifies the inventory configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketInventoryConfiguration({
     @_s.required String bucket,
     @_s.required String id,
     @_s.required InventoryConfiguration inventoryConfiguration,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(
         inventoryConfiguration, 'inventoryConfiguration');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (id != null) 'id': [id],
     };
@@ -5730,21 +7208,22 @@ class S3 {
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?inventory',
       queryParams: $query,
+      headers: headers,
       payload: inventoryConfiguration.toXml('InventoryConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
   }
 
   /// <important>
-  /// For an updated version of this API, see
-  /// <a>PutBucketLifecycleConfiguration</a>. This version has been deprecated.
-  /// Existing lifecycle configurations will work. For new lifecycle
-  /// configurations, use the updated API.
+  /// For an updated version of this API, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>.
+  /// This version has been deprecated. Existing lifecycle configurations will
+  /// work. For new lifecycle configurations, use the updated API.
   /// </important>
   /// Creates a new lifecycle configuration for the bucket or replaces an
   /// existing lifecycle configuration. For information about lifecycle
   /// configuration, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//object-lifecycle-mgmt.html">Object
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
   /// Lifecycle Management</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
@@ -5773,25 +7252,28 @@ class S3 {
   /// </li>
   /// </ul>
   /// For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
   /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon Simple
   /// Storage Service Developer Guide</i>.
   ///
   /// For more examples of transitioning objects to storage classes such as
   /// STANDARD_IA or ONEZONE_IA, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//intro-lifecycle-rules.html#lifecycle-configuration-examples">Examples
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#lifecycle-configuration-examples">Examples
   /// of Lifecycle Configuration</a>.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketLifecycle</a>(Deprecated)
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycle.html">GetBucketLifecycle</a>(Deprecated)
   /// </li>
   /// <li>
-  /// <a>GetBucketLifecycleConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html">GetBucketLifecycleConfiguration</a>
   /// </li>
   /// <li>
-  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html">RestoreObject</a>
   /// </li>
   /// <li>
   /// By default, a resource owner—in this case, a bucket owner, which is the
@@ -5803,12 +7285,12 @@ class S3 {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//using-with-s3-actions.html">Specifying
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
   /// Permissions in a Policy</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev//s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
   /// Access Permissions to your Amazon S3 Resources</a>
   /// </li>
   /// </ul> </li>
@@ -5819,6 +7301,13 @@ class S3 {
   ///
   /// Parameter [contentMD5] :
   /// <p/>
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [lifecycleConfiguration] :
   /// <p/>
@@ -5826,11 +7315,14 @@ class S3 {
   Future<void> putBucketLifecycle({
     @_s.required String bucket,
     String contentMD5,
+    String expectedBucketOwner,
     LifecycleConfiguration lifecycleConfiguration,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
@@ -5851,7 +7343,8 @@ class S3 {
   /// of both. Accordingly, this section describes the latest API. The previous
   /// version of the API supported filtering based only on an object key name
   /// prefix, which is supported for backward compatibility. For the related API
-  /// description, see <a>PutBucketLifecycle</a>.
+  /// description, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html">PutBucketLifecycle</a>.
   /// </note>
   /// <b>Rules</b>
   ///
@@ -5922,26 +7415,38 @@ class S3 {
   /// of Lifecycle Configuration</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketLifecycleConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html">GetBucketLifecycleConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketLifecycle</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html">DeleteBucketLifecycle</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the bucket for which to set the configuration.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [lifecycleConfiguration] :
   /// Container for lifecycle rules. You can add as many as 1,000 rules.
   Future<void> putBucketLifecycleConfiguration({
     @_s.required String bucket,
+    String expectedBucketOwner,
     BucketLifecycleConfiguration lifecycleConfiguration,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
+      headers: headers,
       payload: lifecycleConfiguration?.toXml('LifecycleConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
@@ -5999,24 +7504,30 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerLogs.html">Server
   /// Access Logging</a>.
   ///
-  /// For more information about creating a bucket, see <a>CreateBucket</a>. For
-  /// more information about returning the logging status of a bucket, see
-  /// <a>GetBucketLogging</a>.
+  /// For more information about creating a bucket, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>.
+  /// For more information about returning the logging status of a bucket, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLogging.html">GetBucketLogging</a>.
   ///
   /// The following operations are related to <code>PutBucketLogging</code>:
   ///
   /// <ul>
   /// <li>
-  /// <a>PutObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html">DeleteBucket</a>
   /// </li>
   /// <li>
-  /// <a>CreateBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketLogging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLogging.html">GetBucketLogging</a>
   /// </li>
   /// </ul>
   ///
@@ -6028,15 +7539,26 @@ class S3 {
   ///
   /// Parameter [contentMD5] :
   /// The MD5 hash of the <code>PutBucketLogging</code> request body.
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketLogging({
     @_s.required String bucket,
     @_s.required BucketLoggingStatus bucketLoggingStatus,
     String contentMD5,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(bucketLoggingStatus, 'bucketLoggingStatus');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?logging',
@@ -6070,13 +7592,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>DeleteBucketMetricsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html">DeleteBucketMetricsConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketMetricsConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketMetricsConfiguration.html">PutBucketMetricsConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>ListBucketMetricsConfigurations</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketMetricsConfigurations.html">ListBucketMetricsConfigurations</a>
   /// </li>
   /// </ul>
   /// <code>GetBucketLifecycle</code> has the following special error:
@@ -6104,14 +7629,23 @@ class S3 {
   ///
   /// Parameter [metricsConfiguration] :
   /// Specifies the metrics configuration.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketMetricsConfiguration({
     @_s.required String bucket,
     @_s.required String id,
     @_s.required MetricsConfiguration metricsConfiguration,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(metricsConfiguration, 'metricsConfiguration');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (id != null) 'id': [id],
     };
@@ -6119,12 +7653,14 @@ class S3 {
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?metrics',
       queryParams: $query,
+      headers: headers,
       payload: metricsConfiguration.toXml('MetricsConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
   }
 
-  /// No longer used, see the <a>PutBucketNotificationConfiguration</a>
+  /// No longer used, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotificationConfiguration.html">PutBucketNotificationConfiguration</a>
   /// operation.
   ///
   /// Parameter [bucket] :
@@ -6135,17 +7671,28 @@ class S3 {
   ///
   /// Parameter [contentMD5] :
   /// The MD5 hash of the <code>PutPublicAccessBlock</code> request body.
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   @Deprecated('Deprecated')
   Future<void> putBucketNotification({
     @_s.required String bucket,
     @_s.required NotificationConfigurationDeprecated notificationConfiguration,
     String contentMD5,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         notificationConfiguration, 'notificationConfiguration');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?notification',
@@ -6215,23 +7762,96 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketNotificationConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html">GetBucketNotificationConfiguration</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The name of the bucket.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketNotificationConfiguration({
     @_s.required String bucket,
     @_s.required NotificationConfiguration notificationConfiguration,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         notificationConfiguration, 'notificationConfiguration');
+    final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?notification',
+      headers: headers,
       payload: notificationConfiguration.toXml('NotificationConfiguration'),
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Creates or modifies <code>OwnershipControls</code> for an Amazon S3
+  /// bucket. To use this operation, you must have the
+  /// <code>s3:PutBucketOwnershipControls</code> permission. For more
+  /// information about Amazon S3 permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+  /// Permissions in a Policy</a>.
+  ///
+  /// For information about Amazon S3 Object Ownership, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/about-object-ownership.html">Using
+  /// Object Ownership</a>.
+  ///
+  /// The following operations are related to
+  /// <code>PutBucketOwnershipControls</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>GetBucketOwnershipControls</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteBucketOwnershipControls</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [bucket] :
+  /// The name of the Amazon S3 bucket whose <code>OwnershipControls</code> you
+  /// want to set.
+  ///
+  /// Parameter [ownershipControls] :
+  /// The <code>OwnershipControls</code> (BucketOwnerPreferred or ObjectWriter)
+  /// that you want to apply to this Amazon S3 bucket.
+  ///
+  /// Parameter [contentMD5] :
+  /// The MD5 hash of the <code>OwnershipControls</code> request body.
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  Future<void> putBucketOwnershipControls({
+    @_s.required String bucket,
+    @_s.required OwnershipControls ownershipControls,
+    String contentMD5,
+    String expectedBucketOwner,
+  }) async {
+    ArgumentError.checkNotNull(bucket, 'bucket');
+    ArgumentError.checkNotNull(ownershipControls, 'ownershipControls');
+    final headers = <String, String>{};
+    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    await _protocol.send(
+      method: 'PUT',
+      requestUri: '/${Uri.encodeComponent(bucket)}?ownershipControls',
+      headers: headers,
+      payload: ownershipControls.toXml('OwnershipControls'),
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -6242,7 +7862,7 @@ class S3 {
   /// <code>PutBucketPolicy</code> permissions on the specified bucket and
   /// belong to the bucket owner's account in order to use this operation.
   ///
-  /// If you don't have <code>PutBucketPolic</code>y permissions, Amazon S3
+  /// If you don't have <code>PutBucketPolicy</code> permissions, Amazon S3
   /// returns a <code>403 Access Denied</code> error. If you have the correct
   /// permissions, but you're not using an identity that belongs to the bucket
   /// owner's account, Amazon S3 returns a <code>405 Method Not Allowed</code>
@@ -6260,10 +7880,12 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html">DeleteBucket</a>
   /// </li>
   /// </ul>
   ///
@@ -6279,11 +7901,20 @@ class S3 {
   ///
   /// Parameter [contentMD5] :
   /// The MD5 hash of the request body.
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketPolicy({
     @_s.required String bucket,
     @_s.required String policy,
     bool confirmRemoveSelfBucketAccess,
     String contentMD5,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(policy, 'policy');
@@ -6291,6 +7922,8 @@ class S3 {
     confirmRemoveSelfBucketAccess?.let((v) =>
         headers['x-amz-confirm-remove-self-bucket-access'] = v.toString());
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?policy',
@@ -6312,15 +7945,14 @@ class S3 {
   /// </note>
   /// Specify the replication configuration in the request body. In the
   /// replication configuration, you provide the name of the destination bucket
-  /// where you want Amazon S3 to replicate objects, the IAM role that Amazon S3
-  /// can assume to replicate objects on your behalf, and other relevant
-  /// information.
+  /// or buckets where you want Amazon S3 to replicate objects, the IAM role
+  /// that Amazon S3 can assume to replicate objects on your behalf, and other
+  /// relevant information.
   ///
   /// A replication configuration must include at least one rule, and can
   /// contain a maximum of 1,000. Each rule identifies a subset of objects to
   /// replicate by filtering the objects in the source bucket. To choose
   /// additional subsets of objects to replicate, add a rule for each subset.
-  /// All rules must specify the same destination bucket.
   ///
   /// To specify a subset of the objects in the source bucket to apply a
   /// replication rule to, add the Filter element as a child of the Rule
@@ -6329,7 +7961,13 @@ class S3 {
   /// configuration, you must also add the following elements:
   /// <code>DeleteMarkerReplication</code>, <code>Status</code>, and
   /// <code>Priority</code>.
-  ///
+  /// <note>
+  /// If you are using an earlier version of the replication configuration,
+  /// Amazon S3 handles replication of delete markers differently. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations">Backward
+  /// Compatibility</a>.
+  /// </note>
   /// For information about enabling versioning on a bucket, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html">Using
   /// Versioning</a>.
@@ -6355,17 +7993,20 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-config-for-kms-objects.html">Replicating
   /// Objects Created with SSE Using CMKs stored in AWS KMS</a>.
   ///
-  /// For information on <code>PutBucketReplication</code> errors, see
-  /// <a>ReplicationErrorCodeList</a>
+  /// For information on <code>PutBucketReplication</code> errors, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ReplicationErrorCodeList">List
+  /// of replication-related error codes</a>
   ///
   /// The following operations are related to <code>PutBucketReplication</code>:
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketReplication</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html">GetBucketReplication</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketReplication</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html">DeleteBucketReplication</a>
   /// </li>
   /// </ul>
   ///
@@ -6378,12 +8019,21 @@ class S3 {
   /// not corrupted in transit. For more information, see <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.
   ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [token] :
-  /// <p/>
+  /// A token to allow Object Lock to be enabled for an existing bucket.
   Future<void> putBucketReplication({
     @_s.required String bucket,
     @_s.required ReplicationConfiguration replicationConfiguration,
     String contentMD5,
+    String expectedBucketOwner,
     String token,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -6391,6 +8041,8 @@ class S3 {
         replicationConfiguration, 'replicationConfiguration');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     token?.let((v) => headers['x-amz-bucket-object-lock-token'] = v.toString());
     await _protocol.send(
       method: 'PUT',
@@ -6414,10 +8066,12 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketRequestPayment</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketRequestPayment.html">GetBucketRequestPayment</a>
   /// </li>
   /// </ul>
   ///
@@ -6432,16 +8086,27 @@ class S3 {
   /// header as a message integrity check to verify that the request body was
   /// not corrupted in transit. For more information, see <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketRequestPayment({
     @_s.required String bucket,
     @_s.required RequestPaymentConfiguration requestPaymentConfiguration,
     String contentMD5,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         requestPaymentConfiguration, 'requestPaymentConfiguration');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?requestPayment',
@@ -6488,9 +8153,9 @@ class S3 {
   /// Description: The tag provided was not a valid tag. This error can occur if
   /// the tag did not pass input validation. For information about tag
   /// restrictions, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2//allocation-tag-restrictions.html">User-Defined
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
   /// Tag Restrictions</a> and <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2//aws-tag-restrictions.html">AWS-Generated
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/aws-tag-restrictions.html">AWS-Generated
   /// Cost Allocation Tag Restrictions</a>.
   /// </li>
   /// </ul> </li>
@@ -6525,10 +8190,12 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetBucketTagging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketTagging.html">GetBucketTagging</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucketTagging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html">DeleteBucketTagging</a>
   /// </li>
   /// </ul>
   ///
@@ -6543,15 +8210,26 @@ class S3 {
   /// header as a message integrity check to verify that the request body was
   /// not corrupted in transit. For more information, see <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketTagging({
     @_s.required String bucket,
     @_s.required Tagging tagging,
     String contentMD5,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(tagging, 'tagging');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?tagging',
@@ -6573,8 +8251,9 @@ class S3 {
   /// objects added to the bucket receive the version ID null.
   ///
   /// If the versioning state has never been set on a bucket, it has no
-  /// versioning state; a <a>GetBucketVersioning</a> request does not return a
-  /// versioning state value.
+  /// versioning state; a <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html">GetBucketVersioning</a>
+  /// request does not return a versioning state value.
   ///
   /// If the bucket owner enables MFA Delete in the bucket versioning
   /// configuration, the bucket owner must include the <code>x-amz-mfa
@@ -6595,13 +8274,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
   /// </li>
   /// <li>
-  /// <a>DeleteBucket</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html">DeleteBucket</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketVersioning</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html">GetBucketVersioning</a>
   /// </li>
   /// </ul>
   ///
@@ -6617,6 +8299,14 @@ class S3 {
   /// not corrupted in transit. For more information, see <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.
   ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [mfa] :
   /// The concatenation of the authentication device's serial number, a space,
   /// and the value that is displayed on your authentication device.
@@ -6624,6 +8314,7 @@ class S3 {
     @_s.required String bucket,
     @_s.required VersioningConfiguration versioningConfiguration,
     String contentMD5,
+    String expectedBucketOwner,
     String mfa,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -6631,6 +8322,8 @@ class S3 {
         versioningConfiguration, 'versioningConfiguration');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     mfa?.let((v) => headers['x-amz-mfa'] = v.toString());
     await _protocol.send(
       method: 'PUT',
@@ -6730,6 +8423,12 @@ class S3 {
   /// <code>HttpRedirectCode</code>
   /// </li>
   /// </ul>
+  /// Amazon S3 has a limitation of 50 routing rules per website configuration.
+  /// If you require more than 50 routing rules, you can use object redirect.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html">Configuring
+  /// an Object Redirect</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [bucket] :
   /// The bucket name.
@@ -6742,15 +8441,26 @@ class S3 {
   /// header as a message integrity check to verify that the request body was
   /// not corrupted in transit. For more information, see <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putBucketWebsite({
     @_s.required String bucket,
     @_s.required WebsiteConfiguration websiteConfiguration,
     String contentMD5,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(websiteConfiguration, 'websiteConfiguration');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?website',
@@ -6778,324 +8488,99 @@ class S3 {
   /// putting an object to Amazon S3 and compare the returned ETag to the
   /// calculated MD5 value.
   /// <note>
-  /// To configure your application to send the request headers before sending
-  /// the request body, use the <code>100-continue</code> HTTP status code. For
-  /// PUT operations, this helps you avoid sending the message body if the
-  /// message is rejected based on the headers (for example, because
-  /// authentication fails or a redirect occurs). For more information on the
-  /// <code>100-continue</code> HTTP status code, see Section 8.2.3 of <a
-  /// href="http://www.ietf.org/rfc/rfc2616.txt">http://www.ietf.org/rfc/rfc2616.txt</a>.
+  /// The <code>Content-MD5</code> header is required for any request to upload
+  /// an object with a retention period configured using Amazon S3 Object Lock.
+  /// For more information about Amazon S3 Object Lock, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock-overview.html">Amazon
+  /// S3 Object Lock Overview</a> in the <i>Amazon Simple Storage Service
+  /// Developer Guide</i>.
   /// </note>
+  /// <b>Server-side Encryption</b>
+  ///
   /// You can optionally request server-side encryption. With server-side
   /// encryption, Amazon S3 encrypts your data as it writes it to disks in its
   /// data centers and decrypts the data when you access it. You have the option
-  /// to provide your own encryption key or use AWS managed encryption keys. For
-  /// more information, see <a
+  /// to provide your own encryption key or use AWS managed encryption keys
+  /// (SSE-S3 or SSE-KMS). For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Using
   /// Server-Side Encryption</a>.
-  /// <dl> <dt>Access Permissions</dt> <dd>
-  /// You can optionally specify the accounts or groups that should be granted
-  /// specific permissions on the new object. There are two ways to grant the
-  /// permissions using the request headers:
   ///
-  /// <ul>
-  /// <li>
-  /// Specify a canned ACL with the <code>x-amz-acl</code> request header. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
-  /// ACL</a>.
-  /// </li>
-  /// <li>
-  /// Specify access permissions explicitly with the
-  /// <code>x-amz-grant-read</code>, <code>x-amz-grant-read-acp</code>,
-  /// <code>x-amz-grant-write-acp</code>, and
-  /// <code>x-amz-grant-full-control</code> headers. These parameters map to the
-  /// set of permissions that Amazon S3 supports in an ACL. For more
+  /// If you request server-side encryption using AWS Key Management Service
+  /// (SSE-KMS), you can enable an S3 Bucket Key at the object-level. For more
   /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html">Amazon
+  /// S3 Bucket Keys</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// <b>Access Control List (ACL)-Specific Request Headers</b>
+  ///
+  /// You can use headers to grant ACL- based permissions. By default, all
+  /// objects are private. Only the owner has full access control. When adding a
+  /// new object, you can grant permissions to individual AWS accounts or to
+  /// predefined groups defined by Amazon S3. These permissions are then added
+  /// to the ACL on the object. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
-  /// Control List (ACL) Overview</a>.
-  /// </li>
-  /// </ul>
-  /// You can use either a canned ACL or specify access permissions explicitly.
-  /// You cannot do both.
-  /// </dd> <dt>Server-Side- Encryption-Specific Request Headers</dt> <dd>
-  /// You can optionally tell Amazon S3 to encrypt data at rest using
-  /// server-side encryption. Server-side encryption is for data encryption at
-  /// rest. Amazon S3 encrypts your data as it writes it to disks in its data
-  /// centers and decrypts it when you access it. The option you use depends on
-  /// whether you want to use AWS managed encryption keys or provide your own
-  /// encryption key.
+  /// Control List (ACL) Overview</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-using-rest-api.html">Managing
+  /// ACLs Using the REST API</a>.
   ///
-  /// <ul>
-  /// <li>
-  /// Use encryption keys managed by Amazon S3 or customer master keys (CMKs)
-  /// stored in AWS Key Management Service (AWS KMS) – If you want AWS to manage
-  /// the keys used to encrypt data, specify the following headers in the
-  /// request.
-  ///
-  /// <ul>
-  /// <li>
-  /// x-amz-server-side​-encryption
-  /// </li>
-  /// <li>
-  /// x-amz-server-side-encryption-aws-kms-key-id
-  /// </li>
-  /// <li>
-  /// x-amz-server-side-encryption-context
-  /// </li>
-  /// </ul> <note>
-  /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but
-  /// don't provide <code>x-amz-server-side-encryption-aws-kms-key-id</code>,
-  /// Amazon S3 uses the AWS managed CMK in AWS KMS to protect the data. If you
-  /// want to use a customer managed AWS KMS CMK, you must provide the
-  /// <code>x-amz-server-side-encryption-aws-kms-key-id</code> of the symmetric
-  /// customer managed CMK. Amazon S3 only supports symmetric CMKs and not
-  /// asymmetric CMKs. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
-  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
-  /// Developer Guide</i>.
-  /// </note> <important>
-  /// All GET and PUT requests for an object protected by AWS KMS fail if you
-  /// don't make them with SSL or by using SigV4.
-  /// </important>
-  /// For more information about server-side encryption with CMKs stored in AWS
-  /// KMS (SSE-KMS), see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
-  /// Data Using Server-Side Encryption with CMKs stored in AWS</a>.
-  /// </li>
-  /// <li>
-  /// Use customer-provided encryption keys – If you want to manage your own
-  /// encryption keys, provide all the following headers in the request.
-  ///
-  /// <ul>
-  /// <li>
-  /// x-amz-server-side​-encryption​-customer-algorithm
-  /// </li>
-  /// <li>
-  /// x-amz-server-side​-encryption​-customer-key
-  /// </li>
-  /// <li>
-  /// x-amz-server-side​-encryption​-customer-key-MD5
-  /// </li>
-  /// </ul>
-  /// For more information about server-side encryption with CMKs stored in KMS
-  /// (SSE-KMS), see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
-  /// Data Using Server-Side Encryption with CMKs stored in AWS</a>.
-  /// </li>
-  /// </ul> </dd> <dt>Access-Control-List (ACL)-Specific Request Headers</dt>
-  /// <dd>
-  /// You also can use the following access control–related headers with this
-  /// operation. By default, all objects are private. Only the owner has full
-  /// access control. When adding a new object, you can grant permissions to
-  /// individual AWS accounts or to predefined groups defined by Amazon S3.
-  /// These permissions are then added to the Access Control List (ACL) on the
-  /// object. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
-  /// ACLs</a>. With this operation, you can grant access permissions using one
-  /// of the following two methods:
-  ///
-  /// <ul>
-  /// <li>
-  /// Specify a canned ACL (<code>x-amz-acl</code>) — Amazon S3 supports a set
-  /// of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined
-  /// set of grantees and permissions. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
-  /// ACL</a>.
-  /// </li>
-  /// <li>
-  /// Specify access permissions explicitly — To explicitly grant access
-  /// permissions to specific AWS accounts or groups, use the following headers.
-  /// Each header maps to specific permissions that Amazon S3 supports in an
-  /// ACL. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
-  /// Control List (ACL) Overview</a>. In the header, you specify a list of
-  /// grantees who get the specific permission. To grant permissions explicitly
-  /// use:
-  ///
-  /// <ul>
-  /// <li>
-  /// x-amz-grant-read
-  /// </li>
-  /// <li>
-  /// x-amz-grant-write
-  /// </li>
-  /// <li>
-  /// x-amz-grant-read-acp
-  /// </li>
-  /// <li>
-  /// x-amz-grant-write-acp
-  /// </li>
-  /// <li>
-  /// x-amz-grant-full-control
-  /// </li>
-  /// </ul>
-  /// You specify each grantee as a type=value pair, where the type is one of
-  /// the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>emailAddress</code> – if the value specified is the email address of
-  /// an AWS account
-  /// <important>
-  /// Using email addresses to specify a grantee is only supported in the
-  /// following AWS Regions:
-  ///
-  /// <ul>
-  /// <li>
-  /// US East (N. Virginia)
-  /// </li>
-  /// <li>
-  /// US West (N. California)
-  /// </li>
-  /// <li>
-  /// US West (Oregon)
-  /// </li>
-  /// <li>
-  /// Asia Pacific (Singapore)
-  /// </li>
-  /// <li>
-  /// Asia Pacific (Sydney)
-  /// </li>
-  /// <li>
-  /// Asia Pacific (Tokyo)
-  /// </li>
-  /// <li>
-  /// EU (Ireland)
-  /// </li>
-  /// <li>
-  /// South America (São Paulo)
-  /// </li>
-  /// </ul>
-  /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
-  /// and Endpoints</a> in the AWS General Reference
-  /// </important> </li>
-  /// <li>
-  /// <code>id</code> – if the value specified is the canonical user ID of an
-  /// AWS account
-  /// </li>
-  /// <li>
-  /// <code>uri</code> – if you are granting permissions to a predefined group
-  /// </li>
-  /// </ul>
-  /// For example, the following <code>x-amz-grant-read</code> header grants the
-  /// AWS accounts identified by email addresses permissions to read object data
-  /// and its metadata:
-  ///
-  /// <code>x-amz-grant-read: emailAddress="xyz@amazon.com",
-  /// emailAddress="abc@amazon.com" </code>
-  /// </li>
-  /// </ul> </dd> <dt>Server-Side- Encryption-Specific Request Headers</dt> <dd>
-  /// You can optionally tell Amazon S3 to encrypt data at rest using
-  /// server-side encryption. Server-side encryption is for data encryption at
-  /// rest. Amazon S3 encrypts your data as it writes it to disks in its data
-  /// centers and decrypts it when you access it. The option you use depends on
-  /// whether you want to use AWS-managed encryption keys or provide your own
-  /// encryption key.
-  ///
-  /// <ul>
-  /// <li>
-  /// Use encryption keys managed by Amazon S3 or customer master keys (CMKs)
-  /// stored in AWS Key Management Service (AWS KMS) – If you want AWS to manage
-  /// the keys used to encrypt data, specify the following headers in the
-  /// request.
-  ///
-  /// <ul>
-  /// <li>
-  /// x-amz-server-side​-encryption
-  /// </li>
-  /// <li>
-  /// x-amz-server-side-encryption-aws-kms-key-id
-  /// </li>
-  /// <li>
-  /// x-amz-server-side-encryption-context
-  /// </li>
-  /// </ul> <note>
-  /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but
-  /// don't provide <code>x-amz-server-side-encryption-aws-kms-key-id</code>,
-  /// Amazon S3 uses the AWS managed CMK in AWS KMS to protect the data. If you
-  /// want to use a customer managed AWS KMS CMK, you must provide the
-  /// <code>x-amz-server-side-encryption-aws-kms-key-id</code> of the symmetric
-  /// customer managed CMK. Amazon S3 only supports symmetric CMKs and not
-  /// asymmetric CMKs. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
-  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
-  /// Developer Guide</i>.
-  /// </note> <important>
-  /// All GET and PUT requests for an object protected by AWS KMS fail if you
-  /// don't make them with SSL or by using SigV4.
-  /// </important>
-  /// For more information about server-side encryption with CMKs stored in AWS
-  /// KMS (SSE-KMS), see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
-  /// Data Using Server-Side Encryption with CMKs stored in AWS KMS</a>.
-  /// </li>
-  /// <li>
-  /// Use customer-provided encryption keys – If you want to manage your own
-  /// encryption keys, provide all the following headers in the request.
-  /// <note>
-  /// If you use this feature, the ETag value that Amazon S3 returns in the
-  /// response is not the MD5 of the object.
-  /// </note>
-  /// <ul>
-  /// <li>
-  /// x-amz-server-side​-encryption​-customer-algorithm
-  /// </li>
-  /// <li>
-  /// x-amz-server-side​-encryption​-customer-key
-  /// </li>
-  /// <li>
-  /// x-amz-server-side​-encryption​-customer-key-MD5
-  /// </li>
-  /// </ul>
-  /// For more information about server-side encryption with CMKs stored in AWS
-  /// KMS (SSE-KMS), see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
-  /// Data Using Server-Side Encryption with CMKs stored in AWS KMS</a>.
-  /// </li>
-  /// </ul> </dd> </dl>
   /// <b>Storage Class Options</b>
   ///
-  /// By default, Amazon S3 uses the Standard storage class to store newly
-  /// created objects. The Standard storage class provides high durability and
-  /// high availability. You can specify other storage classes depending on the
-  /// performance needs. For more information, see <a
+  /// By default, Amazon S3 uses the STANDARD Storage Class to store newly
+  /// created objects. The STANDARD storage class provides high durability and
+  /// high availability. Depending on performance needs, you can specify a
+  /// different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS
+  /// Storage Class. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
-  /// Classes</a> in the Amazon Simple Storage Service Developer Guide.
+  /// Classes</a> in the <i>Amazon S3 Service Developer Guide</i>.
   ///
   /// <b>Versioning</b>
   ///
   /// If you enable versioning for a bucket, Amazon S3 automatically generates a
   /// unique version ID for the object being stored. Amazon S3 returns this ID
-  /// in the response using the <code>x-amz-version-id response</code> header.
-  /// If versioning is suspended, Amazon S3 always uses null as the version ID
-  /// for the object stored. For more information about returning the versioning
-  /// state of a bucket, see <a>GetBucketVersioning</a>. If you enable
-  /// versioning for a bucket, when Amazon S3 receives multiple write requests
-  /// for the same object simultaneously, it stores all of the objects.
+  /// in the response. When you enable versioning for a bucket, if Amazon S3
+  /// receives multiple write requests for the same object simultaneously, it
+  /// stores all of the objects.
+  ///
+  /// For more information about versioning, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/AddingObjectstoVersioningEnabledBuckets.html">Adding
+  /// Objects to Versioning Enabled Buckets</a>. For information about returning
+  /// the versioning state of a bucket, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html">GetBucketVersioning</a>.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
   /// <li>
-  /// <a>CopyObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html">CopyObject</a>
   /// </li>
   /// <li>
-  /// <a>DeleteObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html">DeleteObject</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
-  /// Bucket name to which the PUT operation was initiated.
+  /// The bucket name to which the PUT operation was initiated.
   ///
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
   /// Parameter [key] :
@@ -7106,8 +8591,19 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
   /// ACL</a>.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// Parameter [body] :
   /// Object data.
+  ///
+  /// Parameter [bucketKeyEnabled] :
+  /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
+  /// encryption with server-side encryption using AWS KMS (SSE-KMS). Setting
+  /// this header to <code>true</code> causes Amazon S3 to use an S3 Bucket Key
+  /// for object encryption with SSE-KMS.
+  ///
+  /// Specifying this header with a PUT operation doesn’t affect bucket-level
+  /// settings for S3 Bucket Key.
   ///
   /// Parameter [cacheControl] :
   /// Can be used to specify caching behavior along the request/reply chain. For
@@ -7148,6 +8644,11 @@ class S3 {
   /// information, see <a
   /// href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17</a>.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [expires] :
   /// The date and time at which the object is no longer cacheable. For more
   /// information, see <a
@@ -7156,14 +8657,22 @@ class S3 {
   /// Parameter [grantFullControl] :
   /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// Parameter [grantRead] :
   /// Allows grantee to read the object data and its metadata.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// Parameter [grantReadACP] :
   /// Allows grantee to read the object ACL.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// Parameter [grantWriteACP] :
   /// Allows grantee to write the ACL for the applicable object.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// Parameter [metadata] :
   /// A map of metadata to store with the object in S3.
@@ -7189,7 +8698,7 @@ class S3 {
   /// encrypting data. This value is used to store the object and then it is
   /// discarded; Amazon S3 does not store the encryption key. The key must be
   /// appropriate for use with the algorithm specified in the
-  /// <code>x-amz-server-side​-encryption​-customer-algorithm</code> header.
+  /// <code>x-amz-server-side-encryption-customer-algorithm</code> header.
   ///
   /// Parameter [sSECustomerKeyMD5] :
   /// Specifies the 128-bit MD5 digest of the encryption key according to RFC
@@ -7219,8 +8728,13 @@ class S3 {
   /// Amazon S3 (for example, AES256, aws:kms).
   ///
   /// Parameter [storageClass] :
-  /// If you don't specify, Standard is the default storage class. Amazon S3
-  /// supports other storage classes.
+  /// By default, Amazon S3 uses the STANDARD Storage Class to store newly
+  /// created objects. The STANDARD storage class provides high durability and
+  /// high availability. Depending on performance needs, you can specify a
+  /// different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS
+  /// Storage Class. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
+  /// Classes</a> in the <i>Amazon S3 Service Developer Guide</i>.
   ///
   /// Parameter [tagging] :
   /// The tag-set for the object. The tag-set must be encoded as URL Query
@@ -7254,6 +8768,7 @@ class S3 {
     @_s.required String key,
     ObjectCannedACL acl,
     Uint8List body,
+    bool bucketKeyEnabled,
     String cacheControl,
     String contentDisposition,
     String contentEncoding,
@@ -7261,6 +8776,7 @@ class S3 {
     int contentLength,
     String contentMD5,
     String contentType,
+    String expectedBucketOwner,
     DateTime expires,
     String grantFullControl,
     String grantRead,
@@ -7292,6 +8808,9 @@ class S3 {
     );
     final headers = <String, String>{};
     acl?.let((v) => headers['x-amz-acl'] = v.toValue());
+    bucketKeyEnabled?.let((v) =>
+        headers['x-amz-server-side-encryption-bucket-key-enabled'] =
+            v.toString());
     cacheControl?.let((v) => headers['Cache-Control'] = v.toString());
     contentDisposition
         ?.let((v) => headers['Content-Disposition'] = v.toString());
@@ -7300,6 +8819,8 @@ class S3 {
     contentLength?.let((v) => headers['Content-Length'] = v.toString());
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     contentType?.let((v) => headers['Content-Type'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     expires?.let((v) => headers['Expires'] = _s.rfc822ToJson(v));
     grantFullControl
         ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
@@ -7341,6 +8862,8 @@ class S3 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return PutObjectOutput(
+      bucketKeyEnabled: _s.extractHeaderBoolValue(
+          $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
       expiration:
           _s.extractHeaderStringValue($result.headers, 'x-amz-expiration'),
@@ -7365,13 +8888,21 @@ class S3 {
   }
 
   /// Uses the <code>acl</code> subresource to set the access control list (ACL)
-  /// permissions for an object that already exists in a bucket. You must have
-  /// <code>WRITE_ACP</code> permission to set the ACL of an object.
+  /// permissions for a new or existing object in an S3 bucket. You must have
+  /// <code>WRITE_ACP</code> permission to set the ACL of an object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#permissions">What
+  /// permissions can I grant?</a> in the <i>Amazon Simple Storage Service
+  /// Developer Guide</i>.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// Depending on your application needs, you can choose to set the ACL on an
   /// object using either the request body or the headers. For example, if you
   /// have an existing application that updates a bucket ACL using the request
-  /// body, you can continue to use that approach.
+  /// body, you can continue to use that approach. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+  /// Control List (ACL) Overview</a> in the <i>Amazon S3 Developer Guide</i>.
   ///
   /// <b>Access Permissions</b>
   ///
@@ -7406,16 +8937,49 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <code>emailAddress</code> – if the value specified is the email address of
-  /// an AWS account
-  /// </li>
-  /// <li>
   /// <code>id</code> – if the value specified is the canonical user ID of an
   /// AWS account
   /// </li>
   /// <li>
   /// <code>uri</code> – if you are granting permissions to a predefined group
   /// </li>
+  /// <li>
+  /// <code>emailAddress</code> – if the value specified is the email address of
+  /// an AWS account
+  /// <note>
+  /// Using email addresses to specify a grantee is only supported in the
+  /// following AWS Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// US East (N. Virginia)
+  /// </li>
+  /// <li>
+  /// US West (N. California)
+  /// </li>
+  /// <li>
+  /// US West (Oregon)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Singapore)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Sydney)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Tokyo)
+  /// </li>
+  /// <li>
+  /// Europe (Ireland)
+  /// </li>
+  /// <li>
+  /// South America (São Paulo)
+  /// </li>
+  /// </ul>
+  /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
+  /// and Endpoints</a> in the AWS General Reference.
+  /// </note> </li>
   /// </ul>
   /// For example, the following <code>x-amz-grant-read</code> header grants
   /// list objects permission to the two AWS accounts identified by their email
@@ -7435,15 +8999,6 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// By Email address:
-  ///
-  /// <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  /// xsi:type="AmazonCustomerByEmail"&gt;&lt;EmailAddress&gt;&lt;&gt;Grantees@email.com&lt;&gt;&lt;/EmailAddress&gt;lt;/Grantee&gt;</code>
-  ///
-  /// The grantee is resolved to the CanonicalUser and, in a response to a GET
-  /// Object acl request, appears as the CanonicalUser.
-  /// </li>
-  /// <li>
   /// By the person's ID:
   ///
   /// <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -7458,6 +9013,48 @@ class S3 {
   /// <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   /// xsi:type="Group"&gt;&lt;URI&gt;&lt;&gt;http://acs.amazonaws.com/groups/global/AuthenticatedUsers&lt;&gt;&lt;/URI&gt;&lt;/Grantee&gt;</code>
   /// </li>
+  /// <li>
+  /// By Email address:
+  ///
+  /// <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  /// xsi:type="AmazonCustomerByEmail"&gt;&lt;EmailAddress&gt;&lt;&gt;Grantees@email.com&lt;&gt;&lt;/EmailAddress&gt;lt;/Grantee&gt;</code>
+  ///
+  /// The grantee is resolved to the CanonicalUser and, in a response to a GET
+  /// Object acl request, appears as the CanonicalUser.
+  /// <note>
+  /// Using email addresses to specify a grantee is only supported in the
+  /// following AWS Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// US East (N. Virginia)
+  /// </li>
+  /// <li>
+  /// US West (N. California)
+  /// </li>
+  /// <li>
+  /// US West (Oregon)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Singapore)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Sydney)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Tokyo)
+  /// </li>
+  /// <li>
+  /// Europe (Ireland)
+  /// </li>
+  /// <li>
+  /// South America (São Paulo)
+  /// </li>
+  /// </ul>
+  /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
+  /// and Endpoints</a> in the AWS General Reference.
+  /// </note> </li>
   /// </ul>
   /// <b>Versioning</b>
   ///
@@ -7468,10 +9065,12 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CopyObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html">CopyObject</a>
   /// </li>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// </ul>
   ///
@@ -7484,7 +9083,7 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
@@ -7493,6 +9092,26 @@ class S3 {
   ///
   /// Parameter [key] :
   /// Key for which the PUT operation was initiated.
+  ///
+  /// When using this API with an access point, you must direct requests to the
+  /// access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this operation with an access point through the AWS SDKs, you
+  /// provide the access point ARN in place of the bucket name. For more
+  /// information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
+  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [acl] :
   /// The canned ACL to apply to the object. For more information, see <a
@@ -7509,21 +9128,37 @@ class S3 {
   /// corrupted in transit. For more information, go to <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864.&gt;</a>
   ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [grantFullControl] :
   /// Allows grantee the read, write, read ACP, and write ACP permissions on the
   /// bucket.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// Parameter [grantRead] :
   /// Allows grantee to list the objects in the bucket.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// Parameter [grantReadACP] :
   /// Allows grantee to read the bucket ACL.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// Parameter [grantWrite] :
   /// Allows grantee to create, overwrite, and delete any object in the bucket.
   ///
   /// Parameter [grantWriteACP] :
   /// Allows grantee to write the ACL for the applicable bucket.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// Parameter [versionId] :
   /// VersionId used to reference a specific version of the object.
@@ -7533,6 +9168,7 @@ class S3 {
     ObjectCannedACL acl,
     AccessControlPolicy accessControlPolicy,
     String contentMD5,
+    String expectedBucketOwner,
     String grantFullControl,
     String grantRead,
     String grantReadACP,
@@ -7553,6 +9189,8 @@ class S3 {
     final headers = <String, String>{};
     acl?.let((v) => headers['x-amz-acl'] = v.toValue());
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     grantFullControl
         ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
     grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
@@ -7581,6 +9219,8 @@ class S3 {
   }
 
   /// Applies a Legal Hold configuration to the specified object.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
@@ -7598,7 +9238,7 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
@@ -7611,6 +9251,14 @@ class S3 {
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
   ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [legalHold] :
   /// Container element for the Legal Hold configuration you want to apply to
   /// the specified object.
@@ -7621,6 +9269,7 @@ class S3 {
     @_s.required String bucket,
     @_s.required String key,
     String contentMD5,
+    String expectedBucketOwner,
     ObjectLockLegalHold legalHold,
     RequestPayer requestPayer,
     String versionId,
@@ -7636,6 +9285,8 @@ class S3 {
     );
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
@@ -7679,6 +9330,14 @@ class S3 {
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
   ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [objectLockConfiguration] :
   /// The Object Lock configuration that you want to apply to the specified
   /// bucket.
@@ -7688,6 +9347,7 @@ class S3 {
   Future<PutObjectLockConfigurationOutput> putObjectLockConfiguration({
     @_s.required String bucket,
     String contentMD5,
+    String expectedBucketOwner,
     ObjectLockConfiguration objectLockConfiguration,
     RequestPayer requestPayer,
     String token,
@@ -7695,6 +9355,8 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     token?.let((v) => headers['x-amz-bucket-object-lock-token'] = v.toString());
     final $result = await _protocol.sendRaw(
@@ -7713,6 +9375,8 @@ class S3 {
   }
 
   /// Places an Object Retention configuration on an object.
+  ///
+  /// This action is not supported by Amazon S3 on Outposts.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
@@ -7730,7 +9394,7 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
@@ -7748,6 +9412,14 @@ class S3 {
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
   ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [retention] :
   /// The container element for the Object Retention configuration.
   ///
@@ -7759,6 +9431,7 @@ class S3 {
     @_s.required String key,
     bool bypassGovernanceRetention,
     String contentMD5,
+    String expectedBucketOwner,
     RequestPayer requestPayer,
     ObjectLockRetention retention,
     String versionId,
@@ -7776,6 +9449,8 @@ class S3 {
     bypassGovernanceRetention?.let(
         (v) => headers['x-amz-bypass-governance-retention'] = v.toString());
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
@@ -7797,12 +9472,13 @@ class S3 {
     );
   }
 
-  /// Sets the supplied tag-set to an object that already exists in a bucket
+  /// Sets the supplied tag-set to an object that already exists in a bucket.
   ///
   /// A tag is a key-value pair. You can associate tags with an object by
   /// sending a PUT request against the tagging subresource that is associated
   /// with the object. You can retrieve tags by sending a GET request. For more
-  /// information, see <a>GetObjectTagging</a>.
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html">GetObjectTagging</a>.
   ///
   /// For tagging-related restrictions related to characters and encodings, see
   /// <a
@@ -7824,8 +9500,7 @@ class S3 {
   /// <p class="title"> <b>Special Errors</b>
   ///
   /// <ul>
-  /// <li> <p class="title"> <b/>
-  ///
+  /// <li>
   /// <ul>
   /// <li>
   /// <i>Code: InvalidTagError </i>
@@ -7837,8 +9512,7 @@ class S3 {
   /// Tagging</a>.</i>
   /// </li>
   /// </ul> </li>
-  /// <li> <p class="title"> <b/>
-  ///
+  /// <li>
   /// <ul>
   /// <li>
   /// <i>Code: MalformedXMLError </i>
@@ -7871,7 +9545,8 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetObjectTagging</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html">GetObjectTagging</a>
   /// </li>
   /// </ul>
   ///
@@ -7881,21 +9556,39 @@ class S3 {
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [key] :
-  /// Name of the tag.
+  /// Name of the object key.
   ///
   /// Parameter [tagging] :
   /// Container for the <code>TagSet</code> and <code>Tag</code> elements
   ///
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [versionId] :
   /// The versionId of the object that the tag-set will be added to.
@@ -7904,6 +9597,7 @@ class S3 {
     @_s.required String key,
     @_s.required Tagging tagging,
     String contentMD5,
+    String expectedBucketOwner,
     String versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
@@ -7918,6 +9612,8 @@ class S3 {
     ArgumentError.checkNotNull(tagging, 'tagging');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -7960,13 +9656,16 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>GetPublicAccessBlock</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetPublicAccessBlock.html">GetPublicAccessBlock</a>
   /// </li>
   /// <li>
-  /// <a>DeletePublicAccessBlock</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html">DeletePublicAccessBlock</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketPolicyStatus</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketPolicyStatus.html">GetBucketPolicyStatus</a>
   /// </li>
   /// <li>
   /// <a
@@ -7990,16 +9689,27 @@ class S3 {
   ///
   /// Parameter [contentMD5] :
   /// The MD5 hash of the <code>PutPublicAccessBlock</code> request body.
+  ///
+  /// For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
+  /// this field is calculated automatically.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   Future<void> putPublicAccessBlock({
     @_s.required String bucket,
     @_s.required PublicAccessBlockConfiguration publicAccessBlockConfiguration,
     String contentMD5,
+    String expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         publicAccessBlockConfiguration, 'publicAccessBlockConfiguration');
     final headers = <String, String>{};
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?publicAccessBlock',
@@ -8012,7 +9722,9 @@ class S3 {
 
   /// Restores an archived copy of an object back into Amazon S3
   ///
-  /// This operation performs the following types of requests:
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
+  /// This action performs the following types of requests:
   ///
   /// <ul>
   /// <li>
@@ -8023,9 +9735,9 @@ class S3 {
   /// </li>
   /// </ul>
   /// To use this operation, you must have permissions to perform the
-  /// <code>s3:RestoreObject</code> and <code>s3:GetObject</code> actions. The
-  /// bucket owner has this permission by default and can grant this permission
-  /// to others. For more information about permissions, see <a
+  /// <code>s3:RestoreObject</code> action. The bucket owner has this permission
+  /// by default and can grant this permission to others. For more information
+  /// about permissions, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
@@ -8063,7 +9775,8 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
   /// </li>
   /// <li>
   /// <a
@@ -8107,9 +9820,10 @@ class S3 {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  /// For more information about using SQL with Glacier Select restore, see <a
+  /// For more information about using SQL with S3 Glacier Select restore, see
+  /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
-  /// Reference for Amazon S3 Select and Glacier Select</a> in the <i>Amazon
+  /// Reference for Amazon S3 Select and S3 Glacier Select</a> in the <i>Amazon
   /// Simple Storage Service Developer Guide</i>.
   ///
   /// When making a select request, you can also do the following:
@@ -8144,21 +9858,21 @@ class S3 {
   /// restored. A select request doesn’t return error response <code>409</code>.
   /// </li>
   /// </ul>
-  /// <b>Restoring Archives</b>
+  /// <b>Restoring objects</b>
   ///
-  /// Objects in the GLACIER and DEEP_ARCHIVE storage classes are archived. To
-  /// access an archived object, you must first initiate a restore request. This
-  /// restores a temporary copy of the archived object. In a restore request,
-  /// you specify the number of days that you want the restored copy to exist.
-  /// After the specified period, Amazon S3 deletes the temporary copy but the
-  /// object remains archived in the GLACIER or DEEP_ARCHIVE storage class that
-  /// object was restored from.
+  /// Objects that you archive to the S3 Glacier or S3 Glacier Deep Archive
+  /// storage class, and S3 Intelligent-Tiering Archive or S3
+  /// Intelligent-Tiering Deep Archive tiers are not accessible in real time.
+  /// For objects in Archive Access or Deep Archive Access tiers you must first
+  /// initiate a restore request, and then wait until the object is moved into
+  /// the Frequent Access tier. For objects in S3 Glacier or S3 Glacier Deep
+  /// Archive storage classes you must first initiate a restore request, and
+  /// then wait until a temporary copy of the object is available. To access an
+  /// archived object, you must restore the object for the duration (number of
+  /// days) that you specify.
   ///
   /// To restore a specific object version, you can provide a version ID. If you
   /// don't provide a version ID, Amazon S3 restores the current version.
-  ///
-  /// The time it takes restore jobs to finish depends on which storage class
-  /// the object is being restored from and which data access tier you specify.
   ///
   /// When restoring an archived object (or using a select request), you can
   /// specify one of the following data access tier options in the
@@ -8167,28 +9881,35 @@ class S3 {
   /// <ul>
   /// <li>
   /// <b> <code>Expedited</code> </b> - Expedited retrievals allow you to
-  /// quickly access your data stored in the GLACIER storage class when
-  /// occasional urgent requests for a subset of archives are required. For all
-  /// but the largest archived objects (250 MB+), data accessed using Expedited
-  /// retrievals are typically made available within 1–5 minutes. Provisioned
-  /// capacity ensures that retrieval capacity for Expedited retrievals is
-  /// available when you need it. Expedited retrievals and provisioned capacity
-  /// are not available for the DEEP_ARCHIVE storage class.
+  /// quickly access your data stored in the S3 Glacier storage class or S3
+  /// Intelligent-Tiering Archive tier when occasional urgent requests for a
+  /// subset of archives are required. For all but the largest archived objects
+  /// (250 MB+), data accessed using Expedited retrievals is typically made
+  /// available within 1–5 minutes. Provisioned capacity ensures that retrieval
+  /// capacity for Expedited retrievals is available when you need it. Expedited
+  /// retrievals and provisioned capacity are not available for objects stored
+  /// in the S3 Glacier Deep Archive storage class or S3 Intelligent-Tiering
+  /// Deep Archive tier.
   /// </li>
   /// <li>
   /// <b> <code>Standard</code> </b> - Standard retrievals allow you to access
   /// any of your archived objects within several hours. This is the default
-  /// option for the GLACIER and DEEP_ARCHIVE retrieval requests that do not
-  /// specify the retrieval option. Standard retrievals typically complete
-  /// within 3-5 hours from the GLACIER storage class and typically complete
-  /// within 12 hours from the DEEP_ARCHIVE storage class.
+  /// option for retrieval requests that do not specify the retrieval option.
+  /// Standard retrievals typically finish within 3–5 hours for objects stored
+  /// in the S3 Glacier storage class or S3 Intelligent-Tiering Archive tier.
+  /// They typically finish within 12 hours for objects stored in the S3 Glacier
+  /// Deep Archive storage class or S3 Intelligent-Tiering Deep Archive tier.
+  /// Standard retrievals are free for objects stored in S3 Intelligent-Tiering.
   /// </li>
   /// <li>
-  /// <b> <code>Bulk</code> </b> - Bulk retrievals are Amazon S3 Glacier’s
-  /// lowest-cost retrieval option, enabling you to retrieve large amounts, even
-  /// petabytes, of data inexpensively in a day. Bulk retrievals typically
-  /// complete within 5-12 hours from the GLACIER storage class and typically
-  /// complete within 48 hours from the DEEP_ARCHIVE storage class.
+  /// <b> <code>Bulk</code> </b> - Bulk retrievals are the lowest-cost retrieval
+  /// option in S3 Glacier, enabling you to retrieve large amounts, even
+  /// petabytes, of data inexpensively. Bulk retrievals typically finish within
+  /// 5–12 hours for objects stored in the S3 Glacier storage class or S3
+  /// Intelligent-Tiering Archive tier. They typically finish within 48 hours
+  /// for objects stored in the S3 Glacier Deep Archive storage class or S3
+  /// Intelligent-Tiering Deep Archive tier. Bulk retrievals are free for
+  /// objects stored in S3 Intelligent-Tiering.
   /// </li>
   /// </ul>
   /// For more information about archive retrieval options and provisioned
@@ -8198,15 +9919,9 @@ class S3 {
   /// Guide</i>.
   ///
   /// You can use Amazon S3 restore speed upgrade to change the restore speed to
-  /// a faster speed while it is in progress. You upgrade the speed of an
-  /// in-progress restoration by issuing another restore request to the same
-  /// object, setting a new <code>Tier</code> request element. When issuing a
-  /// request to upgrade the restore tier, you must choose a tier that is faster
-  /// than the tier that the in-progress restore is using. You must not change
-  /// any other parameters, such as the <code>Days</code> request element. For
-  /// more information, see <a
+  /// a faster speed while it is in progress. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html#restoring-objects-upgrade-tier.title.html">
-  /// Upgrading the Speed of an In-Progress Restore</a> in the <i>Amazon Simple
+  /// Upgrading the speed of an in-progress restore</a> in the <i>Amazon Simple
   /// Storage Service Developer Guide</i>.
   ///
   /// To get the status of object restoration, you can send a <code>HEAD</code>
@@ -8230,7 +9945,9 @@ class S3 {
   /// specify in a restore request. For example, if you restore an object copy
   /// for 10 days, but the object is scheduled to expire in 3 days, Amazon S3
   /// deletes the object in 3 days. For more information about lifecycle
-  /// configuration, see <a>PutBucketLifecycleConfiguration</a> and <a
+  /// configuration, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>
+  /// and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
   /// Lifecycle Management</a> in <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
@@ -8242,18 +9959,17 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// If the object copy is not previously restored, then Amazon S3 returns
-  /// <code>202 Accepted</code> in the response.
+  /// If the object is not previously restored, then Amazon S3 returns <code>202
+  /// Accepted</code> in the response.
   /// </li>
   /// <li>
-  /// If the object copy is previously restored, Amazon S3 returns <code>200
+  /// If the object is previously restored, Amazon S3 returns <code>200
   /// OK</code> in the response.
   /// </li>
   /// </ul> <p class="title"> <b>Special Errors</b>
   ///
   /// <ul>
-  /// <li> <p class="title"> <b/>
-  ///
+  /// <li>
   /// <ul>
   /// <li>
   /// <i>Code: RestoreAlreadyInProgress</i>
@@ -8269,17 +9985,16 @@ class S3 {
   /// <i>SOAP Fault Code Prefix: Client</i>
   /// </li>
   /// </ul> </li>
-  /// <li> <p class="title"> <b/>
-  ///
+  /// <li>
   /// <ul>
   /// <li>
   /// <i>Code: GlacierExpeditedRetrievalNotAvailable</i>
   /// </li>
   /// <li>
-  /// <i>Cause: Glacier expedited retrievals are currently not available. Try
-  /// again later. (Returned if there is insufficient capacity to process the
+  /// <i>Cause: expedited retrievals are currently not available. Try again
+  /// later. (Returned if there is insufficient capacity to process the
   /// Expedited request. This error applies only to Expedited retrievals and not
-  /// to Standard or Bulk retrievals.)</i>
+  /// to S3 Standard or Bulk retrievals.)</i>
   /// </li>
   /// <li>
   /// <i>HTTP Status Code: 503</i>
@@ -8292,15 +10007,17 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>PutBucketLifecycleConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketNotificationConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html">GetBucketNotificationConfiguration</a>
   /// </li>
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
-  /// Reference for Amazon S3 Select and Glacier Select </a> in the <i>Amazon
+  /// Reference for Amazon S3 Select and S3 Glacier Select </a> in the <i>Amazon
   /// Simple Storage Service Developer Guide</i>
   /// </li>
   /// </ul>
@@ -8308,26 +10025,42 @@ class S3 {
   /// May throw [ObjectAlreadyInActiveTierError].
   ///
   /// Parameter [bucket] :
-  /// The bucket name or containing the object to restore.
+  /// The bucket name containing the object to restore.
   ///
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [key] :
   /// Object key for which the operation was initiated.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [versionId] :
   /// VersionId used to reference a specific version of the object.
   Future<RestoreObjectOutput> restoreObject({
     @_s.required String bucket,
     @_s.required String key,
+    String expectedBucketOwner,
     RequestPayer requestPayer,
     RestoreRequest restoreRequest,
     String versionId,
@@ -8342,6 +10075,8 @@ class S3 {
       isRequired: true,
     );
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
@@ -8373,6 +10108,8 @@ class S3 {
   /// specified SQL expression. You must also specify the data serialization
   /// format for the response.
   ///
+  /// This action is not supported by Amazon S3 on Outposts.
+  ///
   /// For more information about Amazon S3 Select, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/selecting-content-from-objects.html">Selecting
   /// Content from Objects</a> in the <i>Amazon Simple Storage Service Developer
@@ -8380,8 +10117,8 @@ class S3 {
   ///
   /// For more information about using SQL with Amazon S3 Select, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">
-  /// SQL Reference for Amazon S3 Select and Glacier Select</a> in the <i>Amazon
-  /// Simple Storage Service Developer Guide</i>.
+  /// SQL Reference for Amazon S3 Select and S3 Glacier Select</a> in the
+  /// <i>Amazon Simple Storage Service Developer Guide</i>.
   /// <p/>
   /// <b>Permissions</b>
   ///
@@ -8418,8 +10155,9 @@ class S3 {
   ///
   /// For objects that are encrypted with customer-provided encryption keys
   /// (SSE-C), you must use HTTPS, and you must use the headers that are
-  /// documented in the <a>GetObject</a>. For more information about SSE-C, see
-  /// <a
+  /// documented in the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>.
+  /// For more information about SSE-C, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
   /// Encryption (Using Customer-Provided Encryption Keys)</a> in the <i>Amazon
   /// Simple Storage Service Developer Guide</i>.
@@ -8439,20 +10177,24 @@ class S3 {
   /// Given the response size is unknown, Amazon S3 Select streams the response
   /// as a series of messages and includes a <code>Transfer-Encoding</code>
   /// header with <code>chunked</code> as its value in the response. For more
-  /// information, see <a>RESTSelectObjectAppendix</a> .
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTSelectObjectAppendix.html">Appendix:
+  /// SelectObjectContent Response</a> .
   /// <p/>
   /// <b>GetObject Support</b>
   ///
   /// The <code>SelectObjectContent</code> operation does not support the
   /// following <code>GetObject</code> functionality. For more information, see
-  /// <a>GetObject</a>.
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>.
   ///
   /// <ul>
   /// <li>
-  /// <code>Range</code>: While you can specify a scan range for a Amazon S3
-  /// Select request, see <a>SelectObjectContentRequest$ScanRange</a> in the
-  /// request parameters below, you cannot specify the range of bytes of an
-  /// object to return.
+  /// <code>Range</code>: Although you can specify a scan range for an Amazon S3
+  /// Select request (see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_SelectObjectContent.html#AmazonS3-SelectObjectContent-request-ScanRange">SelectObjectContentRequest
+  /// - ScanRange</a> in the request parameters), you cannot specify the range
+  /// of bytes of an object to return.
   /// </li>
   /// <li>
   /// GLACIER, DEEP_ARCHIVE and REDUCED_REDUNDANCY storage classes: You cannot
@@ -8464,20 +10206,23 @@ class S3 {
   /// </ul> <p/>
   /// <b>Special Errors</b>
   ///
-  /// For a list of special errors for this operation and for general
-  /// information about Amazon S3 errors and a list of error codes, see
-  /// <a>ErrorResponses</a>
+  /// For a list of special errors for this operation, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#SelectObjectContentErrorCodeList">List
+  /// of SELECT Object Content Error Codes</a>
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
   /// <li>
-  /// <a>GetObject</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
   /// </li>
   /// <li>
-  /// <a>GetBucketLifecycleConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html">GetBucketLifecycleConfiguration</a>
   /// </li>
   /// <li>
-  /// <a>PutBucketLifecycleConfiguration</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>
   /// </li>
   /// </ul>
   ///
@@ -8499,6 +10244,11 @@ class S3 {
   /// Parameter [outputSerialization] :
   /// Describes the format of the data that you want Amazon S3 to return in
   /// response.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
   ///
   /// Parameter [requestProgress] :
   /// Specifies if periodic request progress information should be enabled.
@@ -8548,6 +10298,7 @@ class S3 {
     @_s.required InputSerialization inputSerialization,
     @_s.required String key,
     @_s.required OutputSerialization outputSerialization,
+    String expectedBucketOwner,
     RequestProgress requestProgress,
     String sSECustomerAlgorithm,
     Uint8List sSECustomerKey,
@@ -8568,6 +10319,8 @@ class S3 {
     );
     ArgumentError.checkNotNull(outputSerialization, 'outputSerialization');
     final headers = <String, String>{};
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
             v.toString());
@@ -8588,6 +10341,7 @@ class S3 {
               inputSerialization: inputSerialization,
               key: key,
               outputSerialization: outputSerialization,
+              expectedBucketOwner: expectedBucketOwner,
               requestProgress: requestProgress,
               sSECustomerAlgorithm: sSECustomerAlgorithm,
               sSECustomerKey: sSECustomerKey,
@@ -8613,9 +10367,12 @@ class S3 {
   /// In this operation, you provide part data in your request. However, you
   /// have an option to specify your existing Amazon S3 object as a data source
   /// for the part you are uploading. To upload a part from an existing object,
-  /// you use the <a>UploadPartCopy</a> operation.
+  /// you use the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html">UploadPartCopy</a>
+  /// operation.
   /// </note>
-  /// You must initiate a multipart upload (see <a>CreateMultipartUpload</a>)
+  /// You must initiate a multipart upload (see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>)
   /// before you can upload any part. In response to your initiate request,
   /// Amazon S3 returns an upload ID, a unique identifier, that you must include
   /// in your upload part request.
@@ -8631,6 +10388,12 @@ class S3 {
   /// the <code>Content-MD5</code> header in the upload part request. Amazon S3
   /// checks the part data against the provided MD5 value. If they do not match,
   /// Amazon S3 returns an error.
+  ///
+  /// If the upload request is signed with Signature Version 4, then AWS S3 uses
+  /// the <code>x-amz-content-sha256</code> header as a checksum instead of
+  /// <code>Content-MD5</code>. For more information see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-auth-using-authorization-header.html">Authenticating
+  /// Requests: Using the Authorization Header (AWS Signature Version 4)</a>.
   ///
   /// <b>Note:</b> After you initiate multipart upload and upload one or more
   /// parts, you must either complete or abort multipart upload in order to stop
@@ -8655,8 +10418,9 @@ class S3 {
   /// encryption key, or you can use the AWS managed encryption keys. If you
   /// choose to provide your own encryption key, the request headers you provide
   /// in the request must match the headers you used in the request to initiate
-  /// the upload by using <a>CreateMultipartUpload</a>. For more information, go
-  /// to <a
+  /// the upload by using <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>.
+  /// For more information, go to <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Using
   /// Server-Side Encryption</a> in the <i>Amazon Simple Storage Service
   /// Developer Guide</i>.
@@ -8665,8 +10429,8 @@ class S3 {
   /// Unless you are using a customer-provided encryption key, you don't need to
   /// specify the encryption parameters in each UploadPart request. Instead, you
   /// only need to specify the server-side encryption parameters in the initial
-  /// Initiate Multipart request. For more information, see
-  /// <a>CreateMultipartUpload</a>.
+  /// Initiate Multipart request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>.
   ///
   /// If you requested server-side encryption using a customer-provided
   /// encryption key in your initiate multipart upload request, you must provide
@@ -8675,19 +10439,18 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-algorithm
+  /// x-amz-server-side-encryption-customer-algorithm
   /// </li>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-key
+  /// x-amz-server-side-encryption-customer-key
   /// </li>
   /// <li>
-  /// x-amz-server-side​-encryption​-customer-key-MD5
+  /// x-amz-server-side-encryption-customer-key-MD5
   /// </li>
   /// </ul> <p class="title"> <b>Special Errors</b>
   ///
   /// <ul>
-  /// <li> <p class="title"> <b/>
-  ///
+  /// <li>
   /// <ul>
   /// <li>
   /// <i>Code: NoSuchUpload</i>
@@ -8708,24 +10471,49 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>CompleteMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html">CompleteMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>AbortMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html">AbortMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>ListParts</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html">ListParts</a>
   /// </li>
   /// <li>
-  /// <a>ListMultipartUploads</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html">ListMultipartUploads</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
-  /// Name of the bucket to which the multipart upload was initiated.
+  /// The name of the bucket to which the multipart upload was initiated.
+  ///
+  /// When using this API with an access point, you must direct requests to the
+  /// access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this operation with an access point through the AWS SDKs, you
+  /// provide the access point ARN in place of the bucket name. For more
+  /// information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
+  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which the multipart upload was initiated.
@@ -8749,6 +10537,11 @@ class S3 {
   /// auto-populated when using the command from the CLI. This parameter is
   /// required if object lock parameters are specified.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  ///
   /// Parameter [sSECustomerAlgorithm] :
   /// Specifies the algorithm to use to when encrypting the object (for example,
   /// AES256).
@@ -8758,9 +10551,9 @@ class S3 {
   /// encrypting data. This value is used to store the object and then it is
   /// discarded; Amazon S3 does not store the encryption key. The key must be
   /// appropriate for use with the algorithm specified in the
-  /// <code>x-amz-server-side​-encryption​-customer-algorithm header</code>.
-  /// This must be the same encryption key specified in the initiate multipart
-  /// upload request.
+  /// <code>x-amz-server-side-encryption-customer-algorithm header</code>. This
+  /// must be the same encryption key specified in the initiate multipart upload
+  /// request.
   ///
   /// Parameter [sSECustomerKeyMD5] :
   /// Specifies the 128-bit MD5 digest of the encryption key according to RFC
@@ -8774,6 +10567,7 @@ class S3 {
     Uint8List body,
     int contentLength,
     String contentMD5,
+    String expectedBucketOwner,
     RequestPayer requestPayer,
     String sSECustomerAlgorithm,
     Uint8List sSECustomerKey,
@@ -8793,6 +10587,8 @@ class S3 {
     final headers = <String, String>{};
     contentLength?.let((v) => headers['Content-Length'] = v.toString());
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
@@ -8817,6 +10613,8 @@ class S3 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return UploadPartOutput(
+      bucketKeyEnabled: _s.extractHeaderBoolValue(
+          $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
       requestCharged: _s
           .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
@@ -8844,8 +10642,9 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/qfacts.html">Quick
   /// Facts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
   /// <note>
-  /// Instead of using an existing object as part data, you might use the
-  /// <a>UploadPart</a> operation and provide data in your request.
+  /// Instead of using an existing object as part data, you might use the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
+  /// operation and provide data in your request.
   /// </note>
   /// You must initiate a multipart upload before you can upload any part. In
   /// response to your initiate request. Amazon S3 returns a unique identifier,
@@ -8877,8 +10676,10 @@ class S3 {
   /// </li>
   /// <li>
   /// For information about using server-side encryption with customer-provided
-  /// encryption keys with the UploadPartCopy operation, see <a>CopyObject</a>
-  /// and <a>UploadPart</a>.
+  /// encryption keys with the UploadPartCopy operation, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html">CopyObject</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>.
   /// </li>
   /// </ul>
   /// Note the following additional considerations about the request headers
@@ -8940,8 +10741,7 @@ class S3 {
   /// <p class="title"> <b>Special Errors</b>
   ///
   /// <ul>
-  /// <li> <p class="title"> <b/>
-  ///
+  /// <li>
   /// <ul>
   /// <li>
   /// <i>Code: NoSuchUpload</i>
@@ -8955,8 +10755,7 @@ class S3 {
   /// <i>HTTP Status Code: 404 Not Found</i>
   /// </li>
   /// </ul> </li>
-  /// <li> <p class="title"> <b/>
-  ///
+  /// <li>
   /// <ul>
   /// <li>
   /// <i>Code: InvalidRequest</i>
@@ -8973,31 +10772,100 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <a>CreateMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>UploadPart</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
   /// </li>
   /// <li>
-  /// <a>CompleteMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html">CompleteMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>AbortMultipartUpload</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html">AbortMultipartUpload</a>
   /// </li>
   /// <li>
-  /// <a>ListParts</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html">ListParts</a>
   /// </li>
   /// <li>
-  /// <a>ListMultipartUploads</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html">ListMultipartUploads</a>
   /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name.
   ///
+  /// When using this API with an access point, you must direct requests to the
+  /// access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this operation with an access point through the AWS SDKs, you
+  /// provide the access point ARN in place of the bucket name. For more
+  /// information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
+  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
   /// Parameter [copySource] :
-  /// The name of the source bucket and key name of the source object, separated
-  /// by a slash (/). Must be URL-encoded.
+  /// Specifies the source object for the copy operation. You specify the value
+  /// in one of two formats, depending on whether you want to access the source
+  /// object through an <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-points.html">access
+  /// point</a>:
+  ///
+  /// <ul>
+  /// <li>
+  /// For objects not accessed through an access point, specify the name of the
+  /// source bucket and key of the source object, separated by a slash (/). For
+  /// example, to copy the object <code>reports/january.pdf</code> from the
+  /// bucket <code>awsexamplebucket</code>, use
+  /// <code>awsexamplebucket/reports/january.pdf</code>. The value must be URL
+  /// encoded.
+  /// </li>
+  /// <li>
+  /// For objects accessed through access points, specify the Amazon Resource
+  /// Name (ARN) of the object as accessed through the access point, in the
+  /// format
+  /// <code>arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:accesspoint/&lt;access-point-name&gt;/object/&lt;key&gt;</code>.
+  /// For example, to copy the object <code>reports/january.pdf</code> through
+  /// access point <code>my-access-point</code> owned by account
+  /// <code>123456789012</code> in Region <code>us-west-2</code>, use the URL
+  /// encoding of
+  /// <code>arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf</code>.
+  /// The value must be URL encoded.
+  /// <note>
+  /// Amazon S3 supports copy operations using access points only when the
+  /// source and destination buckets are in the same AWS Region.
+  /// </note>
+  /// Alternatively, for objects accessed through Amazon S3 on Outposts, specify
+  /// the ARN of the object as accessed in the format
+  /// <code>arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/object/&lt;key&gt;</code>.
+  /// For example, to copy the object <code>reports/january.pdf</code> through
+  /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
+  /// in Region <code>us-west-2</code>, use the URL encoding of
+  /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf</code>.
+  /// The value must be URL encoded.
+  /// </li>
+  /// </ul>
+  /// To copy a specific version of an object, append
+  /// <code>?versionId=&lt;version-id&gt;</code> to the value (for example,
+  /// <code>awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893</code>).
+  /// If you don't specify a version ID, Amazon S3 copies the latest version of
+  /// the source object.
   ///
   /// Parameter [key] :
   /// Object key for which the multipart upload was initiated.
@@ -9043,6 +10911,16 @@ class S3 {
   /// 1321. Amazon S3 uses this header for a message integrity check to ensure
   /// that the encryption key was transmitted without error.
   ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account id of the expected destination bucket owner. If the
+  /// destination bucket is owned by a different account, the request will fail
+  /// with an HTTP <code>403 (Access Denied)</code> error.
+  ///
+  /// Parameter [expectedSourceBucketOwner] :
+  /// The account id of the expected source bucket owner. If the source bucket
+  /// is owned by a different account, the request will fail with an HTTP
+  /// <code>403 (Access Denied)</code> error.
+  ///
   /// Parameter [sSECustomerAlgorithm] :
   /// Specifies the algorithm to use to when encrypting the object (for example,
   /// AES256).
@@ -9052,9 +10930,9 @@ class S3 {
   /// encrypting data. This value is used to store the object and then it is
   /// discarded; Amazon S3 does not store the encryption key. The key must be
   /// appropriate for use with the algorithm specified in the
-  /// <code>x-amz-server-side​-encryption​-customer-algorithm</code> header.
-  /// This must be the same encryption key specified in the initiate multipart
-  /// upload request.
+  /// <code>x-amz-server-side-encryption-customer-algorithm</code> header. This
+  /// must be the same encryption key specified in the initiate multipart upload
+  /// request.
   ///
   /// Parameter [sSECustomerKeyMD5] :
   /// Specifies the 128-bit MD5 digest of the encryption key according to RFC
@@ -9074,6 +10952,8 @@ class S3 {
     String copySourceSSECustomerAlgorithm,
     Uint8List copySourceSSECustomerKey,
     String copySourceSSECustomerKeyMD5,
+    String expectedBucketOwner,
+    String expectedSourceBucketOwner,
     RequestPayer requestPayer,
     String sSECustomerAlgorithm,
     Uint8List sSECustomerKey,
@@ -9118,6 +10998,10 @@ class S3 {
     copySourceSSECustomerKeyMD5?.let((v) =>
         headers['x-amz-copy-source-server-side-encryption-customer-key-MD5'] =
             v.toString());
+    expectedBucketOwner
+        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    expectedSourceBucketOwner?.let(
+        (v) => headers['x-amz-source-expected-bucket-owner'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
@@ -9142,6 +11026,8 @@ class S3 {
     final $elem = await _s.xmlFromResponse($result);
     return UploadPartCopyOutput(
       copyPartResult: CopyPartResult.fromXml($elem),
+      bucketKeyEnabled: _s.extractHeaderBoolValue(
+          $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
       copySourceVersionId: _s.extractHeaderStringValue(
           $result.headers, 'x-amz-copy-source-version-id'),
       requestCharged: _s
@@ -9468,8 +11354,12 @@ class AnalyticsS3BucketDestination {
   /// Specifies the file format used when exporting data to Amazon S3.
   final AnalyticsS3ExportFileFormat format;
 
-  /// The account ID that owns the destination bucket. If no account ID is
-  /// provided, the owner will not be validated prior to exporting data.
+  /// The account ID that owns the destination S3 bucket. If no account ID is
+  /// provided, the owner is not validated before exporting data.
+  /// <note>
+  /// Although this value is optional, we strongly recommend that you set it to
+  /// help prevent problems if the destination bucket ownership changes.
+  /// </note>
   final String bucketAccountId;
 
   /// The prefix to use when exporting data. The prefix is prepended to all
@@ -9536,10 +11426,40 @@ extension on String {
   }
 }
 
+enum ArchiveStatus {
+  archiveAccess,
+  deepArchiveAccess,
+}
+
+extension on ArchiveStatus {
+  String toValue() {
+    switch (this) {
+      case ArchiveStatus.archiveAccess:
+        return 'ARCHIVE_ACCESS';
+      case ArchiveStatus.deepArchiveAccess:
+        return 'DEEP_ARCHIVE_ACCESS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ArchiveStatus toArchiveStatus() {
+    switch (this) {
+      case 'ARCHIVE_ACCESS':
+        return ArchiveStatus.archiveAccess;
+      case 'DEEP_ARCHIVE_ACCESS':
+        return ArchiveStatus.deepArchiveAccess;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// In terms of implementation, a Bucket is a resource. An Amazon S3 bucket name
 /// is globally unique, and the namespace is shared by all AWS accounts.
 class Bucket {
-  /// Date the bucket was created.
+  /// Date the bucket was created. This date can change when making changes to
+  /// your bucket, such as editing its bucket policy.
   final DateTime creationDate;
 
   /// The name of the bucket.
@@ -9653,44 +11573,86 @@ class BucketLifecycleConfiguration {
 }
 
 enum BucketLocationConstraint {
-  eu,
-  euWest_1,
-  usWest_1,
-  usWest_2,
+  afSouth_1,
+  apEast_1,
+  apNortheast_1,
+  apNortheast_2,
+  apNortheast_3,
   apSouth_1,
   apSoutheast_1,
   apSoutheast_2,
-  apNortheast_1,
-  saEast_1,
+  caCentral_1,
   cnNorth_1,
+  cnNorthwest_1,
+  eu,
   euCentral_1,
+  euNorth_1,
+  euSouth_1,
+  euWest_1,
+  euWest_2,
+  euWest_3,
+  meSouth_1,
+  saEast_1,
+  usEast_2,
+  usGovEast_1,
+  usGovWest_1,
+  usWest_1,
+  usWest_2,
 }
 
 extension on BucketLocationConstraint {
   String toValue() {
     switch (this) {
-      case BucketLocationConstraint.eu:
-        return 'EU';
-      case BucketLocationConstraint.euWest_1:
-        return 'eu-west-1';
-      case BucketLocationConstraint.usWest_1:
-        return 'us-west-1';
-      case BucketLocationConstraint.usWest_2:
-        return 'us-west-2';
+      case BucketLocationConstraint.afSouth_1:
+        return 'af-south-1';
+      case BucketLocationConstraint.apEast_1:
+        return 'ap-east-1';
+      case BucketLocationConstraint.apNortheast_1:
+        return 'ap-northeast-1';
+      case BucketLocationConstraint.apNortheast_2:
+        return 'ap-northeast-2';
+      case BucketLocationConstraint.apNortheast_3:
+        return 'ap-northeast-3';
       case BucketLocationConstraint.apSouth_1:
         return 'ap-south-1';
       case BucketLocationConstraint.apSoutheast_1:
         return 'ap-southeast-1';
       case BucketLocationConstraint.apSoutheast_2:
         return 'ap-southeast-2';
-      case BucketLocationConstraint.apNortheast_1:
-        return 'ap-northeast-1';
-      case BucketLocationConstraint.saEast_1:
-        return 'sa-east-1';
+      case BucketLocationConstraint.caCentral_1:
+        return 'ca-central-1';
       case BucketLocationConstraint.cnNorth_1:
         return 'cn-north-1';
+      case BucketLocationConstraint.cnNorthwest_1:
+        return 'cn-northwest-1';
+      case BucketLocationConstraint.eu:
+        return 'EU';
       case BucketLocationConstraint.euCentral_1:
         return 'eu-central-1';
+      case BucketLocationConstraint.euNorth_1:
+        return 'eu-north-1';
+      case BucketLocationConstraint.euSouth_1:
+        return 'eu-south-1';
+      case BucketLocationConstraint.euWest_1:
+        return 'eu-west-1';
+      case BucketLocationConstraint.euWest_2:
+        return 'eu-west-2';
+      case BucketLocationConstraint.euWest_3:
+        return 'eu-west-3';
+      case BucketLocationConstraint.meSouth_1:
+        return 'me-south-1';
+      case BucketLocationConstraint.saEast_1:
+        return 'sa-east-1';
+      case BucketLocationConstraint.usEast_2:
+        return 'us-east-2';
+      case BucketLocationConstraint.usGovEast_1:
+        return 'us-gov-east-1';
+      case BucketLocationConstraint.usGovWest_1:
+        return 'us-gov-west-1';
+      case BucketLocationConstraint.usWest_1:
+        return 'us-west-1';
+      case BucketLocationConstraint.usWest_2:
+        return 'us-west-2';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -9699,28 +11661,56 @@ extension on BucketLocationConstraint {
 extension on String {
   BucketLocationConstraint toBucketLocationConstraint() {
     switch (this) {
-      case 'EU':
-        return BucketLocationConstraint.eu;
-      case 'eu-west-1':
-        return BucketLocationConstraint.euWest_1;
-      case 'us-west-1':
-        return BucketLocationConstraint.usWest_1;
-      case 'us-west-2':
-        return BucketLocationConstraint.usWest_2;
+      case 'af-south-1':
+        return BucketLocationConstraint.afSouth_1;
+      case 'ap-east-1':
+        return BucketLocationConstraint.apEast_1;
+      case 'ap-northeast-1':
+        return BucketLocationConstraint.apNortheast_1;
+      case 'ap-northeast-2':
+        return BucketLocationConstraint.apNortheast_2;
+      case 'ap-northeast-3':
+        return BucketLocationConstraint.apNortheast_3;
       case 'ap-south-1':
         return BucketLocationConstraint.apSouth_1;
       case 'ap-southeast-1':
         return BucketLocationConstraint.apSoutheast_1;
       case 'ap-southeast-2':
         return BucketLocationConstraint.apSoutheast_2;
-      case 'ap-northeast-1':
-        return BucketLocationConstraint.apNortheast_1;
-      case 'sa-east-1':
-        return BucketLocationConstraint.saEast_1;
+      case 'ca-central-1':
+        return BucketLocationConstraint.caCentral_1;
       case 'cn-north-1':
         return BucketLocationConstraint.cnNorth_1;
+      case 'cn-northwest-1':
+        return BucketLocationConstraint.cnNorthwest_1;
+      case 'EU':
+        return BucketLocationConstraint.eu;
       case 'eu-central-1':
         return BucketLocationConstraint.euCentral_1;
+      case 'eu-north-1':
+        return BucketLocationConstraint.euNorth_1;
+      case 'eu-south-1':
+        return BucketLocationConstraint.euSouth_1;
+      case 'eu-west-1':
+        return BucketLocationConstraint.euWest_1;
+      case 'eu-west-2':
+        return BucketLocationConstraint.euWest_2;
+      case 'eu-west-3':
+        return BucketLocationConstraint.euWest_3;
+      case 'me-south-1':
+        return BucketLocationConstraint.meSouth_1;
+      case 'sa-east-1':
+        return BucketLocationConstraint.saEast_1;
+      case 'us-east-2':
+        return BucketLocationConstraint.usEast_2;
+      case 'us-gov-east-1':
+        return BucketLocationConstraint.usGovEast_1;
+      case 'us-gov-west-1':
+        return BucketLocationConstraint.usGovWest_1;
+      case 'us-west-1':
+        return BucketLocationConstraint.usWest_1;
+      case 'us-west-2':
+        return BucketLocationConstraint.usWest_2;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -10141,7 +12131,31 @@ class CommonPrefix {
 
 class CompleteMultipartUploadOutput {
   /// The name of the bucket that contains the newly created object.
+  ///
+  /// When using this API with an access point, you must direct requests to the
+  /// access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this operation with an access point through the AWS SDKs, you
+  /// provide the access point ARN in place of the bucket name. For more
+  /// information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
+  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests to
+  /// the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
   final String bucket;
+
+  /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
+  /// encryption with AWS KMS (SSE-KMS).
+  final bool bucketKeyEnabled;
 
   /// Entity tag that identifies the newly created object's data. Objects with
   /// different object data will have different entity tags. The entity tag is an
@@ -10180,6 +12194,7 @@ class CompleteMultipartUploadOutput {
 
   CompleteMultipartUploadOutput({
     this.bucket,
+    this.bucketKeyEnabled,
     this.eTag,
     this.expiration,
     this.key,
@@ -10342,6 +12357,10 @@ class ContinuationEvent {
 }
 
 class CopyObjectOutput {
+  /// Indicates whether the copied object uses an S3 Bucket Key for server-side
+  /// encryption with AWS KMS (SSE-KMS).
+  final bool bucketKeyEnabled;
+
   /// Container for all response elements.
   final CopyObjectResult copyObjectResult;
 
@@ -10380,6 +12399,7 @@ class CopyObjectOutput {
   final String versionId;
 
   CopyObjectOutput({
+    this.bucketKeyEnabled,
     this.copyObjectResult,
     this.copySourceVersionId,
     this.expiration,
@@ -10492,18 +12512,32 @@ class CreateMultipartUploadOutput {
   /// action to abort incomplete multipart uploads.
   final String abortRuleId;
 
-  /// Name of the bucket to which the multipart upload was initiated.
+  /// The name of the bucket to which the multipart upload was initiated.
   ///
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests to
+  /// the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
   final String bucket;
+
+  /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
+  /// encryption with AWS KMS (SSE-KMS).
+  final bool bucketKeyEnabled;
 
   /// Object key for which the multipart upload was initiated.
   final String key;
@@ -10540,6 +12574,7 @@ class CreateMultipartUploadOutput {
     this.abortDate,
     this.abortRuleId,
     this.bucket,
+    this.bucketKeyEnabled,
     this.key,
     this.requestCharged,
     this.sSECustomerAlgorithm,
@@ -10661,27 +12696,30 @@ class DeleteMarkerEntry {
   }
 }
 
-/// Specifies whether Amazon S3 replicates the delete markers. If you specify a
-/// <code>Filter</code>, you must specify this element. However, in the latest
-/// version of replication configuration (when <code>Filter</code> is
-/// specified), Amazon S3 doesn't replicate delete markers. Therefore, the
-/// <code>DeleteMarkerReplication</code> element can contain only
-/// &lt;Status&gt;Disabled&lt;/Status&gt;. For an example configuration, see <a
+/// Specifies whether Amazon S3 replicates delete markers. If you specify a
+/// <code>Filter</code> in your replication configuration, you must also include
+/// a <code>DeleteMarkerReplication</code> element. If your <code>Filter</code>
+/// includes a <code>Tag</code> element, the
+/// <code>DeleteMarkerReplication</code> <code>Status</code> must be set to
+/// Disabled, because Amazon S3 does not support replicating delete markers for
+/// tag-based rules. For an example configuration, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-config-min-rule-config">Basic
 /// Rule Configuration</a>.
+///
+/// For more information about delete marker replication, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/delete-marker-replication.html">Basic
+/// Rule Configuration</a>.
 /// <note>
-/// If you don't specify the <code>Filter</code> element, Amazon S3 assumes that
-/// the replication configuration is the earlier version, V1. In the earlier
-/// version, Amazon S3 handled replication of delete markers differently. For
-/// more information, see <a
+/// If you are using an earlier version of the replication configuration, Amazon
+/// S3 handles replication of delete markers differently. For more information,
+/// see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html#replication-backward-compat-considerations">Backward
 /// Compatibility</a>.
 /// </note>
 class DeleteMarkerReplication {
   /// Indicates whether to replicate delete markers.
   /// <note>
-  /// In the current implementation, Amazon S3 doesn't replicate the delete
-  /// markers. The status must be <code>Disabled</code>.
+  /// Indicates whether to replicate delete markers.
   /// </note>
   final DeleteMarkerReplicationStatus status;
 
@@ -10847,9 +12885,8 @@ class Destination {
   /// element.
   final EncryptionConfiguration encryptionConfiguration;
 
-  /// A container specifying replication metrics-related settings enabling metrics
-  /// and Amazon S3 events for S3 Replication Time Control (S3 RTC). Must be
-  /// specified together with a <code>ReplicationTime</code> block.
+  /// A container specifying replication metrics-related settings enabling
+  /// replication metrics and events.
   final Metrics metrics;
 
   /// A container specifying S3 Replication Time Control (S3 RTC), including
@@ -10858,7 +12895,7 @@ class Destination {
   /// <code>Metrics</code> block.
   final ReplicationTime replicationTime;
 
-  /// The storage class to use when replicating objects, such as standard or
+  /// The storage class to use when replicating objects, such as S3 Standard or
   /// reduced redundancy. By default, Amazon S3 uses the storage class of the
   /// source object to create the object replica.
   ///
@@ -12911,6 +14948,22 @@ class GetBucketEncryptionOutput {
   }
 }
 
+class GetBucketIntelligentTieringConfigurationOutput {
+  /// Container for S3 Intelligent-Tiering configuration.
+  final IntelligentTieringConfiguration intelligentTieringConfiguration;
+
+  GetBucketIntelligentTieringConfigurationOutput({
+    this.intelligentTieringConfiguration,
+  });
+  factory GetBucketIntelligentTieringConfigurationOutput.fromXml(
+      _s.XmlElement elem) {
+    return GetBucketIntelligentTieringConfigurationOutput(
+      intelligentTieringConfiguration:
+          elem?.let((e) => IntelligentTieringConfiguration.fromXml(e)),
+    );
+  }
+}
+
 class GetBucketInventoryConfigurationOutput {
   /// Specifies the inventory configuration.
   final InventoryConfiguration inventoryConfiguration;
@@ -12961,7 +15014,8 @@ class GetBucketLocationOutput {
   /// Specifies the Region where the bucket resides. For a list of all the Amazon
   /// S3 supported location constraints by Region, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
-  /// and Endpoints</a>.
+  /// and Endpoints</a>. Buckets in Region <code>us-east-1</code> have a
+  /// LocationConstraint of <code>null</code>.
   final BucketLocationConstraint locationConstraint;
 
   GetBucketLocationOutput({
@@ -13001,6 +15055,21 @@ class GetBucketMetricsConfigurationOutput {
   factory GetBucketMetricsConfigurationOutput.fromXml(_s.XmlElement elem) {
     return GetBucketMetricsConfigurationOutput(
       metricsConfiguration: elem?.let((e) => MetricsConfiguration.fromXml(e)),
+    );
+  }
+}
+
+class GetBucketOwnershipControlsOutput {
+  /// The <code>OwnershipControls</code> (BucketOwnerPreferred or ObjectWriter)
+  /// currently in effect for this Amazon S3 bucket.
+  final OwnershipControls ownershipControls;
+
+  GetBucketOwnershipControlsOutput({
+    this.ownershipControls,
+  });
+  factory GetBucketOwnershipControlsOutput.fromXml(_s.XmlElement elem) {
+    return GetBucketOwnershipControlsOutput(
+      ownershipControls: elem?.let((e) => OwnershipControls.fromXml(e)),
     );
   }
 }
@@ -13101,10 +15170,12 @@ class GetBucketVersioningOutput {
 }
 
 class GetBucketWebsiteOutput {
-  /// The name of the error document for the website.
+  /// The object key name of the website error document to use for 4XX class
+  /// errors.
   final ErrorDocument errorDocument;
 
-  /// The name of the index document for the website.
+  /// The name of the index document for the website (for example
+  /// <code>index.html</code>).
   final IndexDocument indexDocument;
 
   /// Specifies the redirect behavior of all requests to a website endpoint of an
@@ -13189,6 +15260,10 @@ class GetObjectOutput {
 
   /// Object data.
   final Uint8List body;
+
+  /// Indicates whether the object uses an S3 Bucket Key for server-side
+  /// encryption with AWS KMS (SSE-KMS).
+  final bool bucketKeyEnabled;
 
   /// Specifies caching behavior along the request/reply chain.
   final String cacheControl;
@@ -13286,7 +15361,7 @@ class GetObjectOutput {
   final ServerSideEncryption serverSideEncryption;
 
   /// Provides storage class information of the object. Amazon S3 returns this
-  /// header for all objects except for Standard storage class objects.
+  /// header for all objects except for S3 Standard storage class objects.
   final StorageClass storageClass;
 
   /// The number of tags, if any, on the object.
@@ -13303,6 +15378,7 @@ class GetObjectOutput {
   GetObjectOutput({
     this.acceptRanges,
     this.body,
+    this.bucketKeyEnabled,
     this.cacheControl,
     this.contentDisposition,
     this.contentEncoding,
@@ -13389,9 +15465,9 @@ class GetPublicAccessBlockOutput {
   }
 }
 
-/// Container for Glacier job parameters.
+/// Container for S3 Glacier job parameters.
 class GlacierJobParameters {
-  /// Glacier retrieval tier at which the restore will be processed.
+  /// Retrieval tier at which the restore will be processed.
   final Tier tier;
 
   GlacierJobParameters({
@@ -13458,6 +15534,40 @@ class Grantee {
   final String displayName;
 
   /// Email address of the grantee.
+  /// <note>
+  /// Using email addresses to specify a grantee is only supported in the
+  /// following AWS Regions:
+  ///
+  /// <ul>
+  /// <li>
+  /// US East (N. Virginia)
+  /// </li>
+  /// <li>
+  /// US West (N. California)
+  /// </li>
+  /// <li>
+  /// US West (Oregon)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Singapore)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Sydney)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Tokyo)
+  /// </li>
+  /// <li>
+  /// Europe (Ireland)
+  /// </li>
+  /// <li>
+  /// South America (São Paulo)
+  /// </li>
+  /// </ul>
+  /// For a list of all the Amazon S3 supported Regions and endpoints, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
+  /// and Endpoints</a> in the AWS General Reference.
+  /// </note>
   final String emailAddress;
 
   /// The canonical user ID of the grantee.
@@ -13509,6 +15619,13 @@ class Grantee {
 class HeadObjectOutput {
   /// Indicates that a range of bytes was specified.
   final String acceptRanges;
+
+  /// The archive state of the head object.
+  final ArchiveStatus archiveStatus;
+
+  /// Indicates whether the object uses an S3 Bucket Key for server-side
+  /// encryption with AWS KMS (SSE-KMS).
+  final bool bucketKeyEnabled;
 
   /// Specifies caching behavior along the request/reply chain.
   final String cacheControl;
@@ -13586,11 +15703,11 @@ class HeadObjectOutput {
   final int partsCount;
 
   /// Amazon S3 can return this header if your request involves a bucket that is
-  /// either a source or destination in a replication rule.
+  /// either a source or a destination in a replication rule.
   ///
   /// In replication, you have a source bucket on which you configure replication
-  /// and destination bucket where Amazon S3 stores object replicas. When you
-  /// request an object (<code>GetObject</code>) or object metadata
+  /// and destination bucket or buckets where Amazon S3 stores object replicas.
+  /// When you request an object (<code>GetObject</code>) or object metadata
   /// (<code>HeadObject</code>) from these buckets, Amazon S3 will return the
   /// <code>x-amz-replication-status</code> header in the response as follows:
   ///
@@ -13609,9 +15726,18 @@ class HeadObjectOutput {
   /// PENDING, COMPLETED or FAILED indicating object replication status.
   /// </li>
   /// <li>
-  /// If requesting an object from the destination bucket — Amazon S3 will return
+  /// If requesting an object from a destination bucket — Amazon S3 will return
   /// the <code>x-amz-replication-status</code> header with value REPLICA if the
-  /// object in your request is a replica that Amazon S3 created.
+  /// object in your request is a replica that Amazon S3 created and there is no
+  /// replica modification replication in progress.
+  /// </li>
+  /// <li>
+  /// When replicating objects to multiple destination buckets the
+  /// <code>x-amz-replication-status</code> header acts differently. The header of
+  /// the source object will only return a value of COMPLETED when replication is
+  /// successful to all destinations. The header will remain at value PENDING
+  /// until replication has completed for all destinations. If one or more
+  /// destinations fails replication the header will return FAILED.
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -13621,8 +15747,9 @@ class HeadObjectOutput {
 
   /// If the object is an archived object (an object whose storage class is
   /// GLACIER), the response includes this header if either the archive
-  /// restoration is in progress (see <a>RestoreObject</a> or an archive copy is
-  /// already restored.
+  /// restoration is in progress (see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html">RestoreObject</a>
+  /// or an archive copy is already restored.
   ///
   /// If an archive copy is already restored, the header value indicates when
   /// Amazon S3 is scheduled to delete the object copy. For example:
@@ -13661,7 +15788,7 @@ class HeadObjectOutput {
   final ServerSideEncryption serverSideEncryption;
 
   /// Provides storage class information of the object. Amazon S3 returns this
-  /// header for all objects except for Standard storage class objects.
+  /// header for all objects except for S3 Standard storage class objects.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
@@ -13678,6 +15805,8 @@ class HeadObjectOutput {
 
   HeadObjectOutput({
     this.acceptRanges,
+    this.archiveStatus,
+    this.bucketKeyEnabled,
     this.cacheControl,
     this.contentDisposition,
     this.contentEncoding,
@@ -13799,6 +15928,206 @@ class InputSerialization {
       $attributes,
       $children.where((e) => e != null),
     );
+  }
+}
+
+enum IntelligentTieringAccessTier {
+  archiveAccess,
+  deepArchiveAccess,
+}
+
+extension on IntelligentTieringAccessTier {
+  String toValue() {
+    switch (this) {
+      case IntelligentTieringAccessTier.archiveAccess:
+        return 'ARCHIVE_ACCESS';
+      case IntelligentTieringAccessTier.deepArchiveAccess:
+        return 'DEEP_ARCHIVE_ACCESS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  IntelligentTieringAccessTier toIntelligentTieringAccessTier() {
+    switch (this) {
+      case 'ARCHIVE_ACCESS':
+        return IntelligentTieringAccessTier.archiveAccess;
+      case 'DEEP_ARCHIVE_ACCESS':
+        return IntelligentTieringAccessTier.deepArchiveAccess;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// A container for specifying S3 Intelligent-Tiering filters. The filters
+/// determine the subset of objects to which the rule applies.
+class IntelligentTieringAndOperator {
+  /// An object key name prefix that identifies the subset of objects to which the
+  /// configuration applies.
+  final String prefix;
+
+  /// All of these tags must exist in the object's tag set in order for the
+  /// configuration to apply.
+  final List<Tag> tags;
+
+  IntelligentTieringAndOperator({
+    this.prefix,
+    this.tags,
+  });
+  factory IntelligentTieringAndOperator.fromXml(_s.XmlElement elem) {
+    return IntelligentTieringAndOperator(
+      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      tags: elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tags != null) ...tags.map((e) => e?.toXml('Tag')),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+/// Specifies the S3 Intelligent-Tiering configuration for an Amazon S3 bucket.
+///
+/// For information about the S3 Intelligent-Tiering storage class, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
+/// class for automatically optimizing frequently and infrequently accessed
+/// objects</a>.
+class IntelligentTieringConfiguration {
+  /// The ID used to identify the S3 Intelligent-Tiering configuration.
+  final String id;
+
+  /// Specifies the status of the configuration.
+  final IntelligentTieringStatus status;
+
+  /// Specifies the S3 Intelligent-Tiering storage class tier of the
+  /// configuration.
+  final List<Tiering> tierings;
+
+  /// Specifies a bucket filter. The configuration only includes objects that meet
+  /// the filter's criteria.
+  final IntelligentTieringFilter filter;
+
+  IntelligentTieringConfiguration({
+    @_s.required this.id,
+    @_s.required this.status,
+    @_s.required this.tierings,
+    this.filter,
+  });
+  factory IntelligentTieringConfiguration.fromXml(_s.XmlElement elem) {
+    return IntelligentTieringConfiguration(
+      id: _s.extractXmlStringValue(elem, 'Id'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.toIntelligentTieringStatus(),
+      tierings:
+          elem.findElements('Tiering').map((c) => Tiering.fromXml(c)).toList(),
+      filter: _s
+          .extractXmlChild(elem, 'Filter')
+          ?.let((e) => IntelligentTieringFilter.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Id', id),
+      if (filter != null) filter?.toXml('Filter'),
+      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
+      ...tierings?.map((e) => e?.toXml('Tiering')),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+/// The <code>Filter</code> is used to identify objects that the S3
+/// Intelligent-Tiering configuration applies to.
+class IntelligentTieringFilter {
+  /// A conjunction (logical AND) of predicates, which is used in evaluating a
+  /// metrics filter. The operator must have at least two predicates, and an
+  /// object must match all of the predicates in order for the filter to apply.
+  final IntelligentTieringAndOperator and;
+
+  /// An object key name prefix that identifies the subset of objects to which the
+  /// rule applies.
+  final String prefix;
+  final Tag tag;
+
+  IntelligentTieringFilter({
+    this.and,
+    this.prefix,
+    this.tag,
+  });
+  factory IntelligentTieringFilter.fromXml(_s.XmlElement elem) {
+    return IntelligentTieringFilter(
+      and: _s
+          .extractXmlChild(elem, 'And')
+          ?.let((e) => IntelligentTieringAndOperator.fromXml(e)),
+      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      tag: _s.extractXmlChild(elem, 'Tag')?.let((e) => Tag.fromXml(e)),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tag != null) tag?.toXml('Tag'),
+      if (and != null) and?.toXml('And'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+enum IntelligentTieringStatus {
+  enabled,
+  disabled,
+}
+
+extension on IntelligentTieringStatus {
+  String toValue() {
+    switch (this) {
+      case IntelligentTieringStatus.enabled:
+        return 'Enabled';
+      case IntelligentTieringStatus.disabled:
+        return 'Disabled';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  IntelligentTieringStatus toIntelligentTieringStatus() {
+    switch (this) {
+      case 'Enabled':
+        return IntelligentTieringStatus.enabled;
+      case 'Disabled':
+        return IntelligentTieringStatus.disabled;
+    }
+    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -14171,7 +16500,12 @@ class InventoryS3BucketDestination {
   /// Specifies the output format of the inventory results.
   final InventoryFormat format;
 
-  /// The ID of the account that owns the destination bucket.
+  /// The account ID that owns the destination S3 bucket. If no account ID is
+  /// provided, the owner is not validated before exporting data.
+  /// <note>
+  /// Although this value is optional, we strongly recommend that you set it to
+  /// help prevent problems if the destination bucket ownership changes.
+  /// </note>
   final String accountId;
 
   /// Contains the type of server-side encryption used to encrypt the inventory
@@ -14274,7 +16608,8 @@ class JSONInput {
 
 /// Specifies JSON as request's output serialization format.
 class JSONOutput {
-  /// The value used to separate individual records in the output.
+  /// The value used to separate individual records in the output. If no value is
+  /// specified, Amazon S3 uses a newline character ('\n').
   final String recordDelimiter;
 
   JSONOutput({
@@ -14671,6 +17006,47 @@ class ListBucketAnalyticsConfigurationsOutput {
   }
 }
 
+class ListBucketIntelligentTieringConfigurationsOutput {
+  /// The ContinuationToken that represents a placeholder from where this request
+  /// should begin.
+  final String continuationToken;
+
+  /// The list of S3 Intelligent-Tiering configurations for a bucket.
+  final List<IntelligentTieringConfiguration>
+      intelligentTieringConfigurationList;
+
+  /// Indicates whether the returned list of analytics configurations is complete.
+  /// A value of true indicates that the list is not complete and the
+  /// NextContinuationToken will be provided for a subsequent request.
+  final bool isTruncated;
+
+  /// The marker used to continue this inventory configuration listing. Use the
+  /// <code>NextContinuationToken</code> from this response to continue the
+  /// listing in a subsequent request. The continuation token is an opaque value
+  /// that Amazon S3 understands.
+  final String nextContinuationToken;
+
+  ListBucketIntelligentTieringConfigurationsOutput({
+    this.continuationToken,
+    this.intelligentTieringConfigurationList,
+    this.isTruncated,
+    this.nextContinuationToken,
+  });
+  factory ListBucketIntelligentTieringConfigurationsOutput.fromXml(
+      _s.XmlElement elem) {
+    return ListBucketIntelligentTieringConfigurationsOutput(
+      continuationToken: _s.extractXmlStringValue(elem, 'ContinuationToken'),
+      intelligentTieringConfigurationList: elem
+          .findElements('IntelligentTieringConfiguration')
+          .map((c) => IntelligentTieringConfiguration.fromXml(c))
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      nextContinuationToken:
+          _s.extractXmlStringValue(elem, 'NextContinuationToken'),
+    );
+  }
+}
+
 class ListBucketInventoryConfigurationsOutput {
   /// If sent in the request, the marker that is used as a starting point for this
   /// inventory configuration list response.
@@ -14770,7 +17146,7 @@ class ListBucketsOutput {
 }
 
 class ListMultipartUploadsOutput {
-  /// Name of the bucket to which the multipart upload was initiated.
+  /// The name of the bucket to which the multipart upload was initiated.
   final String bucket;
 
   /// If you specify a delimiter in the request, then the result returns each
@@ -14905,7 +17281,7 @@ class ListObjectVersionsOutput {
   /// Specifies the maximum number of objects to return.
   final int maxKeys;
 
-  /// Bucket name.
+  /// The bucket name.
   final String name;
 
   /// When the number of responses exceeds the value of <code>MaxKeys</code>,
@@ -15016,14 +17392,14 @@ class ListObjectsOutput {
   /// The maximum number of keys returned in the response body.
   final int maxKeys;
 
-  /// Bucket name.
+  /// The bucket name.
   final String name;
 
   /// When response is truncated (the IsTruncated element value in the response is
   /// true), you can use the key name in this field as marker in the subsequent
   /// request to get next set of objects. Amazon S3 lists objects in alphabetical
   /// order Note: This element is returned only if you have delimiter request
-  /// parameter specified. If response does not include the NextMaker and it is
+  /// parameter specified. If response does not include the NextMarker and it is
   /// truncated, you can use the value of the last Key in the response as the
   /// marker in the subsequent request to get the next set of object keys.
   final String nextMarker;
@@ -15119,20 +17495,31 @@ class ListObjectsV2Output {
   /// result will include less than equals 50 keys
   final int keyCount;
 
-  /// Sets the maximum number of keys returned in the response. The response might
-  /// contain fewer keys but will never contain more.
+  /// Sets the maximum number of keys returned in the response. By default the API
+  /// returns up to 1,000 key names. The response might contain fewer keys but
+  /// will never contain more.
   final int maxKeys;
 
-  /// Bucket name.
+  /// The bucket name.
   ///
   /// When using this API with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation using an access point through the AWS SDKs, you
+  /// When using this operation with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
   /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  ///
+  /// When using this API with Amazon S3 on Outposts, you must direct requests to
+  /// the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
+  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// provide the Outposts bucket ARN in place of the bucket name. For more
+  /// information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
   /// Guide</i>.
   final String name;
 
@@ -15206,7 +17593,7 @@ class ListPartsOutput {
   /// action to abort incomplete multipart uploads.
   final String abortRuleId;
 
-  /// Name of the bucket to which the multipart upload was initiated.
+  /// The name of the bucket to which the multipart upload was initiated.
   final String bucket;
 
   /// Container element that identifies who initiated the multipart upload. If the
@@ -15443,34 +17830,33 @@ class MetadataEntry {
   }
 }
 
-/// A container specifying replication metrics-related settings enabling metrics
-/// and Amazon S3 events for S3 Replication Time Control (S3 RTC). Must be
-/// specified together with a <code>ReplicationTime</code> block.
+/// A container specifying replication metrics-related settings enabling
+/// replication metrics and events.
 class Metrics {
+  /// Specifies whether the replication metrics are enabled.
+  final MetricsStatus status;
+
   /// A container specifying the time threshold for emitting the
   /// <code>s3:Replication:OperationMissedThreshold</code> event.
   final ReplicationTimeValue eventThreshold;
 
-  /// Specifies whether the replication metrics are enabled.
-  final MetricsStatus status;
-
   Metrics({
-    @_s.required this.eventThreshold,
     @_s.required this.status,
+    this.eventThreshold,
   });
   factory Metrics.fromXml(_s.XmlElement elem) {
     return Metrics(
+      status: _s.extractXmlStringValue(elem, 'Status')?.toMetricsStatus(),
       eventThreshold: _s
           .extractXmlChild(elem, 'EventThreshold')
           ?.let((e) => ReplicationTimeValue.fromXml(e)),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toMetricsStatus(),
     );
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
-      eventThreshold?.toXml('EventThreshold'),
+      if (eventThreshold != null) eventThreshold?.toXml('EventThreshold'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15923,8 +18309,28 @@ class NotificationConfigurationFilter {
 
 /// An object consists of data and its descriptive metadata.
 class Object {
-  /// The entity tag is an MD5 hash of the object. ETag reflects only changes to
-  /// the contents of an object, not its metadata.
+  /// The entity tag is a hash of the object. The ETag reflects changes only to
+  /// the contents of an object, not its metadata. The ETag may or may not be an
+  /// MD5 digest of the object data. Whether or not it is depends on how the
+  /// object was created and how it is encrypted as described below:
+  ///
+  /// <ul>
+  /// <li>
+  /// Objects created by the PUT Object, POST Object, or Copy operation, or
+  /// through the AWS Management Console, and are encrypted by SSE-S3 or
+  /// plaintext, have ETags that are an MD5 digest of their object data.
+  /// </li>
+  /// <li>
+  /// Objects created by the PUT Object, POST Object, or Copy operation, or
+  /// through the AWS Management Console, and are encrypted by SSE-C or SSE-KMS,
+  /// have ETags that are not an MD5 digest of their object data.
+  /// </li>
+  /// <li>
+  /// If an object is created by either the Multipart Upload or Part Copy
+  /// operation, the ETag is not an MD5 digest, regardless of the method of
+  /// encryption.
+  /// </li>
+  /// </ul>
   final String eTag;
 
   /// The name that you assign to an object. You use the object key to retrieve
@@ -16300,6 +18706,44 @@ class ObjectLockRule {
   }
 }
 
+/// The container element for object ownership for a bucket's ownership
+/// controls.
+///
+/// BucketOwnerPreferred - Objects uploaded to the bucket change ownership to
+/// the bucket owner if the objects are uploaded with the
+/// <code>bucket-owner-full-control</code> canned ACL.
+///
+/// ObjectWriter - The uploading account will own the object if the object is
+/// uploaded with the <code>bucket-owner-full-control</code> canned ACL.
+enum ObjectOwnership {
+  bucketOwnerPreferred,
+  objectWriter,
+}
+
+extension on ObjectOwnership {
+  String toValue() {
+    switch (this) {
+      case ObjectOwnership.bucketOwnerPreferred:
+        return 'BucketOwnerPreferred';
+      case ObjectOwnership.objectWriter:
+        return 'ObjectWriter';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ObjectOwnership toObjectOwnership() {
+    switch (this) {
+      case 'BucketOwnerPreferred':
+        return ObjectOwnership.bucketOwnerPreferred;
+      case 'ObjectWriter':
+        return ObjectOwnership.objectWriter;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ObjectStorageClass {
   standard,
   reducedRedundancy,
@@ -16308,6 +18752,7 @@ enum ObjectStorageClass {
   onezoneIa,
   intelligentTiering,
   deepArchive,
+  outposts,
 }
 
 extension on ObjectStorageClass {
@@ -16327,6 +18772,8 @@ extension on ObjectStorageClass {
         return 'INTELLIGENT_TIERING';
       case ObjectStorageClass.deepArchive:
         return 'DEEP_ARCHIVE';
+      case ObjectStorageClass.outposts:
+        return 'OUTPOSTS';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -16349,6 +18796,8 @@ extension on String {
         return ObjectStorageClass.intelligentTiering;
       case 'DEEP_ARCHIVE':
         return ObjectStorageClass.deepArchive;
+      case 'OUTPOSTS':
+        return ObjectStorageClass.outposts;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -16540,6 +18989,69 @@ extension on String {
         return OwnerOverride.destination;
     }
     throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// The container element for a bucket's ownership controls.
+class OwnershipControls {
+  /// The container element for an ownership control rule.
+  final List<OwnershipControlsRule> rules;
+
+  OwnershipControls({
+    @_s.required this.rules,
+  });
+  factory OwnershipControls.fromXml(_s.XmlElement elem) {
+    return OwnershipControls(
+      rules: elem
+          .findElements('Rule')
+          .map((c) => OwnershipControlsRule.fromXml(c))
+          .toList(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      ...rules?.map((e) => e?.toXml('Rule')),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+/// The container element for an ownership control rule.
+class OwnershipControlsRule {
+  final ObjectOwnership objectOwnership;
+
+  OwnershipControlsRule({
+    @_s.required this.objectOwnership,
+  });
+  factory OwnershipControlsRule.fromXml(_s.XmlElement elem) {
+    return OwnershipControlsRule(
+      objectOwnership: _s
+          .extractXmlStringValue(elem, 'ObjectOwnership')
+          ?.toObjectOwnership(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue(
+          'ObjectOwnership', objectOwnership?.toValue() ?? ''),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
   }
 }
 
@@ -16796,8 +19308,8 @@ class PublicAccessBlockConfiguration {
 
   /// Specifies whether Amazon S3 should restrict public bucket policies for this
   /// bucket. Setting this element to <code>TRUE</code> restricts access to this
-  /// bucket to only AWS services and authorized users within this account if the
-  /// bucket has a public policy.
+  /// bucket to only AWS service principals and authorized users within this
+  /// account if the bucket has a public policy.
   ///
   /// Enabling this setting doesn't affect previously stored bucket policies,
   /// except that public and cross-account access within any public bucket policy,
@@ -16867,14 +19379,18 @@ class PutObjectLockConfigurationOutput {
 }
 
 class PutObjectOutput {
+  /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side
+  /// encryption with AWS KMS (SSE-KMS).
+  final bool bucketKeyEnabled;
+
   /// Entity tag for the uploaded object.
   final String eTag;
 
-  /// If the expiration is configured for the object (see
-  /// <a>PutBucketLifecycleConfiguration</a>), the response includes this header.
-  /// It includes the expiry-date and rule-id key-value pairs that provide
-  /// information about object expiration. The value of the rule-id is URL
-  /// encoded.
+  /// If the expiration is configured for the object (see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>),
+  /// the response includes this header. It includes the expiry-date and rule-id
+  /// key-value pairs that provide information about object expiration. The value
+  /// of the rule-id is URL encoded.
   final String expiration;
   final RequestCharged requestCharged;
 
@@ -16909,6 +19425,7 @@ class PutObjectOutput {
   final String versionId;
 
   PutObjectOutput({
+    this.bucketKeyEnabled,
     this.eTag,
     this.expiration,
     this.requestCharged,
@@ -16989,10 +19506,11 @@ class QueueConfiguration {
   }
 }
 
-/// This data type is deprecated. Use <a>QueueConfiguration</a> for the same
-/// purposes. This data type specifies the configuration for publishing messages
-/// to an Amazon Simple Queue Service (Amazon SQS) queue when Amazon S3 detects
-/// specified events.
+/// This data type is deprecated. Use <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_QueueConfiguration.html">QueueConfiguration</a>
+/// for the same purposes. This data type specifies the configuration for
+/// publishing messages to an Amazon Simple Queue Service (Amazon SQS) queue
+/// when Amazon S3 detects specified events.
 class QueueConfigurationDeprecated {
   final Event event;
 
@@ -17194,6 +19712,75 @@ class RedirectAllRequestsTo {
   }
 }
 
+/// A filter that you can specify for selection for modifications on replicas.
+/// Amazon S3 doesn't replicate replica modifications by default. In the latest
+/// version of replication configuration (when <code>Filter</code> is
+/// specified), you can specify this element and set the status to
+/// <code>Enabled</code> to replicate modifications on replicas.
+/// <note>
+/// If you don't specify the <code>Filter</code> element, Amazon S3 assumes that
+/// the replication configuration is the earlier version, V1. In the earlier
+/// version, this element is not allowed.
+/// </note>
+class ReplicaModifications {
+  /// Specifies whether Amazon S3 replicates modifications on replicas.
+  final ReplicaModificationsStatus status;
+
+  ReplicaModifications({
+    @_s.required this.status,
+  });
+  factory ReplicaModifications.fromXml(_s.XmlElement elem) {
+    return ReplicaModifications(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.toReplicaModificationsStatus(),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+enum ReplicaModificationsStatus {
+  enabled,
+  disabled,
+}
+
+extension on ReplicaModificationsStatus {
+  String toValue() {
+    switch (this) {
+      case ReplicaModificationsStatus.enabled:
+        return 'Enabled';
+      case ReplicaModificationsStatus.disabled:
+        return 'Disabled';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReplicaModificationsStatus toReplicaModificationsStatus() {
+    switch (this) {
+      case 'Enabled':
+        return ReplicaModificationsStatus.enabled;
+      case 'Disabled':
+        return ReplicaModificationsStatus.disabled;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A container for replication rules. You can add up to 1,000 rules. The
 /// maximum size of a replication configuration is 2 MB.
 class ReplicationConfiguration {
@@ -17262,23 +19849,15 @@ class ReplicationRule {
   /// objects in a bucket, specify an empty string.
   final String prefix;
 
-  /// The priority associated with the rule. If you specify multiple rules in a
-  /// replication configuration, Amazon S3 prioritizes the rules to prevent
-  /// conflicts when filtering. If two or more rules identify the same object
-  /// based on a specified filter, the rule with higher priority takes precedence.
-  /// For example:
+  /// The priority indicates which rule has precedence whenever two or more
+  /// replication rules conflict. Amazon S3 will attempt to replicate objects
+  /// according to all replication rules. However, if there are two or more rules
+  /// with the same destination bucket, then objects will be replicated according
+  /// to the rule with the highest priority. The higher the number, the higher the
+  /// priority.
   ///
-  /// <ul>
-  /// <li>
-  /// Same object quality prefix-based filter criteria if prefixes you specified
-  /// in multiple rules overlap
-  /// </li>
-  /// <li>
-  /// Same object qualify tag-based filter criteria specified in multiple rules
-  /// </li>
-  /// </ul>
-  /// For more information, see <a href="
-  /// https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html">Replication</a>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html">Replication</a>
   /// in the <i>Amazon Simple Storage Service Developer Guide</i>.
   final int priority;
 
@@ -17755,13 +20334,16 @@ class RestoreObjectOutput {
 class RestoreRequest {
   /// Lifetime of the active copy in days. Do not use with restores that specify
   /// <code>OutputLocation</code>.
+  ///
+  /// The Days element is required for regular restores, and must not be provided
+  /// for select requests.
   final int days;
 
   /// The optional description for the job.
   final String description;
 
-  /// Glacier related parameters pertaining to this job. Do not use with restores
-  /// that specify <code>OutputLocation</code>.
+  /// S3 Glacier related parameters pertaining to this job. Do not use with
+  /// restores that specify <code>OutputLocation</code>.
   final GlacierJobParameters glacierJobParameters;
 
   /// Describes the location where the restore job's output is stored.
@@ -17770,7 +20352,7 @@ class RestoreRequest {
   /// Describes the parameters for Select job types.
   final SelectParameters selectParameters;
 
-  /// Glacier retrieval tier at which the restore will be processed.
+  /// Retrieval tier at which the restore will be processed.
   final Tier tier;
 
   /// Type of restore request.
@@ -17832,7 +20414,11 @@ extension on String {
   }
 }
 
-/// Specifies the redirect behavior and when a redirect is applied.
+/// Specifies the redirect behavior and when a redirect is applied. For more
+/// information about routing rules, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html#advanced-conditional-redirects">Configuring
+/// advanced conditional redirects</a> in the <i>Amazon Simple Storage Service
+/// Developer Guide</i>.
 class RoutingRule {
   /// Container for redirect information. You can redirect requests to another
   /// host, to another page, or with another protocol. In the event of an error,
@@ -17878,9 +20464,11 @@ class RoutingRule {
 
 /// Specifies lifecycle rules for an Amazon S3 bucket. For more information, see
 /// <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTlifecycle.html">PUT
-/// Bucket lifecycle</a> in the <i>Amazon Simple Storage Service API
-/// Reference</i>.
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTlifecycle.html">Put
+/// Bucket Lifecycle Configuration</a> in the <i>Amazon Simple Storage Service
+/// API Reference</i>. For examples, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html#API_PutBucketLifecycleConfiguration_Examples">Put
+/// Bucket Lifecycle Configuration Examples</a>
 class Rule {
   /// Object key prefix that identifies one or more objects to which this rule
   /// applies.
@@ -17900,7 +20488,11 @@ class Rule {
   final NoncurrentVersionExpiration noncurrentVersionExpiration;
   final NoncurrentVersionTransition noncurrentVersionTransition;
 
-  /// Specifies when an object transitions to a specified storage class.
+  /// Specifies when an object transitions to a specified storage class. For more
+  /// information about Amazon S3 lifecycle configuration rules, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html">Transitioning
+  /// Objects Using Amazon S3 Lifecycle</a> in the <i>Amazon Simple Storage
+  /// Service Developer Guide</i>.
   final Transition transition;
 
   Rule({
@@ -18234,6 +20826,11 @@ class SelectObjectContentRequest {
   /// response.
   final OutputSerialization outputSerialization;
 
+  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request will fail with an HTTP <code>403 (Access
+  /// Denied)</code> error.
+  final String expectedBucketOwner;
+
   /// Specifies if periodic request progress information should be enabled.
   final RequestProgress requestProgress;
 
@@ -18283,6 +20880,7 @@ class SelectObjectContentRequest {
     @_s.required this.inputSerialization,
     @_s.required this.key,
     @_s.required this.outputSerialization,
+    this.expectedBucketOwner,
     this.requestProgress,
     this.sSECustomerAlgorithm,
     this.sSECustomerKey,
@@ -18388,9 +20986,33 @@ class ServerSideEncryptionByDefault {
   /// Server-side encryption algorithm to use for the default encryption.
   final ServerSideEncryption sSEAlgorithm;
 
-  /// KMS master key ID to use for the default encryption. This parameter is
-  /// allowed if and only if <code>SSEAlgorithm</code> is set to
-  /// <code>aws:kms</code>.
+  /// AWS Key Management Service (KMS) customer master key ID to use for the
+  /// default encryption. This parameter is allowed if and only if
+  /// <code>SSEAlgorithm</code> is set to <code>aws:kms</code>.
+  ///
+  /// You can specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  /// However, if you are using encryption with cross-account operations, you must
+  /// use a fully qualified CMK ARN. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html#bucket-encryption-update-bucket-policy">Using
+  /// encryption for cross-account operations</a>.
+  ///
+  /// <b>For example:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// <li>
+  /// Key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul> <important>
+  /// Amazon S3 only supports symmetric CMKs and not asymmetric CMKs. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
+  /// Developer Guide</i>.
+  /// </important>
   final String kMSMasterKeyID;
 
   ServerSideEncryptionByDefault({
@@ -18463,14 +21085,28 @@ class ServerSideEncryptionRule {
   /// this default encryption will be applied.
   final ServerSideEncryptionByDefault applyServerSideEncryptionByDefault;
 
+  /// Specifies whether Amazon S3 should use an S3 Bucket Key with server-side
+  /// encryption using KMS (SSE-KMS) for new objects in the bucket. Existing
+  /// objects are not affected. Setting the <code>BucketKeyEnabled</code> element
+  /// to <code>true</code> causes Amazon S3 to use an S3 Bucket Key. By default,
+  /// S3 Bucket Key is not enabled.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html">Amazon
+  /// S3 Bucket Keys</a> in the <i>Amazon Simple Storage Service Developer
+  /// Guide</i>.
+  final bool bucketKeyEnabled;
+
   ServerSideEncryptionRule({
     this.applyServerSideEncryptionByDefault,
+    this.bucketKeyEnabled,
   });
   factory ServerSideEncryptionRule.fromXml(_s.XmlElement elem) {
     return ServerSideEncryptionRule(
       applyServerSideEncryptionByDefault: _s
           .extractXmlChild(elem, 'ApplyServerSideEncryptionByDefault')
           ?.let((e) => ServerSideEncryptionByDefault.fromXml(e)),
+      bucketKeyEnabled: _s.extractXmlBoolValue(elem, 'BucketKeyEnabled'),
     );
   }
 
@@ -18479,6 +21115,8 @@ class ServerSideEncryptionRule {
       if (applyServerSideEncryptionByDefault != null)
         applyServerSideEncryptionByDefault
             ?.toXml('ApplyServerSideEncryptionByDefault'),
+      if (bucketKeyEnabled != null)
+        _s.encodeXmlBoolValue('BucketKeyEnabled', bucketKeyEnabled),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18497,16 +21135,32 @@ class ServerSideEncryptionRule {
 /// that you can specify for objects created with server-side encryption using a
 /// customer master key (CMK) stored in AWS Key Management Service (SSE-KMS).
 class SourceSelectionCriteria {
+  /// A filter that you can specify for selections for modifications on replicas.
+  /// Amazon S3 doesn't replicate replica modifications by default. In the latest
+  /// version of replication configuration (when <code>Filter</code> is
+  /// specified), you can specify this element and set the status to
+  /// <code>Enabled</code> to replicate modifications on replicas.
+  /// <note>
+  /// If you don't specify the <code>Filter</code> element, Amazon S3 assumes that
+  /// the replication configuration is the earlier version, V1. In the earlier
+  /// version, this element is not allowed
+  /// </note>
+  final ReplicaModifications replicaModifications;
+
   /// A container for filter information for the selection of Amazon S3 objects
   /// encrypted with AWS KMS. If you include <code>SourceSelectionCriteria</code>
   /// in the replication configuration, this element is required.
   final SseKmsEncryptedObjects sseKmsEncryptedObjects;
 
   SourceSelectionCriteria({
+    this.replicaModifications,
     this.sseKmsEncryptedObjects,
   });
   factory SourceSelectionCriteria.fromXml(_s.XmlElement elem) {
     return SourceSelectionCriteria(
+      replicaModifications: _s
+          .extractXmlChild(elem, 'ReplicaModifications')
+          ?.let((e) => ReplicaModifications.fromXml(e)),
       sseKmsEncryptedObjects: _s
           .extractXmlChild(elem, 'SseKmsEncryptedObjects')
           ?.let((e) => SseKmsEncryptedObjects.fromXml(e)),
@@ -18517,6 +21171,8 @@ class SourceSelectionCriteria {
     final $children = <_s.XmlNode>[
       if (sseKmsEncryptedObjects != null)
         sseKmsEncryptedObjects?.toXml('SseKmsEncryptedObjects'),
+      if (replicaModifications != null)
+        replicaModifications?.toXml('ReplicaModifications'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18641,6 +21297,7 @@ enum StorageClass {
   intelligentTiering,
   glacier,
   deepArchive,
+  outposts,
 }
 
 extension on StorageClass {
@@ -18660,6 +21317,8 @@ extension on StorageClass {
         return 'GLACIER';
       case StorageClass.deepArchive:
         return 'DEEP_ARCHIVE';
+      case StorageClass.outposts:
+        return 'OUTPOSTS';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -18682,6 +21341,8 @@ extension on String {
         return StorageClass.glacier;
       case 'DEEP_ARCHIVE':
         return StorageClass.deepArchive;
+      case 'OUTPOSTS':
+        return StorageClass.outposts;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -18789,7 +21450,7 @@ extension on String {
 
 /// A container of a key value name pair.
 class Tag {
-  /// Name of the tag.
+  /// Name of the object key.
   final String key;
 
   /// Value of the tag.
@@ -18880,7 +21541,7 @@ class TargetGrant {
   /// Container for the person being granted permissions.
   final Grantee grantee;
 
-  /// Logging permissions assigned to the Grantee for the bucket.
+  /// Logging permissions assigned to the grantee for the bucket.
   final BucketLogsPermission permission;
 
   TargetGrant({
@@ -18948,6 +21609,53 @@ extension on String {
   }
 }
 
+/// The S3 Intelligent-Tiering storage class is designed to optimize storage
+/// costs by automatically moving data to the most cost-effective storage access
+/// tier, without additional operational overhead.
+class Tiering {
+  /// S3 Intelligent-Tiering access tier. See <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access">Storage
+  /// class for automatically optimizing frequently and infrequently accessed
+  /// objects</a> for a list of access tiers in the S3 Intelligent-Tiering storage
+  /// class.
+  final IntelligentTieringAccessTier accessTier;
+
+  /// The number of consecutive days of no access after which an object will be
+  /// eligible to be transitioned to the corresponding tier. The minimum number of
+  /// days specified for Archive Access tier must be at least 90 days and Deep
+  /// Archive Access tier must be at least 180 days. The maximum can be up to 2
+  /// years (730 days).
+  final int days;
+
+  Tiering({
+    @_s.required this.accessTier,
+    @_s.required this.days,
+  });
+  factory Tiering.fromXml(_s.XmlElement elem) {
+    return Tiering(
+      accessTier: _s
+          .extractXmlStringValue(elem, 'AccessTier')
+          ?.toIntelligentTieringAccessTier(),
+      days: _s.extractXmlIntValue(elem, 'Days'),
+    );
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Days', days),
+      _s.encodeXmlStringValue('AccessTier', accessTier?.toValue() ?? ''),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
 /// A container for specifying the configuration for publication of messages to
 /// an Amazon Simple Notification Service (Amazon SNS) topic when Amazon S3
 /// detects specified events.
@@ -19005,8 +21713,9 @@ class TopicConfiguration {
 
 /// A container for specifying the configuration for publication of messages to
 /// an Amazon Simple Notification Service (Amazon SNS) topic when Amazon S3
-/// detects specified events. This data type is deprecated. Use
-/// <a>TopicConfiguration</a> instead.
+/// detects specified events. This data type is deprecated. Use <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_TopicConfiguration.html">TopicConfiguration</a>
+/// instead.
 class TopicConfigurationDeprecated {
   /// Bucket event for which to send notifications.
   final Event event;
@@ -19057,7 +21766,11 @@ class TopicConfigurationDeprecated {
   }
 }
 
-/// Specifies when an object transitions to a specified storage class.
+/// Specifies when an object transitions to a specified storage class. For more
+/// information about Amazon S3 lifecycle configuration rules, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html">Transitioning
+/// Objects Using Amazon S3 Lifecycle</a> in the <i>Amazon Simple Storage
+/// Service Developer Guide</i>.
 class Transition {
   /// Indicates when objects are transitioned to the specified storage class. The
   /// date value must be in ISO 8601 format. The time is always midnight UTC.
@@ -19184,6 +21897,10 @@ extension on String {
 }
 
 class UploadPartCopyOutput {
+  /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
+  /// encryption with AWS KMS (SSE-KMS).
+  final bool bucketKeyEnabled;
+
   /// Container for all response elements.
   final CopyPartResult copyPartResult;
 
@@ -19212,6 +21929,7 @@ class UploadPartCopyOutput {
   final ServerSideEncryption serverSideEncryption;
 
   UploadPartCopyOutput({
+    this.bucketKeyEnabled,
     this.copyPartResult,
     this.copySourceVersionId,
     this.requestCharged,
@@ -19223,6 +21941,10 @@ class UploadPartCopyOutput {
 }
 
 class UploadPartOutput {
+  /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
+  /// encryption with AWS KMS (SSE-KMS).
+  final bool bucketKeyEnabled;
+
   /// Entity tag for the uploaded object.
   final String eTag;
   final RequestCharged requestCharged;
@@ -19247,6 +21969,7 @@ class UploadPartOutput {
   final ServerSideEncryption serverSideEncryption;
 
   UploadPartOutput({
+    this.bucketKeyEnabled,
     this.eTag,
     this.requestCharged,
     this.sSECustomerAlgorithm,
@@ -19346,6 +22069,11 @@ class BucketAlreadyOwnedByYou extends _s.GenericAwsException {
       : super(type: type, code: 'BucketAlreadyOwnedByYou', message: message);
 }
 
+class InvalidObjectState extends _s.GenericAwsException {
+  InvalidObjectState({String type, String message})
+      : super(type: type, code: 'InvalidObjectState', message: message);
+}
+
 class NoSuchBucket extends _s.GenericAwsException {
   NoSuchBucket({String type, String message})
       : super(type: type, code: 'NoSuchBucket', message: message);
@@ -19379,6 +22107,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       BucketAlreadyExists(type: type, message: message),
   'BucketAlreadyOwnedByYou': (type, message) =>
       BucketAlreadyOwnedByYou(type: type, message: message),
+  'InvalidObjectState': (type, message) =>
+      InvalidObjectState(type: type, message: message),
   'NoSuchBucket': (type, message) => NoSuchBucket(type: type, message: message),
   'NoSuchKey': (type, message) => NoSuchKey(type: type, message: message),
   'NoSuchUpload': (type, message) => NoSuchUpload(type: type, message: message),

@@ -337,6 +337,10 @@ ActivitiesResponse _$ActivitiesResponseFromJson(Map<String, dynamic> json) {
 
 Activity _$ActivityFromJson(Map<String, dynamic> json) {
   return Activity(
+    custom: json['CUSTOM'] == null
+        ? null
+        : CustomMessageActivity.fromJson(
+            json['CUSTOM'] as Map<String, dynamic>),
     conditionalSplit: json['ConditionalSplit'] == null
         ? null
         : ConditionalSplitActivity.fromJson(
@@ -352,10 +356,16 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) {
         ? null
         : MultiConditionalSplitActivity.fromJson(
             json['MultiCondition'] as Map<String, dynamic>),
+    push: json['PUSH'] == null
+        ? null
+        : PushMessageActivity.fromJson(json['PUSH'] as Map<String, dynamic>),
     randomSplit: json['RandomSplit'] == null
         ? null
         : RandomSplitActivity.fromJson(
             json['RandomSplit'] as Map<String, dynamic>),
+    sms: json['SMS'] == null
+        ? null
+        : SMSMessageActivity.fromJson(json['SMS'] as Map<String, dynamic>),
     wait: json['Wait'] == null
         ? null
         : WaitActivity.fromJson(json['Wait'] as Map<String, dynamic>),
@@ -371,12 +381,15 @@ Map<String, dynamic> _$ActivityToJson(Activity instance) {
     }
   }
 
+  writeNotNull('CUSTOM', instance.custom?.toJson());
   writeNotNull('ConditionalSplit', instance.conditionalSplit?.toJson());
   writeNotNull('Description', instance.description);
   writeNotNull('EMAIL', instance.email?.toJson());
   writeNotNull('Holdout', instance.holdout?.toJson());
   writeNotNull('MultiCondition', instance.multiCondition?.toJson());
+  writeNotNull('PUSH', instance.push?.toJson());
   writeNotNull('RandomSplit', instance.randomSplit?.toJson());
+  writeNotNull('SMS', instance.sms?.toJson());
   writeNotNull('Wait', instance.wait?.toJson());
   return val;
 }
@@ -419,6 +432,7 @@ Map<String, dynamic> _$AddressConfigurationToJson(
 }
 
 const _$ChannelTypeEnumMap = {
+  ChannelType.push: 'PUSH',
   ChannelType.gcm: 'GCM',
   ChannelType.apns: 'APNS',
   ChannelType.apnsSandbox: 'APNS_SANDBOX',
@@ -623,6 +637,27 @@ BaseKpiResult _$BaseKpiResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+CampaignCustomMessage _$CampaignCustomMessageFromJson(
+    Map<String, dynamic> json) {
+  return CampaignCustomMessage(
+    data: json['Data'] as String,
+  );
+}
+
+Map<String, dynamic> _$CampaignCustomMessageToJson(
+    CampaignCustomMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Data', instance.data);
+  return val;
+}
+
 CampaignDateRangeKpiResponse _$CampaignDateRangeKpiResponseFromJson(
     Map<String, dynamic> json) {
   return CampaignDateRangeKpiResponse(
@@ -759,6 +794,10 @@ CampaignResponse _$CampaignResponseFromJson(Map<String, dynamic> json) {
             ? null
             : TreatmentResource.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    customDeliveryConfiguration: json['CustomDeliveryConfiguration'] == null
+        ? null
+        : CustomDeliveryConfiguration.fromJson(
+            json['CustomDeliveryConfiguration'] as Map<String, dynamic>),
     defaultState: json['DefaultState'] == null
         ? null
         : CampaignState.fromJson(json['DefaultState'] as Map<String, dynamic>),
@@ -838,6 +877,7 @@ const _$CampaignStatusEnumMap = {
   CampaignStatus.completed: 'COMPLETED',
   CampaignStatus.paused: 'PAUSED',
   CampaignStatus.deleted: 'DELETED',
+  CampaignStatus.invalid: 'INVALID',
 };
 
 CampaignsResponse _$CampaignsResponseFromJson(Map<String, dynamic> json) {
@@ -1099,6 +1139,90 @@ CreateVoiceTemplateResponse _$CreateVoiceTemplateResponseFromJson(
         : CreateTemplateMessageBody.fromJson(
             json['CreateTemplateMessageBody'] as Map<String, dynamic>),
   );
+}
+
+CustomDeliveryConfiguration _$CustomDeliveryConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return CustomDeliveryConfiguration(
+    deliveryUri: json['DeliveryUri'] as String,
+    endpointTypes: (json['EndpointTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$EndpointTypesElementEnumMap, e))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$CustomDeliveryConfigurationToJson(
+    CustomDeliveryConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryUri', instance.deliveryUri);
+  writeNotNull(
+      'EndpointTypes',
+      instance.endpointTypes
+          ?.map((e) => _$EndpointTypesElementEnumMap[e])
+          ?.toList());
+  return val;
+}
+
+const _$EndpointTypesElementEnumMap = {
+  EndpointTypesElement.push: 'PUSH',
+  EndpointTypesElement.gcm: 'GCM',
+  EndpointTypesElement.apns: 'APNS',
+  EndpointTypesElement.apnsSandbox: 'APNS_SANDBOX',
+  EndpointTypesElement.apnsVoip: 'APNS_VOIP',
+  EndpointTypesElement.apnsVoipSandbox: 'APNS_VOIP_SANDBOX',
+  EndpointTypesElement.adm: 'ADM',
+  EndpointTypesElement.sms: 'SMS',
+  EndpointTypesElement.voice: 'VOICE',
+  EndpointTypesElement.email: 'EMAIL',
+  EndpointTypesElement.baidu: 'BAIDU',
+  EndpointTypesElement.custom: 'CUSTOM',
+};
+
+CustomMessageActivity _$CustomMessageActivityFromJson(
+    Map<String, dynamic> json) {
+  return CustomMessageActivity(
+    deliveryUri: json['DeliveryUri'] as String,
+    endpointTypes: (json['EndpointTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$EndpointTypesElementEnumMap, e))
+        ?.toList(),
+    messageConfig: json['MessageConfig'] == null
+        ? null
+        : JourneyCustomMessage.fromJson(
+            json['MessageConfig'] as Map<String, dynamic>),
+    nextActivity: json['NextActivity'] as String,
+    templateName: json['TemplateName'] as String,
+    templateVersion: json['TemplateVersion'] as String,
+  );
+}
+
+Map<String, dynamic> _$CustomMessageActivityToJson(
+    CustomMessageActivity instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DeliveryUri', instance.deliveryUri);
+  writeNotNull(
+      'EndpointTypes',
+      instance.endpointTypes
+          ?.map((e) => _$EndpointTypesElementEnumMap[e])
+          ?.toList());
+  writeNotNull('MessageConfig', instance.messageConfig?.toJson());
+  writeNotNull('NextActivity', instance.nextActivity);
+  writeNotNull('TemplateName', instance.templateName);
+  writeNotNull('TemplateVersion', instance.templateVersion);
+  return val;
 }
 
 Map<String, dynamic> _$DefaultMessageToJson(DefaultMessage instance) {
@@ -1859,11 +1983,57 @@ Map<String, dynamic> _$EventDimensionsToJson(EventDimensions instance) {
   return val;
 }
 
+EventFilter _$EventFilterFromJson(Map<String, dynamic> json) {
+  return EventFilter(
+    dimensions: json['Dimensions'] == null
+        ? null
+        : EventDimensions.fromJson(json['Dimensions'] as Map<String, dynamic>),
+    filterType: _$enumDecodeNullable(_$FilterTypeEnumMap, json['FilterType']),
+  );
+}
+
+Map<String, dynamic> _$EventFilterToJson(EventFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Dimensions', instance.dimensions?.toJson());
+  writeNotNull('FilterType', _$FilterTypeEnumMap[instance.filterType]);
+  return val;
+}
+
 EventItemResponse _$EventItemResponseFromJson(Map<String, dynamic> json) {
   return EventItemResponse(
     message: json['Message'] as String,
     statusCode: json['StatusCode'] as int,
   );
+}
+
+EventStartCondition _$EventStartConditionFromJson(Map<String, dynamic> json) {
+  return EventStartCondition(
+    eventFilter: json['EventFilter'] == null
+        ? null
+        : EventFilter.fromJson(json['EventFilter'] as Map<String, dynamic>),
+    segmentId: json['SegmentId'] as String,
+  );
+}
+
+Map<String, dynamic> _$EventStartConditionToJson(EventStartCondition instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EventFilter', instance.eventFilter?.toJson());
+  writeNotNull('SegmentId', instance.segmentId);
+  return val;
 }
 
 EventStream _$EventStreamFromJson(Map<String, dynamic> json) {
@@ -2635,6 +2805,26 @@ ItemResponse _$ItemResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+JourneyCustomMessage _$JourneyCustomMessageFromJson(Map<String, dynamic> json) {
+  return JourneyCustomMessage(
+    data: json['Data'] as String,
+  );
+}
+
+Map<String, dynamic> _$JourneyCustomMessageToJson(
+    JourneyCustomMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Data', instance.data);
+  return val;
+}
+
 JourneyDateRangeKpiResponse _$JourneyDateRangeKpiResponseFromJson(
     Map<String, dynamic> json) {
   return JourneyDateRangeKpiResponse(
@@ -2719,6 +2909,25 @@ Map<String, dynamic> _$JourneyLimitsToJson(JourneyLimits instance) {
   return val;
 }
 
+JourneyPushMessage _$JourneyPushMessageFromJson(Map<String, dynamic> json) {
+  return JourneyPushMessage(
+    timeToLive: json['TimeToLive'] as String,
+  );
+}
+
+Map<String, dynamic> _$JourneyPushMessageToJson(JourneyPushMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TimeToLive', instance.timeToLive);
+  return val;
+}
+
 JourneyResponse _$JourneyResponseFromJson(Map<String, dynamic> json) {
   return JourneyResponse(
     applicationId: json['ApplicationId'] as String,
@@ -2760,6 +2969,28 @@ const _$StateEnumMap = {
   State.cancelled: 'CANCELLED',
   State.closed: 'CLOSED',
 };
+
+JourneySMSMessage _$JourneySMSMessageFromJson(Map<String, dynamic> json) {
+  return JourneySMSMessage(
+    messageType:
+        _$enumDecodeNullable(_$MessageTypeEnumMap, json['MessageType']),
+    senderId: json['SenderId'] as String,
+  );
+}
+
+Map<String, dynamic> _$JourneySMSMessageToJson(JourneySMSMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MessageType', _$MessageTypeEnumMap[instance.messageType]);
+  writeNotNull('SenderId', instance.senderId);
+  return val;
+}
 
 JourneySchedule _$JourneyScheduleFromJson(Map<String, dynamic> json) {
   return JourneySchedule(
@@ -2920,6 +3151,10 @@ MessageConfiguration _$MessageConfigurationFromJson(Map<String, dynamic> json) {
     baiduMessage: json['BaiduMessage'] == null
         ? null
         : Message.fromJson(json['BaiduMessage'] as Map<String, dynamic>),
+    customMessage: json['CustomMessage'] == null
+        ? null
+        : CampaignCustomMessage.fromJson(
+            json['CustomMessage'] as Map<String, dynamic>),
     defaultMessage: json['DefaultMessage'] == null
         ? null
         : Message.fromJson(json['DefaultMessage'] as Map<String, dynamic>),
@@ -2950,6 +3185,7 @@ Map<String, dynamic> _$MessageConfigurationToJson(
   writeNotNull('ADMMessage', instance.aDMMessage?.toJson());
   writeNotNull('APNSMessage', instance.aPNSMessage?.toJson());
   writeNotNull('BaiduMessage', instance.baiduMessage?.toJson());
+  writeNotNull('CustomMessage', instance.customMessage?.toJson());
   writeNotNull('DefaultMessage', instance.defaultMessage?.toJson());
   writeNotNull('EmailMessage', instance.emailMessage?.toJson());
   writeNotNull('GCMMessage', instance.gCMMessage?.toJson());
@@ -3150,6 +3386,34 @@ Map<String, dynamic> _$PublicEndpointToJson(PublicEndpoint instance) {
   writeNotNull('OptOut', instance.optOut);
   writeNotNull('RequestId', instance.requestId);
   writeNotNull('User', instance.user?.toJson());
+  return val;
+}
+
+PushMessageActivity _$PushMessageActivityFromJson(Map<String, dynamic> json) {
+  return PushMessageActivity(
+    messageConfig: json['MessageConfig'] == null
+        ? null
+        : JourneyPushMessage.fromJson(
+            json['MessageConfig'] as Map<String, dynamic>),
+    nextActivity: json['NextActivity'] as String,
+    templateName: json['TemplateName'] as String,
+    templateVersion: json['TemplateVersion'] as String,
+  );
+}
+
+Map<String, dynamic> _$PushMessageActivityToJson(PushMessageActivity instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MessageConfig', instance.messageConfig?.toJson());
+  writeNotNull('NextActivity', instance.nextActivity);
+  writeNotNull('TemplateName', instance.templateName);
+  writeNotNull('TemplateVersion', instance.templateVersion);
   return val;
 }
 
@@ -3452,6 +3716,34 @@ Map<String, dynamic> _$SMSMessageToJson(SMSMessage instance) {
   writeNotNull('OriginationNumber', instance.originationNumber);
   writeNotNull('SenderId', instance.senderId);
   writeNotNull('Substitutions', instance.substitutions);
+  return val;
+}
+
+SMSMessageActivity _$SMSMessageActivityFromJson(Map<String, dynamic> json) {
+  return SMSMessageActivity(
+    messageConfig: json['MessageConfig'] == null
+        ? null
+        : JourneySMSMessage.fromJson(
+            json['MessageConfig'] as Map<String, dynamic>),
+    nextActivity: json['NextActivity'] as String,
+    templateName: json['TemplateName'] as String,
+    templateVersion: json['TemplateVersion'] as String,
+  );
+}
+
+Map<String, dynamic> _$SMSMessageActivityToJson(SMSMessageActivity instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MessageConfig', instance.messageConfig?.toJson());
+  writeNotNull('NextActivity', instance.nextActivity);
+  writeNotNull('TemplateName', instance.templateName);
+  writeNotNull('TemplateVersion', instance.templateVersion);
   return val;
 }
 
@@ -4022,6 +4314,10 @@ Map<String, dynamic> _$SimpleEmailPartToJson(SimpleEmailPart instance) {
 StartCondition _$StartConditionFromJson(Map<String, dynamic> json) {
   return StartCondition(
     description: json['Description'] as String,
+    eventStartCondition: json['EventStartCondition'] == null
+        ? null
+        : EventStartCondition.fromJson(
+            json['EventStartCondition'] as Map<String, dynamic>),
     segmentStartCondition: json['SegmentStartCondition'] == null
         ? null
         : SegmentCondition.fromJson(
@@ -4039,6 +4335,7 @@ Map<String, dynamic> _$StartConditionToJson(StartCondition instance) {
   }
 
   writeNotNull('Description', instance.description);
+  writeNotNull('EventStartCondition', instance.eventStartCondition?.toJson());
   writeNotNull(
       'SegmentStartCondition', instance.segmentStartCondition?.toJson());
   return val;
@@ -4194,6 +4491,10 @@ TreatmentResource _$TreatmentResourceFromJson(Map<String, dynamic> json) {
   return TreatmentResource(
     id: json['Id'] as String,
     sizePercent: json['SizePercent'] as int,
+    customDeliveryConfiguration: json['CustomDeliveryConfiguration'] == null
+        ? null
+        : CustomDeliveryConfiguration.fromJson(
+            json['CustomDeliveryConfiguration'] as Map<String, dynamic>),
     messageConfiguration: json['MessageConfiguration'] == null
         ? null
         : MessageConfiguration.fromJson(
@@ -4621,6 +4922,7 @@ Map<String, dynamic> _$WriteApplicationSettingsRequestToJson(
 
   writeNotNull('CampaignHook', instance.campaignHook?.toJson());
   writeNotNull('CloudWatchMetricsEnabled', instance.cloudWatchMetricsEnabled);
+  writeNotNull('EventTaggingEnabled', instance.eventTaggingEnabled);
   writeNotNull('Limits', instance.limits?.toJson());
   writeNotNull('QuietTime', instance.quietTime?.toJson());
   return val;
@@ -4638,6 +4940,8 @@ Map<String, dynamic> _$WriteCampaignRequestToJson(
 
   writeNotNull('AdditionalTreatments',
       instance.additionalTreatments?.map((e) => e?.toJson())?.toList());
+  writeNotNull('CustomDeliveryConfiguration',
+      instance.customDeliveryConfiguration?.toJson());
   writeNotNull('Description', instance.description);
   writeNotNull('HoldoutPercent', instance.holdoutPercent);
   writeNotNull('Hook', instance.hook?.toJson());
@@ -4722,6 +5026,8 @@ Map<String, dynamic> _$WriteTreatmentResourceToJson(
   }
 
   writeNotNull('SizePercent', instance.sizePercent);
+  writeNotNull('CustomDeliveryConfiguration',
+      instance.customDeliveryConfiguration?.toJson());
   writeNotNull('MessageConfiguration', instance.messageConfiguration?.toJson());
   writeNotNull('Schedule', instance.schedule?.toJson());
   writeNotNull(

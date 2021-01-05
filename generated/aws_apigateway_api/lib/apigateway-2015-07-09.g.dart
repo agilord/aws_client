@@ -382,6 +382,10 @@ DomainName _$DomainNameFromJson(Map<String, dynamic> json) {
         ? null
         : EndpointConfiguration.fromJson(
             json['endpointConfiguration'] as Map<String, dynamic>),
+    mutualTlsAuthentication: json['mutualTlsAuthentication'] == null
+        ? null
+        : MutualTlsAuthentication.fromJson(
+            json['mutualTlsAuthentication'] as Map<String, dynamic>),
     regionalCertificateArn: json['regionalCertificateArn'] as String,
     regionalCertificateName: json['regionalCertificateName'] as String,
     regionalDomainName: json['regionalDomainName'] as String,
@@ -536,6 +540,9 @@ Integration _$IntegrationFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     timeoutInMillis: json['timeoutInMillis'] as int,
+    tlsConfig: json['tlsConfig'] == null
+        ? null
+        : TlsConfig.fromJson(json['tlsConfig'] as Map<String, dynamic>),
     type: _$enumDecodeNullable(_$IntegrationTypeEnumMap, json['type']),
     uri: json['uri'] as String,
   );
@@ -672,6 +679,31 @@ Models _$ModelsFromJson(Map<String, dynamic> json) {
   );
 }
 
+MutualTlsAuthentication _$MutualTlsAuthenticationFromJson(
+    Map<String, dynamic> json) {
+  return MutualTlsAuthentication(
+    truststoreUri: json['truststoreUri'] as String,
+    truststoreVersion: json['truststoreVersion'] as String,
+    truststoreWarnings:
+        (json['truststoreWarnings'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Map<String, dynamic> _$MutualTlsAuthenticationInputToJson(
+    MutualTlsAuthenticationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('truststoreUri', instance.truststoreUri);
+  writeNotNull('truststoreVersion', instance.truststoreVersion);
+  return val;
+}
+
 Map<String, dynamic> _$PatchOperationToJson(PatchOperation instance) {
   final val = <String, dynamic>{};
 
@@ -777,6 +809,7 @@ RestApi _$RestApiFromJson(Map<String, dynamic> json) {
         (json['binaryMediaTypes'] as List)?.map((e) => e as String)?.toList(),
     createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
+    disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool,
     endpointConfiguration: json['endpointConfiguration'] == null
         ? null
         : EndpointConfiguration.fromJson(
@@ -995,6 +1028,25 @@ Map<String, dynamic> _$ThrottleSettingsToJson(ThrottleSettings instance) {
 
   writeNotNull('burstLimit', instance.burstLimit);
   writeNotNull('rateLimit', instance.rateLimit);
+  return val;
+}
+
+TlsConfig _$TlsConfigFromJson(Map<String, dynamic> json) {
+  return TlsConfig(
+    insecureSkipVerification: json['insecureSkipVerification'] as bool,
+  );
+}
+
+Map<String, dynamic> _$TlsConfigToJson(TlsConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('insecureSkipVerification', instance.insecureSkipVerification);
   return val;
 }
 

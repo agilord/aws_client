@@ -15,7 +15,31 @@ AssetShallow _$AssetShallowFromJson(Map<String, dynamic> json) {
     resourceId: json['resourceId'] as String,
     sourceArn: json['sourceArn'] as String,
     sourceRoleArn: json['sourceRoleArn'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
+}
+
+Authorization _$AuthorizationFromJson(Map<String, dynamic> json) {
+  return Authorization(
+    cdnIdentifierSecret: json['cdnIdentifierSecret'] as String,
+    secretsRoleArn: json['secretsRoleArn'] as String,
+  );
+}
+
+Map<String, dynamic> _$AuthorizationToJson(Authorization instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cdnIdentifierSecret', instance.cdnIdentifierSecret);
+  writeNotNull('secretsRoleArn', instance.secretsRoleArn);
+  return val;
 }
 
 CmafEncryption _$CmafEncryptionFromJson(Map<String, dynamic> json) {
@@ -83,6 +107,9 @@ CreateAssetResponse _$CreateAssetResponseFromJson(Map<String, dynamic> json) {
     resourceId: json['resourceId'] as String,
     sourceArn: json['sourceArn'] as String,
     sourceRoleArn: json['sourceRoleArn'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -104,6 +131,9 @@ CreatePackagingConfigurationResponse
         ? null
         : MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>),
     packagingGroupId: json['packagingGroupId'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -111,8 +141,14 @@ CreatePackagingGroupResponse _$CreatePackagingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreatePackagingGroupResponse(
     arn: json['arn'] as String,
+    authorization: json['authorization'] == null
+        ? null
+        : Authorization.fromJson(json['authorization'] as Map<String, dynamic>),
     domainName: json['domainName'] as String,
     id: json['id'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -292,6 +328,9 @@ DescribeAssetResponse _$DescribeAssetResponseFromJson(
     resourceId: json['resourceId'] as String,
     sourceArn: json['sourceArn'] as String,
     sourceRoleArn: json['sourceRoleArn'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -314,6 +353,9 @@ DescribePackagingConfigurationResponse
         ? null
         : MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>),
     packagingGroupId: json['packagingGroupId'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -321,8 +363,14 @@ DescribePackagingGroupResponse _$DescribePackagingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DescribePackagingGroupResponse(
     arn: json['arn'] as String,
+    authorization: json['authorization'] == null
+        ? null
+        : Authorization.fromJson(json['authorization'] as Map<String, dynamic>),
     domainName: json['domainName'] as String,
     id: json['id'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -473,6 +521,15 @@ ListPackagingGroupsResponse _$ListPackagingGroupsResponseFromJson(
   );
 }
 
+ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListTagsForResourceResponse(
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
 MssEncryption _$MssEncryptionFromJson(Map<String, dynamic> json) {
   return MssEncryption(
     spekeKeyProvider: json['spekeKeyProvider'] == null
@@ -566,14 +623,23 @@ PackagingConfiguration _$PackagingConfigurationFromJson(
         ? null
         : MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>),
     packagingGroupId: json['packagingGroupId'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
 PackagingGroup _$PackagingGroupFromJson(Map<String, dynamic> json) {
   return PackagingGroup(
     arn: json['arn'] as String,
+    authorization: json['authorization'] == null
+        ? null
+        : Authorization.fromJson(json['authorization'] as Map<String, dynamic>),
     domainName: json['domainName'] as String,
     id: json['id'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -629,3 +695,18 @@ const _$StreamOrderEnumMap = {
   StreamOrder.videoBitrateAscending: 'VIDEO_BITRATE_ASCENDING',
   StreamOrder.videoBitrateDescending: 'VIDEO_BITRATE_DESCENDING',
 };
+
+UpdatePackagingGroupResponse _$UpdatePackagingGroupResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdatePackagingGroupResponse(
+    arn: json['arn'] as String,
+    authorization: json['authorization'] == null
+        ? null
+        : Authorization.fromJson(json['authorization'] as Map<String, dynamic>),
+    domainName: json['domainName'] as String,
+    id: json['id'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}

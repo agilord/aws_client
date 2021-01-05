@@ -449,6 +449,30 @@ class DLM {
   }
 }
 
+/// Specifies an action for an event-based policy.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Action {
+  /// The rule for copying shared snapshots across Regions.
+  @_s.JsonKey(name: 'CrossRegionCopy')
+  final List<CrossRegionCopyAction> crossRegionCopy;
+
+  /// A descriptive name for the action.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  Action({
+    @_s.required this.crossRegionCopy,
+    @_s.required this.name,
+  });
+  factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ActionToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -467,14 +491,24 @@ class CreateLifecyclePolicyResponse {
 }
 
 /// Specifies when to create snapshots of EBS volumes.
+///
+/// You must specify either a Cron expression or an interval, interval unit, and
+/// start time. You cannot specify both.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class CreateRule {
-  /// The interval between snapshots. The supported values are 2, 3, 4, 6, 8, 12,
-  /// and 24.
+  /// The schedule, as a Cron expression. The schedule interval must be between 1
+  /// hour and 1 year. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron
+  /// expressions</a> in the <i>Amazon CloudWatch User Guide</i>.
+  @_s.JsonKey(name: 'CronExpression')
+  final String cronExpression;
+
+  /// The interval between snapshots. The supported values are 1, 2, 3, 4, 6, 8,
+  /// 12, and 24.
   @_s.JsonKey(name: 'Interval')
   final int interval;
 
@@ -485,18 +519,49 @@ class CreateRule {
   /// The time, in UTC, to start the operation. The supported format is hh:mm.
   ///
   /// The operation occurs within a one-hour window following the specified time.
+  /// If you do not specify a time, Amazon DLM selects a time within the next 24
+  /// hours.
   @_s.JsonKey(name: 'Times')
   final List<String> times;
 
   CreateRule({
-    @_s.required this.interval,
-    @_s.required this.intervalUnit,
+    this.cronExpression,
+    this.interval,
+    this.intervalUnit,
     this.times,
   });
   factory CreateRule.fromJson(Map<String, dynamic> json) =>
       _$CreateRuleFromJson(json);
 
   Map<String, dynamic> toJson() => _$CreateRuleToJson(this);
+}
+
+/// Specifies a rule for copying shared snapshots across Regions.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CrossRegionCopyAction {
+  /// The encryption settings for the copied snapshot.
+  @_s.JsonKey(name: 'EncryptionConfiguration')
+  final EncryptionConfiguration encryptionConfiguration;
+
+  /// The target Region.
+  @_s.JsonKey(name: 'Target')
+  final String target;
+  @_s.JsonKey(name: 'RetainRule')
+  final CrossRegionCopyRetainRule retainRule;
+
+  CrossRegionCopyAction({
+    @_s.required this.encryptionConfiguration,
+    @_s.required this.target,
+    this.retainRule,
+  });
+  factory CrossRegionCopyAction.fromJson(Map<String, dynamic> json) =>
+      _$CrossRegionCopyActionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CrossRegionCopyActionToJson(this);
 }
 
 /// Specifies the retention rule for cross-Region snapshot copies.
@@ -579,6 +644,113 @@ class DeleteLifecyclePolicyResponse {
   DeleteLifecyclePolicyResponse();
   factory DeleteLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteLifecyclePolicyResponseFromJson(json);
+}
+
+/// Specifies the encryption settings for shared snapshots that are copied
+/// across Regions.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EncryptionConfiguration {
+  /// To encrypt a copy of an unencrypted snapshot when encryption by default is
+  /// not enabled, enable encryption using this parameter. Copies of encrypted
+  /// snapshots are encrypted, even if this parameter is false or when encryption
+  /// by default is not enabled.
+  @_s.JsonKey(name: 'Encrypted')
+  final bool encrypted;
+
+  /// The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK) to
+  /// use for EBS encryption. If this parameter is not specified, your AWS managed
+  /// CMK for EBS is used.
+  @_s.JsonKey(name: 'CmkArn')
+  final String cmkArn;
+
+  EncryptionConfiguration({
+    @_s.required this.encrypted,
+    this.cmkArn,
+  });
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$EncryptionConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EncryptionConfigurationToJson(this);
+}
+
+/// Specifies an event that triggers an event-based policy.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EventParameters {
+  /// The snapshot description that can trigger the policy. The description
+  /// pattern is specified using a regular expression. The policy runs only if a
+  /// snapshot with a description that matches the specified pattern is shared
+  /// with your account.
+  ///
+  /// For example, specifying <code>^.*Created for policy:
+  /// policy-1234567890abcdef0.*$</code> configures the policy to run only if
+  /// snapshots created by policy <code>policy-1234567890abcdef0</code> are shared
+  /// with your account.
+  @_s.JsonKey(name: 'DescriptionRegex')
+  final String descriptionRegex;
+
+  /// The type of event. Currently, only snapshot sharing events are supported.
+  @_s.JsonKey(name: 'EventType')
+  final EventTypeValues eventType;
+
+  /// The IDs of the AWS accounts that can trigger policy by sharing snapshots
+  /// with your account. The policy only runs if one of the specified AWS accounts
+  /// shares a snapshot with your account.
+  @_s.JsonKey(name: 'SnapshotOwner')
+  final List<String> snapshotOwner;
+
+  EventParameters({
+    @_s.required this.descriptionRegex,
+    @_s.required this.eventType,
+    @_s.required this.snapshotOwner,
+  });
+  factory EventParameters.fromJson(Map<String, dynamic> json) =>
+      _$EventParametersFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EventParametersToJson(this);
+}
+
+/// Specifies an event that triggers an event-based policy.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EventSource {
+  /// The source of the event. Currently only managed AWS CloudWatch Events rules
+  /// are supported.
+  @_s.JsonKey(name: 'Type')
+  final EventSourceValues type;
+
+  /// Information about the event.
+  @_s.JsonKey(name: 'Parameters')
+  final EventParameters parameters;
+
+  EventSource({
+    @_s.required this.type,
+    this.parameters,
+  });
+  factory EventSource.fromJson(Map<String, dynamic> json) =>
+      _$EventSourceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EventSourceToJson(this);
+}
+
+enum EventSourceValues {
+  @_s.JsonValue('MANAGED_CWE')
+  managedCwe,
+}
+
+enum EventTypeValues {
+  @_s.JsonValue('shareSnapshot')
+  shareSnapshot,
 }
 
 /// Specifies a rule for enabling fast snapshot restore. You can enable fast
@@ -761,6 +933,13 @@ class LifecyclePolicySummary {
   @_s.JsonKey(name: 'PolicyId')
   final String policyId;
 
+  /// The type of policy. <code>EBS_SNAPSHOT_MANAGEMENT</code> indicates that the
+  /// policy manages the lifecycle of Amazon EBS snapshots.
+  /// <code>IMAGE_MANAGEMENT</code> indicates that the policy manages the
+  /// lifecycle of EBS-backed AMIs.
+  @_s.JsonKey(name: 'PolicyType')
+  final PolicyTypeValues policyType;
+
   /// The activation state of the lifecycle policy.
   @_s.JsonKey(name: 'State')
   final GettablePolicyStateValues state;
@@ -772,6 +951,7 @@ class LifecyclePolicySummary {
   LifecyclePolicySummary({
     this.description,
     this.policyId,
+    this.policyType,
     this.state,
     this.tags,
   });
@@ -811,8 +991,17 @@ class Parameters {
   @_s.JsonKey(name: 'ExcludeBootVolume')
   final bool excludeBootVolume;
 
+  /// Applies to AMI lifecycle policies only. Indicates whether targeted instances
+  /// are rebooted when the lifecycle policy runs. <code>true</code> indicates
+  /// that targeted instances are not rebooted when the policy runs.
+  /// <code>false</code> indicates that target instances are rebooted when the
+  /// policy runs. The default is <code>true</code> (instances are not rebooted).
+  @_s.JsonKey(name: 'NoReboot')
+  final bool noReboot;
+
   Parameters({
     this.excludeBootVolume,
+    this.noReboot,
   });
   factory Parameters.fromJson(Map<String, dynamic> json) =>
       _$ParametersFromJson(json);
@@ -827,28 +1016,69 @@ class Parameters {
     createFactory: true,
     createToJson: true)
 class PolicyDetails {
-  /// A set of optional parameters for the policy.
+  /// The actions to be performed when the event-based policy is triggered. You
+  /// can specify only one action per policy.
+  ///
+  /// This parameter is required for event-based policies only. If you are
+  /// creating a snapshot or AMI policy, omit this parameter.
+  @_s.JsonKey(name: 'Actions')
+  final List<Action> actions;
+
+  /// The event that triggers the event-based policy.
+  ///
+  /// This parameter is required for event-based policies only. If you are
+  /// creating a snapshot or AMI policy, omit this parameter.
+  @_s.JsonKey(name: 'EventSource')
+  final EventSource eventSource;
+
+  /// A set of optional parameters for snapshot and AMI lifecycle policies.
+  ///
+  /// This parameter is required for snapshot and AMI policies only. If you are
+  /// creating an event-based policy, omit this parameter.
   @_s.JsonKey(name: 'Parameters')
   final Parameters parameters;
 
-  /// The valid target resource types and actions a policy can manage. The default
-  /// is EBS_SNAPSHOT_MANAGEMENT.
+  /// The valid target resource types and actions a policy can manage. Specify
+  /// <code>EBS_SNAPSHOT_MANAGEMENT</code> to create a lifecycle policy that
+  /// manages the lifecycle of Amazon EBS snapshots. Specify
+  /// <code>IMAGE_MANAGEMENT</code> to create a lifecycle policy that manages the
+  /// lifecycle of EBS-backed AMIs. Specify <code>EVENT_BASED_POLICY </code> to
+  /// create an event-based policy that performs specific actions when a defined
+  /// event occurs in your AWS account.
+  ///
+  /// The default is <code>EBS_SNAPSHOT_MANAGEMENT</code>.
   @_s.JsonKey(name: 'PolicyType')
   final PolicyTypeValues policyType;
 
-  /// The resource type.
+  /// The target resource type for snapshot and AMI lifecycle policies. Use
+  /// <code>VOLUME </code>to create snapshots of individual volumes or use
+  /// <code>INSTANCE</code> to create multi-volume snapshots from the volumes for
+  /// an instance.
+  ///
+  /// This parameter is required for snapshot and AMI policies only. If you are
+  /// creating an event-based policy, omit this parameter.
   @_s.JsonKey(name: 'ResourceTypes')
   final List<ResourceTypeValues> resourceTypes;
 
-  /// The schedule of policy-defined actions.
+  /// The schedules of policy-defined actions for snapshot and AMI lifecycle
+  /// policies. A policy can have up to four schedules—one mandatory schedule and
+  /// up to three optional schedules.
+  ///
+  /// This parameter is required for snapshot and AMI policies only. If you are
+  /// creating an event-based policy, omit this parameter.
   @_s.JsonKey(name: 'Schedules')
   final List<Schedule> schedules;
 
   /// The single tag that identifies targeted resources for this policy.
+  ///
+  /// This parameter is required for snapshot and AMI policies only. If you are
+  /// creating an event-based policy, omit this parameter.
   @_s.JsonKey(name: 'TargetTags')
   final List<Tag> targetTags;
 
   PolicyDetails({
+    this.actions,
+    this.eventSource,
     this.parameters,
     this.policyType,
     this.resourceTypes,
@@ -864,6 +1094,10 @@ class PolicyDetails {
 enum PolicyTypeValues {
   @_s.JsonValue('EBS_SNAPSHOT_MANAGEMENT')
   ebsSnapshotManagement,
+  @_s.JsonValue('IMAGE_MANAGEMENT')
+  imageManagement,
+  @_s.JsonValue('EVENT_BASED_POLICY')
+  eventBasedPolicy,
 }
 
 enum ResourceTypeValues {
@@ -928,7 +1162,7 @@ enum RetentionIntervalUnitValues {
   years,
 }
 
-/// Specifies a backup schedule.
+/// Specifies a backup schedule for a snapshot or AMI lifecycle policy.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -960,6 +1194,10 @@ class Schedule {
   @_s.JsonKey(name: 'RetainRule')
   final RetainRule retainRule;
 
+  /// The rule for sharing snapshots with other AWS accounts.
+  @_s.JsonKey(name: 'ShareRules')
+  final List<ShareRule> shareRules;
+
   /// The tags to apply to policy-created resources. These user-defined tags are
   /// in addition to the AWS-added lifecycle tags.
   @_s.JsonKey(name: 'TagsToAdd')
@@ -980,6 +1218,7 @@ class Schedule {
     this.fastRestoreRule,
     this.name,
     this.retainRule,
+    this.shareRules,
     this.tagsToAdd,
     this.variableTags,
   });
@@ -1006,6 +1245,37 @@ extension on SettablePolicyStateValues {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+/// Specifies a rule for sharing snapshots across AWS accounts.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ShareRule {
+  /// The IDs of the AWS accounts with which to share the snapshots.
+  @_s.JsonKey(name: 'TargetAccounts')
+  final List<String> targetAccounts;
+
+  /// The period after which snapshots that are shared with other AWS accounts are
+  /// automatically unshared.
+  @_s.JsonKey(name: 'UnshareInterval')
+  final int unshareInterval;
+
+  /// The unit of time for the automatic unsharing interval.
+  @_s.JsonKey(name: 'UnshareIntervalUnit')
+  final RetentionIntervalUnitValues unshareIntervalUnit;
+
+  ShareRule({
+    @_s.required this.targetAccounts,
+    this.unshareInterval,
+    this.unshareIntervalUnit,
+  });
+  factory ShareRule.fromJson(Map<String, dynamic> json) =>
+      _$ShareRuleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ShareRuleToJson(this);
 }
 
 /// Specifies a tag for a resource.

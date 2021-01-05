@@ -811,26 +811,6 @@ class IoTEvents {
     );
     return UpdateInputResponse.fromJson(response);
   }
-
-  ///
-  /// May throw [TagrisAccessDeniedException].
-  /// May throw [TagrisInternalServiceException].
-  /// May throw [TagrisInvalidArnException].
-  /// May throw [TagrisInvalidParameterException].
-  /// May throw [TagrisPartialResourcesExistResultsException].
-  /// May throw [TagrisThrottledException].
-  Future<TagrisVerifyResourcesExistOutput> verifyResourcesExistForTagris({
-    @_s.required List<TagrisSweepListItem> tagrisSweepList,
-  }) async {
-    ArgumentError.checkNotNull(tagrisSweepList, 'tagrisSweepList');
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/internal/tags/resource-status',
-      exceptionFnMap: _exceptionFns,
-    );
-    return TagrisVerifyResourcesExistOutput.fromJson(response);
-  }
 }
 
 /// An action to be performed when the <code>condition</code> is TRUE.
@@ -879,7 +859,7 @@ class Action {
   final IotEventsAction iotEvents;
 
   /// Sends information about the detector model instance and the event that
-  /// triggered the action to an AWS IoT SiteWise asset property.
+  /// triggered the action to an asset property in AWS IoT SiteWise .
   @_s.JsonKey(name: 'iotSiteWise')
   final IotSiteWiseAction iotSiteWise;
 
@@ -2538,54 +2518,6 @@ class TagResourceResponse {
       _$TagResourceResponseFromJson(json);
 }
 
-enum TagrisStatus {
-  @_s.JsonValue('ACTIVE')
-  active,
-  @_s.JsonValue('NOT_ACTIVE')
-  notActive,
-}
-
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
-class TagrisSweepListItem {
-  @_s.JsonKey(name: 'TagrisAccountId')
-  final String tagrisAccountId;
-  @_s.JsonKey(name: 'TagrisAmazonResourceName')
-  final String tagrisAmazonResourceName;
-  @_s.JsonKey(name: 'TagrisInternalId')
-  final String tagrisInternalId;
-  @_s.JsonKey(name: 'TagrisVersion')
-  final int tagrisVersion;
-
-  TagrisSweepListItem({
-    this.tagrisAccountId,
-    this.tagrisAmazonResourceName,
-    this.tagrisInternalId,
-    this.tagrisVersion,
-  });
-  Map<String, dynamic> toJson() => _$TagrisSweepListItemToJson(this);
-}
-
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class TagrisVerifyResourcesExistOutput {
-  @_s.JsonKey(name: 'TagrisSweepListResult')
-  final Map<String, TagrisStatus> tagrisSweepListResult;
-
-  TagrisVerifyResourcesExistOutput({
-    @_s.required this.tagrisSweepListResult,
-  });
-  factory TagrisVerifyResourcesExistOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$TagrisVerifyResourcesExistOutputFromJson(json);
-}
-
 /// Specifies the actions performed and the next state entered when a
 /// <code>condition</code> evaluates to TRUE.
 @_s.JsonSerializable(
@@ -2707,47 +2639,6 @@ class ServiceUnavailableException extends _s.GenericAwsException {
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
-class TagrisAccessDeniedException extends _s.GenericAwsException {
-  TagrisAccessDeniedException({String type, String message})
-      : super(
-            type: type, code: 'TagrisAccessDeniedException', message: message);
-}
-
-class TagrisInternalServiceException extends _s.GenericAwsException {
-  TagrisInternalServiceException({String type, String message})
-      : super(
-            type: type,
-            code: 'TagrisInternalServiceException',
-            message: message);
-}
-
-class TagrisInvalidArnException extends _s.GenericAwsException {
-  TagrisInvalidArnException({String type, String message})
-      : super(type: type, code: 'TagrisInvalidArnException', message: message);
-}
-
-class TagrisInvalidParameterException extends _s.GenericAwsException {
-  TagrisInvalidParameterException({String type, String message})
-      : super(
-            type: type,
-            code: 'TagrisInvalidParameterException',
-            message: message);
-}
-
-class TagrisPartialResourcesExistResultsException
-    extends _s.GenericAwsException {
-  TagrisPartialResourcesExistResultsException({String type, String message})
-      : super(
-            type: type,
-            code: 'TagrisPartialResourcesExistResultsException',
-            message: message);
-}
-
-class TagrisThrottledException extends _s.GenericAwsException {
-  TagrisThrottledException({String type, String message})
-      : super(type: type, code: 'TagrisThrottledException', message: message);
-}
-
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String type, String message})
       : super(type: type, code: 'ThrottlingException', message: message);
@@ -2776,18 +2667,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ServiceUnavailableException': (type, message) =>
       ServiceUnavailableException(type: type, message: message),
-  'TagrisAccessDeniedException': (type, message) =>
-      TagrisAccessDeniedException(type: type, message: message),
-  'TagrisInternalServiceException': (type, message) =>
-      TagrisInternalServiceException(type: type, message: message),
-  'TagrisInvalidArnException': (type, message) =>
-      TagrisInvalidArnException(type: type, message: message),
-  'TagrisInvalidParameterException': (type, message) =>
-      TagrisInvalidParameterException(type: type, message: message),
-  'TagrisPartialResourcesExistResultsException': (type, message) =>
-      TagrisPartialResourcesExistResultsException(type: type, message: message),
-  'TagrisThrottledException': (type, message) =>
-      TagrisThrottledException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
   'UnsupportedOperationException': (type, message) =>

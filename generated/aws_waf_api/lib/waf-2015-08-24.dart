@@ -26,15 +26,27 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'waf-2015-08-24.g.dart';
 
-/// This is the <i>AWS WAF API Reference</i> for using AWS WAF with Amazon
-/// CloudFront. The AWS WAF actions and data types listed in the reference are
-/// available for protecting Amazon CloudFront distributions. You can use these
-/// actions and data types via the endpoint <i>waf.amazonaws.com</i>. This guide
-/// is for developers who need detailed information about the AWS WAF API
-/// actions, data types, and errors. For detailed information about AWS WAF
-/// features and an overview of how to use the AWS WAF API, see the <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF
-/// Developer Guide</a>.
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// This is the <i>AWS WAF Classic API Reference</i> for using AWS WAF Classic
+/// with Amazon CloudFront. The AWS WAF Classic actions and data types listed in
+/// the reference are available for protecting Amazon CloudFront distributions.
+/// You can use these actions and data types via the endpoint
+/// <i>waf.amazonaws.com</i>. This guide is for developers who need detailed
+/// information about the AWS WAF Classic API actions, data types, and errors.
+/// For detailed information about AWS WAF Classic features and an overview of
+/// how to use the AWS WAF Classic API, see the <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
 class WAF {
   final _s.JsonProtocol _protocol;
   WAF({
@@ -52,6 +64,17 @@ class WAF {
           endpointUrl: endpointUrl,
         );
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates a <code>ByteMatchSet</code>. You then use
   /// <a>UpdateByteMatchSet</a> to identify the part of a web request that you
   /// want AWS WAF to inspect, such as the values of the <code>User-Agent</code>
@@ -109,7 +132,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -118,6 +147,12 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -139,6 +174,17 @@ class WAF {
     return CreateByteMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates an <a>GeoMatchSet</a>, which you use to specify which web requests
   /// you want to allow or block based on the country that the requests
   /// originate from. For example, if you're receiving a lot of requests from
@@ -193,7 +239,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -202,6 +254,12 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -223,6 +281,17 @@ class WAF {
     return CreateGeoMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates an <a>IPSet</a>, which you use to specify which web requests that
   /// you want to allow or block based on the IP addresses that the requests
   /// originate from. For example, if you're receiving a lot of requests from
@@ -277,7 +346,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -286,6 +361,12 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -307,6 +388,17 @@ class WAF {
     return CreateIPSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates a <a>RateBasedRule</a>. The <code>RateBasedRule</code> contains a
   /// <code>RateLimit</code>, which specifies the maximum number of requests
   /// that AWS WAF allows from a specified IP address in a five-minute period.
@@ -317,8 +409,8 @@ class WAF {
   ///
   /// If you add more than one predicate to a <code>RateBasedRule</code>, a
   /// request not only must exceed the <code>RateLimit</code>, but it also must
-  /// match all the specifications to be counted or blocked. For example,
-  /// suppose you add the following to a <code>RateBasedRule</code>:
+  /// match all the conditions to be counted or blocked. For example, suppose
+  /// you add the following to a <code>RateBasedRule</code>:
   ///
   /// <ul>
   /// <li>
@@ -330,17 +422,17 @@ class WAF {
   /// <code>User-Agent</code> header
   /// </li>
   /// </ul>
-  /// Further, you specify a <code>RateLimit</code> of 15,000.
+  /// Further, you specify a <code>RateLimit</code> of 1,000.
   ///
   /// You then add the <code>RateBasedRule</code> to a <code>WebACL</code> and
   /// specify that you want to block requests that meet the conditions in the
   /// rule. For a request to be blocked, it must come from the IP address
   /// 192.0.2.44 <i>and</i> the <code>User-Agent</code> header in the request
   /// must contain the value <code>BadBot</code>. Further, requests that match
-  /// these two conditions must be received at a rate of more than 15,000
+  /// these two conditions must be received at a rate of more than 1,000
   /// requests every five minutes. If both conditions are met and the rate is
-  /// exceeded, AWS WAF blocks the requests. If the rate drops below 15,000 for
-  /// a five-minute period, AWS WAF no longer blocks the requests.
+  /// exceeded, AWS WAF blocks the requests. If the rate drops below 1,000 for a
+  /// five-minute period, AWS WAF no longer blocks the requests.
   ///
   /// As a second example, suppose you want to limit requests to a particular
   /// page on your site. To do this, you could add the following to a
@@ -358,7 +450,7 @@ class WAF {
   /// A <code>TargetString</code> of <code>login</code>
   /// </li>
   /// </ul>
-  /// Further, you specify a <code>RateLimit</code> of 15,000.
+  /// Further, you specify a <code>RateLimit</code> of 1,000.
   ///
   /// By adding this <code>RateBasedRule</code> to a <code>WebACL</code>, you
   /// could limit requests to your login page without affecting the rest of your
@@ -437,6 +529,9 @@ class WAF {
   /// period. If the number of requests exceeds the <code>RateLimit</code> and
   /// the other predicates specified in the rule are also met, AWS WAF triggers
   /// the action that is specified for this rule.
+  ///
+  /// Parameter [tags] :
+  /// <p/>
   Future<CreateRateBasedRuleResponse> createRateBasedRule({
     @_s.required String changeToken,
     @_s.required String metricName,
@@ -450,16 +545,41 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(metricName, 'metricName');
+    _s.validateStringLength(
+      'metricName',
+      metricName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'metricName',
+      metricName,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(rateKey, 'rateKey');
@@ -494,6 +614,17 @@ class WAF {
     return CreateRateBasedRuleResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates a <a>RegexMatchSet</a>. You then use <a>UpdateRegexMatchSet</a> to
   /// identify the part of a web request that you want AWS WAF to inspect, such
   /// as the values of the <code>User-Agent</code> header or the query string.
@@ -550,7 +681,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -559,6 +696,12 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -580,6 +723,17 @@ class WAF {
     return CreateRegexMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates a <code>RegexPatternSet</code>. You then use
   /// <a>UpdateRegexPatternSet</a> to specify the regular expression (regex)
   /// pattern that you want AWS WAF to search for, such as
@@ -631,7 +785,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -640,6 +800,12 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -661,6 +827,17 @@ class WAF {
     return CreateRegexPatternSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates a <code>Rule</code>, which contains the <code>IPSet</code>
   /// objects, <code>ByteMatchSet</code> objects, and other predicates that
   /// identify the requests that you want to block. If you add more than one
@@ -738,6 +915,9 @@ class WAF {
   /// Parameter [name] :
   /// A friendly name or description of the <a>Rule</a>. You can't change the
   /// name of a <code>Rule</code> after you create it.
+  ///
+  /// Parameter [tags] :
+  /// <p/>
   Future<CreateRuleResponse> createRule({
     @_s.required String changeToken,
     @_s.required String metricName,
@@ -749,16 +929,41 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(metricName, 'metricName');
+    _s.validateStringLength(
+      'metricName',
+      metricName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'metricName',
+      metricName,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -782,6 +987,17 @@ class WAF {
     return CreateRuleResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates a <code>RuleGroup</code>. A rule group is a collection of
   /// predefined rules that you add to a web ACL. You use <a>UpdateRuleGroup</a>
   /// to add rules to the rule group.
@@ -827,6 +1043,9 @@ class WAF {
   /// Parameter [name] :
   /// A friendly name or description of the <a>RuleGroup</a>. You can't change
   /// <code>Name</code> after you create a <code>RuleGroup</code>.
+  ///
+  /// Parameter [tags] :
+  /// <p/>
   Future<CreateRuleGroupResponse> createRuleGroup({
     @_s.required String changeToken,
     @_s.required String metricName,
@@ -838,16 +1057,41 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(metricName, 'metricName');
+    _s.validateStringLength(
+      'metricName',
+      metricName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'metricName',
+      metricName,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -871,6 +1115,17 @@ class WAF {
     return CreateRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates a <code>SizeConstraintSet</code>. You then use
   /// <a>UpdateSizeConstraintSet</a> to identify the part of a web request that
   /// you want AWS WAF to check for length, such as the length of the
@@ -928,7 +1183,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -937,6 +1198,12 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -958,6 +1225,17 @@ class WAF {
     return CreateSizeConstraintSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates a <a>SqlInjectionMatchSet</a>, which you use to allow, block, or
   /// count requests that contain snippets of SQL code in a specified part of
   /// web requests. AWS WAF searches for character sequences that are likely to
@@ -1012,7 +1290,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -1021,6 +1305,12 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1042,6 +1332,17 @@ class WAF {
     return CreateSqlInjectionMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates a <code>WebACL</code>, which contains the <code>Rules</code> that
   /// identify the CloudFront web requests that you want to allow, block, or
   /// count. AWS WAF evaluates <code>Rules</code> in order based on the value of
@@ -1118,6 +1419,9 @@ class WAF {
   /// Parameter [name] :
   /// A friendly name or description of the <a>WebACL</a>. You can't change
   /// <code>Name</code> after you create the <code>WebACL</code>.
+  ///
+  /// Parameter [tags] :
+  /// <p/>
   Future<CreateWebACLResponse> createWebACL({
     @_s.required String changeToken,
     @_s.required WafAction defaultAction,
@@ -1130,17 +1434,42 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(defaultAction, 'defaultAction');
     ArgumentError.checkNotNull(metricName, 'metricName');
+    _s.validateStringLength(
+      'metricName',
+      metricName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'metricName',
+      metricName,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1165,6 +1494,120 @@ class WAF {
     return CreateWebACLResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates an AWS CloudFormation WAFV2 template for the specified web ACL in
+  /// the specified Amazon S3 bucket. Then, in CloudFormation, you create a
+  /// stack from the template, to create the web ACL and its resources in AWS
+  /// WAFV2. Use this to migrate your AWS WAF Classic web ACL to the latest
+  /// version of AWS WAF.
+  ///
+  /// This is part of a larger migration procedure for web ACLs from AWS WAF
+  /// Classic to the latest version of AWS WAF. For the full procedure,
+  /// including caveats and manual steps to complete the migration and switch
+  /// over to the new web ACL, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-migrating-from-classic.html">Migrating
+  /// your AWS WAF Classic resources to AWS WAF</a> in the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFEntityMigrationException].
+  ///
+  /// Parameter [ignoreUnsupportedType] :
+  /// Indicates whether to exclude entities that can't be migrated or to stop
+  /// the migration. Set this to true to ignore unsupported entities in the web
+  /// ACL during the migration. Otherwise, if AWS WAF encounters unsupported
+  /// entities, it stops the process and throws an exception.
+  ///
+  /// Parameter [s3BucketName] :
+  /// The name of the Amazon S3 bucket to store the CloudFormation template in.
+  /// The S3 bucket must be configured as follows for the migration:
+  ///
+  /// <ul>
+  /// <li>
+  /// The bucket name must start with <code>aws-waf-migration-</code>. For
+  /// example, <code>aws-waf-migration-my-web-acl</code>.
+  /// </li>
+  /// <li>
+  /// The bucket must be in the Region where you are deploying the template. For
+  /// example, for a web ACL in us-west-2, you must use an Amazon S3 bucket in
+  /// us-west-2 and you must deploy the template stack to us-west-2.
+  /// </li>
+  /// <li>
+  /// The bucket policies must permit the migration process to write data. For
+  /// listings of the bucket policies, see the Examples section.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [webACLId] :
+  /// The UUID of the WAF Classic web ACL that you want to migrate to WAF v2.
+  Future<CreateWebACLMigrationStackResponse> createWebACLMigrationStack({
+    @_s.required bool ignoreUnsupportedType,
+    @_s.required String s3BucketName,
+    @_s.required String webACLId,
+  }) async {
+    ArgumentError.checkNotNull(ignoreUnsupportedType, 'ignoreUnsupportedType');
+    ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
+    _s.validateStringLength(
+      's3BucketName',
+      s3BucketName,
+      3,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      's3BucketName',
+      s3BucketName,
+      r'''^aws-waf-migration-[0-9A-Za-z\.\-_]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(webACLId, 'webACLId');
+    _s.validateStringLength(
+      'webACLId',
+      webACLId,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'webACLId',
+      webACLId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20150824.CreateWebACLMigrationStack'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'IgnoreUnsupportedType': ignoreUnsupportedType,
+        'S3BucketName': s3BucketName,
+        'WebACLId': webACLId,
+      },
+    );
+
+    return CreateWebACLMigrationStackResponse.fromJson(jsonResponse.body);
+  }
+
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Creates an <a>XssMatchSet</a>, which you use to allow, block, or count
   /// requests that contain cross-site scripting attacks in the specified part
   /// of web requests. AWS WAF searches for character sequences that are likely
@@ -1219,7 +1662,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -1228,6 +1677,12 @@ class WAF {
       name,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1249,6 +1704,17 @@ class WAF {
     return CreateXssMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes a <a>ByteMatchSet</a>. You can't delete a
   /// <code>ByteMatchSet</code> if it's still used in any <code>Rules</code> or
   /// if it still includes any <a>ByteMatchTuple</a> objects (any filters).
@@ -1298,12 +1764,24 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'byteMatchSetId',
+      byteMatchSetId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1325,6 +1803,17 @@ class WAF {
     return DeleteByteMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes a <a>GeoMatchSet</a>. You can't delete a
   /// <code>GeoMatchSet</code> if it's still used in any <code>Rules</code> or
   /// if it still includes any countries.
@@ -1371,7 +1860,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(geoMatchSetId, 'geoMatchSetId');
@@ -1380,6 +1875,12 @@ class WAF {
       geoMatchSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'geoMatchSetId',
+      geoMatchSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1401,6 +1902,17 @@ class WAF {
     return DeleteGeoMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes an <a>IPSet</a>. You can't delete an
   /// <code>IPSet</code> if it's still used in any <code>Rules</code> or if it
   /// still includes any IP addresses.
@@ -1446,7 +1958,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(iPSetId, 'iPSetId');
@@ -1455,6 +1973,12 @@ class WAF {
       iPSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'iPSetId',
+      iPSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1476,6 +2000,17 @@ class WAF {
     return DeleteIPSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes the <a>LoggingConfiguration</a> from the specified web
   /// ACL.
   ///
@@ -1497,6 +2032,12 @@ class WAF {
       1224,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.DeleteLoggingConfiguration'
@@ -1515,6 +2056,17 @@ class WAF {
     return DeleteLoggingConfigurationResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes an IAM policy from the specified RuleGroup.
   ///
   /// The user making the request must be the owner of the RuleGroup.
@@ -1539,6 +2091,12 @@ class WAF {
       1224,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.DeletePermissionPolicy'
@@ -1557,6 +2115,17 @@ class WAF {
     return DeletePermissionPolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes a <a>RateBasedRule</a>. You can't delete a rule if
   /// it's still used in any <code>WebACL</code> objects or if it still includes
   /// any predicates, such as <code>ByteMatchSet</code> objects.
@@ -1605,7 +2174,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(ruleId, 'ruleId');
@@ -1614,6 +2189,12 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'ruleId',
+      ruleId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1635,6 +2216,17 @@ class WAF {
     return DeleteRateBasedRuleResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes a <a>RegexMatchSet</a>. You can't delete a
   /// <code>RegexMatchSet</code> if it's still used in any <code>Rules</code> or
   /// if it still includes any <code>RegexMatchTuples</code> objects (any
@@ -1682,7 +2274,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(regexMatchSetId, 'regexMatchSetId');
@@ -1691,6 +2289,12 @@ class WAF {
       regexMatchSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'regexMatchSetId',
+      regexMatchSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1712,6 +2316,17 @@ class WAF {
     return DeleteRegexMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes a <a>RegexPatternSet</a>. You can't delete a
   /// <code>RegexPatternSet</code> if it's still used in any
   /// <code>RegexMatchSet</code> or if the <code>RegexPatternSet</code> is not
@@ -1740,7 +2355,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(regexPatternSetId, 'regexPatternSetId');
@@ -1749,6 +2370,12 @@ class WAF {
       regexPatternSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'regexPatternSetId',
+      regexPatternSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1770,6 +2397,17 @@ class WAF {
     return DeleteRegexPatternSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes a <a>Rule</a>. You can't delete a <code>Rule</code> if
   /// it's still used in any <code>WebACL</code> objects or if it still includes
   /// any predicates, such as <code>ByteMatchSet</code> objects.
@@ -1817,7 +2455,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(ruleId, 'ruleId');
@@ -1826,6 +2470,12 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'ruleId',
+      ruleId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1847,6 +2497,17 @@ class WAF {
     return DeleteRuleResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes a <a>RuleGroup</a>. You can't delete a
   /// <code>RuleGroup</code> if it's still used in any <code>WebACL</code>
   /// objects or if it still includes any rules.
@@ -1895,7 +2556,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(ruleGroupId, 'ruleGroupId');
@@ -1904,6 +2571,12 @@ class WAF {
       ruleGroupId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'ruleGroupId',
+      ruleGroupId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1925,6 +2598,17 @@ class WAF {
     return DeleteRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes a <a>SizeConstraintSet</a>. You can't delete a
   /// <code>SizeConstraintSet</code> if it's still used in any
   /// <code>Rules</code> or if it still includes any <a>SizeConstraint</a>
@@ -1972,7 +2656,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sizeConstraintSetId, 'sizeConstraintSetId');
@@ -1981,6 +2671,12 @@ class WAF {
       sizeConstraintSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'sizeConstraintSetId',
+      sizeConstraintSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2002,6 +2698,17 @@ class WAF {
     return DeleteSizeConstraintSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes a <a>SqlInjectionMatchSet</a>. You can't delete a
   /// <code>SqlInjectionMatchSet</code> if it's still used in any
   /// <code>Rules</code> or if it still contains any
@@ -2050,7 +2757,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -2060,6 +2773,12 @@ class WAF {
       sqlInjectionMatchSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'sqlInjectionMatchSetId',
+      sqlInjectionMatchSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2081,6 +2800,17 @@ class WAF {
     return DeleteSqlInjectionMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes a <a>WebACL</a>. You can't delete a
   /// <code>WebACL</code> if it still contains any <code>Rules</code>.
   ///
@@ -2123,7 +2853,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(webACLId, 'webACLId');
@@ -2132,6 +2868,12 @@ class WAF {
       webACLId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'webACLId',
+      webACLId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2153,6 +2895,17 @@ class WAF {
     return DeleteWebACLResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Permanently deletes an <a>XssMatchSet</a>. You can't delete an
   /// <code>XssMatchSet</code> if it's still used in any <code>Rules</code> or
   /// if it still contains any <a>XssMatchTuple</a> objects.
@@ -2199,7 +2952,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(xssMatchSetId, 'xssMatchSetId');
@@ -2208,6 +2967,12 @@ class WAF {
       xssMatchSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'xssMatchSetId',
+      xssMatchSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2229,6 +2994,17 @@ class WAF {
     return DeleteXssMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>ByteMatchSet</a> specified by <code>ByteMatchSetId</code>.
   ///
   /// May throw [WAFInternalErrorException].
@@ -2250,6 +3026,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'byteMatchSetId',
+      byteMatchSetId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetByteMatchSet'
@@ -2268,6 +3050,17 @@ class WAF {
     return GetByteMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// When you want to create, update, or delete AWS WAF objects, get a change
   /// token and include the change token in the create, update, or delete
   /// request. Change tokens ensure that your application doesn't submit
@@ -2303,6 +3096,17 @@ class WAF {
     return GetChangeTokenResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the status of a <code>ChangeToken</code> that you got by calling
   /// <a>GetChangeToken</a>. <code>ChangeTokenStatus</code> is one of the
   /// following values:
@@ -2336,7 +3140,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2357,6 +3167,17 @@ class WAF {
     return GetChangeTokenStatusResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>GeoMatchSet</a> that is specified by
   /// <code>GeoMatchSetId</code>.
   ///
@@ -2379,6 +3200,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'geoMatchSetId',
+      geoMatchSetId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetGeoMatchSet'
@@ -2397,6 +3224,17 @@ class WAF {
     return GetGeoMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>IPSet</a> that is specified by <code>IPSetId</code>.
   ///
   /// May throw [WAFInternalErrorException].
@@ -2418,6 +3256,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'iPSetId',
+      iPSetId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetIPSet'
@@ -2436,6 +3280,17 @@ class WAF {
     return GetIPSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>LoggingConfiguration</a> for the specified web ACL.
   ///
   /// May throw [WAFInternalErrorException].
@@ -2453,6 +3308,12 @@ class WAF {
       resourceArn,
       1,
       1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2473,6 +3334,17 @@ class WAF {
     return GetLoggingConfigurationResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the IAM policy attached to the RuleGroup.
   ///
   /// May throw [WAFInternalErrorException].
@@ -2490,6 +3362,12 @@ class WAF {
       resourceArn,
       1,
       1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2510,6 +3388,17 @@ class WAF {
     return GetPermissionPolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>RateBasedRule</a> that is specified by the
   /// <code>RuleId</code> that you included in the <code>GetRateBasedRule</code>
   /// request.
@@ -2533,6 +3422,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'ruleId',
+      ruleId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetRateBasedRule'
@@ -2551,6 +3446,17 @@ class WAF {
     return GetRateBasedRuleResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of IP addresses currently being blocked by the
   /// <a>RateBasedRule</a> that is specified by the <code>RuleId</code>. The
   /// maximum number of managed keys that will be blocked is 10,000. If more
@@ -2581,11 +3487,22 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'ruleId',
+      ruleId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     _s.validateStringLength(
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2606,6 +3523,17 @@ class WAF {
     return GetRateBasedRuleManagedKeysResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>RegexMatchSet</a> specified by
   /// <code>RegexMatchSetId</code>.
   ///
@@ -2628,6 +3556,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'regexMatchSetId',
+      regexMatchSetId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetRegexMatchSet'
@@ -2646,6 +3580,17 @@ class WAF {
     return GetRegexMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>RegexPatternSet</a> specified by
   /// <code>RegexPatternSetId</code>.
   ///
@@ -2668,6 +3613,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'regexPatternSetId',
+      regexPatternSetId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetRegexPatternSet'
@@ -2686,6 +3637,17 @@ class WAF {
     return GetRegexPatternSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>Rule</a> that is specified by the <code>RuleId</code> that
   /// you included in the <code>GetRule</code> request.
   ///
@@ -2708,6 +3670,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'ruleId',
+      ruleId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetRule'
@@ -2726,6 +3694,17 @@ class WAF {
     return GetRuleResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>RuleGroup</a> that is specified by the
   /// <code>RuleGroupId</code> that you included in the
   /// <code>GetRuleGroup</code> request.
@@ -2751,6 +3730,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'ruleGroupId',
+      ruleGroupId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetRuleGroup'
@@ -2769,6 +3754,17 @@ class WAF {
     return GetRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Gets detailed information about a specified number of requests--a
   /// sample--that AWS WAF randomly selects from among the first 5,000 requests
   /// that your AWS resource received during a time range that you choose. You
@@ -2811,7 +3807,8 @@ class WAF {
   /// Parameter [timeWindow] :
   /// The start date and time and the end date and time of the range for which
   /// you want <code>GetSampledRequests</code> to return a sample of requests.
-  /// Specify the date and time in the following format:
+  /// You must specify the times in Coordinated Universal Time (UTC) format. UTC
+  /// format includes the special designator, <code>Z</code>. For example,
   /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
   /// previous three hours.
   ///
@@ -2840,6 +3837,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'ruleId',
+      ruleId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(timeWindow, 'timeWindow');
     ArgumentError.checkNotNull(webAclId, 'webAclId');
     _s.validateStringLength(
@@ -2847,6 +3850,12 @@ class WAF {
       webAclId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'webAclId',
+      webAclId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2870,6 +3879,17 @@ class WAF {
     return GetSampledRequestsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>SizeConstraintSet</a> specified by
   /// <code>SizeConstraintSetId</code>.
   ///
@@ -2892,6 +3912,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'sizeConstraintSetId',
+      sizeConstraintSetId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetSizeConstraintSet'
@@ -2910,6 +3936,17 @@ class WAF {
     return GetSizeConstraintSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>SqlInjectionMatchSet</a> that is specified by
   /// <code>SqlInjectionMatchSetId</code>.
   ///
@@ -2933,6 +3970,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'sqlInjectionMatchSetId',
+      sqlInjectionMatchSetId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetSqlInjectionMatchSet'
@@ -2951,6 +3994,17 @@ class WAF {
     return GetSqlInjectionMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>WebACL</a> that is specified by <code>WebACLId</code>.
   ///
   /// May throw [WAFInternalErrorException].
@@ -2972,6 +4026,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'webACLId',
+      webACLId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetWebACL'
@@ -2990,6 +4050,17 @@ class WAF {
     return GetWebACLResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns the <a>XssMatchSet</a> that is specified by
   /// <code>XssMatchSetId</code>.
   ///
@@ -3012,6 +4083,12 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'xssMatchSetId',
+      xssMatchSetId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.GetXssMatchSet'
@@ -3030,6 +4107,17 @@ class WAF {
     return GetXssMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>ActivatedRule</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3070,13 +4158,23 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     _s.validateStringLength(
       'ruleGroupId',
       ruleGroupId,
       1,
       128,
+    );
+    _s.validateStringPattern(
+      'ruleGroupId',
+      ruleGroupId,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3098,6 +4196,17 @@ class WAF {
     return ListActivatedRulesInRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>ByteMatchSetSummary</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3133,7 +4242,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3154,6 +4268,17 @@ class WAF {
     return ListByteMatchSetsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>GeoMatchSetSummary</a> objects in the response.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3188,7 +4313,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3209,6 +4339,17 @@ class WAF {
     return ListGeoMatchSetsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>IPSetSummary</a> objects in the response.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3241,7 +4382,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3262,6 +4408,17 @@ class WAF {
     return ListIPSetsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>LoggingConfiguration</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3299,7 +4456,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3320,6 +4482,17 @@ class WAF {
     return ListLoggingConfigurationsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>RuleSummary</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3354,7 +4527,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3375,6 +4553,17 @@ class WAF {
     return ListRateBasedRulesResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>RegexMatchSetSummary</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3410,7 +4599,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3431,6 +4625,17 @@ class WAF {
     return ListRegexMatchSetsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>RegexPatternSetSummary</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3467,7 +4672,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3488,6 +4698,17 @@ class WAF {
     return ListRegexPatternSetsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>RuleGroup</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3521,7 +4742,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3542,6 +4768,17 @@ class WAF {
     return ListRuleGroupsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>RuleSummary</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3576,7 +4813,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3597,6 +4839,17 @@ class WAF {
     return ListRulesResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>SizeConstraintSetSummary</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3632,7 +4885,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3653,6 +4911,17 @@ class WAF {
     return ListSizeConstraintSetsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>SqlInjectionMatchSet</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3688,7 +4957,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3709,6 +4983,17 @@ class WAF {
     return ListSqlInjectionMatchSetsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>RuleGroup</a> objects that you are subscribed to.
   ///
   /// May throw [WAFNonexistentItemException].
@@ -3743,7 +5028,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3764,6 +5054,27 @@ class WAF {
     return ListSubscribedRuleGroupsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
+  /// Retrieves the tags associated with the specified AWS resource. Tags are
+  /// key:value pairs that you can use to categorize and manage your resources,
+  /// for purposes like billing. For example, you might set the tag key to
+  /// "customer" and the value to the customer name or ID. You can specify one
+  /// or more tags to add to each AWS resource, up to 50 tags for a resource.
+  ///
+  /// Tagging is only available through the API, SDKs, and CLI. You can't manage
+  /// or view tags through the AWS WAF Classic console. You can tag the AWS
+  /// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
+  /// and rules.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -3771,6 +5082,15 @@ class WAF {
   /// May throw [WAFBadRequestException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
+  ///
+  /// Parameter [resourceARN] :
+  /// <p/>
+  ///
+  /// Parameter [limit] :
+  /// <p/>
+  ///
+  /// Parameter [nextMarker] :
+  /// <p/>
   Future<ListTagsForResourceResponse> listTagsForResource({
     @_s.required String resourceARN,
     int limit,
@@ -3784,6 +5104,12 @@ class WAF {
       1224,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -3794,7 +5120,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3816,6 +5147,17 @@ class WAF {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>WebACLSummary</a> objects in the response.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3850,7 +5192,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3871,6 +5218,17 @@ class WAF {
     return ListWebACLsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Returns an array of <a>XssMatchSet</a> objects.
   ///
   /// May throw [WAFInternalErrorException].
@@ -3905,7 +5263,12 @@ class WAF {
       'nextMarker',
       nextMarker,
       1,
-      1152921504606846976,
+      1224,
+    );
+    _s.validateStringPattern(
+      'nextMarker',
+      nextMarker,
+      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3926,6 +5289,17 @@ class WAF {
     return ListXssMatchSetsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Associates a <a>LoggingConfiguration</a> with a specified web ACL.
   ///
   /// You can access information about all traffic that AWS WAF inspects using
@@ -3988,7 +5362,18 @@ class WAF {
     return PutLoggingConfigurationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Attaches a IAM policy to the specified resource. The only supported use
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
+  /// Attaches an IAM policy to the specified resource. The only supported use
   /// for this action is to share a RuleGroup across accounts.
   ///
   /// The <code>PutPermissionPolicy</code> is subject to the following
@@ -4053,7 +5438,13 @@ class WAF {
       'policy',
       policy,
       1,
-      1152921504606846976,
+      395000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'policy',
+      policy,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
@@ -4062,6 +5453,12 @@ class WAF {
       resourceArn,
       1,
       1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4083,6 +5480,27 @@ class WAF {
     return PutPermissionPolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
+  /// Associates tags with the specified AWS resource. Tags are key:value pairs
+  /// that you can use to categorize and manage your resources, for purposes
+  /// like billing. For example, you might set the tag key to "customer" and the
+  /// value to the customer name or ID. You can specify one or more tags to add
+  /// to each AWS resource, up to 50 tags for a resource.
+  ///
+  /// Tagging is only available through the API, SDKs, and CLI. You can't manage
+  /// or view tags through the AWS WAF Classic console. You can use this action
+  /// to tag the AWS resources that you manage through AWS WAF Classic: web
+  /// ACLs, rule groups, and rules.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -4091,6 +5509,12 @@ class WAF {
   /// May throw [WAFBadRequestException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
+  ///
+  /// Parameter [resourceARN] :
+  /// <p/>
+  ///
+  /// Parameter [tags] :
+  /// <p/>
   Future<void> tagResource({
     @_s.required String resourceARN,
     @_s.required List<Tag> tags,
@@ -4101,6 +5525,12 @@ class WAF {
       resourceARN,
       1,
       1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -4123,6 +5553,17 @@ class WAF {
     return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note> <p/>
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -4130,6 +5571,12 @@ class WAF {
   /// May throw [WAFBadRequestException].
   /// May throw [WAFTagOperationException].
   /// May throw [WAFTagOperationInternalErrorException].
+  ///
+  /// Parameter [resourceARN] :
+  /// <p/>
+  ///
+  /// Parameter [tagKeys] :
+  /// <p/>
   Future<void> untagResource({
     @_s.required String resourceARN,
     @_s.required List<String> tagKeys,
@@ -4140,6 +5587,12 @@ class WAF {
       resourceARN,
       1,
       1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -4162,6 +5615,17 @@ class WAF {
     return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <a>ByteMatchTuple</a> objects (filters) in a
   /// <a>ByteMatchSet</a>. For each <code>ByteMatchTuple</code> object, you
   /// specify the following values:
@@ -4266,12 +5730,24 @@ class WAF {
       128,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'byteMatchSetId',
+      byteMatchSetId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -4295,6 +5771,17 @@ class WAF {
     return UpdateByteMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <a>GeoMatchConstraint</a> objects in an
   /// <code>GeoMatchSet</code>. For each <code>GeoMatchConstraint</code> object,
   /// you specify the following values:
@@ -4385,7 +5872,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(geoMatchSetId, 'geoMatchSetId');
@@ -4394,6 +5887,12 @@ class WAF {
       geoMatchSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'geoMatchSetId',
+      geoMatchSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -4417,6 +5916,17 @@ class WAF {
     return UpdateGeoMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <a>IPSetDescriptor</a> objects in an
   /// <code>IPSet</code>. For each <code>IPSetDescriptor</code> object, you
   /// specify the following values:
@@ -4535,7 +6045,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(iPSetId, 'iPSetId');
@@ -4544,6 +6060,12 @@ class WAF {
       iPSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'iPSetId',
+      iPSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -4567,6 +6089,17 @@ class WAF {
     return UpdateIPSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <a>Predicate</a> objects in a rule and updates the
   /// <code>RateLimit</code> in the rule.
   ///
@@ -4590,14 +6123,14 @@ class WAF {
   /// <code>User-Agent</code> header
   /// </li>
   /// </ul>
-  /// Further, you specify a <code>RateLimit</code> of 15,000.
+  /// Further, you specify a <code>RateLimit</code> of 1,000.
   ///
   /// You then add the <code>RateBasedRule</code> to a <code>WebACL</code> and
   /// specify that you want to block requests that satisfy the rule. For a
   /// request to be blocked, it must come from the IP address 192.0.2.44
   /// <i>and</i> the <code>User-Agent</code> header in the request must contain
   /// the value <code>BadBot</code>. Further, requests that match these two
-  /// conditions much be received at a rate of more than 15,000 every five
+  /// conditions much be received at a rate of more than 1,000 every five
   /// minutes. If the rate drops below this limit, AWS WAF no longer blocks the
   /// requests.
   ///
@@ -4617,7 +6150,7 @@ class WAF {
   /// A <code>TargetString</code> of <code>login</code>
   /// </li>
   /// </ul>
-  /// Further, you specify a <code>RateLimit</code> of 15,000.
+  /// Further, you specify a <code>RateLimit</code> of 1,000.
   ///
   /// By adding this <code>RateBasedRule</code> to a <code>WebACL</code>, you
   /// could limit requests to your login page without affecting the rest of your
@@ -4662,7 +6195,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(rateLimit, 'rateLimit');
@@ -4679,6 +6218,12 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'ruleId',
+      ruleId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -4703,6 +6248,17 @@ class WAF {
     return UpdateRateBasedRuleResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <a>RegexMatchTuple</a> objects (filters) in a
   /// <a>RegexMatchSet</a>. For each <code>RegexMatchSetUpdate</code> object,
   /// you specify the following values:
@@ -4785,7 +6341,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(regexMatchSetId, 'regexMatchSetId');
@@ -4794,6 +6356,12 @@ class WAF {
       regexMatchSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'regexMatchSetId',
+      regexMatchSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -4817,6 +6385,17 @@ class WAF {
     return UpdateRegexMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <code>RegexPatternString</code> objects in a
   /// <a>RegexPatternSet</a>. For each <code>RegexPatternString</code> object,
   /// you specify the following values:
@@ -4899,7 +6478,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(regexPatternSetId, 'regexPatternSetId');
@@ -4908,6 +6493,12 @@ class WAF {
       regexPatternSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'regexPatternSetId',
+      regexPatternSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -4931,6 +6522,17 @@ class WAF {
     return UpdateRegexPatternSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <a>Predicate</a> objects in a <code>Rule</code>. Each
   /// <code>Predicate</code> object identifies a predicate, such as a
   /// <a>ByteMatchSet</a> or an <a>IPSet</a>, that specifies the web requests
@@ -5028,7 +6630,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(ruleId, 'ruleId');
@@ -5037,6 +6645,12 @@ class WAF {
       ruleId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'ruleId',
+      ruleId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -5060,6 +6674,17 @@ class WAF {
     return UpdateRuleResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <a>ActivatedRule</a> objects in a
   /// <code>RuleGroup</code>.
   ///
@@ -5132,7 +6757,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(ruleGroupId, 'ruleGroupId');
@@ -5141,6 +6772,12 @@ class WAF {
       ruleGroupId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'ruleGroupId',
+      ruleGroupId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -5164,6 +6801,17 @@ class WAF {
     return UpdateRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <a>SizeConstraint</a> objects (filters) in a
   /// <a>SizeConstraintSet</a>. For each <code>SizeConstraint</code> object, you
   /// specify the following values:
@@ -5271,7 +6919,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sizeConstraintSetId, 'sizeConstraintSetId');
@@ -5280,6 +6934,12 @@ class WAF {
       sizeConstraintSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'sizeConstraintSetId',
+      sizeConstraintSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -5303,6 +6963,17 @@ class WAF {
     return UpdateSizeConstraintSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <a>SqlInjectionMatchTuple</a> objects (filters) in a
   /// <a>SqlInjectionMatchSet</a>. For each <code>SqlInjectionMatchTuple</code>
   /// object, you specify the following values:
@@ -5399,7 +7070,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -5409,6 +7086,12 @@ class WAF {
       sqlInjectionMatchSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'sqlInjectionMatchSetId',
+      sqlInjectionMatchSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -5432,6 +7115,17 @@ class WAF {
     return UpdateSqlInjectionMatchSetResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <a>ActivatedRule</a> objects in a <code>WebACL</code>.
   /// Each <code>Rule</code> identifies web requests that you want to allow,
   /// block, or count. When you update a <code>WebACL</code>, you specify the
@@ -5496,14 +7190,14 @@ class WAF {
   /// a CloudFront distribution.
   ///
   /// The <code>ActivatedRule</code> can be a rule group. If you specify a rule
-  /// group as your <code>ActivatedRule</code>, you can exclude specific rules
+  /// group as your <code>ActivatedRule</code> , you can exclude specific rules
   /// from that rule group.
   ///
   /// If you already have a rule group associated with a web ACL and want to
   /// submit an <code>UpdateWebACL</code> request to exclude certain rules from
   /// that rule group, you must first remove the rule group from the web ACL,
   /// the re-insert it again, specifying the excluded rules. For details, see
-  /// <a>ActivatedRule$ExcludedRules</a>.
+  /// <a>ActivatedRule$ExcludedRules</a> .
   /// </li> </ol>
   /// Be aware that if you try to add a RATE_BASED rule to a web ACL without
   /// setting the rule type when first creating the rule, the
@@ -5577,7 +7271,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(webACLId, 'webACLId');
@@ -5586,6 +7286,12 @@ class WAF {
       webACLId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'webACLId',
+      webACLId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5609,6 +7315,17 @@ class WAF {
     return UpdateWebACLResponse.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+  /// WAF Classic</a> in the developer guide.
+  ///
+  /// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+  /// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+  /// of endpoints for regional and global use.
+  /// </note>
   /// Inserts or deletes <a>XssMatchTuple</a> objects (filters) in an
   /// <a>XssMatchSet</a>. For each <code>XssMatchTuple</code> object, you
   /// specify the following values:
@@ -5704,7 +7421,13 @@ class WAF {
       'changeToken',
       changeToken,
       1,
-      1152921504606846976,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'changeToken',
+      changeToken,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(updates, 'updates');
@@ -5714,6 +7437,12 @@ class WAF {
       xssMatchSetId,
       1,
       128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'xssMatchSetId',
+      xssMatchSetId,
+      r'''.*\S.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5737,6 +7466,17 @@ class WAF {
   }
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The <code>ActivatedRule</code> object in an <a>UpdateWebACL</a> request
 /// specifies a <code>Rule</code> that you want to insert or delete, the
 /// priority of the <code>Rule</code> in the <code>WebACL</code>, and the action
@@ -5890,6 +7630,17 @@ class ActivatedRule {
   Map<String, dynamic> toJson() => _$ActivatedRuleToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// In a <a>GetByteMatchSet</a> request, <code>ByteMatchSet</code> is a complex
 /// type that contains the <code>ByteMatchSetId</code> and <code>Name</code> of
 /// a <code>ByteMatchSet</code>, and the values that you specified when you
@@ -5940,6 +7691,17 @@ class ByteMatchSet {
       _$ByteMatchSetFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Returned by <a>ListByteMatchSets</a>. Each <code>ByteMatchSetSummary</code>
 /// object includes the <code>Name</code> and <code>ByteMatchSetId</code> for
 /// one <a>ByteMatchSet</a>.
@@ -5973,6 +7735,17 @@ class ByteMatchSetSummary {
       _$ByteMatchSetSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// In an <a>UpdateByteMatchSet</a> request, <code>ByteMatchSetUpdate</code>
 /// specifies whether to insert or delete a <a>ByteMatchTuple</a> and includes
 /// the settings for the <code>ByteMatchTuple</code>.
@@ -6002,6 +7775,17 @@ class ByteMatchSetUpdate {
   Map<String, dynamic> toJson() => _$ByteMatchSetUpdateToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The bytes (typically a string that corresponds with ASCII characters) that
 /// you want AWS WAF to search for in web requests, the location in requests
 /// that you want AWS WAF to search, and other settings.
@@ -6148,7 +7932,7 @@ class ByteMatchTuple {
   /// Text transformations eliminate some of the unusual formatting that attackers
   /// use in web requests in an effort to bypass AWS WAF. If you specify a
   /// transformation, AWS WAF performs the transformation on
-  /// <code>TargetString</code> before inspecting a request for a match.
+  /// <code>FieldToMatch</code> before inspecting it for a match.
   ///
   /// You can only specify a single type of TextTransformation.
   ///
@@ -6552,6 +8336,24 @@ class CreateSqlInjectionMatchSetResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateWebACLMigrationStackResponse {
+  /// The URL of the template created in Amazon S3.
+  @_s.JsonKey(name: 'S3ObjectUrl')
+  final String s3ObjectUrl;
+
+  CreateWebACLMigrationStackResponse({
+    @_s.required this.s3ObjectUrl,
+  });
+  factory CreateWebACLMigrationStackResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateWebACLMigrationStackResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateWebACLResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateWebACL</code> request. You can also use this value to query the
@@ -6865,6 +8667,17 @@ class DeleteXssMatchSetResponse {
       _$DeleteXssMatchSetResponseFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The rule to exclude from a rule group. This is applicable only when the
 /// <code>ActivatedRule</code> refers to a <code>RuleGroup</code>. The rule must
 /// belong to the <code>RuleGroup</code> that is specified by the
@@ -6888,6 +8701,17 @@ class ExcludedRule {
   Map<String, dynamic> toJson() => _$ExcludedRuleToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies where in a web request to look for <code>TargetString</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6969,6 +8793,17 @@ class FieldToMatch {
   Map<String, dynamic> toJson() => _$FieldToMatchToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The country from which web requests originate that you want AWS WAF to
 /// search for.
 @_s.JsonSerializable(
@@ -7502,6 +9337,17 @@ enum GeoMatchConstraintValue {
   zw,
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Contains one or more countries that AWS WAF will search for.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7541,6 +9387,17 @@ class GeoMatchSet {
       _$GeoMatchSetFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Contains the identifier and the name of the <code>GeoMatchSet</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7567,6 +9424,17 @@ class GeoMatchSetSummary {
       _$GeoMatchSetSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies the type of update to perform to an <a>GeoMatchSet</a> with
 /// <a>UpdateGeoMatchSet</a>.
 @_s.JsonSerializable(
@@ -7900,7 +9768,8 @@ class GetSampledRequestsResponse {
   /// <code>GetSampledRequests</code> request. However, if your AWS resource
   /// received more than 5,000 requests during the time range that you specified
   /// in the request, <code>GetSampledRequests</code> returns the time range for
-  /// the first 5,000 requests.
+  /// the first 5,000 requests. Times are in Coordinated Universal Time (UTC)
+  /// format.
   @_s.JsonKey(name: 'TimeWindow')
   final TimeWindow timeWindow;
 
@@ -8057,6 +9926,17 @@ class GetXssMatchSetResponse {
       _$GetXssMatchSetResponseFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The response from a <a>GetSampledRequests</a> request includes an
 /// <code>HTTPHeader</code> complex type that appears as <code>Headers</code> in
 /// the response syntax. <code>HTTPHeader</code> contains the names and values
@@ -8084,6 +9964,17 @@ class HTTPHeader {
       _$HTTPHeaderFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The response from a <a>GetSampledRequests</a> request includes an
 /// <code>HTTPRequest</code> complex type that appears as <code>Request</code>
 /// in the response syntax. <code>HTTPRequest</code> contains information about
@@ -8153,6 +10044,17 @@ class HTTPRequest {
       _$HTTPRequestFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Contains one or more IP addresses or blocks of IP addresses specified in
 /// Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports IPv4
 /// address ranges: /8 and any range between /16 through /32. AWS WAF supports
@@ -8204,6 +10106,17 @@ class IPSet {
   factory IPSet.fromJson(Map<String, dynamic> json) => _$IPSetFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies the IP address type (<code>IPV4</code> or <code>IPV6</code>) and
 /// the IP address range (in CIDR format) that web requests originate from.
 @_s.JsonSerializable(
@@ -8268,6 +10181,17 @@ enum IPSetDescriptorType {
   ipv6,
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Contains the identifier and the name of the <code>IPSet</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8294,6 +10218,17 @@ class IPSetSummary {
       _$IPSetSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies the type of update to perform to an <a>IPSet</a> with
 /// <a>UpdateIPSet</a>.
 @_s.JsonSerializable(
@@ -8679,8 +10614,11 @@ class ListSubscribedRuleGroupsResponse {
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
+  /// <p/>
   @_s.JsonKey(name: 'NextMarker')
   final String nextMarker;
+
+  /// <p/>
   @_s.JsonKey(name: 'TagInfoForResource')
   final TagInfoForResource tagInfoForResource;
 
@@ -8747,6 +10685,17 @@ class ListXssMatchSetsResponse {
       _$ListXssMatchSetsResponseFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The Amazon Kinesis Data Firehose, <code>RedactedFields</code> information,
 /// and the web ACL Amazon Resource Name (ARN).
 @_s.JsonSerializable(
@@ -8811,6 +10760,17 @@ enum PositionalConstraint {
   containsWord,
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies the <a>ByteMatchSet</a>, <a>IPSet</a>,
 /// <a>SqlInjectionMatchSet</a>, <a>XssMatchSet</a>, <a>RegexMatchSet</a>,
 /// <a>GeoMatchSet</a>, and <a>SizeConstraintSet</a> objects that you want to
@@ -8908,6 +10868,17 @@ class PutPermissionPolicyResponse {
       _$PutPermissionPolicyResponseFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// A <code>RateBasedRule</code> is identical to a regular <a>Rule</a>, with one
 /// addition: a <code>RateBasedRule</code> counts the number of requests that
 /// arrive from a specified IP address every five minutes. For example, based on
@@ -8923,9 +10894,9 @@ class PutPermissionPolicyResponse {
 /// header.
 /// </li>
 /// </ul>
-/// In the rule, you also define the rate limit as 15,000.
+/// In the rule, you also define the rate limit as 1,000.
 ///
-/// Requests that meet both of these conditions and exceed 15,000 requests every
+/// Requests that meet both of these conditions and exceed 1,000 requests every
 /// five minutes trigger the rule's action (block or count), which is defined in
 /// the web ACL.
 @_s.JsonSerializable(
@@ -9008,6 +10979,17 @@ extension on RateKey {
   }
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// In a <a>GetRegexMatchSet</a> request, <code>RegexMatchSet</code> is a
 /// complex type that contains the <code>RegexMatchSetId</code> and
 /// <code>Name</code> of a <code>RegexMatchSet</code>, and the values that you
@@ -9072,6 +11054,17 @@ class RegexMatchSet {
       _$RegexMatchSetFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Returned by <a>ListRegexMatchSets</a>. Each
 /// <code>RegexMatchSetSummary</code> object includes the <code>Name</code> and
 /// <code>RegexMatchSetId</code> for one <a>RegexMatchSet</a>.
@@ -9105,6 +11098,17 @@ class RegexMatchSetSummary {
       _$RegexMatchSetSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// In an <a>UpdateRegexMatchSet</a> request, <code>RegexMatchSetUpdate</code>
 /// specifies whether to insert or delete a <a>RegexMatchTuple</a> and includes
 /// the settings for the <code>RegexMatchTuple</code>.
@@ -9134,6 +11138,17 @@ class RegexMatchSetUpdate {
   Map<String, dynamic> toJson() => _$RegexMatchSetUpdateToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The regular expression pattern that you want AWS WAF to search for in web
 /// requests, the location in requests that you want AWS WAF to search, and
 /// other settings. Each <code>RegexMatchTuple</code> object contains:
@@ -9290,6 +11305,17 @@ class RegexMatchTuple {
   Map<String, dynamic> toJson() => _$RegexMatchTupleToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The <code>RegexPatternSet</code> specifies the regular expression (regex)
 /// pattern that you want AWS WAF to search for, such as
 /// <code>B[a@]dB[o0]t</code>. You can then configure AWS WAF to reject those
@@ -9330,6 +11356,17 @@ class RegexPatternSet {
       _$RegexPatternSetFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Returned by <a>ListRegexPatternSets</a>. Each
 /// <code>RegexPatternSetSummary</code> object includes the <code>Name</code>
 /// and <code>RegexPatternSetId</code> for one <a>RegexPatternSet</a>.
@@ -9363,6 +11400,17 @@ class RegexPatternSetSummary {
       _$RegexPatternSetSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// In an <a>UpdateRegexPatternSet</a> request,
 /// <code>RegexPatternSetUpdate</code> specifies whether to insert or delete a
 /// <code>RegexPatternString</code> and includes the settings for the
@@ -9389,6 +11437,17 @@ class RegexPatternSetUpdate {
   Map<String, dynamic> toJson() => _$RegexPatternSetUpdateToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// A combination of <a>ByteMatchSet</a>, <a>IPSet</a>, and/or
 /// <a>SqlInjectionMatchSet</a> objects that identify the web requests that you
 /// want to allow, block, or count. For example, you might create a
@@ -9455,6 +11514,17 @@ class Rule {
   factory Rule.fromJson(Map<String, dynamic> json) => _$RuleFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// A collection of predefined rules that you can add to a web ACL.
 ///
 /// Rule groups are subject to the following limits:
@@ -9513,6 +11583,17 @@ class RuleGroup {
       _$RuleGroupFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Contains the identifier and the friendly name or description of the
 /// <code>RuleGroup</code>.
 @_s.JsonSerializable(
@@ -9547,6 +11628,17 @@ class RuleGroupSummary {
       _$RuleGroupSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies an <code>ActivatedRule</code> and indicates whether you want to
 /// add it to a <code>RuleGroup</code> or delete it from a
 /// <code>RuleGroup</code>.
@@ -9577,6 +11669,17 @@ class RuleGroupUpdate {
   Map<String, dynamic> toJson() => _$RuleGroupUpdateToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Contains the identifier and the friendly name or description of the
 /// <code>Rule</code>.
 @_s.JsonSerializable(
@@ -9610,6 +11713,17 @@ class RuleSummary {
       _$RuleSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies a <code>Predicate</code> (such as an <code>IPSet</code>) and
 /// indicates whether you want to add it to a <code>Rule</code> or delete it
 /// from a <code>Rule</code>.
@@ -9637,6 +11751,17 @@ class RuleUpdate {
   Map<String, dynamic> toJson() => _$RuleUpdateToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The response from a <a>GetSampledRequests</a> request includes a
 /// <code>SampledHTTPRequests</code> complex type that appears as
 /// <code>SampledRequests</code> in the response syntax.
@@ -9690,6 +11815,17 @@ class SampledHTTPRequest {
       _$SampledHTTPRequestFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies a constraint on the size of a part of the web request. AWS WAF
 /// uses the <code>Size</code>, <code>ComparisonOperator</code>, and
 /// <code>FieldToMatch</code> to build an expression in the form of
@@ -9751,7 +11887,7 @@ class SizeConstraint {
   /// Text transformations eliminate some of the unusual formatting that attackers
   /// use in web requests in an effort to bypass AWS WAF. If you specify a
   /// transformation, AWS WAF performs the transformation on
-  /// <code>FieldToMatch</code> before inspecting a request for a match.
+  /// <code>FieldToMatch</code> before inspecting it for a match.
   ///
   /// You can only specify a single type of TextTransformation.
   ///
@@ -9867,6 +12003,17 @@ class SizeConstraint {
   Map<String, dynamic> toJson() => _$SizeConstraintToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// A complex type that contains <code>SizeConstraint</code> objects, which
 /// specify the parts of web requests that you want AWS WAF to inspect the size
 /// of. If a <code>SizeConstraintSet</code> contains more than one
@@ -9909,6 +12056,17 @@ class SizeConstraintSet {
       _$SizeConstraintSetFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The <code>Id</code> and <code>Name</code> of a
 /// <code>SizeConstraintSet</code>.
 @_s.JsonSerializable(
@@ -9943,6 +12101,17 @@ class SizeConstraintSetSummary {
       _$SizeConstraintSetSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies the part of a web request that you want to inspect the size of and
 /// indicates whether you want to add the specification to a
 /// <a>SizeConstraintSet</a> or delete it from a <code>SizeConstraintSet</code>.
@@ -9974,6 +12143,17 @@ class SizeConstraintSetUpdate {
   Map<String, dynamic> toJson() => _$SizeConstraintSetUpdateToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// A complex type that contains <code>SqlInjectionMatchTuple</code> objects,
 /// which specify the parts of web requests that you want AWS WAF to inspect for
 /// snippets of malicious SQL code and, if you want AWS WAF to inspect a header,
@@ -10020,6 +12200,17 @@ class SqlInjectionMatchSet {
       _$SqlInjectionMatchSetFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The <code>Id</code> and <code>Name</code> of a
 /// <code>SqlInjectionMatchSet</code>.
 @_s.JsonSerializable(
@@ -10056,6 +12247,17 @@ class SqlInjectionMatchSetSummary {
       _$SqlInjectionMatchSetSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies the part of a web request that you want to inspect for snippets of
 /// malicious SQL code and indicates whether you want to add the specification
 /// to a <a>SqlInjectionMatchSet</a> or delete it from a
@@ -10086,6 +12288,17 @@ class SqlInjectionMatchSetUpdate {
   Map<String, dynamic> toJson() => _$SqlInjectionMatchSetUpdateToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies the part of a web request that you want AWS WAF to inspect for
 /// snippets of malicious SQL code and, if you want AWS WAF to inspect a header,
 /// the name of the header.
@@ -10102,7 +12315,7 @@ class SqlInjectionMatchTuple {
   /// Text transformations eliminate some of the unusual formatting that attackers
   /// use in web requests in an effort to bypass AWS WAF. If you specify a
   /// transformation, AWS WAF performs the transformation on
-  /// <code>FieldToMatch</code> before inspecting a request for a match.
+  /// <code>FieldToMatch</code> before inspecting it for a match.
   ///
   /// You can only specify a single type of TextTransformation.
   ///
@@ -10211,6 +12424,17 @@ class SqlInjectionMatchTuple {
   Map<String, dynamic> toJson() => _$SqlInjectionMatchTupleToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// A summary of the rule groups you are subscribed to.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10245,34 +12469,82 @@ class SubscribedRuleGroupSummary {
       _$SubscribedRuleGroupSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// A tag associated with an AWS resource. Tags are key:value pairs that you can
+/// use to categorize and manage your resources, for purposes like billing. For
+/// example, you might set the tag key to "customer" and the value to the
+/// customer name or ID. You can specify one or more tags to add to each AWS
+/// resource, up to 50 tags for a resource.
+///
+/// Tagging is only available through the API, SDKs, and CLI. You can't manage
+/// or view tags through the AWS WAF Classic console. You can tag the AWS
+/// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
+/// and rules.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class Tag {
+  /// <p/>
   @_s.JsonKey(name: 'Key')
   final String key;
+
+  /// <p/>
   @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    this.key,
-    this.value,
+    @_s.required this.key,
+    @_s.required this.value,
   });
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
+/// Information for a tag associated with an AWS resource. Tags are key:value
+/// pairs that you can use to categorize and manage your resources, for purposes
+/// like billing. For example, you might set the tag key to "customer" and the
+/// value to the customer name or ID. You can specify one or more tags to add to
+/// each AWS resource, up to 50 tags for a resource.
+///
+/// Tagging is only available through the API, SDKs, and CLI. You can't manage
+/// or view tags through the AWS WAF Classic console. You can tag the AWS
+/// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
+/// and rules.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TagInfoForResource {
+  /// <p/>
   @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
+
+  /// <p/>
   @_s.JsonKey(name: 'TagList')
   final List<Tag> tagList;
 
@@ -10310,9 +12582,24 @@ enum TextTransformation {
   urlDecode,
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// In a <a>GetSampledRequests</a> request, the <code>StartTime</code> and
 /// <code>EndTime</code> objects specify the time range for which you want AWS
 /// WAF to return a sample of web requests.
+///
+/// You must specify the times in Coordinated Universal Time (UTC) format. UTC
+/// format includes the special designator, <code>Z</code>. For example,
+/// <code>"2016-09-27T14:50Z"</code>.
 ///
 /// In a <a>GetSampledRequests</a> response, the <code>StartTime</code> and
 /// <code>EndTime</code> objects specify the time range for which AWS WAF
@@ -10330,18 +12617,20 @@ enum TextTransformation {
 class TimeWindow {
   /// The end of the time range from which you want
   /// <code>GetSampledRequests</code> to return a sample of the requests that your
-  /// AWS resource received. Specify the date and time in the following format:
-  /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
-  /// previous three hours.
+  /// AWS resource received. You must specify the date and time in Coordinated
+  /// Universal Time (UTC) format. UTC format includes the special designator,
+  /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
+  /// specify any time range in the previous three hours.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The beginning of the time range from which you want
   /// <code>GetSampledRequests</code> to return a sample of the requests that your
-  /// AWS resource received. Specify the date and time in the following format:
-  /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
-  /// previous three hours.
+  /// AWS resource received. You must specify the date and time in Coordinated
+  /// Universal Time (UTC) format. UTC format includes the special designator,
+  /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
+  /// specify any time range in the previous three hours.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
@@ -10610,6 +12899,17 @@ class UpdateXssMatchSetResponse {
       _$UpdateXssMatchSetResponseFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// For the action that is associated with a rule in a <code>WebACL</code>,
 /// specifies the action that you want AWS WAF to perform when a web request
 /// matches all of the conditions in a rule. For the default action in a
@@ -10660,6 +12960,17 @@ enum WafActionType {
   count,
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The action to take if any rule within the <code>RuleGroup</code> matches a
 /// request.
 @_s.JsonSerializable(
@@ -10699,6 +13010,17 @@ enum WafRuleType {
   group,
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Contains the <code>Rules</code> that identify the requests that you want to
 /// allow, block, or count. In a <code>WebACL</code>, you also specify a default
 /// action (<code>ALLOW</code> or <code>BLOCK</code>), and the action for each
@@ -10766,6 +13088,17 @@ class WebACL {
   factory WebACL.fromJson(Map<String, dynamic> json) => _$WebACLFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Contains the identifier and the name or description of the <a>WebACL</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10796,6 +13129,17 @@ class WebACLSummary {
       _$WebACLSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies whether to insert a <code>Rule</code> into or delete a
 /// <code>Rule</code> from a <code>WebACL</code>.
 @_s.JsonSerializable(
@@ -10825,6 +13169,17 @@ class WebACLUpdate {
   Map<String, dynamic> toJson() => _$WebACLUpdateToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// A complex type that contains <code>XssMatchTuple</code> objects, which
 /// specify the parts of web requests that you want AWS WAF to inspect for
 /// cross-site scripting attacks and, if you want AWS WAF to inspect a header,
@@ -10869,6 +13224,17 @@ class XssMatchSet {
       _$XssMatchSetFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// The <code>Id</code> and <code>Name</code> of an <code>XssMatchSet</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10902,6 +13268,17 @@ class XssMatchSetSummary {
       _$XssMatchSetSummaryFromJson(json);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies the part of a web request that you want to inspect for cross-site
 /// scripting attacks and indicates whether you want to add the specification to
 /// an <a>XssMatchSet</a> or delete it from an <code>XssMatchSet</code>.
@@ -10930,6 +13307,17 @@ class XssMatchSetUpdate {
   Map<String, dynamic> toJson() => _$XssMatchSetUpdateToJson(this);
 }
 
+/// <note>
+/// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html">AWS
+/// WAF Classic</a> in the developer guide.
+///
+/// <b>For the latest version of AWS WAF</b>, use the AWS WAFV2 API and see the
+/// <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
+/// WAF Developer Guide</a>. With the latest version, AWS WAF has a single set
+/// of endpoints for regional and global use.
+/// </note>
 /// Specifies the part of a web request that you want AWS WAF to inspect for
 /// cross-site scripting attacks and, if you want AWS WAF to inspect a header,
 /// the name of the header.
@@ -10946,7 +13334,7 @@ class XssMatchTuple {
   /// Text transformations eliminate some of the unusual formatting that attackers
   /// use in web requests in an effort to bypass AWS WAF. If you specify a
   /// transformation, AWS WAF performs the transformation on
-  /// <code>FieldToMatch</code> before inspecting a request for a match.
+  /// <code>FieldToMatch</code> before inspecting it for a match.
   ///
   /// You can only specify a single type of TextTransformation.
   ///
@@ -11065,6 +13453,12 @@ class WAFDisallowedNameException extends _s.GenericAwsException {
       : super(type: type, code: 'WAFDisallowedNameException', message: message);
 }
 
+class WAFEntityMigrationException extends _s.GenericAwsException {
+  WAFEntityMigrationException({String type, String message})
+      : super(
+            type: type, code: 'WAFEntityMigrationException', message: message);
+}
+
 class WAFInternalErrorException extends _s.GenericAwsException {
   WAFInternalErrorException({String type, String message})
       : super(type: type, code: 'WAFInternalErrorException', message: message);
@@ -11171,6 +13565,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       WAFBadRequestException(type: type, message: message),
   'WAFDisallowedNameException': (type, message) =>
       WAFDisallowedNameException(type: type, message: message),
+  'WAFEntityMigrationException': (type, message) =>
+      WAFEntityMigrationException(type: type, message: message),
   'WAFInternalErrorException': (type, message) =>
       WAFInternalErrorException(type: type, message: message),
   'WAFInvalidAccountException': (type, message) =>

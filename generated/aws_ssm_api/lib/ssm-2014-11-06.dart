@@ -31,9 +31,10 @@ part 'ssm-2014-11-06.g.dart';
 /// system (OS) patches, automating the creation of Amazon Machine Images
 /// (AMIs), and configuring operating systems (OSs) and applications at scale.
 /// Systems Manager lets you remotely and securely manage the configuration of
-/// your managed instances. A <i>managed instance</i> is any Amazon EC2 instance
-/// or on-premises machine in your hybrid environment that has been configured
-/// for Systems Manager.
+/// your managed instances. A <i>managed instance</i> is any Amazon Elastic
+/// Compute Cloud instance (EC2 instance), or any on-premises server or virtual
+/// machine (VM) in your hybrid environment that has been configured for Systems
+/// Manager.
 class SSM {
   final _s.JsonProtocol _protocol;
   SSM({
@@ -67,12 +68,12 @@ class SSM {
   /// We recommend that you devise a set of tag keys that meets your needs for
   /// each resource type. Using a consistent set of tag keys makes it easier for
   /// you to manage your resources. You can search and filter the resources
-  /// based on the tags you add. Tags don't have any semantic meaning to Amazon
-  /// EC2 and are interpreted strictly as a string of characters.
+  /// based on the tags you add. Tags don't have any semantic meaning to and are
+  /// interpreted strictly as a string of characters.
   ///
-  /// For more information about tags, see <a
-  /// href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
-  /// Your Amazon EC2 Resources</a> in the <i>Amazon EC2 User Guide</i>.
+  /// For more information about using tags with EC2 instances, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+  /// your Amazon EC2 resources</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// May throw [InvalidResourceType].
   /// May throw [InvalidResourceId].
@@ -240,12 +241,12 @@ class SSM {
   /// code and ID when installing SSM Agent on machines in your hybrid
   /// environment. For more information about requirements for managing
   /// on-premises instances and VMs using Systems Manager, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances.html">Setting
-  /// Up AWS Systems Manager for Hybrid Environments</a> in the <i>AWS Systems
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances.html">Setting
+  /// up AWS Systems Manager for hybrid environments</a> in the <i>AWS Systems
   /// Manager User Guide</i>.
   /// <note>
   /// On-premises servers or VMs that are registered with Systems Manager and
-  /// Amazon EC2 instances that you manage with Systems Manager are all called
+  /// EC2 instances that you manage with Systems Manager are all called
   /// <i>managed instances</i>.
   /// </note>
   ///
@@ -256,8 +257,8 @@ class SSM {
   /// assign to the managed instance. This IAM role must provide AssumeRole
   /// permissions for the Systems Manager service principal
   /// <code>ssm.amazonaws.com</code>. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html">Create
-  /// an IAM Service Role for a Hybrid Environment</a> in the <i>AWS Systems
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html">Create
+  /// an IAM service role for a hybrid environment</a> in the <i>AWS Systems
   /// Manager User Guide</i>.
   ///
   /// Parameter [defaultInstanceName] :
@@ -376,16 +377,18 @@ class SSM {
     return CreateActivationResult.fromJson(jsonResponse.body);
   }
 
-  /// Associates the specified Systems Manager document with the specified
-  /// instances or targets.
-  ///
-  /// When you associate a document with one or more instances using instance
-  /// IDs or tags, SSM Agent running on the instance processes the document and
-  /// configures the instance as specified.
-  ///
-  /// If you associate a document with an instance that already has an
-  /// associated document, the system returns the AssociationAlreadyExists
-  /// exception.
+  /// A State Manager association defines the state that you want to maintain on
+  /// your instances. For example, an association can specify that anti-virus
+  /// software must be installed and running on your instances, or that certain
+  /// ports must be closed. For static targets, the association specifies a
+  /// schedule for when the configuration is reapplied. For dynamic targets,
+  /// such as an AWS Resource Group or an AWS Autoscaling Group, State Manager
+  /// applies the configuration when new instances are added to the group. The
+  /// association also specifies actions to take when applying the
+  /// configuration. For example, an association for anti-virus software might
+  /// run once a day. If the software is not installed, then State Manager
+  /// installs it. If the software is installed, but the service is not running,
+  /// then the association might instruct State Manager to start the service.
   ///
   /// May throw [AssociationAlreadyExists].
   /// May throw [AssociationLimitExceeded].
@@ -419,6 +422,13 @@ class SSM {
   /// For AWS-predefined documents and SSM documents you created in your
   /// account, you only need to specify the document name. For example,
   /// <code>AWS-ApplyPatchBaseline</code> or <code>My-Document</code>.
+  ///
+  /// Parameter [applyOnlyAtCronInterval] :
+  /// By default, when you create a new associations, the system runs it
+  /// immediately after it is created and then according to the schedule you
+  /// specified. Specify this option if you don't want an association to run
+  /// immediately after you create it. This parameter is not supported for rate
+  /// expressions.
   ///
   /// Parameter [associationName] :
   /// Specify a descriptive name for the association.
@@ -478,8 +488,7 @@ class SSM {
   /// at a time.
   ///
   /// Parameter [outputLocation] :
-  /// An Amazon S3 bucket where you want to store the output details of the
-  /// request.
+  /// An S3 bucket where you want to store the output details of the request.
   ///
   /// Parameter [parameters] :
   /// The parameters for the runtime configuration of the document.
@@ -487,12 +496,38 @@ class SSM {
   /// Parameter [scheduleExpression] :
   /// A cron expression when the association will be applied to the target(s).
   ///
+  /// Parameter [syncCompliance] :
+  /// The mode for generating association compliance. You can specify
+  /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
+  /// system uses the status of the association execution to determine the
+  /// compliance status. If the association execution runs successfully, then
+  /// the association is <code>COMPLIANT</code>. If the association execution
+  /// doesn't run successfully, the association is <code>NON-COMPLIANT</code>.
+  ///
+  /// In <code>MANUAL</code> mode, you must specify the
+  /// <code>AssociationId</code> as a parameter for the
+  /// <a>PutComplianceItems</a> API action. In this case, compliance data is not
+  /// managed by State Manager. It is managed by your direct call to the
+  /// <a>PutComplianceItems</a> API action.
+  ///
+  /// By default, all associations use <code>AUTO</code> mode.
+  ///
+  /// Parameter [targetLocations] :
+  /// A location is a combination of AWS Regions and AWS accounts where you want
+  /// to run the association. Use this action to create an association in
+  /// multiple Regions and multiple accounts.
+  ///
   /// Parameter [targets] :
-  /// The targets (either instances or tags) for the association. You must
-  /// specify a value for <code>Targets</code> if you don't specify a value for
-  /// <code>InstanceId</code>.
+  /// The targets for the association. You can target instances by using tags,
+  /// AWS Resource Groups, all instances in an AWS account, or individual
+  /// instance IDs. For more information about choosing targets for an
+  /// association, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-state-manager-targets-and-rate-controls.html">Using
+  /// targets and rate controls with State Manager associations</a> in the
+  /// <i>AWS Systems Manager User Guide</i>.
   Future<CreateAssociationResult> createAssociation({
     @_s.required String name,
+    bool applyOnlyAtCronInterval,
     String associationName,
     String automationTargetParameterName,
     AssociationComplianceSeverity complianceSeverity,
@@ -503,6 +538,8 @@ class SSM {
     InstanceAssociationOutputLocation outputLocation,
     Map<String, List<String>> parameters,
     String scheduleExpression,
+    AssociationSyncCompliance syncCompliance,
+    List<TargetLocation> targetLocations,
     List<Target> targets,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
@@ -573,6 +610,8 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
+        if (applyOnlyAtCronInterval != null)
+          'ApplyOnlyAtCronInterval': applyOnlyAtCronInterval,
         if (associationName != null) 'AssociationName': associationName,
         if (automationTargetParameterName != null)
           'AutomationTargetParameterName': automationTargetParameterName,
@@ -586,6 +625,8 @@ class SSM {
         if (parameters != null) 'Parameters': parameters,
         if (scheduleExpression != null)
           'ScheduleExpression': scheduleExpression,
+        if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
+        if (targetLocations != null) 'TargetLocations': targetLocations,
         if (targets != null) 'Targets': targets,
       },
     );
@@ -640,10 +681,13 @@ class SSM {
     return CreateAssociationBatchResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates a Systems Manager document.
-  ///
-  /// After you create a document, you can use CreateAssociation to associate it
-  /// with one or more running instances.
+  /// Creates a Systems Manager (SSM) document. An SSM document defines the
+  /// actions that Systems Manager performs on your managed instances. For more
+  /// information about SSM documents, including information about supported
+  /// schemas, features, and syntax, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-ssm-docs.html">AWS
+  /// Systems Manager Documents</a> in the <i>AWS Systems Manager User
+  /// Guide</i>.
   ///
   /// May throw [DocumentAlreadyExists].
   /// May throw [MaxDocumentSizeExceeded].
@@ -653,17 +697,40 @@ class SSM {
   /// May throw [InvalidDocumentSchemaVersion].
   ///
   /// Parameter [content] :
-  /// A valid JSON or YAML string.
+  /// The content for the new SSM document in JSON or YAML format. We recommend
+  /// storing the contents for your new document in an external JSON or YAML
+  /// file and referencing the file in a command.
+  ///
+  /// For examples, see the following topics in the <i>AWS Systems Manager User
+  /// Guide</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-api.html">Create
+  /// an SSM document (AWS API)</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-cli.html">Create
+  /// an SSM document (AWS CLI)</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-api.html">Create
+  /// an SSM document (API)</a>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [name] :
   /// A name for the Systems Manager document.
   /// <important>
-  /// Do not use the following to begin the names of documents you create. They
-  /// are reserved by AWS for use as document prefixes:
+  /// You can't use the following strings as document name prefixes. These are
+  /// reserved by AWS for use as document name prefixes:
   ///
   /// <ul>
   /// <li>
-  /// <code>aws</code>
+  /// <code>aws-</code>
   /// </li>
   /// <li>
   /// <code>amazon</code>
@@ -685,9 +752,15 @@ class SSM {
   /// The type of document to create.
   ///
   /// Parameter [requires] :
-  /// A list of SSM documents required by a document. For example, an
+  /// A list of SSM documents required by a document. This parameter is used
+  /// exclusively by AWS AppConfig. When a user creates an AppConfig
+  /// configuration in an SSM document, the user must also specify a required
+  /// document for validation purposes. In this case, an
   /// <code>ApplicationConfiguration</code> document requires an
-  /// <code>ApplicationConfigurationSchema</code> document.
+  /// <code>ApplicationConfigurationSchema</code> document for validation
+  /// purposes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/appconfig.html">AWS
+  /// AppConfig</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [tags] :
   /// Optional metadata that you assign to a resource. Tags enable you to
@@ -716,7 +789,8 @@ class SSM {
   /// the document can't run on any resources. For a list of valid resource
   /// types, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
-  /// Resource Types Reference</a> in the <i>AWS CloudFormation User Guide</i>.
+  /// resource and property types reference</a> in the <i>AWS CloudFormation
+  /// User Guide</i>.
   ///
   /// Parameter [versionName] :
   /// An optional field specifying the version of the artifact you are creating
@@ -841,12 +915,24 @@ class SSM {
   /// maintenance window to become inactive. EndDate allows you to set a date
   /// and time in the future when the maintenance window will no longer run.
   ///
+  /// Parameter [scheduleOffset] :
+  /// The number of days to wait after the date and time specified by a CRON
+  /// expression before running the maintenance window.
+  ///
+  /// For example, the following cron expression schedules a maintenance window
+  /// to run on the third Tuesday of every month at 11:30 PM.
+  ///
+  /// <code>cron(30 23 ? * TUE#3 *)</code>
+  ///
+  /// If the schedule offset is <code>2</code>, the maintenance window won't run
+  /// until two days later.
+  ///
   /// Parameter [scheduleTimezone] :
   /// The time zone that the scheduled maintenance window executions are based
   /// on, in Internet Assigned Numbers Authority (IANA) format. For example:
-  /// "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information,
-  /// see the <a href="https://www.iana.org/time-zones">Time Zone Database</a>
-  /// on the IANA website.
+  /// "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see
+  /// the <a href="https://www.iana.org/time-zones">Time Zone Database</a> on
+  /// the IANA website.
   ///
   /// Parameter [startDate] :
   /// The date and time, in ISO-8601 Extended format, for when you want the
@@ -884,6 +970,7 @@ class SSM {
     String clientToken,
     String description,
     String endDate,
+    int scheduleOffset,
     String scheduleTimezone,
     String startDate,
     List<Tag> tags,
@@ -940,6 +1027,12 @@ class SSM {
       1,
       128,
     );
+    _s.validateNumRange(
+      'scheduleOffset',
+      scheduleOffset,
+      1,
+      6,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CreateMaintenanceWindow'
@@ -959,6 +1052,7 @@ class SSM {
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (endDate != null) 'EndDate': endDate,
+        if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
         if (scheduleTimezone != null) 'ScheduleTimezone': scheduleTimezone,
         if (startDate != null) 'StartDate': startDate,
         if (tags != null) 'Tags': tags,
@@ -970,13 +1064,13 @@ class SSM {
 
   /// Creates a new OpsItem. You must have permission in AWS Identity and Access
   /// Management (IAM) to create a new OpsItem. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
-  /// Started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
+  /// started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Operations engineers and IT professionals use OpsCenter to view,
   /// investigate, and remediate operational issues impacting the performance
   /// and health of their AWS resources. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
   /// Systems Manager OpsCenter</a> in the <i>AWS Systems Manager User
   /// Guide</i>.
   ///
@@ -989,11 +1083,23 @@ class SSM {
   /// Information about the OpsItem.
   ///
   /// Parameter [source] :
-  /// The origin of the OpsItem, such as Amazon EC2 or AWS Systems Manager.
+  /// The origin of the OpsItem, such as Amazon EC2 or Systems Manager.
+  /// <note>
+  /// The source name can't contain the following strings: aws, amazon, and
+  /// amzn.
+  /// </note>
   ///
   /// Parameter [title] :
   /// A short heading that describes the nature of the OpsItem and the impacted
   /// resource.
+  ///
+  /// Parameter [actualEndTime] :
+  /// The time a runbook workflow ended. Currently reported only for the OpsItem
+  /// type <code>/aws/changerequest</code>.
+  ///
+  /// Parameter [actualStartTime] :
+  /// The time a runbook workflow started. Currently reported only for the
+  /// OpsItem type <code>/aws/changerequest</code>.
   ///
   /// Parameter [category] :
   /// Specify a category to assign to an OpsItem.
@@ -1024,8 +1130,22 @@ class SSM {
   /// related resource in the request. Use the <code>/aws/automations</code> key
   /// in OperationalData to associate an Automation runbook with the OpsItem. To
   /// view AWS CLI example commands that use these keys, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems">Creating
-  /// OpsItems Manually</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems">Creating
+  /// OpsItems manually</a> in the <i>AWS Systems Manager User Guide</i>.
+  ///
+  /// Parameter [opsItemType] :
+  /// The type of OpsItem to create. Currently, the only valid values are
+  /// <code>/aws/changerequest</code> and <code>/aws/issue</code>.
+  ///
+  /// Parameter [plannedEndTime] :
+  /// The time specified in a change request for a runbook workflow to end.
+  /// Currently supported only for the OpsItem type
+  /// <code>/aws/changerequest</code>.
+  ///
+  /// Parameter [plannedStartTime] :
+  /// The time specified in a change request for a runbook workflow to start.
+  /// Currently supported only for the OpsItem type
+  /// <code>/aws/changerequest</code>.
   ///
   /// Parameter [priority] :
   /// The importance of this OpsItem in relation to other OpsItems in the
@@ -1043,8 +1163,8 @@ class SSM {
   /// Optional metadata that you assign to a resource. You can restrict access
   /// to OpsItems by using an inline IAM policy that specifies tags. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html#OpsCenter-getting-started-user-permissions">Getting
-  /// Started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html#OpsCenter-getting-started-user-permissions">Getting
+  /// started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Tags use a key-value pair. For example:
   ///
@@ -1057,9 +1177,14 @@ class SSM {
     @_s.required String description,
     @_s.required String source,
     @_s.required String title,
+    DateTime actualEndTime,
+    DateTime actualStartTime,
     String category,
     List<OpsItemNotification> notifications,
     Map<String, OpsItemDataValue> operationalData,
+    String opsItemType,
+    DateTime plannedEndTime,
+    DateTime plannedStartTime,
     int priority,
     List<RelatedOpsItem> relatedOpsItems,
     String severity,
@@ -1073,12 +1198,24 @@ class SSM {
       1024,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\s\S]*\S[\s\S]*''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(source, 'source');
     _s.validateStringLength(
       'source',
       source,
       1,
-      64,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'source',
+      source,
+      r'''^(?!\s*$).+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(title, 'title');
@@ -1089,11 +1226,22 @@ class SSM {
       1024,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'title',
+      title,
+      r'''^(?!\s*$).+''',
+      isRequired: true,
+    );
     _s.validateStringLength(
       'category',
       category,
       1,
       64,
+    );
+    _s.validateStringPattern(
+      'category',
+      category,
+      r'''^(?!\s*$).+''',
     );
     _s.validateNumRange(
       'priority',
@@ -1106,6 +1254,11 @@ class SSM {
       severity,
       1,
       64,
+    );
+    _s.validateStringPattern(
+      'severity',
+      severity,
+      r'''^(?!\s*$).+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1121,9 +1274,18 @@ class SSM {
         'Description': description,
         'Source': source,
         'Title': title,
+        if (actualEndTime != null)
+          'ActualEndTime': unixTimestampToJson(actualEndTime),
+        if (actualStartTime != null)
+          'ActualStartTime': unixTimestampToJson(actualStartTime),
         if (category != null) 'Category': category,
         if (notifications != null) 'Notifications': notifications,
         if (operationalData != null) 'OperationalData': operationalData,
+        if (opsItemType != null) 'OpsItemType': opsItemType,
+        if (plannedEndTime != null)
+          'PlannedEndTime': unixTimestampToJson(plannedEndTime),
+        if (plannedStartTime != null)
+          'PlannedStartTime': unixTimestampToJson(plannedStartTime),
         if (priority != null) 'Priority': priority,
         if (relatedOpsItems != null) 'RelatedOpsItems': relatedOpsItems,
         if (severity != null) 'Severity': severity,
@@ -1132,6 +1294,58 @@ class SSM {
     );
 
     return CreateOpsItemResponse.fromJson(jsonResponse.body);
+  }
+
+  /// If you create a new application in Application Manager, Systems Manager
+  /// calls this API action to specify information about the new application,
+  /// including the application type.
+  ///
+  /// May throw [OpsMetadataAlreadyExistsException].
+  /// May throw [OpsMetadataTooManyUpdatesException].
+  /// May throw [OpsMetadataInvalidArgumentException].
+  /// May throw [OpsMetadataLimitExceededException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [resourceId] :
+  /// A resource ID for a new Application Manager application.
+  ///
+  /// Parameter [metadata] :
+  /// Metadata for a new Application Manager application.
+  Future<CreateOpsMetadataResult> createOpsMetadata({
+    @_s.required String resourceId,
+    Map<String, MetadataValue> metadata,
+  }) async {
+    ArgumentError.checkNotNull(resourceId, 'resourceId');
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      1,
+      1024,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceId',
+      resourceId,
+      r'''^(?!\s*$).+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.CreateOpsMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceId': resourceId,
+        if (metadata != null) 'Metadata': metadata,
+      },
+    );
+
+    return CreateOpsMetadataResult.fromJson(jsonResponse.body);
   }
 
   /// Creates a patch baseline.
@@ -1156,9 +1370,9 @@ class SSM {
   ///
   /// For information about accepted formats for lists of approved patches and
   /// rejected patches, see <a
-  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
-  /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS
-  /// Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">About
+  /// package name formats for approved and rejected patch lists</a> in the
+  /// <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [approvedPatchesComplianceLevel] :
   /// Defines the compliance level for approved patches. This means that if an
@@ -1188,9 +1402,9 @@ class SSM {
   ///
   /// For information about accepted formats for lists of approved patches and
   /// rejected patches, see <a
-  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
-  /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS
-  /// Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">About
+  /// package name formats for approved and rejected patch lists</a> in the
+  /// <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [rejectedPatchesAction] :
   /// The action for Patch Manager to take on patches included in the
@@ -1319,21 +1533,20 @@ class SSM {
   ///
   /// You can configure Systems Manager Inventory to use the
   /// <code>SyncToDestination</code> type to synchronize Inventory data from
-  /// multiple AWS Regions to a single Amazon S3 bucket. For more information,
-  /// see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-datasync.html">Configuring
+  /// multiple AWS Regions to a single S3 bucket. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-datasync.html">Configuring
   /// Resource Data Sync for Inventory</a> in the <i>AWS Systems Manager User
   /// Guide</i>.
   ///
   /// You can configure Systems Manager Explorer to use the
   /// <code>SyncFromSource</code> type to synchronize operational work items
   /// (OpsItems) and operational data (OpsData) from multiple AWS Regions to a
-  /// single Amazon S3 bucket. This type can synchronize OpsItems and OpsData
-  /// from multiple AWS accounts and Regions or <code>EntireOrganization</code>
-  /// by using AWS Organizations. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html">Setting
-  /// Up Explorer to Display Data from Multiple Accounts and Regions</a> in the
-  /// <i>AWS Systems Manager User Guide</i>.
+  /// single S3 bucket. This type can synchronize OpsItems and OpsData from
+  /// multiple AWS accounts and Regions or <code>EntireOrganization</code> by
+  /// using AWS Organizations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html">Setting
+  /// up Systems Manager Explorer to display data from multiple accounts and
+  /// Regions</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// A resource data sync is an asynchronous operation that returns
   /// immediately. After a successful initial sync is completed, the system
@@ -1355,16 +1568,23 @@ class SSM {
   /// A name for the configuration.
   ///
   /// Parameter [s3Destination] :
-  /// Amazon S3 configuration details for the sync.
+  /// Amazon S3 configuration details for the sync. This parameter is required
+  /// if the <code>SyncType</code> value is SyncToDestination.
   ///
   /// Parameter [syncSource] :
-  /// Specify information about the data sources to synchronize.
+  /// Specify information about the data sources to synchronize. This parameter
+  /// is required if the <code>SyncType</code> value is SyncFromSource.
   ///
   /// Parameter [syncType] :
   /// Specify <code>SyncToDestination</code> to create a resource data sync that
-  /// synchronizes data from multiple AWS Regions to an Amazon S3 bucket.
-  /// Specify <code>SyncFromSource</code> to synchronize data from multiple AWS
-  /// accounts and Regions, as listed in AWS Organizations.
+  /// synchronizes data to an S3 bucket for Inventory. If you specify
+  /// <code>SyncToDestination</code>, you must provide a value for
+  /// <code>S3Destination</code>. Specify <code>SyncFromSource</code> to
+  /// synchronize data from a single account and multiple Regions, or multiple
+  /// AWS accounts and Regions, as listed in AWS Organizations for Explorer. If
+  /// you specify <code>SyncFromSource</code>, you must provide a value for
+  /// <code>SyncSource</code>. The default value is
+  /// <code>SyncToDestination</code>.
   Future<void> createResourceDataSync({
     @_s.required String syncName,
     ResourceDataSyncS3Destination s3Destination,
@@ -1582,7 +1802,7 @@ class SSM {
     return DeleteDocumentResult.fromJson(jsonResponse.body);
   }
 
-  /// Delete a custom inventory type, or the data associated with a custom
+  /// Delete a custom inventory type or the data associated with a custom
   /// Inventory type. Deleting a custom inventory type is also referred to as
   /// deleting a custom inventory schema.
   ///
@@ -1594,7 +1814,7 @@ class SSM {
   ///
   /// Parameter [typeName] :
   /// The name of the custom inventory type for which you want to delete either
-  /// all previously collected data, or the inventory type itself.
+  /// all previously collected data or the inventory type itself.
   ///
   /// Parameter [clientToken] :
   /// User-provided idempotency token.
@@ -1639,11 +1859,10 @@ class SSM {
       r'''^(AWS|Custom):.*$''',
       isRequired: true,
     );
-    _s.validateStringLength(
+    _s.validateStringPattern(
       'clientToken',
       clientToken,
-      1,
-      64,
+      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1706,6 +1925,49 @@ class SSM {
     );
 
     return DeleteMaintenanceWindowResult.fromJson(jsonResponse.body);
+  }
+
+  /// Delete OpsMetadata related to an application.
+  ///
+  /// May throw [OpsMetadataNotFoundException].
+  /// May throw [OpsMetadataInvalidArgumentException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [opsMetadataArn] :
+  /// The Amazon Resource Name (ARN) of an OpsMetadata Object to delete.
+  Future<void> deleteOpsMetadata({
+    @_s.required String opsMetadataArn,
+  }) async {
+    ArgumentError.checkNotNull(opsMetadataArn, 'opsMetadataArn');
+    _s.validateStringLength(
+      'opsMetadataArn',
+      opsMetadataArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'opsMetadataArn',
+      opsMetadataArn,
+      r'''arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmetadata\/([a-zA-Z0-9-_\.\/]*)''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.DeleteOpsMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OpsMetadataArn': opsMetadataArn,
+      },
+    );
+
+    return DeleteOpsMetadataResult.fromJson(jsonResponse.body);
   }
 
   /// Delete a parameter from the system.
@@ -2822,17 +3084,18 @@ class SSM {
     return DescribeInstanceAssociationsStatusResult.fromJson(jsonResponse.body);
   }
 
-  /// Describes one or more of your instances. You can use this to get
-  /// information about instances like the operating system platform, the SSM
-  /// Agent version (Linux), status etc. If you specify one or more instance
-  /// IDs, it returns information for those instances. If you do not specify
-  /// instance IDs, it returns information for all your instances. If you
-  /// specify an instance ID that is not valid or an instance that you do not
-  /// own, you receive an error.
+  /// Describes one or more of your instances, including information about the
+  /// operating system platform, the version of SSM Agent installed on the
+  /// instance, instance status, and so on.
+  ///
+  /// If you specify one or more instance IDs, it returns information for those
+  /// instances. If you do not specify instance IDs, it returns information for
+  /// all your instances. If you specify an instance ID that is not valid or an
+  /// instance that you do not own, you receive an error.
   /// <note>
   /// The IamRole field for this API action is the Amazon Identity and Access
   /// Management (IAM) role assigned to on-premises instances. This call does
-  /// not return the IAM role for Amazon EC2 instances.
+  /// not return the IAM role for EC2 instances.
   /// </note>
   ///
   /// May throw [InternalServerError].
@@ -2843,19 +3106,19 @@ class SSM {
   ///
   /// Parameter [filters] :
   /// One or more filters. Use a filter to return a more specific list of
-  /// instances. You can filter on Amazon EC2 tag. Specify tags by using a
-  /// key-value mapping.
+  /// instances. You can filter based on tags applied to EC2 instances. Use this
+  /// <code>Filters</code> data type instead of
+  /// <code>InstanceInformationFilterList</code>, which is deprecated.
   ///
   /// Parameter [instanceInformationFilterList] :
   /// This is a legacy method. We recommend that you don't use this method.
-  /// Instead, use the <a>InstanceInformationFilter</a> action. The
-  /// <code>InstanceInformationFilter</code> action enables you to return
-  /// instance information by using tags that are specified as a key-value
-  /// mapping.
-  ///
-  /// If you do use this method, then you can't use the
-  /// <code>InstanceInformationFilter</code> action. Using this method and the
-  /// <code>InstanceInformationFilter</code> action causes an exception error.
+  /// Instead, use the <code>Filters</code> data type. <code>Filters</code>
+  /// enables you to return instance information by filtering based on tags
+  /// applied to managed instances.
+  /// <note>
+  /// Attempting to use <code>InstanceInformationFilterList</code> and
+  /// <code>Filters</code> leads to an exception error.
+  /// </note>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to return for this call. The call also returns
@@ -3105,6 +3368,11 @@ class SSM {
     int maxResults,
     String nextToken,
   }) async {
+    _s.validateStringPattern(
+      'deletionId',
+      deletionId,
+      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
+    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3517,6 +3785,13 @@ class SSM {
   }
 
   /// Lists the tasks in a maintenance window.
+  /// <note>
+  /// For maintenance window tasks without a specified target, you cannot supply
+  /// values for <code>--max-errors</code> and <code>--max-concurrency</code>.
+  /// Instead, the system inserts a placeholder value of <code>1</code>, which
+  /// may be reported in the response to this command. These values do not
+  /// affect the running of your task and can be ignored.
+  /// </note>
   ///
   /// May throw [DoesNotExistException].
   /// May throw [InternalServerError].
@@ -3690,13 +3965,13 @@ class SSM {
   /// Query a set of OpsItems. You must have permission in AWS Identity and
   /// Access Management (IAM) to query a list of OpsItems. For more information,
   /// see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
-  /// Started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
+  /// started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Operations engineers and IT professionals use OpsCenter to view,
   /// investigate, and remediate operational issues impacting the performance
   /// and health of their AWS resources. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
   /// Systems Manager OpsCenter</a> in the <i>AWS Systems Manager User
   /// Guide</i>.
   ///
@@ -3711,7 +3986,7 @@ class SSM {
   /// A token to start the list. Use this token to get the next set of results.
   ///
   /// Parameter [opsItemFilters] :
-  /// One or more filters to limit the reponse.
+  /// One or more filters to limit the response.
   ///
   /// <ul>
   /// <li>
@@ -3977,6 +4252,32 @@ class SSM {
   /// One or more filters. Use a filter to return a more specific list of
   /// results.
   ///
+  /// For <code>DescribePatchGroups</code>,valid filter keys include the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NAME_PREFIX</code>: The name of the patch group. Wildcards (*) are
+  /// accepted.
+  /// </li>
+  /// <li>
+  /// <code>OPERATING_SYSTEM</code>: The supported operating system type to
+  /// return results for. For valid operating system values, see
+  /// <a>GetDefaultPatchBaselineRequest$OperatingSystem</a> in
+  /// <a>CreatePatchBaseline</a>.
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>--filters Key=NAME_PREFIX,Values=MyPatchGroup*</code>
+  /// </li>
+  /// <li>
+  /// <code>--filters Key=OPERATING_SYSTEM,Values=AMAZON_LINUX_2</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of patch groups to return (per page).
   ///
@@ -4023,20 +4324,26 @@ class SSM {
   ///
   /// The following section lists the properties that can be used in filters for
   /// each major operating system type:
-  /// <dl> <dt>WINDOWS</dt> <dd>
-  /// Valid properties: PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, MSRC_SEVERITY
-  /// </dd> <dt>AMAZON_LINUX</dt> <dd>
+  /// <dl> <dt>AMAZON_LINUX</dt> <dd>
   /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
   /// </dd> <dt>AMAZON_LINUX_2</dt> <dd>
   /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
-  /// </dd> <dt>UBUNTU </dt> <dd>
+  /// </dd> <dt>CENTOS</dt> <dd>
+  /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
+  /// </dd> <dt>DEBIAN</dt> <dd>
   /// Valid properties: PRODUCT, PRIORITY
+  /// </dd> <dt>MACOS</dt> <dd>
+  /// Valid properties: PRODUCT, CLASSIFICATION
+  /// </dd> <dt>ORACLE_LINUX</dt> <dd>
+  /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
   /// </dd> <dt>REDHAT_ENTERPRISE_LINUX</dt> <dd>
   /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
   /// </dd> <dt>SUSE</dt> <dd>
   /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
-  /// </dd> <dt>CENTOS</dt> <dd>
-  /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
+  /// </dd> <dt>UBUNTU</dt> <dd>
+  /// Valid properties: PRODUCT, PRIORITY
+  /// </dd> <dt>WINDOWS</dt> <dd>
+  /// Valid properties: PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, MSRC_SEVERITY
   /// </dd> </dl>
   ///
   /// May throw [InternalServerError].
@@ -4058,7 +4365,8 @@ class SSM {
   ///
   /// Parameter [patchSet] :
   /// Indicates whether to list patches for the Windows operating system or for
-  /// Microsoft applications. Not applicable for Linux operating systems.
+  /// Microsoft applications. Not applicable for the Linux or macOS operating
+  /// systems.
   Future<DescribePatchPropertiesResult> describePatchProperties({
     @_s.required OperatingSystem operatingSystem,
     @_s.required PatchProperty property,
@@ -4196,8 +4504,14 @@ class SSM {
   /// time that the Change Calendar state will transition. If you do not specify
   /// a time, <code>GetCalendarState</code> assumes the current time. Change
   /// Calendar entries have two possible states: <code>OPEN</code> or
-  /// <code>CLOSED</code>. For more information about Systems Manager Change
-  /// Calendar, see <a
+  /// <code>CLOSED</code>.
+  ///
+  /// If you specify more than one calendar in a request, the command returns
+  /// the status of <code>OPEN</code> only if all calendars in the request are
+  /// open. If one or more calendars in the request are closed, the status
+  /// returned is <code>CLOSED</code>.
+  ///
+  /// For more information about Systems Manager Change Calendar, see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar.html">AWS
   /// Systems Manager Change Calendar</a> in the <i>AWS Systems Manager User
   /// Guide</i>.
@@ -4254,13 +4568,16 @@ class SSM {
   ///
   /// Parameter [instanceId] :
   /// (Required) The ID of the managed instance targeted by the command. A
-  /// managed instance can be an Amazon EC2 instance or an instance in your
-  /// hybrid environment that is configured for Systems Manager.
+  /// managed instance can be an EC2 instance or an instance in your hybrid
+  /// environment that is configured for Systems Manager.
   ///
   /// Parameter [pluginName] :
   /// (Optional) The name of the plugin for which you want detailed results. If
   /// the document contains only one plugin, the name can be omitted and the
   /// details will be returned.
+  ///
+  /// Plugin names are also referred to as step names in Systems Manager
+  /// documents.
   Future<GetCommandInvocationResult> getCommandInvocation({
     @_s.required String commandId,
     @_s.required String instanceId,
@@ -4308,7 +4625,7 @@ class SSM {
   }
 
   /// Retrieves the Session Manager connection status for an instance to
-  /// determine whether it is connected and ready to receive Session Manager
+  /// determine whether it is running and ready to receive Session Manager
   /// connections.
   ///
   /// May throw [InternalServerError].
@@ -4456,7 +4773,7 @@ class SSM {
   /// Parameter [versionName] :
   /// An optional field specifying the version of the artifact associated with
   /// the document. For example, "Release 12, Update 6". This value is unique
-  /// across all versions of a document, and cannot be changed.
+  /// across all versions of a document and can't be changed.
   Future<GetDocumentResult> getDocument({
     @_s.required String name,
     DocumentFormat documentFormat,
@@ -4869,6 +5186,13 @@ class SSM {
   }
 
   /// Lists the tasks in a maintenance window.
+  /// <note>
+  /// For maintenance window tasks without a specified target, you cannot supply
+  /// values for <code>--max-errors</code> and <code>--max-concurrency</code>.
+  /// Instead, the system inserts a placeholder value of <code>1</code>, which
+  /// may be reported in the response to this command. These values do not
+  /// affect the running of your task and can be ignored.
+  /// </note>
   ///
   /// May throw [DoesNotExistException].
   /// May throw [InternalServerError].
@@ -4932,13 +5256,13 @@ class SSM {
   /// Get information about an OpsItem by using the ID. You must have permission
   /// in AWS Identity and Access Management (IAM) to view information about an
   /// OpsItem. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
-  /// Started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
+  /// started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Operations engineers and IT professionals use OpsCenter to view,
   /// investigate, and remediate operational issues impacting the performance
   /// and health of their AWS resources. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
   /// Systems Manager OpsCenter</a> in the <i>AWS Systems Manager User
   /// Guide</i>.
   ///
@@ -4973,6 +5297,68 @@ class SSM {
     );
 
     return GetOpsItemResponse.fromJson(jsonResponse.body);
+  }
+
+  /// View operational metadata related to an application in Application
+  /// Manager.
+  ///
+  /// May throw [OpsMetadataNotFoundException].
+  /// May throw [OpsMetadataInvalidArgumentException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [opsMetadataArn] :
+  /// The Amazon Resource Name (ARN) of an OpsMetadata Object to view.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call. The call also returns
+  /// a token that you can specify in a subsequent call to get the next set of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to start the list. Use this token to get the next set of results.
+  Future<GetOpsMetadataResult> getOpsMetadata({
+    @_s.required String opsMetadataArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(opsMetadataArn, 'opsMetadataArn');
+    _s.validateStringLength(
+      'opsMetadataArn',
+      opsMetadataArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'opsMetadataArn',
+      opsMetadataArn,
+      r'''arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmetadata\/([a-zA-Z0-9-_\.\/]*)''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.GetOpsMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OpsMetadataArn': opsMetadataArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return GetOpsMetadataResult.fromJson(jsonResponse.body);
   }
 
   /// View a summary of OpsItems based on specified filters and aggregators.
@@ -5092,7 +5478,7 @@ class SSM {
     return GetParameterResult.fromJson(jsonResponse.body);
   }
 
-  /// Query a list of all parameters used by the AWS account.
+  /// Retrieves the history of all changes to a parameter.
   ///
   /// May throw [InternalServerError].
   /// May throw [ParameterNotFound].
@@ -5100,7 +5486,7 @@ class SSM {
   /// May throw [InvalidKeyId].
   ///
   /// Parameter [name] :
-  /// The name of a parameter you want to query.
+  /// The name of the parameter for which you want to review history.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to return for this call. The call also returns
@@ -5227,6 +5613,15 @@ class SSM {
   ///
   /// Parameter [parameterFilters] :
   /// Filters to limit the request results.
+  /// <note>
+  /// For <code>GetParametersByPath</code>, the following filter
+  /// <code>Key</code> names are supported: <code>Type</code>,
+  /// <code>KeyId</code>, <code>Label</code>, and <code>DataType</code>.
+  ///
+  /// The following <code>Key</code> values are not supported for
+  /// <code>GetParametersByPath</code>: <code>tag</code>, <code>Name</code>,
+  /// <code>Path</code>, and <code>Tier</code>.
+  /// </note>
   ///
   /// Parameter [recursive] :
   /// Retrieve all parameters within a hierarchy.
@@ -5401,7 +5796,10 @@ class SSM {
   /// May throw [ServiceSettingNotFound].
   ///
   /// Parameter [settingId] :
-  /// The ID of the service setting to get.
+  /// The ID of the service setting to get. The setting ID can be
+  /// <code>/ssm/parameter-store/default-parameter-tier</code>,
+  /// <code>/ssm/parameter-store/high-throughput-enabled</code>, or
+  /// <code>/ssm/managed-instance/activation-tier</code>.
   Future<GetServiceSettingResult> getServiceSetting({
     @_s.required String settingId,
   }) async {
@@ -5588,6 +5986,13 @@ class SSM {
   /// Parameter [associationFilterList] :
   /// One or more filters. Use a filter to return a more specific list of
   /// results.
+  /// <note>
+  /// Filtering associations using the <code>InstanceID</code> attribute only
+  /// returns legacy associations created using the <code>InstanceID</code>
+  /// attribute. Associations targeting the instance that are part of the Target
+  /// Attributes <code>ResourceGroup</code> or <code>Tags</code> are not
+  /// returned.
+  /// </note>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to return for this call. The call also returns
@@ -5650,8 +6055,7 @@ class SSM {
   ///
   /// Parameter [filters] :
   /// (Optional) One or more filters. Use a filter to return a more specific
-  /// list of results. Note that the <code>DocumentName</code> filter is not
-  /// supported for ListCommandInvocations.
+  /// list of results.
   ///
   /// Parameter [instanceId] :
   /// (Optional) The command execution details for a specific instance ID.
@@ -5729,6 +6133,11 @@ class SSM {
   ///
   /// Parameter [instanceId] :
   /// (Optional) Lists commands issued against this instance ID.
+  /// <note>
+  /// You can't specify an instance ID in the same command that you specify
+  /// <code>Status</code> = <code>Pending</code>. This is because the command
+  /// has not reached the instance yet.
+  /// </note>
   ///
   /// Parameter [maxResults] :
   /// (Optional) The maximum number of items to return for this call. The call
@@ -5900,6 +6309,79 @@ class SSM {
     return ListComplianceSummariesResult.fromJson(jsonResponse.body);
   }
 
+  /// Information about approval reviews for a version of an SSM document.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidDocument].
+  /// May throw [InvalidDocumentVersion].
+  /// May throw [InvalidNextToken].
+  ///
+  /// Parameter [metadata] :
+  /// The type of data for which details are being requested. Currently, the
+  /// only supported value is <code>DocumentReviews</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the document.
+  ///
+  /// Parameter [documentVersion] :
+  /// The version of the document.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call. The call also returns
+  /// a token that you can specify in a subsequent call to get the next set of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of items to return. (You received this token
+  /// from a previous call.)
+  Future<ListDocumentMetadataHistoryResponse> listDocumentMetadataHistory({
+    @_s.required DocumentMetadataEnum metadata,
+    @_s.required String name,
+    String documentVersion,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(metadata, 'metadata');
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'documentVersion',
+      documentVersion,
+      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.ListDocumentMetadataHistory'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Metadata': metadata?.toValue() ?? '',
+        'Name': name,
+        if (documentVersion != null) 'DocumentVersion': documentVersion,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListDocumentMetadataHistoryResponse.fromJson(jsonResponse.body);
+  }
+
   /// List all versions for a document.
   ///
   /// May throw [InternalServerError].
@@ -5963,12 +6445,17 @@ class SSM {
   /// May throw [InvalidFilterKey].
   ///
   /// Parameter [documentFilterList] :
-  /// One or more filters. Use a filter to return a more specific list of
-  /// results.
+  /// This data type is deprecated. Instead, use <code>Filters</code>.
   ///
   /// Parameter [filters] :
-  /// One or more filters. Use a filter to return a more specific list of
-  /// results.
+  /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more
+  /// specific list of results. For keys, you can specify one or more key-value
+  /// pair tags that have been applied to a document. Other valid keys include
+  /// <code>Owner</code>, <code>Name</code>, <code>PlatformTypes</code>,
+  /// <code>DocumentType</code>, and <code>TargetType</code>. For example, to
+  /// return documents you own use <code>Key=Owner,Values=Self</code>. To
+  /// specify a custom key-value pair, use the format
+  /// <code>Key=tag:tagName,Values=valueName</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to return for this call. The call also returns
@@ -6094,6 +6581,105 @@ class SSM {
     return ListInventoryEntriesResult.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of all OpsItem events in the current AWS account and
+  /// Region. You can limit the results to events associated with specific
+  /// OpsItems by specifying a filter.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [OpsItemNotFoundException].
+  /// May throw [OpsItemLimitExceededException].
+  /// May throw [OpsItemInvalidParameterException].
+  ///
+  /// Parameter [filters] :
+  /// One or more OpsItem filters. Use a filter to return a more specific list
+  /// of results.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call. The call also returns
+  /// a token that you can specify in a subsequent call to get the next set of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to start the list. Use this token to get the next set of results.
+  Future<ListOpsItemEventsResponse> listOpsItemEvents({
+    List<OpsItemEventFilter> filters,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.ListOpsItemEvents'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListOpsItemEventsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Systems Manager calls this API action when displaying all Application
+  /// Manager OpsMetadata objects or blobs.
+  ///
+  /// May throw [OpsMetadataInvalidArgumentException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [filters] :
+  /// One or more filters to limit the number of OpsMetadata objects returned by
+  /// the call.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call. The call also returns
+  /// a token that you can specify in a subsequent call to get the next set of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to start the list. Use this token to get the next set of results.
+  Future<ListOpsMetadataResult> listOpsMetadata({
+    List<OpsMetadataFilter> filters,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.ListOpsMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListOpsMetadataResult.fromJson(jsonResponse.body);
+  }
+
   /// Returns a resource-level summary count. The summary includes information
   /// about compliant and non-compliant statuses and detailed compliance-item
   /// severity counts, according to the filter criteria you specify.
@@ -6173,7 +6759,7 @@ class SSM {
   /// Parameter [syncType] :
   /// View a list of resource data syncs according to the sync type. Specify
   /// <code>SyncToDestination</code> to view resource data syncs that
-  /// synchronize data to an Amazon S3 buckets. Specify
+  /// synchronize data to an Amazon S3 bucket. Specify
   /// <code>SyncFromSource</code> to view resource data syncs from AWS
   /// Organizations or from multiple AWS Regions.
   Future<ListResourceDataSyncResult> listResourceDataSync({
@@ -6416,7 +7002,7 @@ class SSM {
   /// Parameter [items] :
   /// Information about the compliance as defined by the resource type. For
   /// example, for a patch compliance type, <code>Items</code> includes
-  /// information about the PatchSeverity, Classification, etc.
+  /// information about the PatchSeverity, Classification, and so on.
   ///
   /// Parameter [resourceId] :
   /// Specify an ID for this resource. For a managed instance, this is the
@@ -6430,6 +7016,21 @@ class SSM {
   /// MD5 or SHA-256 content hash. The content hash is used to determine if
   /// existing information should be overwritten or ignored. If the content
   /// hashes match, the request to put compliance information is ignored.
+  ///
+  /// Parameter [uploadType] :
+  /// The mode for uploading compliance items. You can specify
+  /// <code>COMPLETE</code> or <code>PARTIAL</code>. In <code>COMPLETE</code>
+  /// mode, the system overwrites all existing compliance information for the
+  /// resource. You must provide a full list of compliance items each time you
+  /// send the request.
+  ///
+  /// In <code>PARTIAL</code> mode, the system overwrites compliance information
+  /// for a specific association. The association must be configured with
+  /// <code>SyncCompliance</code> set to <code>MANUAL</code>. By default, all
+  /// requests use <code>COMPLETE</code> mode.
+  /// <note>
+  /// This attribute is only valid for association compliance.
+  /// </note>
   Future<void> putComplianceItems({
     @_s.required String complianceType,
     @_s.required ComplianceExecutionSummary executionSummary,
@@ -6437,6 +7038,7 @@ class SSM {
     @_s.required String resourceId,
     @_s.required String resourceType,
     String itemContentHash,
+    ComplianceUploadType uploadType,
   }) async {
     ArgumentError.checkNotNull(complianceType, 'complianceType');
     _s.validateStringLength(
@@ -6493,6 +7095,7 @@ class SSM {
         'ResourceId': resourceId,
         'ResourceType': resourceType,
         if (itemContentHash != null) 'ItemContentHash': itemContentHash,
+        if (uploadType != null) 'UploadType': uploadType.toValue(),
       },
     );
 
@@ -6601,9 +7204,9 @@ class SSM {
   /// </li>
   /// </ul>
   /// For additional information about valid values for parameter names, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-parameter-name-constraints.html">Requirements
-  /// and Constraints for Parameter Names</a> in the <i>AWS Systems Manager User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-parameter-name-constraints.html">About
+  /// requirements and constraints for parameter names</a> in the <i>AWS Systems
+  /// Manager User Guide</i>.
   /// <note>
   /// The maximum length constraint listed below includes capacity for
   /// additional system attributes that are not part of the name. The maximum
@@ -6614,27 +7217,43 @@ class SSM {
   /// <code>arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName</code>
   /// </note>
   ///
-  /// Parameter [type] :
-  /// The type of parameter that you want to add to the system.
-  ///
-  /// Items in a <code>StringList</code> must be separated by a comma (,). You
-  /// can't use other punctuation or special character to escape items in the
-  /// list. If you have a parameter value that requires a comma, then use the
-  /// <code>String</code> data type.
-  /// <note>
-  /// <code>SecureString</code> is not currently supported for AWS
-  /// CloudFormation templates or in the China Regions.
-  /// </note>
-  ///
   /// Parameter [value] :
   /// The parameter value that you want to add to the system. Standard
   /// parameters have a value limit of 4 KB. Advanced parameters have a value
   /// limit of 8 KB.
+  /// <note>
+  /// Parameters can't be referenced or nested in the values of other
+  /// parameters. You can't include <code>{{}}</code> or
+  /// <code>{{ssm:<i>parameter-name</i>}}</code> in a parameter value.
+  /// </note>
   ///
   /// Parameter [allowedPattern] :
   /// A regular expression used to validate the parameter value. For example,
   /// for String types with values restricted to numbers, you can specify the
   /// following: AllowedPattern=^\d+$
+  ///
+  /// Parameter [dataType] :
+  /// The data type for a <code>String</code> parameter. Supported data types
+  /// include plain text and Amazon Machine Image IDs.
+  ///
+  /// <b>The following data type values are supported.</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>text</code>
+  /// </li>
+  /// <li>
+  /// <code>aws:ec2:image</code>
+  /// </li>
+  /// </ul>
+  /// When you create a <code>String</code> parameter and specify
+  /// <code>aws:ec2:image</code>, Systems Manager validates the parameter value
+  /// is in the required format, such as <code>ami-12345abcdeEXAMPLE</code>, and
+  /// that the specified AMI is available in your AWS account. For more
+  /// information, see <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html">Native
+  /// parameter support for Amazon Machine Image IDs</a> in the <i>AWS Systems
+  /// Manager User Guide</i>.
   ///
   /// Parameter [description] :
   /// Information about the parameter that you want to add to the system.
@@ -6691,8 +7310,8 @@ class SSM {
   ///
   /// All existing policies are preserved until you send new policies or an
   /// empty policy. For more information about parameter policies, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-policies.html">Working
-  /// with Parameter Policies</a>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-policies.html">Assigning
+  /// parameter policies</a>.
   ///
   /// Parameter [tags] :
   /// Optional metadata that you assign to a resource. Tags enable you to
@@ -6731,8 +7350,9 @@ class SSM {
   /// configured to use parameter policies. You can create a maximum of 100,000
   /// advanced parameters for each Region in an AWS account. Advanced parameters
   /// incur a charge. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html">About
-  /// Advanced Parameters</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html">Standard
+  /// and advanced parameter tiers</a> in the <i>AWS Systems Manager User
+  /// Guide</i>.
   ///
   /// You can change a standard parameter to an advanced parameter any time. But
   /// you can't revert an advanced parameter to a standard parameter. Reverting
@@ -6792,19 +7412,35 @@ class SSM {
   /// </li>
   /// </ul>
   /// For more information about configuring the default tier option, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/ps-default-tier.html">Specifying
-  /// a Default Parameter Tier</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-default-tier.html">Specifying
+  /// a default parameter tier</a> in the <i>AWS Systems Manager User Guide</i>.
+  ///
+  /// Parameter [type] :
+  /// The type of parameter that you want to add to the system.
+  /// <note>
+  /// <code>SecureString</code> is not currently supported for AWS
+  /// CloudFormation templates.
+  /// </note>
+  /// Items in a <code>StringList</code> must be separated by a comma (,). You
+  /// can't use other punctuation or special character to escape items in the
+  /// list. If you have a parameter value that requires a comma, then use the
+  /// <code>String</code> data type.
+  /// <important>
+  /// Specifying a parameter type is not required when updating a parameter. You
+  /// must specify a parameter type when creating a parameter.
+  /// </important>
   Future<PutParameterResult> putParameter({
     @_s.required String name,
-    @_s.required ParameterType type,
     @_s.required String value,
     String allowedPattern,
+    String dataType,
     String description,
     String keyId,
     bool overwrite,
     String policies,
     List<Tag> tags,
     ParameterTier tier,
+    ParameterType type,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -6814,13 +7450,18 @@ class SSM {
       2048,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(type, 'type');
     ArgumentError.checkNotNull(value, 'value');
     _s.validateStringLength(
       'allowedPattern',
       allowedPattern,
       0,
       1024,
+    );
+    _s.validateStringLength(
+      'dataType',
+      dataType,
+      0,
+      128,
     );
     _s.validateStringLength(
       'description',
@@ -6857,15 +7498,16 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'Type': type?.toValue() ?? '',
         'Value': value,
         if (allowedPattern != null) 'AllowedPattern': allowedPattern,
+        if (dataType != null) 'DataType': dataType,
         if (description != null) 'Description': description,
         if (keyId != null) 'KeyId': keyId,
         if (overwrite != null) 'Overwrite': overwrite,
         if (policies != null) 'Policies': policies,
         if (tags != null) 'Tags': tags,
         if (tier != null) 'Tier': tier.toValue(),
+        if (type != null) 'Type': type.toValue(),
       },
     );
 
@@ -7036,7 +7678,7 @@ class SSM {
   /// For more information about these examples formats, including the best use
   /// case for each one, see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/mw-cli-tutorial-targets-examples.html">Examples:
-  /// Register Targets with a Maintenance Window</a> in the <i>AWS Systems
+  /// Register targets with a maintenance window</a> in the <i>AWS Systems
   /// Manager User Guide</i>.
   ///
   /// Parameter [windowId] :
@@ -7142,24 +7784,6 @@ class SSM {
   /// May throw [FeatureNotAvailableException].
   /// May throw [InternalServerError].
   ///
-  /// Parameter [maxConcurrency] :
-  /// The maximum number of targets this task can be run for in parallel.
-  ///
-  /// Parameter [maxErrors] :
-  /// The maximum number of errors allowed before this task stops being
-  /// scheduled.
-  ///
-  /// Parameter [targets] :
-  /// The targets (either instances or maintenance window targets).
-  ///
-  /// Specify instances using the following format:
-  ///
-  /// <code>Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;</code>
-  ///
-  /// Specify maintenance window targets using the following format:
-  ///
-  /// <code>Key=WindowTargetIds;,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;</code>
-  ///
   /// Parameter [taskArn] :
   /// The ARN of the task to run.
   ///
@@ -7176,7 +7800,7 @@ class SSM {
   /// An optional description for the task.
   ///
   /// Parameter [loggingInfo] :
-  /// A structure containing information about an Amazon S3 bucket to write
+  /// A structure containing information about an S3 bucket to write
   /// instance-level logs to.
   /// <note>
   /// <code>LoggingInfo</code> has been deprecated. To specify an S3 bucket to
@@ -7185,6 +7809,23 @@ class SSM {
   /// <code>TaskInvocationParameters</code> structure. For information about how
   /// Systems Manager handles these options for the supported maintenance window
   /// task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
+  /// </note>
+  ///
+  /// Parameter [maxConcurrency] :
+  /// The maximum number of targets this task can be run for in parallel.
+  /// <note>
+  /// For maintenance window tasks without a target specified, you cannot supply
+  /// a value for this option. Instead, the system inserts a placeholder value
+  /// of <code>1</code>. This value does not affect the running of your task.
+  /// </note>
+  ///
+  /// Parameter [maxErrors] :
+  /// The maximum number of errors allowed before this task stops being
+  /// scheduled.
+  /// <note>
+  /// For maintenance window tasks without a target specified, you cannot supply
+  /// a value for this option. Instead, the system inserts a placeholder value
+  /// of <code>1</code>. This value does not affect the running of your task.
   /// </note>
   ///
   /// Parameter [name] :
@@ -7209,16 +7850,36 @@ class SSM {
   /// <ul>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions">Service-Linked
-  /// Role Permissions for Systems Manager</a>
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions">Using
+  /// service-linked roles for Systems Manager</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role">Should
-  /// I Use a Service-Linked Role or a Custom Service Role to Run Maintenance
-  /// Window Tasks? </a>
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role">Should
+  /// I use a service-linked role or a custom service role to run maintenance
+  /// window tasks? </a>
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [targets] :
+  /// The targets (either instances or maintenance window targets).
+  /// <note>
+  /// One or more targets must be specified for maintenance window Run
+  /// Command-type tasks. Depending on the task, targets are optional for other
+  /// maintenance window task types (Automation, AWS Lambda, and AWS Step
+  /// Functions). For more information about running tasks that do not specify
+  /// targets, see see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">Registering
+  /// maintenance window tasks without targets</a> in the <i>AWS Systems Manager
+  /// User Guide</i>.
+  /// </note>
+  /// Specify instances using the following format:
+  ///
+  /// <code>Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;</code>
+  ///
+  /// Specify maintenance window targets using the following format:
+  ///
+  /// <code>Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;</code>
   ///
   /// Parameter [taskInvocationParameters] :
   /// The parameters that the task should use during execution. Populate only
@@ -7236,50 +7897,21 @@ class SSM {
   /// </note>
   Future<RegisterTaskWithMaintenanceWindowResult>
       registerTaskWithMaintenanceWindow({
-    @_s.required String maxConcurrency,
-    @_s.required String maxErrors,
-    @_s.required List<Target> targets,
     @_s.required String taskArn,
     @_s.required MaintenanceWindowTaskType taskType,
     @_s.required String windowId,
     String clientToken,
     String description,
     LoggingInfo loggingInfo,
+    String maxConcurrency,
+    String maxErrors,
     String name,
     int priority,
     String serviceRoleArn,
+    List<Target> targets,
     MaintenanceWindowTaskInvocationParameters taskInvocationParameters,
     Map<String, MaintenanceWindowTaskParameterValueExpression> taskParameters,
   }) async {
-    ArgumentError.checkNotNull(maxConcurrency, 'maxConcurrency');
-    _s.validateStringLength(
-      'maxConcurrency',
-      maxConcurrency,
-      1,
-      7,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(maxErrors, 'maxErrors');
-    _s.validateStringLength(
-      'maxErrors',
-      maxErrors,
-      1,
-      7,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targets, 'targets');
     ArgumentError.checkNotNull(taskArn, 'taskArn');
     _s.validateStringLength(
       'taskArn',
@@ -7316,6 +7948,28 @@ class SSM {
       128,
     );
     _s.validateStringLength(
+      'maxConcurrency',
+      maxConcurrency,
+      1,
+      7,
+    );
+    _s.validateStringPattern(
+      'maxConcurrency',
+      maxConcurrency,
+      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
+    );
+    _s.validateStringLength(
+      'maxErrors',
+      maxErrors,
+      1,
+      7,
+    );
+    _s.validateStringPattern(
+      'maxErrors',
+      maxErrors,
+      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
+    );
+    _s.validateStringLength(
       'name',
       name,
       3,
@@ -7343,18 +7997,18 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MaxConcurrency': maxConcurrency,
-        'MaxErrors': maxErrors,
-        'Targets': targets,
         'TaskArn': taskArn,
         'TaskType': taskType?.toValue() ?? '',
         'WindowId': windowId,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (loggingInfo != null) 'LoggingInfo': loggingInfo,
+        if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+        if (maxErrors != null) 'MaxErrors': maxErrors,
         if (name != null) 'Name': name,
         if (priority != null) 'Priority': priority,
         if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
+        if (targets != null) 'Targets': targets,
         if (taskInvocationParameters != null)
           'TaskInvocationParameters': taskInvocationParameters,
         if (taskParameters != null) 'TaskParameters': taskParameters,
@@ -7449,7 +8103,12 @@ class SSM {
   /// May throw [TooManyUpdates].
   ///
   /// Parameter [settingId] :
-  /// The ID of the service setting to reset.
+  /// The Amazon Resource Name (ARN) of the service setting to reset. The
+  /// setting ID can be
+  /// <code>/ssm/parameter-store/default-parameter-tier</code>,
+  /// <code>/ssm/parameter-store/high-throughput-enabled</code>, or
+  /// <code>/ssm/managed-instance/activation-tier</code>. For example,
+  /// <code>arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled</code>.
   Future<ResetServiceSettingResult> resetServiceSetting({
     @_s.required String settingId,
   }) async {
@@ -7644,21 +8303,28 @@ class SSM {
   /// --document-version "3"
   ///
   /// Parameter [instanceIds] :
-  /// The instance IDs where the command should run. You can specify a maximum
-  /// of 50 IDs. If you prefer not to list individual instance IDs, you can
-  /// instead send commands to a fleet of instances using the Targets parameter,
-  /// which accepts EC2 tags. For more information about how to use targets, see
-  /// <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html">Sending
-  /// Commands to a Fleet</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// The IDs of the instances where the command should run. Specifying instance
+  /// IDs is most useful when you are targeting a limited number of instances,
+  /// though you can specify up to 50 IDs.
+  ///
+  /// To target a larger number of instances, or if you prefer not to list
+  /// individual instance IDs, we recommend using the <code>Targets</code>
+  /// option instead. Using <code>Targets</code>, which accepts tag key-value
+  /// pairs to identify the instances to send commands to, you can a send
+  /// command to tens, hundreds, or thousands of instances at once.
+  ///
+  /// For more information about how to use targets, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html">Using
+  /// targets and rate controls to send commands to a fleet</a> in the <i>AWS
+  /// Systems Manager User Guide</i>.
   ///
   /// Parameter [maxConcurrency] :
   /// (Optional) The maximum number of instances that are allowed to run the
   /// command at the same time. You can specify a number such as 10 or a
   /// percentage such as 10%. The default value is 50. For more information
   /// about how to use MaxConcurrency, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-velocity">Using
-  /// Concurrency Controls</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-velocity">Using
+  /// concurrency controls</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [maxErrors] :
   /// The maximum number of errors allowed without the command failing. When the
@@ -7666,8 +8332,8 @@ class SSM {
   /// stops sending the command to additional targets. You can specify a number
   /// like 10 or a percentage like 10%. The default value is 0. For more
   /// information about how to use MaxErrors, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-maxerrors">Using
-  /// Error Controls</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-maxerrors">Using
+  /// error controls</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [notificationConfig] :
   /// Configurations for sending notifications.
@@ -7682,8 +8348,8 @@ class SSM {
   ///
   /// Parameter [outputS3Region] :
   /// (Deprecated) You can no longer specify this parameter. The system ignores
-  /// it. Instead, Systems Manager automatically determines the Amazon S3 bucket
-  /// region.
+  /// it. Instead, Systems Manager automatically determines the Region of the S3
+  /// bucket.
   ///
   /// Parameter [parameters] :
   /// The required and optional parameters specified in the document being run.
@@ -7693,12 +8359,19 @@ class SSM {
   /// Notification Service (Amazon SNS) notifications for Run Command commands.
   ///
   /// Parameter [targets] :
-  /// (Optional) An array of search criteria that targets instances using a
-  /// Key,Value combination that you specify. Targets is required if you don't
-  /// provide one or more instance IDs in the call. For more information about
-  /// how to use targets, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html">Sending
-  /// Commands to a Fleet</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// An array of search criteria that targets instances using a
+  /// <code>Key,Value</code> combination that you specify. Specifying targets is
+  /// most useful when you want to send a command to a large number of instances
+  /// at once. Using <code>Targets</code>, which accepts tag key-value pairs to
+  /// identify instances, you can send a command to tens, hundreds, or thousands
+  /// of instances at once.
+  ///
+  /// To send a command to a smaller number of instances, you can use the
+  /// <code>InstanceIds</code> option instead.
+  ///
+  /// For more information about how to use targets, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html">Sending
+  /// commands to a fleet</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [timeoutSeconds] :
   /// If this time is reached and the command has not already started running,
@@ -7934,9 +8607,9 @@ class SSM {
   /// A location is a combination of AWS Regions and/or AWS accounts where you
   /// want to run the Automation. Use this action to start an Automation in
   /// multiple Regions and multiple accounts. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html">Executing
-  /// Automations in Multiple AWS Regions and Accounts</a> in the <i>AWS Systems
-  /// Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html">Running
+  /// Automation workflows in multiple AWS Regions and accounts</a> in the
+  /// <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [targetMaps] :
   /// A key-value mapping of document parameters to target resources. Both
@@ -8044,6 +8717,136 @@ class SSM {
     return StartAutomationExecutionResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates a change request for Change Manager. The runbooks (Automation
+  /// documents) specified in the change request run only after all required
+  /// approvals for the change request have been received.
+  ///
+  /// May throw [AutomationDefinitionNotFoundException].
+  /// May throw [InvalidAutomationExecutionParametersException].
+  /// May throw [AutomationExecutionLimitExceededException].
+  /// May throw [AutomationDefinitionVersionNotFoundException].
+  /// May throw [IdempotentParameterMismatch].
+  /// May throw [InternalServerError].
+  /// May throw [AutomationDefinitionNotApprovedException].
+  ///
+  /// Parameter [documentName] :
+  /// The name of the change template document to run during the runbook
+  /// workflow.
+  ///
+  /// Parameter [runbooks] :
+  /// Information about the Automation runbooks (Automation documents) that are
+  /// run during the runbook workflow.
+  /// <note>
+  /// The Automation runbooks specified for the runbook workflow can't run until
+  /// all required approvals for the change request have been received.
+  /// </note>
+  ///
+  /// Parameter [changeRequestName] :
+  /// The name of the change request associated with the runbook workflow to be
+  /// run.
+  ///
+  /// Parameter [clientToken] :
+  /// The user-provided idempotency token. The token must be unique, is case
+  /// insensitive, enforces the UUID format, and can't be reused.
+  ///
+  /// Parameter [documentVersion] :
+  /// The version of the change template document to run during the runbook
+  /// workflow.
+  ///
+  /// Parameter [parameters] :
+  /// A key-value map of parameters that match the declared parameters in the
+  /// change template document.
+  ///
+  /// Parameter [scheduledTime] :
+  /// The date and time specified in the change request to run the Automation
+  /// runbooks.
+  /// <note>
+  /// The Automation runbooks specified for the runbook workflow can't run until
+  /// all required approvals for the change request have been received.
+  /// </note>
+  ///
+  /// Parameter [tags] :
+  /// Optional metadata that you assign to a resource. You can specify a maximum
+  /// of five tags for a change request. Tags enable you to categorize a
+  /// resource in different ways, such as by purpose, owner, or environment. For
+  /// example, you might want to tag a change request to identify an environment
+  /// or target AWS Region. In this case, you could specify the following
+  /// key-value pairs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Key=Environment,Value=Production</code>
+  /// </li>
+  /// <li>
+  /// <code>Key=Region,Value=us-east-2</code>
+  /// </li>
+  /// </ul>
+  Future<StartChangeRequestExecutionResult> startChangeRequestExecution({
+    @_s.required String documentName,
+    @_s.required List<Runbook> runbooks,
+    String changeRequestName,
+    String clientToken,
+    String documentVersion,
+    Map<String, List<String>> parameters,
+    DateTime scheduledTime,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(documentName, 'documentName');
+    _s.validateStringPattern(
+      'documentName',
+      documentName,
+      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(runbooks, 'runbooks');
+    _s.validateStringLength(
+      'changeRequestName',
+      changeRequestName,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      36,
+      36,
+    );
+    _s.validateStringPattern(
+      'clientToken',
+      clientToken,
+      r'''[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}''',
+    );
+    _s.validateStringPattern(
+      'documentVersion',
+      documentVersion,
+      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.StartChangeRequestExecution'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DocumentName': documentName,
+        'Runbooks': runbooks,
+        if (changeRequestName != null) 'ChangeRequestName': changeRequestName,
+        if (clientToken != null) 'ClientToken': clientToken,
+        if (documentVersion != null) 'DocumentVersion': documentVersion,
+        if (parameters != null) 'Parameters': parameters,
+        if (scheduledTime != null)
+          'ScheduledTime': unixTimestampToJson(scheduledTime),
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return StartChangeRequestExecutionResult.fromJson(jsonResponse.body);
+  }
+
   /// Initiates a connection to a target (for example, an instance) for a
   /// Session Manager session. Returns a URL and token that can be used to open
   /// a WebSocket connection for sending input and receiving outputs.
@@ -8051,9 +8854,9 @@ class SSM {
   /// AWS CLI usage: <code>start-session</code> is an interactive command that
   /// requires the Session Manager plugin to be installed on the client machine
   /// making the call. For information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html">
-  /// Install the Session Manager Plugin for the AWS CLI</a> in the <i>AWS
-  /// Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html">Install
+  /// the Session Manager plugin for the AWS CLI</a> in the <i>AWS Systems
+  /// Manager User Guide</i>.
   ///
   /// AWS Tools for PowerShell usage: Start-SSMSession is not currently
   /// supported by AWS Tools for PowerShell on Windows local machines.
@@ -8068,9 +8871,10 @@ class SSM {
   ///
   /// Parameter [documentName] :
   /// The name of the SSM document to define the parameters and plugin settings
-  /// for the session. For example, <code>SSM-SessionManagerRunShell</code>. If
-  /// no document name is provided, a shell to the instance is launched by
-  /// default.
+  /// for the session. For example, <code>SSM-SessionManagerRunShell</code>. You
+  /// can call the <a>GetDocument</a> API to verify the document exists before
+  /// attempting to start a session. If no document name is provided, a shell to
+  /// the instance is launched by default.
   ///
   /// Parameter [parameters] :
   /// Reserved for future use.
@@ -8224,6 +9028,19 @@ class SSM {
   /// Parameter [associationId] :
   /// The ID of the association you want to update.
   ///
+  /// Parameter [applyOnlyAtCronInterval] :
+  /// By default, when you update an association, the system runs it immediately
+  /// after it is updated and then according to the schedule you specified.
+  /// Specify this option if you don't want an association to run immediately
+  /// after you update it. This parameter is not supported for rate expressions.
+  ///
+  /// Also, if you specified this option when you created the association, you
+  /// can reset it. To do so, specify the
+  /// <code>no-apply-only-at-cron-interval</code> parameter when you update the
+  /// association from the command line. This parameter forces the association
+  /// to run immediately after updating it and according to the interval
+  /// specified.
+  ///
   /// Parameter [associationName] :
   /// The name of the association that you want to update.
   ///
@@ -8294,7 +9111,7 @@ class SSM {
   /// <code>AWS-ApplyPatchBaseline</code> or <code>My-Document</code>.
   ///
   /// Parameter [outputLocation] :
-  /// An Amazon S3 bucket where you want to store the results of this request.
+  /// An S3 bucket where you want to store the results of this request.
   ///
   /// Parameter [parameters] :
   /// The parameters you want to update for the association. If you create a
@@ -8305,10 +9122,32 @@ class SSM {
   /// The cron expression used to schedule the association that you want to
   /// update.
   ///
+  /// Parameter [syncCompliance] :
+  /// The mode for generating association compliance. You can specify
+  /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
+  /// system uses the status of the association execution to determine the
+  /// compliance status. If the association execution runs successfully, then
+  /// the association is <code>COMPLIANT</code>. If the association execution
+  /// doesn't run successfully, the association is <code>NON-COMPLIANT</code>.
+  ///
+  /// In <code>MANUAL</code> mode, you must specify the
+  /// <code>AssociationId</code> as a parameter for the
+  /// <a>PutComplianceItems</a> API action. In this case, compliance data is not
+  /// managed by State Manager. It is managed by your direct call to the
+  /// <a>PutComplianceItems</a> API action.
+  ///
+  /// By default, all associations use <code>AUTO</code> mode.
+  ///
+  /// Parameter [targetLocations] :
+  /// A location is a combination of AWS Regions and AWS accounts where you want
+  /// to run the association. Use this action to update an association in
+  /// multiple Regions and multiple accounts.
+  ///
   /// Parameter [targets] :
   /// The targets of the association.
   Future<UpdateAssociationResult> updateAssociation({
     @_s.required String associationId,
+    bool applyOnlyAtCronInterval,
     String associationName,
     String associationVersion,
     String automationTargetParameterName,
@@ -8320,6 +9159,8 @@ class SSM {
     InstanceAssociationOutputLocation outputLocation,
     Map<String, List<String>> parameters,
     String scheduleExpression,
+    AssociationSyncCompliance syncCompliance,
+    List<TargetLocation> targetLocations,
     List<Target> targets,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
@@ -8395,6 +9236,8 @@ class SSM {
       headers: headers,
       payload: {
         'AssociationId': associationId,
+        if (applyOnlyAtCronInterval != null)
+          'ApplyOnlyAtCronInterval': applyOnlyAtCronInterval,
         if (associationName != null) 'AssociationName': associationName,
         if (associationVersion != null)
           'AssociationVersion': associationVersion,
@@ -8410,6 +9253,8 @@ class SSM {
         if (parameters != null) 'Parameters': parameters,
         if (scheduleExpression != null)
           'ScheduleExpression': scheduleExpression,
+        if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
+        if (targetLocations != null) 'TargetLocations': targetLocations,
         if (targets != null) 'Targets': targets,
       },
     );
@@ -8503,7 +9348,10 @@ class SSM {
   /// supports JSON and YAML documents. JSON is the default format.
   ///
   /// Parameter [documentVersion] :
-  /// (Required) The version of the document that you want to update.
+  /// (Required) The latest version of the document that you want to update. The
+  /// latest document version can be specified using the $LATEST variable or by
+  /// the version number. Updating a previous version of a document is not
+  /// supported.
   ///
   /// Parameter [targetType] :
   /// Specify a new target type for the document.
@@ -8631,6 +9479,60 @@ class SSM {
     return UpdateDocumentDefaultVersionResult.fromJson(jsonResponse.body);
   }
 
+  /// Updates information related to approval reviews for a specific version of
+  /// a document.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidDocument].
+  /// May throw [InvalidDocumentOperation].
+  /// May throw [InvalidDocumentVersion].
+  ///
+  /// Parameter [documentReviews] :
+  /// The document review details to update.
+  ///
+  /// Parameter [name] :
+  /// The name of the document for which a version is to be updated.
+  ///
+  /// Parameter [documentVersion] :
+  /// The version of a document to update.
+  Future<void> updateDocumentMetadata({
+    @_s.required DocumentReviews documentReviews,
+    @_s.required String name,
+    String documentVersion,
+  }) async {
+    ArgumentError.checkNotNull(documentReviews, 'documentReviews');
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'documentVersion',
+      documentVersion,
+      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.UpdateDocumentMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DocumentReviews': documentReviews,
+        'Name': name,
+        if (documentVersion != null) 'DocumentVersion': documentVersion,
+      },
+    );
+
+    return UpdateDocumentMetadataResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates an existing maintenance window. Only specified parameters are
   /// modified.
   /// <note>
@@ -8683,19 +9585,31 @@ class SSM {
   /// The schedule of the maintenance window in the form of a cron or rate
   /// expression.
   ///
+  /// Parameter [scheduleOffset] :
+  /// The number of days to wait after the date and time specified by a CRON
+  /// expression before running the maintenance window.
+  ///
+  /// For example, the following cron expression schedules a maintenance window
+  /// to run the third Tuesday of every month at 11:30 PM.
+  ///
+  /// <code>cron(30 23 ? * TUE#3 *)</code>
+  ///
+  /// If the schedule offset is <code>2</code>, the maintenance window won't run
+  /// until two days later.
+  ///
   /// Parameter [scheduleTimezone] :
   /// The time zone that the scheduled maintenance window executions are based
   /// on, in Internet Assigned Numbers Authority (IANA) format. For example:
-  /// "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information,
-  /// see the <a href="https://www.iana.org/time-zones">Time Zone Database</a>
-  /// on the IANA website.
+  /// "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see
+  /// the <a href="https://www.iana.org/time-zones">Time Zone Database</a> on
+  /// the IANA website.
   ///
   /// Parameter [startDate] :
   /// The time zone that the scheduled maintenance window executions are based
   /// on, in Internet Assigned Numbers Authority (IANA) format. For example:
-  /// "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information,
-  /// see the <a href="https://www.iana.org/time-zones">Time Zone Database</a>
-  /// on the IANA website.
+  /// "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see
+  /// the <a href="https://www.iana.org/time-zones">Time Zone Database</a> on
+  /// the IANA website.
   Future<UpdateMaintenanceWindowResult> updateMaintenanceWindow({
     @_s.required String windowId,
     bool allowUnassociatedTargets,
@@ -8707,6 +9621,7 @@ class SSM {
     String name,
     bool replace,
     String schedule,
+    int scheduleOffset,
     String scheduleTimezone,
     String startDate,
   }) async {
@@ -8759,6 +9674,12 @@ class SSM {
       1,
       256,
     );
+    _s.validateNumRange(
+      'scheduleOffset',
+      scheduleOffset,
+      1,
+      6,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateMaintenanceWindow'
@@ -8781,6 +9702,7 @@ class SSM {
         if (name != null) 'Name': name,
         if (replace != null) 'Replace': replace,
         if (schedule != null) 'Schedule': schedule,
+        if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
         if (scheduleTimezone != null) 'ScheduleTimezone': scheduleTimezone,
         if (startDate != null) 'StartDate': startDate,
       },
@@ -8950,11 +9872,33 @@ class SSM {
   /// <li>
   /// MaxErrors
   /// </li>
-  /// </ul>
-  /// If a parameter is null, then the corresponding field is not modified.
-  /// Also, if you set Replace to true, then all fields required by the
+  /// </ul> <note>
+  /// One or more targets must be specified for maintenance window Run
+  /// Command-type tasks. Depending on the task, targets are optional for other
+  /// maintenance window task types (Automation, AWS Lambda, and AWS Step
+  /// Functions). For more information about running tasks that do not specify
+  /// targets, see see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">Registering
+  /// maintenance window tasks without targets</a> in the <i>AWS Systems Manager
+  /// User Guide</i>.
+  /// </note>
+  /// If the value for a parameter in <code>UpdateMaintenanceWindowTask</code>
+  /// is null, then the corresponding field is not modified. If you set
+  /// <code>Replace</code> to true, then all fields required by the
   /// <a>RegisterTaskWithMaintenanceWindow</a> action are required for this
   /// request. Optional fields that aren't specified are set to null.
+  /// <important>
+  /// When you update a maintenance window task that has options specified in
+  /// <code>TaskInvocationParameters</code>, you must provide again all the
+  /// <code>TaskInvocationParameters</code> values that you want to retain. The
+  /// values you do not specify again are removed. For example, suppose that
+  /// when you registered a Run Command task, you specified
+  /// <code>TaskInvocationParameters</code> values for <code>Comment</code>,
+  /// <code>NotificationConfig</code>, and <code>OutputS3BucketName</code>. If
+  /// you update the maintenance window task and specify only a different
+  /// <code>OutputS3BucketName</code> value, the values for <code>Comment</code>
+  /// and <code>NotificationConfig</code> are removed.
+  /// </important>
   ///
   /// May throw [DoesNotExistException].
   /// May throw [InternalServerError].
@@ -8983,11 +9927,23 @@ class SSM {
   /// The new <code>MaxConcurrency</code> value you want to specify.
   /// <code>MaxConcurrency</code> is the number of targets that are allowed to
   /// run this task in parallel.
+  /// <note>
+  /// For maintenance window tasks without a target specified, you cannot supply
+  /// a value for this option. Instead, the system inserts a placeholder value
+  /// of <code>1</code>, which may be reported in the response to this command.
+  /// This value does not affect the running of your task and can be ignored.
+  /// </note>
   ///
   /// Parameter [maxErrors] :
   /// The new <code>MaxErrors</code> value to specify. <code>MaxErrors</code> is
   /// the maximum number of errors that are allowed before the task stops being
   /// scheduled.
+  /// <note>
+  /// For maintenance window tasks without a target specified, you cannot supply
+  /// a value for this option. Instead, the system inserts a placeholder value
+  /// of <code>1</code>, which may be reported in the response to this command.
+  /// This value does not affect the running of your task and can be ignored.
+  /// </note>
   ///
   /// Parameter [name] :
   /// The new task name to specify.
@@ -8998,7 +9954,7 @@ class SSM {
   ///
   /// Parameter [replace] :
   /// If True, then all fields that are required by the
-  /// RegisterTaskWithMaintenanceWndow action are also required for this API
+  /// RegisterTaskWithMaintenanceWindow action are also required for this API
   /// request. Optional fields that are not specified are set to null.
   ///
   /// Parameter [serviceRoleArn] :
@@ -9014,14 +9970,14 @@ class SSM {
   /// <ul>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions">Service-Linked
-  /// Role Permissions for Systems Manager</a>
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions">Using
+  /// service-linked roles for Systems Manager</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role">Should
-  /// I Use a Service-Linked Role or a Custom Service Role to Run Maintenance
-  /// Window Tasks? </a>
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role">Should
+  /// I use a service-linked role or a custom service role to run maintenance
+  /// window tasks? </a>
   /// </li>
   /// </ul>
   ///
@@ -9029,6 +9985,16 @@ class SSM {
   /// The targets (either instances or tags) to modify. Instances are specified
   /// using Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified
   /// using Key=tag_name,Values=tag_value.
+  /// <note>
+  /// One or more targets must be specified for maintenance window Run
+  /// Command-type tasks. Depending on the task, targets are optional for other
+  /// maintenance window task types (Automation, AWS Lambda, and AWS Step
+  /// Functions). For more information about running tasks that do not specify
+  /// targets, see see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">Registering
+  /// maintenance window tasks without targets</a> in the <i>AWS Systems Manager
+  /// User Guide</i>.
+  /// </note>
   ///
   /// Parameter [taskArn] :
   /// The task ARN to modify.
@@ -9036,6 +10002,18 @@ class SSM {
   /// Parameter [taskInvocationParameters] :
   /// The parameters that the task should use during execution. Populate only
   /// the fields that match the task type. All other fields should be empty.
+  /// <important>
+  /// When you update a maintenance window task that has options specified in
+  /// <code>TaskInvocationParameters</code>, you must provide again all the
+  /// <code>TaskInvocationParameters</code> values that you want to retain. The
+  /// values you do not specify again are removed. For example, suppose that
+  /// when you registered a Run Command task, you specified
+  /// <code>TaskInvocationParameters</code> values for <code>Comment</code>,
+  /// <code>NotificationConfig</code>, and <code>OutputS3BucketName</code>. If
+  /// you update the maintenance window task and specify only a different
+  /// <code>OutputS3BucketName</code> value, the values for <code>Comment</code>
+  /// and <code>NotificationConfig</code> are removed.
+  /// </important>
   ///
   /// Parameter [taskParameters] :
   /// The parameters to modify.
@@ -9179,8 +10157,10 @@ class SSM {
     return UpdateMaintenanceWindowTaskResult.fromJson(jsonResponse.body);
   }
 
-  /// Assigns or changes an Amazon Identity and Access Management (IAM) role for
-  /// the managed instance.
+  /// Changes the Amazon Identity and Access Management (IAM) role that is
+  /// assigned to the on-premises instance or virtual machines (VM). IAM roles
+  /// are first assigned to these hybrid instances during the activation
+  /// process. For more information, see <a>CreateActivation</a>.
   ///
   /// May throw [InvalidInstanceId].
   /// May throw [InternalServerError].
@@ -9230,13 +10210,13 @@ class SSM {
 
   /// Edit or change an OpsItem. You must have permission in AWS Identity and
   /// Access Management (IAM) to update an OpsItem. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
-  /// Started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
+  /// started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Operations engineers and IT professionals use OpsCenter to view,
   /// investigate, and remediate operational issues impacting the performance
   /// and health of their AWS resources. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
   /// Systems Manager OpsCenter</a> in the <i>AWS Systems Manager User
   /// Guide</i>.
   ///
@@ -9248,6 +10228,14 @@ class SSM {
   ///
   /// Parameter [opsItemId] :
   /// The ID of the OpsItem.
+  ///
+  /// Parameter [actualEndTime] :
+  /// The time a runbook workflow ended. Currently reported only for the OpsItem
+  /// type <code>/aws/changerequest</code>.
+  ///
+  /// Parameter [actualStartTime] :
+  /// The time a runbook workflow started. Currently reported only for the
+  /// OpsItem type <code>/aws/changerequest</code>.
   ///
   /// Parameter [category] :
   /// Specify a new category for an OpsItem.
@@ -9285,11 +10273,21 @@ class SSM {
   /// related resource in the request. Use the <code>/aws/automations</code> key
   /// in OperationalData to associate an Automation runbook with the OpsItem. To
   /// view AWS CLI example commands that use these keys, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems">Creating
-  /// OpsItems Manually</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems">Creating
+  /// OpsItems manually</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [operationalDataToDelete] :
   /// Keys that you want to remove from the OperationalData map.
+  ///
+  /// Parameter [plannedEndTime] :
+  /// The time specified in a change request for a runbook workflow to end.
+  /// Currently supported only for the OpsItem type
+  /// <code>/aws/changerequest</code>.
+  ///
+  /// Parameter [plannedStartTime] :
+  /// The time specified in a change request for a runbook workflow to start.
+  /// Currently supported only for the OpsItem type
+  /// <code>/aws/changerequest</code>.
   ///
   /// Parameter [priority] :
   /// The importance of this OpsItem in relation to other OpsItems in the
@@ -9306,19 +10304,23 @@ class SSM {
   /// Parameter [status] :
   /// The OpsItem status. Status can be <code>Open</code>, <code>In
   /// Progress</code>, or <code>Resolved</code>. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems-editing-details.html">Editing
-  /// OpsItem Details</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems.html#OpsCenter-working-with-OpsItems-editing-details">Editing
+  /// OpsItem details</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [title] :
   /// A short heading that describes the nature of the OpsItem and the impacted
   /// resource.
   Future<void> updateOpsItem({
     @_s.required String opsItemId,
+    DateTime actualEndTime,
+    DateTime actualStartTime,
     String category,
     String description,
     List<OpsItemNotification> notifications,
     Map<String, OpsItemDataValue> operationalData,
     List<String> operationalDataToDelete,
+    DateTime plannedEndTime,
+    DateTime plannedStartTime,
     int priority,
     List<RelatedOpsItem> relatedOpsItems,
     String severity,
@@ -9338,11 +10340,21 @@ class SSM {
       1,
       64,
     );
+    _s.validateStringPattern(
+      'category',
+      category,
+      r'''^(?!\s*$).+''',
+    );
     _s.validateStringLength(
       'description',
       description,
       1,
       1024,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\s\S]*\S[\s\S]*''',
     );
     _s.validateNumRange(
       'priority',
@@ -9356,11 +10368,21 @@ class SSM {
       1,
       64,
     );
+    _s.validateStringPattern(
+      'severity',
+      severity,
+      r'''^(?!\s*$).+''',
+    );
     _s.validateStringLength(
       'title',
       title,
       1,
       1024,
+    );
+    _s.validateStringPattern(
+      'title',
+      title,
+      r'''^(?!\s*$).+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9374,12 +10396,20 @@ class SSM {
       headers: headers,
       payload: {
         'OpsItemId': opsItemId,
+        if (actualEndTime != null)
+          'ActualEndTime': unixTimestampToJson(actualEndTime),
+        if (actualStartTime != null)
+          'ActualStartTime': unixTimestampToJson(actualStartTime),
         if (category != null) 'Category': category,
         if (description != null) 'Description': description,
         if (notifications != null) 'Notifications': notifications,
         if (operationalData != null) 'OperationalData': operationalData,
         if (operationalDataToDelete != null)
           'OperationalDataToDelete': operationalDataToDelete,
+        if (plannedEndTime != null)
+          'PlannedEndTime': unixTimestampToJson(plannedEndTime),
+        if (plannedStartTime != null)
+          'PlannedStartTime': unixTimestampToJson(plannedStartTime),
         if (priority != null) 'Priority': priority,
         if (relatedOpsItems != null) 'RelatedOpsItems': relatedOpsItems,
         if (severity != null) 'Severity': severity,
@@ -9389,6 +10419,62 @@ class SSM {
     );
 
     return UpdateOpsItemResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Systems Manager calls this API action when you edit OpsMetadata in
+  /// Application Manager.
+  ///
+  /// May throw [OpsMetadataNotFoundException].
+  /// May throw [OpsMetadataInvalidArgumentException].
+  /// May throw [OpsMetadataKeyLimitExceededException].
+  /// May throw [OpsMetadataTooManyUpdatesException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [opsMetadataArn] :
+  /// The Amazon Resoure Name (ARN) of the OpsMetadata Object to update.
+  ///
+  /// Parameter [keysToDelete] :
+  /// The metadata keys to delete from the OpsMetadata object.
+  ///
+  /// Parameter [metadataToUpdate] :
+  /// Metadata to add to an OpsMetadata object.
+  Future<UpdateOpsMetadataResult> updateOpsMetadata({
+    @_s.required String opsMetadataArn,
+    List<String> keysToDelete,
+    Map<String, MetadataValue> metadataToUpdate,
+  }) async {
+    ArgumentError.checkNotNull(opsMetadataArn, 'opsMetadataArn');
+    _s.validateStringLength(
+      'opsMetadataArn',
+      opsMetadataArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'opsMetadataArn',
+      opsMetadataArn,
+      r'''arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmetadata\/([a-zA-Z0-9-_\.\/]*)''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.UpdateOpsMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OpsMetadataArn': opsMetadataArn,
+        if (keysToDelete != null) 'KeysToDelete': keysToDelete,
+        if (metadataToUpdate != null) 'MetadataToUpdate': metadataToUpdate,
+      },
+    );
+
+    return UpdateOpsMetadataResult.fromJson(jsonResponse.body);
   }
 
   /// Modifies an existing patch baseline. Fields not specified in the request
@@ -9413,9 +10499,9 @@ class SSM {
   ///
   /// For information about accepted formats for lists of approved patches and
   /// rejected patches, see <a
-  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
-  /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS
-  /// Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">About
+  /// package name formats for approved and rejected patch lists</a> in the
+  /// <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [approvedPatchesComplianceLevel] :
   /// Assigns a new compliance severity level to an existing patch baseline.
@@ -9439,9 +10525,9 @@ class SSM {
   ///
   /// For information about accepted formats for lists of approved patches and
   /// rejected patches, see <a
-  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
-  /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS
-  /// Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">About
+  /// package name formats for approved and rejected patch lists</a> in the
+  /// <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [rejectedPatchesAction] :
   /// The action for Patch Manager to take on patches included in the
@@ -9558,6 +10644,10 @@ class SSM {
   /// and choose the Include all accounts from my AWS Organizations
   /// configuration option. Instead, you must delete the first resource data
   /// sync, and create a new one.
+  /// <note>
+  /// This API action only supports a resource data sync that was created with a
+  /// SyncFromSource <code>SyncType</code>.
+  /// </note>
   ///
   /// May throw [ResourceDataSyncNotFoundException].
   /// May throw [ResourceDataSyncInvalidConfigurationException].
@@ -9571,11 +10661,8 @@ class SSM {
   /// Specify information about the data sources to synchronize.
   ///
   /// Parameter [syncType] :
-  /// The type of resource data sync. If <code>SyncType</code> is
-  /// <code>SyncToDestination</code>, then the resource data sync synchronizes
-  /// data to an Amazon S3 bucket. If the <code>SyncType</code> is
-  /// <code>SyncFromSource</code> then the resource data sync synchronizes data
-  /// from AWS Organizations or from multiple AWS Regions.
+  /// The type of resource data sync. The supported <code>SyncType</code> is
+  /// SyncFromSource.
   Future<void> updateResourceDataSync({
     @_s.required String syncName,
     @_s.required ResourceDataSyncSource syncSource,
@@ -9641,10 +10728,42 @@ class SSM {
   /// May throw [TooManyUpdates].
   ///
   /// Parameter [settingId] :
-  /// The ID of the service setting to update.
+  /// The Amazon Resource Name (ARN) of the service setting to reset. For
+  /// example,
+  /// <code>arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled</code>.
+  /// The setting ID can be one of the following.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>/ssm/parameter-store/default-parameter-tier</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/parameter-store/high-throughput-enabled</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/managed-instance/activation-tier</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [settingValue] :
-  /// The new value to specify for the service setting.
+  /// The new value to specify for the service setting. For the
+  /// <code>/ssm/parameter-store/default-parameter-tier</code> setting ID, the
+  /// setting value can be one of the following.
+  ///
+  /// <ul>
+  /// <li>
+  /// Standard
+  /// </li>
+  /// <li>
+  /// Advanced
+  /// </li>
+  /// <li>
+  /// Intelligent-Tiering
+  /// </li>
+  /// </ul>
+  /// For the <code>/ssm/parameter-store/high-throughput-enabled</code>, and
+  /// <code>/ssm/managed-instance/activation-tier</code> setting IDs, the
+  /// setting value can be true or false.
   Future<void> updateServiceSetting({
     @_s.required String settingId,
     @_s.required String settingValue,
@@ -9894,6 +11013,14 @@ extension on AssociationComplianceSeverity {
     createFactory: true,
     createToJson: false)
 class AssociationDescription {
+  /// By default, when you create a new associations, the system runs it
+  /// immediately after it is created and then according to the schedule you
+  /// specified. Specify this option if you don't want an association to run
+  /// immediately after you create it. This parameter is not supported for rate
+  /// expressions.
+  @_s.JsonKey(name: 'ApplyOnlyAtCronInterval')
+  final bool applyOnlyAtCronInterval;
+
   /// The association ID.
   @_s.JsonKey(name: 'AssociationId')
   final String associationId;
@@ -9977,8 +11104,7 @@ class AssociationDescription {
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// An Amazon S3 bucket where you want to store the output details of the
-  /// request.
+  /// An S3 bucket where you want to store the output details of the request.
   @_s.JsonKey(name: 'OutputLocation')
   final InstanceAssociationOutputLocation outputLocation;
 
@@ -9998,11 +11124,33 @@ class AssociationDescription {
   @_s.JsonKey(name: 'Status')
   final AssociationStatus status;
 
+  /// The mode for generating association compliance. You can specify
+  /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
+  /// system uses the status of the association execution to determine the
+  /// compliance status. If the association execution runs successfully, then the
+  /// association is <code>COMPLIANT</code>. If the association execution doesn't
+  /// run successfully, the association is <code>NON-COMPLIANT</code>.
+  ///
+  /// In <code>MANUAL</code> mode, you must specify the <code>AssociationId</code>
+  /// as a parameter for the <a>PutComplianceItems</a> API action. In this case,
+  /// compliance data is not managed by State Manager. It is managed by your
+  /// direct call to the <a>PutComplianceItems</a> API action.
+  ///
+  /// By default, all associations use <code>AUTO</code> mode.
+  @_s.JsonKey(name: 'SyncCompliance')
+  final AssociationSyncCompliance syncCompliance;
+
+  /// The combination of AWS Regions and AWS accounts where you want to run the
+  /// association.
+  @_s.JsonKey(name: 'TargetLocations')
+  final List<TargetLocation> targetLocations;
+
   /// The instances targeted by the request.
   @_s.JsonKey(name: 'Targets')
   final List<Target> targets;
 
   AssociationDescription({
+    this.applyOnlyAtCronInterval,
     this.associationId,
     this.associationName,
     this.associationVersion,
@@ -10022,6 +11170,8 @@ class AssociationDescription {
     this.parameters,
     this.scheduleExpression,
     this.status,
+    this.syncCompliance,
+    this.targetLocations,
     this.targets,
   });
   factory AssociationDescription.fromJson(Map<String, dynamic> json) =>
@@ -10219,6 +11369,9 @@ enum AssociationExecutionTargetsFilterKey {
     createToJson: true)
 class AssociationFilter {
   /// The name of the filter.
+  /// <note>
+  /// <code>InstanceId</code> has been deprecated.
+  /// </note>
   @_s.JsonKey(name: 'key')
   final AssociationFilterKey key;
 
@@ -10248,6 +11401,8 @@ enum AssociationFilterKey {
   lastExecutedAfter,
   @_s.JsonValue('AssociationName')
   associationName,
+  @_s.JsonValue('ResourceGroupName')
+  resourceGroupName,
 }
 
 enum AssociationFilterOperatorType {
@@ -10334,6 +11489,25 @@ enum AssociationStatusName {
   failed,
 }
 
+enum AssociationSyncCompliance {
+  @_s.JsonValue('AUTO')
+  auto,
+  @_s.JsonValue('MANUAL')
+  manual,
+}
+
+extension on AssociationSyncCompliance {
+  String toValue() {
+    switch (this) {
+      case AssociationSyncCompliance.auto:
+        return 'AUTO';
+      case AssociationSyncCompliance.manual:
+        return 'MANUAL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about the association version.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10341,6 +11515,14 @@ enum AssociationStatusName {
     createFactory: true,
     createToJson: false)
 class AssociationVersionInfo {
+  /// By default, when you create a new associations, the system runs it
+  /// immediately after it is created and then according to the schedule you
+  /// specified. Specify this option if you don't want an association to run
+  /// immediately after you create it. This parameter is not supported for rate
+  /// expressions.
+  @_s.JsonKey(name: 'ApplyOnlyAtCronInterval')
+  final bool applyOnlyAtCronInterval;
+
   /// The ID created by the system when the association was created.
   @_s.JsonKey(name: 'AssociationId')
   final String associationId;
@@ -10415,12 +11597,34 @@ class AssociationVersionInfo {
   @_s.JsonKey(name: 'ScheduleExpression')
   final String scheduleExpression;
 
+  /// The mode for generating association compliance. You can specify
+  /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
+  /// system uses the status of the association execution to determine the
+  /// compliance status. If the association execution runs successfully, then the
+  /// association is <code>COMPLIANT</code>. If the association execution doesn't
+  /// run successfully, the association is <code>NON-COMPLIANT</code>.
+  ///
+  /// In <code>MANUAL</code> mode, you must specify the <code>AssociationId</code>
+  /// as a parameter for the <a>PutComplianceItems</a> API action. In this case,
+  /// compliance data is not managed by State Manager. It is managed by your
+  /// direct call to the <a>PutComplianceItems</a> API action.
+  ///
+  /// By default, all associations use <code>AUTO</code> mode.
+  @_s.JsonKey(name: 'SyncCompliance')
+  final AssociationSyncCompliance syncCompliance;
+
+  /// The combination of AWS Regions and AWS accounts where you wanted to run the
+  /// association when this association version was created.
+  @_s.JsonKey(name: 'TargetLocations')
+  final List<TargetLocation> targetLocations;
+
   /// The targets specified for the association when the association version was
   /// created.
   @_s.JsonKey(name: 'Targets')
   final List<Target> targets;
 
   AssociationVersionInfo({
+    this.applyOnlyAtCronInterval,
     this.associationId,
     this.associationName,
     this.associationVersion,
@@ -10433,6 +11637,8 @@ class AssociationVersionInfo {
     this.outputLocation,
     this.parameters,
     this.scheduleExpression,
+    this.syncCompliance,
+    this.targetLocations,
     this.targets,
   });
   factory AssociationVersionInfo.fromJson(Map<String, dynamic> json) =>
@@ -10527,13 +11733,13 @@ class AttachmentsSource {
   /// For the key <i>SourceUrl</i>, the value is an S3 bucket location. For
   /// example:
   ///
-  /// <code>"Values": [ "s3://my-bucket/my-folder" ]</code>
+  /// <code>"Values": [ "s3://doc-example-bucket/my-folder" ]</code>
   /// </li>
   /// <li>
   /// For the key <i>S3FileUrl</i>, the value is a file in an S3 bucket. For
   /// example:
   ///
-  /// <code>"Values": [ "s3://my-bucket/my-folder/my-file.py" ]</code>
+  /// <code>"Values": [ "s3://doc-example-bucket/my-folder/my-file.py" ]</code>
   /// </li>
   /// <li>
   /// For the key <i>AttachmentReference</i>, the value is constructed from the
@@ -10580,6 +11786,10 @@ enum AttachmentsSourceKey {
     createFactory: true,
     createToJson: false)
 class AutomationExecution {
+  /// The ID of a State Manager association used in the Automation operation.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
   /// The execution ID.
   @_s.JsonKey(name: 'AutomationExecutionId')
   final String automationExecutionId;
@@ -10587,6 +11797,15 @@ class AutomationExecution {
   /// The execution status of the Automation.
   @_s.JsonKey(name: 'AutomationExecutionStatus')
   final AutomationExecutionStatus automationExecutionStatus;
+
+  /// The subtype of the Automation operation. Currently, the only supported value
+  /// is <code>ChangeRequest</code>.
+  @_s.JsonKey(name: 'AutomationSubtype')
+  final AutomationSubtype automationSubtype;
+
+  /// The name of the Change Manager change request.
+  @_s.JsonKey(name: 'ChangeRequestName')
+  final String changeRequestName;
 
   /// The action of the step that is currently running.
   @_s.JsonKey(name: 'CurrentAction')
@@ -10635,6 +11854,11 @@ class AutomationExecution {
   @_s.JsonKey(name: 'Mode')
   final ExecutionMode mode;
 
+  /// The ID of an OpsItem that is created to represent a Change Manager change
+  /// request.
+  @_s.JsonKey(name: 'OpsItemId')
+  final String opsItemId;
+
   /// The list of execution outputs as defined in the automation document.
   @_s.JsonKey(name: 'Outputs')
   final Map<String, List<String>> outputs;
@@ -10656,6 +11880,20 @@ class AutomationExecution {
   /// A list of resolved targets in the rate control execution.
   @_s.JsonKey(name: 'ResolvedTargets')
   final ResolvedTargets resolvedTargets;
+
+  /// Information about the Automation runbooks (Automation documents) that are
+  /// run as part of a runbook workflow.
+  /// <note>
+  /// The Automation runbooks specified for the runbook workflow can't run until
+  /// all required approvals for the change request have been received.
+  /// </note>
+  @_s.JsonKey(name: 'Runbooks')
+  final List<Runbook> runbooks;
+
+  /// The date and time the Automation operation is scheduled to start.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ScheduledTime')
+  final DateTime scheduledTime;
 
   /// A list of details about the current state of all steps that comprise an
   /// execution. An Automation document contains a list of steps that are run in
@@ -10692,8 +11930,11 @@ class AutomationExecution {
   final List<Target> targets;
 
   AutomationExecution({
+    this.associationId,
     this.automationExecutionId,
     this.automationExecutionStatus,
+    this.automationSubtype,
+    this.changeRequestName,
     this.currentAction,
     this.currentStepName,
     this.documentName,
@@ -10705,11 +11946,14 @@ class AutomationExecution {
     this.maxConcurrency,
     this.maxErrors,
     this.mode,
+    this.opsItemId,
     this.outputs,
     this.parameters,
     this.parentAutomationExecutionId,
     this.progressCounters,
     this.resolvedTargets,
+    this.runbooks,
+    this.scheduledTime,
     this.stepExecutions,
     this.stepExecutionsTruncated,
     this.target,
@@ -10732,7 +11976,8 @@ class AutomationExecution {
 class AutomationExecutionFilter {
   /// One or more keys to limit the results. Valid filter keys include the
   /// following: DocumentNamePrefix, ExecutionStatus, ExecutionId,
-  /// ParentExecutionId, CurrentAction, StartTimeBefore, StartTimeAfter.
+  /// ParentExecutionId, CurrentAction, StartTimeBefore, StartTimeAfter,
+  /// TargetResourceGroup.
   @_s.JsonKey(name: 'Key')
   final AutomationExecutionFilterKey key;
 
@@ -10767,6 +12012,12 @@ enum AutomationExecutionFilterKey {
   automationType,
   @_s.JsonValue('TagKey')
   tagKey,
+  @_s.JsonValue('TargetResourceGroup')
+  targetResourceGroup,
+  @_s.JsonValue('AutomationSubtype')
+  automationSubtype,
+  @_s.JsonValue('OpsItemId')
+  opsItemId,
 }
 
 /// Details about a specific Automation execution.
@@ -10776,6 +12027,10 @@ enum AutomationExecutionFilterKey {
     createFactory: true,
     createToJson: false)
 class AutomationExecutionMetadata {
+  /// The ID of a State Manager association used in the Automation operation.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
   /// The execution ID.
   @_s.JsonKey(name: 'AutomationExecutionId')
   final String automationExecutionId;
@@ -10784,14 +12039,23 @@ class AutomationExecutionMetadata {
   @_s.JsonKey(name: 'AutomationExecutionStatus')
   final AutomationExecutionStatus automationExecutionStatus;
 
+  /// The subtype of the Automation operation. Currently, the only supported value
+  /// is <code>ChangeRequest</code>.
+  @_s.JsonKey(name: 'AutomationSubtype')
+  final AutomationSubtype automationSubtype;
+
   /// Use this filter with <a>DescribeAutomationExecutions</a>. Specify either
   /// Local or CrossAccount. CrossAccount is an Automation that runs in multiple
   /// AWS Regions and accounts. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html">Executing
-  /// Automations in Multiple AWS Regions and Accounts</a> in the <i>AWS Systems
-  /// Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html">Running
+  /// Automation workflows in multiple AWS Regions and accounts</a> in the <i>AWS
+  /// Systems Manager User Guide</i>.
   @_s.JsonKey(name: 'AutomationType')
   final AutomationType automationType;
+
+  /// The name of the Change Manager change request.
+  @_s.JsonKey(name: 'ChangeRequestName')
+  final String changeRequestName;
 
   /// The action of the step that is currently running.
   @_s.JsonKey(name: 'CurrentAction')
@@ -10828,7 +12092,7 @@ class AutomationExecutionMetadata {
   @_s.JsonKey(name: 'FailureMessage')
   final String failureMessage;
 
-  /// An Amazon S3 bucket where execution information is stored.
+  /// An S3 bucket where execution information is stored.
   @_s.JsonKey(name: 'LogFile')
   final String logFile;
 
@@ -10844,6 +12108,11 @@ class AutomationExecutionMetadata {
   @_s.JsonKey(name: 'Mode')
   final ExecutionMode mode;
 
+  /// The ID of an OpsItem that is created to represent a Change Manager change
+  /// request.
+  @_s.JsonKey(name: 'OpsItemId')
+  final String opsItemId;
+
   /// The list of execution outputs as defined in the Automation document.
   @_s.JsonKey(name: 'Outputs')
   final Map<String, List<String>> outputs;
@@ -10855,6 +12124,20 @@ class AutomationExecutionMetadata {
   /// A list of targets that resolved during the execution.
   @_s.JsonKey(name: 'ResolvedTargets')
   final ResolvedTargets resolvedTargets;
+
+  /// Information about the Automation runbooks (Automation documents) that are
+  /// run during a runbook workflow in Change Manager.
+  /// <note>
+  /// The Automation runbooks specified for the runbook workflow can't run until
+  /// all required approvals for the change request have been received.
+  /// </note>
+  @_s.JsonKey(name: 'Runbooks')
+  final List<Runbook> runbooks;
+
+  /// The date and time the Automation operation is scheduled to start.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ScheduledTime')
+  final DateTime scheduledTime;
 
   /// The list of execution outputs as defined in the Automation document.
   @_s.JsonKey(name: 'Target')
@@ -10873,9 +12156,12 @@ class AutomationExecutionMetadata {
   final List<Target> targets;
 
   AutomationExecutionMetadata({
+    this.associationId,
     this.automationExecutionId,
     this.automationExecutionStatus,
+    this.automationSubtype,
     this.automationType,
+    this.changeRequestName,
     this.currentAction,
     this.currentStepName,
     this.documentName,
@@ -10888,9 +12174,12 @@ class AutomationExecutionMetadata {
     this.maxConcurrency,
     this.maxErrors,
     this.mode,
+    this.opsItemId,
     this.outputs,
     this.parentAutomationExecutionId,
     this.resolvedTargets,
+    this.runbooks,
+    this.scheduledTime,
     this.target,
     this.targetMaps,
     this.targetParameterName,
@@ -10917,6 +12206,31 @@ enum AutomationExecutionStatus {
   cancelled,
   @_s.JsonValue('Failed')
   failed,
+  @_s.JsonValue('PendingApproval')
+  pendingApproval,
+  @_s.JsonValue('Approved')
+  approved,
+  @_s.JsonValue('Rejected')
+  rejected,
+  @_s.JsonValue('Scheduled')
+  scheduled,
+  @_s.JsonValue('RunbookInProgress')
+  runbookInProgress,
+  @_s.JsonValue('PendingChangeCalendarOverride')
+  pendingChangeCalendarOverride,
+  @_s.JsonValue('ChangeCalendarOverrideApproved')
+  changeCalendarOverrideApproved,
+  @_s.JsonValue('ChangeCalendarOverrideRejected')
+  changeCalendarOverrideRejected,
+  @_s.JsonValue('CompletedWithSuccess')
+  completedWithSuccess,
+  @_s.JsonValue('CompletedWithFailure')
+  completedWithFailure,
+}
+
+enum AutomationSubtype {
+  @_s.JsonValue('ChangeRequest')
+  changeRequest,
 }
 
 enum AutomationType {
@@ -11050,8 +12364,8 @@ class Command {
   /// same time. You can specify a number of instances, such as 10, or a
   /// percentage of instances, such as 10%. The default value is 50. For more
   /// information about how to use MaxConcurrency, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html">Running
-  /// Commands Using Systems Manager Run Command</a> in the <i>AWS Systems Manager
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html">Running
+  /// commands using Systems Manager Run Command</a> in the <i>AWS Systems Manager
   /// User Guide</i>.
   @_s.JsonKey(name: 'MaxConcurrency')
   final String maxConcurrency;
@@ -11060,8 +12374,8 @@ class Command {
   /// command to additional targets. You can specify a number of errors, such as
   /// 10, or a percentage or errors, such as 10%. The default value is 0. For more
   /// information about how to use MaxErrors, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html">Running
-  /// Commands Using Systems Manager Run Command</a> in the <i>AWS Systems Manager
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html">Running
+  /// commands using Systems Manager Run Command</a> in the <i>AWS Systems Manager
   /// User Guide</i>.
   @_s.JsonKey(name: 'MaxErrors')
   final String maxErrors;
@@ -11081,8 +12395,8 @@ class Command {
   final String outputS3KeyPrefix;
 
   /// (Deprecated) You can no longer specify this parameter. The system ignores
-  /// it. Instead, Systems Manager automatically determines the Amazon S3 bucket
-  /// region.
+  /// it. Instead, Systems Manager automatically determines the Region of the S3
+  /// bucket.
   @_s.JsonKey(name: 'OutputS3Region')
   final String outputS3Region;
 
@@ -11109,8 +12423,8 @@ class Command {
   /// information than Status because it includes states resulting from error and
   /// concurrency control parameters. StatusDetails can show different results
   /// than Status. For more information about these statuses, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html">Understanding
-  /// Command Statuses</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html">Understanding
+  /// command statuses</a> in the <i>AWS Systems Manager User Guide</i>.
   /// StatusDetails can be one of the following values:
   ///
   /// <ul>
@@ -11165,6 +12479,10 @@ class Command {
   @_s.JsonKey(name: 'Targets')
   final List<Target> targets;
 
+  /// The <code>TimeoutSeconds</code> value specified for a command.
+  @_s.JsonKey(name: 'TimeoutSeconds')
+  final int timeoutSeconds;
+
   Command({
     this.cloudWatchOutputConfig,
     this.commandId,
@@ -11189,12 +12507,17 @@ class Command {
     this.statusDetails,
     this.targetCount,
     this.targets,
+    this.timeoutSeconds,
   });
   factory Command.fromJson(Map<String, dynamic> json) =>
       _$CommandFromJson(json);
 }
 
 /// Describes a command filter.
+/// <note>
+/// An instance ID can't be specified when a command status is
+/// <code>Pending</code> because the command hasn't run on the instance yet.
+/// </note>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11328,9 +12651,9 @@ class CommandInvocation {
   @_s.JsonKey(name: 'InstanceId')
   final String instanceId;
 
-  /// The name of the invocation target. For Amazon EC2 instances this is the
-  /// value for the aws:Name tag. For on-premises instances, this is the name of
-  /// the instance.
+  /// The name of the invocation target. For EC2 instances this is the value for
+  /// the aws:Name tag. For on-premises instances, this is the name of the
+  /// instance.
   @_s.JsonKey(name: 'InstanceName')
   final String instanceName;
 
@@ -11349,17 +12672,17 @@ class CommandInvocation {
   @_s.JsonKey(name: 'ServiceRole')
   final String serviceRole;
 
-  /// The URL to the plugin's StdErr file in Amazon S3, if the Amazon S3 bucket
-  /// was defined for the parent command. For an invocation, StandardErrorUrl is
-  /// populated if there is just one plugin defined for the command, and the
-  /// Amazon S3 bucket was defined for the command.
+  /// The URL to the plugin's StdErr file in Amazon S3, if the S3 bucket was
+  /// defined for the parent command. For an invocation, StandardErrorUrl is
+  /// populated if there is just one plugin defined for the command, and the S3
+  /// bucket was defined for the command.
   @_s.JsonKey(name: 'StandardErrorUrl')
   final String standardErrorUrl;
 
-  /// The URL to the plugin's StdOut file in Amazon S3, if the Amazon S3 bucket
-  /// was defined for the parent command. For an invocation, StandardOutputUrl is
-  /// populated if there is just one plugin defined for the command, and the
-  /// Amazon S3 bucket was defined for the command.
+  /// The URL to the plugin's StdOut file in Amazon S3, if the S3 bucket was
+  /// defined for the parent command. For an invocation, StandardOutputUrl is
+  /// populated if there is just one plugin defined for the command, and the S3
+  /// bucket was defined for the command.
   @_s.JsonKey(name: 'StandardOutputUrl')
   final String standardOutputUrl;
 
@@ -11372,8 +12695,8 @@ class CommandInvocation {
   /// than Status because it includes states resulting from error and concurrency
   /// control parameters. StatusDetails can show different results than Status.
   /// For more information about these statuses, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html">Understanding
-  /// Command Statuses</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html">Understanding
+  /// command statuses</a> in the <i>AWS Systems Manager User Guide</i>.
   /// StatusDetails can be one of the following values:
   ///
   /// <ul>
@@ -11492,13 +12815,13 @@ class CommandPlugin {
   /// stored. This was requested when issuing the command. For example, in the
   /// following response:
   ///
-  /// test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript
+  /// doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript
   ///
-  /// test_folder is the name of the Amazon S3 bucket;
+  /// doc-example-bucket is the name of the S3 bucket;
   ///
   /// ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;
   ///
-  /// i-1234567876543 is the instance ID;
+  /// i-02573cafcfEXAMPLE is the instance ID;
   ///
   /// awsrunShellScript is the name of the plugin.
   @_s.JsonKey(name: 'OutputS3BucketName')
@@ -11508,21 +12831,20 @@ class CommandPlugin {
   /// executions should be stored. This was requested when issuing the command.
   /// For example, in the following response:
   ///
-  /// test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript
+  /// doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript
   ///
-  /// test_folder is the name of the Amazon S3 bucket;
+  /// doc-example-bucket is the name of the S3 bucket;
   ///
   /// ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;
   ///
-  /// i-1234567876543 is the instance ID;
+  /// i-02573cafcfEXAMPLE is the instance ID;
   ///
   /// awsrunShellScript is the name of the plugin.
   @_s.JsonKey(name: 'OutputS3KeyPrefix')
   final String outputS3KeyPrefix;
 
   /// (Deprecated) You can no longer specify this parameter. The system ignores
-  /// it. Instead, Systems Manager automatically determines the Amazon S3 bucket
-  /// region.
+  /// it. Instead, Systems Manager automatically determines the S3 bucket region.
   @_s.JsonKey(name: 'OutputS3Region')
   final String outputS3Region;
 
@@ -11547,8 +12869,8 @@ class CommandPlugin {
   final String standardErrorUrl;
 
   /// The URL for the complete text written by the plugin to stdout in Amazon S3.
-  /// If the Amazon S3 bucket for the command was not specified, then this string
-  /// is empty.
+  /// If the S3 bucket for the command was not specified, then this string is
+  /// empty.
   @_s.JsonKey(name: 'StandardOutputUrl')
   final String standardOutputUrl;
 
@@ -11560,8 +12882,8 @@ class CommandPlugin {
   /// information than Status because it includes states resulting from error and
   /// concurrency control parameters. StatusDetails can show different results
   /// than Status. For more information about these statuses, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html">Understanding
-  /// Command Statuses</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html">Understanding
+  /// command statuses</a> in the <i>AWS Systems Manager User Guide</i>.
   /// StatusDetails can be one of the following values:
   ///
   /// <ul>
@@ -11704,7 +13026,7 @@ class ComplianceExecutionSummary {
 
 /// Information about the compliance as defined by the resource type. For
 /// example, for a patch resource type, <code>Items</code> includes information
-/// about the PatchSeverity, Classification, etc.
+/// about the PatchSeverity, Classification, and so on.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11746,8 +13068,9 @@ class ComplianceItem {
   @_s.JsonKey(name: 'Severity')
   final ComplianceSeverity severity;
 
-  /// The status of the compliance item. An item is either COMPLIANT or
-  /// NON_COMPLIANT.
+  /// The status of the compliance item. An item is either COMPLIANT,
+  /// NON_COMPLIANT, or an empty string (for Windows patches that aren't
+  /// applicable).
   @_s.JsonKey(name: 'Status')
   final ComplianceStatus status;
 
@@ -11906,6 +13229,25 @@ class ComplianceSummaryItem {
       _$ComplianceSummaryItemFromJson(json);
 }
 
+enum ComplianceUploadType {
+  @_s.JsonValue('COMPLETE')
+  complete,
+  @_s.JsonValue('PARTIAL')
+  partial,
+}
+
+extension on ComplianceUploadType {
+  String toValue() {
+    switch (this) {
+      case ComplianceUploadType.complete:
+        return 'COMPLETE';
+      case ComplianceUploadType.partial:
+        return 'PARTIAL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A summary of resources that are compliant. The summary is organized
 /// according to the resource count for each compliance type.
 @_s.JsonSerializable(
@@ -11990,6 +13332,14 @@ class CreateAssociationBatchRequestEntry {
   @_s.JsonKey(name: 'Name')
   final String name;
 
+  /// By default, when you create a new associations, the system runs it
+  /// immediately after it is created and then according to the schedule you
+  /// specified. Specify this option if you don't want an association to run
+  /// immediately after you create it. This parameter is not supported for rate
+  /// expressions.
+  @_s.JsonKey(name: 'ApplyOnlyAtCronInterval')
+  final bool applyOnlyAtCronInterval;
+
   /// Specify a descriptive name for the association.
   @_s.JsonKey(name: 'AssociationName')
   final String associationName;
@@ -12041,7 +13391,7 @@ class CreateAssociationBatchRequestEntry {
   @_s.JsonKey(name: 'MaxErrors')
   final String maxErrors;
 
-  /// An Amazon S3 bucket where you want to store the results of this request.
+  /// An S3 bucket where you want to store the results of this request.
   @_s.JsonKey(name: 'OutputLocation')
   final InstanceAssociationOutputLocation outputLocation;
 
@@ -12053,12 +13403,34 @@ class CreateAssociationBatchRequestEntry {
   @_s.JsonKey(name: 'ScheduleExpression')
   final String scheduleExpression;
 
+  /// The mode for generating association compliance. You can specify
+  /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
+  /// system uses the status of the association execution to determine the
+  /// compliance status. If the association execution runs successfully, then the
+  /// association is <code>COMPLIANT</code>. If the association execution doesn't
+  /// run successfully, the association is <code>NON-COMPLIANT</code>.
+  ///
+  /// In <code>MANUAL</code> mode, you must specify the <code>AssociationId</code>
+  /// as a parameter for the <a>PutComplianceItems</a> API action. In this case,
+  /// compliance data is not managed by State Manager. It is managed by your
+  /// direct call to the <a>PutComplianceItems</a> API action.
+  ///
+  /// By default, all associations use <code>AUTO</code> mode.
+  @_s.JsonKey(name: 'SyncCompliance')
+  final AssociationSyncCompliance syncCompliance;
+
+  /// Use this action to create an association in multiple Regions and multiple
+  /// accounts.
+  @_s.JsonKey(name: 'TargetLocations')
+  final List<TargetLocation> targetLocations;
+
   /// The instances targeted by the request.
   @_s.JsonKey(name: 'Targets')
   final List<Target> targets;
 
   CreateAssociationBatchRequestEntry({
     @_s.required this.name,
+    this.applyOnlyAtCronInterval,
     this.associationName,
     this.automationTargetParameterName,
     this.complianceSeverity,
@@ -12069,6 +13441,8 @@ class CreateAssociationBatchRequestEntry {
     this.outputLocation,
     this.parameters,
     this.scheduleExpression,
+    this.syncCompliance,
+    this.targetLocations,
     this.targets,
   });
   factory CreateAssociationBatchRequestEntry.fromJson(
@@ -12174,6 +13548,24 @@ class CreateOpsItemResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateOpsMetadataResult {
+  /// The Amazon Resource Name (ARN) of the OpsMetadata Object or blob created by
+  /// the call.
+  @_s.JsonKey(name: 'OpsMetadataArn')
+  final String opsMetadataArn;
+
+  CreateOpsMetadataResult({
+    this.opsMetadataArn,
+  });
+  factory CreateOpsMetadataResult.fromJson(Map<String, dynamic> json) =>
+      _$CreateOpsMetadataResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreatePatchBaselineResult {
   /// The ID of the created patch baseline.
   @_s.JsonKey(name: 'BaselineId')
@@ -12245,9 +13637,8 @@ class DeleteInventoryResult {
 
   /// A summary of the delete operation. For more information about this summary,
   /// see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-delete.html#sysman-inventory-delete-summary">Understanding
-  /// the Delete Inventory Summary</a> in the <i>AWS Systems Manager User
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete-summary">Deleting
+  /// custom inventory</a> in the <i>AWS Systems Manager User Guide</i>.
   @_s.JsonKey(name: 'DeletionSummary')
   final InventoryDeletionSummary deletionSummary;
 
@@ -12279,6 +13670,17 @@ class DeleteMaintenanceWindowResult {
   });
   factory DeleteMaintenanceWindowResult.fromJson(Map<String, dynamic> json) =>
       _$DeleteMaintenanceWindowResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteOpsMetadataResult {
+  DeleteOpsMetadataResult();
+  factory DeleteOpsMetadataResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteOpsMetadataResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -12626,8 +14028,8 @@ class DescribeDocumentPermissionResponse {
   @_s.JsonKey(name: 'AccountIds')
   final List<String> accountIds;
 
-  /// A list of of AWS accounts where the current document is shared and the
-  /// version shared with each account.
+  /// A list of AWS accounts where the current document is shared and the version
+  /// shared with each account.
   @_s.JsonKey(name: 'AccountSharingInfoList')
   final List<AccountSharingInfo> accountSharingInfoList;
 
@@ -13305,10 +14707,18 @@ class DocumentDefaultVersionDescription {
     createFactory: true,
     createToJson: false)
 class DocumentDescription {
+  /// The version of the document currently approved for use in the organization.
+  @_s.JsonKey(name: 'ApprovedVersion')
+  final String approvedVersion;
+
   /// Details about the document attachments, including names, locations, sizes,
-  /// etc.
+  /// and so on.
   @_s.JsonKey(name: 'AttachmentsInformation')
   final List<AttachmentInformation> attachmentsInformation;
+
+  /// The user in your organization who created the document.
+  @_s.JsonKey(name: 'Author')
+  final String author;
 
   /// The date when the document was created.
   @UnixDateTimeConverter()
@@ -13366,6 +14776,10 @@ class DocumentDescription {
   @_s.JsonKey(name: 'Parameters')
   final List<DocumentParameter> parameters;
 
+  /// The version of the document that is currently under review.
+  @_s.JsonKey(name: 'PendingReviewVersion')
+  final String pendingReviewVersion;
+
   /// The list of OS platforms compatible with this Systems Manager document.
   @_s.JsonKey(name: 'PlatformTypes')
   final List<PlatformType> platformTypes;
@@ -13375,6 +14789,14 @@ class DocumentDescription {
   /// <code>ApplicationConfigurationSchema</code> document.
   @_s.JsonKey(name: 'Requires')
   final List<DocumentRequires> requires;
+
+  /// Details about the review of a document.
+  @_s.JsonKey(name: 'ReviewInformation')
+  final List<ReviewInformation> reviewInformation;
+
+  /// The current status of the review.
+  @_s.JsonKey(name: 'ReviewStatus')
+  final ReviewStatus reviewStatus;
 
   /// The schema version.
   @_s.JsonKey(name: 'SchemaVersion')
@@ -13403,7 +14825,8 @@ class DocumentDescription {
   /// on. For example, /AWS::EC2::Instance. For a list of valid resource types,
   /// see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
-  /// Resource Types Reference</a> in the <i>AWS CloudFormation User Guide</i>.
+  /// resource and property types reference</a> in the <i>AWS CloudFormation User
+  /// Guide</i>.
   @_s.JsonKey(name: 'TargetType')
   final String targetType;
 
@@ -13412,7 +14835,9 @@ class DocumentDescription {
   final String versionName;
 
   DocumentDescription({
+    this.approvedVersion,
     this.attachmentsInformation,
+    this.author,
     this.createdDate,
     this.defaultVersion,
     this.description,
@@ -13425,8 +14850,11 @@ class DocumentDescription {
     this.name,
     this.owner,
     this.parameters,
+    this.pendingReviewVersion,
     this.platformTypes,
     this.requires,
+    this.reviewInformation,
+    this.reviewStatus,
     this.schemaVersion,
     this.sha1,
     this.status,
@@ -13439,7 +14867,7 @@ class DocumentDescription {
       _$DocumentDescriptionFromJson(json);
 }
 
-/// Describes a filter.
+/// This data type is deprecated. Instead, use <a>DocumentKeyValuesFilter</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -13521,6 +14949,10 @@ extension on DocumentHashType {
     createFactory: true,
     createToJson: false)
 class DocumentIdentifier {
+  /// The user in your organization who created the document.
+  @_s.JsonKey(name: 'Author')
+  final String author;
+
   /// The document format, either JSON or YAML.
   @_s.JsonKey(name: 'DocumentFormat')
   final DocumentFormat documentFormat;
@@ -13551,6 +14983,10 @@ class DocumentIdentifier {
   @_s.JsonKey(name: 'Requires')
   final List<DocumentRequires> requires;
 
+  /// The current status of a document review.
+  @_s.JsonKey(name: 'ReviewStatus')
+  final ReviewStatus reviewStatus;
+
   /// The schema version.
   @_s.JsonKey(name: 'SchemaVersion')
   final String schemaVersion;
@@ -13563,7 +14999,8 @@ class DocumentIdentifier {
   /// on. For example, /AWS::EC2::Instance. For a list of valid resource types,
   /// see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
-  /// Resource Types Reference</a> in the <i>AWS CloudFormation User Guide</i>.
+  /// resource and property types reference</a> in the <i>AWS CloudFormation User
+  /// Guide</i>.
   @_s.JsonKey(name: 'TargetType')
   final String targetType;
 
@@ -13574,6 +15011,7 @@ class DocumentIdentifier {
   final String versionName;
 
   DocumentIdentifier({
+    this.author,
     this.documentFormat,
     this.documentType,
     this.documentVersion,
@@ -13581,6 +15019,7 @@ class DocumentIdentifier {
     this.owner,
     this.platformTypes,
     this.requires,
+    this.reviewStatus,
     this.schemaVersion,
     this.tags,
     this.targetType,
@@ -13596,16 +15035,78 @@ class DocumentIdentifier {
 /// For keys, you can specify one or more tags that have been applied to a
 /// document.
 ///
-/// Other valid values include Owner, Name, PlatformTypes, and DocumentType.
+/// You can also use AWS-provided keys, some of which have specific allowed
+/// values. These keys and their associated values are as follows:
+/// <dl> <dt>DocumentType</dt> <dd>
+/// <ul>
+/// <li>
+/// ApplicationConfiguration
+/// </li>
+/// <li>
+/// ApplicationConfigurationSchema
+/// </li>
+/// <li>
+/// Automation
+/// </li>
+/// <li>
+/// ChangeCalendar
+/// </li>
+/// <li>
+/// Command
+/// </li>
+/// <li>
+/// DeploymentStrategy
+/// </li>
+/// <li>
+/// Package
+/// </li>
+/// <li>
+/// Policy
+/// </li>
+/// <li>
+/// Session
+/// </li>
+/// </ul> </dd> <dt>Owner</dt> <dd>
+/// Note that only one <code>Owner</code> can be specified in a request. For
+/// example: <code>Key=Owner,Values=Self</code>.
 ///
-/// Note that only one Owner can be specified in a request. For example:
-/// <code>Key=Owner,Values=Self</code>.
-///
-/// If you use Name as a key, you can use a name prefix to return a list of
-/// documents. For example, in the AWS CLI, to return a list of all documents
-/// that begin with <code>Te</code>, run the following command:
+/// <ul>
+/// <li>
+/// Amazon
+/// </li>
+/// <li>
+/// Private
+/// </li>
+/// <li>
+/// Public
+/// </li>
+/// <li>
+/// Self
+/// </li>
+/// <li>
+/// ThirdParty
+/// </li>
+/// </ul> </dd> <dt>PlatformTypes</dt> <dd>
+/// <ul>
+/// <li>
+/// Linux
+/// </li>
+/// <li>
+/// Windows
+/// </li>
+/// </ul> </dd> </dl>
+/// <code>Name</code> is another AWS-provided key. If you use <code>Name</code>
+/// as a key, you can use a name prefix to return a list of documents. For
+/// example, in the AWS CLI, to return a list of all documents that begin with
+/// <code>Te</code>, run the following command:
 ///
 /// <code>aws ssm list-documents --filters Key=Name,Values=Te</code>
+///
+/// You can also use the <code>TargetType</code> AWS-provided key. For a list of
+/// valid resource type values that can be used with this key, see <a
+/// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
+/// resource and property types reference</a> in the <i>AWS CloudFormation User
+/// Guide</i>.
 ///
 /// If you specify more than two keys, only documents that are identified by all
 /// the tags are returned in the results. If you specify more than two values
@@ -13613,9 +15114,9 @@ class DocumentIdentifier {
 /// in the results.
 ///
 /// To specify a custom key and value pair, use the format
-/// <code>Key=tag:[tagName],Values=[valueName]</code>.
+/// <code>Key=tag:tagName,Values=valueName</code>.
 ///
-/// For example, if you created a Key called region and are using the AWS CLI to
+/// For example, if you created a key called region and are using the AWS CLI to
 /// call the <code>list-documents</code> command:
 ///
 /// <code>aws ssm list-documents --filters Key=tag:region,Values=east,west
@@ -13639,6 +15140,39 @@ class DocumentKeyValuesFilter {
     this.values,
   });
   Map<String, dynamic> toJson() => _$DocumentKeyValuesFilterToJson(this);
+}
+
+enum DocumentMetadataEnum {
+  @_s.JsonValue('DocumentReviews')
+  documentReviews,
+}
+
+extension on DocumentMetadataEnum {
+  String toValue() {
+    switch (this) {
+      case DocumentMetadataEnum.documentReviews:
+        return 'DocumentReviews';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Details about the response to a document review request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DocumentMetadataResponseInfo {
+  /// Details about a reviewer's response to a document review request.
+  @_s.JsonKey(name: 'ReviewerResponse')
+  final List<DocumentReviewerResponseSource> reviewerResponse;
+
+  DocumentMetadataResponseInfo({
+    this.reviewerResponse,
+  });
+  factory DocumentMetadataResponseInfo.fromJson(Map<String, dynamic> json) =>
+      _$DocumentMetadataResponseInfoFromJson(json);
 }
 
 /// Parameters specified in a System Manager document that run on the server
@@ -13725,6 +15259,121 @@ class DocumentRequires {
   Map<String, dynamic> toJson() => _$DocumentRequiresToJson(this);
 }
 
+enum DocumentReviewAction {
+  @_s.JsonValue('SendForReview')
+  sendForReview,
+  @_s.JsonValue('UpdateReview')
+  updateReview,
+  @_s.JsonValue('Approve')
+  approve,
+  @_s.JsonValue('Reject')
+  reject,
+}
+
+/// Information about comments added to a document review request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DocumentReviewCommentSource {
+  /// The content of a comment entered by a user who requests a review of a new
+  /// document version, or who reviews the new version.
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  /// The type of information added to a review request. Currently, only the value
+  /// <code>Comment</code> is supported.
+  @_s.JsonKey(name: 'Type')
+  final DocumentReviewCommentType type;
+
+  DocumentReviewCommentSource({
+    this.content,
+    this.type,
+  });
+  factory DocumentReviewCommentSource.fromJson(Map<String, dynamic> json) =>
+      _$DocumentReviewCommentSourceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DocumentReviewCommentSourceToJson(this);
+}
+
+enum DocumentReviewCommentType {
+  @_s.JsonValue('Comment')
+  comment,
+}
+
+/// Information about a reviewer's response to a document review request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DocumentReviewerResponseSource {
+  /// The comment entered by a reviewer as part of their document review response.
+  @_s.JsonKey(name: 'Comment')
+  final List<DocumentReviewCommentSource> comment;
+
+  /// The date and time that a reviewer entered a response to a document review
+  /// request.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreateTime')
+  final DateTime createTime;
+
+  /// The current review status of a new custom SSM document created by a member
+  /// of your organization, or of the latest version of an existing SSM document.
+  ///
+  /// Only one version of a document can be in the APPROVED state at a time. When
+  /// a new version is approved, the status of the previous version changes to
+  /// REJECTED.
+  ///
+  /// Only one version of a document can be in review, or PENDING, at a time.
+  @_s.JsonKey(name: 'ReviewStatus')
+  final ReviewStatus reviewStatus;
+
+  /// The user in your organization assigned to review a document request.
+  @_s.JsonKey(name: 'Reviewer')
+  final String reviewer;
+
+  /// The date and time that a reviewer last updated a response to a document
+  /// review request.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedTime')
+  final DateTime updatedTime;
+
+  DocumentReviewerResponseSource({
+    this.comment,
+    this.createTime,
+    this.reviewStatus,
+    this.reviewer,
+    this.updatedTime,
+  });
+  factory DocumentReviewerResponseSource.fromJson(Map<String, dynamic> json) =>
+      _$DocumentReviewerResponseSourceFromJson(json);
+}
+
+/// Information about a document approval review.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DocumentReviews {
+  /// The action to take on a document approval review request.
+  @_s.JsonKey(name: 'Action')
+  final DocumentReviewAction action;
+
+  /// A comment entered by a user in your organization about the document review
+  /// request.
+  @_s.JsonKey(name: 'Comment')
+  final List<DocumentReviewCommentSource> comment;
+
+  DocumentReviews({
+    @_s.required this.action,
+    this.comment,
+  });
+  Map<String, dynamic> toJson() => _$DocumentReviewsToJson(this);
+}
+
 /// The status of a document.
 enum DocumentStatus {
   @_s.JsonValue('Creating')
@@ -13758,6 +15407,8 @@ enum DocumentType {
   deploymentStrategy,
   @_s.JsonValue('ChangeCalendar')
   changeCalendar,
+  @_s.JsonValue('Automation.ChangeTemplate')
+  automationChangeTemplate,
 }
 
 extension on DocumentType {
@@ -13781,6 +15432,8 @@ extension on DocumentType {
         return 'DeploymentStrategy';
       case DocumentType.changeCalendar:
         return 'ChangeCalendar';
+      case DocumentType.automationChangeTemplate:
+        return 'Automation.ChangeTemplate';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -13814,6 +15467,11 @@ class DocumentVersionInfo {
   @_s.JsonKey(name: 'Name')
   final String name;
 
+  /// The current status of the approval review for the latest version of the
+  /// document.
+  @_s.JsonKey(name: 'ReviewStatus')
+  final ReviewStatus reviewStatus;
+
   /// The status of the Systems Manager document, such as <code>Creating</code>,
   /// <code>Active</code>, <code>Failed</code>, and <code>Deleting</code>.
   @_s.JsonKey(name: 'Status')
@@ -13838,6 +15496,7 @@ class DocumentVersionInfo {
     this.documentVersion,
     this.isDefaultVersion,
     this.name,
+    this.reviewStatus,
     this.status,
     this.statusInformation,
     this.versionName,
@@ -14071,8 +15730,8 @@ class GetCommandInvocationResult {
   final String executionStartDateTime;
 
   /// The ID of the managed instance targeted by the command. A managed instance
-  /// can be an Amazon EC2 instance or an instance in your hybrid environment that
-  /// is configured for Systems Manager.
+  /// can be an EC2 instance or an instance in your hybrid environment that is
+  /// configured for Systems Manager.
   @_s.JsonKey(name: 'InstanceId')
   final String instanceId;
 
@@ -14104,7 +15763,7 @@ class GetCommandInvocationResult {
   final String standardOutputContent;
 
   /// The URL for the complete text written by the plugin to stdout in Amazon S3.
-  /// If an Amazon S3 bucket was not specified, then this string is empty.
+  /// If an S3 bucket was not specified, then this string is empty.
   @_s.JsonKey(name: 'StandardOutputUrl')
   final String standardOutputUrl;
 
@@ -14118,8 +15777,8 @@ class GetCommandInvocationResult {
   /// from error and concurrency control parameters. StatusDetails can show
   /// different results than Status. For more information about these statuses,
   /// see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html">Understanding
-  /// Command Statuses</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html">Understanding
+  /// command statuses</a> in the <i>AWS Systems Manager User Guide</i>.
   /// StatusDetails can be one of the following values:
   ///
   /// <ul>
@@ -14133,12 +15792,11 @@ class GetCommandInvocationResult {
   /// <li>
   /// Delayed: The system attempted to send the command to the target, but the
   /// target was not available. The instance might not be available because of
-  /// network issues, the instance was stopped, etc. The system will try to
-  /// deliver the command again.
+  /// network issues, because the instance was stopped, or for similar reasons.
+  /// The system will try to send the command again.
   /// </li>
   /// <li>
-  /// Success: The command or plugin was run successfully. This is a terminal
-  /// state.
+  /// Success: The command or plugin ran successfully. This is a terminal state.
   /// </li>
   /// <li>
   /// Delivery Timed Out: The command was not delivered to the instance before the
@@ -14287,7 +15945,7 @@ class GetDeployablePatchSnapshotForInstanceResult {
     createToJson: false)
 class GetDocumentResult {
   /// A description of the document attachments, including names, locations,
-  /// sizes, etc.
+  /// sizes, and so on.
   @_s.JsonKey(name: 'AttachmentsContent')
   final List<AttachmentContent> attachmentsContent;
 
@@ -14317,6 +15975,18 @@ class GetDocumentResult {
   @_s.JsonKey(name: 'Requires')
   final List<DocumentRequires> requires;
 
+  /// The current review status of a new custom Systems Manager document (SSM
+  /// document) created by a member of your organization, or of the latest version
+  /// of an existing SSM document.
+  ///
+  /// Only one version of an SSM document can be in the APPROVED state at a time.
+  /// When a new version is approved, the status of the previous version changes
+  /// to REJECTED.
+  ///
+  /// Only one version of an SSM document can be in review, or PENDING, at a time.
+  @_s.JsonKey(name: 'ReviewStatus')
+  final ReviewStatus reviewStatus;
+
   /// The status of the Systems Manager document, such as <code>Creating</code>,
   /// <code>Active</code>, <code>Updating</code>, <code>Failed</code>, and
   /// <code>Deleting</code>.
@@ -14344,6 +16014,7 @@ class GetDocumentResult {
     this.documentVersion,
     this.name,
     this.requires,
+    this.reviewStatus,
     this.status,
     this.statusInformation,
     this.versionName,
@@ -14675,11 +16346,16 @@ class GetMaintenanceWindowResult {
   @_s.JsonKey(name: 'Schedule')
   final String schedule;
 
+  /// The number of days to wait to run a maintenance window after the scheduled
+  /// CRON expression date and time.
+  @_s.JsonKey(name: 'ScheduleOffset')
+  final int scheduleOffset;
+
   /// The time zone that the scheduled maintenance window executions are based on,
   /// in Internet Assigned Numbers Authority (IANA) format. For example:
-  /// "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see
-  /// the <a href="https://www.iana.org/time-zones">Time Zone Database</a> on the
-  /// IANA website.
+  /// "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the
+  /// <a href="https://www.iana.org/time-zones">Time Zone Database</a> on the IANA
+  /// website.
   @_s.JsonKey(name: 'ScheduleTimezone')
   final String scheduleTimezone;
 
@@ -14705,6 +16381,7 @@ class GetMaintenanceWindowResult {
     this.name,
     this.nextExecutionTime,
     this.schedule,
+    this.scheduleOffset,
     this.scheduleTimezone,
     this.startDate,
     this.windowId,
@@ -14736,10 +16413,22 @@ class GetMaintenanceWindowTaskResult {
   final LoggingInfo loggingInfo;
 
   /// The maximum number of targets allowed to run this task in parallel.
+  /// <note>
+  /// For maintenance window tasks without a target specified, you cannot supply a
+  /// value for this option. Instead, the system inserts a placeholder value of
+  /// <code>1</code>, which may be reported in the response to this command. This
+  /// value does not affect the running of your task and can be ignored.
+  /// </note>
   @_s.JsonKey(name: 'MaxConcurrency')
   final String maxConcurrency;
 
   /// The maximum number of errors allowed before the task stops being scheduled.
+  /// <note>
+  /// For maintenance window tasks without a target specified, you cannot supply a
+  /// value for this option. Instead, the system inserts a placeholder value of
+  /// <code>1</code>, which may be reported in the response to this command. This
+  /// value does not affect the running of your task and can be ignored.
+  /// </note>
   @_s.JsonKey(name: 'MaxErrors')
   final String maxErrors;
 
@@ -14832,6 +16521,34 @@ class GetOpsItemResponse {
   });
   factory GetOpsItemResponse.fromJson(Map<String, dynamic> json) =>
       _$GetOpsItemResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetOpsMetadataResult {
+  /// OpsMetadata for an Application Manager application.
+  @_s.JsonKey(name: 'Metadata')
+  final Map<String, MetadataValue> metadata;
+
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The resource ID of the Application Manager application.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  GetOpsMetadataResult({
+    this.metadata,
+    this.nextToken,
+    this.resourceId,
+  });
+  factory GetOpsMetadataResult.fromJson(Map<String, dynamic> json) =>
+      _$GetOpsMetadataResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -15143,14 +16860,14 @@ class InstanceAssociation {
       _$InstanceAssociationFromJson(json);
 }
 
-/// An Amazon S3 bucket where you want to store the results of this request.
+/// An S3 bucket where you want to store the results of this request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class InstanceAssociationOutputLocation {
-  /// An Amazon S3 bucket where you want to store the results of this request.
+  /// An S3 bucket where you want to store the results of this request.
   @_s.JsonKey(name: 'S3Location')
   final S3OutputLocation s3Location;
 
@@ -15165,16 +16882,14 @@ class InstanceAssociationOutputLocation {
       _$InstanceAssociationOutputLocationToJson(this);
 }
 
-/// The URL of Amazon S3 bucket where you want to store the results of this
-/// request.
+/// The URL of S3 bucket where you want to store the results of this request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class InstanceAssociationOutputUrl {
-  /// The URL of Amazon S3 bucket where you want to store the results of this
-  /// request.
+  /// The URL of S3 bucket where you want to store the results of this request.
   @_s.JsonKey(name: 'S3OutputUrl')
   final S3OutputUrl s3OutputUrl;
 
@@ -15233,8 +16948,7 @@ class InstanceAssociationStatusInfo {
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// A URL for an Amazon S3 bucket where you want to store the results of this
-  /// request.
+  /// A URL for an S3 bucket where you want to store the results of this request.
   @_s.JsonKey(name: 'OutputUrl')
   final InstanceAssociationOutputUrl outputUrl;
 
@@ -15293,8 +17007,14 @@ class InstanceInformation {
   final String iPAddress;
 
   /// The Amazon Identity and Access Management (IAM) role assigned to the
-  /// on-premises Systems Manager managed instances. This call does not return the
-  /// IAM role for Amazon EC2 instances.
+  /// on-premises Systems Manager managed instance. This call does not return the
+  /// IAM role for EC2 instances. To retrieve the IAM role for an EC2 instance,
+  /// use the Amazon EC2 <code>DescribeInstances</code> action. For information,
+  /// see <a
+  /// href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html">DescribeInstances</a>
+  /// in the <i>Amazon EC2 API Reference</i> or <a
+  /// href="http://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html">describe-instances</a>
+  /// in the <i>AWS CLI Command Reference</i>.
   @_s.JsonKey(name: 'IamRole')
   final String iamRole;
 
@@ -15315,7 +17035,7 @@ class InstanceInformation {
   @_s.JsonKey(name: 'LastAssociationExecutionDate')
   final DateTime lastAssociationExecutionDate;
 
-  /// The date and time when agent last pinged Systems Manager service.
+  /// The date and time when the agent last pinged the Systems Manager service.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'LastPingDateTime')
   final DateTime lastPingDateTime;
@@ -15325,11 +17045,30 @@ class InstanceInformation {
   @_s.JsonKey(name: 'LastSuccessfulAssociationExecutionDate')
   final DateTime lastSuccessfulAssociationExecutionDate;
 
-  /// The name of the managed instance.
+  /// The name assigned to an on-premises server or virtual machine (VM) when it
+  /// is activated as a Systems Manager managed instance. The name is specified as
+  /// the <code>DefaultInstanceName</code> property using the
+  /// <a>CreateActivation</a> command. It is applied to the managed instance by
+  /// specifying the Activation Code and Activation ID when you install SSM Agent
+  /// on the instance, as explained in <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-linux.html">Install
+  /// SSM Agent for a hybrid environment (Linux)</a> and <a
+  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-win.html">Install
+  /// SSM Agent for a hybrid environment (Windows)</a>. To retrieve the Name tag
+  /// of an EC2 instance, use the Amazon EC2 <code>DescribeInstances</code>
+  /// action. For information, see <a
+  /// href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html">DescribeInstances</a>
+  /// in the <i>Amazon EC2 API Reference</i> or <a
+  /// href="http://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html">describe-instances</a>
+  /// in the <i>AWS CLI Command Reference</i>.
   @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Connection status of SSM Agent.
+  /// <note>
+  /// The status <code>Inactive</code> has been deprecated and is no longer in
+  /// use.
+  /// </note>
   @_s.JsonKey(name: 'PingStatus')
   final PingStatus pingStatus;
 
@@ -15473,8 +17212,8 @@ class InstancePatchState {
   @_s.JsonKey(name: 'InstanceId')
   final String instanceId;
 
-  /// The type of patching operation that was performed: SCAN (assess patch
-  /// compliance state) or INSTALL (install missing patches).
+  /// The type of patching operation that was performed: <code>SCAN</code> (assess
+  /// patch compliance state) or <code>INSTALL</code> (install missing patches).
   @_s.JsonKey(name: 'Operation')
   final PatchOperationType operation;
 
@@ -15498,15 +17237,15 @@ class InstancePatchState {
   final int failedCount;
 
   /// An https URL or an Amazon S3 path-style URL to a list of patches to be
-  /// installed. This patch installation list, which you maintain in an Amazon S3
-  /// bucket in YAML format and specify in the SSM document
+  /// installed. This patch installation list, which you maintain in an S3 bucket
+  /// in YAML format and specify in the SSM document
   /// <code>AWS-RunPatchBaseline</code>, overrides the patches specified by the
   /// default patch baseline.
   ///
   /// For more information about the <code>InstallOverrideList</code> parameter,
   /// see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-about-aws-runpatchbaseline.html">About
-  /// the SSM Document AWS-RunPatchBaseline</a> in the <i>AWS Systems Manager User
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-about-aws-runpatchbaseline.html">About
+  /// the SSM document AWS-RunPatchBaseline</a> in the <i>AWS Systems Manager User
   /// Guide</i>.
   @_s.JsonKey(name: 'InstallOverrideList')
   final String installOverrideList;
@@ -15526,12 +17265,14 @@ class InstancePatchState {
   @_s.JsonKey(name: 'InstalledPendingRebootCount')
   final int installedPendingRebootCount;
 
-  /// The number of instances with patches installed that are specified in a
-  /// RejectedPatches list. Patches with a status of <i>InstalledRejected</i> were
-  /// typically installed before they were added to a RejectedPatches list.
+  /// The number of patches installed on an instance that are specified in a
+  /// <code>RejectedPatches</code> list. Patches with a status of
+  /// <i>InstalledRejected</i> were typically installed before they were added to
+  /// a <code>RejectedPatches</code> list.
   /// <note>
-  /// If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction,
-  /// the value of InstalledRejectedCount will always be 0 (zero).
+  /// If <code>ALLOW_AS_DEPENDENCY</code> is the specified option for
+  /// <code>RejectedPatchesAction</code>, the value of
+  /// <code>InstalledRejectedCount</code> will always be <code>0</code> (zero).
   /// </note>
   @_s.JsonKey(name: 'InstalledRejectedCount')
   final int installedRejectedCount;
@@ -15616,8 +17357,8 @@ class InstancePatchState {
       _$InstancePatchStateFromJson(json);
 }
 
-/// Defines a filter used in DescribeInstancePatchStatesForPatchGroup used to
-/// scope down the information returned by the API.
+/// Defines a filter used in <a>DescribeInstancePatchStatesForPatchGroup</a>
+/// used to scope down the information returned by the API.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -15718,8 +17459,8 @@ class InventoryDeletionStatusItem {
 
   /// Information about the delete operation. For more information about this
   /// summary, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete">Understanding
-  /// the Delete Inventory Summary</a> in the <i>AWS Systems Manager User
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete">Understanding
+  /// the delete inventory summary</a> in the <i>AWS Systems Manager User
   /// Guide</i>.
   @_s.JsonKey(name: 'DeletionSummary')
   final InventoryDeletionSummary deletionSummary;
@@ -15830,6 +17571,12 @@ class InventoryFilter {
   final List<String> values;
 
   /// The type of filter.
+  /// <note>
+  /// The <code>Exists</code> filter must be used with aggregators. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-aggregate.html">Aggregating
+  /// inventory data</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// </note>
   @_s.JsonKey(name: 'Type')
   final InventoryQueryOperatorType type;
 
@@ -16092,8 +17839,8 @@ extension on InventorySchemaDeleteOption {
 class LabelParameterVersionResult {
   /// The label does not meet the requirements. For information about parameter
   /// label requirements, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-labels.html">Labeling
-  /// Parameters</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-labels.html">Labeling
+  /// parameters</a> in the <i>AWS Systems Manager User Guide</i>.
   @_s.JsonKey(name: 'InvalidLabels')
   final List<String> invalidLabels;
 
@@ -16265,6 +18012,47 @@ class ListComplianceSummariesResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListDocumentMetadataHistoryResponse {
+  /// The user ID of the person in the organization who requested the document
+  /// review.
+  @_s.JsonKey(name: 'Author')
+  final String author;
+
+  /// The version of the document.
+  @_s.JsonKey(name: 'DocumentVersion')
+  final String documentVersion;
+
+  /// Information about the response to the document approval request.
+  @_s.JsonKey(name: 'Metadata')
+  final DocumentMetadataResponseInfo metadata;
+
+  /// The name of the document.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The maximum number of items to return for this call. The call also returns a
+  /// token that you can specify in a subsequent call to get the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDocumentMetadataHistoryResponse({
+    this.author,
+    this.documentVersion,
+    this.metadata,
+    this.name,
+    this.nextToken,
+  });
+  factory ListDocumentMetadataHistoryResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListDocumentMetadataHistoryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListDocumentVersionsResult {
   /// The document versions.
   @_s.JsonKey(name: 'DocumentVersions')
@@ -16354,6 +18142,52 @@ class ListInventoryEntriesResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListOpsItemEventsResponse {
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of event information for the specified OpsItems.
+  @_s.JsonKey(name: 'Summaries')
+  final List<OpsItemEventSummary> summaries;
+
+  ListOpsItemEventsResponse({
+    this.nextToken,
+    this.summaries,
+  });
+  factory ListOpsItemEventsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListOpsItemEventsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListOpsMetadataResult {
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Returns a list of OpsMetadata objects.
+  @_s.JsonKey(name: 'OpsMetadataList')
+  final List<OpsMetadata> opsMetadataList;
+
+  ListOpsMetadataResult({
+    this.nextToken,
+    this.opsMetadataList,
+  });
+  factory ListOpsMetadataResult.fromJson(Map<String, dynamic> json) =>
+      _$ListOpsMetadataResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListResourceComplianceSummariesResult {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
@@ -16416,7 +18250,7 @@ class ListTagsForResourceResult {
       _$ListTagsForResourceResultFromJson(json);
 }
 
-/// Information about an Amazon S3 bucket to write instance-level logs to.
+/// Information about an S3 bucket to write instance-level logs to.
 /// <note>
 /// <code>LoggingInfo</code> has been deprecated. To specify an S3 bucket to
 /// contain logs, instead use the <code>OutputS3BucketName</code> and
@@ -16431,15 +18265,15 @@ class ListTagsForResourceResult {
     createFactory: true,
     createToJson: true)
 class LoggingInfo {
-  /// The name of an Amazon S3 bucket where execution logs are stored .
+  /// The name of an S3 bucket where execution logs are stored .
   @_s.JsonKey(name: 'S3BucketName')
   final String s3BucketName;
 
-  /// The region where the Amazon S3 bucket is located.
+  /// The Region where the S3 bucket is located.
   @_s.JsonKey(name: 'S3Region')
   final String s3Region;
 
-  /// (Optional) The Amazon S3 bucket subfolder.
+  /// (Optional) The S3 bucket subfolder.
   @_s.JsonKey(name: 'S3KeyPrefix')
   final String s3KeyPrefix;
 
@@ -16773,6 +18607,11 @@ class MaintenanceWindowIdentity {
   @_s.JsonKey(name: 'Schedule')
   final String schedule;
 
+  /// The number of days to wait to run a maintenance window after the scheduled
+  /// CRON expression date and time.
+  @_s.JsonKey(name: 'ScheduleOffset')
+  final int scheduleOffset;
+
   /// The time zone that the scheduled maintenance window executions are based on,
   /// in Internet Assigned Numbers Authority (IANA) format.
   @_s.JsonKey(name: 'ScheduleTimezone')
@@ -16796,6 +18635,7 @@ class MaintenanceWindowIdentity {
     this.name,
     this.nextExecutionTime,
     this.schedule,
+    this.scheduleOffset,
     this.scheduleTimezone,
     this.startDate,
     this.windowId,
@@ -16972,11 +18812,11 @@ class MaintenanceWindowRunCommandParameters {
   @_s.JsonKey(name: 'NotificationConfig')
   final NotificationConfig notificationConfig;
 
-  /// The name of the Amazon S3 bucket.
+  /// The name of the S3 bucket.
   @_s.JsonKey(name: 'OutputS3BucketName')
   final String outputS3BucketName;
 
-  /// The Amazon S3 bucket subfolder.
+  /// The S3 bucket subfolder.
   @_s.JsonKey(name: 'OutputS3KeyPrefix')
   final String outputS3KeyPrefix;
 
@@ -17132,7 +18972,7 @@ class MaintenanceWindowTask {
   @_s.JsonKey(name: 'Description')
   final String description;
 
-  /// Information about an Amazon S3 bucket to write task-level logs to.
+  /// Information about an S3 bucket to write task-level logs to.
   /// <note>
   /// <code>LoggingInfo</code> has been deprecated. To specify an S3 bucket to
   /// contain logs, instead use the <code>OutputS3BucketName</code> and
@@ -17312,6 +19152,26 @@ extension on MaintenanceWindowTaskType {
   }
 }
 
+/// Metadata to assign to an Application Manager application.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class MetadataValue {
+  /// Metadata value to assign to an Application Manager application.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  MetadataValue({
+    this.value,
+  });
+  factory MetadataValue.fromJson(Map<String, dynamic> json) =>
+      _$MetadataValueFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MetadataValueToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -17364,9 +19224,9 @@ class NotificationConfig {
   /// The different events for which you can receive notifications. These events
   /// include the following: All (events), InProgress, Success, TimedOut,
   /// Cancelled, Failed. To learn more about these events, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-sns-notifications.html">Configuring
-  /// Amazon SNS Notifications for AWS Systems Manager</a> in the <i>AWS Systems
-  /// Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-sns-notifications.html">Monitoring
+  /// Systems Manager status changes using Amazon SNS notifications</a> in the
+  /// <i>AWS Systems Manager User Guide</i>.
   @_s.JsonKey(name: 'NotificationEvents')
   final List<NotificationEvent> notificationEvents;
 
@@ -17424,6 +19284,12 @@ enum OperatingSystem {
   suse,
   @_s.JsonValue('CENTOS')
   centos,
+  @_s.JsonValue('ORACLE_LINUX')
+  oracleLinux,
+  @_s.JsonValue('DEBIAN')
+  debian,
+  @_s.JsonValue('MACOS')
+  macos,
 }
 
 extension on OperatingSystem {
@@ -17443,6 +19309,12 @@ extension on OperatingSystem {
         return 'SUSE';
       case OperatingSystem.centos:
         return 'CENTOS';
+      case OperatingSystem.oracleLinux:
+        return 'ORACLE_LINUX';
+      case OperatingSystem.debian:
+        return 'DEBIAN';
+      case OperatingSystem.macos:
+        return 'MACOS';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -17583,7 +19455,7 @@ enum OpsFilterOperatorType {
 /// Operations engineers and IT professionals use OpsCenter to view,
 /// investigate, and remediate operational issues impacting the performance and
 /// health of their AWS resources. For more information, see <a
-/// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
+/// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
 /// Systems Manager OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -17591,6 +19463,18 @@ enum OpsFilterOperatorType {
     createFactory: true,
     createToJson: false)
 class OpsItem {
+  /// The time a runbook workflow ended. Currently reported only for the OpsItem
+  /// type <code>/aws/changerequest</code>.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ActualEndTime')
+  final DateTime actualEndTime;
+
+  /// The time a runbook workflow started. Currently reported only for the OpsItem
+  /// type <code>/aws/changerequest</code>.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ActualStartTime')
+  final DateTime actualStartTime;
+
   /// An OpsItem category. Category options include: Availability, Cost,
   /// Performance, Recovery, Security.
   @_s.JsonKey(name: 'Category')
@@ -17644,14 +19528,33 @@ class OpsItem {
   /// related resource in the request. Use the <code>/aws/automations</code> key
   /// in OperationalData to associate an Automation runbook with the OpsItem. To
   /// view AWS CLI example commands that use these keys, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems">Creating
-  /// OpsItems Manually</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems">Creating
+  /// OpsItems manually</a> in the <i>AWS Systems Manager User Guide</i>.
   @_s.JsonKey(name: 'OperationalData')
   final Map<String, OpsItemDataValue> operationalData;
 
   /// The ID of the OpsItem.
   @_s.JsonKey(name: 'OpsItemId')
   final String opsItemId;
+
+  /// The type of OpsItem. Currently, the only valid values are
+  /// <code>/aws/changerequest</code> and <code>/aws/issue</code>.
+  @_s.JsonKey(name: 'OpsItemType')
+  final String opsItemType;
+
+  /// The time specified in a change request for a runbook workflow to end.
+  /// Currently supported only for the OpsItem type
+  /// <code>/aws/changerequest</code>.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'PlannedEndTime')
+  final DateTime plannedEndTime;
+
+  /// The time specified in a change request for a runbook workflow to start.
+  /// Currently supported only for the OpsItem type
+  /// <code>/aws/changerequest</code>.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'PlannedStartTime')
+  final DateTime plannedStartTime;
 
   /// The importance of this OpsItem in relation to other OpsItems in the system.
   @_s.JsonKey(name: 'Priority')
@@ -17667,15 +19570,15 @@ class OpsItem {
   @_s.JsonKey(name: 'Severity')
   final String severity;
 
-  /// The origin of the OpsItem, such as Amazon EC2 or AWS Systems Manager. The
+  /// The origin of the OpsItem, such as Amazon EC2 or Systems Manager. The
   /// impacted resource is a subset of source.
   @_s.JsonKey(name: 'Source')
   final String source;
 
   /// The OpsItem status. Status can be <code>Open</code>, <code>In
   /// Progress</code>, or <code>Resolved</code>. For more information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems-editing-details.html">Editing
-  /// OpsItem Details</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems-editing-details.html">Editing
+  /// OpsItem details</a> in the <i>AWS Systems Manager User Guide</i>.
   @_s.JsonKey(name: 'Status')
   final OpsItemStatus status;
 
@@ -17690,6 +19593,8 @@ class OpsItem {
   final String version;
 
   OpsItem({
+    this.actualEndTime,
+    this.actualStartTime,
     this.category,
     this.createdBy,
     this.createdTime,
@@ -17699,6 +19604,9 @@ class OpsItem {
     this.notifications,
     this.operationalData,
     this.opsItemId,
+    this.opsItemType,
+    this.plannedEndTime,
+    this.plannedStartTime,
     this.priority,
     this.relatedOpsItems,
     this.severity,
@@ -17745,6 +19653,96 @@ class OpsItemDataValue {
   Map<String, dynamic> toJson() => _$OpsItemDataValueToJson(this);
 }
 
+/// Describes a filter for a specific list of OpsItem events. You can filter
+/// event information by using tags. You specify tags by using a key-value pair
+/// mapping.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class OpsItemEventFilter {
+  /// The name of the filter key. Currently, the only supported value is
+  /// <code>OpsItemId</code>.
+  @_s.JsonKey(name: 'Key')
+  final OpsItemEventFilterKey key;
+
+  /// The operator used by the filter call. Currently, the only supported value is
+  /// <code>Equal</code>.
+  @_s.JsonKey(name: 'Operator')
+  final OpsItemEventFilterOperator operator;
+
+  /// The values for the filter, consisting of one or more OpsItem IDs.
+  @_s.JsonKey(name: 'Values')
+  final List<String> values;
+
+  OpsItemEventFilter({
+    @_s.required this.key,
+    @_s.required this.operator,
+    @_s.required this.values,
+  });
+  Map<String, dynamic> toJson() => _$OpsItemEventFilterToJson(this);
+}
+
+enum OpsItemEventFilterKey {
+  @_s.JsonValue('OpsItemId')
+  opsItemId,
+}
+
+enum OpsItemEventFilterOperator {
+  @_s.JsonValue('Equal')
+  equal,
+}
+
+/// Summary information about an OpsItem event.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class OpsItemEventSummary {
+  /// Information about the user or resource that created the OpsItem event.
+  @_s.JsonKey(name: 'CreatedBy')
+  final OpsItemIdentity createdBy;
+
+  /// The date and time the OpsItem event was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
+  final DateTime createdTime;
+
+  /// Specific information about the OpsItem event.
+  @_s.JsonKey(name: 'Detail')
+  final String detail;
+
+  /// The type of information provided as a detail.
+  @_s.JsonKey(name: 'DetailType')
+  final String detailType;
+
+  /// The ID of the OpsItem event.
+  @_s.JsonKey(name: 'EventId')
+  final String eventId;
+
+  /// The ID of the OpsItem.
+  @_s.JsonKey(name: 'OpsItemId')
+  final String opsItemId;
+
+  /// The source of the OpsItem event.
+  @_s.JsonKey(name: 'Source')
+  final String source;
+
+  OpsItemEventSummary({
+    this.createdBy,
+    this.createdTime,
+    this.detail,
+    this.detailType,
+    this.eventId,
+    this.opsItemId,
+    this.source,
+  });
+  factory OpsItemEventSummary.fromJson(Map<String, dynamic> json) =>
+      _$OpsItemEventSummaryFromJson(json);
+}
+
 /// Describes an OpsItem filter.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -17789,6 +19787,14 @@ enum OpsItemFilterKey {
   createdTime,
   @_s.JsonValue('LastModifiedTime')
   lastModifiedTime,
+  @_s.JsonValue('ActualStartTime')
+  actualStartTime,
+  @_s.JsonValue('ActualEndTime')
+  actualEndTime,
+  @_s.JsonValue('PlannedStartTime')
+  plannedStartTime,
+  @_s.JsonValue('PlannedEndTime')
+  plannedEndTime,
   @_s.JsonValue('OperationalData')
   operationalData,
   @_s.JsonValue('OperationalDataKey')
@@ -17803,6 +19809,20 @@ enum OpsItemFilterKey {
   category,
   @_s.JsonValue('Severity')
   severity,
+  @_s.JsonValue('OpsItemType')
+  opsItemType,
+  @_s.JsonValue('ChangeRequestByRequesterArn')
+  changeRequestByRequesterArn,
+  @_s.JsonValue('ChangeRequestByRequesterName')
+  changeRequestByRequesterName,
+  @_s.JsonValue('ChangeRequestByApproverArn')
+  changeRequestByApproverArn,
+  @_s.JsonValue('ChangeRequestByApproverName')
+  changeRequestByApproverName,
+  @_s.JsonValue('ChangeRequestByTemplate')
+  changeRequestByTemplate,
+  @_s.JsonValue('ChangeRequestByTargetsResourceGroup')
+  changeRequestByTargetsResourceGroup,
 }
 
 enum OpsItemFilterOperator {
@@ -17814,6 +19834,25 @@ enum OpsItemFilterOperator {
   greaterThan,
   @_s.JsonValue('LessThan')
   lessThan,
+}
+
+/// Information about the user or resource that created an OpsItem event.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class OpsItemIdentity {
+  /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem
+  /// event.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  OpsItemIdentity({
+    this.arn,
+  });
+  factory OpsItemIdentity.fromJson(Map<String, dynamic> json) =>
+      _$OpsItemIdentityFromJson(json);
 }
 
 /// A notification about the OpsItem.
@@ -17844,6 +19883,36 @@ enum OpsItemStatus {
   inProgress,
   @_s.JsonValue('Resolved')
   resolved,
+  @_s.JsonValue('Pending')
+  pending,
+  @_s.JsonValue('TimedOut')
+  timedOut,
+  @_s.JsonValue('Cancelling')
+  cancelling,
+  @_s.JsonValue('Cancelled')
+  cancelled,
+  @_s.JsonValue('Failed')
+  failed,
+  @_s.JsonValue('CompletedWithSuccess')
+  completedWithSuccess,
+  @_s.JsonValue('CompletedWithFailure')
+  completedWithFailure,
+  @_s.JsonValue('Scheduled')
+  scheduled,
+  @_s.JsonValue('RunbookInProgress')
+  runbookInProgress,
+  @_s.JsonValue('PendingChangeCalendarOverride')
+  pendingChangeCalendarOverride,
+  @_s.JsonValue('ChangeCalendarOverrideApproved')
+  changeCalendarOverrideApproved,
+  @_s.JsonValue('ChangeCalendarOverrideRejected')
+  changeCalendarOverrideRejected,
+  @_s.JsonValue('PendingApproval')
+  pendingApproval,
+  @_s.JsonValue('Approved')
+  approved,
+  @_s.JsonValue('Rejected')
+  rejected,
 }
 
 extension on OpsItemStatus {
@@ -17855,6 +19924,36 @@ extension on OpsItemStatus {
         return 'InProgress';
       case OpsItemStatus.resolved:
         return 'Resolved';
+      case OpsItemStatus.pending:
+        return 'Pending';
+      case OpsItemStatus.timedOut:
+        return 'TimedOut';
+      case OpsItemStatus.cancelling:
+        return 'Cancelling';
+      case OpsItemStatus.cancelled:
+        return 'Cancelled';
+      case OpsItemStatus.failed:
+        return 'Failed';
+      case OpsItemStatus.completedWithSuccess:
+        return 'CompletedWithSuccess';
+      case OpsItemStatus.completedWithFailure:
+        return 'CompletedWithFailure';
+      case OpsItemStatus.scheduled:
+        return 'Scheduled';
+      case OpsItemStatus.runbookInProgress:
+        return 'RunbookInProgress';
+      case OpsItemStatus.pendingChangeCalendarOverride:
+        return 'PendingChangeCalendarOverride';
+      case OpsItemStatus.changeCalendarOverrideApproved:
+        return 'ChangeCalendarOverrideApproved';
+      case OpsItemStatus.changeCalendarOverrideRejected:
+        return 'ChangeCalendarOverrideRejected';
+      case OpsItemStatus.pendingApproval:
+        return 'PendingApproval';
+      case OpsItemStatus.approved:
+        return 'Approved';
+      case OpsItemStatus.rejected:
+        return 'Rejected';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -17867,6 +19966,18 @@ extension on OpsItemStatus {
     createFactory: true,
     createToJson: false)
 class OpsItemSummary {
+  /// The time a runbook workflow ended. Currently reported only for the OpsItem
+  /// type <code>/aws/changerequest</code>.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ActualEndTime')
+  final DateTime actualEndTime;
+
+  /// The time a runbook workflow started. Currently reported only for the OpsItem
+  /// type <code>/aws/changerequest</code>.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ActualStartTime')
+  final DateTime actualStartTime;
+
   /// A list of OpsItems by category.
   @_s.JsonKey(name: 'Category')
   final String category;
@@ -17898,6 +20009,25 @@ class OpsItemSummary {
   @_s.JsonKey(name: 'OpsItemId')
   final String opsItemId;
 
+  /// The type of OpsItem. Currently, the only valid values are
+  /// <code>/aws/changerequest</code> and <code>/aws/issue</code>.
+  @_s.JsonKey(name: 'OpsItemType')
+  final String opsItemType;
+
+  /// The time specified in a change request for a runbook workflow to end.
+  /// Currently supported only for the OpsItem type
+  /// <code>/aws/changerequest</code>.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'PlannedEndTime')
+  final DateTime plannedEndTime;
+
+  /// The time specified in a change request for a runbook workflow to start.
+  /// Currently supported only for the OpsItem type
+  /// <code>/aws/changerequest</code>.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'PlannedStartTime')
+  final DateTime plannedStartTime;
+
   /// The importance of this OpsItem in relation to other OpsItems in the system.
   @_s.JsonKey(name: 'Priority')
   final int priority;
@@ -17921,6 +20051,8 @@ class OpsItemSummary {
   final String title;
 
   OpsItemSummary({
+    this.actualEndTime,
+    this.actualStartTime,
     this.category,
     this.createdBy,
     this.createdTime,
@@ -17928,6 +20060,9 @@ class OpsItemSummary {
     this.lastModifiedTime,
     this.operationalData,
     this.opsItemId,
+    this.opsItemType,
+    this.plannedEndTime,
+    this.plannedStartTime,
     this.priority,
     this.severity,
     this.source,
@@ -17936,6 +20071,68 @@ class OpsItemSummary {
   });
   factory OpsItemSummary.fromJson(Map<String, dynamic> json) =>
       _$OpsItemSummaryFromJson(json);
+}
+
+/// Operational metadata for an application in Application Manager.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class OpsMetadata {
+  /// The date the OpsMetadata objects was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
+  final DateTime creationDate;
+
+  /// The date the OpsMetadata object was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
+  final DateTime lastModifiedDate;
+
+  /// The user name who last updated the OpsMetadata object.
+  @_s.JsonKey(name: 'LastModifiedUser')
+  final String lastModifiedUser;
+
+  /// The Amazon Resource Name (ARN) of the OpsMetadata Object or blob.
+  @_s.JsonKey(name: 'OpsMetadataArn')
+  final String opsMetadataArn;
+
+  /// The ID of the Application Manager application.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  OpsMetadata({
+    this.creationDate,
+    this.lastModifiedDate,
+    this.lastModifiedUser,
+    this.opsMetadataArn,
+    this.resourceId,
+  });
+  factory OpsMetadata.fromJson(Map<String, dynamic> json) =>
+      _$OpsMetadataFromJson(json);
+}
+
+/// A filter to limit the number of OpsMetadata objects displayed.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class OpsMetadataFilter {
+  /// A filter key.
+  @_s.JsonKey(name: 'Key')
+  final String key;
+
+  /// A filter value.
+  @_s.JsonKey(name: 'Values')
+  final List<String> values;
+
+  OpsMetadataFilter({
+    @_s.required this.key,
+    @_s.required this.values,
+  });
+  Map<String, dynamic> toJson() => _$OpsMetadataFilterToJson(this);
 }
 
 /// The OpsItem data type to return.
@@ -17964,7 +20161,7 @@ class OpsResultAttribute {
     createFactory: true,
     createToJson: false)
 class OutputSource {
-  /// The ID of the output source, for example the URL of an Amazon S3 bucket.
+  /// The ID of the output source, for example the URL of an S3 bucket.
   @_s.JsonKey(name: 'OutputSourceId')
   final String outputSourceId;
 
@@ -17981,7 +20178,7 @@ class OutputSource {
       _$OutputSourceFromJson(json);
 }
 
-/// An Amazon EC2 Systems Manager parameter in Parameter Store.
+/// An Systems Manager parameter in Parameter Store.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -17991,6 +20188,11 @@ class Parameter {
   /// The Amazon Resource Name (ARN) of the parameter.
   @_s.JsonKey(name: 'ARN')
   final String arn;
+
+  /// The data type of the parameter, such as <code>text</code> or
+  /// <code>aws:ec2:image</code>. The default is <code>text</code>.
+  @_s.JsonKey(name: 'DataType')
+  final String dataType;
 
   /// Date the parameter was last changed or updated and the parameter version was
   /// created.
@@ -18016,8 +20218,8 @@ class Parameter {
   @_s.JsonKey(name: 'SourceResult')
   final String sourceResult;
 
-  /// The type of parameter. Valid values include the following: String, String
-  /// list, Secure string.
+  /// The type of parameter. Valid values include the following:
+  /// <code>String</code>, <code>StringList</code>, and <code>SecureString</code>.
   @_s.JsonKey(name: 'Type')
   final ParameterType type;
 
@@ -18031,6 +20233,7 @@ class Parameter {
 
   Parameter({
     this.arn,
+    this.dataType,
     this.lastModifiedDate,
     this.name,
     this.selector,
@@ -18055,6 +20258,11 @@ class ParameterHistory {
   /// a-zA-Z0-9_.-
   @_s.JsonKey(name: 'AllowedPattern')
   final String allowedPattern;
+
+  /// The data type of the parameter, such as <code>text</code> or
+  /// <code>aws:ec2:image</code>. The default is <code>text</code>.
+  @_s.JsonKey(name: 'DataType')
+  final String dataType;
 
   /// Information about the parameter.
   @_s.JsonKey(name: 'Description')
@@ -18084,8 +20292,8 @@ class ParameterHistory {
   /// Information about the policies assigned to a parameter.
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-policies.html">Working
-  /// with Parameter Policies</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-policies.html">Assigning
+  /// parameter policies</a> in the <i>AWS Systems Manager User Guide</i>.
   @_s.JsonKey(name: 'Policies')
   final List<ParameterInlinePolicy> policies;
 
@@ -18107,6 +20315,7 @@ class ParameterHistory {
 
   ParameterHistory({
     this.allowedPattern,
+    this.dataType,
     this.description,
     this.keyId,
     this.labels,
@@ -18169,6 +20378,11 @@ class ParameterMetadata {
   @_s.JsonKey(name: 'AllowedPattern')
   final String allowedPattern;
 
+  /// The data type of the parameter, such as <code>text</code> or
+  /// <code>aws:ec2:image</code>. The default is <code>text</code>.
+  @_s.JsonKey(name: 'DataType')
+  final String dataType;
+
   /// Description of the parameter actions.
   @_s.JsonKey(name: 'Description')
   final String description;
@@ -18198,8 +20412,8 @@ class ParameterMetadata {
   @_s.JsonKey(name: 'Tier')
   final ParameterTier tier;
 
-  /// The type of parameter. Valid parameter types include the following: String,
-  /// String list, Secure string.
+  /// The type of parameter. Valid parameter types include the following:
+  /// <code>String</code>, <code>StringList</code>, and <code>SecureString</code>.
   @_s.JsonKey(name: 'Type')
   final ParameterType type;
 
@@ -18209,6 +20423,7 @@ class ParameterMetadata {
 
   ParameterMetadata({
     this.allowedPattern,
+    this.dataType,
     this.description,
     this.keyId,
     this.lastModifiedDate,
@@ -18224,25 +20439,6 @@ class ParameterMetadata {
 }
 
 /// One or more filters. Use a filter to return a more specific list of results.
-/// <important>
-/// The <code>ParameterStringFilter</code> object is used by the
-/// <a>DescribeParameters</a> and <a>GetParametersByPath</a> API actions.
-/// However, not all of the pattern values listed for <code>Key</code> can be
-/// used with both actions.
-///
-/// For <code>DescribeActions</code>, all of the listed patterns are valid, with
-/// the exception of <code>Label</code>.
-///
-/// For <code>GetParametersByPath</code>, the following patterns listed for
-/// <code>Key</code> are not valid: <code>Name</code>, <code>Path</code>, and
-/// <code>Tier</code>.
-///
-/// For examples of CLI commands demonstrating valid parameter filter
-/// constructions, see <a
-/// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-search.html">Searching
-/// for Systems Manager Parameters</a> in the <i>AWS Systems Manager User
-/// Guide</i>.
-/// </important>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -18250,6 +20446,25 @@ class ParameterMetadata {
     createToJson: true)
 class ParameterStringFilter {
   /// The name of the filter.
+  /// <note>
+  /// The <code>ParameterStringFilter</code> object is used by the
+  /// <a>DescribeParameters</a> and <a>GetParametersByPath</a> API actions.
+  /// However, not all of the pattern values listed for <code>Key</code> can be
+  /// used with both actions.
+  ///
+  /// For <code>DescribeActions</code>, all of the listed patterns are valid, with
+  /// the exception of <code>Label</code>.
+  ///
+  /// For <code>GetParametersByPath</code>, the following patterns listed for
+  /// <code>Key</code> are not valid: <code>tag</code>, <code>Name</code>,
+  /// <code>Path</code>, and <code>Tier</code>.
+  ///
+  /// For examples of CLI commands demonstrating valid parameter filter
+  /// constructions, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-search.html">Searching
+  /// for Systems Manager parameters</a> in the <i>AWS Systems Manager User
+  /// Guide</i>.
+  /// </note>
   @_s.JsonKey(name: 'Key')
   final String key;
 
@@ -18261,7 +20476,7 @@ class ParameterStringFilter {
   ///
   /// For filters used with <a>GetParametersByPath</a>, valid options include
   /// <code>Equals</code> and <code>BeginsWith</code>. (Exception: For filters
-  /// using the key <code>Label</code>, the only valid option is
+  /// using <code>Label</code> as the Key name, the only valid option is
   /// <code>Equals</code>.)
   @_s.JsonKey(name: 'Option')
   final String option;
@@ -18362,8 +20577,29 @@ enum ParametersFilterKey {
     createFactory: true,
     createToJson: false)
 class Patch {
-  /// The classification of the patch (for example, SecurityUpdates, Updates,
-  /// CriticalUpdates).
+  /// The Advisory ID of the patch. For example, <code>RHSA-2020:3779</code>.
+  /// Applies to Linux-based instances only.
+  @_s.JsonKey(name: 'AdvisoryIds')
+  final List<String> advisoryIds;
+
+  /// The architecture of the patch. For example, in
+  /// <code>example-pkg-0.710.10-2.7.abcd.x86_64</code>, the architecture is
+  /// indicated by <code>x86_64</code>. Applies to Linux-based instances only.
+  @_s.JsonKey(name: 'Arch')
+  final String arch;
+
+  /// The Bugzilla ID of the patch. For example, <code>1600646</code>. Applies to
+  /// Linux-based instances only.
+  @_s.JsonKey(name: 'BugzillaIds')
+  final List<String> bugzillaIds;
+
+  /// The Common Vulnerabilities and Exposures (CVE) ID of the patch. For example,
+  /// <code>CVE-2011-3192</code>. Applies to Linux-based instances only.
+  @_s.JsonKey(name: 'CVEIds')
+  final List<String> cVEIds;
+
+  /// The classification of the patch. For example, <code>SecurityUpdates</code>,
+  /// <code>Updates</code>, or <code>CriticalUpdates</code>.
   @_s.JsonKey(name: 'Classification')
   final String classification;
 
@@ -18375,12 +20611,21 @@ class Patch {
   @_s.JsonKey(name: 'Description')
   final String description;
 
-  /// The ID of the patch (this is different than the Microsoft Knowledge Base
-  /// ID).
+  /// The epoch of the patch. For example in
+  /// <code>pkg-example-EE-20180914-2.2.amzn1.noarch</code>, the epoch value is
+  /// <code>20180914-2</code>. Applies to Linux-based instances only.
+  @_s.JsonKey(name: 'Epoch')
+  final int epoch;
+
+  /// The ID of the patch. Applies to Windows patches only.
+  /// <note>
+  /// This ID is not the same as the Microsoft Knowledge Base ID.
+  /// </note>
   @_s.JsonKey(name: 'Id')
   final String id;
 
-  /// The Microsoft Knowledge Base ID of the patch.
+  /// The Microsoft Knowledge Base ID of the patch. Applies to Windows patches
+  /// only.
   @_s.JsonKey(name: 'KbNumber')
   final String kbNumber;
 
@@ -18388,27 +20633,54 @@ class Patch {
   @_s.JsonKey(name: 'Language')
   final String language;
 
-  /// The ID of the MSRC bulletin the patch is related to.
+  /// The ID of the Microsoft Security Response Center (MSRC) bulletin the patch
+  /// is related to. For example, <code>MS14-045</code>. Applies to Windows
+  /// patches only.
   @_s.JsonKey(name: 'MsrcNumber')
   final String msrcNumber;
 
-  /// The severity of the patch (for example Critical, Important, Moderate).
+  /// The severity of the patch, such as <code>Critical</code>,
+  /// <code>Important</code>, or <code>Moderate</code>. Applies to Windows patches
+  /// only.
   @_s.JsonKey(name: 'MsrcSeverity')
   final String msrcSeverity;
 
-  /// The specific product the patch is applicable for (for example,
-  /// WindowsServer2016).
+  /// The name of the patch. Applies to Linux-based instances only.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The specific product the patch is applicable for. For example,
+  /// <code>WindowsServer2016</code> or <code>AmazonLinux2018.03</code>.
   @_s.JsonKey(name: 'Product')
   final String product;
 
-  /// The product family the patch is applicable for (for example, Windows).
+  /// The product family the patch is applicable for. For example,
+  /// <code>Windows</code> or <code>Amazon Linux 2</code>.
   @_s.JsonKey(name: 'ProductFamily')
   final String productFamily;
+
+  /// The particular release of a patch. For example, in
+  /// <code>pkg-example-EE-20180914-2.2.amzn1.noarch</code>, the release is
+  /// <code>2.amaz1</code>. Applies to Linux-based instances only.
+  @_s.JsonKey(name: 'Release')
+  final String release;
 
   /// The date the patch was released.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'ReleaseDate')
   final DateTime releaseDate;
+
+  /// The source patch repository for the operating system and version, such as
+  /// <code>trusty-security</code> for Ubuntu Server 14.04 LTE and
+  /// <code>focal-security</code> for Ubuntu Server 20.04 LTE. Applies to
+  /// Linux-based instances only.
+  @_s.JsonKey(name: 'Repository')
+  final String repository;
+
+  /// The severity level of the patch. For example, <code>CRITICAL</code> or
+  /// <code>MODERATE</code>.
+  @_s.JsonKey(name: 'Severity')
+  final String severity;
 
   /// The title of the patch.
   @_s.JsonKey(name: 'Title')
@@ -18418,20 +20690,36 @@ class Patch {
   @_s.JsonKey(name: 'Vendor')
   final String vendor;
 
+  /// The version number of the patch. For example, in
+  /// <code>example-pkg-1.710.10-2.7.abcd.x86_64</code>, the version number is
+  /// indicated by <code>-1</code>. Applies to Linux-based instances only.
+  @_s.JsonKey(name: 'Version')
+  final String version;
+
   Patch({
+    this.advisoryIds,
+    this.arch,
+    this.bugzillaIds,
+    this.cVEIds,
     this.classification,
     this.contentUrl,
     this.description,
+    this.epoch,
     this.id,
     this.kbNumber,
     this.language,
     this.msrcNumber,
     this.msrcSeverity,
+    this.name,
     this.product,
     this.productFamily,
+    this.release,
     this.releaseDate,
+    this.repository,
+    this.severity,
     this.title,
     this.vendor,
+    this.version,
   });
   factory Patch.fromJson(Map<String, dynamic> json) => _$PatchFromJson(json);
 }
@@ -18526,14 +20814,19 @@ class PatchComplianceData {
   /// The state of the patch on the instance, such as INSTALLED or FAILED.
   ///
   /// For descriptions of each patch state, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-compliance-about.html#sysman-compliance-monitor-patch">About
-  /// Patch Compliance</a> in the <i>AWS Systems Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-compliance-about.html#sysman-compliance-monitor-patch">About
+  /// patch compliance</a> in the <i>AWS Systems Manager User Guide</i>.
   @_s.JsonKey(name: 'State')
   final PatchComplianceDataState state;
 
   /// The title of the patch.
   @_s.JsonKey(name: 'Title')
   final String title;
+
+  /// The IDs of one or more Common Vulnerabilities and Exposure (CVE) issues that
+  /// are resolved by the patch.
+  @_s.JsonKey(name: 'CVEIds')
+  final String cVEIds;
 
   PatchComplianceData({
     @_s.required this.classification,
@@ -18542,6 +20835,7 @@ class PatchComplianceData {
     @_s.required this.severity,
     @_s.required this.state,
     @_s.required this.title,
+    this.cVEIds,
   });
   factory PatchComplianceData.fromJson(Map<String, dynamic> json) =>
       _$PatchComplianceDataFromJson(json);
@@ -18677,6 +20971,12 @@ class PatchFilterGroup {
 }
 
 enum PatchFilterKey {
+  @_s.JsonValue('ARCH')
+  arch,
+  @_s.JsonValue('ADVISORY_ID')
+  advisoryId,
+  @_s.JsonValue('BUGZILLA_ID')
+  bugzillaId,
   @_s.JsonValue('PATCH_SET')
   patchSet,
   @_s.JsonValue('PRODUCT')
@@ -18685,16 +20985,30 @@ enum PatchFilterKey {
   productFamily,
   @_s.JsonValue('CLASSIFICATION')
   classification,
+  @_s.JsonValue('CVE_ID')
+  cveId,
+  @_s.JsonValue('EPOCH')
+  epoch,
   @_s.JsonValue('MSRC_SEVERITY')
   msrcSeverity,
+  @_s.JsonValue('NAME')
+  name,
   @_s.JsonValue('PATCH_ID')
   patchId,
   @_s.JsonValue('SECTION')
   section,
   @_s.JsonValue('PRIORITY')
   priority,
+  @_s.JsonValue('REPOSITORY')
+  repository,
+  @_s.JsonValue('RELEASE')
+  release,
   @_s.JsonValue('SEVERITY')
   severity,
+  @_s.JsonValue('SECURITY')
+  security,
+  @_s.JsonValue('VERSION')
+  version,
 }
 
 /// The mapping between a patch group and the patch baseline the patch group is
@@ -18799,17 +21113,20 @@ class PatchRule {
   /// The number of days after the release date of each patch matched by the rule
   /// that the patch is marked as approved in the patch baseline. For example, a
   /// value of <code>7</code> means that patches are approved seven days after
-  /// they are released.
+  /// they are released. Not supported on Ubuntu Server.
   @_s.JsonKey(name: 'ApproveAfterDays')
   final int approveAfterDays;
 
-  /// Example API
+  /// The cutoff date for auto approval of released patches. Any patches released
+  /// on or before this date are installed automatically. Not supported on Ubuntu
+  /// Server.
+  ///
+  /// Enter dates in the format <code>YYYY-MM-DD</code>. For example,
+  /// <code>2020-12-31</code>.
   @_s.JsonKey(name: 'ApproveUntilDate')
   final String approveUntilDate;
 
   /// A compliance severity level for all approved patches in a patch baseline.
-  /// Valid compliance severity levels include the following: Unspecified,
-  /// Critical, High, Medium, Low, and Informational.
   @_s.JsonKey(name: 'ComplianceLevel')
   final PatchComplianceLevel complianceLevel;
 
@@ -19307,7 +21624,7 @@ class ResourceDataSyncAwsOrganizationsSource {
 }
 
 /// Synchronize Systems Manager Inventory data from multiple AWS accounts
-/// defined in AWS Organizations to a centralized Amazon S3 bucket. Data is
+/// defined in AWS Organizations to a centralized S3 bucket. Data is
 /// synchronized to individual key prefixes in the central bucket. Each key
 /// prefix represents a different AWS account ID.
 @_s.JsonSerializable(
@@ -19358,7 +21675,7 @@ class ResourceDataSyncItem {
   @_s.JsonKey(name: 'LastSyncTime')
   final DateTime lastSyncTime;
 
-  /// Configuration information for the target Amazon S3 bucket.
+  /// Configuration information for the target S3 bucket.
   @_s.JsonKey(name: 'S3Destination')
   final ResourceDataSyncS3Destination s3Destination;
 
@@ -19382,7 +21699,7 @@ class ResourceDataSyncItem {
 
   /// The type of resource data sync. If <code>SyncType</code> is
   /// <code>SyncToDestination</code>, then the resource data sync synchronizes
-  /// data to an Amazon S3 bucket. If the <code>SyncType</code> is
+  /// data to an S3 bucket. If the <code>SyncType</code> is
   /// <code>SyncFromSource</code> then the resource data sync synchronizes data
   /// from AWS Organizations or from multiple AWS Regions.
   @_s.JsonKey(name: 'SyncType')
@@ -19426,18 +21743,18 @@ class ResourceDataSyncOrganizationalUnit {
       _$ResourceDataSyncOrganizationalUnitToJson(this);
 }
 
-/// Information about the target Amazon S3 bucket for the Resource Data Sync.
+/// Information about the target S3 bucket for the Resource Data Sync.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class ResourceDataSyncS3Destination {
-  /// The name of the Amazon S3 bucket where the aggregated data is stored.
+  /// The name of the S3 bucket where the aggregated data is stored.
   @_s.JsonKey(name: 'BucketName')
   final String bucketName;
 
-  /// The AWS Region with the Amazon S3 bucket targeted by the Resource Data Sync.
+  /// The AWS Region with the S3 bucket targeted by the Resource Data Sync.
   @_s.JsonKey(name: 'Region')
   final String region;
 
@@ -19447,7 +21764,7 @@ class ResourceDataSyncS3Destination {
   final ResourceDataSyncS3Format syncFormat;
 
   /// The ARN of an encryption key for a destination in Amazon S3. Must belong to
-  /// the same Region as the destination Amazon S3 bucket.
+  /// the same Region as the destination S3 bucket.
   @_s.JsonKey(name: 'AWSKMSKeyARN')
   final String awsKMSKeyARN;
 
@@ -19664,7 +21981,7 @@ class ResumeSessionResponse {
   /// (Ohio) Region. For a list of supported <b>region</b> values, see the
   /// <b>Region</b> column in <a
   /// href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#ssm_region">Systems
-  /// Manager Service Endpoints</a> in the <i>AWS General Reference</i>.
+  /// Manager service endpoints</a> in the <i>AWS General Reference</i>.
   ///
   /// <b>session-id</b> represents the ID of a Session Manager session, such as
   /// <code>1a2b3c4dEXAMPLE</code>.
@@ -19685,24 +22002,135 @@ class ResumeSessionResponse {
       _$ResumeSessionResponseFromJson(json);
 }
 
-/// An Amazon S3 bucket where you want to store the results of this request.
+/// Information about the result of a document review request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ReviewInformation {
+  /// The time that the reviewer took action on the document review request.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReviewedTime')
+  final DateTime reviewedTime;
+
+  /// The reviewer assigned to take action on the document review request.
+  @_s.JsonKey(name: 'Reviewer')
+  final String reviewer;
+
+  /// The current status of the document review request.
+  @_s.JsonKey(name: 'Status')
+  final ReviewStatus status;
+
+  ReviewInformation({
+    this.reviewedTime,
+    this.reviewer,
+    this.status,
+  });
+  factory ReviewInformation.fromJson(Map<String, dynamic> json) =>
+      _$ReviewInformationFromJson(json);
+}
+
+enum ReviewStatus {
+  @_s.JsonValue('APPROVED')
+  approved,
+  @_s.JsonValue('NOT_REVIEWED')
+  notReviewed,
+  @_s.JsonValue('PENDING')
+  pending,
+  @_s.JsonValue('REJECTED')
+  rejected,
+}
+
+/// Information about an Automation runbook (Automation document) used in a
+/// runbook workflow in Change Manager.
+/// <note>
+/// The Automation runbooks specified for the runbook workflow can't run until
+/// all required approvals for the change request have been received.
+/// </note>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Runbook {
+  /// The name of the Automation runbook (Automation document) used in a runbook
+  /// workflow.
+  @_s.JsonKey(name: 'DocumentName')
+  final String documentName;
+
+  /// The version of the Automation runbook (Automation document) used in a
+  /// runbook workflow.
+  @_s.JsonKey(name: 'DocumentVersion')
+  final String documentVersion;
+
+  /// The <code>MaxConcurrency</code> value specified by the user when the
+  /// operation started, indicating the maximum number of resources that the
+  /// runbook operation can run on at the same time.
+  @_s.JsonKey(name: 'MaxConcurrency')
+  final String maxConcurrency;
+
+  /// The <code>MaxErrors</code> value specified by the user when the execution
+  /// started, indicating the maximum number of errors that can occur during the
+  /// operation before the updates are stopped or rolled back.
+  @_s.JsonKey(name: 'MaxErrors')
+  final String maxErrors;
+
+  /// The key-value map of execution parameters, which were supplied when calling
+  /// <code>StartChangeRequestExecution</code>.
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, List<String>> parameters;
+
+  /// Information about the AWS Regions and accounts targeted by the current
+  /// Runbook operation.
+  @_s.JsonKey(name: 'TargetLocations')
+  final List<TargetLocation> targetLocations;
+
+  /// The name of the parameter used as the target resource for the
+  /// rate-controlled runbook workflow. Required if you specify
+  /// <code>Targets</code>.
+  @_s.JsonKey(name: 'TargetParameterName')
+  final String targetParameterName;
+
+  /// A key-value mapping to target resources that the Runbook operation performs
+  /// tasks on. Required if you specify <code>TargetParameterName</code>.
+  @_s.JsonKey(name: 'Targets')
+  final List<Target> targets;
+
+  Runbook({
+    @_s.required this.documentName,
+    this.documentVersion,
+    this.maxConcurrency,
+    this.maxErrors,
+    this.parameters,
+    this.targetLocations,
+    this.targetParameterName,
+    this.targets,
+  });
+  factory Runbook.fromJson(Map<String, dynamic> json) =>
+      _$RunbookFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RunbookToJson(this);
+}
+
+/// An S3 bucket where you want to store the results of this request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class S3OutputLocation {
-  /// The name of the Amazon S3 bucket.
+  /// The name of the S3 bucket.
   @_s.JsonKey(name: 'OutputS3BucketName')
   final String outputS3BucketName;
 
-  /// The Amazon S3 bucket subfolder.
+  /// The S3 bucket subfolder.
   @_s.JsonKey(name: 'OutputS3KeyPrefix')
   final String outputS3KeyPrefix;
 
   /// (Deprecated) You can no longer specify this parameter. The system ignores
-  /// it. Instead, Systems Manager automatically determines the Amazon S3 bucket
-  /// region.
+  /// it. Instead, Systems Manager automatically determines the Region of the S3
+  /// bucket.
   @_s.JsonKey(name: 'OutputS3Region')
   final String outputS3Region;
 
@@ -19717,16 +22145,14 @@ class S3OutputLocation {
   Map<String, dynamic> toJson() => _$S3OutputLocationToJson(this);
 }
 
-/// A URL for the Amazon S3 bucket where you want to store the results of this
-/// request.
+/// A URL for the S3 bucket where you want to store the results of this request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class S3OutputUrl {
-  /// A URL for an Amazon S3 bucket where you want to store the results of this
-  /// request.
+  /// A URL for an S3 bucket where you want to store the results of this request.
   @_s.JsonKey(name: 'OutputUrl')
   final String outputUrl;
 
@@ -19990,6 +22416,9 @@ class SessionFilter {
   /// Failed
   /// </li>
   /// </ul> </li>
+  /// <li>
+  /// SessionId: Specify a session ID to return details about the session.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'value')
   final String value;
@@ -20012,6 +22441,8 @@ enum SessionFilterKey {
   owner,
   @_s.JsonValue('Status')
   status,
+  @_s.JsonValue('SessionId')
+  sessionId,
 }
 
 /// Reserved for future use.
@@ -20191,6 +22622,25 @@ class StartAutomationExecutionResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class StartChangeRequestExecutionResult {
+  /// The unique ID of a runbook workflow operation. (A runbook workflow is a type
+  /// of Automation operation.)
+  @_s.JsonKey(name: 'AutomationExecutionId')
+  final String automationExecutionId;
+
+  StartChangeRequestExecutionResult({
+    this.automationExecutionId,
+  });
+  factory StartChangeRequestExecutionResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$StartChangeRequestExecutionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class StartSessionResponse {
   /// The ID of the session.
   @_s.JsonKey(name: 'SessionId')
@@ -20205,7 +22655,7 @@ class StartSessionResponse {
   /// (Ohio) Region. For a list of supported <b>region</b> values, see the
   /// <b>Region</b> column in <a
   /// href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#ssm_region">Systems
-  /// Manager Service Endpoints</a> in the <i>AWS General Reference</i>.
+  /// Manager service endpoints</a> in the <i>AWS General Reference</i>.
   ///
   /// <b>session-id</b> represents the ID of a Session Manager session, such as
   /// <code>1a2b3c4dEXAMPLE</code>.
@@ -20462,7 +22912,16 @@ class Tag {
 
 /// An array of search criteria that targets instances using a Key,Value
 /// combination that you specify.
-///
+/// <note>
+/// One or more targets must be specified for maintenance window Run
+/// Command-type tasks. Depending on the task, targets are optional for other
+/// maintenance window task types (Automation, AWS Lambda, and AWS Step
+/// Functions). For more information about running tasks that do not specify
+/// targets, see see <a
+/// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">Registering
+/// maintenance window tasks without targets</a> in the <i>AWS Systems Manager
+/// User Guide</i>.
+/// </note>
 /// Supported formats include the following.
 ///
 /// <ul>
@@ -20478,13 +22937,17 @@ class Tag {
 /// <code>Key=tag-key,Values=<i>my-tag-key-1</i>,<i>my-tag-key-2</i> </code>
 /// </li>
 /// <li>
-/// (Maintenance window targets only)
+/// <b>Run Command and Maintenance window targets only</b>:
 /// <code>Key=resource-groups:Name,Values=<i>resource-group-name</i> </code>
 /// </li>
 /// <li>
-/// (Maintenance window targets only)
+/// <b>Maintenance window targets only</b>:
 /// <code>Key=resource-groups:ResourceTypeFilters,Values=<i>resource-type-1</i>,<i>resource-type-2</i>
 /// </code>
+/// </li>
+/// <li>
+/// <b>Automation targets only</b>:
+/// <code>Key=ResourceGroup;Values=<i>resource-group-name</i> </code>
 /// </li>
 /// </ul>
 /// For example:
@@ -20500,33 +22963,36 @@ class Tag {
 /// <code>Key=tag-key,Values=Name,Instance-Type,CostCenter</code>
 /// </li>
 /// <li>
-/// (Maintenance window targets only)
+/// <b>Run Command and Maintenance window targets only</b>:
 /// <code>Key=resource-groups:Name,Values=ProductionResourceGroup</code>
 ///
 /// This example demonstrates how to target all resources in the resource group
 /// <b>ProductionResourceGroup</b> in your maintenance window.
 /// </li>
 /// <li>
-/// (Maintenance window targets only)
+/// <b>Maintenance window targets only</b>:
 /// <code>Key=resource-groups:ResourceTypeFilters,Values=<i>AWS::EC2::INSTANCE</i>,<i>AWS::EC2::VPC</i>
 /// </code>
 ///
-/// This example demonstrates how to target only Amazon EC2 instances and VPCs
-/// in your maintenance window.
+/// This example demonstrates how to target only EC2 instances and VPCs in your
+/// maintenance window.
 /// </li>
 /// <li>
-/// (State Manager association targets only)
+/// <b>Automation targets only</b>:
+/// <code>Key=ResourceGroup,Values=MyResourceGroup</code>
+/// </li>
+/// <li>
+/// <b>State Manager association targets only</b>:
 /// <code>Key=InstanceIds,Values=<i>*</i> </code>
 ///
 /// This example demonstrates how to target all managed instances in the AWS
 /// Region where the association was created.
 /// </li>
 /// </ul>
-/// For information about how to send commands that target instances using
+/// For more information about how to send commands that target instances using
 /// <code>Key,Value</code> parameters, see <a
-/// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-targeting">Using
-/// Targets and Rate Controls to Send Commands to a Fleet</a> in the <i>AWS
-/// Systems Manager User Guide</i>.
+/// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-targeting">Targeting
+/// multiple instances</a> in the <i>AWS Systems Manager User Guide</i>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -20540,8 +23006,8 @@ class Target {
 
   /// User-defined criteria that maps to <code>Key</code>. For example, if you
   /// specified <code>tag:ServerRole</code>, you could specify
-  /// <code>value:WebServer</code> to run a command on instances that include
-  /// Amazon EC2 tags of <code>ServerRole,WebServer</code>.
+  /// <code>value:WebServer</code> to run a command on instances that include EC2
+  /// tags of <code>ServerRole,WebServer</code>.
   @_s.JsonKey(name: 'Values')
   final List<String> values;
 
@@ -20566,7 +23032,9 @@ class TargetLocation {
   @_s.JsonKey(name: 'Accounts')
   final List<String> accounts;
 
-  /// The Automation execution role used by the currently running Automation.
+  /// The Automation execution role used by the currently running Automation. If
+  /// not specified, the default value is
+  /// <code>AWS-SystemsManager-AutomationExecutionRole</code>.
   @_s.JsonKey(name: 'ExecutionRoleName')
   final String executionRoleName;
 
@@ -20575,7 +23043,7 @@ class TargetLocation {
   final List<String> regions;
 
   /// The maximum number of AWS accounts and AWS regions allowed to run the
-  /// Automation concurrently
+  /// Automation concurrently.
   @_s.JsonKey(name: 'TargetLocationMaxConcurrency')
   final String targetLocationMaxConcurrency;
 
@@ -20672,6 +23140,17 @@ class UpdateDocumentDefaultVersionResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateDocumentMetadataResponse {
+  UpdateDocumentMetadataResponse();
+  factory UpdateDocumentMetadataResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateDocumentMetadataResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdateDocumentResult {
   /// A description of the document that was updated.
   @_s.JsonKey(name: 'DocumentDescription')
@@ -20727,11 +23206,16 @@ class UpdateMaintenanceWindowResult {
   @_s.JsonKey(name: 'Schedule')
   final String schedule;
 
+  /// The number of days to wait to run a maintenance window after the scheduled
+  /// CRON expression date and time.
+  @_s.JsonKey(name: 'ScheduleOffset')
+  final int scheduleOffset;
+
   /// The time zone that the scheduled maintenance window executions are based on,
   /// in Internet Assigned Numbers Authority (IANA) format. For example:
-  /// "America/Los_Angeles", "etc/UTC", or "Asia/Seoul". For more information, see
-  /// the <a href="https://www.iana.org/time-zones">Time Zone Database</a> on the
-  /// IANA website.
+  /// "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the
+  /// <a href="https://www.iana.org/time-zones">Time Zone Database</a> on the IANA
+  /// website.
   @_s.JsonKey(name: 'ScheduleTimezone')
   final String scheduleTimezone;
 
@@ -20754,6 +23238,7 @@ class UpdateMaintenanceWindowResult {
     this.endDate,
     this.name,
     this.schedule,
+    this.scheduleOffset,
     this.scheduleTimezone,
     this.startDate,
     this.windowId,
@@ -20928,6 +23413,23 @@ class UpdateOpsItemResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateOpsMetadataResult {
+  /// The Amazon Resource Name (ARN) of the OpsMetadata Object that was updated.
+  @_s.JsonKey(name: 'OpsMetadataArn')
+  final String opsMetadataArn;
+
+  UpdateOpsMetadataResult({
+    this.opsMetadataArn,
+  });
+  factory UpdateOpsMetadataResult.fromJson(Map<String, dynamic> json) =>
+      _$UpdateOpsMetadataResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdatePatchBaselineResult {
   /// A set of rules used to include patches in the baseline.
   @_s.JsonKey(name: 'ApprovalRules')
@@ -21075,6 +23577,14 @@ class AssociationVersionLimitExceeded extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'AssociationVersionLimitExceeded',
+            message: message);
+}
+
+class AutomationDefinitionNotApprovedException extends _s.GenericAwsException {
+  AutomationDefinitionNotApprovedException({String type, String message})
+      : super(
+            type: type,
+            code: 'AutomationDefinitionNotApprovedException',
             message: message);
 }
 
@@ -21540,6 +24050,52 @@ class OpsItemNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'OpsItemNotFoundException', message: message);
 }
 
+class OpsMetadataAlreadyExistsException extends _s.GenericAwsException {
+  OpsMetadataAlreadyExistsException({String type, String message})
+      : super(
+            type: type,
+            code: 'OpsMetadataAlreadyExistsException',
+            message: message);
+}
+
+class OpsMetadataInvalidArgumentException extends _s.GenericAwsException {
+  OpsMetadataInvalidArgumentException({String type, String message})
+      : super(
+            type: type,
+            code: 'OpsMetadataInvalidArgumentException',
+            message: message);
+}
+
+class OpsMetadataKeyLimitExceededException extends _s.GenericAwsException {
+  OpsMetadataKeyLimitExceededException({String type, String message})
+      : super(
+            type: type,
+            code: 'OpsMetadataKeyLimitExceededException',
+            message: message);
+}
+
+class OpsMetadataLimitExceededException extends _s.GenericAwsException {
+  OpsMetadataLimitExceededException({String type, String message})
+      : super(
+            type: type,
+            code: 'OpsMetadataLimitExceededException',
+            message: message);
+}
+
+class OpsMetadataNotFoundException extends _s.GenericAwsException {
+  OpsMetadataNotFoundException({String type, String message})
+      : super(
+            type: type, code: 'OpsMetadataNotFoundException', message: message);
+}
+
+class OpsMetadataTooManyUpdatesException extends _s.GenericAwsException {
+  OpsMetadataTooManyUpdatesException({String type, String message})
+      : super(
+            type: type,
+            code: 'OpsMetadataTooManyUpdatesException',
+            message: message);
+}
+
 class ParameterAlreadyExists extends _s.GenericAwsException {
   ParameterAlreadyExists({String type, String message})
       : super(type: type, code: 'ParameterAlreadyExists', message: message);
@@ -21753,6 +24309,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AssociationLimitExceeded(type: type, message: message),
   'AssociationVersionLimitExceeded': (type, message) =>
       AssociationVersionLimitExceeded(type: type, message: message),
+  'AutomationDefinitionNotApprovedException': (type, message) =>
+      AutomationDefinitionNotApprovedException(type: type, message: message),
   'AutomationDefinitionNotFoundException': (type, message) =>
       AutomationDefinitionNotFoundException(type: type, message: message),
   'AutomationDefinitionVersionNotFoundException': (type, message) =>
@@ -21905,6 +24463,18 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       OpsItemLimitExceededException(type: type, message: message),
   'OpsItemNotFoundException': (type, message) =>
       OpsItemNotFoundException(type: type, message: message),
+  'OpsMetadataAlreadyExistsException': (type, message) =>
+      OpsMetadataAlreadyExistsException(type: type, message: message),
+  'OpsMetadataInvalidArgumentException': (type, message) =>
+      OpsMetadataInvalidArgumentException(type: type, message: message),
+  'OpsMetadataKeyLimitExceededException': (type, message) =>
+      OpsMetadataKeyLimitExceededException(type: type, message: message),
+  'OpsMetadataLimitExceededException': (type, message) =>
+      OpsMetadataLimitExceededException(type: type, message: message),
+  'OpsMetadataNotFoundException': (type, message) =>
+      OpsMetadataNotFoundException(type: type, message: message),
+  'OpsMetadataTooManyUpdatesException': (type, message) =>
+      OpsMetadataTooManyUpdatesException(type: type, message: message),
   'ParameterAlreadyExists': (type, message) =>
       ParameterAlreadyExists(type: type, message: message),
   'ParameterLimitExceeded': (type, message) =>

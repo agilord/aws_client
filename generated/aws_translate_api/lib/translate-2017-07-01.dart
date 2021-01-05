@@ -46,10 +46,150 @@ class Translate {
           endpointUrl: endpointUrl,
         );
 
+  /// Creates a parallel data resource in Amazon Translate by importing an input
+  /// file from Amazon S3. Parallel data files contain examples of source
+  /// phrases and their translations from your translation memory. By adding
+  /// parallel data, you can influence the style, tone, and word choice in your
+  /// translation output.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [clientToken] :
+  /// A unique identifier for the request. This token is automatically generated
+  /// when you use Amazon Translate through an AWS SDK.
+  ///
+  /// Parameter [name] :
+  /// A custom name for the parallel data resource in Amazon Translate. You must
+  /// assign a name that is unique in the account and region.
+  ///
+  /// Parameter [parallelDataConfig] :
+  /// Specifies the format and S3 location of the parallel data input file.
+  ///
+  /// Parameter [description] :
+  /// A custom description for the parallel data resource in Amazon Translate.
+  Future<CreateParallelDataResponse> createParallelData({
+    @_s.required String clientToken,
+    @_s.required String name,
+    @_s.required ParallelDataConfig parallelDataConfig,
+    String description,
+    EncryptionKey encryptionKey,
+  }) async {
+    ArgumentError.checkNotNull(clientToken, 'clientToken');
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientToken',
+      clientToken,
+      r'''^[a-zA-Z0-9-]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^([A-Za-z0-9-]_?)+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(parallelDataConfig, 'parallelDataConfig');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\P{M}\p{M}]{0,256}''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShineFrontendService_20170701.CreateParallelData'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        'Name': name,
+        'ParallelDataConfig': parallelDataConfig,
+        if (description != null) 'Description': description,
+        if (encryptionKey != null) 'EncryptionKey': encryptionKey,
+      },
+    );
+
+    return CreateParallelDataResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a parallel data resource in Amazon Translate.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [name] :
+  /// The name of the parallel data resource that is being deleted.
+  Future<DeleteParallelDataResponse> deleteParallelData({
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^([A-Za-z0-9-]_?)+$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShineFrontendService_20170701.DeleteParallelData'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+
+    return DeleteParallelDataResponse.fromJson(jsonResponse.body);
+  }
+
   /// A synchronous action that deletes a custom terminology.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InternalServerException].
   ///
   /// Parameter [name] :
@@ -133,6 +273,50 @@ class Translate {
     );
 
     return DescribeTextTranslationJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Provides information about a parallel data resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [name] :
+  /// The name of the parallel data resource that is being retrieved.
+  Future<GetParallelDataResponse> getParallelData({
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^([A-Za-z0-9-]_?)+$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShineFrontendService_20170701.GetParallelData'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+
+    return GetParallelDataResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a custom terminology.
@@ -275,6 +459,58 @@ class Translate {
     return ImportTerminologyResponse.fromJson(jsonResponse.body);
   }
 
+  /// Provides a list of your parallel data resources in Amazon Translate.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of parallel data resources returned for each request.
+  ///
+  /// Parameter [nextToken] :
+  /// A string that specifies the next page of results to return in a paginated
+  /// response.
+  Future<ListParallelDataResponse> listParallelData({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      8192,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''\p{ASCII}{0,8192}''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShineFrontendService_20170701.ListParallelData'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListParallelDataResponse.fromJson(jsonResponse.body);
+  }
+
   /// Provides a list of custom terminologies associated with your account.
   ///
   /// May throw [InvalidParameterValueException].
@@ -407,13 +643,8 @@ class Translate {
   /// May throw [InternalServerException].
   ///
   /// Parameter [clientToken] :
-  /// The client token of the EC2 instance calling the request. This token is
-  /// auto-generated when using the Amazon Translate SDK. Otherwise, use the <a
-  /// href="docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html">DescribeInstances</a>
-  /// EC2 operation to retreive an instance's client token. For more
-  /// information, see <a
-  /// href="docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html#client-tokens">Client
-  /// Tokens</a> in the EC2 User Guide.
+  /// A unique identifier for the request. This token is auto-generated when
+  /// using the Amazon Translate SDK.
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management
@@ -440,6 +671,11 @@ class Translate {
   /// Parameter [jobName] :
   /// The name of the batch translation job to be performed.
   ///
+  /// Parameter [parallelDataNames] :
+  /// The names of the parallel data resources to use in the batch translation
+  /// job. For a list of available parallel data resources, use the
+  /// <a>ListParallelData</a> operation.
+  ///
   /// Parameter [terminologyNames] :
   /// The name of the terminology to use in the batch translation job. For a
   /// list of available terminologies, use the <a>ListTerminologies</a>
@@ -452,6 +688,7 @@ class Translate {
     @_s.required String sourceLanguageCode,
     @_s.required List<String> targetLanguageCodes,
     String jobName,
+    List<String> parallelDataNames,
     List<String> terminologyNames,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
@@ -522,6 +759,7 @@ class Translate {
         'SourceLanguageCode': sourceLanguageCode,
         'TargetLanguageCodes': targetLanguageCodes,
         if (jobName != null) 'JobName': jobName,
+        if (parallelDataNames != null) 'ParallelDataNames': parallelDataNames,
         if (terminologyNames != null) 'TerminologyNames': terminologyNames,
       },
     );
@@ -677,6 +915,97 @@ class Translate {
 
     return TranslateTextResponse.fromJson(jsonResponse.body);
   }
+
+  /// Updates a previously created parallel data resource by importing a new
+  /// input file from Amazon S3.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [clientToken] :
+  /// A unique identifier for the request. This token is automatically generated
+  /// when you use Amazon Translate through an AWS SDK.
+  ///
+  /// Parameter [name] :
+  /// The name of the parallel data resource being updated.
+  ///
+  /// Parameter [parallelDataConfig] :
+  /// Specifies the format and S3 location of the parallel data input file.
+  ///
+  /// Parameter [description] :
+  /// A custom description for the parallel data resource in Amazon Translate.
+  Future<UpdateParallelDataResponse> updateParallelData({
+    @_s.required String clientToken,
+    @_s.required String name,
+    @_s.required ParallelDataConfig parallelDataConfig,
+    String description,
+  }) async {
+    ArgumentError.checkNotNull(clientToken, 'clientToken');
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientToken',
+      clientToken,
+      r'''^[a-zA-Z0-9-]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^([A-Za-z0-9-]_?)+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(parallelDataConfig, 'parallelDataConfig');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\P{M}\p{M}]{0,256}''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShineFrontendService_20170701.UpdateParallelData'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        'Name': name,
+        'ParallelDataConfig': parallelDataConfig,
+        if (description != null) 'Description': description,
+      },
+    );
+
+    return UpdateParallelDataResponse.fromJson(jsonResponse.body);
+  }
 }
 
 /// The custom terminology applied to the input text by Amazon Translate for the
@@ -714,6 +1043,51 @@ class AppliedTerminology {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateParallelDataResponse {
+  /// The custom name that you assigned to the parallel data resource.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The status of the parallel data resource. When the resource is ready for you
+  /// to use, the status is <code>ACTIVE</code>.
+  @_s.JsonKey(name: 'Status')
+  final ParallelDataStatus status;
+
+  CreateParallelDataResponse({
+    this.name,
+    this.status,
+  });
+  factory CreateParallelDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateParallelDataResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteParallelDataResponse {
+  /// The name of the parallel data resource that is being deleted.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The status of the parallel data deletion.
+  @_s.JsonKey(name: 'Status')
+  final ParallelDataStatus status;
+
+  DeleteParallelDataResponse({
+    this.name,
+    this.status,
+  });
+  factory DeleteParallelDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteParallelDataResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeTextTranslationJobResponse {
   /// An object that contains the properties associated with an asynchronous batch
   /// translation job.
@@ -728,8 +1102,7 @@ class DescribeTextTranslationJobResponse {
       _$DescribeTextTranslationJobResponseFromJson(json);
 }
 
-/// The encryption key used to encrypt the custom terminologies used by Amazon
-/// Translate.
+/// The encryption key used to encrypt this object.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -759,6 +1132,46 @@ class EncryptionKey {
 enum EncryptionKeyType {
   @_s.JsonValue('KMS')
   kms,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetParallelDataResponse {
+  /// The Amazon S3 location of a file that provides any errors or warnings that
+  /// were produced by your input file. This file was created when Amazon
+  /// Translate attempted to create a parallel data resource. The location is
+  /// returned as a presigned URL to that has a 30 minute expiration.
+  @_s.JsonKey(name: 'AuxiliaryDataLocation')
+  final ParallelDataDataLocation auxiliaryDataLocation;
+
+  /// The location of the most recent parallel data input file that was
+  /// successfully imported into Amazon Translate. The location is returned as a
+  /// presigned URL that has a 30 minute expiration.
+  @_s.JsonKey(name: 'DataLocation')
+  final ParallelDataDataLocation dataLocation;
+
+  /// The Amazon S3 location of a file that provides any errors or warnings that
+  /// were produced by your input file. This file was created when Amazon
+  /// Translate attempted to update a parallel data resource. The location is
+  /// returned as a presigned URL to that has a 30 minute expiration.
+  @_s.JsonKey(name: 'LatestUpdateAttemptAuxiliaryDataLocation')
+  final ParallelDataDataLocation latestUpdateAttemptAuxiliaryDataLocation;
+
+  /// The properties of the parallel data resource that is being retrieved.
+  @_s.JsonKey(name: 'ParallelDataProperties')
+  final ParallelDataProperties parallelDataProperties;
+
+  GetParallelDataResponse({
+    this.auxiliaryDataLocation,
+    this.dataLocation,
+    this.latestUpdateAttemptAuxiliaryDataLocation,
+    this.parallelDataProperties,
+  });
+  factory GetParallelDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetParallelDataResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -809,9 +1222,41 @@ class ImportTerminologyResponse {
     createFactory: true,
     createToJson: true)
 class InputDataConfig {
-  /// The multipurpose internet mail extension (MIME) type of the input files.
-  /// Valid values are <code>text/plain</code> for plaintext files and
-  /// <code>text/html</code> for HTML files.
+  /// Describes the format of the data that you submit to Amazon Translate as
+  /// input. You can specify one of the following multipurpose internet mail
+  /// extension (MIME) types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>text/html</code>: The input data consists of one or more HTML files.
+  /// Amazon Translate translates only the text that resides in the
+  /// <code>html</code> element in each file.
+  /// </li>
+  /// <li>
+  /// <code>text/plain</code>: The input data consists of one or more unformatted
+  /// text files. Amazon Translate translates every character in this type of
+  /// input.
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.openxmlformats-officedocument.wordprocessingml.document</code>:
+  /// The input data consists of one or more Word documents (.docx).
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.openxmlformats-officedocument.presentationml.presentation</code>:
+  /// The input data consists of one or more PowerPoint Presentation files
+  /// (.pptx).
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</code>:
+  /// The input data consists of one or more Excel Workbook files (.xlsx).
+  /// </li>
+  /// </ul> <important>
+  /// If you structure your input data as HTML, ensure that you set this parameter
+  /// to <code>text/html</code>. By doing so, you cut costs by limiting the
+  /// translation to the contents of the <code>html</code> element in each file.
+  /// Otherwise, if you set this parameter to <code>text/plain</code>, your costs
+  /// will cover the translation of every character.
+  /// </important>
   @_s.JsonKey(name: 'ContentType')
   final String contentType;
 
@@ -875,6 +1320,29 @@ enum JobStatus {
   stopRequested,
   @_s.JsonValue('STOPPED')
   stopped,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListParallelDataResponse {
+  /// The string to use in a subsequent request to get the next page of results in
+  /// a paginated response. This value is null if there are no additional pages.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The properties of the parallel data resources returned by this request.
+  @_s.JsonKey(name: 'ParallelDataPropertiesList')
+  final List<ParallelDataProperties> parallelDataPropertiesList;
+
+  ListParallelDataResponse({
+    this.nextToken,
+    this.parallelDataPropertiesList,
+  });
+  factory ListParallelDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListParallelDataResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -960,6 +1428,189 @@ class OutputDataConfig {
   Map<String, dynamic> toJson() => _$OutputDataConfigToJson(this);
 }
 
+/// Specifies the format and S3 location of the parallel data input file.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ParallelDataConfig {
+  /// The format of the parallel data input file.
+  @_s.JsonKey(name: 'Format')
+  final ParallelDataFormat format;
+
+  /// The URI of the Amazon S3 folder that contains the parallel data input file.
+  /// The folder must be in the same Region as the API endpoint you are calling.
+  @_s.JsonKey(name: 'S3Uri')
+  final String s3Uri;
+
+  ParallelDataConfig({
+    @_s.required this.format,
+    @_s.required this.s3Uri,
+  });
+  factory ParallelDataConfig.fromJson(Map<String, dynamic> json) =>
+      _$ParallelDataConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ParallelDataConfigToJson(this);
+}
+
+/// The location of the most recent parallel data input file that was
+/// successfully imported into Amazon Translate.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ParallelDataDataLocation {
+  /// The Amazon S3 location of the parallel data input file. The location is
+  /// returned as a presigned URL to that has a 30 minute expiration.
+  @_s.JsonKey(name: 'Location')
+  final String location;
+
+  /// Describes the repository that contains the parallel data input file.
+  @_s.JsonKey(name: 'RepositoryType')
+  final String repositoryType;
+
+  ParallelDataDataLocation({
+    @_s.required this.location,
+    @_s.required this.repositoryType,
+  });
+  factory ParallelDataDataLocation.fromJson(Map<String, dynamic> json) =>
+      _$ParallelDataDataLocationFromJson(json);
+}
+
+enum ParallelDataFormat {
+  @_s.JsonValue('TSV')
+  tsv,
+  @_s.JsonValue('CSV')
+  csv,
+  @_s.JsonValue('TMX')
+  tmx,
+}
+
+/// The properties of a parallel data resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ParallelDataProperties {
+  /// The Amazon Resource Name (ARN) of the parallel data resource.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The time at which the parallel data resource was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
+  final DateTime createdAt;
+
+  /// The description assigned to the parallel data resource.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+  @_s.JsonKey(name: 'EncryptionKey')
+  final EncryptionKey encryptionKey;
+
+  /// The number of records unsuccessfully imported from the parallel data input
+  /// file.
+  @_s.JsonKey(name: 'FailedRecordCount')
+  final int failedRecordCount;
+
+  /// The number of UTF-8 characters that Amazon Translate imported from the
+  /// parallel data input file. This number includes only the characters in your
+  /// translation examples. It does not include characters that are used to format
+  /// your file. For example, if you provided a Translation Memory Exchange (.tmx)
+  /// file, this number does not include the tags.
+  @_s.JsonKey(name: 'ImportedDataSize')
+  final int importedDataSize;
+
+  /// The number of records successfully imported from the parallel data input
+  /// file.
+  @_s.JsonKey(name: 'ImportedRecordCount')
+  final int importedRecordCount;
+
+  /// The time at which the parallel data resource was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedAt')
+  final DateTime lastUpdatedAt;
+
+  /// The time that the most recent update was attempted.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LatestUpdateAttemptAt')
+  final DateTime latestUpdateAttemptAt;
+
+  /// The status of the most recent update attempt for the parallel data resource.
+  @_s.JsonKey(name: 'LatestUpdateAttemptStatus')
+  final ParallelDataStatus latestUpdateAttemptStatus;
+
+  /// Additional information from Amazon Translate about the parallel data
+  /// resource.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  /// The custom name assigned to the parallel data resource.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Specifies the format and S3 location of the parallel data input file.
+  @_s.JsonKey(name: 'ParallelDataConfig')
+  final ParallelDataConfig parallelDataConfig;
+
+  /// The number of items in the input file that Amazon Translate skipped when you
+  /// created or updated the parallel data resource. For example, Amazon Translate
+  /// skips empty records, empty target texts, and empty lines.
+  @_s.JsonKey(name: 'SkippedRecordCount')
+  final int skippedRecordCount;
+
+  /// The source language of the translations in the parallel data file.
+  @_s.JsonKey(name: 'SourceLanguageCode')
+  final String sourceLanguageCode;
+
+  /// The status of the parallel data resource. When the parallel data is ready
+  /// for you to use, the status is <code>ACTIVE</code>.
+  @_s.JsonKey(name: 'Status')
+  final ParallelDataStatus status;
+
+  /// The language codes for the target languages available in the parallel data
+  /// file. All possible target languages are returned as an array.
+  @_s.JsonKey(name: 'TargetLanguageCodes')
+  final List<String> targetLanguageCodes;
+
+  ParallelDataProperties({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.encryptionKey,
+    this.failedRecordCount,
+    this.importedDataSize,
+    this.importedRecordCount,
+    this.lastUpdatedAt,
+    this.latestUpdateAttemptAt,
+    this.latestUpdateAttemptStatus,
+    this.message,
+    this.name,
+    this.parallelDataConfig,
+    this.skippedRecordCount,
+    this.sourceLanguageCode,
+    this.status,
+    this.targetLanguageCodes,
+  });
+  factory ParallelDataProperties.fromJson(Map<String, dynamic> json) =>
+      _$ParallelDataPropertiesFromJson(json);
+}
+
+enum ParallelDataStatus {
+  @_s.JsonValue('CREATING')
+  creating,
+  @_s.JsonValue('UPDATING')
+  updating,
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('DELETING')
+  deleting,
+  @_s.JsonValue('FAILED')
+  failed,
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -986,7 +1637,7 @@ class StartTextTranslationJobResponse {
   /// is available.
   /// </li>
   /// <li>
-  /// <code>COMPLETED_WITH_ERRORS</code> - The job was completed with errors. The
+  /// <code>COMPLETED_WITH_ERROR</code> - The job was completed with errors. The
   /// errors can be analyzed in the job's output.
   /// </li>
   /// <li>
@@ -1282,6 +1933,11 @@ class TextTranslationJobProperties {
   @_s.JsonKey(name: 'OutputDataConfig')
   final OutputDataConfig outputDataConfig;
 
+  /// A list containing the names of the parallel data resources applied to the
+  /// translation job.
+  @_s.JsonKey(name: 'ParallelDataNames')
+  final List<String> parallelDataNames;
+
   /// The language code of the language of the source text. The language must be a
   /// language supported by Amazon Translate.
   @_s.JsonKey(name: 'SourceLanguageCode')
@@ -1313,6 +1969,7 @@ class TextTranslationJobProperties {
     this.jobStatus,
     this.message,
     this.outputDataConfig,
+    this.parallelDataNames,
     this.sourceLanguageCode,
     this.submittedTime,
     this.targetLanguageCodes,
@@ -1353,6 +2010,55 @@ class TranslateTextResponse {
   });
   factory TranslateTextResponse.fromJson(Map<String, dynamic> json) =>
       _$TranslateTextResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateParallelDataResponse {
+  /// The time that the most recent update was attempted.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LatestUpdateAttemptAt')
+  final DateTime latestUpdateAttemptAt;
+
+  /// The status of the parallel data update attempt. When the updated parallel
+  /// data resource is ready for you to use, the status is <code>ACTIVE</code>.
+  @_s.JsonKey(name: 'LatestUpdateAttemptStatus')
+  final ParallelDataStatus latestUpdateAttemptStatus;
+
+  /// The name of the parallel data resource being updated.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The status of the parallel data resource that you are attempting to update.
+  /// Your update request is accepted only if this status is either
+  /// <code>ACTIVE</code> or <code>FAILED</code>.
+  @_s.JsonKey(name: 'Status')
+  final ParallelDataStatus status;
+
+  UpdateParallelDataResponse({
+    this.latestUpdateAttemptAt,
+    this.latestUpdateAttemptStatus,
+    this.name,
+    this.status,
+  });
+  factory UpdateParallelDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateParallelDataResponseFromJson(json);
+}
+
+class ConcurrentModificationException extends _s.GenericAwsException {
+  ConcurrentModificationException({String type, String message})
+      : super(
+            type: type,
+            code: 'ConcurrentModificationException',
+            message: message);
+}
+
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String type, String message})
+      : super(type: type, code: 'ConflictException', message: message);
 }
 
 class DetectedLanguageLowConfidenceException extends _s.GenericAwsException {
@@ -1424,6 +2130,10 @@ class UnsupportedLanguagePairException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'ConcurrentModificationException': (type, message) =>
+      ConcurrentModificationException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'DetectedLanguageLowConfidenceException': (type, message) =>
       DetectedLanguageLowConfidenceException(type: type, message: message),
   'InternalServerException': (type, message) =>

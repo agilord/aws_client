@@ -25,6 +25,7 @@ Operation _$OperationFromJson(Map<String, dynamic> json) {
     'endpointoperation',
     'internal',
     'internalonly',
+    'httpChecksumRequired',
     'methodNameOverride'
   ]);
   return Operation(
@@ -52,12 +53,11 @@ Operation _$OperationFromJson(Map<String, dynamic> json) {
         ? null
         : EndPoint.fromJson(json['endpoint'] as Map<String, dynamic>),
     json['alias'] as String,
-    (json['endpointdiscovery'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
-    ),
+    json['endpointdiscovery'] as Map<String, dynamic>,
     json['endpointoperation'] as bool ?? false,
     json['internal'] as bool,
     json['internalonly'] as bool,
+    json['httpChecksumRequired'] as bool ?? false,
     json['methodNameOverride'] as String,
   );
 }

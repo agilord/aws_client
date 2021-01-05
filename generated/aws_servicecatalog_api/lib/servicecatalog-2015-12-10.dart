@@ -28,8 +28,8 @@ part 'servicecatalog-2015-12-10.g.dart';
 
 /// <a href="https://aws.amazon.com/servicecatalog/">AWS Service Catalog</a>
 /// enables organizations to create and manage catalogs of IT services that are
-/// approved for use on AWS. To get the most out of this documentation, you
-/// should be familiar with the terminology discussed in <a
+/// approved for AWS. To get the most out of this documentation, you should be
+/// familiar with the terminology discussed in <a
 /// href="http://docs.aws.amazon.com/servicecatalog/latest/adminguide/what-is_concepts.html">AWS
 /// Service Catalog Concepts</a>.
 class ServiceCatalog {
@@ -79,8 +79,8 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>AWS_ORGANIZATIONS</code> - Accept portfolios shared by the master
-  /// account of your organization.
+  /// <code>AWS_ORGANIZATIONS</code> - Accept portfolios shared by the
+  /// management account of your organization.
   /// </li>
   /// <li>
   /// <code>IMPORTED</code> - Accept imported portfolios.
@@ -283,6 +283,8 @@ class ServiceCatalog {
   }
 
   /// Associates the specified product with the specified portfolio.
+  ///
+  /// A delegated admin is authorized to invoke this command.
   ///
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
@@ -795,6 +797,8 @@ class ServiceCatalog {
 
   /// Creates a constraint.
   ///
+  /// A delegated admin is authorized to invoke this command.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
   /// May throw [LimitExceededException].
@@ -1010,6 +1014,8 @@ class ServiceCatalog {
 
   /// Creates a portfolio.
   ///
+  /// A delegated admin is authorized to invoke this command.
+  ///
   /// May throw [InvalidParametersException].
   /// May throw [LimitExceededException].
   /// May throw [TagOptionNotMigratedException].
@@ -1119,9 +1125,24 @@ class ServiceCatalog {
   }
 
   /// Shares the specified portfolio with the specified account or organization
-  /// node. Shares to an organization node can only be created by the master
-  /// account of an Organization. AWSOrganizationsAccess must be enabled in
-  /// order to create a portfolio share to an organization node.
+  /// node. Shares to an organization node can only be created by the management
+  /// account of an organization or by a delegated administrator. You can share
+  /// portfolios to an organization, an organizational unit, or a specific
+  /// account.
+  ///
+  /// Note that if a delegated admin is de-registered, they can no longer create
+  /// portfolio shares.
+  ///
+  /// <code>AWSOrganizationsAccess</code> must be enabled in order to create a
+  /// portfolio share to an organization node.
+  ///
+  /// You can't share a shared resource, including portfolios that contain a
+  /// shared product.
+  ///
+  /// If the portfolio share with the specified account or organization node
+  /// already exists, this action will have no effect and will not return an
+  /// error. To update an existing share, you must use the <code>
+  /// UpdatePortfolioShare</code> API instead.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
@@ -1153,15 +1174,21 @@ class ServiceCatalog {
   /// Parameter [organizationNode] :
   /// The organization node to whom you are going to share. If
   /// <code>OrganizationNode</code> is passed in, <code>PortfolioShare</code>
-  /// will be created for the node and its children (when applies), and a
-  /// <code>PortfolioShareToken</code> will be returned in the output in order
-  /// for the administrator to monitor the status of the
-  /// <code>PortfolioShare</code> creation process.
+  /// will be created for the node an ListOrganizationPortfolioAccessd its
+  /// children (when applies), and a <code>PortfolioShareToken</code> will be
+  /// returned in the output in order for the administrator to monitor the
+  /// status of the <code>PortfolioShare</code> creation process.
+  ///
+  /// Parameter [shareTagOptions] :
+  /// Enables or disables <code>TagOptions </code> sharing when creating the
+  /// portfolio share. If this flag is not provided, TagOptions sharing is
+  /// disabled.
   Future<CreatePortfolioShareOutput> createPortfolioShare({
     @_s.required String portfolioId,
     String acceptLanguage,
     String accountId,
     OrganizationNode organizationNode,
+    bool shareTagOptions,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -1203,6 +1230,7 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (accountId != null) 'AccountId': accountId,
         if (organizationNode != null) 'OrganizationNode': organizationNode,
+        if (shareTagOptions != null) 'ShareTagOptions': shareTagOptions,
       },
     );
 
@@ -1210,6 +1238,13 @@ class ServiceCatalog {
   }
 
   /// Creates a product.
+  ///
+  /// A delegated admin is authorized to invoke this command.
+  ///
+  /// The user or role that performs this operation must have the
+  /// <code>cloudformation:GetTemplate</code> IAM policy permission. This policy
+  /// permission is required when using the <code>ImportFromPhysicalId</code>
+  /// template source in the information data section.
   ///
   /// May throw [InvalidParametersException].
   /// May throw [LimitExceededException].
@@ -1261,6 +1296,8 @@ class ServiceCatalog {
   ///
   /// Parameter [supportUrl] :
   /// The contact URL for product support.
+  ///
+  /// <code>^https?:\/\// </code>/ is the pattern used to validate SupportUrl.
   ///
   /// Parameter [tags] :
   /// One or more tags.
@@ -1575,6 +1612,11 @@ class ServiceCatalog {
   /// You cannot create a provisioning artifact for a product that was shared
   /// with you.
   ///
+  /// The user or role that performs this operation must have the
+  /// <code>cloudformation:GetTemplate</code> IAM policy permission. This policy
+  /// permission is required when using the <code>ImportFromPhysicalId</code>
+  /// template source in the information data section.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
   /// May throw [LimitExceededException].
@@ -1674,8 +1716,11 @@ class ServiceCatalog {
   /// Parameter [definition] :
   /// The self-service action definition. Can be one of the following:
   /// <dl> <dt>Name</dt> <dd>
-  /// The name of the AWS Systems Manager Document. For example,
+  /// The name of the AWS Systems Manager document (SSM document). For example,
   /// <code>AWS-RestartEC2Instance</code>.
+  ///
+  /// If you are using a shared SSM document, you must provide the ARN instead
+  /// of the name.
   /// </dd> <dt>Version</dt> <dd>
   /// The AWS Systems Manager automation document version. For example,
   /// <code>"Version": "1"</code>
@@ -1859,6 +1904,8 @@ class ServiceCatalog {
 
   /// Deletes the specified constraint.
   ///
+  /// A delegated admin is authorized to invoke this command.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
   ///
@@ -1927,6 +1974,8 @@ class ServiceCatalog {
   /// You cannot delete a portfolio if it was shared with you or if it has
   /// associated products, users, constraints, or shared accounts.
   ///
+  /// A delegated admin is authorized to invoke this command.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
   /// May throw [ResourceInUseException].
@@ -1994,7 +2043,10 @@ class ServiceCatalog {
 
   /// Stops sharing the specified portfolio with the specified account or
   /// organization node. Shares to an organization node can only be deleted by
-  /// the master account of an Organization.
+  /// the management account of an organization or by a delegated administrator.
+  ///
+  /// Note that if a delegated admin is de-registered, portfolio shares created
+  /// from that account are removed.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
@@ -2080,6 +2132,8 @@ class ServiceCatalog {
   ///
   /// You cannot delete a product if it was shared with you or is associated
   /// with a portfolio.
+  ///
+  /// A delegated admin is authorized to invoke this command.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
@@ -2545,6 +2599,8 @@ class ServiceCatalog {
 
   /// Gets information about the specified portfolio.
   ///
+  /// A delegated admin is authorized to invoke this command.
+  ///
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [id] :
@@ -2608,7 +2664,8 @@ class ServiceCatalog {
   }
 
   /// Gets the status of the specified portfolio share operation. This API can
-  /// only be called by the master account in the organization.
+  /// only be called by the management account in the organization or by a
+  /// delegated admin.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
@@ -2652,13 +2709,106 @@ class ServiceCatalog {
     return DescribePortfolioShareStatusOutput.fromJson(jsonResponse.body);
   }
 
-  /// Gets information about the specified product.
+  /// Returns a summary of each of the portfolio shares that were created for
+  /// the specified portfolio.
+  ///
+  /// You can use this API to determine which accounts or organizational nodes
+  /// this portfolio have been shared, whether the recipient entity has imported
+  /// the share, and whether TagOptions are included with the share.
+  ///
+  /// The <code>PortfolioId</code> and <code>Type</code> parameters are both
+  /// required.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
   ///
-  /// Parameter [id] :
-  /// The product identifier.
+  /// Parameter [portfolioId] :
+  /// The unique identifier of the portfolio for which shares will be retrieved.
+  ///
+  /// Parameter [type] :
+  /// The type of portfolio share to summarize. This field acts as a filter on
+  /// the type of portfolio share, which can be one of the following:
+  ///
+  /// 1. <code>ACCOUNT</code> - Represents an external account to account share.
+  ///
+  /// 2. <code>ORGANIZATION</code> - Represents a share to an organization. This
+  /// share is available to every account in the organization.
+  ///
+  /// 3. <code>ORGANIZATIONAL_UNIT</code> - Represents a share to an
+  /// organizational unit.
+  ///
+  /// 4. <code>ORGANIZATION_MEMBER_ACCOUNT</code> - Represents a share to an
+  /// account in the organization.
+  ///
+  /// Parameter [pageSize] :
+  /// The maximum number of items to return with this call.
+  ///
+  /// Parameter [pageToken] :
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  Future<DescribePortfolioSharesOutput> describePortfolioShares({
+    @_s.required String portfolioId,
+    @_s.required DescribePortfolioShareType type,
+    int pageSize,
+    String pageToken,
+  }) async {
+    ArgumentError.checkNotNull(portfolioId, 'portfolioId');
+    _s.validateStringLength(
+      'portfolioId',
+      portfolioId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'portfolioId',
+      portfolioId,
+      r'''^[a-zA-Z0-9_\-]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(type, 'type');
+    _s.validateNumRange(
+      'pageSize',
+      pageSize,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'pageToken',
+      pageToken,
+      0,
+      2024,
+    );
+    _s.validateStringPattern(
+      'pageToken',
+      pageToken,
+      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWS242ServiceCatalogService.DescribePortfolioShares'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PortfolioId': portfolioId,
+        'Type': type?.toValue() ?? '',
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
+      },
+    );
+
+    return DescribePortfolioSharesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Gets information about the specified product.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParametersException].
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -2674,29 +2824,39 @@ class ServiceCatalog {
   /// <code>zh</code> - Chinese
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [id] :
+  /// The product identifier.
+  ///
+  /// Parameter [name] :
+  /// The product name.
   Future<DescribeProductOutput> describeProduct({
-    @_s.required String id,
     String acceptLanguage,
+    String id,
+    String name,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
       0,
       100,
+    );
+    _s.validateStringLength(
+      'id',
+      id,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'id',
+      id,
+      r'''^[a-zA-Z0-9_\-]*''',
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      8191,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2709,8 +2869,9 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Id': id,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (id != null) 'Id': id,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -2721,9 +2882,7 @@ class ServiceCatalog {
   /// administrator access.
   ///
   /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The product identifier.
+  /// May throw [InvalidParametersException].
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -2739,29 +2898,61 @@ class ServiceCatalog {
   /// <code>zh</code> - Chinese
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [id] :
+  /// The product identifier.
+  ///
+  /// Parameter [name] :
+  /// The product name.
+  ///
+  /// Parameter [sourcePortfolioId] :
+  /// The unique identifier of the shared portfolio that the specified product
+  /// is associated with.
+  ///
+  /// You can provide this parameter to retrieve the shared TagOptions
+  /// associated with the product. If this parameter is provided and if
+  /// TagOptions sharing is enabled in the portfolio share, the API returns both
+  /// local and shared TagOptions associated with the product. Otherwise only
+  /// local TagOptions will be returned.
   Future<DescribeProductAsAdminOutput> describeProductAsAdmin({
-    @_s.required String id,
     String acceptLanguage,
+    String id,
+    String name,
+    String sourcePortfolioId,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
       0,
       100,
+    );
+    _s.validateStringLength(
+      'id',
+      id,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'id',
+      id,
+      r'''^[a-zA-Z0-9_\-]*''',
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      8191,
+    );
+    _s.validateStringLength(
+      'sourcePortfolioId',
+      sourcePortfolioId,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'sourcePortfolioId',
+      sourcePortfolioId,
+      r'''^[a-zA-Z0-9_\-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2774,8 +2965,10 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Id': id,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (id != null) 'Id': id,
+        if (name != null) 'Name': name,
+        if (sourcePortfolioId != null) 'SourcePortfolioId': sourcePortfolioId,
       },
     );
 
@@ -2850,9 +3043,7 @@ class ServiceCatalog {
   /// Gets information about the specified provisioned product.
   ///
   /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [id] :
-  /// The provisioned product identifier.
+  /// May throw [InvalidParametersException].
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -2868,29 +3059,52 @@ class ServiceCatalog {
   /// <code>zh</code> - Chinese
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [id] :
+  /// The provisioned product identifier. You must provide the name or ID, but
+  /// not both.
+  ///
+  /// If you do not provide a name or ID, or you provide both name and ID, an
+  /// <code>InvalidParametersException</code> will occur.
+  ///
+  /// Parameter [name] :
+  /// The name of the provisioned product. You must provide the name or ID, but
+  /// not both.
+  ///
+  /// If you do not provide a name or ID, or you provide both name and ID, an
+  /// <code>InvalidParametersException</code> will occur.
   Future<DescribeProvisionedProductOutput> describeProvisionedProduct({
-    @_s.required String id,
     String acceptLanguage,
+    String id,
+    String name,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
       0,
       100,
+    );
+    _s.validateStringLength(
+      'id',
+      id,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'id',
+      id,
+      r'''^[a-zA-Z0-9_\-]*''',
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[a-zA-Z0-9][a-zA-Z0-9._-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2903,8 +3117,9 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Id': id,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (id != null) 'Id': id,
+        if (name != null) 'Name': name,
       },
     );
 
@@ -3009,12 +3224,7 @@ class ServiceCatalog {
   /// a version) for the specified product.
   ///
   /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [productId] :
-  /// The product identifier.
-  ///
-  /// Parameter [provisioningArtifactId] :
-  /// The identifier of the provisioning artifact.
+  /// May throw [InvalidParametersException].
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -3031,48 +3241,67 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [productId] :
+  /// The product identifier.
+  ///
+  /// Parameter [productName] :
+  /// The product name.
+  ///
+  /// Parameter [provisioningArtifactId] :
+  /// The identifier of the provisioning artifact.
+  ///
+  /// Parameter [provisioningArtifactName] :
+  /// The provisioning artifact name.
+  ///
   /// Parameter [verbose] :
   /// Indicates whether a verbose level of detail is enabled.
   Future<DescribeProvisioningArtifactOutput> describeProvisioningArtifact({
-    @_s.required String productId,
-    @_s.required String provisioningArtifactId,
     String acceptLanguage,
+    String productId,
+    String productName,
+    String provisioningArtifactId,
+    String provisioningArtifactName,
     bool verbose,
   }) async {
-    ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        provisioningArtifactId, 'provisioningArtifactId');
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
       0,
       100,
+    );
+    _s.validateStringLength(
+      'productId',
+      productId,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'productId',
+      productId,
+      r'''^[a-zA-Z0-9_\-]*''',
+    );
+    _s.validateStringLength(
+      'productName',
+      productName,
+      0,
+      8191,
+    );
+    _s.validateStringLength(
+      'provisioningArtifactId',
+      provisioningArtifactId,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'provisioningArtifactId',
+      provisioningArtifactId,
+      r'''^[a-zA-Z0-9_\-]*''',
+    );
+    _s.validateStringLength(
+      'provisioningArtifactName',
+      provisioningArtifactName,
+      0,
+      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3085,9 +3314,13 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ProductId': productId,
-        'ProvisioningArtifactId': provisioningArtifactId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (productId != null) 'ProductId': productId,
+        if (productName != null) 'ProductName': productName,
+        if (provisioningArtifactId != null)
+          'ProvisioningArtifactId': provisioningArtifactId,
+        if (provisioningArtifactName != null)
+          'ProvisioningArtifactName': provisioningArtifactName,
         if (verbose != null) 'Verbose': verbose,
       },
     );
@@ -3109,12 +3342,6 @@ class ServiceCatalog {
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
   ///
-  /// Parameter [productId] :
-  /// The product identifier.
-  ///
-  /// Parameter [provisioningArtifactId] :
-  /// The identifier of the provisioning artifact.
-  ///
   /// Parameter [acceptLanguage] :
   /// The language code.
   ///
@@ -3133,42 +3360,35 @@ class ServiceCatalog {
   /// Parameter [pathId] :
   /// The path identifier of the product. This value is optional if the product
   /// has a default path, and required if the product has more than one path. To
-  /// list the paths for a product, use <a>ListLaunchPaths</a>.
+  /// list the paths for a product, use <a>ListLaunchPaths</a>. You must provide
+  /// the name or ID, but not both.
+  ///
+  /// Parameter [pathName] :
+  /// The name of the path. You must provide the name or ID, but not both.
+  ///
+  /// Parameter [productId] :
+  /// The product identifier. You must provide the product name or ID, but not
+  /// both.
+  ///
+  /// Parameter [productName] :
+  /// The name of the product. You must provide the name or ID, but not both.
+  ///
+  /// Parameter [provisioningArtifactId] :
+  /// The identifier of the provisioning artifact. You must provide the name or
+  /// ID, but not both.
+  ///
+  /// Parameter [provisioningArtifactName] :
+  /// The name of the provisioning artifact. You must provide the name or ID,
+  /// but not both.
   Future<DescribeProvisioningParametersOutput> describeProvisioningParameters({
-    @_s.required String productId,
-    @_s.required String provisioningArtifactId,
     String acceptLanguage,
     String pathId,
+    String pathName,
+    String productId,
+    String productName,
+    String provisioningArtifactId,
+    String provisioningArtifactName,
   }) async {
-    ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        provisioningArtifactId, 'provisioningArtifactId');
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
@@ -3186,6 +3406,46 @@ class ServiceCatalog {
       pathId,
       r'''^[a-zA-Z0-9_\-]*''',
     );
+    _s.validateStringLength(
+      'pathName',
+      pathName,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'productId',
+      productId,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'productId',
+      productId,
+      r'''^[a-zA-Z0-9_\-]*''',
+    );
+    _s.validateStringLength(
+      'productName',
+      productName,
+      0,
+      8191,
+    );
+    _s.validateStringLength(
+      'provisioningArtifactId',
+      provisioningArtifactId,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'provisioningArtifactId',
+      provisioningArtifactId,
+      r'''^[a-zA-Z0-9_\-]*''',
+    );
+    _s.validateStringLength(
+      'provisioningArtifactName',
+      provisioningArtifactName,
+      0,
+      8192,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3198,10 +3458,15 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ProductId': productId,
-        'ProvisioningArtifactId': provisioningArtifactId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (pathId != null) 'PathId': pathId,
+        if (pathName != null) 'PathName': pathName,
+        if (productId != null) 'ProductId': productId,
+        if (productName != null) 'ProductName': productName,
+        if (provisioningArtifactId != null)
+          'ProvisioningArtifactId': provisioningArtifactId,
+        if (provisioningArtifactName != null)
+          'ProvisioningArtifactName': provisioningArtifactName,
       },
     );
 
@@ -3505,8 +3770,14 @@ class ServiceCatalog {
   /// will not delete your current shares but it will prevent you from creating
   /// new shares throughout your organization. Current shares will not be in
   /// sync with your organization structure if it changes after calling this
-  /// API. This API can only be called by the master account in the
+  /// API. This API can only be called by the management account in the
   /// organization.
+  ///
+  /// This API can't be invoked if there are active delegated administrators in
+  /// the organization.
+  ///
+  /// Note that a delegated administrator is not authorized to invoke
+  /// <code>DisableAWSOrganizationsAccess</code>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
@@ -3665,6 +3936,8 @@ class ServiceCatalog {
   }
 
   /// Disassociates the specified product from the specified portfolio.
+  ///
+  /// A delegated admin is authorized to invoke this command.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
@@ -3904,11 +4177,14 @@ class ServiceCatalog {
   /// Enable portfolio sharing feature through AWS Organizations. This API will
   /// allow Service Catalog to receive updates on your organization in order to
   /// sync your shares with the current structure. This API can only be called
-  /// by the master account in the organization.
+  /// by the management account in the organization.
   ///
   /// By calling this API Service Catalog will make a call to
   /// organizations:EnableAWSServiceAccess on your behalf so that your shares
   /// can be in sync with any changes in your AWS Organizations structure.
+  ///
+  /// Note that a delegated administrator is not authorized to invoke
+  /// <code>EnableAWSOrganizationsAccess</code>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
@@ -4137,7 +4413,8 @@ class ServiceCatalog {
   }
 
   /// Get the Access Status for AWS Organization portfolio share feature. This
-  /// API can only be called by the master account in the organization.
+  /// API can only be called by the management account in the organization or by
+  /// a delegated admin.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [OperationNotSupportedException].
@@ -4157,6 +4434,277 @@ class ServiceCatalog {
     );
 
     return GetAWSOrganizationsAccessStatusOutput.fromJson(jsonResponse.body);
+  }
+
+  /// This API takes either a <code>ProvisonedProductId</code> or a
+  /// <code>ProvisionedProductName</code>, along with a list of one or more
+  /// output keys, and responds with the key/value pairs of those outputs.
+  ///
+  /// May throw [InvalidParametersException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [acceptLanguage] :
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [outputKeys] :
+  /// The list of keys that the API should return with their values. If none are
+  /// provided, the API will return all outputs of the provisioned product.
+  ///
+  /// Parameter [pageSize] :
+  /// The maximum number of items to return with this call.
+  ///
+  /// Parameter [pageToken] :
+  /// The page token for the next set of results. To retrieve the first set of
+  /// results, use null.
+  ///
+  /// Parameter [provisionedProductId] :
+  /// The identifier of the provisioned product that you want the outputs from.
+  ///
+  /// Parameter [provisionedProductName] :
+  /// The name of the provisioned product that you want the outputs from.
+  Future<GetProvisionedProductOutputsOutput> getProvisionedProductOutputs({
+    String acceptLanguage,
+    List<String> outputKeys,
+    int pageSize,
+    String pageToken,
+    String provisionedProductId,
+    String provisionedProductName,
+  }) async {
+    _s.validateStringLength(
+      'acceptLanguage',
+      acceptLanguage,
+      0,
+      100,
+    );
+    _s.validateNumRange(
+      'pageSize',
+      pageSize,
+      0,
+      20,
+    );
+    _s.validateStringLength(
+      'pageToken',
+      pageToken,
+      0,
+      2024,
+    );
+    _s.validateStringPattern(
+      'pageToken',
+      pageToken,
+      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
+    );
+    _s.validateStringLength(
+      'provisionedProductId',
+      provisionedProductId,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'provisionedProductId',
+      provisionedProductId,
+      r'''^[a-zA-Z0-9_\-]*''',
+    );
+    _s.validateStringLength(
+      'provisionedProductName',
+      provisionedProductName,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'provisionedProductName',
+      provisionedProductName,
+      r'''[a-zA-Z0-9][a-zA-Z0-9._-]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWS242ServiceCatalogService.GetProvisionedProductOutputs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (outputKeys != null) 'OutputKeys': outputKeys,
+        if (pageSize != null) 'PageSize': pageSize,
+        if (pageToken != null) 'PageToken': pageToken,
+        if (provisionedProductId != null)
+          'ProvisionedProductId': provisionedProductId,
+        if (provisionedProductName != null)
+          'ProvisionedProductName': provisionedProductName,
+      },
+    );
+
+    return GetProvisionedProductOutputsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Requests the import of a resource as a Service Catalog provisioned product
+  /// that is associated to a Service Catalog product and provisioning artifact.
+  /// Once imported, all supported Service Catalog governance actions are
+  /// supported on the provisioned product.
+  ///
+  /// Resource import only supports CloudFormation stack ARNs. CloudFormation
+  /// StackSets and non-root nested stacks are not supported.
+  ///
+  /// The CloudFormation stack must have one of the following statuses to be
+  /// imported: <code>CREATE_COMPLETE</code>, <code>UPDATE_COMPLETE</code>,
+  /// <code>UPDATE_ROLLBACK_COMPLETE</code>, <code>IMPORT_COMPLETE</code>,
+  /// <code>IMPORT_ROLLBACK_COMPLETE</code>.
+  ///
+  /// Import of the resource requires that the CloudFormation stack template
+  /// matches the associated Service Catalog product provisioning artifact.
+  ///
+  /// The user or role that performs this operation must have the
+  /// <code>cloudformation:GetTemplate</code> and
+  /// <code>cloudformation:DescribeStacks</code> IAM policy permissions.
+  ///
+  /// May throw [DuplicateResourceException].
+  /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParametersException].
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is
+  /// returned for each repeated request.
+  ///
+  /// Parameter [physicalId] :
+  /// The unique identifier of the resource to be imported. It only currently
+  /// supports CloudFormation stack IDs.
+  ///
+  /// Parameter [productId] :
+  /// The product identifier.
+  ///
+  /// Parameter [provisionedProductName] :
+  /// The user-friendly name of the provisioned product. The value must be
+  /// unique for the AWS account. The name cannot be updated after the product
+  /// is provisioned.
+  ///
+  /// Parameter [provisioningArtifactId] :
+  /// The identifier of the provisioning artifact.
+  ///
+  /// Parameter [acceptLanguage] :
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  Future<ImportAsProvisionedProductOutput> importAsProvisionedProduct({
+    @_s.required String idempotencyToken,
+    @_s.required String physicalId,
+    @_s.required String productId,
+    @_s.required String provisionedProductName,
+    @_s.required String provisioningArtifactId,
+    String acceptLanguage,
+  }) async {
+    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'idempotencyToken',
+      idempotencyToken,
+      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(physicalId, 'physicalId');
+    ArgumentError.checkNotNull(productId, 'productId');
+    _s.validateStringLength(
+      'productId',
+      productId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'productId',
+      productId,
+      r'''^[a-zA-Z0-9_\-]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        provisionedProductName, 'provisionedProductName');
+    _s.validateStringLength(
+      'provisionedProductName',
+      provisionedProductName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'provisionedProductName',
+      provisionedProductName,
+      r'''[a-zA-Z0-9][a-zA-Z0-9._-]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        provisioningArtifactId, 'provisioningArtifactId');
+    _s.validateStringLength(
+      'provisioningArtifactId',
+      provisioningArtifactId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'provisioningArtifactId',
+      provisioningArtifactId,
+      r'''^[a-zA-Z0-9_\-]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'acceptLanguage',
+      acceptLanguage,
+      0,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWS242ServiceCatalogService.ImportAsProvisionedProduct'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+        'PhysicalId': physicalId,
+        'ProductId': productId,
+        'ProvisionedProductName': provisionedProductName,
+        'ProvisioningArtifactId': provisioningArtifactId,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+      },
+    );
+
+    return ImportAsProvisionedProductOutput.fromJson(jsonResponse.body);
   }
 
   /// Lists all portfolios for which sharing was accepted by this account.
@@ -4192,7 +4740,7 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>AWS_ORGANIZATIONS</code> - List portfolios shared by the master
+  /// <code>AWS_ORGANIZATIONS</code> - List portfolios shared by the management
   /// account of your organization
   /// </li>
   /// <li>
@@ -4551,7 +5099,11 @@ class ServiceCatalog {
   }
 
   /// Lists the organization nodes that have access to the specified portfolio.
-  /// This API can only be called by the master account in the organization.
+  /// This API can only be called by the management account in the organization
+  /// or by a delegated admin.
+  ///
+  /// If a delegated admin is de-registered, they can no longer perform this
+  /// operation.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
@@ -4669,6 +5221,10 @@ class ServiceCatalog {
 
   /// Lists the account IDs that have access to the specified portfolio.
   ///
+  /// A delegated admin can list the accounts that have access to the shared
+  /// portfolio. Note that if a delegated admin is de-registered, they can no
+  /// longer perform this operation.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
   ///
@@ -4742,7 +5298,7 @@ class ServiceCatalog {
       'pageSize',
       pageSize,
       0,
-      20,
+      100,
     );
     _s.validateStringLength(
       'pageToken',
@@ -5825,9 +6381,6 @@ class ServiceCatalog {
   /// May throw [ResourceNotFoundException].
   /// May throw [DuplicateResourceException].
   ///
-  /// Parameter [productId] :
-  /// The product identifier.
-  ///
   /// Parameter [provisionToken] :
   /// An idempotency token that uniquely identifies the provisioning request.
   ///
@@ -5835,9 +6388,6 @@ class ServiceCatalog {
   /// A user-friendly name for the provisioned product. This value must be
   /// unique for the AWS account and cannot be updated after the product is
   /// provisioned.
-  ///
-  /// Parameter [provisioningArtifactId] :
-  /// The identifier of the provisioning artifact.
   ///
   /// Parameter [acceptLanguage] :
   /// The language code.
@@ -5861,7 +6411,25 @@ class ServiceCatalog {
   /// Parameter [pathId] :
   /// The path identifier of the product. This value is optional if the product
   /// has a default path, and required if the product has more than one path. To
-  /// list the paths for a product, use <a>ListLaunchPaths</a>.
+  /// list the paths for a product, use <a>ListLaunchPaths</a>. You must provide
+  /// the name or ID, but not both.
+  ///
+  /// Parameter [pathName] :
+  /// The name of the path. You must provide the name or ID, but not both.
+  ///
+  /// Parameter [productId] :
+  /// The product identifier. You must provide the name or ID, but not both.
+  ///
+  /// Parameter [productName] :
+  /// The name of the product. You must provide the name or ID, but not both.
+  ///
+  /// Parameter [provisioningArtifactId] :
+  /// The identifier of the provisioning artifact. You must provide the name or
+  /// ID, but not both.
+  ///
+  /// Parameter [provisioningArtifactName] :
+  /// The name of the provisioning artifact. You must provide the name or ID,
+  /// but not both.
   ///
   /// Parameter [provisioningParameters] :
   /// Parameters specified by the administrator that are required for
@@ -5874,31 +6442,20 @@ class ServiceCatalog {
   /// Parameter [tags] :
   /// One or more tags.
   Future<ProvisionProductOutput> provisionProduct({
-    @_s.required String productId,
     @_s.required String provisionToken,
     @_s.required String provisionedProductName,
-    @_s.required String provisioningArtifactId,
     String acceptLanguage,
     List<String> notificationArns,
     String pathId,
+    String pathName,
+    String productId,
+    String productName,
+    String provisioningArtifactId,
+    String provisioningArtifactName,
     List<ProvisioningParameter> provisioningParameters,
     ProvisioningPreferences provisioningPreferences,
     List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringLength(
-      'productId',
-      productId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(provisionToken, 'provisionToken');
     _s.validateStringLength(
       'provisionToken',
@@ -5928,21 +6485,6 @@ class ServiceCatalog {
       r'''[a-zA-Z0-9][a-zA-Z0-9._-]*''',
       isRequired: true,
     );
-    ArgumentError.checkNotNull(
-        provisioningArtifactId, 'provisioningArtifactId');
-    _s.validateStringLength(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
@@ -5960,6 +6502,46 @@ class ServiceCatalog {
       pathId,
       r'''^[a-zA-Z0-9_\-]*''',
     );
+    _s.validateStringLength(
+      'pathName',
+      pathName,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'productId',
+      productId,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'productId',
+      productId,
+      r'''^[a-zA-Z0-9_\-]*''',
+    );
+    _s.validateStringLength(
+      'productName',
+      productName,
+      0,
+      8191,
+    );
+    _s.validateStringLength(
+      'provisioningArtifactId',
+      provisioningArtifactId,
+      1,
+      100,
+    );
+    _s.validateStringPattern(
+      'provisioningArtifactId',
+      provisioningArtifactId,
+      r'''^[a-zA-Z0-9_\-]*''',
+    );
+    _s.validateStringLength(
+      'provisioningArtifactName',
+      provisioningArtifactName,
+      0,
+      8192,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.ProvisionProduct'
@@ -5971,13 +6553,18 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ProductId': productId,
         'ProvisionToken': provisionToken ?? _s.generateIdempotencyToken(),
         'ProvisionedProductName': provisionedProductName,
-        'ProvisioningArtifactId': provisioningArtifactId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (notificationArns != null) 'NotificationArns': notificationArns,
         if (pathId != null) 'PathId': pathId,
+        if (pathName != null) 'PathName': pathName,
+        if (productId != null) 'ProductId': productId,
+        if (productName != null) 'ProductName': productName,
+        if (provisioningArtifactId != null)
+          'ProvisioningArtifactId': provisioningArtifactId,
+        if (provisioningArtifactName != null)
+          'ProvisioningArtifactName': provisioningArtifactName,
         if (provisioningParameters != null)
           'ProvisioningParameters': provisioningParameters,
         if (provisioningPreferences != null)
@@ -6017,8 +6604,8 @@ class ServiceCatalog {
   ///
   /// <ul>
   /// <li>
-  /// <code>AWS_ORGANIZATIONS</code> - Reject portfolios shared by the master
-  /// account of your organization.
+  /// <code>AWS_ORGANIZATIONS</code> - Reject portfolios shared by the
+  /// management account of your organization.
   /// </li>
   /// <li>
   /// <code>IMPORTED</code> - Reject imported portfolios.
@@ -6393,7 +6980,10 @@ class ServiceCatalog {
   /// <code>lastRecordId</code>, <code>idempotencyToken</code>,
   /// <code>name</code>, <code>physicalId</code>, <code>productId</code>,
   /// <code>provisioningArtifact</code>, <code>type</code>, <code>status</code>,
-  /// <code>tags</code>, <code>userArn</code>, and <code>userArnSession</code>.
+  /// <code>tags</code>, <code>userArn</code>, <code>userArnSession</code>,
+  /// <code>lastProvisioningRecordId</code>,
+  /// <code>lastSuccessfulProvisioningRecordId</code>, <code>productName</code>,
+  /// and <code>provisioningArtifactName</code>.
   ///
   /// Example: <code>"SearchQuery":["status:AVAILABLE"]</code>
   ///
@@ -6509,12 +7099,20 @@ class ServiceCatalog {
   /// Parameter [provisionedProductName] :
   /// The name of the provisioned product. You cannot specify both
   /// <code>ProvisionedProductName</code> and <code>ProvisionedProductId</code>.
+  ///
+  /// Parameter [retainPhysicalResources] :
+  /// When this boolean parameter is set to true, the
+  /// <code>TerminateProvisionedProduct</code> API deletes the Service Catalog
+  /// provisioned product. However, it does not remove the CloudFormation stack,
+  /// stack set, or the underlying resources of the deleted provisioned product.
+  /// The default value is false.
   Future<TerminateProvisionedProductOutput> terminateProvisionedProduct({
     @_s.required String terminateToken,
     String acceptLanguage,
     bool ignoreErrors,
     String provisionedProductId,
     String provisionedProductName,
+    bool retainPhysicalResources,
   }) async {
     ArgumentError.checkNotNull(terminateToken, 'terminateToken');
     _s.validateStringLength(
@@ -6576,6 +7174,8 @@ class ServiceCatalog {
           'ProvisionedProductId': provisionedProductId,
         if (provisionedProductName != null)
           'ProvisionedProductName': provisionedProductName,
+        if (retainPhysicalResources != null)
+          'RetainPhysicalResources': retainPhysicalResources,
       },
     );
 
@@ -6835,6 +7435,110 @@ class ServiceCatalog {
     return UpdatePortfolioOutput.fromJson(jsonResponse.body);
   }
 
+  /// Updates the specified portfolio share. You can use this API to enable or
+  /// disable TagOptions sharing for an existing portfolio share.
+  ///
+  /// The portfolio share cannot be updated if the <code>
+  /// CreatePortfolioShare</code> operation is <code>IN_PROGRESS</code>, as the
+  /// share is not available to recipient entities. In this case, you must wait
+  /// for the portfolio share to be COMPLETED.
+  ///
+  /// You must provide the <code>accountId</code> or organization node in the
+  /// input, but not both.
+  ///
+  /// If the portfolio is shared to both an external account and an organization
+  /// node, and both shares need to be updated, you must invoke
+  /// <code>UpdatePortfolioShare</code> separately for each share type.
+  ///
+  /// This API cannot be used for removing the portfolio share. You must use
+  /// <code>DeletePortfolioShare</code> API for that action.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParametersException].
+  /// May throw [OperationNotSupportedException].
+  /// May throw [InvalidStateException].
+  ///
+  /// Parameter [portfolioId] :
+  /// The unique identifier of the portfolio for which the share will be
+  /// updated.
+  ///
+  /// Parameter [acceptLanguage] :
+  /// The language code.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>en</code> - English (default)
+  /// </li>
+  /// <li>
+  /// <code>jp</code> - Japanese
+  /// </li>
+  /// <li>
+  /// <code>zh</code> - Chinese
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [accountId] :
+  /// The AWS Account Id of the recipient account. This field is required when
+  /// updating an external account to account type share.
+  ///
+  /// Parameter [shareTagOptions] :
+  /// A flag to enable or disable TagOptions sharing for the portfolio share. If
+  /// this field is not provided, the current state of TagOptions sharing on the
+  /// portfolio share will not be modified.
+  Future<UpdatePortfolioShareOutput> updatePortfolioShare({
+    @_s.required String portfolioId,
+    String acceptLanguage,
+    String accountId,
+    OrganizationNode organizationNode,
+    bool shareTagOptions,
+  }) async {
+    ArgumentError.checkNotNull(portfolioId, 'portfolioId');
+    _s.validateStringLength(
+      'portfolioId',
+      portfolioId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'portfolioId',
+      portfolioId,
+      r'''^[a-zA-Z0-9_\-]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'acceptLanguage',
+      acceptLanguage,
+      0,
+      100,
+    );
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^[0-9]{12}$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWS242ServiceCatalogService.UpdatePortfolioShare'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PortfolioId': portfolioId,
+        if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        if (accountId != null) 'AccountId': accountId,
+        if (organizationNode != null) 'OrganizationNode': organizationNode,
+        if (shareTagOptions != null) 'ShareTagOptions': shareTagOptions,
+      },
+    );
+
+    return UpdatePortfolioShareOutput.fromJson(jsonResponse.body);
+  }
+
   /// Updates the specified product.
   ///
   /// May throw [ResourceNotFoundException].
@@ -7022,15 +7726,23 @@ class ServiceCatalog {
   /// </ul>
   ///
   /// Parameter [pathId] :
-  /// The new path identifier. This value is optional if the product has a
-  /// default path, and required if the product has more than one path.
+  /// The path identifier. This value is optional if the product has a default
+  /// path, and required if the product has more than one path. You must provide
+  /// the name or ID, but not both.
+  ///
+  /// Parameter [pathName] :
+  /// The name of the path. You must provide the name or ID, but not both.
   ///
   /// Parameter [productId] :
-  /// The identifier of the product.
+  /// The identifier of the product. You must provide the name or ID, but not
+  /// both.
+  ///
+  /// Parameter [productName] :
+  /// The name of the product. You must provide the name or ID, but not both.
   ///
   /// Parameter [provisionedProductId] :
-  /// The identifier of the provisioned product. You cannot specify both
-  /// <code>ProvisionedProductName</code> and <code>ProvisionedProductId</code>.
+  /// The identifier of the provisioned product. You must provide the name or
+  /// ID, but not both.
   ///
   /// Parameter [provisionedProductName] :
   /// The name of the provisioned product. You cannot specify both
@@ -7038,6 +7750,10 @@ class ServiceCatalog {
   ///
   /// Parameter [provisioningArtifactId] :
   /// The identifier of the provisioning artifact.
+  ///
+  /// Parameter [provisioningArtifactName] :
+  /// The name of the provisioning artifact. You must provide the name or ID,
+  /// but not both.
   ///
   /// Parameter [provisioningParameters] :
   /// The new parameters.
@@ -7055,10 +7771,13 @@ class ServiceCatalog {
     @_s.required String updateToken,
     String acceptLanguage,
     String pathId,
+    String pathName,
     String productId,
+    String productName,
     String provisionedProductId,
     String provisionedProductName,
     String provisioningArtifactId,
+    String provisioningArtifactName,
     List<UpdateProvisioningParameter> provisioningParameters,
     UpdateProvisioningPreferences provisioningPreferences,
     List<Tag> tags,
@@ -7095,6 +7814,12 @@ class ServiceCatalog {
       r'''^[a-zA-Z0-9_\-]*''',
     );
     _s.validateStringLength(
+      'pathName',
+      pathName,
+      1,
+      100,
+    );
+    _s.validateStringLength(
       'productId',
       productId,
       1,
@@ -7104,6 +7829,12 @@ class ServiceCatalog {
       'productId',
       productId,
       r'''^[a-zA-Z0-9_\-]*''',
+    );
+    _s.validateStringLength(
+      'productName',
+      productName,
+      0,
+      8191,
     );
     _s.validateStringLength(
       'provisionedProductId',
@@ -7138,6 +7869,12 @@ class ServiceCatalog {
       provisioningArtifactId,
       r'''^[a-zA-Z0-9_\-]*''',
     );
+    _s.validateStringLength(
+      'provisioningArtifactName',
+      provisioningArtifactName,
+      0,
+      8192,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.UpdateProvisionedProduct'
@@ -7152,13 +7889,17 @@ class ServiceCatalog {
         'UpdateToken': updateToken ?? _s.generateIdempotencyToken(),
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (pathId != null) 'PathId': pathId,
+        if (pathName != null) 'PathName': pathName,
         if (productId != null) 'ProductId': productId,
+        if (productName != null) 'ProductName': productName,
         if (provisionedProductId != null)
           'ProvisionedProductId': provisionedProductId,
         if (provisionedProductName != null)
           'ProvisionedProductName': provisionedProductName,
         if (provisioningArtifactId != null)
           'ProvisioningArtifactId': provisioningArtifactId,
+        if (provisioningArtifactName != null)
+          'ProvisioningArtifactName': provisioningArtifactName,
         if (provisioningParameters != null)
           'ProvisioningParameters': provisioningParameters,
         if (provisioningPreferences != null)
@@ -7186,9 +7927,18 @@ class ServiceCatalog {
   /// Parameter [provisionedProductProperties] :
   /// A map that contains the provisioned product properties to be updated.
   ///
-  /// The <code>OWNER</code> key only accepts user ARNs. The owner is the user
-  /// that is allowed to see, update, terminate, and execute service actions in
-  /// the provisioned product.
+  /// The <code>LAUNCH_ROLE</code> key accepts role ARNs. This key allows an
+  /// administrator to call <code>UpdateProvisionedProductProperties</code> to
+  /// update the launch role that is associated with a provisioned product. This
+  /// role is used when an end user calls a provisioning operation such as
+  /// <code>UpdateProvisionedProduct</code>,
+  /// <code>TerminateProvisionedProduct</code>, or
+  /// <code>ExecuteProvisionedProductServiceAction</code>. Only a role ARN is
+  /// valid. A user ARN is invalid.
+  ///
+  /// The <code>OWNER</code> key accepts user ARNs and role ARNs. The owner is
+  /// the user that has permission to see, update, terminate, and execute
+  /// service actions in the provisioned product.
   ///
   /// The administrator can change the owner of a provisioned product to another
   /// IAM user within the same account. Both end user owners and administrators
@@ -7383,6 +8133,18 @@ class ServiceCatalog {
       acceptLanguage,
       0,
       100,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      8192,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7971,8 +8733,8 @@ class CreatePortfolioOutput {
     createFactory: true,
     createToJson: false)
 class CreatePortfolioShareOutput {
-  /// The portfolio share unique identifier. This will only be returned if
-  /// portfolio is shared to an organization node.
+  /// The portfolio shares a unique identifier that only returns if the portfolio
+  /// is shared to an organization node.
   @_s.JsonKey(name: 'PortfolioShareToken')
   final String portfolioShareToken;
 
@@ -8054,7 +8816,20 @@ class CreateProvisionedProductPlanOutput {
     createFactory: true,
     createToJson: false)
 class CreateProvisioningArtifactOutput {
+  /// Specify the template source with one of the following options, but not both.
+  /// Keys accepted: [ <code>LoadTemplateFromURL</code>,
+  /// <code>ImportFromPhysicalId</code> ].
+  ///
   /// The URL of the CloudFormation template in Amazon S3, in JSON format.
+  ///
+  /// <code>LoadTemplateFromURL</code>
+  ///
+  /// Use the URL of the CloudFormation template in Amazon S3 in JSON format.
+  ///
+  /// <code>ImportFromPhysicalId</code>
+  ///
+  /// Use the physical id of the resource that contains the template; currently
+  /// supports CloudFormation stack ARN.
   @_s.JsonKey(name: 'Info')
   final Map<String, String> info;
 
@@ -8333,6 +9108,56 @@ class DescribePortfolioShareStatusOutput {
       _$DescribePortfolioShareStatusOutputFromJson(json);
 }
 
+enum DescribePortfolioShareType {
+  @_s.JsonValue('ACCOUNT')
+  account,
+  @_s.JsonValue('ORGANIZATION')
+  organization,
+  @_s.JsonValue('ORGANIZATIONAL_UNIT')
+  organizationalUnit,
+  @_s.JsonValue('ORGANIZATION_MEMBER_ACCOUNT')
+  organizationMemberAccount,
+}
+
+extension on DescribePortfolioShareType {
+  String toValue() {
+    switch (this) {
+      case DescribePortfolioShareType.account:
+        return 'ACCOUNT';
+      case DescribePortfolioShareType.organization:
+        return 'ORGANIZATION';
+      case DescribePortfolioShareType.organizationalUnit:
+        return 'ORGANIZATIONAL_UNIT';
+      case DescribePortfolioShareType.organizationMemberAccount:
+        return 'ORGANIZATION_MEMBER_ACCOUNT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribePortfolioSharesOutput {
+  /// The page token to use to retrieve the next set of results. If there are no
+  /// additional results, this value is null.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  /// Summaries about each of the portfolio shares.
+  @_s.JsonKey(name: 'PortfolioShareDetails')
+  final List<PortfolioShareDetail> portfolioShareDetails;
+
+  DescribePortfolioSharesOutput({
+    this.nextPageToken,
+    this.portfolioShareDetails,
+  });
+  factory DescribePortfolioSharesOutput.fromJson(Map<String, dynamic> json) =>
+      _$DescribePortfolioSharesOutputFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8381,6 +9206,10 @@ class DescribeProductOutput {
   @_s.JsonKey(name: 'Budgets')
   final List<BudgetDetail> budgets;
 
+  /// Information about the associated launch paths.
+  @_s.JsonKey(name: 'LaunchPaths')
+  final List<LaunchPath> launchPaths;
+
   /// Summary information about the product view.
   @_s.JsonKey(name: 'ProductViewSummary')
   final ProductViewSummary productViewSummary;
@@ -8391,6 +9220,7 @@ class DescribeProductOutput {
 
   DescribeProductOutput({
     this.budgets,
+    this.launchPaths,
     this.productViewSummary,
     this.provisioningArtifacts,
   });
@@ -8511,6 +9341,10 @@ class DescribeProvisioningParametersOutput {
   @_s.JsonKey(name: 'ConstraintSummaries')
   final List<ConstraintSummary> constraintSummaries;
 
+  /// The output of the provisioning artifact.
+  @_s.JsonKey(name: 'ProvisioningArtifactOutputs')
+  final List<ProvisioningArtifactOutput> provisioningArtifactOutputs;
+
   /// Information about the parameters used to provision the product.
   @_s.JsonKey(name: 'ProvisioningArtifactParameters')
   final List<ProvisioningArtifactParameter> provisioningArtifactParameters;
@@ -8532,6 +9366,7 @@ class DescribeProvisioningParametersOutput {
 
   DescribeProvisioningParametersOutput({
     this.constraintSummaries,
+    this.provisioningArtifactOutputs,
     this.provisioningArtifactParameters,
     this.provisioningArtifactPreferences,
     this.tagOptions,
@@ -8838,6 +9673,72 @@ class GetAWSOrganizationsAccessStatusOutput {
   factory GetAWSOrganizationsAccessStatusOutput.fromJson(
           Map<String, dynamic> json) =>
       _$GetAWSOrganizationsAccessStatusOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetProvisionedProductOutputsOutput {
+  /// The page token to use to retrieve the next set of results. If there are no
+  /// additional results, this value is null.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  /// Information about the product created as the result of a request. For
+  /// example, the output for a CloudFormation-backed product that creates an S3
+  /// bucket would include the S3 bucket URL.
+  @_s.JsonKey(name: 'Outputs')
+  final List<RecordOutput> outputs;
+
+  GetProvisionedProductOutputsOutput({
+    this.nextPageToken,
+    this.outputs,
+  });
+  factory GetProvisionedProductOutputsOutput.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetProvisionedProductOutputsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ImportAsProvisionedProductOutput {
+  @_s.JsonKey(name: 'RecordDetail')
+  final RecordDetail recordDetail;
+
+  ImportAsProvisionedProductOutput({
+    this.recordDetail,
+  });
+  factory ImportAsProvisionedProductOutput.fromJson(
+          Map<String, dynamic> json) =>
+      _$ImportAsProvisionedProductOutputFromJson(json);
+}
+
+/// A launch path object.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class LaunchPath {
+  /// The identifier of the launch path.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The name of the launch path.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  LaunchPath({
+    this.id,
+    this.name,
+  });
+  factory LaunchPath.fromJson(Map<String, dynamic> json) =>
+      _$LaunchPathFromJson(json);
 }
 
 /// Summary information about a product path for a user.
@@ -9413,12 +10314,61 @@ extension on OrganizationNodeType {
     createFactory: true,
     createToJson: false)
 class ParameterConstraints {
+  /// A regular expression that represents the patterns that allow for
+  /// <code>String</code> types. The pattern must match the entire parameter value
+  /// provided.
+  @_s.JsonKey(name: 'AllowedPattern')
+  final String allowedPattern;
+
   /// The values that the administrator has allowed for the parameter.
   @_s.JsonKey(name: 'AllowedValues')
   final List<String> allowedValues;
 
+  /// A string that explains a constraint when the constraint is violated. For
+  /// example, without a constraint description, a parameter that has an allowed
+  /// pattern of <code>[A-Za-z0-9]+</code> displays the following error message
+  /// when the user specifies an invalid value:
+  ///
+  /// <code>Malformed input-Parameter MyParameter must match pattern
+  /// [A-Za-z0-9]+</code>
+  ///
+  /// By adding a constraint description, such as must only contain letters
+  /// (uppercase and lowercase) and numbers, you can display the following
+  /// customized error message:
+  ///
+  /// <code>Malformed input-Parameter MyParameter must only contain uppercase and
+  /// lowercase letters and numbers.</code>
+  @_s.JsonKey(name: 'ConstraintDescription')
+  final String constraintDescription;
+
+  /// An integer value that determines the largest number of characters you want
+  /// to allow for <code>String</code> types.
+  @_s.JsonKey(name: 'MaxLength')
+  final String maxLength;
+
+  /// A numeric value that determines the largest numeric value you want to allow
+  /// for <code>Number</code> types.
+  @_s.JsonKey(name: 'MaxValue')
+  final String maxValue;
+
+  /// An integer value that determines the smallest number of characters you want
+  /// to allow for <code>String</code> types.
+  @_s.JsonKey(name: 'MinLength')
+  final String minLength;
+
+  /// A numeric value that determines the smallest numeric value you want to allow
+  /// for <code>Number</code> types.
+  @_s.JsonKey(name: 'MinValue')
+  final String minValue;
+
   ParameterConstraints({
+    this.allowedPattern,
     this.allowedValues,
+    this.constraintDescription,
+    this.maxLength,
+    this.maxValue,
+    this.minLength,
+    this.minValue,
   });
   factory ParameterConstraints.fromJson(Map<String, dynamic> json) =>
       _$ParameterConstraintsFromJson(json);
@@ -9466,6 +10416,52 @@ class PortfolioDetail {
   });
   factory PortfolioDetail.fromJson(Map<String, dynamic> json) =>
       _$PortfolioDetailFromJson(json);
+}
+
+/// Information about the portfolio share.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PortfolioShareDetail {
+  /// Indicates whether the shared portfolio is imported by the recipient account.
+  /// If the recipient is in an organization node, the share is automatically
+  /// imported, and the field is always set to true.
+  @_s.JsonKey(name: 'Accepted')
+  final bool accepted;
+
+  /// The identifier of the recipient entity that received the portfolio share.
+  /// The recipient entities can be one of the following:
+  ///
+  /// 1. An external account.
+  ///
+  /// 2. An organziation member account.
+  ///
+  /// 3. An organzational unit (OU).
+  ///
+  /// 4. The organization itself. (This shares with every account in the
+  /// organization).
+  @_s.JsonKey(name: 'PrincipalId')
+  final String principalId;
+
+  /// Indicates whether TagOptions sharing is enabled or disabled for the
+  /// portfolio share.
+  @_s.JsonKey(name: 'ShareTagOptions')
+  final bool shareTagOptions;
+
+  /// The type of the portfolio share.
+  @_s.JsonKey(name: 'Type')
+  final DescribePortfolioShareType type;
+
+  PortfolioShareDetail({
+    this.accepted,
+    this.principalId,
+    this.shareTagOptions,
+    this.type,
+  });
+  factory PortfolioShareDetail.fromJson(Map<String, dynamic> json) =>
+      _$PortfolioShareDetailFromJson(json);
 }
 
 enum PortfolioShareType {
@@ -9763,6 +10759,8 @@ class ProductViewSummary {
 enum PropertyKey {
   @_s.JsonValue('OWNER')
   owner,
+  @_s.JsonValue('LAUNCH_ROLE')
+  launchRole,
 }
 
 extension on PropertyKey {
@@ -9770,6 +10768,8 @@ extension on PropertyKey {
     switch (this) {
       case PropertyKey.owner:
         return 'OWNER';
+      case PropertyKey.launchRole:
+        return 'LAUNCH_ROLE';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -9819,9 +10819,49 @@ class ProvisionedProductAttribute {
   final String idempotencyToken;
 
   /// The record identifier of the last request performed on this provisioned
+  /// product of the following types:
+  ///
+  /// <ul>
+  /// <li>
+  /// ProvisionedProduct
+  /// </li>
+  /// <li>
+  /// UpdateProvisionedProduct
+  /// </li>
+  /// <li>
+  /// ExecuteProvisionedProductPlan
+  /// </li>
+  /// <li>
+  /// TerminateProvisionedProduct
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'LastProvisioningRecordId')
+  final String lastProvisioningRecordId;
+
+  /// The record identifier of the last request performed on this provisioned
   /// product.
   @_s.JsonKey(name: 'LastRecordId')
   final String lastRecordId;
+
+  /// The record identifier of the last successful request performed on this
+  /// provisioned product of the following types:
+  ///
+  /// <ul>
+  /// <li>
+  /// ProvisionedProduct
+  /// </li>
+  /// <li>
+  /// UpdateProvisionedProduct
+  /// </li>
+  /// <li>
+  /// ExecuteProvisionedProductPlan
+  /// </li>
+  /// <li>
+  /// TerminateProvisionedProduct
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'LastSuccessfulProvisioningRecordId')
+  final String lastSuccessfulProvisioningRecordId;
 
   /// The user-friendly name of the provisioned product.
   @_s.JsonKey(name: 'Name')
@@ -9836,9 +10876,17 @@ class ProvisionedProductAttribute {
   @_s.JsonKey(name: 'ProductId')
   final String productId;
 
+  /// The name of the product.
+  @_s.JsonKey(name: 'ProductName')
+  final String productName;
+
   /// The identifier of the provisioning artifact.
   @_s.JsonKey(name: 'ProvisioningArtifactId')
   final String provisioningArtifactId;
+
+  /// The name of the provisioning artifact.
+  @_s.JsonKey(name: 'ProvisioningArtifactName')
+  final String provisioningArtifactName;
 
   /// The current status of the provisioned product.
   ///
@@ -9900,11 +10948,15 @@ class ProvisionedProductAttribute {
     this.createdTime,
     this.id,
     this.idempotencyToken,
+    this.lastProvisioningRecordId,
     this.lastRecordId,
+    this.lastSuccessfulProvisioningRecordId,
     this.name,
     this.physicalId,
     this.productId,
+    this.productName,
     this.provisioningArtifactId,
+    this.provisioningArtifactName,
     this.status,
     this.statusMessage,
     this.tags,
@@ -9943,9 +10995,53 @@ class ProvisionedProductDetail {
   final String idempotencyToken;
 
   /// The record identifier of the last request performed on this provisioned
+  /// product of the following types:
+  ///
+  /// <ul>
+  /// <li>
+  /// ProvisionedProduct
+  /// </li>
+  /// <li>
+  /// UpdateProvisionedProduct
+  /// </li>
+  /// <li>
+  /// ExecuteProvisionedProductPlan
+  /// </li>
+  /// <li>
+  /// TerminateProvisionedProduct
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'LastProvisioningRecordId')
+  final String lastProvisioningRecordId;
+
+  /// The record identifier of the last request performed on this provisioned
   /// product.
   @_s.JsonKey(name: 'LastRecordId')
   final String lastRecordId;
+
+  /// The record identifier of the last successful request performed on this
+  /// provisioned product of the following types:
+  ///
+  /// <ul>
+  /// <li>
+  /// ProvisionedProduct
+  /// </li>
+  /// <li>
+  /// UpdateProvisionedProduct
+  /// </li>
+  /// <li>
+  /// ExecuteProvisionedProductPlan
+  /// </li>
+  /// <li>
+  /// TerminateProvisionedProduct
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'LastSuccessfulProvisioningRecordId')
+  final String lastSuccessfulProvisioningRecordId;
+
+  /// The ARN of the launch role associated with the provisioned product.
+  @_s.JsonKey(name: 'LaunchRoleArn')
+  final String launchRoleArn;
 
   /// The user-friendly name of the provisioned product.
   @_s.JsonKey(name: 'Name')
@@ -10008,7 +11104,10 @@ class ProvisionedProductDetail {
     this.createdTime,
     this.id,
     this.idempotencyToken,
+    this.lastProvisioningRecordId,
     this.lastRecordId,
+    this.lastSuccessfulProvisioningRecordId,
+    this.launchRoleArn,
     this.name,
     this.productId,
     this.provisioningArtifactId,
@@ -10338,6 +11437,29 @@ extension on ProvisioningArtifactGuidance {
   }
 }
 
+/// Provisioning artifact output.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ProvisioningArtifactOutput {
+  /// Description of the provisioning artifact output key.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The provisioning artifact output key.
+  @_s.JsonKey(name: 'Key')
+  final String key;
+
+  ProvisioningArtifactOutput({
+    this.description,
+    this.key,
+  });
+  factory ProvisioningArtifactOutput.fromJson(Map<String, dynamic> json) =>
+      _$ProvisioningArtifactOutputFromJson(json);
+}
+
 /// Information about a parameter used to provision a product.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10431,11 +11553,21 @@ class ProvisioningArtifactPreferences {
     createFactory: false,
     createToJson: true)
 class ProvisioningArtifactProperties {
+  /// Specify the template source with one of the following options, but not both.
+  /// Keys accepted: [ <code>LoadTemplateFromURL</code>,
+  /// <code>ImportFromPhysicalId</code> ]
+  ///
   /// The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON
   /// format as follows:
   ///
   /// <code>"LoadTemplateFromURL":
   /// "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."</code>
+  ///
+  /// <code>ImportFromPhysicalId</code>: The physical id of the resource that
+  /// contains the template. Currently only supports CloudFormation stack arn.
+  /// Specify the physical id in JSON format as follows:
+  /// <code>ImportFromPhysicalId:
+  /// “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]</code>
   @_s.JsonKey(name: 'Info')
   final Map<String, String> info;
 
@@ -10594,23 +11726,35 @@ class ProvisioningParameter {
 
 /// The user-defined preferences that will be applied when updating a
 /// provisioned product. Not all preferences are applicable to all provisioned
-/// product types.
+/// product type
+///
+/// One or more AWS accounts that will have access to the provisioned product.
+///
+/// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
+///
+/// The AWS accounts specified should be within the list of accounts in the
+/// <code>STACKSET</code> constraint. To get the list of accounts in the
+/// <code>STACKSET</code> constraint, use the
+/// <code>DescribeProvisioningParameters</code> operation.
+///
+/// If no values are specified, the default value is all accounts from the
+/// <code>STACKSET</code> constraint.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class ProvisioningPreferences {
-  /// One or more AWS accounts that will have access to the provisioned product.
+  /// One or more AWS accounts where the provisioned product will be available.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
   ///
-  /// The AWS accounts specified should be within the list of accounts in the
+  /// The specified accounts should be within the list of accounts from the
   /// <code>STACKSET</code> constraint. To get the list of accounts in the
   /// <code>STACKSET</code> constraint, use the
   /// <code>DescribeProvisioningParameters</code> operation.
   ///
-  /// If no values are specified, the default value is all accounts from the
+  /// If no values are specified, the default value is all acounts from the
   /// <code>STACKSET</code> constraint.
   @_s.JsonKey(name: 'StackSetAccounts')
   final List<String> stackSetAccounts;
@@ -10719,6 +11863,10 @@ class RecordDetail {
   @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
+  /// The ARN of the launch role associated with the provisioned product.
+  @_s.JsonKey(name: 'LaunchRoleArn')
+  final String launchRoleArn;
+
   /// The path identifier.
   @_s.JsonKey(name: 'PathId')
   final String pathId;
@@ -10805,6 +11953,7 @@ class RecordDetail {
 
   RecordDetail({
     this.createdTime,
+    this.launchRoleArn,
     this.pathId,
     this.productId,
     this.provisionedProductId,
@@ -11558,6 +12707,10 @@ class TagOptionDetail {
   @_s.JsonKey(name: 'Key')
   final String key;
 
+  /// The AWS account Id of the owner account that created the TagOption.
+  @_s.JsonKey(name: 'Owner')
+  final String owner;
+
   /// The TagOption value.
   @_s.JsonKey(name: 'Value')
   final String value;
@@ -11566,6 +12719,7 @@ class TagOptionDetail {
     this.active,
     this.id,
     this.key,
+    this.owner,
     this.value,
   });
   factory TagOptionDetail.fromJson(Map<String, dynamic> json) =>
@@ -11660,6 +12814,31 @@ class UpdatePortfolioOutput {
   });
   factory UpdatePortfolioOutput.fromJson(Map<String, dynamic> json) =>
       _$UpdatePortfolioOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdatePortfolioShareOutput {
+  /// The token that tracks the status of the <code>UpdatePortfolioShare</code>
+  /// operation for external account to account or organizational type sharing.
+  @_s.JsonKey(name: 'PortfolioShareToken')
+  final String portfolioShareToken;
+
+  /// The status of <code>UpdatePortfolioShare</code> operation. You can also
+  /// obtain the operation status using <code>DescribePortfolioShareStatus</code>
+  /// API.
+  @_s.JsonKey(name: 'Status')
+  final ShareStatus status;
+
+  UpdatePortfolioShareOutput({
+    this.portfolioShareToken,
+    this.status,
+  });
+  factory UpdatePortfolioShareOutput.fromJson(Map<String, dynamic> json) =>
+      _$UpdatePortfolioShareOutputFromJson(json);
 }
 
 @_s.JsonSerializable(

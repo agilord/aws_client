@@ -53,7 +53,10 @@ class DatabaseMigrationService {
   /// Adds metadata tags to an AWS DMS resource, including replication instance,
   /// endpoint, security group, and migration task. These tags can also be used
   /// with cost allocation reporting to track cost associated with DMS
-  /// resources, or used in a Condition statement in an IAM policy for DMS.
+  /// resources, or used in a Condition statement in an IAM policy for DMS. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html">
+  /// <code>Tag</code> </a> data type description.
   ///
   /// May throw [ResourceNotFoundFault].
   ///
@@ -151,6 +154,44 @@ class DatabaseMigrationService {
     return ApplyPendingMaintenanceActionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Cancels a single premigration assessment run.
+  ///
+  /// This operation prevents any individual assessments from running if they
+  /// haven't started running. It also attempts to cancel any individual
+  /// assessments that are currently running.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [replicationTaskAssessmentRunArn] :
+  /// Amazon Resource Name (ARN) of the premigration assessment run to be
+  /// canceled.
+  Future<CancelReplicationTaskAssessmentRunResponse>
+      cancelReplicationTaskAssessmentRun({
+    @_s.required String replicationTaskAssessmentRunArn,
+  }) async {
+    ArgumentError.checkNotNull(
+        replicationTaskAssessmentRunArn, 'replicationTaskAssessmentRunArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.CancelReplicationTaskAssessmentRun'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplicationTaskAssessmentRunArn': replicationTaskAssessmentRunArn,
+      },
+    );
+
+    return CancelReplicationTaskAssessmentRunResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Creates an endpoint using the provided settings.
   ///
   /// May throw [KMSKeyNotAccessibleFault].
@@ -159,11 +200,12 @@ class DatabaseMigrationService {
   /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [S3AccessDeniedFault].
   ///
   /// Parameter [endpointIdentifier] :
   /// The database endpoint identifier. Identifiers must begin with a letter and
   /// must contain only ASCII letters, digits, and hyphens. They can't end with
-  /// a hyphen or contain two consecutive hyphens.
+  /// a hyphen, or contain two consecutive hyphens.
   ///
   /// Parameter [endpointType] :
   /// The type of endpoint. Valid values are <code>source</code> and
@@ -177,8 +219,8 @@ class DatabaseMigrationService {
   /// <code>"redshift"</code>, <code>"s3"</code>, <code>"db2"</code>,
   /// <code>"azuredb"</code>, <code>"sybase"</code>, <code>"dynamodb"</code>,
   /// <code>"mongodb"</code>, <code>"kinesis"</code>, <code>"kafka"</code>,
-  /// <code>"elasticsearch"</code>, <code>"documentdb"</code>, and
-  /// <code>"sqlserver"</code>.
+  /// <code>"elasticsearch"</code>, <code>"docdb"</code>,
+  /// <code>"sqlserver"</code>, and <code>"neptune"</code>.
   ///
   /// Parameter [certificateArn] :
   /// The Amazon Resource Name (ARN) for the certificate.
@@ -225,7 +267,7 @@ class DatabaseMigrationService {
   /// information about the available settings, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Elasticsearch.html#CHAP_Target.Elasticsearch.Configuration">Extra
   /// Connection Attributes When Using Elasticsearch as a Target for AWS DMS</a>
-  /// in the <i>AWS Database Migration User Guide.</i>
+  /// in the <i>AWS Database Migration Service User Guide</i>.
   ///
   /// Parameter [externalTableDefinition] :
   /// The external table definition.
@@ -240,19 +282,26 @@ class DatabaseMigrationService {
   /// with AWS DMS Endpoints</a> in the <i>AWS Database Migration Service User
   /// Guide.</i>
   ///
-  /// Parameter [kafkaSettings] :
-  /// Settings in JSON format for the target Apache Kafka endpoint. For
+  /// Parameter [iBMDb2Settings] :
+  /// Settings in JSON format for the source IBM Db2 LUW endpoint. For
   /// information about other available settings, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html#CHAP_Target.Kafka.ObjectMapping">Using
-  /// Object Mapping to Migrate Data to Apache Kafka</a> in the <i>AWS Database
-  /// Migration User Guide.</i>
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.DB2.html">Extra
+  /// connection attributes when using Db2 LUW as a source for AWS DMS</a> in
+  /// the <i>AWS Database Migration Service User Guide.</i>
+  ///
+  /// Parameter [kafkaSettings] :
+  /// Settings in JSON format for the target Apache Kafka endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html">Using
+  /// Apache Kafka as a Target for AWS Database Migration Service</a> in the
+  /// <i>AWS Database Migration Service User Guide.</i>
   ///
   /// Parameter [kinesisSettings] :
   /// Settings in JSON format for the target endpoint for Amazon Kinesis Data
-  /// Streams. For information about other available settings, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html#CHAP_Target.Kinesis.ObjectMapping">Using
-  /// Object Mapping to Migrate Data to a Kinesis Data Stream</a> in the <i>AWS
-  /// Database Migration User Guide.</i>
+  /// Streams. For more information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html">Using
+  /// Amazon Kinesis Data Streams as a Target for AWS Database Migration
+  /// Service</a> in the <i>AWS Database Migration Service User Guide.</i>
   ///
   /// Parameter [kmsKeyId] :
   /// An AWS KMS key identifier that is used to encrypt the connection
@@ -264,19 +313,77 @@ class DatabaseMigrationService {
   /// AWS KMS creates the default encryption key for your AWS account. Your AWS
   /// account has a different default encryption key for each AWS Region.
   ///
+  /// Parameter [microsoftSQLServerSettings] :
+  /// Settings in JSON format for the source and target Microsoft SQL Server
+  /// endpoint. For information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SQLServer.html">Extra
+  /// connection attributes when using SQL Server as a source for AWS DMS</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SQLServer.html">
+  /// Extra connection attributes when using SQL Server as a target for AWS
+  /// DMS</a> in the <i>AWS Database Migration Service User Guide.</i>
+  ///
   /// Parameter [mongoDbSettings] :
   /// Settings in JSON format for the source MongoDB endpoint. For more
-  /// information about the available settings, see the configuration properties
-  /// section in <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html">Using
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html#CHAP_Source.MongoDB.Configuration">Using
   /// MongoDB as a Target for AWS Database Migration Service</a> in the <i>AWS
   /// Database Migration Service User Guide.</i>
+  ///
+  /// Parameter [mySQLSettings] :
+  /// Settings in JSON format for the source and target MySQL endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MySQL.html">Extra
+  /// connection attributes when using MySQL as a source for AWS DMS</a> and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.MySQL.html">Extra
+  /// connection attributes when using a MySQL-compatible database as a target
+  /// for AWS DMS</a> in the <i>AWS Database Migration Service User Guide.</i>
+  ///
+  /// Parameter [neptuneSettings] :
+  /// Settings in JSON format for the target Amazon Neptune endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings">Specifying
+  /// Endpoint Settings for Amazon Neptune as a Target</a> in the <i>AWS
+  /// Database Migration Service User Guide.</i>
+  ///
+  /// Parameter [oracleSettings] :
+  /// Settings in JSON format for the source and target Oracle endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html">Extra
+  /// connection attributes when using Oracle as a source for AWS DMS</a> and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Oracle.html">
+  /// Extra connection attributes when using Oracle as a target for AWS DMS</a>
+  /// in the <i>AWS Database Migration Service User Guide.</i>
   ///
   /// Parameter [password] :
   /// The password to be used to log in to the endpoint database.
   ///
   /// Parameter [port] :
   /// The port used by the endpoint database.
+  ///
+  /// Parameter [postgreSQLSettings] :
+  /// Settings in JSON format for the source and target PostgreSQL endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html">Extra
+  /// connection attributes when using PostgreSQL as a source for AWS DMS</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.PostgreSQL.html">
+  /// Extra connection attributes when using PostgreSQL as a target for AWS
+  /// DMS</a> in the <i>AWS Database Migration Service User Guide.</i>
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// A friendly name for the resource identifier at the end of the
+  /// <code>EndpointArn</code> response parameter that is returned in the
+  /// created <code>Endpoint</code> object. The value for this parameter can
+  /// have up to 31 characters. It can contain only ASCII letters, digits, and
+  /// hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive
+  /// hyphens, and can only begin with a letter, such as
+  /// <code>Example-App-ARN1</code>. For example, this value might result in the
+  /// <code>EndpointArn</code> value
+  /// <code>arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1</code>. If
+  /// you don't specify a <code>ResourceIdentifier</code> value, AWS DMS
+  /// generates a default identifier value for the end of
+  /// <code>EndpointArn</code>.
   ///
   /// Parameter [s3Settings] :
   /// Settings in JSON format for the target Amazon S3 endpoint. For more
@@ -296,6 +403,16 @@ class DatabaseMigrationService {
   /// The Secure Sockets Layer (SSL) mode to use for the SSL connection. The
   /// default is <code>none</code>
   ///
+  /// Parameter [sybaseSettings] :
+  /// Settings in JSON format for the source and target SAP ASE endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SAP.html">Extra
+  /// connection attributes when using SAP ASE as a source for AWS DMS</a> and
+  /// <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SAP.html">Extra
+  /// connection attributes when using SAP ASE as a target for AWS DMS</a> in
+  /// the <i>AWS Database Migration Service User Guide.</i>
+  ///
   /// Parameter [tags] :
   /// One or more tags to be assigned to the endpoint.
   ///
@@ -308,21 +425,30 @@ class DatabaseMigrationService {
     String certificateArn,
     String databaseName,
     DmsTransferSettings dmsTransferSettings,
+    DocDbSettings docDbSettings,
     DynamoDbSettings dynamoDbSettings,
     ElasticsearchSettings elasticsearchSettings,
     String externalTableDefinition,
     String extraConnectionAttributes,
+    IBMDb2Settings iBMDb2Settings,
     KafkaSettings kafkaSettings,
     KinesisSettings kinesisSettings,
     String kmsKeyId,
+    MicrosoftSQLServerSettings microsoftSQLServerSettings,
     MongoDbSettings mongoDbSettings,
+    MySQLSettings mySQLSettings,
+    NeptuneSettings neptuneSettings,
+    OracleSettings oracleSettings,
     String password,
     int port,
+    PostgreSQLSettings postgreSQLSettings,
     RedshiftSettings redshiftSettings,
+    String resourceIdentifier,
     S3Settings s3Settings,
     String serverName,
     String serviceAccessRoleArn,
     DmsSslModeValue sslMode,
+    SybaseSettings sybaseSettings,
     List<Tag> tags,
     String username,
   }) async {
@@ -347,6 +473,7 @@ class DatabaseMigrationService {
         if (databaseName != null) 'DatabaseName': databaseName,
         if (dmsTransferSettings != null)
           'DmsTransferSettings': dmsTransferSettings,
+        if (docDbSettings != null) 'DocDbSettings': docDbSettings,
         if (dynamoDbSettings != null) 'DynamoDbSettings': dynamoDbSettings,
         if (elasticsearchSettings != null)
           'ElasticsearchSettings': elasticsearchSettings,
@@ -354,18 +481,29 @@ class DatabaseMigrationService {
           'ExternalTableDefinition': externalTableDefinition,
         if (extraConnectionAttributes != null)
           'ExtraConnectionAttributes': extraConnectionAttributes,
+        if (iBMDb2Settings != null) 'IBMDb2Settings': iBMDb2Settings,
         if (kafkaSettings != null) 'KafkaSettings': kafkaSettings,
         if (kinesisSettings != null) 'KinesisSettings': kinesisSettings,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+        if (microsoftSQLServerSettings != null)
+          'MicrosoftSQLServerSettings': microsoftSQLServerSettings,
         if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
+        if (mySQLSettings != null) 'MySQLSettings': mySQLSettings,
+        if (neptuneSettings != null) 'NeptuneSettings': neptuneSettings,
+        if (oracleSettings != null) 'OracleSettings': oracleSettings,
         if (password != null) 'Password': password,
         if (port != null) 'Port': port,
+        if (postgreSQLSettings != null)
+          'PostgreSQLSettings': postgreSQLSettings,
         if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
+        if (resourceIdentifier != null)
+          'ResourceIdentifier': resourceIdentifier,
         if (s3Settings != null) 'S3Settings': s3Settings,
         if (serverName != null) 'ServerName': serverName,
         if (serviceAccessRoleArn != null)
           'ServiceAccessRoleArn': serviceAccessRoleArn,
         if (sslMode != null) 'SslMode': sslMode.toValue(),
+        if (sybaseSettings != null) 'SybaseSettings': sybaseSettings,
         if (tags != null) 'Tags': tags,
         if (username != null) 'Username': username,
       },
@@ -487,10 +625,10 @@ class DatabaseMigrationService {
   /// AWS DMS requires that your account have certain roles with appropriate
   /// permissions before you can create a replication instance. For information
   /// on the required roles, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.APIRole.html">Creating
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.APIRole">Creating
   /// the IAM Roles to Use With the AWS CLI and AWS DMS API</a>. For information
   /// on the required permissions, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.IAMPermissions.html">IAM
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.IAMPermissions">IAM
   /// Permissions Needed to Use AWS DMS</a>.
   ///
   /// May throw [AccessDeniedFault].
@@ -505,12 +643,15 @@ class DatabaseMigrationService {
   /// May throw [KMSKeyNotAccessibleFault].
   ///
   /// Parameter [replicationInstanceClass] :
-  /// The compute and memory capacity of the replication instance as specified
-  /// by the replication instance class.
+  /// The compute and memory capacity of the replication instance as defined for
+  /// the specified replication instance class. For example to specify the
+  /// instance class dms.c4.large, set this parameter to
+  /// <code>"dms.c4.large"</code>.
   ///
-  /// Valid Values: <code>dms.t2.micro | dms.t2.small | dms.t2.medium |
-  /// dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge |
-  /// dms.c4.4xlarge </code>
+  /// For more information on the settings and capacities for the available
+  /// replication instance classes, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
+  /// Selecting the right AWS DMS replication instance for your migration</a>.
   ///
   /// Parameter [replicationInstanceIdentifier] :
   /// The replication instance identifier. This parameter is stored as a
@@ -520,7 +661,7 @@ class DatabaseMigrationService {
   ///
   /// <ul>
   /// <li>
-  /// Must contain from 1 to 63 alphanumeric characters or hyphens.
+  /// Must contain 1-63 alphanumeric characters or hyphens.
   /// </li>
   /// <li>
   /// First character must be a letter.
@@ -548,10 +689,18 @@ class DatabaseMigrationService {
   /// endpoint's AWS Region, for example: <code>us-east-1d</code>
   ///
   /// Parameter [dnsNameServers] :
-  /// A list of DNS name servers supported for the replication instance.
+  /// A list of custom DNS name servers supported for the replication instance
+  /// to access your on-premise source or target database. This list overrides
+  /// the default name servers supported by the replication instance. You can
+  /// specify a comma-separated list of internet addresses for up to four
+  /// on-premise DNS name servers. For example:
+  /// <code>"1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"</code>
   ///
   /// Parameter [engineVersion] :
   /// The engine version number of the replication instance.
+  ///
+  /// If an engine version number is not specified when a replication instance
+  /// is created, the default is the latest engine version available.
   ///
   /// Parameter [kmsKeyId] :
   /// An AWS KMS key identifier that is used to encrypt the data on the
@@ -590,6 +739,20 @@ class DatabaseMigrationService {
   /// Parameter [replicationSubnetGroupIdentifier] :
   /// A subnet group to associate with the replication instance.
   ///
+  /// Parameter [resourceIdentifier] :
+  /// A friendly name for the resource identifier at the end of the
+  /// <code>EndpointArn</code> response parameter that is returned in the
+  /// created <code>Endpoint</code> object. The value for this parameter can
+  /// have up to 31 characters. It can contain only ASCII letters, digits, and
+  /// hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive
+  /// hyphens, and can only begin with a letter, such as
+  /// <code>Example-App-ARN1</code>. For example, this value might result in the
+  /// <code>EndpointArn</code> value
+  /// <code>arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1</code>. If
+  /// you don't specify a <code>ResourceIdentifier</code> value, AWS DMS
+  /// generates a default identifier value for the end of
+  /// <code>EndpointArn</code>.
+  ///
   /// Parameter [tags] :
   /// One or more tags to be assigned to the replication instance.
   ///
@@ -610,6 +773,7 @@ class DatabaseMigrationService {
     String preferredMaintenanceWindow,
     bool publiclyAccessible,
     String replicationSubnetGroupIdentifier,
+    String resourceIdentifier,
     List<Tag> tags,
     List<String> vpcSecurityGroupIds,
   }) async {
@@ -644,6 +808,8 @@ class DatabaseMigrationService {
           'PubliclyAccessible': publiclyAccessible,
         if (replicationSubnetGroupIdentifier != null)
           'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
+        if (resourceIdentifier != null)
+          'ResourceIdentifier': resourceIdentifier,
         if (tags != null) 'Tags': tags,
         if (vpcSecurityGroupIds != null)
           'VpcSecurityGroupIds': vpcSecurityGroupIds,
@@ -735,7 +901,7 @@ class DatabaseMigrationService {
   ///
   /// <ul>
   /// <li>
-  /// Must contain from 1 to 255 alphanumeric characters or hyphens.
+  /// Must contain 1-255 alphanumeric characters or hyphens.
   /// </li>
   /// <li>
   /// First character must be a letter.
@@ -752,8 +918,9 @@ class DatabaseMigrationService {
   /// Parameter [tableMappings] :
   /// The table mappings for the task, in JSON format. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.html">Table
-  /// Mapping</a> in the <i>AWS Database Migration User Guide.</i>
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.html">Using
+  /// Table Mapping to Specify Task Settings</a> in the <i>AWS Database
+  /// Migration Service User Guide.</i>
   ///
   /// Parameter [targetEndpointArn] :
   /// An Amazon Resource Name (ARN) that uniquely identifies the target
@@ -793,19 +960,41 @@ class DatabaseMigrationService {
   /// Indicates when you want a change data capture (CDC) operation to stop. The
   /// value can be either server time or commit time.
   ///
-  /// Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12”
+  /// Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12”
   ///
-  /// Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12
+  /// Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12
   /// “
   ///
   /// Parameter [replicationTaskSettings] :
   /// Overall settings for the task, in JSON format. For more information, see
   /// <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.html">Task
-  /// Settings</a> in the <i>AWS Database Migration User Guide.</i>
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.html">Specifying
+  /// Task Settings for AWS Database Migration Service Tasks</a> in the <i>AWS
+  /// Database Migration User Guide.</i>
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// A friendly name for the resource identifier at the end of the
+  /// <code>EndpointArn</code> response parameter that is returned in the
+  /// created <code>Endpoint</code> object. The value for this parameter can
+  /// have up to 31 characters. It can contain only ASCII letters, digits, and
+  /// hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive
+  /// hyphens, and can only begin with a letter, such as
+  /// <code>Example-App-ARN1</code>. For example, this value might result in the
+  /// <code>EndpointArn</code> value
+  /// <code>arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1</code>. If
+  /// you don't specify a <code>ResourceIdentifier</code> value, AWS DMS
+  /// generates a default identifier value for the end of
+  /// <code>EndpointArn</code>.
   ///
   /// Parameter [tags] :
   /// One or more tags to be assigned to the replication task.
+  ///
+  /// Parameter [taskData] :
+  /// Supplemental information that the task requires to migrate the data for
+  /// certain source and target endpoints. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html">Specifying
+  /// Supplemental Data for Task Settings</a> in the <i>AWS Database Migration
+  /// Service User Guide.</i>
   Future<CreateReplicationTaskResponse> createReplicationTask({
     @_s.required MigrationTypeValue migrationType,
     @_s.required String replicationInstanceArn,
@@ -817,7 +1006,9 @@ class DatabaseMigrationService {
     DateTime cdcStartTime,
     String cdcStopPosition,
     String replicationTaskSettings,
+    String resourceIdentifier,
     List<Tag> tags,
+    String taskData,
   }) async {
     ArgumentError.checkNotNull(migrationType, 'migrationType');
     ArgumentError.checkNotNull(
@@ -850,7 +1041,10 @@ class DatabaseMigrationService {
         if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
         if (replicationTaskSettings != null)
           'ReplicationTaskSettings': replicationTaskSettings,
+        if (resourceIdentifier != null)
+          'ResourceIdentifier': resourceIdentifier,
         if (tags != null) 'Tags': tags,
+        if (taskData != null) 'TaskData': taskData,
       },
     );
 
@@ -1080,6 +1274,44 @@ class DatabaseMigrationService {
     return DeleteReplicationTaskResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes the record of a single premigration assessment run.
+  ///
+  /// This operation removes all metadata that AWS DMS maintains about this
+  /// assessment run. However, the operation leaves untouched all information
+  /// about this assessment run that is stored in your Amazon S3 bucket.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [replicationTaskAssessmentRunArn] :
+  /// Amazon Resource Name (ARN) of the premigration assessment run to be
+  /// deleted.
+  Future<DeleteReplicationTaskAssessmentRunResponse>
+      deleteReplicationTaskAssessmentRun({
+    @_s.required String replicationTaskAssessmentRunArn,
+  }) async {
+    ArgumentError.checkNotNull(
+        replicationTaskAssessmentRunArn, 'replicationTaskAssessmentRunArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DeleteReplicationTaskAssessmentRun'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplicationTaskAssessmentRunArn': replicationTaskAssessmentRunArn,
+      },
+    );
+
+    return DeleteReplicationTaskAssessmentRunResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Lists all of the AWS DMS attributes for a customer account. These
   /// attributes include AWS DMS quotas for the account and a unique account
   /// identifier in a particular DMS region. DMS quotas include a list of
@@ -1106,12 +1338,107 @@ class DatabaseMigrationService {
     return DescribeAccountAttributesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Provides a list of individual assessments that you can specify for a new
+  /// premigration assessment run, given one or more parameters.
+  ///
+  /// If you specify an existing migration task, this operation provides the
+  /// default individual assessments you can specify for that task. Otherwise,
+  /// the specified parameters model elements of a possible migration task on
+  /// which to base a premigration assessment run.
+  ///
+  /// To use these migration task modeling parameters, you must specify an
+  /// existing replication instance, a source database engine, a target database
+  /// engine, and a migration type. This combination of parameters potentially
+  /// limits the default individual assessments available for an assessment run
+  /// created for a corresponding migration task.
+  ///
+  /// If you specify no parameters, this operation provides a list of all
+  /// possible individual assessments that you can specify for an assessment
+  /// run. If you specify any one of the task modeling parameters, you must
+  /// specify all of them or the operation cannot provide a list of individual
+  /// assessments. The only parameter that you can specify alone is for an
+  /// existing migration task. The specified task definition then determines the
+  /// default list of individual assessments that you can specify in an
+  /// assessment run for the task.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [marker] :
+  /// Optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// Maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Parameter [migrationType] :
+  /// Name of the migration type that each provided individual assessment must
+  /// support.
+  ///
+  /// Parameter [replicationInstanceArn] :
+  /// ARN of a replication instance on which you want to base the default list
+  /// of individual assessments.
+  ///
+  /// Parameter [replicationTaskArn] :
+  /// Amazon Resource Name (ARN) of a migration task on which you want to base
+  /// the default list of individual assessments.
+  ///
+  /// Parameter [sourceEngineName] :
+  /// Name of a database engine that the specified replication instance supports
+  /// as a source.
+  ///
+  /// Parameter [targetEngineName] :
+  /// Name of a database engine that the specified replication instance supports
+  /// as a target.
+  Future<DescribeApplicableIndividualAssessmentsResponse>
+      describeApplicableIndividualAssessments({
+    String marker,
+    int maxRecords,
+    MigrationTypeValue migrationType,
+    String replicationInstanceArn,
+    String replicationTaskArn,
+    String sourceEngineName,
+    String targetEngineName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonDMSv20160101.DescribeApplicableIndividualAssessments'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (migrationType != null) 'MigrationType': migrationType.toValue(),
+        if (replicationInstanceArn != null)
+          'ReplicationInstanceArn': replicationInstanceArn,
+        if (replicationTaskArn != null)
+          'ReplicationTaskArn': replicationTaskArn,
+        if (sourceEngineName != null) 'SourceEngineName': sourceEngineName,
+        if (targetEngineName != null) 'TargetEngineName': targetEngineName,
+      },
+    );
+
+    return DescribeApplicableIndividualAssessmentsResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Provides a description of the certificate.
   ///
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
-  /// Filters applied to the certificate described in the form of key-value
+  /// Filters applied to the certificates described in the form of key-value
   /// pairs.
   ///
   /// Parameter [marker] :
@@ -1204,7 +1531,7 @@ class DatabaseMigrationService {
   /// Returns information about the type of endpoints available.
   ///
   /// Parameter [filters] :
-  /// Filters applied to the describe action.
+  /// Filters applied to the endpoint types.
   ///
   /// Valid filter names: engine-name | endpoint-type
   ///
@@ -1253,7 +1580,7 @@ class DatabaseMigrationService {
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
-  /// Filters applied to the describe action.
+  /// Filters applied to the endpoints.
   ///
   /// Valid filter names: endpoint-arn | endpoint-type | endpoint-id |
   /// engine-name
@@ -1305,7 +1632,7 @@ class DatabaseMigrationService {
   /// User Guide.</i>
   ///
   /// Parameter [filters] :
-  /// Filters applied to the action.
+  /// Filters applied to the event categories.
   ///
   /// Parameter [sourceType] :
   /// The type of AWS DMS resource that generates events.
@@ -1346,7 +1673,7 @@ class DatabaseMigrationService {
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
-  /// Filters applied to the action.
+  /// Filters applied to event subscriptions.
   ///
   /// Parameter [marker] :
   /// An optional pagination token provided by a previous request. If this
@@ -1409,7 +1736,7 @@ class DatabaseMigrationService {
   /// A list of event categories for the source type that you've chosen.
   ///
   /// Parameter [filters] :
-  /// Filters applied to the action.
+  /// Filters applied to events.
   ///
   /// Parameter [marker] :
   /// An optional pagination token provided by a previous request. If this
@@ -1656,7 +1983,7 @@ class DatabaseMigrationService {
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
-  /// Filters applied to the describe action.
+  /// Filters applied to replication instances.
   ///
   /// Valid filter names: replication-instance-arn | replication-instance-id |
   /// replication-instance-class | engine-version
@@ -1705,7 +2032,9 @@ class DatabaseMigrationService {
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
-  /// Filters applied to the describe action.
+  /// Filters applied to replication subnet groups.
+  ///
+  /// Valid filter names: replication-subnet-group-id
   ///
   /// Parameter [marker] :
   /// An optional pagination token provided by a previous request. If this
@@ -1801,13 +2130,125 @@ class DatabaseMigrationService {
         jsonResponse.body);
   }
 
+  /// Returns a paginated list of premigration assessment runs based on filter
+  /// settings.
+  ///
+  /// These filter settings can specify a combination of premigration assessment
+  /// runs, migration tasks, replication instances, and assessment run status
+  /// values.
+  /// <note>
+  /// This operation doesn't return information about individual assessments.
+  /// For this information, see the
+  /// <code>DescribeReplicationTaskIndividualAssessments</code> operation.
+  /// </note>
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the premigration assessment runs described in the form
+  /// of key-value pairs.
+  ///
+  /// Valid filter names: <code>replication-task-assessment-run-arn</code>,
+  /// <code>replication-task-arn</code>, <code>replication-instance-arn</code>,
+  /// <code>status</code>
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  Future<DescribeReplicationTaskAssessmentRunsResponse>
+      describeReplicationTaskAssessmentRuns({
+    List<Filter> filters,
+    String marker,
+    int maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeReplicationTaskAssessmentRuns'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeReplicationTaskAssessmentRunsResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Returns a paginated list of individual assessments based on filter
+  /// settings.
+  ///
+  /// These filter settings can specify a combination of premigration assessment
+  /// runs, migration tasks, and assessment status values.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the individual assessments described in the form of
+  /// key-value pairs.
+  ///
+  /// Valid filter names: <code>replication-task-assessment-run-arn</code>,
+  /// <code>replication-task-arn</code>, <code>status</code>
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  Future<DescribeReplicationTaskIndividualAssessmentsResponse>
+      describeReplicationTaskIndividualAssessments({
+    List<Filter> filters,
+    String marker,
+    int maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonDMSv20160101.DescribeReplicationTaskIndividualAssessments'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeReplicationTaskIndividualAssessmentsResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Returns information about replication tasks for your account in the
   /// current region.
   ///
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
-  /// Filters applied to the describe action.
+  /// Filters applied to replication tasks.
   ///
   /// Valid filter names: replication-task-arn | replication-task-id |
   /// migration-type | endpoint-arn | replication-instance-arn
@@ -1923,7 +2364,7 @@ class DatabaseMigrationService {
   /// The Amazon Resource Name (ARN) of the replication task.
   ///
   /// Parameter [filters] :
-  /// Filters applied to the describe table statistics action.
+  /// Filters applied to table statistics.
   ///
   /// Valid filter names: schema-name | table-name | table-state
   ///
@@ -2021,7 +2462,11 @@ class DatabaseMigrationService {
     return ImportCertificateResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all tags for an AWS DMS resource.
+  /// Lists all metadata tags attached to an AWS DMS resource, including
+  /// replication instance, endpoint, security group, and migration task. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html">
+  /// <code>Tag</code> </a> data type description.
   ///
   /// May throw [ResourceNotFoundFault].
   ///
@@ -2095,6 +2540,14 @@ class DatabaseMigrationService {
   /// "ServiceAccessRoleArn": "string", "BucketName": "string",
   /// "CompressionType": "none"|"gzip" } </code>
   ///
+  /// Parameter [docDbSettings] :
+  /// Settings in JSON format for the source DocumentDB endpoint. For more
+  /// information about the available settings, see the configuration properties
+  /// section in <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.DocumentDB.html">
+  /// Using DocumentDB as a Target for AWS Database Migration Service</a> in the
+  /// <i>AWS Database Migration Service User Guide.</i>
+  ///
   /// Parameter [dynamoDbSettings] :
   /// Settings in JSON format for the target Amazon DynamoDB endpoint. For
   /// information about other available settings, see <a
@@ -2107,7 +2560,7 @@ class DatabaseMigrationService {
   /// information about the available settings, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Elasticsearch.html#CHAP_Target.Elasticsearch.Configuration">Extra
   /// Connection Attributes When Using Elasticsearch as a Target for AWS DMS</a>
-  /// in the <i>AWS Database Migration User Guide.</i>
+  /// in the <i>AWS Database Migration Service User Guide.</i>
   ///
   /// Parameter [endpointIdentifier] :
   /// The database endpoint identifier. Identifiers must begin with a letter and
@@ -2126,8 +2579,8 @@ class DatabaseMigrationService {
   /// <code>"s3"</code>, <code>"db2"</code>, <code>"azuredb"</code>,
   /// <code>"sybase"</code>, <code>"dynamodb"</code>, <code>"mongodb"</code>,
   /// <code>"kinesis"</code>, <code>"kafka"</code>,
-  /// <code>"elasticsearch"</code>, <code>"documentdb"</code>, and
-  /// <code>"sqlserver"</code>.
+  /// <code>"elasticsearch"</code>, <code>"documentdb"</code>,
+  /// <code>"sqlserver"</code>, and <code>"neptune"</code>.
   ///
   /// Parameter [externalTableDefinition] :
   /// The external table definition.
@@ -2136,19 +2589,36 @@ class DatabaseMigrationService {
   /// Additional attributes associated with the connection. To reset this
   /// parameter, pass the empty string ("") as an argument.
   ///
-  /// Parameter [kafkaSettings] :
-  /// Settings in JSON format for the target Apache Kafka endpoint. For
+  /// Parameter [iBMDb2Settings] :
+  /// Settings in JSON format for the source IBM Db2 LUW endpoint. For
   /// information about other available settings, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html#CHAP_Target.Kafka.ObjectMapping">Using
-  /// Object Mapping to Migrate Data to Apache Kafka</a> in the <i>AWS Database
-  /// Migration User Guide.</i>
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.DB2.ConnectionAttrib">Extra
+  /// connection attributes when using Db2 LUW as a source for AWS DMS</a> in
+  /// the <i>AWS Database Migration Service User Guide.</i>
+  ///
+  /// Parameter [kafkaSettings] :
+  /// Settings in JSON format for the target Apache Kafka endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html">Using
+  /// Apache Kafka as a Target for AWS Database Migration Service</a> in the
+  /// <i>AWS Database Migration Service User Guide.</i>
   ///
   /// Parameter [kinesisSettings] :
   /// Settings in JSON format for the target endpoint for Amazon Kinesis Data
-  /// Streams. For information about other available settings, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html#CHAP_Target.Kinesis.ObjectMapping">Using
-  /// Object Mapping to Migrate Data to a Kinesis Data Stream</a> in the <i>AWS
-  /// Database Migration User Guide.</i>
+  /// Streams. For more information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html">Using
+  /// Amazon Kinesis Data Streams as a Target for AWS Database Migration
+  /// Service</a> in the <i>AWS Database Migration Service User Guide.</i>
+  ///
+  /// Parameter [microsoftSQLServerSettings] :
+  /// Settings in JSON format for the source and target Microsoft SQL Server
+  /// endpoint. For information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SQLServer.ConnectionAttrib">Extra
+  /// connection attributes when using SQL Server as a source for AWS DMS</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SQLServer.ConnectionAttrib">
+  /// Extra connection attributes when using SQL Server as a target for AWS
+  /// DMS</a> in the <i>AWS Database Migration Service User Guide.</i>
   ///
   /// Parameter [mongoDbSettings] :
   /// Settings in JSON format for the source MongoDB endpoint. For more
@@ -2158,11 +2628,46 @@ class DatabaseMigrationService {
   /// Using MongoDB as a Target for AWS Database Migration Service</a> in the
   /// <i>AWS Database Migration Service User Guide.</i>
   ///
+  /// Parameter [mySQLSettings] :
+  /// Settings in JSON format for the source and target MySQL endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MySQL.ConnectionAttrib">Extra
+  /// connection attributes when using MySQL as a source for AWS DMS</a> and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.MySQL.ConnectionAttrib">Extra
+  /// connection attributes when using a MySQL-compatible database as a target
+  /// for AWS DMS</a> in the <i>AWS Database Migration Service User Guide.</i>
+  ///
+  /// Parameter [neptuneSettings] :
+  /// Settings in JSON format for the target Amazon Neptune endpoint. For more
+  /// information about the available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.EndpointSettings">Specifying
+  /// Endpoint Settings for Amazon Neptune as a Target</a> in the <i>AWS
+  /// Database Migration Service User Guide.</i>
+  ///
+  /// Parameter [oracleSettings] :
+  /// Settings in JSON format for the source and target Oracle endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.ConnectionAttrib">Extra
+  /// connection attributes when using Oracle as a source for AWS DMS</a> and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Oracle.ConnectionAttrib">
+  /// Extra connection attributes when using Oracle as a target for AWS DMS</a>
+  /// in the <i>AWS Database Migration Service User Guide.</i>
+  ///
   /// Parameter [password] :
   /// The password to be used to login to the endpoint database.
   ///
   /// Parameter [port] :
   /// The port used by the endpoint database.
+  ///
+  /// Parameter [postgreSQLSettings] :
+  /// Settings in JSON format for the source and target PostgreSQL endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.ConnectionAttrib">Extra
+  /// connection attributes when using PostgreSQL as a source for AWS DMS</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.PostgreSQL.ConnectionAttrib">
+  /// Extra connection attributes when using PostgreSQL as a target for AWS
+  /// DMS</a> in the <i>AWS Database Migration Service User Guide.</i>
   ///
   /// Parameter [s3Settings] :
   /// Settings in JSON format for the target Amazon S3 endpoint. For more
@@ -2182,6 +2687,16 @@ class DatabaseMigrationService {
   /// The SSL mode used to connect to the endpoint. The default value is
   /// <code>none</code>.
   ///
+  /// Parameter [sybaseSettings] :
+  /// Settings in JSON format for the source and target SAP ASE endpoint. For
+  /// information about other available settings, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.SAP.ConnectionAttrib">Extra
+  /// connection attributes when using SAP ASE as a source for AWS DMS</a> and
+  /// <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.SAP.ConnectionAttrib">Extra
+  /// connection attributes when using SAP ASE as a target for AWS DMS</a> in
+  /// the <i>AWS Database Migration Service User Guide.</i>
+  ///
   /// Parameter [username] :
   /// The user name to be used to login to the endpoint database.
   Future<ModifyEndpointResponse> modifyEndpoint({
@@ -2189,6 +2704,7 @@ class DatabaseMigrationService {
     String certificateArn,
     String databaseName,
     DmsTransferSettings dmsTransferSettings,
+    DocDbSettings docDbSettings,
     DynamoDbSettings dynamoDbSettings,
     ElasticsearchSettings elasticsearchSettings,
     String endpointIdentifier,
@@ -2196,16 +2712,23 @@ class DatabaseMigrationService {
     String engineName,
     String externalTableDefinition,
     String extraConnectionAttributes,
+    IBMDb2Settings iBMDb2Settings,
     KafkaSettings kafkaSettings,
     KinesisSettings kinesisSettings,
+    MicrosoftSQLServerSettings microsoftSQLServerSettings,
     MongoDbSettings mongoDbSettings,
+    MySQLSettings mySQLSettings,
+    NeptuneSettings neptuneSettings,
+    OracleSettings oracleSettings,
     String password,
     int port,
+    PostgreSQLSettings postgreSQLSettings,
     RedshiftSettings redshiftSettings,
     S3Settings s3Settings,
     String serverName,
     String serviceAccessRoleArn,
     DmsSslModeValue sslMode,
+    SybaseSettings sybaseSettings,
     String username,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
@@ -2225,6 +2748,7 @@ class DatabaseMigrationService {
         if (databaseName != null) 'DatabaseName': databaseName,
         if (dmsTransferSettings != null)
           'DmsTransferSettings': dmsTransferSettings,
+        if (docDbSettings != null) 'DocDbSettings': docDbSettings,
         if (dynamoDbSettings != null) 'DynamoDbSettings': dynamoDbSettings,
         if (elasticsearchSettings != null)
           'ElasticsearchSettings': elasticsearchSettings,
@@ -2236,17 +2760,26 @@ class DatabaseMigrationService {
           'ExternalTableDefinition': externalTableDefinition,
         if (extraConnectionAttributes != null)
           'ExtraConnectionAttributes': extraConnectionAttributes,
+        if (iBMDb2Settings != null) 'IBMDb2Settings': iBMDb2Settings,
         if (kafkaSettings != null) 'KafkaSettings': kafkaSettings,
         if (kinesisSettings != null) 'KinesisSettings': kinesisSettings,
+        if (microsoftSQLServerSettings != null)
+          'MicrosoftSQLServerSettings': microsoftSQLServerSettings,
         if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
+        if (mySQLSettings != null) 'MySQLSettings': mySQLSettings,
+        if (neptuneSettings != null) 'NeptuneSettings': neptuneSettings,
+        if (oracleSettings != null) 'OracleSettings': oracleSettings,
         if (password != null) 'Password': password,
         if (port != null) 'Port': port,
+        if (postgreSQLSettings != null)
+          'PostgreSQLSettings': postgreSQLSettings,
         if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
         if (s3Settings != null) 'S3Settings': s3Settings,
         if (serverName != null) 'ServerName': serverName,
         if (serviceAccessRoleArn != null)
           'ServiceAccessRoleArn': serviceAccessRoleArn,
         if (sslMode != null) 'SslMode': sslMode.toValue(),
+        if (sybaseSettings != null) 'SybaseSettings': sybaseSettings,
         if (username != null) 'Username': username,
       },
     );
@@ -2356,7 +2889,7 @@ class DatabaseMigrationService {
   /// A value that indicates that minor version upgrades are applied
   /// automatically to the replication instance during the maintenance window.
   /// Changing this parameter doesn't result in an outage, except in the case
-  /// dsecribed following. The change is asynchronously applied as soon as
+  /// described following. The change is asynchronously applied as soon as
   /// possible.
   ///
   /// An outage does result if these factors apply:
@@ -2375,6 +2908,9 @@ class DatabaseMigrationService {
   ///
   /// Parameter [engineVersion] :
   /// The engine version number of the replication instance.
+  ///
+  /// When modifying a major engine version of an instance, also set
+  /// <code>AllowMajorVersionUpgrade</code> to <code>true</code>.
   ///
   /// Parameter [multiAZ] :
   /// Specifies whether the replication instance is a Multi-AZ deployment. You
@@ -2398,11 +2934,15 @@ class DatabaseMigrationService {
   /// Constraints: Must be at least 30 minutes
   ///
   /// Parameter [replicationInstanceClass] :
-  /// The compute and memory capacity of the replication instance.
+  /// The compute and memory capacity of the replication instance as defined for
+  /// the specified replication instance class. For example to specify the
+  /// instance class dms.c4.large, set this parameter to
+  /// <code>"dms.c4.large"</code>.
   ///
-  /// Valid Values: <code>dms.t2.micro | dms.t2.small | dms.t2.medium |
-  /// dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge |
-  /// dms.c4.4xlarge </code>
+  /// For more information on the settings and capacities for the available
+  /// replication instance classes, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
+  /// Selecting the right AWS DMS replication instance for your migration</a>.
   ///
   /// Parameter [replicationInstanceIdentifier] :
   /// The replication instance identifier. This parameter is stored as a
@@ -2560,9 +3100,9 @@ class DatabaseMigrationService {
   /// Indicates when you want a change data capture (CDC) operation to stop. The
   /// value can be either server time or commit time.
   ///
-  /// Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12”
+  /// Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12”
   ///
-  /// Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12
+  /// Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12
   /// “
   ///
   /// Parameter [migrationType] :
@@ -2576,7 +3116,7 @@ class DatabaseMigrationService {
   ///
   /// <ul>
   /// <li>
-  /// Must contain from 1 to 255 alphanumeric characters or hyphens.
+  /// Must contain 1-255 alphanumeric characters or hyphens.
   /// </li>
   /// <li>
   /// First character must be a letter.
@@ -2587,7 +3127,7 @@ class DatabaseMigrationService {
   /// </ul>
   ///
   /// Parameter [replicationTaskSettings] :
-  /// JSON file that contains settings for the task, such as target metadata
+  /// JSON file that contains settings for the task, such as task metadata
   /// settings.
   ///
   /// Parameter [tableMappings] :
@@ -2595,6 +3135,13 @@ class DatabaseMigrationService {
   /// contains the table mappings. Precede the path with <code>file://</code>.
   /// When working with the DMS API, provide the JSON as the parameter value,
   /// for example: <code>--table-mappings file://mappingfile.json</code>
+  ///
+  /// Parameter [taskData] :
+  /// Supplemental information that the task requires to migrate the data for
+  /// certain source and target endpoints. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html">Specifying
+  /// Supplemental Data for Task Settings</a> in the <i>AWS Database Migration
+  /// Service User Guide.</i>
   Future<ModifyReplicationTaskResponse> modifyReplicationTask({
     @_s.required String replicationTaskArn,
     String cdcStartPosition,
@@ -2604,6 +3151,7 @@ class DatabaseMigrationService {
     String replicationTaskIdentifier,
     String replicationTaskSettings,
     String tableMappings,
+    String taskData,
   }) async {
     ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
@@ -2628,10 +3176,51 @@ class DatabaseMigrationService {
         if (replicationTaskSettings != null)
           'ReplicationTaskSettings': replicationTaskSettings,
         if (tableMappings != null) 'TableMappings': tableMappings,
+        if (taskData != null) 'TaskData': taskData,
       },
     );
 
     return ModifyReplicationTaskResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Moves a replication task from its current replication instance to a
+  /// different target replication instance using the specified parameters. The
+  /// target replication instance must be created with the same or later AWS DMS
+  /// version as the current replication instance.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [replicationTaskArn] :
+  /// The Amazon Resource Name (ARN) of the task that you want to move.
+  ///
+  /// Parameter [targetReplicationInstanceArn] :
+  /// The ARN of the replication instance where you want to move the task to.
+  Future<MoveReplicationTaskResponse> moveReplicationTask({
+    @_s.required String replicationTaskArn,
+    @_s.required String targetReplicationInstanceArn,
+  }) async {
+    ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
+    ArgumentError.checkNotNull(
+        targetReplicationInstanceArn, 'targetReplicationInstanceArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.MoveReplicationTask'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplicationTaskArn': replicationTaskArn,
+        'TargetReplicationInstanceArn': targetReplicationInstanceArn,
+      },
+    );
+
+    return MoveReplicationTaskResponse.fromJson(jsonResponse.body);
   }
 
   /// Reboots a replication instance. Rebooting results in a momentary outage,
@@ -2760,7 +3349,11 @@ class DatabaseMigrationService {
     return ReloadTablesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Removes metadata tags from a DMS resource.
+  /// Removes metadata tags from an AWS DMS resource, including replication
+  /// instance, endpoint, security group, and migration task. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html">
+  /// <code>Tag</code> </a> data type description.
   ///
   /// May throw [ResourceNotFoundFault].
   ///
@@ -2810,7 +3403,7 @@ class DatabaseMigrationService {
   /// The Amazon Resource Name (ARN) of the replication task to be started.
   ///
   /// Parameter [startReplicationTaskType] :
-  /// The type of replication task.
+  /// A type of replication task.
   ///
   /// Parameter [cdcStartPosition] :
   /// Indicates when you want a change data capture (CDC) operation to start.
@@ -2846,9 +3439,9 @@ class DatabaseMigrationService {
   /// Indicates when you want a change data capture (CDC) operation to stop. The
   /// value can be either server time or commit time.
   ///
-  /// Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12”
+  /// Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12”
   ///
-  /// Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12
+  /// Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12
   /// “
   Future<StartReplicationTaskResponse> startReplicationTask({
     @_s.required String replicationTaskArn,
@@ -2914,8 +3507,144 @@ class DatabaseMigrationService {
     return StartReplicationTaskAssessmentResponse.fromJson(jsonResponse.body);
   }
 
+  /// Starts a new premigration assessment run for one or more individual
+  /// assessments of a migration task.
+  ///
+  /// The assessments that you can specify depend on the source and target
+  /// database engine and the migration type defined for the given task. To run
+  /// this operation, your migration task must already be created. After you run
+  /// this operation, you can review the status of each individual assessment.
+  /// You can also run the migration task manually after the assessment run and
+  /// its individual assessments complete.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSAccessDeniedFault].
+  /// May throw [KMSDisabledFault].
+  /// May throw [KMSFault].
+  /// May throw [KMSInvalidStateFault].
+  /// May throw [KMSNotFoundFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  ///
+  /// Parameter [assessmentRunName] :
+  /// Unique name to identify the assessment run.
+  ///
+  /// Parameter [replicationTaskArn] :
+  /// Amazon Resource Name (ARN) of the migration task associated with the
+  /// premigration assessment run that you want to start.
+  ///
+  /// Parameter [resultLocationBucket] :
+  /// Amazon S3 bucket where you want AWS DMS to store the results of this
+  /// assessment run.
+  ///
+  /// Parameter [serviceAccessRoleArn] :
+  /// ARN of a service role needed to start the assessment run.
+  ///
+  /// Parameter [exclude] :
+  /// Space-separated list of names for specific individual assessments that you
+  /// want to exclude. These names come from the default list of individual
+  /// assessments that AWS DMS supports for the associated migration task. This
+  /// task is specified by <code>ReplicationTaskArn</code>.
+  /// <note>
+  /// You can't set a value for <code>Exclude</code> if you also set a value for
+  /// <code>IncludeOnly</code> in the API operation.
+  ///
+  /// To identify the names of the default individual assessments that AWS DMS
+  /// supports for the associated migration task, run the
+  /// <code>DescribeApplicableIndividualAssessments</code> operation using its
+  /// own <code>ReplicationTaskArn</code> request parameter.
+  /// </note>
+  ///
+  /// Parameter [includeOnly] :
+  /// Space-separated list of names for specific individual assessments that you
+  /// want to include. These names come from the default list of individual
+  /// assessments that AWS DMS supports for the associated migration task. This
+  /// task is specified by <code>ReplicationTaskArn</code>.
+  /// <note>
+  /// You can't set a value for <code>IncludeOnly</code> if you also set a value
+  /// for <code>Exclude</code> in the API operation.
+  ///
+  /// To identify the names of the default individual assessments that AWS DMS
+  /// supports for the associated migration task, run the
+  /// <code>DescribeApplicableIndividualAssessments</code> operation using its
+  /// own <code>ReplicationTaskArn</code> request parameter.
+  /// </note>
+  ///
+  /// Parameter [resultEncryptionMode] :
+  /// Encryption mode that you can specify to encrypt the results of this
+  /// assessment run. If you don't specify this request parameter, AWS DMS
+  /// stores the assessment run results without encryption. You can specify one
+  /// of the options following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"SSE_S3"</code> – The server-side encryption provided as a default
+  /// by Amazon S3.
+  /// </li>
+  /// <li>
+  /// <code>"SSE_KMS"</code> – AWS Key Management Service (AWS KMS) encryption.
+  /// This encryption can use either a custom KMS encryption key that you
+  /// specify or the default KMS encryption key that DMS provides.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [resultKmsKeyArn] :
+  /// ARN of a custom KMS encryption key that you specify when you set
+  /// <code>ResultEncryptionMode</code> to <code>"SSE_KMS</code>".
+  ///
+  /// Parameter [resultLocationFolder] :
+  /// Folder within an Amazon S3 bucket where you want AWS DMS to store the
+  /// results of this assessment run.
+  Future<StartReplicationTaskAssessmentRunResponse>
+      startReplicationTaskAssessmentRun({
+    @_s.required String assessmentRunName,
+    @_s.required String replicationTaskArn,
+    @_s.required String resultLocationBucket,
+    @_s.required String serviceAccessRoleArn,
+    List<String> exclude,
+    List<String> includeOnly,
+    String resultEncryptionMode,
+    String resultKmsKeyArn,
+    String resultLocationFolder,
+  }) async {
+    ArgumentError.checkNotNull(assessmentRunName, 'assessmentRunName');
+    ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
+    ArgumentError.checkNotNull(resultLocationBucket, 'resultLocationBucket');
+    ArgumentError.checkNotNull(serviceAccessRoleArn, 'serviceAccessRoleArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StartReplicationTaskAssessmentRun'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssessmentRunName': assessmentRunName,
+        'ReplicationTaskArn': replicationTaskArn,
+        'ResultLocationBucket': resultLocationBucket,
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+        if (exclude != null) 'Exclude': exclude,
+        if (includeOnly != null) 'IncludeOnly': includeOnly,
+        if (resultEncryptionMode != null)
+          'ResultEncryptionMode': resultEncryptionMode,
+        if (resultKmsKeyArn != null) 'ResultKmsKeyArn': resultKmsKeyArn,
+        if (resultLocationFolder != null)
+          'ResultLocationFolder': resultLocationFolder,
+      },
+    );
+
+    return StartReplicationTaskAssessmentRunResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Stops the replication task.
-  /// <p/>
   ///
   /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
@@ -3060,7 +3789,13 @@ enum AuthTypeValue {
   password,
 }
 
-/// The name of the Availability Zone for use during database migration.
+/// The name of an Availability Zone for use during database migration.
+/// <code>AvailabilityZone</code> is an optional parameter to the <a
+/// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationInstance.html">
+/// <code>CreateReplicationInstance</code> </a> operation, and it’s value
+/// relates to the AWS Region of an endpoint. For example, the availability zone
+/// of an endpoint in the us-east-1 region might be us-east-1a, us-east-1b,
+/// us-east-1c, or us-east-1d.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3076,6 +3811,26 @@ class AvailabilityZone {
   });
   factory AvailabilityZone.fromJson(Map<String, dynamic> json) =>
       _$AvailabilityZoneFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CancelReplicationTaskAssessmentRunResponse {
+  /// The <code>ReplicationTaskAssessmentRun</code> object for the canceled
+  /// assessment run.
+  @_s.JsonKey(name: 'ReplicationTaskAssessmentRun')
+  final ReplicationTaskAssessmentRun replicationTaskAssessmentRun;
+
+  CancelReplicationTaskAssessmentRunResponse({
+    this.replicationTaskAssessmentRun,
+  });
+  factory CancelReplicationTaskAssessmentRunResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CancelReplicationTaskAssessmentRunResponseFromJson(json);
 }
 
 /// The SSL certificate that can be used to encrypt connections between the
@@ -3149,6 +3904,15 @@ class Certificate {
       _$CertificateFromJson(json);
 }
 
+enum CharLengthSemantics {
+  @_s.JsonValue('default')
+  $default,
+  @_s.JsonValue('char')
+  char,
+  @_s.JsonValue('byte')
+  byte,
+}
+
 enum CompressionTypeValue {
   @_s.JsonValue('none')
   none,
@@ -3187,7 +3951,23 @@ class Connection {
   @_s.JsonKey(name: 'ReplicationInstanceIdentifier')
   final String replicationInstanceIdentifier;
 
-  /// The connection status.
+  /// The connection status. This parameter can return one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"successful"</code>
+  /// </li>
+  /// <li>
+  /// <code>"testing"</code>
+  /// </li>
+  /// <li>
+  /// <code>"failed"</code>
+  /// </li>
+  /// <li>
+  /// <code>"deleting"</code>
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'Status')
   final String status;
 
@@ -3302,6 +4082,30 @@ enum DataFormatValue {
   parquet,
 }
 
+enum DatePartitionDelimiterValue {
+  @_s.JsonValue('SLASH')
+  slash,
+  @_s.JsonValue('UNDERSCORE')
+  underscore,
+  @_s.JsonValue('DASH')
+  dash,
+  @_s.JsonValue('NONE')
+  none,
+}
+
+enum DatePartitionSequenceValue {
+  @_s.JsonValue('YYYYMMDD')
+  yyyymmdd,
+  @_s.JsonValue('YYYYMMDDHH')
+  yyyymmddhh,
+  @_s.JsonValue('YYYYMM')
+  yyyymm,
+  @_s.JsonValue('MMYYYYDD')
+  mmyyyydd,
+  @_s.JsonValue('DDMMYYYY')
+  ddmmyyyy,
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3411,6 +4215,26 @@ class DeleteReplicationSubnetGroupResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteReplicationTaskAssessmentRunResponse {
+  /// The <code>ReplicationTaskAssessmentRun</code> object for the deleted
+  /// assessment run.
+  @_s.JsonKey(name: 'ReplicationTaskAssessmentRun')
+  final ReplicationTaskAssessmentRun replicationTaskAssessmentRun;
+
+  DeleteReplicationTaskAssessmentRunResponse({
+    this.replicationTaskAssessmentRun,
+  });
+  factory DeleteReplicationTaskAssessmentRunResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteReplicationTaskAssessmentRunResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteReplicationTaskResponse {
   /// The deleted replication task.
   @_s.JsonKey(name: 'ReplicationTask')
@@ -3457,6 +4281,39 @@ class DescribeAccountAttributesResponse {
   factory DescribeAccountAttributesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeAccountAttributesResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeApplicableIndividualAssessmentsResponse {
+  /// List of names for the individual assessments supported by the premigration
+  /// assessment run that you start based on the specified request parameters. For
+  /// more information on the available individual assessments, including
+  /// compatibility with different migration task configurations, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.AssessmentReport.html">Working
+  /// with premigration assessment runs</a> in the <i>AWS Database Migration
+  /// Service User Guide.</i>
+  @_s.JsonKey(name: 'IndividualAssessmentNames')
+  final List<String> individualAssessmentNames;
+
+  /// Pagination token returned for you to pass to a subsequent request. If you
+  /// pass this token as the <code>Marker</code> value in a subsequent request,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified in the request by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  DescribeApplicableIndividualAssessmentsResponse({
+    this.individualAssessmentNames,
+    this.marker,
+  });
+  factory DescribeApplicableIndividualAssessmentsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeApplicableIndividualAssessmentsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3817,6 +4674,62 @@ class DescribeReplicationTaskAssessmentResultsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeReplicationTaskAssessmentRunsResponse {
+  /// A pagination token returned for you to pass to a subsequent request. If you
+  /// pass this token as the <code>Marker</code> value in a subsequent request,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified in the request by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// One or more premigration assessment runs as specified by
+  /// <code>Filters</code>.
+  @_s.JsonKey(name: 'ReplicationTaskAssessmentRuns')
+  final List<ReplicationTaskAssessmentRun> replicationTaskAssessmentRuns;
+
+  DescribeReplicationTaskAssessmentRunsResponse({
+    this.marker,
+    this.replicationTaskAssessmentRuns,
+  });
+  factory DescribeReplicationTaskAssessmentRunsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeReplicationTaskAssessmentRunsResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeReplicationTaskIndividualAssessmentsResponse {
+  /// A pagination token returned for you to pass to a subsequent request. If you
+  /// pass this token as the <code>Marker</code> value in a subsequent request,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified in the request by <code>MaxRecords</code>.
+  @_s.JsonKey(name: 'Marker')
+  final String marker;
+
+  /// One or more individual assessments as specified by <code>Filters</code>.
+  @_s.JsonKey(name: 'ReplicationTaskIndividualAssessments')
+  final List<ReplicationTaskIndividualAssessment>
+      replicationTaskIndividualAssessments;
+
+  DescribeReplicationTaskIndividualAssessmentsResponse({
+    this.marker,
+    this.replicationTaskIndividualAssessments,
+  });
+  factory DescribeReplicationTaskIndividualAssessmentsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeReplicationTaskIndividualAssessmentsResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeReplicationTasksResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -3944,6 +4857,111 @@ class DmsTransferSettings {
   Map<String, dynamic> toJson() => _$DmsTransferSettingsToJson(this);
 }
 
+/// Provides information that defines a DocumentDB endpoint.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DocDbSettings {
+  /// The database name on the DocumentDB source endpoint.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// Indicates the number of documents to preview to determine the document
+  /// organization. Use this setting when <code>NestingLevel</code> is set to
+  /// <code>"one"</code>.
+  ///
+  /// Must be a positive value greater than <code>0</code>. Default value is
+  /// <code>1000</code>.
+  @_s.JsonKey(name: 'DocsToInvestigate')
+  final int docsToInvestigate;
+
+  /// Specifies the document ID. Use this setting when <code>NestingLevel</code>
+  /// is set to <code>"none"</code>.
+  ///
+  /// Default value is <code>"false"</code>.
+  @_s.JsonKey(name: 'ExtractDocId')
+  final bool extractDocId;
+
+  /// The AWS KMS key identifier that is used to encrypt the content on the
+  /// replication instance. If you don't specify a value for the
+  /// <code>KmsKeyId</code> parameter, then AWS DMS uses your default encryption
+  /// key. AWS KMS creates the default encryption key for your AWS account. Your
+  /// AWS account has a different default encryption key for each AWS Region.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  /// Specifies either document or table mode.
+  ///
+  /// Default value is <code>"none"</code>. Specify <code>"none"</code> to use
+  /// document mode. Specify <code>"one"</code> to use table mode.
+  @_s.JsonKey(name: 'NestingLevel')
+  final NestingLevelValue nestingLevel;
+
+  /// The password for the user account you use to access the DocumentDB source
+  /// endpoint.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// The port value for the DocumentDB source endpoint.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
+  /// as the trusted entity and grants the required permissions to access the
+  /// value in <code>SecretsManagerSecret</code>.
+  /// <code>SecretsManagerSecret</code> has the value of the AWS Secrets Manager
+  /// secret that allows access to the DocumentDB endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
+  /// Database Migration Service User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
+  final String secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the DocumentDB endpoint
+  /// connection details.
+  @_s.JsonKey(name: 'SecretsManagerSecretId')
+  final String secretsManagerSecretId;
+
+  /// The name of the server on the DocumentDB source endpoint.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// The user name you use to access the DocumentDB source endpoint.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  DocDbSettings({
+    this.databaseName,
+    this.docsToInvestigate,
+    this.extractDocId,
+    this.kmsKeyId,
+    this.nestingLevel,
+    this.password,
+    this.port,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.username,
+  });
+  factory DocDbSettings.fromJson(Map<String, dynamic> json) =>
+      _$DocDbSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DocDbSettingsToJson(this);
+}
+
 /// Provides the Amazon Resource Name (ARN) of the AWS Identity and Access
 /// Management (IAM) role used to define an Amazon DynamoDB target endpoint.
 @_s.JsonSerializable(
@@ -3972,7 +4990,8 @@ class DynamoDbSettings {
     createFactory: true,
     createToJson: true)
 class ElasticsearchSettings {
-  /// The endpoint for the Elasticsearch cluster.
+  /// The endpoint for the Elasticsearch cluster. AWS DMS uses HTTPS if a
+  /// transport protocol (http/https) is not specified.
   @_s.JsonKey(name: 'EndpointUri')
   final String endpointUri;
 
@@ -3987,6 +5006,11 @@ class ElasticsearchSettings {
 
   /// The maximum percentage of records that can fail to be written before a full
   /// load operation stops.
+  ///
+  /// To avoid early failure, this counter is only effective after 1000 records
+  /// are transferred. Elasticsearch also has the concept of error monitoring
+  /// during the last 10 minutes of an Observation Window. If transfer of all
+  /// records fail in the last 10 minutes, the full load operation stops.
   @_s.JsonKey(name: 'FullLoadErrorPercentage')
   final int fullLoadErrorPercentage;
 
@@ -4075,8 +5099,10 @@ class Endpoint {
   /// "none"|"gzip" } </code>
   @_s.JsonKey(name: 'DmsTransferSettings')
   final DmsTransferSettings dmsTransferSettings;
+  @_s.JsonKey(name: 'DocDbSettings')
+  final DocDbSettings docDbSettings;
 
-  /// The settings for the target DynamoDB database. For more information, see the
+  /// The settings for the DynamoDB target endpoint. For more information, see the
   /// <code>DynamoDBSettings</code> structure.
   @_s.JsonKey(name: 'DynamoDbSettings')
   final DynamoDbSettings dynamoDbSettings;
@@ -4114,7 +5140,8 @@ class Endpoint {
   /// <code>"s3"</code>, <code>"db2"</code>, <code>"azuredb"</code>,
   /// <code>"sybase"</code>, <code>"dynamodb"</code>, <code>"mongodb"</code>,
   /// <code>"kinesis"</code>, <code>"kafka"</code>, <code>"elasticsearch"</code>,
-  /// <code>"documentdb"</code>, and <code>"sqlserver"</code>.
+  /// <code>"documentdb"</code>, <code>"sqlserver"</code>, and
+  /// <code>"neptune"</code>.
   @_s.JsonKey(name: 'EngineName')
   final String engineName;
 
@@ -4131,6 +5158,11 @@ class Endpoint {
   /// Additional connection attributes used to connect to the endpoint.
   @_s.JsonKey(name: 'ExtraConnectionAttributes')
   final String extraConnectionAttributes;
+
+  /// The settings for the IBM Db2 LUW source endpoint. For more information, see
+  /// the <code>IBMDb2Settings</code> structure.
+  @_s.JsonKey(name: 'IBMDb2Settings')
+  final IBMDb2Settings iBMDb2Settings;
 
   /// The settings for the Apache Kafka target endpoint. For more information, see
   /// the <code>KafkaSettings</code> structure.
@@ -4153,14 +5185,39 @@ class Endpoint {
   @_s.JsonKey(name: 'KmsKeyId')
   final String kmsKeyId;
 
+  /// The settings for the Microsoft SQL Server source and target endpoint. For
+  /// more information, see the <code>MicrosoftSQLServerSettings</code> structure.
+  @_s.JsonKey(name: 'MicrosoftSQLServerSettings')
+  final MicrosoftSQLServerSettings microsoftSQLServerSettings;
+
   /// The settings for the MongoDB source endpoint. For more information, see the
   /// <code>MongoDbSettings</code> structure.
   @_s.JsonKey(name: 'MongoDbSettings')
   final MongoDbSettings mongoDbSettings;
 
+  /// The settings for the MySQL source and target endpoint. For more information,
+  /// see the <code>MySQLSettings</code> structure.
+  @_s.JsonKey(name: 'MySQLSettings')
+  final MySQLSettings mySQLSettings;
+
+  /// The settings for the Amazon Neptune target endpoint. For more information,
+  /// see the <code>NeptuneSettings</code> structure.
+  @_s.JsonKey(name: 'NeptuneSettings')
+  final NeptuneSettings neptuneSettings;
+
+  /// The settings for the Oracle source and target endpoint. For more
+  /// information, see the <code>OracleSettings</code> structure.
+  @_s.JsonKey(name: 'OracleSettings')
+  final OracleSettings oracleSettings;
+
   /// The port value used to access the endpoint.
   @_s.JsonKey(name: 'Port')
   final int port;
+
+  /// The settings for the PostgreSQL source and target endpoint. For more
+  /// information, see the <code>PostgreSQLSettings</code> structure.
+  @_s.JsonKey(name: 'PostgreSQLSettings')
+  final PostgreSQLSettings postgreSQLSettings;
 
   /// Settings for the Amazon Redshift endpoint.
   @_s.JsonKey(name: 'RedshiftSettings')
@@ -4188,6 +5245,11 @@ class Endpoint {
   @_s.JsonKey(name: 'Status')
   final String status;
 
+  /// The settings for the SAP ASE source and target endpoint. For more
+  /// information, see the <code>SybaseSettings</code> structure.
+  @_s.JsonKey(name: 'SybaseSettings')
+  final SybaseSettings sybaseSettings;
+
   /// The user name used to connect to the endpoint.
   @_s.JsonKey(name: 'Username')
   final String username;
@@ -4196,6 +5258,7 @@ class Endpoint {
     this.certificateArn,
     this.databaseName,
     this.dmsTransferSettings,
+    this.docDbSettings,
     this.dynamoDbSettings,
     this.elasticsearchSettings,
     this.endpointArn,
@@ -4206,17 +5269,24 @@ class Endpoint {
     this.externalId,
     this.externalTableDefinition,
     this.extraConnectionAttributes,
+    this.iBMDb2Settings,
     this.kafkaSettings,
     this.kinesisSettings,
     this.kmsKeyId,
+    this.microsoftSQLServerSettings,
     this.mongoDbSettings,
+    this.mySQLSettings,
+    this.neptuneSettings,
+    this.oracleSettings,
     this.port,
+    this.postgreSQLSettings,
     this.redshiftSettings,
     this.s3Settings,
     this.serverName,
     this.serviceAccessRoleArn,
     this.sslMode,
     this.status,
+    this.sybaseSettings,
     this.username,
   });
   factory Endpoint.fromJson(Map<String, dynamic> json) =>
@@ -4266,7 +5336,9 @@ class Event {
 }
 
 /// Lists categories of events subscribed to, and generated by, the applicable
-/// AWS DMS resource type.
+/// AWS DMS resource type. This data type appears in response to the <a
+/// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_EventCategoryGroup.html">
+/// <code>DescribeEventCategories</code> </a> action.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4345,7 +5417,7 @@ class EventSubscription {
   @_s.JsonKey(name: 'Status')
   final String status;
 
-  /// The time the RDS event notification subscription was created.
+  /// The time the AWS DMS event notification subscription was created.
   @_s.JsonKey(name: 'SubscriptionCreationTime')
   final String subscriptionCreationTime;
 
@@ -4364,19 +5436,23 @@ class EventSubscription {
       _$EventSubscriptionFromJson(json);
 }
 
-/// Identifies the name and value of a source filter object used to limit the
-/// number and type of records transferred from your source to your target.
+/// Identifies the name and value of a filter object. This filter is used to
+/// limit the number and type of AWS DMS objects that are returned for a
+/// particular <code>Describe*</code> call or similar operation. Filters are
+/// used as an optional parameter for certain API operations.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class Filter {
-  /// The name of the filter.
+  /// The name of the filter as specified for a <code>Describe*</code> or similar
+  /// operation.
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// The filter value.
+  /// The filter value, which can specify one or more values used to narrow the
+  /// returned results.
   @_s.JsonKey(name: 'Values')
   final List<String> values;
 
@@ -4385,6 +5461,91 @@ class Filter {
     @_s.required this.values,
   });
   Map<String, dynamic> toJson() => _$FilterToJson(this);
+}
+
+/// Provides information that defines an IBM Db2 LUW endpoint.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class IBMDb2Settings {
+  /// For ongoing replication (CDC), use CurrentLSN to specify a log sequence
+  /// number (LSN) where you want the replication to start.
+  @_s.JsonKey(name: 'CurrentLsn')
+  final String currentLsn;
+
+  /// Database name for the endpoint.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// Maximum number of bytes per read, as a NUMBER value. The default is 64 KB.
+  @_s.JsonKey(name: 'MaxKBytesPerRead')
+  final int maxKBytesPerRead;
+
+  /// Endpoint connection password.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// Endpoint TCP port.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
+  /// as the trusted entity and grants the required permissions to access the
+  /// value in <code>SecretsManagerSecret</code>.
+  /// <code>SecretsManagerSecret</code> has the value of the AWS Secrets Manager
+  /// secret that allows access to the Db2 LUW endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
+  /// Database Migration Service User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
+  final String secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the Db2 LUW endpoint
+  /// connection details.
+  @_s.JsonKey(name: 'SecretsManagerSecretId')
+  final String secretsManagerSecretId;
+
+  /// Fully qualified domain name of the endpoint.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// Enables ongoing replication (CDC) as a BOOLEAN value. The default is true.
+  @_s.JsonKey(name: 'SetDataCaptureChanges')
+  final bool setDataCaptureChanges;
+
+  /// Endpoint connection user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  IBMDb2Settings({
+    this.currentLsn,
+    this.databaseName,
+    this.maxKBytesPerRead,
+    this.password,
+    this.port,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.setDataCaptureChanges,
+    this.username,
+  });
+  factory IBMDb2Settings.fromJson(Map<String, dynamic> json) =>
+      _$IBMDb2SettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$IBMDb2SettingsToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -4420,6 +5581,58 @@ class KafkaSettings {
   @_s.JsonKey(name: 'Broker')
   final String broker;
 
+  /// Shows detailed control information for table definition, column definition,
+  /// and table and column changes in the Kafka message output. The default is
+  /// <code>false</code>.
+  @_s.JsonKey(name: 'IncludeControlDetails')
+  final bool includeControlDetails;
+
+  /// Include NULL and empty columns for records migrated to the endpoint. The
+  /// default is <code>false</code>.
+  @_s.JsonKey(name: 'IncludeNullAndEmpty')
+  final bool includeNullAndEmpty;
+
+  /// Shows the partition value within the Kafka message output, unless the
+  /// partition type is <code>schema-table-type</code>. The default is
+  /// <code>false</code>.
+  @_s.JsonKey(name: 'IncludePartitionValue')
+  final bool includePartitionValue;
+
+  /// Includes any data definition language (DDL) operations that change the table
+  /// in the control data, such as <code>rename-table</code>,
+  /// <code>drop-table</code>, <code>add-column</code>, <code>drop-column</code>,
+  /// and <code>rename-column</code>. The default is <code>false</code>.
+  @_s.JsonKey(name: 'IncludeTableAlterOperations')
+  final bool includeTableAlterOperations;
+
+  /// Provides detailed transaction information from the source database. This
+  /// information includes a commit timestamp, a log position, and values for
+  /// <code>transaction_id</code>, previous <code>transaction_id</code>, and
+  /// <code>transaction_record_id</code> (the record offset within a transaction).
+  /// The default is <code>false</code>.
+  @_s.JsonKey(name: 'IncludeTransactionDetails')
+  final bool includeTransactionDetails;
+
+  /// The output format for the records created on the endpoint. The message
+  /// format is <code>JSON</code> (default) or <code>JSON_UNFORMATTED</code> (a
+  /// single line with no tab).
+  @_s.JsonKey(name: 'MessageFormat')
+  final MessageFormatValue messageFormat;
+
+  /// The maximum size in bytes for records created on the endpoint The default is
+  /// 1,000,000.
+  @_s.JsonKey(name: 'MessageMaxBytes')
+  final int messageMaxBytes;
+
+  /// Prefixes schema and table names to partition values, when the partition type
+  /// is <code>primary-key-type</code>. Doing this increases data distribution
+  /// among Kafka partitions. For example, suppose that a SysBench schema has
+  /// thousands of tables and each table has only limited range for a primary key.
+  /// In this case, the same primary key is sent from thousands of tables to the
+  /// same partition, which causes throttling. The default is <code>false</code>.
+  @_s.JsonKey(name: 'PartitionIncludeSchemaTable')
+  final bool partitionIncludeSchemaTable;
+
   /// The topic to which you migrate the data. If you don't specify a topic, AWS
   /// DMS specifies <code>"kafka-default-topic"</code> as the migration topic.
   @_s.JsonKey(name: 'Topic')
@@ -4427,6 +5640,14 @@ class KafkaSettings {
 
   KafkaSettings({
     this.broker,
+    this.includeControlDetails,
+    this.includeNullAndEmpty,
+    this.includePartitionValue,
+    this.includeTableAlterOperations,
+    this.includeTransactionDetails,
+    this.messageFormat,
+    this.messageMaxBytes,
+    this.partitionIncludeSchemaTable,
     this.topic,
   });
   factory KafkaSettings.fromJson(Map<String, dynamic> json) =>
@@ -4446,20 +5667,25 @@ class KafkaSettings {
 class KinesisSettings {
   /// Shows detailed control information for table definition, column definition,
   /// and table and column changes in the Kinesis message output. The default is
-  /// <code>False</code>.
+  /// <code>false</code>.
   @_s.JsonKey(name: 'IncludeControlDetails')
   final bool includeControlDetails;
 
+  /// Include NULL and empty columns for records migrated to the endpoint. The
+  /// default is <code>false</code>.
+  @_s.JsonKey(name: 'IncludeNullAndEmpty')
+  final bool includeNullAndEmpty;
+
   /// Shows the partition value within the Kinesis message output, unless the
   /// partition type is <code>schema-table-type</code>. The default is
-  /// <code>False</code>.
+  /// <code>false</code>.
   @_s.JsonKey(name: 'IncludePartitionValue')
   final bool includePartitionValue;
 
   /// Includes any data definition language (DDL) operations that change the table
   /// in the control data, such as <code>rename-table</code>,
   /// <code>drop-table</code>, <code>add-column</code>, <code>drop-column</code>,
-  /// and <code>rename-column</code>. The default is <code>False</code>.
+  /// and <code>rename-column</code>. The default is <code>false</code>.
   @_s.JsonKey(name: 'IncludeTableAlterOperations')
   final bool includeTableAlterOperations;
 
@@ -4467,7 +5693,7 @@ class KinesisSettings {
   /// information includes a commit timestamp, a log position, and values for
   /// <code>transaction_id</code>, previous <code>transaction_id</code>, and
   /// <code>transaction_record_id</code> (the record offset within a transaction).
-  /// The default is <code>False</code>.
+  /// The default is <code>false</code>.
   @_s.JsonKey(name: 'IncludeTransactionDetails')
   final bool includeTransactionDetails;
 
@@ -4482,7 +5708,7 @@ class KinesisSettings {
   /// among Kinesis shards. For example, suppose that a SysBench schema has
   /// thousands of tables and each table has only limited range for a primary key.
   /// In this case, the same primary key is sent from thousands of tables to the
-  /// same shard, which causes throttling. The default is <code>False</code>.
+  /// same shard, which causes throttling. The default is <code>false</code>.
   @_s.JsonKey(name: 'PartitionIncludeSchemaTable')
   final bool partitionIncludeSchemaTable;
 
@@ -4497,6 +5723,7 @@ class KinesisSettings {
 
   KinesisSettings({
     this.includeControlDetails,
+    this.includeNullAndEmpty,
     this.includePartitionValue,
     this.includeTableAlterOperations,
     this.includeTransactionDetails,
@@ -4534,6 +5761,126 @@ enum MessageFormatValue {
   json,
   @_s.JsonValue('json-unformatted')
   jsonUnformatted,
+}
+
+/// Provides information that defines a Microsoft SQL Server endpoint.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class MicrosoftSQLServerSettings {
+  /// The maximum size of the packets (in bytes) used to transfer data using BCP.
+  @_s.JsonKey(name: 'BcpPacketSize')
+  final int bcpPacketSize;
+
+  /// Specifies a file group for the AWS DMS internal tables. When the replication
+  /// task starts, all the internal AWS DMS control tables (awsdms_
+  /// apply_exception, awsdms_apply, awsdms_changes) are created for the specified
+  /// file group.
+  @_s.JsonKey(name: 'ControlTablesFileGroup')
+  final String controlTablesFileGroup;
+
+  /// Database name for the endpoint.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// Endpoint connection password.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// Endpoint TCP port.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  /// When this attribute is set to <code>Y</code>, AWS DMS only reads changes
+  /// from transaction log backups and doesn't read from the active transaction
+  /// log file during ongoing replication. Setting this parameter to
+  /// <code>Y</code> enables you to control active transaction log file growth
+  /// during full load and ongoing replication tasks. However, it can add some
+  /// source latency to ongoing replication.
+  @_s.JsonKey(name: 'ReadBackupOnly')
+  final bool readBackupOnly;
+
+  /// Use this attribute to minimize the need to access the backup log and enable
+  /// AWS DMS to prevent truncation using one of the following two methods.
+  ///
+  /// <i>Start transactions in the database:</i> This is the default method. When
+  /// this method is used, AWS DMS prevents TLOG truncation by mimicking a
+  /// transaction in the database. As long as such a transaction is open, changes
+  /// that appear after the transaction started aren't truncated. If you need
+  /// Microsoft Replication to be enabled in your database, then you must choose
+  /// this method.
+  ///
+  /// <i>Exclusively use sp_repldone within a single task</i>: When this method is
+  /// used, AWS DMS reads the changes and then uses sp_repldone to mark the TLOG
+  /// transactions as ready for truncation. Although this method doesn't involve
+  /// any transactional activities, it can only be used when Microsoft Replication
+  /// isn't running. Also, when using this method, only one AWS DMS task can
+  /// access the database at any given time. Therefore, if you need to run
+  /// parallel AWS DMS tasks against the same database, use the default method.
+  @_s.JsonKey(name: 'SafeguardPolicy')
+  final SafeguardPolicy safeguardPolicy;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
+  /// as the trusted entity and grants the required permissions to access the
+  /// value in <code>SecretsManagerSecret</code>.
+  /// <code>SecretsManagerSecret</code> has the value of the AWS Secrets Manager
+  /// secret that allows access to the SQL Server endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
+  /// Database Migration Service User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
+  final String secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the SQL Server endpoint
+  /// connection details.
+  @_s.JsonKey(name: 'SecretsManagerSecretId')
+  final String secretsManagerSecretId;
+
+  /// Fully qualified domain name of the endpoint.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// Use this to attribute to transfer data for full-load operations using BCP.
+  /// When the target table contains an identity column that does not exist in the
+  /// source table, you must disable the use BCP for loading table option.
+  @_s.JsonKey(name: 'UseBcpFullLoad')
+  final bool useBcpFullLoad;
+
+  /// Endpoint connection user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  MicrosoftSQLServerSettings({
+    this.bcpPacketSize,
+    this.controlTablesFileGroup,
+    this.databaseName,
+    this.password,
+    this.port,
+    this.readBackupOnly,
+    this.safeguardPolicy,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.useBcpFullLoad,
+    this.username,
+  });
+  factory MicrosoftSQLServerSettings.fromJson(Map<String, dynamic> json) =>
+      _$MicrosoftSQLServerSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MicrosoftSQLServerSettingsToJson(this);
 }
 
 enum MigrationTypeValue {
@@ -4660,26 +6007,24 @@ class ModifyReplicationTaskResponse {
 class MongoDbSettings {
   /// The authentication mechanism you use to access the MongoDB source endpoint.
   ///
-  /// Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1
-  ///
-  /// DEFAULT – For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x,
-  /// use SCRAM_SHA_1. This setting isn't used when authType=No.
+  /// For the default value, in MongoDB version 2.x, <code>"default"</code> is
+  /// <code>"mongodb_cr"</code>. For MongoDB version 3.x or later,
+  /// <code>"default"</code> is <code>"scram_sha_1"</code>. This setting isn't
+  /// used when <code>AuthType</code> is set to <code>"no"</code>.
   @_s.JsonKey(name: 'AuthMechanism')
   final AuthMechanismValue authMechanism;
 
   /// The MongoDB database name. This setting isn't used when
-  /// <code>authType=NO</code>.
+  /// <code>AuthType</code> is set to <code>"no"</code>.
   ///
-  /// The default is admin.
+  /// The default is <code>"admin"</code>.
   @_s.JsonKey(name: 'AuthSource')
   final String authSource;
 
   /// The authentication type you use to access the MongoDB source endpoint.
   ///
-  /// Valid values: NO, PASSWORD
-  ///
-  /// When NO is selected, user name and password parameters are not used and can
-  /// be empty.
+  /// When when set to <code>"no"</code>, user name and password parameters are
+  /// not used and can be empty.
   @_s.JsonKey(name: 'AuthType')
   final AuthTypeValue authType;
 
@@ -4688,16 +6033,18 @@ class MongoDbSettings {
   final String databaseName;
 
   /// Indicates the number of documents to preview to determine the document
-  /// organization. Use this setting when <code>NestingLevel</code> is set to ONE.
+  /// organization. Use this setting when <code>NestingLevel</code> is set to
+  /// <code>"one"</code>.
   ///
-  /// Must be a positive value greater than 0. Default value is 1000.
+  /// Must be a positive value greater than <code>0</code>. Default value is
+  /// <code>1000</code>.
   @_s.JsonKey(name: 'DocsToInvestigate')
   final String docsToInvestigate;
 
   /// Specifies the document ID. Use this setting when <code>NestingLevel</code>
-  /// is set to NONE.
+  /// is set to <code>"none"</code>.
   ///
-  /// Default value is false.
+  /// Default value is <code>"false"</code>.
   @_s.JsonKey(name: 'ExtractDocId')
   final String extractDocId;
 
@@ -4711,10 +6058,8 @@ class MongoDbSettings {
 
   /// Specifies either document or table mode.
   ///
-  /// Valid values: NONE, ONE
-  ///
-  /// Default value is NONE. Specify NONE to use document mode. Specify ONE to use
-  /// table mode.
+  /// Default value is <code>"none"</code>. Specify <code>"none"</code> to use
+  /// document mode. Specify <code>"one"</code> to use table mode.
   @_s.JsonKey(name: 'NestingLevel')
   final NestingLevelValue nestingLevel;
 
@@ -4726,6 +6071,33 @@ class MongoDbSettings {
   /// The port value for the MongoDB source endpoint.
   @_s.JsonKey(name: 'Port')
   final int port;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
+  /// as the trusted entity and grants the required permissions to access the
+  /// value in <code>SecretsManagerSecret</code>.
+  /// <code>SecretsManagerSecret</code> has the value of the AWS Secrets Manager
+  /// secret that allows access to the MongoDB endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
+  /// Database Migration Service User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
+  final String secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the MongoDB endpoint
+  /// connection details.
+  @_s.JsonKey(name: 'SecretsManagerSecretId')
+  final String secretsManagerSecretId;
 
   /// The name of the server on the MongoDB source endpoint.
   @_s.JsonKey(name: 'ServerName')
@@ -4746,6 +6118,8 @@ class MongoDbSettings {
     this.nestingLevel,
     this.password,
     this.port,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
     this.serverName,
     this.username,
   });
@@ -4755,11 +6129,541 @@ class MongoDbSettings {
   Map<String, dynamic> toJson() => _$MongoDbSettingsToJson(this);
 }
 
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class MoveReplicationTaskResponse {
+  /// The replication task that was moved.
+  @_s.JsonKey(name: 'ReplicationTask')
+  final ReplicationTask replicationTask;
+
+  MoveReplicationTaskResponse({
+    this.replicationTask,
+  });
+  factory MoveReplicationTaskResponse.fromJson(Map<String, dynamic> json) =>
+      _$MoveReplicationTaskResponseFromJson(json);
+}
+
+/// Provides information that defines a MySQL endpoint.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class MySQLSettings {
+  /// Specifies a script to run immediately after AWS DMS connects to the
+  /// endpoint. The migration task continues running regardless if the SQL
+  /// statement succeeds or fails.
+  @_s.JsonKey(name: 'AfterConnectScript')
+  final String afterConnectScript;
+
+  /// Database name for the endpoint.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// Specifies how often to check the binary log for new changes/events when the
+  /// database is idle.
+  ///
+  /// Example: <code>eventsPollInterval=5;</code>
+  ///
+  /// In the example, AWS DMS checks for changes in the binary logs every five
+  /// seconds.
+  @_s.JsonKey(name: 'EventsPollInterval')
+  final int eventsPollInterval;
+
+  /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
+  /// a MySQL-compatible database.
+  ///
+  /// Example: <code>maxFileSize=512</code>
+  @_s.JsonKey(name: 'MaxFileSize')
+  final int maxFileSize;
+
+  /// Improves performance when loading data into the MySQL-compatible target
+  /// database. Specifies how many threads to use to load the data into the
+  /// MySQL-compatible target database. Setting a large number of threads can have
+  /// an adverse effect on database performance, because a separate connection is
+  /// required for each thread.
+  ///
+  /// Example: <code>parallelLoadThreads=1</code>
+  @_s.JsonKey(name: 'ParallelLoadThreads')
+  final int parallelLoadThreads;
+
+  /// Endpoint connection password.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// Endpoint TCP port.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
+  /// as the trusted entity and grants the required permissions to access the
+  /// value in <code>SecretsManagerSecret</code>.
+  /// <code>SecretsManagerSecret</code> has the value of the AWS Secrets Manager
+  /// secret that allows access to the MySQL endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
+  /// Database Migration Service User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
+  final String secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the MySQL endpoint
+  /// connection details.
+  @_s.JsonKey(name: 'SecretsManagerSecretId')
+  final String secretsManagerSecretId;
+
+  /// Fully qualified domain name of the endpoint.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// Specifies the time zone for the source MySQL database.
+  ///
+  /// Example: <code>serverTimezone=US/Pacific;</code>
+  ///
+  /// Note: Do not enclose time zones in single quotes.
+  @_s.JsonKey(name: 'ServerTimezone')
+  final String serverTimezone;
+
+  /// Specifies where to migrate source tables on the target, either to a single
+  /// database or multiple databases.
+  ///
+  /// Example: <code>targetDbType=MULTIPLE_DATABASES</code>
+  @_s.JsonKey(name: 'TargetDbType')
+  final TargetDbType targetDbType;
+
+  /// Endpoint connection user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  MySQLSettings({
+    this.afterConnectScript,
+    this.databaseName,
+    this.eventsPollInterval,
+    this.maxFileSize,
+    this.parallelLoadThreads,
+    this.password,
+    this.port,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.serverTimezone,
+    this.targetDbType,
+    this.username,
+  });
+  factory MySQLSettings.fromJson(Map<String, dynamic> json) =>
+      _$MySQLSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MySQLSettingsToJson(this);
+}
+
+/// Provides information that defines an Amazon Neptune endpoint.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class NeptuneSettings {
+  /// A folder path where you want AWS DMS to store migrated graph data in the S3
+  /// bucket specified by <code>S3BucketName</code>
+  @_s.JsonKey(name: 'S3BucketFolder')
+  final String s3BucketFolder;
+
+  /// The name of the Amazon S3 bucket where AWS DMS can temporarily store
+  /// migrated graph data in .csv files before bulk-loading it to the Neptune
+  /// target database. AWS DMS maps the SQL source data to graph data before
+  /// storing it in these .csv files.
+  @_s.JsonKey(name: 'S3BucketName')
+  final String s3BucketName;
+
+  /// The number of milliseconds for AWS DMS to wait to retry a bulk-load of
+  /// migrated graph data to the Neptune target database before raising an error.
+  /// The default is 250.
+  @_s.JsonKey(name: 'ErrorRetryDuration')
+  final int errorRetryDuration;
+
+  /// If you want AWS Identity and Access Management (IAM) authorization enabled
+  /// for this endpoint, set this parameter to <code>true</code>. Then attach the
+  /// appropriate IAM policy document to your service role specified by
+  /// <code>ServiceAccessRoleArn</code>. The default is <code>false</code>.
+  @_s.JsonKey(name: 'IamAuthEnabled')
+  final bool iamAuthEnabled;
+
+  /// The maximum size in kilobytes of migrated graph data stored in a .csv file
+  /// before AWS DMS bulk-loads the data to the Neptune target database. The
+  /// default is 1,048,576 KB. If the bulk load is successful, AWS DMS clears the
+  /// bucket, ready to store the next batch of migrated graph data.
+  @_s.JsonKey(name: 'MaxFileSize')
+  final int maxFileSize;
+
+  /// The number of times for AWS DMS to retry a bulk load of migrated graph data
+  /// to the Neptune target database before raising an error. The default is 5.
+  @_s.JsonKey(name: 'MaxRetryCount')
+  final int maxRetryCount;
+
+  /// The Amazon Resource Name (ARN) of the service role that you created for the
+  /// Neptune target endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.ServiceRole">Creating
+  /// an IAM Service Role for Accessing Amazon Neptune as a Target</a> in the
+  /// <i>AWS Database Migration Service User Guide. </i>
+  @_s.JsonKey(name: 'ServiceAccessRoleArn')
+  final String serviceAccessRoleArn;
+
+  NeptuneSettings({
+    @_s.required this.s3BucketFolder,
+    @_s.required this.s3BucketName,
+    this.errorRetryDuration,
+    this.iamAuthEnabled,
+    this.maxFileSize,
+    this.maxRetryCount,
+    this.serviceAccessRoleArn,
+  });
+  factory NeptuneSettings.fromJson(Map<String, dynamic> json) =>
+      _$NeptuneSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NeptuneSettingsToJson(this);
+}
+
 enum NestingLevelValue {
   @_s.JsonValue('none')
   none,
   @_s.JsonValue('one')
   one,
+}
+
+/// Provides information that defines an Oracle endpoint.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class OracleSettings {
+  /// Set this attribute to <code>false</code> in order to use the Binary Reader
+  /// to capture change data for an Amazon RDS for Oracle as the source. This
+  /// tells the DMS instance to not access redo logs through any specified path
+  /// prefix replacement using direct file access.
+  @_s.JsonKey(name: 'AccessAlternateDirectly')
+  final bool accessAlternateDirectly;
+
+  /// Set this attribute to set up table-level supplemental logging for the Oracle
+  /// database. This attribute enables PRIMARY KEY supplemental logging on all
+  /// tables selected for a migration task.
+  ///
+  /// If you use this option, you still need to enable database-level supplemental
+  /// logging.
+  @_s.JsonKey(name: 'AddSupplementalLogging')
+  final bool addSupplementalLogging;
+
+  /// Set this attribute with <code>archivedLogDestId</code> in a primary/ standby
+  /// setup. This attribute is useful in the case of a switchover. In this case,
+  /// AWS DMS needs to know which destination to get archive redo logs from to
+  /// read changes. This need arises because the previous primary instance is now
+  /// a standby instance after switchover.
+  @_s.JsonKey(name: 'AdditionalArchivedLogDestId')
+  final int additionalArchivedLogDestId;
+
+  /// Set this attribute to <code>true</code> to enable replication of Oracle
+  /// tables containing columns that are nested tables or defined types.
+  @_s.JsonKey(name: 'AllowSelectNestedTables')
+  final bool allowSelectNestedTables;
+
+  /// Specifies the destination of the archived redo logs. The value should be the
+  /// same as the DEST_ID number in the v$archived_log table. When working with
+  /// multiple log destinations (DEST_ID), we recommend that you to specify an
+  /// archived redo logs location identifier. Doing this improves performance by
+  /// ensuring that the correct logs are accessed from the outset.
+  @_s.JsonKey(name: 'ArchivedLogDestId')
+  final int archivedLogDestId;
+
+  /// When this field is set to <code>Y</code>, AWS DMS only accesses the archived
+  /// redo logs. If the archived redo logs are stored on Oracle ASM only, the AWS
+  /// DMS user account needs to be granted ASM privileges.
+  @_s.JsonKey(name: 'ArchivedLogsOnly')
+  final bool archivedLogsOnly;
+
+  /// For an Oracle source endpoint, your Oracle Automatic Storage Management
+  /// (ASM) password. You can set this value from the <code>
+  /// <i>asm_user_password</i> </code> value. You set this value as part of the
+  /// comma-separated value that you set to the <code>Password</code> request
+  /// parameter when you create the endpoint to access transaction logs using
+  /// Binary Reader. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
+  /// for change data capture (CDC) on an Oracle source database</a>.
+  @_s.JsonKey(name: 'AsmPassword')
+  final String asmPassword;
+
+  /// For an Oracle source endpoint, your ASM server address. You can set this
+  /// value from the <code>asm_server</code> value. You set
+  /// <code>asm_server</code> as part of the extra connection attribute string to
+  /// access an Oracle server with Binary Reader that uses ASM. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
+  /// for change data capture (CDC) on an Oracle source database</a>.
+  @_s.JsonKey(name: 'AsmServer')
+  final String asmServer;
+
+  /// For an Oracle source endpoint, your ASM user name. You can set this value
+  /// from the <code>asm_user</code> value. You set <code>asm_user</code> as part
+  /// of the extra connection attribute string to access an Oracle server with
+  /// Binary Reader that uses ASM. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
+  /// for change data capture (CDC) on an Oracle source database</a>.
+  @_s.JsonKey(name: 'AsmUser')
+  final String asmUser;
+
+  /// Specifies whether the length of a character column is in bytes or in
+  /// characters. To indicate that the character column length is in characters,
+  /// set this attribute to <code>CHAR</code>. Otherwise, the character column
+  /// length is in bytes.
+  ///
+  /// Example: <code>charLengthSemantics=CHAR;</code>
+  @_s.JsonKey(name: 'CharLengthSemantics')
+  final CharLengthSemantics charLengthSemantics;
+
+  /// Database name for the endpoint.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// When set to <code>true</code>, this attribute helps to increase the commit
+  /// rate on the Oracle target database by writing directly to tables and not
+  /// writing a trail to database logs.
+  @_s.JsonKey(name: 'DirectPathNoLog')
+  final bool directPathNoLog;
+
+  /// When set to <code>true</code>, this attribute specifies a parallel load when
+  /// <code>useDirectPathFullLoad</code> is set to <code>Y</code>. This attribute
+  /// also only applies when you use the AWS DMS parallel load feature. Note that
+  /// the target table cannot have any constraints or indexes.
+  @_s.JsonKey(name: 'DirectPathParallelLoad')
+  final bool directPathParallelLoad;
+
+  /// Set this attribute to enable homogenous tablespace replication and create
+  /// existing tables or indexes under the same tablespace on the target.
+  @_s.JsonKey(name: 'EnableHomogenousTablespace')
+  final bool enableHomogenousTablespace;
+
+  /// When set to <code>true</code>, this attribute causes a task to fail if the
+  /// actual size of an LOB column is greater than the specified
+  /// <code>LobMaxSize</code>.
+  ///
+  /// If a task is set to limited LOB mode and this option is set to
+  /// <code>true</code>, the task fails instead of truncating the LOB data.
+  @_s.JsonKey(name: 'FailTasksOnLobTruncation')
+  final bool failTasksOnLobTruncation;
+
+  /// Specifies the number scale. You can select a scale up to 38, or you can
+  /// select FLOAT. By default, the NUMBER data type is converted to precision 38,
+  /// scale 10.
+  ///
+  /// Example: <code>numberDataTypeScale=12</code>
+  @_s.JsonKey(name: 'NumberDatatypeScale')
+  final int numberDatatypeScale;
+
+  /// Set this string attribute to the required value in order to use the Binary
+  /// Reader to capture change data for an Amazon RDS for Oracle as the source.
+  /// This value specifies the default Oracle root used to access the redo logs.
+  @_s.JsonKey(name: 'OraclePathPrefix')
+  final String oraclePathPrefix;
+
+  /// Set this attribute to change the number of threads that DMS configures to
+  /// perform a Change Data Capture (CDC) load using Oracle Automatic Storage
+  /// Management (ASM). You can specify an integer value between 2 (the default)
+  /// and 8 (the maximum). Use this attribute together with the
+  /// <code>readAheadBlocks</code> attribute.
+  @_s.JsonKey(name: 'ParallelAsmReadThreads')
+  final int parallelAsmReadThreads;
+
+  /// Endpoint connection password.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// Endpoint TCP port.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  /// Set this attribute to change the number of read-ahead blocks that DMS
+  /// configures to perform a Change Data Capture (CDC) load using Oracle
+  /// Automatic Storage Management (ASM). You can specify an integer value between
+  /// 1000 (the default) and 200,000 (the maximum).
+  @_s.JsonKey(name: 'ReadAheadBlocks')
+  final int readAheadBlocks;
+
+  /// When set to <code>true</code>, this attribute supports tablespace
+  /// replication.
+  @_s.JsonKey(name: 'ReadTableSpaceName')
+  final bool readTableSpaceName;
+
+  /// Set this attribute to true in order to use the Binary Reader to capture
+  /// change data for an Amazon RDS for Oracle as the source. This setting tells
+  /// DMS instance to replace the default Oracle root with the specified
+  /// <code>usePathPrefix</code> setting to access the redo logs.
+  @_s.JsonKey(name: 'ReplacePathPrefix')
+  final bool replacePathPrefix;
+
+  /// Specifies the number of seconds that the system waits before resending a
+  /// query.
+  ///
+  /// Example: <code>retryInterval=6;</code>
+  @_s.JsonKey(name: 'RetryInterval')
+  final int retryInterval;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
+  /// as the trusted entity and grants the required permissions to access the
+  /// value in <code>SecretsManagerSecret</code>.
+  /// <code>SecretsManagerSecret</code> has the value of the AWS Secrets Manager
+  /// secret that allows access to the Oracle endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
+  /// Database Migration Service User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
+  final String secretsManagerAccessRoleArn;
+
+  /// Required only if your Oracle endpoint uses Advanced Storage Manager (ASM).
+  /// The full ARN of the IAM role that specifies AWS DMS as the trusted entity
+  /// and grants the required permissions to access the
+  /// <code>SecretsManagerOracleAsmSecret</code>. This
+  /// <code>SecretsManagerOracleAsmSecret</code> has the secret value that allows
+  /// access to the Oracle ASM of the endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and
+  /// <code>SecretsManagerOracleAsmSecretId</code>. Or you can specify clear-text
+  /// values for <code>AsmUserName</code>, <code>AsmPassword</code>, and
+  /// <code>AsmServerName</code>. You can't specify both. For more information on
+  /// creating this <code>SecretsManagerOracleAsmSecret</code> and the
+  /// <code>SecretsManagerOracleAsmAccessRoleArn</code> and
+  /// <code>SecretsManagerOracleAsmSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
+  /// Database Migration Service User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'SecretsManagerOracleAsmAccessRoleArn')
+  final String secretsManagerOracleAsmAccessRoleArn;
+
+  /// Required only if your Oracle endpoint uses Advanced Storage Manager (ASM).
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerOracleAsmSecret</code> that contains the Oracle ASM
+  /// connection details for the Oracle endpoint.
+  @_s.JsonKey(name: 'SecretsManagerOracleAsmSecretId')
+  final String secretsManagerOracleAsmSecretId;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the Oracle endpoint
+  /// connection details.
+  @_s.JsonKey(name: 'SecretsManagerSecretId')
+  final String secretsManagerSecretId;
+
+  /// For an Oracle source endpoint, the transparent data encryption (TDE)
+  /// password required by AWM DMS to access Oracle redo logs encrypted by TDE
+  /// using Binary Reader. It is also the <code> <i>TDE_Password</i> </code> part
+  /// of the comma-separated value you set to the <code>Password</code> request
+  /// parameter when you create the endpoint. The
+  /// <code>SecurityDbEncryptian</code> setting is related to this
+  /// <code>SecurityDbEncryptionName</code> setting. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption">
+  /// Supported encryption methods for using Oracle as a source for AWS DMS</a> in
+  /// the <i>AWS Database Migration Service User Guide</i>.
+  @_s.JsonKey(name: 'SecurityDbEncryption')
+  final String securityDbEncryption;
+
+  /// For an Oracle source endpoint, the name of a key used for the transparent
+  /// data encryption (TDE) of the columns and tablespaces in an Oracle source
+  /// database that is encrypted using TDE. The key value is the value of the
+  /// <code>SecurityDbEncryption</code> setting. For more information on setting
+  /// the key name value of <code>SecurityDbEncryptionName</code>, see the
+  /// information and example for setting the
+  /// <code>securityDbEncryptionName</code> extra connection attribute in <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption">
+  /// Supported encryption methods for using Oracle as a source for AWS DMS</a> in
+  /// the <i>AWS Database Migration Service User Guide</i>.
+  @_s.JsonKey(name: 'SecurityDbEncryptionName')
+  final String securityDbEncryptionName;
+
+  /// Fully qualified domain name of the endpoint.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// Set this attribute to <code>true</code> in order to use the Binary Reader to
+  /// capture change data for an Amazon RDS for Oracle as the source. This tells
+  /// the DMS instance to use any specified prefix replacement to access all
+  /// online redo logs.
+  @_s.JsonKey(name: 'UseAlternateFolderForOnline')
+  final bool useAlternateFolderForOnline;
+
+  /// Set this string attribute to the required value in order to use the Binary
+  /// Reader to capture change data for an Amazon RDS for Oracle as the source.
+  /// This value specifies the path prefix used to replace the default Oracle root
+  /// to access the redo logs.
+  @_s.JsonKey(name: 'UsePathPrefix')
+  final String usePathPrefix;
+
+  /// Endpoint connection user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  OracleSettings({
+    this.accessAlternateDirectly,
+    this.addSupplementalLogging,
+    this.additionalArchivedLogDestId,
+    this.allowSelectNestedTables,
+    this.archivedLogDestId,
+    this.archivedLogsOnly,
+    this.asmPassword,
+    this.asmServer,
+    this.asmUser,
+    this.charLengthSemantics,
+    this.databaseName,
+    this.directPathNoLog,
+    this.directPathParallelLoad,
+    this.enableHomogenousTablespace,
+    this.failTasksOnLobTruncation,
+    this.numberDatatypeScale,
+    this.oraclePathPrefix,
+    this.parallelAsmReadThreads,
+    this.password,
+    this.port,
+    this.readAheadBlocks,
+    this.readTableSpaceName,
+    this.replacePathPrefix,
+    this.retryInterval,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerOracleAsmAccessRoleArn,
+    this.secretsManagerOracleAsmSecretId,
+    this.secretsManagerSecretId,
+    this.securityDbEncryption,
+    this.securityDbEncryptionName,
+    this.serverName,
+    this.useAlternateFolderForOnline,
+    this.usePathPrefix,
+    this.username,
+  });
+  factory OracleSettings.fromJson(Map<String, dynamic> json) =>
+      _$OracleSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OracleSettingsToJson(this);
 }
 
 /// In response to the <code>DescribeOrderableReplicationInstances</code>
@@ -4810,11 +6714,15 @@ class OrderableReplicationInstance {
   @_s.JsonKey(name: 'ReleaseStatus')
   final ReleaseStatusValues releaseStatus;
 
-  /// The compute and memory capacity of the replication instance.
+  /// The compute and memory capacity of the replication instance as defined for
+  /// the specified replication instance class. For example to specify the
+  /// instance class dms.c4.large, set this parameter to
+  /// <code>"dms.c4.large"</code>.
   ///
-  /// Valid Values: <code>dms.t2.micro | dms.t2.small | dms.t2.medium |
-  /// dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge |
-  /// dms.c4.4xlarge </code>
+  /// For more information on the settings and capacities for the available
+  /// replication instance classes, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
+  /// Selecting the right AWS DMS replication instance for your migration</a>.
   @_s.JsonKey(name: 'ReplicationInstanceClass')
   final String replicationInstanceClass;
 
@@ -4904,6 +6812,136 @@ class PendingMaintenanceAction {
       _$PendingMaintenanceActionFromJson(json);
 }
 
+/// Provides information that defines a PostgreSQL endpoint.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class PostgreSQLSettings {
+  /// For use with change data capture (CDC) only, this attribute has AWS DMS
+  /// bypass foreign keys and user triggers to reduce the time it takes to bulk
+  /// load data.
+  ///
+  /// Example: <code>afterConnectScript=SET
+  /// session_replication_role='replica'</code>
+  @_s.JsonKey(name: 'AfterConnectScript')
+  final String afterConnectScript;
+
+  /// To capture DDL events, AWS DMS creates various artifacts in the PostgreSQL
+  /// database when the task starts. You can later remove these artifacts.
+  ///
+  /// If this value is set to <code>N</code>, you don't have to create tables or
+  /// triggers on the source database.
+  @_s.JsonKey(name: 'CaptureDdls')
+  final bool captureDdls;
+
+  /// Database name for the endpoint.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The schema in which the operational DDL database artifacts are created.
+  ///
+  /// Example: <code>ddlArtifactsSchema=xyzddlschema;</code>
+  @_s.JsonKey(name: 'DdlArtifactsSchema')
+  final String ddlArtifactsSchema;
+
+  /// Sets the client statement timeout for the PostgreSQL instance, in seconds.
+  /// The default value is 60 seconds.
+  ///
+  /// Example: <code>executeTimeout=100;</code>
+  @_s.JsonKey(name: 'ExecuteTimeout')
+  final int executeTimeout;
+
+  /// When set to <code>true</code>, this value causes a task to fail if the
+  /// actual size of a LOB column is greater than the specified
+  /// <code>LobMaxSize</code>.
+  ///
+  /// If task is set to Limited LOB mode and this option is set to true, the task
+  /// fails instead of truncating the LOB data.
+  @_s.JsonKey(name: 'FailTasksOnLobTruncation')
+  final bool failTasksOnLobTruncation;
+
+  /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
+  /// PostgreSQL.
+  ///
+  /// Example: <code>maxFileSize=512</code>
+  @_s.JsonKey(name: 'MaxFileSize')
+  final int maxFileSize;
+
+  /// Endpoint connection password.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// Endpoint TCP port.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
+  /// as the trusted entity and grants the required permissions to access the
+  /// value in <code>SecretsManagerSecret</code>.
+  /// <code>SecretsManagerSecret</code> has the value of the AWS Secrets Manager
+  /// secret that allows access to the PostgreSQL endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
+  /// Database Migration Service User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
+  final String secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the PostgreSQL endpoint
+  /// connection details.
+  @_s.JsonKey(name: 'SecretsManagerSecretId')
+  final String secretsManagerSecretId;
+
+  /// Fully qualified domain name of the endpoint.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// Sets the name of a previously created logical replication slot for a CDC
+  /// load of the PostgreSQL source instance.
+  ///
+  /// When used with the AWS DMS API <code>CdcStartPosition</code> request
+  /// parameter, this attribute also enables using native CDC start points.
+  @_s.JsonKey(name: 'SlotName')
+  final String slotName;
+
+  /// Endpoint connection user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  PostgreSQLSettings({
+    this.afterConnectScript,
+    this.captureDdls,
+    this.databaseName,
+    this.ddlArtifactsSchema,
+    this.executeTimeout,
+    this.failTasksOnLobTruncation,
+    this.maxFileSize,
+    this.password,
+    this.port,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.slotName,
+    this.username,
+  });
+  factory PostgreSQLSettings.fromJson(Map<String, dynamic> json) =>
+      _$PostgreSQLSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PostgreSQLSettingsToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4945,14 +6983,42 @@ class RedshiftSettings {
   @_s.JsonKey(name: 'AfterConnectScript')
   final String afterConnectScript;
 
-  /// The location where the comma-separated value (.csv) files are stored before
-  /// being uploaded to the S3 bucket.
+  /// An S3 folder where the comma-separated-value (.csv) files are stored before
+  /// being uploaded to the target Redshift cluster.
+  ///
+  /// For full load mode, AWS DMS converts source records into .csv files and
+  /// loads them to the <i>BucketFolder/TableID</i> path. AWS DMS uses the
+  /// Redshift <code>COPY</code> command to upload the .csv files to the target
+  /// table. The files are deleted once the <code>COPY</code> operation has
+  /// finished. For more information, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/dg/r_COPY.html">COPY</a>
+  /// in the <i>Amazon Redshift Database Developer Guide</i>.
+  ///
+  /// For change-data-capture (CDC) mode, AWS DMS creates a <i>NetChanges</i>
+  /// table, and loads the .csv files to this
+  /// <i>BucketFolder/NetChangesTableID</i> path.
   @_s.JsonKey(name: 'BucketFolder')
   final String bucketFolder;
 
-  /// The name of the S3 bucket you want to use
+  /// The name of the intermediate S3 bucket used to store .csv files before
+  /// uploading data to Redshift.
   @_s.JsonKey(name: 'BucketName')
   final String bucketName;
+
+  /// If Amazon Redshift is configured to support case sensitive schema names, set
+  /// <code>CaseSensitiveNames</code> to <code>true</code>. The default is
+  /// <code>false</code>.
+  @_s.JsonKey(name: 'CaseSensitiveNames')
+  final bool caseSensitiveNames;
+
+  /// If you set <code>CompUpdate</code> to <code>true</code> Amazon Redshift
+  /// applies automatic compression if the table is empty. This applies even if
+  /// the table columns already have encodings other than <code>RAW</code>. If you
+  /// set <code>CompUpdate</code> to <code>false</code>, automatic compression is
+  /// disabled and existing column encodings aren't changed. The default is
+  /// <code>true</code>.
+  @_s.JsonKey(name: 'CompUpdate')
+  final bool compUpdate;
 
   /// A value that sets the amount of time to wait (in milliseconds) before timing
   /// out, beginning from when you initially establish a connection.
@@ -4984,26 +7050,48 @@ class RedshiftSettings {
   /// The type of server-side encryption that you want to use for your data. This
   /// encryption type is part of the endpoint settings or the extra connections
   /// attributes for Amazon S3. You can choose either <code>SSE_S3</code> (the
-  /// default) or <code>SSE_KMS</code>. To use <code>SSE_S3</code>, create an AWS
-  /// Identity and Access Management (IAM) role with a policy that allows
-  /// <code>"arn:aws:s3:::*"</code> to use the following actions:
-  /// <code>"s3:PutObject", "s3:ListBucket"</code>
+  /// default) or <code>SSE_KMS</code>.
+  /// <note>
+  /// For the <code>ModifyEndpoint</code> operation, you can change the existing
+  /// value of the <code>EncryptionMode</code> parameter from <code>SSE_KMS</code>
+  /// to <code>SSE_S3</code>. But you can’t change the existing value from
+  /// <code>SSE_S3</code> to <code>SSE_KMS</code>.
+  /// </note>
+  /// To use <code>SSE_S3</code>, create an AWS Identity and Access Management
+  /// (IAM) role with a policy that allows <code>"arn:aws:s3:::*"</code> to use
+  /// the following actions: <code>"s3:PutObject", "s3:ListBucket"</code>
   @_s.JsonKey(name: 'EncryptionMode')
   final EncryptionModeValue encryptionMode;
 
+  /// This setting is only valid for a full-load migration task. Set
+  /// <code>ExplicitIds</code> to <code>true</code> to have tables with
+  /// <code>IDENTITY</code> columns override their auto-generated values with
+  /// explicit values loaded from the source data files used to populate the
+  /// tables. The default is <code>false</code>.
+  @_s.JsonKey(name: 'ExplicitIds')
+  final bool explicitIds;
+
   /// The number of threads used to upload a single file. This parameter accepts a
   /// value from 1 through 64. It defaults to 10.
+  ///
+  /// The number of parallel streams used to upload a single .csv file to an S3
+  /// bucket using S3 Multipart Upload. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html">Multipart
+  /// upload overview</a>.
+  ///
+  /// <code>FileTransferUploadStreams</code> accepts a value from 1 through 64. It
+  /// defaults to 10.
   @_s.JsonKey(name: 'FileTransferUploadStreams')
   final int fileTransferUploadStreams;
 
-  /// The amount of time to wait (in milliseconds) before timing out, beginning
-  /// from when you begin loading.
+  /// The amount of time to wait (in milliseconds) before timing out of operations
+  /// performed by AWS DMS on a Redshift cluster, such as Redshift COPY, INSERT,
+  /// DELETE, and UPDATE.
   @_s.JsonKey(name: 'LoadTimeout')
   final int loadTimeout;
 
-  /// The maximum size (in KB) of any .csv file used to transfer data to Amazon
-  /// Redshift. This accepts a value from 1 through 1,048,576. It defaults to
-  /// 32,768 KB (32 MB).
+  /// The maximum size (in KB) of any .csv file used to load data on an S3 bucket
+  /// and transfer data to Amazon Redshift. It defaults to 1048576KB (1 GB).
   @_s.JsonKey(name: 'MaxFileSize')
   final int maxFileSize;
 
@@ -5032,6 +7120,33 @@ class RedshiftSettings {
   /// <code>ReplaceChars</code>.
   @_s.JsonKey(name: 'ReplaceInvalidChars')
   final String replaceInvalidChars;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
+  /// as the trusted entity and grants the required permissions to access the
+  /// value in <code>SecretsManagerSecret</code>.
+  /// <code>SecretsManagerSecret</code> has the value of the AWS Secrets Manager
+  /// secret that allows access to the Amazon Redshift endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
+  /// Database Migration Service User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
+  final String secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the Amazon Redshift endpoint
+  /// connection details.
+  @_s.JsonKey(name: 'SecretsManagerSecretId')
+  final String secretsManagerSecretId;
 
   /// The name of the Amazon Redshift cluster you are using.
   @_s.JsonKey(name: 'ServerName')
@@ -5079,8 +7194,9 @@ class RedshiftSettings {
   @_s.JsonKey(name: 'Username')
   final String username;
 
-  /// The size of the write buffer to use in rows. Valid values range from 1
-  /// through 2,048. The default is 1,024. Use this setting to tune performance.
+  /// The size (in KB) of the in-memory file write buffer used when generating
+  /// .csv files on the local disk at the DMS replication instance. The default
+  /// value is 1000 (buffer size is 1000KB).
   @_s.JsonKey(name: 'WriteBufferSize')
   final int writeBufferSize;
 
@@ -5089,11 +7205,14 @@ class RedshiftSettings {
     this.afterConnectScript,
     this.bucketFolder,
     this.bucketName,
+    this.caseSensitiveNames,
+    this.compUpdate,
     this.connectionTimeout,
     this.databaseName,
     this.dateFormat,
     this.emptyAsNull,
     this.encryptionMode,
+    this.explicitIds,
     this.fileTransferUploadStreams,
     this.loadTimeout,
     this.maxFileSize,
@@ -5102,6 +7221,8 @@ class RedshiftSettings {
     this.removeQuotes,
     this.replaceChars,
     this.replaceInvalidChars,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
     this.serverName,
     this.serverSideEncryptionKmsKeyId,
     this.serviceAccessRoleArn,
@@ -5277,11 +7398,18 @@ class ReplicationInstance {
   @_s.JsonKey(name: 'AvailabilityZone')
   final String availabilityZone;
 
-  /// The DNS name servers for the replication instance.
+  /// The DNS name servers supported for the replication instance to access your
+  /// on-premise source or target database.
   @_s.JsonKey(name: 'DnsNameServers')
   final String dnsNameServers;
 
   /// The engine version number of the replication instance.
+  ///
+  /// If an engine version number is not specified when a replication instance is
+  /// created, the default is the latest engine version available.
+  ///
+  /// When modifying a major engine version of an instance, also set
+  /// <code>AllowMajorVersionUpgrade</code> to <code>true</code>.
   @_s.JsonKey(name: 'EngineVersion')
   final String engineVersion;
 
@@ -5317,7 +7445,8 @@ class ReplicationInstance {
   @_s.JsonKey(name: 'PendingModifiedValues')
   final ReplicationPendingModifiedValues pendingModifiedValues;
 
-  /// The maintenance window times for the replication instance.
+  /// The maintenance window times for the replication instance. Any pending
+  /// upgrades to the replication instance are performed during this time.
   @_s.JsonKey(name: 'PreferredMaintenanceWindow')
   final String preferredMaintenanceWindow;
 
@@ -5332,22 +7461,25 @@ class ReplicationInstance {
   @_s.JsonKey(name: 'ReplicationInstanceArn')
   final String replicationInstanceArn;
 
-  /// The compute and memory capacity of the replication instance.
+  /// The compute and memory capacity of the replication instance as defined for
+  /// the specified replication instance class. It is a required parameter,
+  /// although a defualt value is pre-selected in the DMS console.
   ///
-  /// Valid Values: <code>dms.t2.micro | dms.t2.small | dms.t2.medium |
-  /// dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge |
-  /// dms.c4.4xlarge </code>
+  /// For more information on the settings and capacities for the available
+  /// replication instance classes, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
+  /// Selecting the right AWS DMS replication instance for your migration</a>.
   @_s.JsonKey(name: 'ReplicationInstanceClass')
   final String replicationInstanceClass;
 
-  /// The replication instance identifier. This parameter is stored as a lowercase
-  /// string.
+  /// The replication instance identifier is a required parameter. This parameter
+  /// is stored as a lowercase string.
   ///
   /// Constraints:
   ///
   /// <ul>
   /// <li>
-  /// Must contain from 1 to 63 alphanumeric characters or hyphens.
+  /// Must contain 1-63 alphanumeric characters or hyphens.
   /// </li>
   /// <li>
   /// First character must be a letter.
@@ -5376,7 +7508,49 @@ class ReplicationInstance {
   @_s.JsonKey(name: 'ReplicationInstancePublicIpAddresses')
   final List<String> replicationInstancePublicIpAddresses;
 
-  /// The status of the replication instance.
+  /// The status of the replication instance. The possible return values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"available"</code>
+  /// </li>
+  /// <li>
+  /// <code>"creating"</code>
+  /// </li>
+  /// <li>
+  /// <code>"deleted"</code>
+  /// </li>
+  /// <li>
+  /// <code>"deleting"</code>
+  /// </li>
+  /// <li>
+  /// <code>"failed"</code>
+  /// </li>
+  /// <li>
+  /// <code>"modifying"</code>
+  /// </li>
+  /// <li>
+  /// <code>"upgrading"</code>
+  /// </li>
+  /// <li>
+  /// <code>"rebooting"</code>
+  /// </li>
+  /// <li>
+  /// <code>"resetting-master-credentials"</code>
+  /// </li>
+  /// <li>
+  /// <code>"storage-full"</code>
+  /// </li>
+  /// <li>
+  /// <code>"incompatible-credentials"</code>
+  /// </li>
+  /// <li>
+  /// <code>"incompatible-network"</code>
+  /// </li>
+  /// <li>
+  /// <code>"maintenance"</code>
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'ReplicationInstanceStatus')
   final String replicationInstanceStatus;
 
@@ -5451,8 +7625,9 @@ class ReplicationInstanceTaskLog {
 }
 
 /// Provides information about the values of pending modifications to a
-/// replication instance. This data type is an object of the
-/// <code>ReplicationInstance</code> user-defined data type.
+/// replication instance. This data type is an object of the <a
+/// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_ReplicationInstance.html">
+/// <code>ReplicationInstance</code> </a> user-defined data type.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5474,11 +7649,13 @@ class ReplicationPendingModifiedValues {
   @_s.JsonKey(name: 'MultiAZ')
   final bool multiAZ;
 
-  /// The compute and memory capacity of the replication instance.
+  /// The compute and memory capacity of the replication instance as defined for
+  /// the specified replication instance class.
   ///
-  /// Valid Values: <code>dms.t2.micro | dms.t2.small | dms.t2.medium |
-  /// dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge |
-  /// dms.c4.4xlarge </code>
+  /// For more information on the settings and capacities for the available
+  /// replication instance classes, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
+  /// Selecting the right AWS DMS replication instance for your migration</a>.
   @_s.JsonKey(name: 'ReplicationInstanceClass')
   final String replicationInstanceClass;
 
@@ -5494,7 +7671,7 @@ class ReplicationPendingModifiedValues {
 }
 
 /// Describes a subnet group in response to a request by the
-/// <code>DescribeReplicationSubnetGroup</code> operation.
+/// <code>DescribeReplicationSubnetGroups</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5559,13 +7736,13 @@ class ReplicationTask {
   /// Indicates when you want a change data capture (CDC) operation to stop. The
   /// value can be either server time or commit time.
   ///
-  /// Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12”
+  /// Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12”
   ///
-  /// Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
+  /// Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
   @_s.JsonKey(name: 'CdcStopPosition')
   final String cdcStopPosition;
 
-  /// The last error (failure) message generated for the replication instance.
+  /// The last error (failure) message generated for the replication task.
   @_s.JsonKey(name: 'LastFailureMessage')
   final String lastFailureMessage;
 
@@ -5580,7 +7757,7 @@ class ReplicationTask {
   @_s.JsonKey(name: 'RecoveryCheckpoint')
   final String recoveryCheckpoint;
 
-  /// The Amazon Resource Name (ARN) of the replication instance.
+  /// The ARN of the replication instance.
   @_s.JsonKey(name: 'ReplicationInstanceArn')
   final String replicationInstanceArn;
 
@@ -5599,7 +7776,7 @@ class ReplicationTask {
   ///
   /// <ul>
   /// <li>
-  /// Must contain from 1 to 255 alphanumeric characters or hyphens.
+  /// Must contain 1-255 alphanumeric characters or hyphens.
   /// </li>
   /// <li>
   /// First character must be a letter.
@@ -5625,15 +7802,130 @@ class ReplicationTask {
   @_s.JsonKey(name: 'ReplicationTaskStats')
   final ReplicationTaskStats replicationTaskStats;
 
-  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+  /// The Amazon Resource Name (ARN) that uniquely identifies the endpoint.
   @_s.JsonKey(name: 'SourceEndpointArn')
   final String sourceEndpointArn;
 
-  /// The status of the replication task.
+  /// The status of the replication task. This response parameter can return one
+  /// of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"moving"</code> – The task is being moved in response to running the
+  /// <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_MoveReplicationTask.html">
+  /// <code>MoveReplicationTask</code> </a> operation.
+  /// </li>
+  /// <li>
+  /// <code>"creating"</code> – The task is being created in response to running
+  /// the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationTask.html">
+  /// <code>CreateReplicationTask</code> </a> operation.
+  /// </li>
+  /// <li>
+  /// <code>"deleting"</code> – The task is being deleted in response to running
+  /// the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_DeleteReplicationTask.html">
+  /// <code>DeleteReplicationTask</code> </a> operation.
+  /// </li>
+  /// <li>
+  /// <code>"failed"</code> – The task failed to successfully complete the
+  /// database migration in response to running the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html">
+  /// <code>StartReplicationTask</code> </a> operation.
+  /// </li>
+  /// <li>
+  /// <code>"failed-move"</code> – The task failed to move in response to running
+  /// the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_MoveReplicationTask.html">
+  /// <code>MoveReplicationTask</code> </a> operation.
+  /// </li>
+  /// <li>
+  /// <code>"modifying"</code> – The task definition is being modified in response
+  /// to running the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_ModifyReplicationTask.html">
+  /// <code>ModifyReplicationTask</code> </a> operation.
+  /// </li>
+  /// <li>
+  /// <code>"ready"</code> – The task is in a <code>ready</code> state where it
+  /// can respond to other task operations, such as <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html">
+  /// <code>StartReplicationTask</code> </a> or <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_DeleteReplicationTask.html">
+  /// <code>DeleteReplicationTask</code> </a>.
+  /// </li>
+  /// <li>
+  /// <code>"running"</code> – The task is performing a database migration in
+  /// response to running the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html">
+  /// <code>StartReplicationTask</code> </a> operation.
+  /// </li>
+  /// <li>
+  /// <code>"starting"</code> – The task is preparing to perform a database
+  /// migration in response to running the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html">
+  /// <code>StartReplicationTask</code> </a> operation.
+  /// </li>
+  /// <li>
+  /// <code>"stopped"</code> – The task has stopped in response to running the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StopReplicationTask.html">
+  /// <code>StopReplicationTask</code> </a> operation.
+  /// </li>
+  /// <li>
+  /// <code>"stopping"</code> – The task is preparing to stop in response to
+  /// running the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StopReplicationTask.html">
+  /// <code>StopReplicationTask</code> </a> operation.
+  /// </li>
+  /// <li>
+  /// <code>"testing"</code> – The database migration specified for this task is
+  /// being tested in response to running either the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTaskAssessmentRun.html">
+  /// <code>StartReplicationTaskAssessmentRun</code> </a> or the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTaskAssessment.html">
+  /// <code>StartReplicationTaskAssessment</code> </a> operation.
+  /// <note>
+  /// <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTaskAssessmentRun.html">
+  /// <code>StartReplicationTaskAssessmentRun</code> </a> is an improved
+  /// premigration task assessment operation. The <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTaskAssessment.html">
+  /// <code>StartReplicationTaskAssessment</code> </a> operation assesses data
+  /// type compatibility only between the source and target database of a given
+  /// migration task. In contrast, <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTaskAssessmentRun.html">
+  /// <code>StartReplicationTaskAssessmentRun</code> </a> enables you to specify a
+  /// variety of premigration task assessments in addition to data type
+  /// compatibility. These assessments include ones for the validity of primary
+  /// key definitions and likely issues with database migration performance, among
+  /// others.
+  /// </note> </li>
+  /// </ul>
   @_s.JsonKey(name: 'Status')
   final String status;
 
-  /// The reason the replication task was stopped.
+  /// The reason the replication task was stopped. This response parameter can
+  /// return one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"STOP_REASON_FULL_LOAD_COMPLETED"</code> – Full-load migration
+  /// completed.
+  /// </li>
+  /// <li>
+  /// <code>"STOP_REASON_CACHED_CHANGES_APPLIED"</code> – Change data capture
+  /// (CDC) load completed.
+  /// </li>
+  /// <li>
+  /// <code>"STOP_REASON_CACHED_CHANGES_NOT_APPLIED"</code> – In a full-load and
+  /// CDC migration, the full load stopped as specified before starting the CDC
+  /// migration.
+  /// </li>
+  /// <li>
+  /// <code>"STOP_REASON_SERVER_TIME"</code> – The migration stopped at the
+  /// specified server time.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'StopReason')
   final String stopReason;
 
@@ -5641,9 +7933,25 @@ class ReplicationTask {
   @_s.JsonKey(name: 'TableMappings')
   final String tableMappings;
 
-  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+  /// The ARN that uniquely identifies the endpoint.
   @_s.JsonKey(name: 'TargetEndpointArn')
   final String targetEndpointArn;
+
+  /// The ARN of the replication instance to which this task is moved in response
+  /// to running the <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_MoveReplicationTask.html">
+  /// <code>MoveReplicationTask</code> </a> operation. Otherwise, this response
+  /// parameter isn't a member of the <code>ReplicationTask</code> object.
+  @_s.JsonKey(name: 'TargetReplicationInstanceArn')
+  final String targetReplicationInstanceArn;
+
+  /// Supplemental information that the task requires to migrate the data for
+  /// certain source and target endpoints. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html">Specifying
+  /// Supplemental Data for Task Settings</a> in the <i>AWS Database Migration
+  /// Service User Guide.</i>
+  @_s.JsonKey(name: 'TaskData')
+  final String taskData;
 
   ReplicationTask({
     this.cdcStartPosition,
@@ -5663,6 +7971,8 @@ class ReplicationTask {
     this.stopReason,
     this.tableMappings,
     this.targetEndpointArn,
+    this.targetReplicationInstanceArn,
+    this.taskData,
   });
   factory ReplicationTask.fromJson(Map<String, dynamic> json) =>
       _$ReplicationTaskFromJson(json);
@@ -5716,6 +8026,225 @@ class ReplicationTaskAssessmentResult {
   });
   factory ReplicationTaskAssessmentResult.fromJson(Map<String, dynamic> json) =>
       _$ReplicationTaskAssessmentResultFromJson(json);
+}
+
+/// Provides information that describes a premigration assessment run that you
+/// have started using the <code>StartReplicationTaskAssessmentRun</code>
+/// operation.
+///
+/// Some of the information appears based on other operations that can return
+/// the <code>ReplicationTaskAssessmentRun</code> object.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ReplicationTaskAssessmentRun {
+  /// Indication of the completion progress for the individual assessments
+  /// specified to run.
+  @_s.JsonKey(name: 'AssessmentProgress')
+  final ReplicationTaskAssessmentRunProgress assessmentProgress;
+
+  /// Unique name of the assessment run.
+  @_s.JsonKey(name: 'AssessmentRunName')
+  final String assessmentRunName;
+
+  /// Last message generated by an individual assessment failure.
+  @_s.JsonKey(name: 'LastFailureMessage')
+  final String lastFailureMessage;
+
+  /// ARN of the migration task associated with this premigration assessment run.
+  @_s.JsonKey(name: 'ReplicationTaskArn')
+  final String replicationTaskArn;
+
+  /// Amazon Resource Name (ARN) of this assessment run.
+  @_s.JsonKey(name: 'ReplicationTaskAssessmentRunArn')
+  final String replicationTaskAssessmentRunArn;
+
+  /// Date on which the assessment run was created using the
+  /// <code>StartReplicationTaskAssessmentRun</code> operation.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReplicationTaskAssessmentRunCreationDate')
+  final DateTime replicationTaskAssessmentRunCreationDate;
+
+  /// Encryption mode used to encrypt the assessment run results.
+  @_s.JsonKey(name: 'ResultEncryptionMode')
+  final String resultEncryptionMode;
+
+  /// ARN of the AWS KMS encryption key used to encrypt the assessment run
+  /// results.
+  @_s.JsonKey(name: 'ResultKmsKeyArn')
+  final String resultKmsKeyArn;
+
+  /// Amazon S3 bucket where AWS DMS stores the results of this assessment run.
+  @_s.JsonKey(name: 'ResultLocationBucket')
+  final String resultLocationBucket;
+
+  /// Folder in an Amazon S3 bucket where AWS DMS stores the results of this
+  /// assessment run.
+  @_s.JsonKey(name: 'ResultLocationFolder')
+  final String resultLocationFolder;
+
+  /// ARN of the service role used to start the assessment run using the
+  /// <code>StartReplicationTaskAssessmentRun</code> operation.
+  @_s.JsonKey(name: 'ServiceAccessRoleArn')
+  final String serviceAccessRoleArn;
+
+  /// Assessment run status.
+  ///
+  /// This status can have one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"cancelling"</code> – The assessment run was canceled by the
+  /// <code>CancelReplicationTaskAssessmentRun</code> operation.
+  /// </li>
+  /// <li>
+  /// <code>"deleting"</code> – The assessment run was deleted by the
+  /// <code>DeleteReplicationTaskAssessmentRun</code> operation.
+  /// </li>
+  /// <li>
+  /// <code>"failed"</code> – At least one individual assessment completed with a
+  /// <code>failed</code> status.
+  /// </li>
+  /// <li>
+  /// <code>"error-provisioning"</code> – An internal error occurred while
+  /// resources were provisioned (during <code>provisioning</code> status).
+  /// </li>
+  /// <li>
+  /// <code>"error-executing"</code> – An internal error occurred while individual
+  /// assessments ran (during <code>running</code> status).
+  /// </li>
+  /// <li>
+  /// <code>"invalid state"</code> – The assessment run is in an unknown state.
+  /// </li>
+  /// <li>
+  /// <code>"passed"</code> – All individual assessments have completed, and none
+  /// has a <code>failed</code> status.
+  /// </li>
+  /// <li>
+  /// <code>"provisioning"</code> – Resources required to run individual
+  /// assessments are being provisioned.
+  /// </li>
+  /// <li>
+  /// <code>"running"</code> – Individual assessments are being run.
+  /// </li>
+  /// <li>
+  /// <code>"starting"</code> – The assessment run is starting, but resources are
+  /// not yet being provisioned for individual assessments.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  ReplicationTaskAssessmentRun({
+    this.assessmentProgress,
+    this.assessmentRunName,
+    this.lastFailureMessage,
+    this.replicationTaskArn,
+    this.replicationTaskAssessmentRunArn,
+    this.replicationTaskAssessmentRunCreationDate,
+    this.resultEncryptionMode,
+    this.resultKmsKeyArn,
+    this.resultLocationBucket,
+    this.resultLocationFolder,
+    this.serviceAccessRoleArn,
+    this.status,
+  });
+  factory ReplicationTaskAssessmentRun.fromJson(Map<String, dynamic> json) =>
+      _$ReplicationTaskAssessmentRunFromJson(json);
+}
+
+/// The progress values reported by the <code>AssessmentProgress</code> response
+/// element.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ReplicationTaskAssessmentRunProgress {
+  /// The number of individual assessments that have completed, successfully or
+  /// not.
+  @_s.JsonKey(name: 'IndividualAssessmentCompletedCount')
+  final int individualAssessmentCompletedCount;
+
+  /// The number of individual assessments that are specified to run.
+  @_s.JsonKey(name: 'IndividualAssessmentCount')
+  final int individualAssessmentCount;
+
+  ReplicationTaskAssessmentRunProgress({
+    this.individualAssessmentCompletedCount,
+    this.individualAssessmentCount,
+  });
+  factory ReplicationTaskAssessmentRunProgress.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReplicationTaskAssessmentRunProgressFromJson(json);
+}
+
+/// Provides information that describes an individual assessment from a
+/// premigration assessment run.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ReplicationTaskIndividualAssessment {
+  /// Name of this individual assessment.
+  @_s.JsonKey(name: 'IndividualAssessmentName')
+  final String individualAssessmentName;
+
+  /// ARN of the premigration assessment run that is created to run this
+  /// individual assessment.
+  @_s.JsonKey(name: 'ReplicationTaskAssessmentRunArn')
+  final String replicationTaskAssessmentRunArn;
+
+  /// Amazon Resource Name (ARN) of this individual assessment.
+  @_s.JsonKey(name: 'ReplicationTaskIndividualAssessmentArn')
+  final String replicationTaskIndividualAssessmentArn;
+
+  /// Date when this individual assessment was started as part of running the
+  /// <code>StartReplicationTaskAssessmentRun</code> operation.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReplicationTaskIndividualAssessmentStartDate')
+  final DateTime replicationTaskIndividualAssessmentStartDate;
+
+  /// Individual assessment status.
+  ///
+  /// This status can have one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"cancelled"</code>
+  /// </li>
+  /// <li>
+  /// <code>"error"</code>
+  /// </li>
+  /// <li>
+  /// <code>"failed"</code>
+  /// </li>
+  /// <li>
+  /// <code>"passed"</code>
+  /// </li>
+  /// <li>
+  /// <code>"pending"</code>
+  /// </li>
+  /// <li>
+  /// <code>"running"</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  ReplicationTaskIndividualAssessment({
+    this.individualAssessmentName,
+    this.replicationTaskAssessmentRunArn,
+    this.replicationTaskIndividualAssessmentArn,
+    this.replicationTaskIndividualAssessmentStartDate,
+    this.status,
+  });
+  factory ReplicationTaskIndividualAssessment.fromJson(
+          Map<String, dynamic> json) =>
+      _$ReplicationTaskIndividualAssessmentFromJson(json);
 }
 
 /// In response to a request by the <code>DescribeReplicationTasks</code>
@@ -5846,9 +8375,9 @@ class S3Settings {
   /// A value that enables a change data capture (CDC) load to write INSERT and
   /// UPDATE operations to .csv or .parquet (columnar storage) output files. The
   /// default setting is <code>false</code>, but when
-  /// <code>CdcInsertsAndUpdates</code> is set to <code>true</code>or
-  /// <code>y</code>, INSERTs and UPDATEs from the source database are migrated to
-  /// the .csv or .parquet file.
+  /// <code>CdcInsertsAndUpdates</code> is set to <code>true</code> or
+  /// <code>y</code>, only INSERTs and UPDATEs from the source database are
+  /// migrated to the .csv or .parquet file.
   ///
   /// For .csv file format only, how these INSERTs and UPDATEs are recorded
   /// depends on the value of the <code>IncludeOpForFullLoad</code> parameter. If
@@ -5906,6 +8435,44 @@ class S3Settings {
   @_s.JsonKey(name: 'CdcInsertsOnly')
   final bool cdcInsertsOnly;
 
+  /// Specifies the folder path of CDC files. For an S3 source, this setting is
+  /// required if a task captures change data; otherwise, it's optional. If
+  /// <code>CdcPath</code> is set, AWS DMS reads CDC files from this path and
+  /// replicates the data changes to the target endpoint. For an S3 target if you
+  /// set <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_S3Settings.html#DMS-Type-S3Settings-PreserveTransactions">
+  /// <code>PreserveTransactions</code> </a> to <code>true</code>, AWS DMS
+  /// verifies that you have set this parameter to a folder path on your S3 target
+  /// where AWS DMS can save the transaction order for the CDC load. AWS DMS
+  /// creates this CDC folder path in either your S3 target working directory or
+  /// the S3 target location specified by <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_S3Settings.html#DMS-Type-S3Settings-BucketFolder">
+  /// <code>BucketFolder</code> </a> and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_S3Settings.html#DMS-Type-S3Settings-BucketName">
+  /// <code>BucketName</code> </a>.
+  ///
+  /// For example, if you specify <code>CdcPath</code> as
+  /// <code>MyChangedData</code>, and you specify <code>BucketName</code> as
+  /// <code>MyTargetBucket</code> but do not specify <code>BucketFolder</code>,
+  /// AWS DMS creates the CDC folder path following:
+  /// <code>MyTargetBucket/MyChangedData</code>.
+  ///
+  /// If you specify the same <code>CdcPath</code>, and you specify
+  /// <code>BucketName</code> as <code>MyTargetBucket</code> and
+  /// <code>BucketFolder</code> as <code>MyTargetData</code>, AWS DMS creates the
+  /// CDC folder path following:
+  /// <code>MyTargetBucket/MyTargetData/MyChangedData</code>.
+  ///
+  /// For more information on CDC including transaction order on an S3 target, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.EndpointSettings.CdcPath">Capturing
+  /// data changes (CDC) including transaction order on the S3 target</a>.
+  /// <note>
+  /// This setting is supported in AWS DMS versions 3.4.2 and later.
+  /// </note>
+  @_s.JsonKey(name: 'CdcPath')
+  final String cdcPath;
+
   /// An optional parameter to use GZIP to compress the target files. Set to GZIP
   /// to compress the target files. Either set this parameter to NONE (the
   /// default) or don't use it to leave the files uncompressed. This parameter
@@ -5913,13 +8480,27 @@ class S3Settings {
   @_s.JsonKey(name: 'CompressionType')
   final CompressionTypeValue compressionType;
 
-  /// The delimiter used to separate columns in the source files. The default is a
-  /// comma.
+  /// The delimiter used to separate columns in the .csv file for both source and
+  /// target. The default is a comma.
   @_s.JsonKey(name: 'CsvDelimiter')
   final String csvDelimiter;
 
-  /// The delimiter used to separate rows in the source files. The default is a
-  /// carriage return (<code>\n</code>).
+  /// This setting only applies if your Amazon S3 output files during a change
+  /// data capture (CDC) load are written in .csv format. If <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_S3Settings.html#DMS-Type-S3Settings-UseCsvNoSupValue">
+  /// <code>UseCsvNoSupValue</code> </a> is set to true, specify a string value
+  /// that you want AWS DMS to use for all columns not included in the
+  /// supplemental log. If you do not specify a string value, AWS DMS uses the
+  /// null value for these columns regardless of the <code>UseCsvNoSupValue</code>
+  /// setting.
+  /// <note>
+  /// This setting is supported in AWS DMS versions 3.4.1 and later.
+  /// </note>
+  @_s.JsonKey(name: 'CsvNoSupValue')
+  final String csvNoSupValue;
+
+  /// The delimiter used to separate rows in the .csv file for both source and
+  /// target. The default is a carriage return (<code>\n</code>).
   @_s.JsonKey(name: 'CsvRowDelimiter')
   final String csvRowDelimiter;
 
@@ -5944,6 +8525,26 @@ class S3Settings {
   /// bytes (1 MiB). This number is used for .parquet file format only.
   @_s.JsonKey(name: 'DataPageSize')
   final int dataPageSize;
+
+  /// Specifies a date separating delimiter to use during folder partitioning. The
+  /// default value is <code>SLASH</code>. Use this parameter when
+  /// <code>DatePartitionedEnabled</code> is set to <code>true</code>.
+  @_s.JsonKey(name: 'DatePartitionDelimiter')
+  final DatePartitionDelimiterValue datePartitionDelimiter;
+
+  /// When set to <code>true</code>, this parameter partitions S3 bucket folders
+  /// based on transaction commit dates. The default value is <code>false</code>.
+  /// For more information about date-based folder partitoning, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.DatePartitioning">Using
+  /// date-based folder partitioning</a>.
+  @_s.JsonKey(name: 'DatePartitionEnabled')
+  final bool datePartitionEnabled;
+
+  /// Identifies the sequence of the date format to use during folder
+  /// partitioning. The default value is <code>YYYYMMDD</code>. Use this parameter
+  /// when <code>DatePartitionedEnabled</code> is set to <code>true</code>.
+  @_s.JsonKey(name: 'DatePartitionSequence')
+  final DatePartitionSequenceValue datePartitionSequence;
 
   /// The maximum size of an encoded dictionary page of a column. If the
   /// dictionary page exceeds this, this column is stored using an encoding type
@@ -5985,9 +8586,16 @@ class S3Settings {
   /// The type of server-side encryption that you want to use for your data. This
   /// encryption type is part of the endpoint settings or the extra connections
   /// attributes for Amazon S3. You can choose either <code>SSE_S3</code> (the
-  /// default) or <code>SSE_KMS</code>. To use <code>SSE_S3</code>, you need an
-  /// AWS Identity and Access Management (IAM) role with permission to allow
-  /// <code>"arn:aws:s3:::dms-*"</code> to use the following actions:
+  /// default) or <code>SSE_KMS</code>.
+  /// <note>
+  /// For the <code>ModifyEndpoint</code> operation, you can change the existing
+  /// value of the <code>EncryptionMode</code> parameter from <code>SSE_KMS</code>
+  /// to <code>SSE_S3</code>. But you can’t change the existing value from
+  /// <code>SSE_S3</code> to <code>SSE_KMS</code>.
+  /// </note>
+  /// To use <code>SSE_S3</code>, you need an AWS Identity and Access Management
+  /// (IAM) role with permission to allow <code>"arn:aws:s3:::dms-*"</code> to use
+  /// the following actions:
   ///
   /// <ul>
   /// <li>
@@ -6027,7 +8635,7 @@ class S3Settings {
   @_s.JsonKey(name: 'EncryptionMode')
   final EncryptionModeValue encryptionMode;
 
-  /// The external table definition.
+  /// Specifies how tables are defined in the S3 source files only.
   @_s.JsonKey(name: 'ExternalTableDefinition')
   final String externalTableDefinition;
 
@@ -6087,6 +8695,18 @@ class S3Settings {
   @_s.JsonKey(name: 'ParquetVersion')
   final ParquetVersionValue parquetVersion;
 
+  /// If set to <code>true</code>, AWS DMS saves the transaction order for a
+  /// change data capture (CDC) load on the Amazon S3 target specified by <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_S3Settings.html#DMS-Type-S3Settings-CdcPath">
+  /// <code>CdcPath</code> </a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.EndpointSettings.CdcPath">Capturing
+  /// data changes (CDC) including transaction order on the S3 target</a>.
+  /// <note>
+  /// This setting is supported in AWS DMS versions 3.4.2 and later.
+  /// </note>
+  @_s.JsonKey(name: 'PreserveTransactions')
+  final bool preserveTransactions;
+
   /// The number of rows in a row group. A smaller row group size provides faster
   /// reads. But as the number of row groups grows, the slower writes become. This
   /// parameter defaults to 10,000 rows. This number is used for .parquet file
@@ -6109,7 +8729,9 @@ class S3Settings {
   @_s.JsonKey(name: 'ServerSideEncryptionKmsKeyId')
   final String serverSideEncryptionKmsKeyId;
 
-  /// The Amazon Resource Name (ARN) used by the service access IAM role.
+  /// The Amazon Resource Name (ARN) used by the service access IAM role. It is a
+  /// required parameter that enables DMS to write and read objects from an 3S
+  /// bucket.
   @_s.JsonKey(name: 'ServiceAccessRoleArn')
   final String serviceAccessRoleArn;
 
@@ -6140,16 +8762,34 @@ class S3Settings {
   @_s.JsonKey(name: 'TimestampColumnName')
   final String timestampColumnName;
 
+  /// This setting applies if the S3 output files during a change data capture
+  /// (CDC) load are written in .csv format. If set to <code>true</code> for
+  /// columns not included in the supplemental log, AWS DMS uses the value
+  /// specified by <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_S3Settings.html#DMS-Type-S3Settings-CsvNoSupValue">
+  /// <code>CsvNoSupValue</code> </a>. If not set or set to <code>false</code>,
+  /// AWS DMS uses the null value for these columns.
+  /// <note>
+  /// This setting is supported in AWS DMS versions 3.4.1 and later.
+  /// </note>
+  @_s.JsonKey(name: 'UseCsvNoSupValue')
+  final bool useCsvNoSupValue;
+
   S3Settings({
     this.bucketFolder,
     this.bucketName,
     this.cdcInsertsAndUpdates,
     this.cdcInsertsOnly,
+    this.cdcPath,
     this.compressionType,
     this.csvDelimiter,
+    this.csvNoSupValue,
     this.csvRowDelimiter,
     this.dataFormat,
     this.dataPageSize,
+    this.datePartitionDelimiter,
+    this.datePartitionEnabled,
+    this.datePartitionSequence,
     this.dictPageSizeLimit,
     this.enableStatistics,
     this.encodingType,
@@ -6158,15 +8798,26 @@ class S3Settings {
     this.includeOpForFullLoad,
     this.parquetTimestampInMillisecond,
     this.parquetVersion,
+    this.preserveTransactions,
     this.rowGroupLength,
     this.serverSideEncryptionKmsKeyId,
     this.serviceAccessRoleArn,
     this.timestampColumnName,
+    this.useCsvNoSupValue,
   });
   factory S3Settings.fromJson(Map<String, dynamic> json) =>
       _$S3SettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$S3SettingsToJson(this);
+}
+
+enum SafeguardPolicy {
+  @_s.JsonValue('rely-on-sql-server-replication-agent')
+  relyOnSqlServerReplicationAgent,
+  @_s.JsonValue('exclusive-automatic-truncation')
+  exclusiveAutomaticTruncation,
+  @_s.JsonValue('shared-automatic-truncation')
+  sharedAutomaticTruncation,
 }
 
 enum SourceType {
@@ -6201,6 +8852,25 @@ class StartReplicationTaskAssessmentResponse {
   factory StartReplicationTaskAssessmentResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartReplicationTaskAssessmentResponseFromJson(json);
+}
+
+/// <p/>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StartReplicationTaskAssessmentRunResponse {
+  /// The premigration assessment run that was started.
+  @_s.JsonKey(name: 'ReplicationTaskAssessmentRun')
+  final ReplicationTaskAssessmentRun replicationTaskAssessmentRun;
+
+  StartReplicationTaskAssessmentRunResponse({
+    this.replicationTaskAssessmentRun,
+  });
+  factory StartReplicationTaskAssessmentRunResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$StartReplicationTaskAssessmentRunResponseFromJson(json);
 }
 
 /// <p/>
@@ -6262,7 +8932,7 @@ class StopReplicationTaskResponse {
       _$StopReplicationTaskResponseFromJson(json);
 }
 
-/// In response to a request by the <code>DescribeReplicationSubnetGroup</code>
+/// In response to a request by the <code>DescribeReplicationSubnetGroups</code>
 /// operation, this object identifies a subnet by its given Availability Zone,
 /// subnet identifier, and status.
 @_s.JsonSerializable(
@@ -6319,9 +8989,16 @@ class SupportedEndpointType {
   /// <code>"s3"</code>, <code>"db2"</code>, <code>"azuredb"</code>,
   /// <code>"sybase"</code>, <code>"dynamodb"</code>, <code>"mongodb"</code>,
   /// <code>"kinesis"</code>, <code>"kafka"</code>, <code>"elasticsearch"</code>,
-  /// <code>"documentdb"</code>, and <code>"sqlserver"</code>.
+  /// <code>"documentdb"</code>, <code>"sqlserver"</code>, and
+  /// <code>"neptune"</code>.
   @_s.JsonKey(name: 'EngineName')
   final String engineName;
+
+  /// The earliest AWS DMS engine version that supports this endpoint engine. Note
+  /// that endpoint engines released with AWS DMS versions earlier than 3.1.1 do
+  /// not return a value for this parameter.
+  @_s.JsonKey(name: 'ReplicationInstanceEngineMinimumVersion')
+  final String replicationInstanceEngineMinimumVersion;
 
   /// Indicates if Change Data Capture (CDC) is supported.
   @_s.JsonKey(name: 'SupportsCDC')
@@ -6331,10 +9008,80 @@ class SupportedEndpointType {
     this.endpointType,
     this.engineDisplayName,
     this.engineName,
+    this.replicationInstanceEngineMinimumVersion,
     this.supportsCDC,
   });
   factory SupportedEndpointType.fromJson(Map<String, dynamic> json) =>
       _$SupportedEndpointTypeFromJson(json);
+}
+
+/// Provides information that defines a SAP ASE endpoint.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SybaseSettings {
+  /// Database name for the endpoint.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// Endpoint connection password.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  /// Endpoint TCP port.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
+  /// as the trusted entity and grants the required permissions to access the
+  /// value in <code>SecretsManagerSecret</code>.
+  /// <code>SecretsManagerSecret</code> has the value of the AWS Secrets Manager
+  /// secret that allows access to the SAP ASE endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
+  /// Database Migration Service User Guide</i>.
+  /// </note>
+  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
+  final String secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the SAP SAE endpoint
+  /// connection details.
+  @_s.JsonKey(name: 'SecretsManagerSecretId')
+  final String secretsManagerSecretId;
+
+  /// Fully qualified domain name of the endpoint.
+  @_s.JsonKey(name: 'ServerName')
+  final String serverName;
+
+  /// Endpoint connection user name.
+  @_s.JsonKey(name: 'Username')
+  final String username;
+
+  SybaseSettings({
+    this.databaseName,
+    this.password,
+    this.port,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.username,
+  });
+  factory SybaseSettings.fromJson(Map<String, dynamic> json) =>
+      _$SybaseSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SybaseSettingsToJson(this);
 }
 
 /// Provides a collection of table statistics in response to a request by the
@@ -6426,32 +9173,43 @@ class TableStatistics {
   ///
   /// <ul>
   /// <li>
-  /// Not enabled - Validation isn't enabled for the table in the migration task.
+  /// Not enabled – Validation isn't enabled for the table in the migration task.
   /// </li>
   /// <li>
-  /// Pending records - Some records in the table are waiting for validation.
+  /// Pending records – Some records in the table are waiting for validation.
   /// </li>
   /// <li>
-  /// Mismatched records - Some records in the table don't match between the
+  /// Mismatched records – Some records in the table don't match between the
   /// source and target.
   /// </li>
   /// <li>
-  /// Suspended records - Some records in the table couldn't be validated.
+  /// Suspended records – Some records in the table couldn't be validated.
   /// </li>
   /// <li>
-  /// No primary key - The table couldn't be validated because it has no primary
+  /// No primary key –The table couldn't be validated because it has no primary
   /// key.
   /// </li>
   /// <li>
-  /// Table error - The table wasn't validated because it's in an error state and
+  /// Table error – The table wasn't validated because it's in an error state and
   /// some data wasn't migrated.
   /// </li>
   /// <li>
-  /// Validated - All rows in the table are validated. If the table is updated,
+  /// Validated – All rows in the table are validated. If the table is updated,
   /// the status can change from Validated.
   /// </li>
   /// <li>
-  /// Error - The table couldn't be validated because of an unexpected error.
+  /// Error – The table couldn't be validated because of an unexpected error.
+  /// </li>
+  /// <li>
+  /// Pending validation – The table is waiting validation.
+  /// </li>
+  /// <li>
+  /// Preparing table – Preparing the table enabled in the migration task for
+  /// validation.
+  /// </li>
+  /// <li>
+  /// Pending revalidation – All rows in the table are pending validation after
+  /// the table was updated.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ValidationState')
@@ -6506,8 +9264,8 @@ class TableToReload {
   final String tableName;
 
   TableToReload({
-    this.schemaName,
-    this.tableName,
+    @_s.required this.schemaName,
+    @_s.required this.tableName,
   });
   Map<String, dynamic> toJson() => _$TableToReloadToJson(this);
 }
@@ -6532,18 +9290,18 @@ class TableToReload {
     createFactory: true,
     createToJson: true)
 class Tag {
-  /// A key is the required name of the tag. The string value can be from 1 to 128
-  /// Unicode characters in length and can't be prefixed with "aws:" or "dms:".
-  /// The string can only contain only the set of Unicode letters, digits,
-  /// white-space, '_', '.', '/', '=', '+', '-' (Java regex:
+  /// A key is the required name of the tag. The string value can be 1-128 Unicode
+  /// characters in length and can't be prefixed with "aws:" or "dms:". The string
+  /// can only contain only the set of Unicode letters, digits, white-space, '_',
+  /// '.', '/', '=', '+', '-' (Java regular expressions:
   /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
   @_s.JsonKey(name: 'Key')
   final String key;
 
-  /// A value is the optional value of the tag. The string value can be from 1 to
-  /// 256 Unicode characters in length and can't be prefixed with "aws:" or
-  /// "dms:". The string can only contain only the set of Unicode letters, digits,
-  /// white-space, '_', '.', '/', '=', '+', '-' (Java regex:
+  /// A value is the optional value of the tag. The string value can be 1-256
+  /// Unicode characters in length and can't be prefixed with "aws:" or "dms:".
+  /// The string can only contain only the set of Unicode letters, digits,
+  /// white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions:
   /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
   @_s.JsonKey(name: 'Value')
   final String value;
@@ -6555,6 +9313,13 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+enum TargetDbType {
+  @_s.JsonValue('specific-database')
+  specificDatabase,
+  @_s.JsonValue('multiple-databases')
+  multipleDatabases,
 }
 
 /// <p/>
@@ -6575,8 +9340,8 @@ class TestConnectionResponse {
       _$TestConnectionResponseFromJson(json);
 }
 
-/// Describes status of a security group associated with the virtual private
-/// cloud hosting your replication and DB instances.
+/// Describes the status of a security group associated with the virtual private
+/// cloud (VPC) hosting your replication and DB instances.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6587,7 +9352,7 @@ class VpcSecurityGroupMembership {
   @_s.JsonKey(name: 'Status')
   final String status;
 
-  /// The VPC security group Id.
+  /// The VPC security group ID.
   @_s.JsonKey(name: 'VpcSecurityGroupId')
   final String vpcSecurityGroupId;
 
@@ -6637,6 +9402,11 @@ class KMSDisabledFault extends _s.GenericAwsException {
       : super(type: type, code: 'KMSDisabledFault', message: message);
 }
 
+class KMSFault extends _s.GenericAwsException {
+  KMSFault({String type, String message})
+      : super(type: type, code: 'KMSFault', message: message);
+}
+
 class KMSInvalidStateFault extends _s.GenericAwsException {
   KMSInvalidStateFault({String type, String message})
       : super(type: type, code: 'KMSInvalidStateFault', message: message);
@@ -6679,6 +9449,16 @@ class ResourceNotFoundFault extends _s.GenericAwsException {
 class ResourceQuotaExceededFault extends _s.GenericAwsException {
   ResourceQuotaExceededFault({String type, String message})
       : super(type: type, code: 'ResourceQuotaExceededFault', message: message);
+}
+
+class S3AccessDeniedFault extends _s.GenericAwsException {
+  S3AccessDeniedFault({String type, String message})
+      : super(type: type, code: 'S3AccessDeniedFault', message: message);
+}
+
+class S3ResourceNotFoundFault extends _s.GenericAwsException {
+  S3ResourceNotFoundFault({String type, String message})
+      : super(type: type, code: 'S3ResourceNotFoundFault', message: message);
 }
 
 class SNSInvalidTopicFault extends _s.GenericAwsException {
@@ -6724,6 +9504,7 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       KMSAccessDeniedFault(type: type, message: message),
   'KMSDisabledFault': (type, message) =>
       KMSDisabledFault(type: type, message: message),
+  'KMSFault': (type, message) => KMSFault(type: type, message: message),
   'KMSInvalidStateFault': (type, message) =>
       KMSInvalidStateFault(type: type, message: message),
   'KMSKeyNotAccessibleFault': (type, message) =>
@@ -6740,6 +9521,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundFault(type: type, message: message),
   'ResourceQuotaExceededFault': (type, message) =>
       ResourceQuotaExceededFault(type: type, message: message),
+  'S3AccessDeniedFault': (type, message) =>
+      S3AccessDeniedFault(type: type, message: message),
+  'S3ResourceNotFoundFault': (type, message) =>
+      S3ResourceNotFoundFault(type: type, message: message),
   'SNSInvalidTopicFault': (type, message) =>
       SNSInvalidTopicFault(type: type, message: message),
   'SNSNoAuthorizationFault': (type, message) =>

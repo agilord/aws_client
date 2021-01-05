@@ -6,6 +6,57 @@ part of 'runtime.lex-2016-11-28.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+ActiveContext _$ActiveContextFromJson(Map<String, dynamic> json) {
+  return ActiveContext(
+    name: json['name'] as String,
+    parameters: (json['parameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    timeToLive: json['timeToLive'] == null
+        ? null
+        : ActiveContextTimeToLive.fromJson(
+            json['timeToLive'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$ActiveContextToJson(ActiveContext instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('parameters', instance.parameters);
+  writeNotNull('timeToLive', instance.timeToLive?.toJson());
+  return val;
+}
+
+ActiveContextTimeToLive _$ActiveContextTimeToLiveFromJson(
+    Map<String, dynamic> json) {
+  return ActiveContextTimeToLive(
+    timeToLiveInSeconds: json['timeToLiveInSeconds'] as int,
+    turnsToLive: json['turnsToLive'] as int,
+  );
+}
+
+Map<String, dynamic> _$ActiveContextTimeToLiveToJson(
+    ActiveContextTimeToLive instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('timeToLiveInSeconds', instance.timeToLiveInSeconds);
+  writeNotNull('turnsToLive', instance.turnsToLive);
+  return val;
+}
+
 Button _$ButtonFromJson(Map<String, dynamic> json) {
   return Button(
     text: json['text'] as String,
@@ -128,6 +179,11 @@ GenericAttachment _$GenericAttachmentFromJson(Map<String, dynamic> json) {
 
 GetSessionResponse _$GetSessionResponseFromJson(Map<String, dynamic> json) {
   return GetSessionResponse(
+    activeContexts: (json['activeContexts'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ActiveContext.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     dialogAction: json['dialogAction'] == null
         ? null
         : DialogAction.fromJson(json['dialogAction'] as Map<String, dynamic>),
@@ -140,6 +196,12 @@ GetSessionResponse _$GetSessionResponseFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     sessionId: json['sessionId'] as String,
+  );
+}
+
+IntentConfidence _$IntentConfidenceFromJson(Map<String, dynamic> json) {
+  return IntentConfidence(
+    score: (json['score'] as num)?.toDouble(),
   );
 }
 
@@ -190,8 +252,13 @@ const _$ConfirmationStatusEnumMap = {
 
 PostContentResponse _$PostContentResponseFromJson(Map<String, dynamic> json) {
   return PostContentResponse(
+    activeContexts: const Base64JsonConverter()
+        .fromJson(json['x-amz-lex-active-contexts'] as String),
+    alternativeIntents: const Base64JsonConverter()
+        .fromJson(json['x-amz-lex-alternative-intents'] as String),
     audioStream:
         const Uint8ListConverter().fromJson(json['audioStream'] as String),
+    botVersion: json['x-amz-lex-bot-version'] as String,
     contentType: json['Content-Type'] as String,
     dialogState: _$enumDecodeNullable(
         _$DialogStateEnumMap, json['x-amz-lex-dialog-state']),
@@ -200,6 +267,8 @@ PostContentResponse _$PostContentResponseFromJson(Map<String, dynamic> json) {
     message: json['x-amz-lex-message'] as String,
     messageFormat: _$enumDecodeNullable(
         _$MessageFormatTypeEnumMap, json['x-amz-lex-message-format']),
+    nluIntentConfidence: const Base64JsonConverter()
+        .fromJson(json['x-amz-lex-nlu-intent-confidence'] as String),
     sentimentResponse: json['x-amz-lex-sentiment'] as String,
     sessionAttributes: const Base64JsonConverter()
         .fromJson(json['x-amz-lex-session-attributes'] as String),
@@ -221,12 +290,27 @@ const _$DialogStateEnumMap = {
 
 PostTextResponse _$PostTextResponseFromJson(Map<String, dynamic> json) {
   return PostTextResponse(
+    activeContexts: (json['activeContexts'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ActiveContext.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    alternativeIntents: (json['alternativeIntents'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PredictedIntent.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    botVersion: json['botVersion'] as String,
     dialogState:
         _$enumDecodeNullable(_$DialogStateEnumMap, json['dialogState']),
     intentName: json['intentName'] as String,
     message: json['message'] as String,
     messageFormat:
         _$enumDecodeNullable(_$MessageFormatTypeEnumMap, json['messageFormat']),
+    nluIntentConfidence: json['nluIntentConfidence'] == null
+        ? null
+        : IntentConfidence.fromJson(
+            json['nluIntentConfidence'] as Map<String, dynamic>),
     responseCard: json['responseCard'] == null
         ? null
         : ResponseCard.fromJson(json['responseCard'] as Map<String, dynamic>),
@@ -245,8 +329,23 @@ PostTextResponse _$PostTextResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+PredictedIntent _$PredictedIntentFromJson(Map<String, dynamic> json) {
+  return PredictedIntent(
+    intentName: json['intentName'] as String,
+    nluIntentConfidence: json['nluIntentConfidence'] == null
+        ? null
+        : IntentConfidence.fromJson(
+            json['nluIntentConfidence'] as Map<String, dynamic>),
+    slots: (json['slots'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
 PutSessionResponse _$PutSessionResponseFromJson(Map<String, dynamic> json) {
   return PutSessionResponse(
+    activeContexts: const Base64JsonConverter()
+        .fromJson(json['x-amz-lex-active-contexts'] as String),
     audioStream:
         const Uint8ListConverter().fromJson(json['audioStream'] as String),
     contentType: json['Content-Type'] as String,

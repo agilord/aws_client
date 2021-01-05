@@ -949,10 +949,8 @@ class DirectConnect {
   /// Creates a proposal to associate the specified virtual private gateway or
   /// transit gateway with the specified Direct Connect gateway.
   ///
-  /// You can only associate a Direct Connect gateway and virtual private
-  /// gateway or transit gateway when the account that owns the Direct Connect
-  /// gateway and the account that owns the virtual private gateway or transit
-  /// gateway have the same AWS Payer ID.
+  /// You can associate a Direct Connect gateway and virtual private gateway or
+  /// transit gateway that is owned by any AWS account.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -1096,26 +1094,26 @@ class DirectConnect {
   }
 
   /// Creates a link aggregation group (LAG) with the specified number of
-  /// bundled physical connections between the customer network and a specific
-  /// AWS Direct Connect location. A LAG is a logical interface that uses the
-  /// Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces,
-  /// enabling you to treat them as a single interface.
+  /// bundled physical dedicated connections between the customer network and a
+  /// specific AWS Direct Connect location. A LAG is a logical interface that
+  /// uses the Link Aggregation Control Protocol (LACP) to aggregate multiple
+  /// interfaces, enabling you to treat them as a single interface.
   ///
-  /// All connections in a LAG must use the same bandwidth and must terminate at
-  /// the same AWS Direct Connect endpoint.
+  /// All connections in a LAG must use the same bandwidth (either 1Gbps or
+  /// 10Gbps) and must terminate at the same AWS Direct Connect endpoint.
   ///
-  /// You can have up to 10 connections per LAG. Regardless of this limit, if
-  /// you request more connections for the LAG than AWS Direct Connect can
-  /// allocate on a single endpoint, no LAG is created.
+  /// You can have up to 10 dedicated connections per LAG. Regardless of this
+  /// limit, if you request more connections for the LAG than AWS Direct Connect
+  /// can allocate on a single endpoint, no LAG is created.
   ///
-  /// You can specify an existing physical connection or interconnect to include
-  /// in the LAG (which counts towards the total number of connections). Doing
-  /// so interrupts the current physical connection or hosted connections, and
-  /// re-establishes them as a member of the LAG. The LAG will be created on the
-  /// same AWS Direct Connect endpoint to which the connection terminates. Any
-  /// virtual interfaces associated with the connection are automatically
-  /// disassociated and re-associated with the LAG. The connection ID does not
-  /// change.
+  /// You can specify an existing physical dedicated connection or interconnect
+  /// to include in the LAG (which counts towards the total number of
+  /// connections). Doing so interrupts the current physical dedicated
+  /// connection, and re-establishes them as a member of the LAG. The LAG will
+  /// be created on the same AWS Direct Connect endpoint to which the dedicated
+  /// connection terminates. Any virtual interfaces associated with the
+  /// dedicated connection are automatically disassociated and re-associated
+  /// with the LAG. The connection ID does not change.
   ///
   /// If the AWS account used to create a LAG is a registered AWS Direct Connect
   /// Partner, the LAG is automatically enabled to host sub-connections. For a
@@ -1128,9 +1126,8 @@ class DirectConnect {
   /// May throw [DirectConnectClientException].
   ///
   /// Parameter [connectionsBandwidth] :
-  /// The bandwidth of the individual physical connections bundled by the LAG.
-  /// The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps,
-  /// 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps.
+  /// The bandwidth of the individual physical dedicated connections bundled by
+  /// the LAG. The possible values are 1Gbps and 10Gbps.
   ///
   /// Parameter [lagName] :
   /// The name of the LAG.
@@ -1139,14 +1136,14 @@ class DirectConnect {
   /// The location for the LAG.
   ///
   /// Parameter [numberOfConnections] :
-  /// The number of physical connections initially provisioned and bundled by
-  /// the LAG.
+  /// The number of physical dedicated connections initially provisioned and
+  /// bundled by the LAG.
   ///
   /// Parameter [childConnectionTags] :
   /// The tags to associate with the automtically created LAGs.
   ///
   /// Parameter [connectionId] :
-  /// The ID of an existing connection to migrate to the LAG.
+  /// The ID of an existing dedicated connection to migrate to the LAG.
   ///
   /// Parameter [providerName] :
   /// The name of the service provider associated with the LAG.
@@ -1200,6 +1197,14 @@ class DirectConnect {
   /// gateway enables the possibility for connecting to multiple VPCs, including
   /// VPCs in different AWS Regions. Connecting the private virtual interface to
   /// a VGW only provides access to a single VPC within the same Region.
+  ///
+  /// Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an
+  /// update to the underlying physical connection if it wasn't updated to
+  /// support jumbo frames. Updating the connection disrupts network
+  /// connectivity for all virtual interfaces associated with the connection for
+  /// up to 30 seconds. To check whether your connection supports jumbo frames,
+  /// call <a>DescribeConnections</a>. To check whether your virtual interface
+  /// supports jumbo frames, call <a>DescribeVirtualInterfaces</a>.
   ///
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
@@ -1293,6 +1298,13 @@ class DirectConnect {
   /// the default ASN 64512 for both your the transit gateway and Direct Connect
   /// gateway, the association request fails.
   /// </important>
+  /// Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an
+  /// update to the underlying physical connection if it wasn't updated to
+  /// support jumbo frames. Updating the connection disrupts network
+  /// connectivity for all virtual interfaces associated with the connection for
+  /// up to 30 seconds. To check whether your connection supports jumbo frames,
+  /// call <a>DescribeConnections</a>. To check whether your virtual interface
+  /// supports jumbo frames, call <a>DescribeVirtualInterfaces</a>.
   ///
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
@@ -2322,6 +2334,153 @@ class DirectConnect {
     return Connection.fromJson(jsonResponse.body);
   }
 
+  /// Lists the virtual interface failover test history.
+  ///
+  /// May throw [DirectConnectServerException].
+  /// May throw [DirectConnectClientException].
+  ///
+  /// Parameter [bgpPeers] :
+  /// The BGP peers that were placed in the DOWN state during the virtual
+  /// interface failover test.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// If <code>MaxResults</code> is given a value larger than 100, only 100
+  /// results are returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  ///
+  /// Parameter [status] :
+  /// The status of the virtual interface failover test.
+  ///
+  /// Parameter [testId] :
+  /// The ID of the virtual interface failover test.
+  ///
+  /// Parameter [virtualInterfaceId] :
+  /// The ID of the virtual interface that was tested.
+  Future<ListVirtualInterfaceTestHistoryResponse>
+      listVirtualInterfaceTestHistory({
+    List<String> bgpPeers,
+    int maxResults,
+    String nextToken,
+    String status,
+    String testId,
+    String virtualInterfaceId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'OvertureService.ListVirtualInterfaceTestHistory'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (bgpPeers != null) 'bgpPeers': bgpPeers,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (status != null) 'status': status,
+        if (testId != null) 'testId': testId,
+        if (virtualInterfaceId != null)
+          'virtualInterfaceId': virtualInterfaceId,
+      },
+    );
+
+    return ListVirtualInterfaceTestHistoryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Starts the virtual interface failover test that verifies your
+  /// configuration meets your resiliency requirements by placing the BGP
+  /// peering session in the DOWN state. You can then send traffic to verify
+  /// that there are no outages.
+  ///
+  /// You can run the test on public, private, transit, and hosted virtual
+  /// interfaces.
+  ///
+  /// You can use <a
+  /// href="https://docs.aws.amazon.com/directconnect/latest/APIReference/API_ListVirtualInterfaceTestHistory.html">ListVirtualInterfaceTestHistory</a>
+  /// to view the virtual interface test history.
+  ///
+  /// If you need to stop the test before the test interval completes, use <a
+  /// href="https://docs.aws.amazon.com/directconnect/latest/APIReference/API_StopBgpFailoverTest.html">StopBgpFailoverTest</a>.
+  ///
+  /// May throw [DirectConnectServerException].
+  /// May throw [DirectConnectClientException].
+  ///
+  /// Parameter [virtualInterfaceId] :
+  /// The ID of the virtual interface you want to test.
+  ///
+  /// Parameter [bgpPeers] :
+  /// The BGP peers to place in the DOWN state.
+  ///
+  /// Parameter [testDurationInMinutes] :
+  /// The time in minutes that the virtual interface failover test will last.
+  ///
+  /// Maximum value: 180 minutes (3 hours).
+  ///
+  /// Default: 180 minutes (3 hours).
+  Future<StartBgpFailoverTestResponse> startBgpFailoverTest({
+    @_s.required String virtualInterfaceId,
+    List<String> bgpPeers,
+    int testDurationInMinutes,
+  }) async {
+    ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'OvertureService.StartBgpFailoverTest'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'virtualInterfaceId': virtualInterfaceId,
+        if (bgpPeers != null) 'bgpPeers': bgpPeers,
+        if (testDurationInMinutes != null)
+          'testDurationInMinutes': testDurationInMinutes,
+      },
+    );
+
+    return StartBgpFailoverTestResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Stops the virtual interface failover test.
+  ///
+  /// May throw [DirectConnectServerException].
+  /// May throw [DirectConnectClientException].
+  ///
+  /// Parameter [virtualInterfaceId] :
+  /// The ID of the virtual interface you no longer want to test.
+  Future<StopBgpFailoverTestResponse> stopBgpFailoverTest({
+    @_s.required String virtualInterfaceId,
+  }) async {
+    ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'OvertureService.StopBgpFailoverTest'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'virtualInterfaceId': virtualInterfaceId,
+      },
+    );
+
+    return StopBgpFailoverTestResponse.fromJson(jsonResponse.body);
+  }
+
   /// Adds the specified tags to the specified AWS Direct Connect resource. Each
   /// resource can have a maximum of 50 tags.
   ///
@@ -2513,7 +2672,7 @@ class DirectConnect {
   /// support jumbo frames. Updating the connection disrupts network
   /// connectivity for all virtual interfaces associated with the connection for
   /// up to 30 seconds. To check whether your connection supports jumbo frames,
-  /// call <a>DescribeConnections</a>. To check whether your virtual interface
+  /// call <a>DescribeConnections</a>. To check whether your virtual q interface
   /// supports jumbo frames, call <a>DescribeVirtualInterfaces</a>.
   ///
   /// May throw [DirectConnectServerException].
@@ -4142,13 +4301,13 @@ class Lag {
   @_s.JsonKey(name: 'location')
   final String location;
 
-  /// The minimum number of physical connections that must be operational for the
-  /// LAG itself to be operational.
+  /// The minimum number of physical dedicated connections that must be
+  /// operational for the LAG itself to be operational.
   @_s.JsonKey(name: 'minimumLinks')
   final int minimumLinks;
 
-  /// The number of physical connections bundled by the LAG, up to a maximum of
-  /// 10.
+  /// The number of physical dedicated connections bundled by the LAG, up to a
+  /// maximum of 10.
   @_s.JsonKey(name: 'numberOfConnections')
   final int numberOfConnections;
 
@@ -4221,6 +4380,30 @@ class Lags {
     this.lags,
   });
   factory Lags.fromJson(Map<String, dynamic> json) => _$LagsFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListVirtualInterfaceTestHistoryResponse {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The ID of the tested virtual interface.
+  @_s.JsonKey(name: 'virtualInterfaceTestHistory')
+  final List<VirtualInterfaceTestHistory> virtualInterfaceTestHistory;
+
+  ListVirtualInterfaceTestHistoryResponse({
+    this.nextToken,
+    this.virtualInterfaceTestHistory,
+  });
+  factory ListVirtualInterfaceTestHistoryResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListVirtualInterfaceTestHistoryResponseFromJson(json);
 }
 
 /// Information about a Letter of Authorization - Connecting Facility Assignment
@@ -4372,7 +4555,9 @@ class NewPrivateVirtualInterface {
   @_s.JsonKey(name: 'asn')
   final int asn;
 
-  /// The name of the virtual interface assigned by the customer network.
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
   @_s.JsonKey(name: 'virtualInterfaceName')
   final String virtualInterfaceName;
 
@@ -4445,7 +4630,9 @@ class NewPrivateVirtualInterfaceAllocation {
   @_s.JsonKey(name: 'asn')
   final int asn;
 
-  /// The name of the virtual interface assigned by the customer network.
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
   @_s.JsonKey(name: 'virtualInterfaceName')
   final String virtualInterfaceName;
 
@@ -4508,7 +4695,9 @@ class NewPublicVirtualInterface {
   @_s.JsonKey(name: 'asn')
   final int asn;
 
-  /// The name of the virtual interface assigned by the customer network.
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
   @_s.JsonKey(name: 'virtualInterfaceName')
   final String virtualInterfaceName;
 
@@ -4571,7 +4760,9 @@ class NewPublicVirtualInterfaceAllocation {
   @_s.JsonKey(name: 'asn')
   final int asn;
 
-  /// The name of the virtual interface assigned by the customer network.
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
   @_s.JsonKey(name: 'virtualInterfaceName')
   final String virtualInterfaceName;
 
@@ -4664,7 +4855,9 @@ class NewTransitVirtualInterface {
   @_s.JsonKey(name: 'tags')
   final List<Tag> tags;
 
-  /// The name of the virtual interface assigned by the customer network.
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
   @_s.JsonKey(name: 'virtualInterfaceName')
   final String virtualInterfaceName;
 
@@ -4728,7 +4921,9 @@ class NewTransitVirtualInterfaceAllocation {
   @_s.JsonKey(name: 'tags')
   final List<Tag> tags;
 
-  /// The name of the virtual interface assigned by the customer network.
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
   @_s.JsonKey(name: 'virtualInterfaceName')
   final String virtualInterfaceName;
 
@@ -4794,6 +4989,40 @@ class RouteFilterPrefix {
       _$RouteFilterPrefixFromJson(json);
 
   Map<String, dynamic> toJson() => _$RouteFilterPrefixToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StartBgpFailoverTestResponse {
+  /// Information about the virtual interface failover test.
+  @_s.JsonKey(name: 'virtualInterfaceTest')
+  final VirtualInterfaceTestHistory virtualInterfaceTest;
+
+  StartBgpFailoverTestResponse({
+    this.virtualInterfaceTest,
+  });
+  factory StartBgpFailoverTestResponse.fromJson(Map<String, dynamic> json) =>
+      _$StartBgpFailoverTestResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StopBgpFailoverTestResponse {
+  /// Information about the virtual interface failover test.
+  @_s.JsonKey(name: 'virtualInterfaceTest')
+  final VirtualInterfaceTestHistory virtualInterfaceTest;
+
+  StopBgpFailoverTestResponse({
+    this.virtualInterfaceTest,
+  });
+  factory StopBgpFailoverTestResponse.fromJson(Map<String, dynamic> json) =>
+      _$StopBgpFailoverTestResponseFromJson(json);
 }
 
 /// Information about a tag.
@@ -5012,7 +5241,9 @@ class VirtualInterface {
   @_s.JsonKey(name: 'virtualInterfaceId')
   final String virtualInterfaceId;
 
-  /// The name of the virtual interface assigned by the customer network.
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
   @_s.JsonKey(name: 'virtualInterfaceName')
   final String virtualInterfaceName;
 
@@ -5120,6 +5351,62 @@ enum VirtualInterfaceState {
   rejected,
   @_s.JsonValue('unknown')
   unknown,
+}
+
+/// Information about the virtual interface failover test.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class VirtualInterfaceTestHistory {
+  /// The BGP peers that were put in the DOWN state as part of the virtual
+  /// interface failover test.
+  @_s.JsonKey(name: 'bgpPeers')
+  final List<String> bgpPeers;
+
+  /// The time that the virtual interface moves out of the DOWN state.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
+  final DateTime endTime;
+
+  /// The owner ID of the tested virtual interface.
+  @_s.JsonKey(name: 'ownerAccount')
+  final String ownerAccount;
+
+  /// The time that the virtual interface moves to the DOWN state.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
+  final DateTime startTime;
+
+  /// The status of the virtual interface failover test.
+  @_s.JsonKey(name: 'status')
+  final String status;
+
+  /// The time that the virtual interface failover test ran in minutes.
+  @_s.JsonKey(name: 'testDurationInMinutes')
+  final int testDurationInMinutes;
+
+  /// The ID of the virtual interface failover test.
+  @_s.JsonKey(name: 'testId')
+  final String testId;
+
+  /// The ID of the tested virtual interface.
+  @_s.JsonKey(name: 'virtualInterfaceId')
+  final String virtualInterfaceId;
+
+  VirtualInterfaceTestHistory({
+    this.bgpPeers,
+    this.endTime,
+    this.ownerAccount,
+    this.startTime,
+    this.status,
+    this.testDurationInMinutes,
+    this.testId,
+    this.virtualInterfaceId,
+  });
+  factory VirtualInterfaceTestHistory.fromJson(Map<String, dynamic> json) =>
+      _$VirtualInterfaceTestHistoryFromJson(json);
 }
 
 @_s.JsonSerializable(

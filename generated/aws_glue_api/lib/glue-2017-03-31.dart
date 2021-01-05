@@ -754,6 +754,94 @@ class Glue {
     return BatchStopJobRunResponse.fromJson(jsonResponse.body);
   }
 
+  /// Updates one or more partitions in a batch operation.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InternalServiceException].
+  /// May throw [GlueEncryptionException].
+  ///
+  /// Parameter [databaseName] :
+  /// The name of the metadata database in which the partition is to be updated.
+  ///
+  /// Parameter [entries] :
+  /// A list of up to 100 <code>BatchUpdatePartitionRequestEntry</code> objects
+  /// to update.
+  ///
+  /// Parameter [tableName] :
+  /// The name of the metadata table in which the partition is to be updated.
+  ///
+  /// Parameter [catalogId] :
+  /// The ID of the catalog in which the partition is to be updated. Currently,
+  /// this should be the AWS account ID.
+  Future<BatchUpdatePartitionResponse> batchUpdatePartition({
+    @_s.required String databaseName,
+    @_s.required List<BatchUpdatePartitionRequestEntry> entries,
+    @_s.required String tableName,
+    String catalogId,
+  }) async {
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'databaseName',
+      databaseName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(entries, 'entries');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'catalogId',
+      catalogId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'catalogId',
+      catalogId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.BatchUpdatePartition'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DatabaseName': databaseName,
+        'Entries': entries,
+        'TableName': tableName,
+        if (catalogId != null) 'CatalogId': catalogId,
+      },
+    );
+
+    return BatchUpdatePartitionResponse.fromJson(jsonResponse.body);
+  }
+
   /// Cancels (stops) a task run. Machine learning task runs are asynchronous
   /// tasks that AWS Glue runs on your behalf as part of various machine
   /// learning workflows. You can cancel a machine learning task run at any time
@@ -820,6 +908,59 @@ class Glue {
     );
 
     return CancelMLTaskRunResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Validates the supplied schema. This call has no side effects, it simply
+  /// validates using the supplied schema using <code>DataFormat</code> as the
+  /// format. Since it does not take a schema set name, no compatibility checks
+  /// are performed.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [dataFormat] :
+  /// The data format of the schema definition. Currently only <code>AVRO</code>
+  /// is supported.
+  ///
+  /// Parameter [schemaDefinition] :
+  /// The definition of the schema that has to be validated.
+  Future<CheckSchemaVersionValidityResponse> checkSchemaVersionValidity({
+    @_s.required DataFormat dataFormat,
+    @_s.required String schemaDefinition,
+  }) async {
+    ArgumentError.checkNotNull(dataFormat, 'dataFormat');
+    ArgumentError.checkNotNull(schemaDefinition, 'schemaDefinition');
+    _s.validateStringLength(
+      'schemaDefinition',
+      schemaDefinition,
+      1,
+      170000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'schemaDefinition',
+      schemaDefinition,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.CheckSchemaVersionValidity'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataFormat': dataFormat?.toValue() ?? '',
+        'SchemaDefinition': schemaDefinition,
+      },
+    );
+
+    return CheckSchemaVersionValidityResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a classifier in the user's account. This can be a
@@ -944,10 +1085,9 @@ class Glue {
   /// always override the default classifiers for a given classification.
   ///
   /// Parameter [configuration] :
-  /// The crawler configuration information. This versioned JSON string allows
-  /// users to specify aspects of a crawler's behavior. For more information,
-  /// see <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html">Configuring
+  /// Crawler configuration information. This versioned JSON string allows users
+  /// to specify aspects of a crawler's behavior. For more information, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html">Configuring
   /// a Crawler</a>.
   ///
   /// Parameter [crawlerSecurityConfiguration] :
@@ -961,12 +1101,18 @@ class Glue {
   /// Parameter [description] :
   /// A description of the new crawler.
   ///
+  /// Parameter [lineageConfiguration] :
+  /// Specifies data lineage configuration settings for the crawler.
+  ///
+  /// Parameter [recrawlPolicy] :
+  /// A policy that specifies whether to crawl the entire dataset again, or to
+  /// crawl only folders that were added since the last crawler run.
+  ///
   /// Parameter [schedule] :
-  /// A <code>cron</code> expression used to specify the schedule. For more
-  /// information, see <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
+  /// A <code>cron</code> expression used to specify the schedule (see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
   /// Schedules for Jobs and Crawlers</a>. For example, to run something every
-  /// day at 12:15 UTC, specify <code>cron(15 12 * * ? *)</code>.
+  /// day at 12:15 UTC, you would specify: <code>cron(15 12 * * ? *)</code>.
   ///
   /// Parameter [schemaChangePolicy] :
   /// The policy for the crawler's update and deletion behavior.
@@ -975,10 +1121,10 @@ class Glue {
   /// The table prefix used for catalog tables that are created.
   ///
   /// Parameter [tags] :
-  /// The tags to use with this crawler request. You can use tags to limit
-  /// access to the crawler. For more information, see <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html">AWS
-  /// Tags in AWS Glue</a>.
+  /// The tags to use with this crawler request. You may use tags to limit
+  /// access to the crawler. For more information about tags in AWS Glue, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html">AWS
+  /// Tags in AWS Glue</a> in the developer guide.
   Future<void> createCrawler({
     @_s.required String name,
     @_s.required String role,
@@ -988,6 +1134,8 @@ class Glue {
     String crawlerSecurityConfiguration,
     String databaseName,
     String description,
+    LineageConfiguration lineageConfiguration,
+    RecrawlPolicy recrawlPolicy,
     String schedule,
     SchemaChangePolicy schemaChangePolicy,
     String tablePrefix,
@@ -1052,6 +1200,9 @@ class Glue {
           'CrawlerSecurityConfiguration': crawlerSecurityConfiguration,
         if (databaseName != null) 'DatabaseName': databaseName,
         if (description != null) 'Description': description,
+        if (lineageConfiguration != null)
+          'LineageConfiguration': lineageConfiguration,
+        if (recrawlPolicy != null) 'RecrawlPolicy': recrawlPolicy,
         if (schedule != null) 'Schedule': schedule,
         if (schemaChangePolicy != null)
           'SchemaChangePolicy': schemaChangePolicy,
@@ -1410,9 +1561,10 @@ class Glue {
   /// </li>
   /// <li>
   /// When you specify an Apache Spark ETL job
-  /// (<code>JobCommand.Name</code>="glueetl"), you can allocate from 2 to 100
-  /// DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU
-  /// allocation.
+  /// (<code>JobCommand.Name</code>="glueetl") or Apache Spark streaming ETL job
+  /// (<code>JobCommand.Name</code>="gluestreaming"), you can allocate from 2 to
+  /// 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional
+  /// DPU allocation.
   /// </li>
   /// </ul>
   ///
@@ -1709,6 +1861,11 @@ class Glue {
   /// before it is terminated and enters <code>TIMEOUT</code> status. The
   /// default is 2,880 minutes (48 hours).
   ///
+  /// Parameter [transformEncryption] :
+  /// The encryption-at-rest settings of the transform that apply to accessing
+  /// user data. Machine learning transforms can access user data encrypted in
+  /// Amazon S3 using KMS.
+  ///
   /// Parameter [workerType] :
   /// The type of predefined worker that is allocated when this task runs.
   /// Accepts a value of Standard, G.1X, or G.2X.
@@ -1760,6 +1917,7 @@ class Glue {
     int numberOfWorkers,
     Map<String, String> tags,
     int timeout,
+    TransformEncryption transformEncryption,
     WorkerType workerType,
   }) async {
     ArgumentError.checkNotNull(inputRecordTables, 'inputRecordTables');
@@ -1829,6 +1987,8 @@ class Glue {
         if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
         if (tags != null) 'Tags': tags,
         if (timeout != null) 'Timeout': timeout,
+        if (transformEncryption != null)
+          'TransformEncryption': transformEncryption,
         if (workerType != null) 'WorkerType': workerType.toValue(),
       },
     );
@@ -1923,6 +2083,342 @@ class Glue {
     );
 
     return CreatePartitionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a specified partition index in an existing table.
+  ///
+  /// May throw [AlreadyExistsException].
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [ResourceNumberLimitExceededException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [GlueEncryptionException].
+  ///
+  /// Parameter [databaseName] :
+  /// Specifies the name of a database in which you want to create a partition
+  /// index.
+  ///
+  /// Parameter [partitionIndex] :
+  /// Specifies a <code>PartitionIndex</code> structure to create a partition
+  /// index in an existing table.
+  ///
+  /// Parameter [tableName] :
+  /// Specifies the name of a table in which you want to create a partition
+  /// index.
+  ///
+  /// Parameter [catalogId] :
+  /// The catalog ID where the table resides.
+  Future<void> createPartitionIndex({
+    @_s.required String databaseName,
+    @_s.required PartitionIndex partitionIndex,
+    @_s.required String tableName,
+    String catalogId,
+  }) async {
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'databaseName',
+      databaseName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(partitionIndex, 'partitionIndex');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'catalogId',
+      catalogId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'catalogId',
+      catalogId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.CreatePartitionIndex'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DatabaseName': databaseName,
+        'PartitionIndex': partitionIndex,
+        'TableName': tableName,
+        if (catalogId != null) 'CatalogId': catalogId,
+      },
+    );
+
+    return CreatePartitionIndexResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new registry which may be used to hold a collection of schemas.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [ResourceNumberLimitExceededException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [registryName] :
+  /// Name of the registry to be created of max length of 255, and may only
+  /// contain letters, numbers, hyphen, underscore, dollar sign, or hash mark.
+  /// No whitespace.
+  ///
+  /// Parameter [description] :
+  /// A description of the registry. If description is not provided, there will
+  /// not be any default value for this.
+  ///
+  /// Parameter [tags] :
+  /// AWS tags that contain a key value pair and may be searched by console,
+  /// command line, or API.
+  Future<CreateRegistryResponse> createRegistry({
+    @_s.required String registryName,
+    String description,
+    Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(registryName, 'registryName');
+    _s.validateStringLength(
+      'registryName',
+      registryName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'registryName',
+      registryName,
+      r'''[a-zA-Z0-9-_$#]+''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.CreateRegistry'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RegistryName': registryName,
+        if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateRegistryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new schema set and registers the schema definition. Returns an
+  /// error if the schema set already exists without actually registering the
+  /// version.
+  ///
+  /// When the schema set is created, a version checkpoint will be set to the
+  /// first version. Compatibility mode "DISABLED" restricts any additional
+  /// schema versions from being added after the first schema version. For all
+  /// other compatibility modes, validation of compatibility settings will be
+  /// applied only from the second version onwards when the
+  /// <code>RegisterSchemaVersion</code> API is used.
+  ///
+  /// When this API is called without a <code>RegistryId</code>, this will
+  /// create an entry for a "default-registry" in the registry database tables,
+  /// if it is not already present.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [ResourceNumberLimitExceededException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [dataFormat] :
+  /// The data format of the schema definition. Currently only <code>AVRO</code>
+  /// is supported.
+  ///
+  /// Parameter [schemaName] :
+  /// Name of the schema to be created of max length of 255, and may only
+  /// contain letters, numbers, hyphen, underscore, dollar sign, or hash mark.
+  /// No whitespace.
+  ///
+  /// Parameter [compatibility] :
+  /// The compatibility mode of the schema. The possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>NONE</i>: No compatibility mode applies. You can use this choice in
+  /// development scenarios or if you do not know the compatibility mode that
+  /// you want to apply to schemas. Any new version added will be accepted
+  /// without undergoing a compatibility check.
+  /// </li>
+  /// <li>
+  /// <i>DISABLED</i>: This compatibility choice prevents versioning for a
+  /// particular schema. You can use this choice to prevent future versioning of
+  /// a schema.
+  /// </li>
+  /// <li>
+  /// <i>BACKWARD</i>: This compatibility choice is recommended as it allows
+  /// data receivers to read both the current and one previous schema version.
+  /// This means that for instance, a new schema version cannot drop data fields
+  /// or change the type of these fields, so they can't be read by readers using
+  /// the previous version.
+  /// </li>
+  /// <li>
+  /// <i>BACKWARD_ALL</i>: This compatibility choice allows data receivers to
+  /// read both the current and all previous schema versions. You can use this
+  /// choice when you need to delete fields or add optional fields, and check
+  /// compatibility against all previous schema versions.
+  /// </li>
+  /// <li>
+  /// <i>FORWARD</i>: This compatibility choice allows data receivers to read
+  /// both the current and one next schema version, but not necessarily later
+  /// versions. You can use this choice when you need to add fields or delete
+  /// optional fields, but only check compatibility against the last schema
+  /// version.
+  /// </li>
+  /// <li>
+  /// <i>FORWARD_ALL</i>: This compatibility choice allows data receivers to
+  /// read written by producers of any new registered schema. You can use this
+  /// choice when you need to add fields or delete optional fields, and check
+  /// compatibility against all previous schema versions.
+  /// </li>
+  /// <li>
+  /// <i>FULL</i>: This compatibility choice allows data receivers to read data
+  /// written by producers using the previous or next version of the schema, but
+  /// not necessarily earlier or later versions. You can use this choice when
+  /// you need to add or remove optional fields, but only check compatibility
+  /// against the last schema version.
+  /// </li>
+  /// <li>
+  /// <i>FULL_ALL</i>: This compatibility choice allows data receivers to read
+  /// data written by producers using all previous schema versions. You can use
+  /// this choice when you need to add or remove optional fields, and check
+  /// compatibility against all previous schema versions.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [description] :
+  /// An optional description of the schema. If description is not provided,
+  /// there will not be any automatic default value for this.
+  ///
+  /// Parameter [registryId] :
+  /// This is a wrapper shape to contain the registry identity fields. If this
+  /// is not provided, the default registry will be used. The ARN format for the
+  /// same will be: <code>arn:aws:glue:us-east-2:&lt;customer
+  /// id&gt;:registry/default-registry:random-5-letter-id</code>.
+  ///
+  /// Parameter [schemaDefinition] :
+  /// The schema definition using the <code>DataFormat</code> setting for
+  /// <code>SchemaName</code>.
+  ///
+  /// Parameter [tags] :
+  /// AWS tags that contain a key value pair and may be searched by console,
+  /// command line, or API. If specified, follows the AWS tags-on-create
+  /// pattern.
+  Future<CreateSchemaResponse> createSchema({
+    @_s.required DataFormat dataFormat,
+    @_s.required String schemaName,
+    Compatibility compatibility,
+    String description,
+    RegistryId registryId,
+    String schemaDefinition,
+    Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(dataFormat, 'dataFormat');
+    ArgumentError.checkNotNull(schemaName, 'schemaName');
+    _s.validateStringLength(
+      'schemaName',
+      schemaName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'schemaName',
+      schemaName,
+      r'''[a-zA-Z0-9-_$#]+''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    _s.validateStringLength(
+      'schemaDefinition',
+      schemaDefinition,
+      1,
+      170000,
+    );
+    _s.validateStringPattern(
+      'schemaDefinition',
+      schemaDefinition,
+      r'''.*\S.*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.CreateSchema'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataFormat': dataFormat?.toValue() ?? '',
+        'SchemaName': schemaName,
+        if (compatibility != null) 'Compatibility': compatibility.toValue(),
+        if (description != null) 'Description': description,
+        if (registryId != null) 'RegistryId': registryId,
+        if (schemaDefinition != null) 'SchemaDefinition': schemaDefinition,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateSchemaResponse.fromJson(jsonResponse.body);
   }
 
   /// Transforms a directed acyclic graph (DAG) into code.
@@ -2042,10 +2538,15 @@ class Glue {
   /// Parameter [catalogId] :
   /// The ID of the Data Catalog in which to create the <code>Table</code>. If
   /// none is supplied, the AWS account ID is used by default.
+  ///
+  /// Parameter [partitionIndexes] :
+  /// A list of partition indexes, <code>PartitionIndex</code> structures, to
+  /// create in the table.
   Future<void> createTable({
     @_s.required String databaseName,
     @_s.required TableInput tableInput,
     String catalogId,
+    List<PartitionIndex> partitionIndexes,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -2087,6 +2588,7 @@ class Glue {
         'DatabaseName': databaseName,
         'TableInput': tableInput,
         if (catalogId != null) 'CatalogId': catalogId,
+        if (partitionIndexes != null) 'PartitionIndexes': partitionIndexes,
       },
     );
 
@@ -2308,12 +2810,20 @@ class Glue {
   /// Parameter [description] :
   /// A description of the workflow.
   ///
+  /// Parameter [maxConcurrentRuns] :
+  /// You can use this parameter to prevent unwanted multiple updates to data,
+  /// to control costs, or in some cases, to prevent exceeding the maximum
+  /// number of concurrent runs of any of the component jobs. If you leave this
+  /// parameter blank, there is no limit to the number of concurrent workflow
+  /// runs.
+  ///
   /// Parameter [tags] :
   /// The tags to be used with this workflow.
   Future<CreateWorkflowResponse> createWorkflow({
     @_s.required String name,
     Map<String, String> defaultRunProperties,
     String description,
+    int maxConcurrentRuns,
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
@@ -2345,6 +2855,7 @@ class Glue {
         if (defaultRunProperties != null)
           'DefaultRunProperties': defaultRunProperties,
         if (description != null) 'Description': description,
+        if (maxConcurrentRuns != null) 'MaxConcurrentRuns': maxConcurrentRuns,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -2392,6 +2903,219 @@ class Glue {
     );
 
     return DeleteClassifierResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Delete the partition column statistics of a column.
+  ///
+  /// The Identity and Access Management (IAM) permission required for this
+  /// operation is <code>DeletePartition</code>.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [GlueEncryptionException].
+  ///
+  /// Parameter [columnName] :
+  /// Name of the column.
+  ///
+  /// Parameter [databaseName] :
+  /// The name of the catalog database where the partitions reside.
+  ///
+  /// Parameter [partitionValues] :
+  /// A list of partition values identifying the partition.
+  ///
+  /// Parameter [tableName] :
+  /// The name of the partitions' table.
+  ///
+  /// Parameter [catalogId] :
+  /// The ID of the Data Catalog where the partitions in question reside. If
+  /// none is supplied, the AWS account ID is used by default.
+  Future<void> deleteColumnStatisticsForPartition({
+    @_s.required String columnName,
+    @_s.required String databaseName,
+    @_s.required List<String> partitionValues,
+    @_s.required String tableName,
+    String catalogId,
+  }) async {
+    ArgumentError.checkNotNull(columnName, 'columnName');
+    _s.validateStringLength(
+      'columnName',
+      columnName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'columnName',
+      columnName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'databaseName',
+      databaseName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(partitionValues, 'partitionValues');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'catalogId',
+      catalogId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'catalogId',
+      catalogId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteColumnStatisticsForPartition'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ColumnName': columnName,
+        'DatabaseName': databaseName,
+        'PartitionValues': partitionValues,
+        'TableName': tableName,
+        if (catalogId != null) 'CatalogId': catalogId,
+      },
+    );
+
+    return DeleteColumnStatisticsForPartitionResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Retrieves table statistics of columns.
+  ///
+  /// The Identity and Access Management (IAM) permission required for this
+  /// operation is <code>DeleteTable</code>.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [GlueEncryptionException].
+  ///
+  /// Parameter [columnName] :
+  /// The name of the column.
+  ///
+  /// Parameter [databaseName] :
+  /// The name of the catalog database where the partitions reside.
+  ///
+  /// Parameter [tableName] :
+  /// The name of the partitions' table.
+  ///
+  /// Parameter [catalogId] :
+  /// The ID of the Data Catalog where the partitions in question reside. If
+  /// none is supplied, the AWS account ID is used by default.
+  Future<void> deleteColumnStatisticsForTable({
+    @_s.required String columnName,
+    @_s.required String databaseName,
+    @_s.required String tableName,
+    String catalogId,
+  }) async {
+    ArgumentError.checkNotNull(columnName, 'columnName');
+    _s.validateStringLength(
+      'columnName',
+      columnName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'columnName',
+      columnName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'databaseName',
+      databaseName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'catalogId',
+      catalogId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'catalogId',
+      catalogId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteColumnStatisticsForTable'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ColumnName': columnName,
+        'DatabaseName': databaseName,
+        'TableName': tableName,
+        if (catalogId != null) 'CatalogId': catalogId,
+      },
+    );
+
+    return DeleteColumnStatisticsForTableResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a connection from the Data Catalog.
@@ -2785,6 +3509,145 @@ class Glue {
     return DeletePartitionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes a specified partition index from an existing table.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [GlueEncryptionException].
+  ///
+  /// Parameter [databaseName] :
+  /// Specifies the name of a database from which you want to delete a partition
+  /// index.
+  ///
+  /// Parameter [indexName] :
+  /// The name of the partition index to be deleted.
+  ///
+  /// Parameter [tableName] :
+  /// Specifies the name of a table from which you want to delete a partition
+  /// index.
+  ///
+  /// Parameter [catalogId] :
+  /// The catalog ID where the table resides.
+  Future<void> deletePartitionIndex({
+    @_s.required String databaseName,
+    @_s.required String indexName,
+    @_s.required String tableName,
+    String catalogId,
+  }) async {
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'databaseName',
+      databaseName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(indexName, 'indexName');
+    _s.validateStringLength(
+      'indexName',
+      indexName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'indexName',
+      indexName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'catalogId',
+      catalogId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'catalogId',
+      catalogId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeletePartitionIndex'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DatabaseName': databaseName,
+        'IndexName': indexName,
+        'TableName': tableName,
+        if (catalogId != null) 'CatalogId': catalogId,
+      },
+    );
+
+    return DeletePartitionIndexResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Delete the entire registry including schema and all of its versions. To
+  /// get the status of the delete operation, you can call the
+  /// <code>GetRegistry</code> API after the asynchronous call. Deleting a
+  /// registry will disable all online operations for the registry such as the
+  /// <code>UpdateRegistry</code>, <code>CreateSchema</code>,
+  /// <code>UpdateSchema</code>, and <code>RegisterSchemaVersion</code> APIs.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [registryId] :
+  /// This is a wrapper structure that may contain the registry name and Amazon
+  /// Resource Name (ARN).
+  Future<DeleteRegistryResponse> deleteRegistry({
+    @_s.required RegistryId registryId,
+  }) async {
+    ArgumentError.checkNotNull(registryId, 'registryId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteRegistry'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RegistryId': registryId,
+      },
+    );
+
+    return DeleteRegistryResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes a specified policy.
   ///
   /// May throw [EntityNotFoundException].
@@ -2795,8 +3658,12 @@ class Glue {
   ///
   /// Parameter [policyHashCondition] :
   /// The hash value returned when this policy was set.
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the AWS Glue resource for the resource policy to be deleted.
   Future<void> deleteResourcePolicy({
     String policyHashCondition,
+    String resourceArn,
   }) async {
     _s.validateStringLength(
       'policyHashCondition',
@@ -2808,6 +3675,17 @@ class Glue {
       'policyHashCondition',
       policyHashCondition,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+    );
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      10240,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''arn:aws:glue:.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2822,10 +3700,126 @@ class Glue {
       payload: {
         if (policyHashCondition != null)
           'PolicyHashCondition': policyHashCondition,
+        if (resourceArn != null) 'ResourceArn': resourceArn,
       },
     );
 
     return DeleteResourcePolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the entire schema set, including the schema set and all of its
+  /// versions. To get the status of the delete operation, you can call
+  /// <code>GetSchema</code> API after the asynchronous call. Deleting a
+  /// registry will disable all online operations for the schema, such as the
+  /// <code>GetSchemaByDefinition</code>, and <code>RegisterSchemaVersion</code>
+  /// APIs.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [schemaId] :
+  /// This is a wrapper structure that may contain the schema name and Amazon
+  /// Resource Name (ARN).
+  Future<DeleteSchemaResponse> deleteSchema({
+    @_s.required SchemaId schemaId,
+  }) async {
+    ArgumentError.checkNotNull(schemaId, 'schemaId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteSchema'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SchemaId': schemaId,
+      },
+    );
+
+    return DeleteSchemaResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Remove versions from the specified schema. A version number or range may
+  /// be supplied. If the compatibility mode forbids deleting of a version that
+  /// is necessary, such as BACKWARDS_FULL, an error is returned. Calling the
+  /// <code>GetSchemaVersions</code> API after this call will list the status of
+  /// the deleted versions.
+  ///
+  /// When the range of version numbers contain check pointed version, the API
+  /// will return a 409 conflict and will not proceed with the deletion. You
+  /// have to remove the checkpoint first using the
+  /// <code>DeleteSchemaCheckpoint</code> API before using this API.
+  ///
+  /// You cannot use the <code>DeleteSchemaVersions</code> API to delete the
+  /// first schema version in the schema set. The first schema version can only
+  /// be deleted by the <code>DeleteSchema</code> API. This operation will also
+  /// delete the attached <code>SchemaVersionMetadata</code> under the schema
+  /// versions. Hard deletes will be enforced on the database.
+  ///
+  /// If the compatibility mode forbids deleting of a version that is necessary,
+  /// such as BACKWARDS_FULL, an error is returned.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [schemaId] :
+  /// This is a wrapper structure that may contain the schema name and Amazon
+  /// Resource Name (ARN).
+  ///
+  /// Parameter [versions] :
+  /// A version range may be supplied which may be of the format:
+  ///
+  /// <ul>
+  /// <li>
+  /// a single version number, 5
+  /// </li>
+  /// <li>
+  /// a range, 5-8 : deletes versions 5, 6, 7, 8
+  /// </li>
+  /// </ul>
+  Future<DeleteSchemaVersionsResponse> deleteSchemaVersions({
+    @_s.required SchemaId schemaId,
+    @_s.required String versions,
+  }) async {
+    ArgumentError.checkNotNull(schemaId, 'schemaId');
+    ArgumentError.checkNotNull(versions, 'versions');
+    _s.validateStringLength(
+      'versions',
+      versions,
+      1,
+      100000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'versions',
+      versions,
+      r'''[1-9][0-9]*|[1-9][0-9]*-[1-9][0-9]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteSchemaVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SchemaId': schemaId,
+        'Versions': versions,
+      },
+    );
+
+    return DeleteSchemaVersionsResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a specified security configuration.
@@ -3357,6 +4351,193 @@ class Glue {
     return GetClassifiersResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves partition statistics of columns.
+  ///
+  /// The Identity and Access Management (IAM) permission required for this
+  /// operation is <code>GetPartition</code>.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [GlueEncryptionException].
+  ///
+  /// Parameter [columnNames] :
+  /// A list of the column names.
+  ///
+  /// Parameter [databaseName] :
+  /// The name of the catalog database where the partitions reside.
+  ///
+  /// Parameter [partitionValues] :
+  /// A list of partition values identifying the partition.
+  ///
+  /// Parameter [tableName] :
+  /// The name of the partitions' table.
+  ///
+  /// Parameter [catalogId] :
+  /// The ID of the Data Catalog where the partitions in question reside. If
+  /// none is supplied, the AWS account ID is used by default.
+  Future<GetColumnStatisticsForPartitionResponse>
+      getColumnStatisticsForPartition({
+    @_s.required List<String> columnNames,
+    @_s.required String databaseName,
+    @_s.required List<String> partitionValues,
+    @_s.required String tableName,
+    String catalogId,
+  }) async {
+    ArgumentError.checkNotNull(columnNames, 'columnNames');
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'databaseName',
+      databaseName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(partitionValues, 'partitionValues');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'catalogId',
+      catalogId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'catalogId',
+      catalogId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetColumnStatisticsForPartition'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ColumnNames': columnNames,
+        'DatabaseName': databaseName,
+        'PartitionValues': partitionValues,
+        'TableName': tableName,
+        if (catalogId != null) 'CatalogId': catalogId,
+      },
+    );
+
+    return GetColumnStatisticsForPartitionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves table statistics of columns.
+  ///
+  /// The Identity and Access Management (IAM) permission required for this
+  /// operation is <code>GetTable</code>.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [GlueEncryptionException].
+  ///
+  /// Parameter [columnNames] :
+  /// A list of the column names.
+  ///
+  /// Parameter [databaseName] :
+  /// The name of the catalog database where the partitions reside.
+  ///
+  /// Parameter [tableName] :
+  /// The name of the partitions' table.
+  ///
+  /// Parameter [catalogId] :
+  /// The ID of the Data Catalog where the partitions in question reside. If
+  /// none is supplied, the AWS account ID is used by default.
+  Future<GetColumnStatisticsForTableResponse> getColumnStatisticsForTable({
+    @_s.required List<String> columnNames,
+    @_s.required String databaseName,
+    @_s.required String tableName,
+    String catalogId,
+  }) async {
+    ArgumentError.checkNotNull(columnNames, 'columnNames');
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'databaseName',
+      databaseName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'catalogId',
+      catalogId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'catalogId',
+      catalogId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetColumnStatisticsForTable'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ColumnNames': columnNames,
+        'DatabaseName': databaseName,
+        'TableName': tableName,
+        if (catalogId != null) 'CatalogId': catalogId,
+      },
+    );
+
+    return GetColumnStatisticsForTableResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a connection definition from the Data Catalog.
   ///
   /// May throw [EntityNotFoundException].
@@ -3745,10 +4926,27 @@ class Glue {
   ///
   /// Parameter [nextToken] :
   /// A continuation token, if this is a continuation call.
+  ///
+  /// Parameter [resourceShareType] :
+  /// Allows you to specify that you want to list the databases shared with your
+  /// account. The allowable values are <code>FOREIGN</code> or
+  /// <code>ALL</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// If set to <code>FOREIGN</code>, will list the databases shared with your
+  /// account.
+  /// </li>
+  /// <li>
+  /// If set to <code>ALL</code>, will list the databases shared with your
+  /// account, as well as the databases in yor local account.
+  /// </li>
+  /// </ul>
   Future<GetDatabasesResponse> getDatabases({
     String catalogId,
     int maxResults,
     String nextToken,
+    ResourceShareType resourceShareType,
   }) async {
     _s.validateStringLength(
       'catalogId',
@@ -3781,6 +4979,8 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (resourceShareType != null)
+          'ResourceShareType': resourceShareType.toValue(),
       },
     );
 
@@ -4532,6 +5732,93 @@ class Glue {
     return GetPartitionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the partition indexes associated with a table.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [databaseName] :
+  /// Specifies the name of a database from which you want to retrieve partition
+  /// indexes.
+  ///
+  /// Parameter [tableName] :
+  /// Specifies the name of a table for which you want to retrieve the partition
+  /// indexes.
+  ///
+  /// Parameter [catalogId] :
+  /// The catalog ID where the table resides.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, included if this is a continuation call.
+  Future<GetPartitionIndexesResponse> getPartitionIndexes({
+    @_s.required String databaseName,
+    @_s.required String tableName,
+    String catalogId,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'databaseName',
+      databaseName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'catalogId',
+      catalogId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'catalogId',
+      catalogId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetPartitionIndexes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DatabaseName': databaseName,
+        'TableName': tableName,
+        if (catalogId != null) 'CatalogId': catalogId,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return GetPartitionIndexesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves information about the partitions in a table.
   ///
   /// May throw [EntityNotFoundException].
@@ -4745,6 +6032,22 @@ class Glue {
   /// Parameter [source] :
   /// The source table.
   ///
+  /// Parameter [additionalPlanOptionsMap] :
+  /// A map to hold additional optional key-value parameters.
+  ///
+  /// Currently, these key-value pairs are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>inferSchema</code>  —  Specifies whether to set
+  /// <code>inferSchema</code> to true or false for the default script generated
+  /// by an AWS Glue job. For example, to set <code>inferSchema</code> to true,
+  /// pass the following key value pair:
+  ///
+  /// <code>--additional-plan-options-map '{"inferSchema":"true"}'</code>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [language] :
   /// The programming language of the code to perform the mapping.
   ///
@@ -4756,6 +6059,7 @@ class Glue {
   Future<GetPlanResponse> getPlan({
     @_s.required List<MappingEntry> mapping,
     @_s.required CatalogEntry source,
+    Map<String, String> additionalPlanOptionsMap,
     Language language,
     Location location,
     List<CatalogEntry> sinks,
@@ -4775,6 +6079,8 @@ class Glue {
       payload: {
         'Mapping': mapping,
         'Source': source,
+        if (additionalPlanOptionsMap != null)
+          'AdditionalPlanOptionsMap': additionalPlanOptionsMap,
         if (language != null) 'Language': language.toValue(),
         if (location != null) 'Location': location,
         if (sinks != null) 'Sinks': sinks,
@@ -4784,13 +6090,111 @@ class Glue {
     return GetPlanResponse.fromJson(jsonResponse.body);
   }
 
+  /// Describes the specified registry in detail.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [registryId] :
+  /// This is a wrapper structure that may contain the registry name and Amazon
+  /// Resource Name (ARN).
+  Future<GetRegistryResponse> getRegistry({
+    @_s.required RegistryId registryId,
+  }) async {
+    ArgumentError.checkNotNull(registryId, 'registryId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetRegistry'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RegistryId': registryId,
+      },
+    );
+
+    return GetRegistryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the security configurations for the resource policies set on
+  /// individual resources, and also the account-level policy.
+  ///
+  /// This operation also returns the Data Catalog resource policy. However, if
+  /// you enabled metadata encryption in Data Catalog settings, and you do not
+  /// have permission on the AWS KMS key, the operation can't return the Data
+  /// Catalog resource policy.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  /// May throw [GlueEncryptionException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum size of a list to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation request.
+  Future<GetResourcePoliciesResponse> getResourcePolicies({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetResourcePolicies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return GetResourcePoliciesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a specified resource policy.
   ///
   /// May throw [EntityNotFoundException].
   /// May throw [InternalServiceException].
   /// May throw [OperationTimeoutException].
   /// May throw [InvalidInputException].
-  Future<GetResourcePolicyResponse> getResourcePolicy() async {
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the AWS Glue resource for the resource policy to be retrieved.
+  /// For more information about AWS Glue resource ARNs, see the <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-common.html#aws-glue-api-regex-aws-glue-arn-id">AWS
+  /// Glue ARN string pattern</a>
+  Future<GetResourcePolicyResponse> getResourcePolicy({
+    String resourceArn,
+  }) async {
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      10240,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''arn:aws:glue:.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.GetResourcePolicy'
@@ -4801,9 +6205,262 @@ class Glue {
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
+      payload: {
+        if (resourceArn != null) 'ResourceArn': resourceArn,
+      },
     );
 
     return GetResourcePolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the specified schema in detail.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [schemaId] :
+  /// This is a wrapper structure to contain schema identity fields. The
+  /// structure contains:
+  ///
+  /// <ul>
+  /// <li>
+  /// SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either
+  /// <code>SchemaArn</code> or <code>SchemaName</code> and
+  /// <code>RegistryName</code> has to be provided.
+  /// </li>
+  /// <li>
+  /// SchemaId$SchemaName: The name of the schema. Either <code>SchemaArn</code>
+  /// or <code>SchemaName</code> and <code>RegistryName</code> has to be
+  /// provided.
+  /// </li>
+  /// </ul>
+  Future<GetSchemaResponse> getSchema({
+    @_s.required SchemaId schemaId,
+  }) async {
+    ArgumentError.checkNotNull(schemaId, 'schemaId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetSchema'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SchemaId': schemaId,
+      },
+    );
+
+    return GetSchemaResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a schema by the <code>SchemaDefinition</code>. The schema
+  /// definition is sent to the Schema Registry, canonicalized, and hashed. If
+  /// the hash is matched within the scope of the <code>SchemaName</code> or ARN
+  /// (or the default registry, if none is supplied), that schema’s metadata is
+  /// returned. Otherwise, a 404 or NotFound error is returned. Schema versions
+  /// in <code>Deleted</code> statuses will not be included in the results.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [schemaDefinition] :
+  /// The definition of the schema for which schema details are required.
+  ///
+  /// Parameter [schemaId] :
+  /// This is a wrapper structure to contain schema identity fields. The
+  /// structure contains:
+  ///
+  /// <ul>
+  /// <li>
+  /// SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of
+  /// <code>SchemaArn</code> or <code>SchemaName</code> has to be provided.
+  /// </li>
+  /// <li>
+  /// SchemaId$SchemaName: The name of the schema. One of <code>SchemaArn</code>
+  /// or <code>SchemaName</code> has to be provided.
+  /// </li>
+  /// </ul>
+  Future<GetSchemaByDefinitionResponse> getSchemaByDefinition({
+    @_s.required String schemaDefinition,
+    @_s.required SchemaId schemaId,
+  }) async {
+    ArgumentError.checkNotNull(schemaDefinition, 'schemaDefinition');
+    _s.validateStringLength(
+      'schemaDefinition',
+      schemaDefinition,
+      1,
+      170000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'schemaDefinition',
+      schemaDefinition,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(schemaId, 'schemaId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetSchemaByDefinition'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SchemaDefinition': schemaDefinition,
+        'SchemaId': schemaId,
+      },
+    );
+
+    return GetSchemaByDefinitionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Get the specified schema by its unique ID assigned when a version of the
+  /// schema is created or registered. Schema versions in Deleted status will
+  /// not be included in the results.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [schemaId] :
+  /// This is a wrapper structure to contain schema identity fields. The
+  /// structure contains:
+  ///
+  /// <ul>
+  /// <li>
+  /// SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either
+  /// <code>SchemaArn</code> or <code>SchemaName</code> and
+  /// <code>RegistryName</code> has to be provided.
+  /// </li>
+  /// <li>
+  /// SchemaId$SchemaName: The name of the schema. Either <code>SchemaArn</code>
+  /// or <code>SchemaName</code> and <code>RegistryName</code> has to be
+  /// provided.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [schemaVersionId] :
+  /// The <code>SchemaVersionId</code> of the schema version. This field is
+  /// required for fetching by schema ID. Either this or the
+  /// <code>SchemaId</code> wrapper has to be provided.
+  ///
+  /// Parameter [schemaVersionNumber] :
+  /// The version number of the schema.
+  Future<GetSchemaVersionResponse> getSchemaVersion({
+    SchemaId schemaId,
+    String schemaVersionId,
+    SchemaVersionNumber schemaVersionNumber,
+  }) async {
+    _s.validateStringLength(
+      'schemaVersionId',
+      schemaVersionId,
+      36,
+      36,
+    );
+    _s.validateStringPattern(
+      'schemaVersionId',
+      schemaVersionId,
+      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetSchemaVersion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (schemaId != null) 'SchemaId': schemaId,
+        if (schemaVersionId != null) 'SchemaVersionId': schemaVersionId,
+        if (schemaVersionNumber != null)
+          'SchemaVersionNumber': schemaVersionNumber,
+      },
+    );
+
+    return GetSchemaVersionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Fetches the schema version difference in the specified difference type
+  /// between two stored schema versions in the Schema Registry.
+  ///
+  /// This API allows you to compare two schema versions between two schema
+  /// definitions under the same schema.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [firstSchemaVersionNumber] :
+  /// The first of the two schema versions to be compared.
+  ///
+  /// Parameter [schemaDiffType] :
+  /// Refers to <code>SYNTAX_DIFF</code>, which is the currently supported diff
+  /// type.
+  ///
+  /// Parameter [schemaId] :
+  /// This is a wrapper structure to contain schema identity fields. The
+  /// structure contains:
+  ///
+  /// <ul>
+  /// <li>
+  /// SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of
+  /// <code>SchemaArn</code> or <code>SchemaName</code> has to be provided.
+  /// </li>
+  /// <li>
+  /// SchemaId$SchemaName: The name of the schema. One of <code>SchemaArn</code>
+  /// or <code>SchemaName</code> has to be provided.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [secondSchemaVersionNumber] :
+  /// The second of the two schema versions to be compared.
+  Future<GetSchemaVersionsDiffResponse> getSchemaVersionsDiff({
+    @_s.required SchemaVersionNumber firstSchemaVersionNumber,
+    @_s.required SchemaDiffType schemaDiffType,
+    @_s.required SchemaId schemaId,
+    @_s.required SchemaVersionNumber secondSchemaVersionNumber,
+  }) async {
+    ArgumentError.checkNotNull(
+        firstSchemaVersionNumber, 'firstSchemaVersionNumber');
+    ArgumentError.checkNotNull(schemaDiffType, 'schemaDiffType');
+    ArgumentError.checkNotNull(schemaId, 'schemaId');
+    ArgumentError.checkNotNull(
+        secondSchemaVersionNumber, 'secondSchemaVersionNumber');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetSchemaVersionsDiff'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FirstSchemaVersionNumber': firstSchemaVersionNumber,
+        'SchemaDiffType': schemaDiffType?.toValue() ?? '',
+        'SchemaId': schemaId,
+        'SecondSchemaVersionNumber': secondSchemaVersionNumber,
+      },
+    );
+
+    return GetSchemaVersionsDiffResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a specified security configuration.
@@ -5518,7 +7175,9 @@ class Glue {
   /// located. If none is provided, the AWS account ID is used by default.
   ///
   /// Parameter [databaseName] :
-  /// The name of the catalog database where the functions are located.
+  /// The name of the catalog database where the functions are located. If none
+  /// is provided, functions from all the databases across the catalog will be
+  /// returned.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of functions to return in one response.
@@ -6101,6 +7760,168 @@ class Glue {
     return ListMLTransformsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of registries that you have created, with minimal registry
+  /// information. Registries in the <code>Deleting</code> status will not be
+  /// included in the results. Empty results will be returned if there are no
+  /// registries available.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of results required per page. If the value is not supplied,
+  /// this will be defaulted to 25 per page.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  Future<ListRegistriesResponse> listRegistries({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListRegistries'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListRegistriesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of schema versions that you have created, with minimal
+  /// information. Schema versions in Deleted status will not be included in the
+  /// results. Empty results will be returned if there are no schema versions
+  /// available.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [schemaId] :
+  /// This is a wrapper structure to contain schema identity fields. The
+  /// structure contains:
+  ///
+  /// <ul>
+  /// <li>
+  /// SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either
+  /// <code>SchemaArn</code> or <code>SchemaName</code> and
+  /// <code>RegistryName</code> has to be provided.
+  /// </li>
+  /// <li>
+  /// SchemaId$SchemaName: The name of the schema. Either <code>SchemaArn</code>
+  /// or <code>SchemaName</code> and <code>RegistryName</code> has to be
+  /// provided.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of results required per page. If the value is not supplied,
+  /// this will be defaulted to 25 per page.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  Future<ListSchemaVersionsResponse> listSchemaVersions({
+    @_s.required SchemaId schemaId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(schemaId, 'schemaId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListSchemaVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SchemaId': schemaId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListSchemaVersionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of schemas with minimal details. Schemas in Deleting status
+  /// will not be included in the results. Empty results will be returned if
+  /// there are no schemas available.
+  ///
+  /// When the <code>RegistryId</code> is not provided, all the schemas across
+  /// registries will be part of the API response.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of results required per page. If the value is not supplied,
+  /// this will be defaulted to 25 per page.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  ///
+  /// Parameter [registryId] :
+  /// A wrapper structure that may contain the registry name and Amazon Resource
+  /// Name (ARN).
+  Future<ListSchemasResponse> listSchemas({
+    int maxResults,
+    String nextToken,
+    RegistryId registryId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListSchemas'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (registryId != null) 'RegistryId': registryId,
+      },
+    );
+
+    return ListSchemasResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves the names of all trigger resources in this AWS account, or the
   /// resources with the specified tag. This operation allows you to see which
   /// resources are available in your account, and their names.
@@ -6273,6 +8094,16 @@ class Glue {
   /// Parameter [policyInJson] :
   /// Contains the policy document to set, in JSON format.
   ///
+  /// Parameter [enableHybrid] :
+  /// Allows you to specify if you want to use both resource-level and
+  /// account/catalog-level resource policies. A resource-level policy is a
+  /// policy attached to an individual resource such as a database or a table.
+  ///
+  /// The default value of <code>NO</code> indicates that resource-level
+  /// policies cannot co-exist with an account-level policy. A value of
+  /// <code>YES</code> means the use of both resource-level and
+  /// account/catalog-level resource policies is allowed.
+  ///
   /// Parameter [policyExistsCondition] :
   /// A value of <code>MUST_EXIST</code> is used to update a policy. A value of
   /// <code>NOT_EXIST</code> is used to create a new policy. If a value of
@@ -6284,10 +8115,18 @@ class Glue {
   /// <code>PutResourcePolicy</code>. Its purpose is to prevent concurrent
   /// modifications of a policy. Do not use this parameter if no previous policy
   /// has been set.
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the AWS Glue resource for the resource policy to be set. For
+  /// more information about AWS Glue resource ARNs, see the <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-common.html#aws-glue-api-regex-aws-glue-arn-id">AWS
+  /// Glue ARN string pattern</a>
   Future<PutResourcePolicyResponse> putResourcePolicy({
     @_s.required String policyInJson,
+    EnableHybridValues enableHybrid,
     ExistCondition policyExistsCondition,
     String policyHashCondition,
+    String resourceArn,
   }) async {
     ArgumentError.checkNotNull(policyInJson, 'policyInJson');
     _s.validateStringLength(
@@ -6308,6 +8147,17 @@ class Glue {
       policyHashCondition,
       r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
     );
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      10240,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''arn:aws:glue:.*''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSGlue.PutResourcePolicy'
@@ -6320,14 +8170,77 @@ class Glue {
       headers: headers,
       payload: {
         'PolicyInJson': policyInJson,
+        if (enableHybrid != null) 'EnableHybrid': enableHybrid.toValue(),
         if (policyExistsCondition != null)
           'PolicyExistsCondition': policyExistsCondition.toValue(),
         if (policyHashCondition != null)
           'PolicyHashCondition': policyHashCondition,
+        if (resourceArn != null) 'ResourceArn': resourceArn,
       },
     );
 
     return PutResourcePolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Puts the metadata key value pair for a specified schema version ID. A
+  /// maximum of 10 key value pairs will be allowed per schema version. They can
+  /// be added over one or more calls.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [ResourceNumberLimitExceededException].
+  ///
+  /// Parameter [metadataKeyValue] :
+  /// The metadata key's corresponding value.
+  ///
+  /// Parameter [schemaId] :
+  /// The unique ID for the schema.
+  ///
+  /// Parameter [schemaVersionId] :
+  /// The unique version ID of the schema version.
+  ///
+  /// Parameter [schemaVersionNumber] :
+  /// The version number of the schema.
+  Future<PutSchemaVersionMetadataResponse> putSchemaVersionMetadata({
+    @_s.required MetadataKeyValuePair metadataKeyValue,
+    SchemaId schemaId,
+    String schemaVersionId,
+    SchemaVersionNumber schemaVersionNumber,
+  }) async {
+    ArgumentError.checkNotNull(metadataKeyValue, 'metadataKeyValue');
+    _s.validateStringLength(
+      'schemaVersionId',
+      schemaVersionId,
+      36,
+      36,
+    );
+    _s.validateStringPattern(
+      'schemaVersionId',
+      schemaVersionId,
+      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.PutSchemaVersionMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MetadataKeyValue': metadataKeyValue,
+        if (schemaId != null) 'SchemaId': schemaId,
+        if (schemaVersionId != null) 'SchemaVersionId': schemaVersionId,
+        if (schemaVersionNumber != null)
+          'SchemaVersionNumber': schemaVersionNumber,
+      },
+    );
+
+    return PutSchemaVersionMetadataResponse.fromJson(jsonResponse.body);
   }
 
   /// Puts the specified workflow run properties for the given workflow run. If
@@ -6404,6 +8317,219 @@ class Glue {
     return PutWorkflowRunPropertiesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Queries for the schema version metadata information.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of results required per page. If the value is not supplied,
+  /// this will be defaulted to 25 per page.
+  ///
+  /// Parameter [metadataList] :
+  /// Search key-value pairs for metadata, if they are not provided all the
+  /// metadata information will be fetched.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  ///
+  /// Parameter [schemaId] :
+  /// A wrapper structure that may contain the schema name and Amazon Resource
+  /// Name (ARN).
+  ///
+  /// Parameter [schemaVersionId] :
+  /// The unique version ID of the schema version.
+  ///
+  /// Parameter [schemaVersionNumber] :
+  /// The version number of the schema.
+  Future<QuerySchemaVersionMetadataResponse> querySchemaVersionMetadata({
+    int maxResults,
+    List<MetadataKeyValuePair> metadataList,
+    String nextToken,
+    SchemaId schemaId,
+    String schemaVersionId,
+    SchemaVersionNumber schemaVersionNumber,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'schemaVersionId',
+      schemaVersionId,
+      36,
+      36,
+    );
+    _s.validateStringPattern(
+      'schemaVersionId',
+      schemaVersionId,
+      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.QuerySchemaVersionMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (metadataList != null) 'MetadataList': metadataList,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (schemaId != null) 'SchemaId': schemaId,
+        if (schemaVersionId != null) 'SchemaVersionId': schemaVersionId,
+        if (schemaVersionNumber != null)
+          'SchemaVersionNumber': schemaVersionNumber,
+      },
+    );
+
+    return QuerySchemaVersionMetadataResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Adds a new version to the existing schema. Returns an error if new version
+  /// of schema does not meet the compatibility requirements of the schema set.
+  /// This API will not create a new schema set and will return a 404 error if
+  /// the schema set is not already present in the Schema Registry.
+  ///
+  /// If this is the first schema definition to be registered in the Schema
+  /// Registry, this API will store the schema version and return immediately.
+  /// Otherwise, this call has the potential to run longer than other operations
+  /// due to compatibility modes. You can call the <code>GetSchemaVersion</code>
+  /// API with the <code>SchemaVersionId</code> to check compatibility modes.
+  ///
+  /// If the same schema definition is already stored in Schema Registry as a
+  /// version, the schema ID of the existing schema is returned to the caller.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [ResourceNumberLimitExceededException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [schemaDefinition] :
+  /// The schema definition using the <code>DataFormat</code> setting for the
+  /// <code>SchemaName</code>.
+  ///
+  /// Parameter [schemaId] :
+  /// This is a wrapper structure to contain schema identity fields. The
+  /// structure contains:
+  ///
+  /// <ul>
+  /// <li>
+  /// SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. Either
+  /// <code>SchemaArn</code> or <code>SchemaName</code> and
+  /// <code>RegistryName</code> has to be provided.
+  /// </li>
+  /// <li>
+  /// SchemaId$SchemaName: The name of the schema. Either <code>SchemaArn</code>
+  /// or <code>SchemaName</code> and <code>RegistryName</code> has to be
+  /// provided.
+  /// </li>
+  /// </ul>
+  Future<RegisterSchemaVersionResponse> registerSchemaVersion({
+    @_s.required String schemaDefinition,
+    @_s.required SchemaId schemaId,
+  }) async {
+    ArgumentError.checkNotNull(schemaDefinition, 'schemaDefinition');
+    _s.validateStringLength(
+      'schemaDefinition',
+      schemaDefinition,
+      1,
+      170000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'schemaDefinition',
+      schemaDefinition,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(schemaId, 'schemaId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.RegisterSchemaVersion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SchemaDefinition': schemaDefinition,
+        'SchemaId': schemaId,
+      },
+    );
+
+    return RegisterSchemaVersionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Removes a key value pair from the schema version metadata for the
+  /// specified schema version ID.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  ///
+  /// Parameter [metadataKeyValue] :
+  /// The value of the metadata key.
+  ///
+  /// Parameter [schemaId] :
+  /// A wrapper structure that may contain the schema name and Amazon Resource
+  /// Name (ARN).
+  ///
+  /// Parameter [schemaVersionId] :
+  /// The unique version ID of the schema version.
+  ///
+  /// Parameter [schemaVersionNumber] :
+  /// The version number of the schema.
+  Future<RemoveSchemaVersionMetadataResponse> removeSchemaVersionMetadata({
+    @_s.required MetadataKeyValuePair metadataKeyValue,
+    SchemaId schemaId,
+    String schemaVersionId,
+    SchemaVersionNumber schemaVersionNumber,
+  }) async {
+    ArgumentError.checkNotNull(metadataKeyValue, 'metadataKeyValue');
+    _s.validateStringLength(
+      'schemaVersionId',
+      schemaVersionId,
+      36,
+      36,
+    );
+    _s.validateStringPattern(
+      'schemaVersionId',
+      schemaVersionId,
+      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.RemoveSchemaVersionMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MetadataKeyValue': metadataKeyValue,
+        if (schemaId != null) 'SchemaId': schemaId,
+        if (schemaVersionId != null) 'SchemaVersionId': schemaVersionId,
+        if (schemaVersionNumber != null)
+          'SchemaVersionNumber': schemaVersionNumber,
+      },
+    );
+
+    return RemoveSchemaVersionMetadataResponse.fromJson(jsonResponse.body);
+  }
+
   /// Resets a bookmark entry.
   ///
   /// May throw [EntityNotFoundException].
@@ -6440,6 +8566,80 @@ class Glue {
     return ResetJobBookmarkResponse.fromJson(jsonResponse.body);
   }
 
+  /// Restarts selected nodes of a previous partially completed workflow run and
+  /// resumes the workflow run. The selected nodes and all nodes that are
+  /// downstream from the selected nodes are run.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [ConcurrentRunsExceededException].
+  /// May throw [IllegalWorkflowStateException].
+  ///
+  /// Parameter [name] :
+  /// The name of the workflow to resume.
+  ///
+  /// Parameter [nodeIds] :
+  /// A list of the node IDs for the nodes you want to restart. The nodes that
+  /// are to be restarted must have a run attempt in the original run.
+  ///
+  /// Parameter [runId] :
+  /// The ID of the workflow run to resume.
+  Future<ResumeWorkflowRunResponse> resumeWorkflowRun({
+    @_s.required String name,
+    @_s.required List<String> nodeIds,
+    @_s.required String runId,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(nodeIds, 'nodeIds');
+    ArgumentError.checkNotNull(runId, 'runId');
+    _s.validateStringLength(
+      'runId',
+      runId,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'runId',
+      runId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ResumeWorkflowRun'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'NodeIds': nodeIds,
+        'RunId': runId,
+      },
+    );
+
+    return ResumeWorkflowRunResponse.fromJson(jsonResponse.body);
+  }
+
   /// Searches a set of tables based on properties in the table metadata as well
   /// as on the parent database. You can search against text or filter
   /// conditions.
@@ -6457,18 +8657,45 @@ class Glue {
   /// May throw [OperationTimeoutException].
   ///
   /// Parameter [catalogId] :
-  /// A unique identifier, consisting of <code>
-  /// <i>account_id</i>/datalake</code>.
+  /// A unique identifier, consisting of <code> <i>account_id</i> </code>.
   ///
   /// Parameter [filters] :
   /// A list of key-value pairs, and a comparator used to filter the search
   /// results. Returns all entities matching the predicate.
+  ///
+  /// The <code>Comparator</code> member of the <code>PropertyPredicate</code>
+  /// struct is used only for time fields, and can be omitted for other field
+  /// types. Also, when comparing string values, such as when
+  /// <code>Key=Name</code>, a fuzzy match algorithm is used. The
+  /// <code>Key</code> field (for example, the value of the <code>Name</code>
+  /// field) is split on certain punctuation characters, for example, -, :, #,
+  /// etc. into tokens. Then each token is exact-match compared with the
+  /// <code>Value</code> member of <code>PropertyPredicate</code>. For example,
+  /// if <code>Key=Name</code> and <code>Value=link</code>, tables named
+  /// <code>customer-link</code> and <code>xx-link-yy</code> are returned, but
+  /// <code>xxlinkyy</code> is not returned.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of tables to return in a single response.
   ///
   /// Parameter [nextToken] :
   /// A continuation token, included if this is a continuation call.
+  ///
+  /// Parameter [resourceShareType] :
+  /// Allows you to specify that you want to search the tables shared with your
+  /// account. The allowable values are <code>FOREIGN</code> or
+  /// <code>ALL</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// If set to <code>FOREIGN</code>, will search the tables shared with your
+  /// account.
+  /// </li>
+  /// <li>
+  /// If set to <code>ALL</code>, will search the tables shared with your
+  /// account, as well as the tables in yor local account.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [searchText] :
   /// A string used for a text search.
@@ -6483,6 +8710,7 @@ class Glue {
     List<PropertyPredicate> filters,
     int maxResults,
     String nextToken,
+    ResourceShareType resourceShareType,
     String searchText,
     List<SortCriterion> sortCriteria,
   }) async {
@@ -6524,6 +8752,8 @@ class Glue {
         if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (resourceShareType != null)
+          'ResourceShareType': resourceShareType.toValue(),
         if (searchText != null) 'SearchText': searchText,
         if (sortCriteria != null) 'SortCriteria': sortCriteria,
       },
@@ -7313,6 +9543,70 @@ class Glue {
     return StopTriggerResponse.fromJson(jsonResponse.body);
   }
 
+  /// Stops the execution of the specified workflow run.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [IllegalWorkflowStateException].
+  ///
+  /// Parameter [name] :
+  /// The name of the workflow to stop.
+  ///
+  /// Parameter [runId] :
+  /// The ID of the workflow run to stop.
+  Future<void> stopWorkflowRun({
+    @_s.required String name,
+    @_s.required String runId,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(runId, 'runId');
+    _s.validateStringLength(
+      'runId',
+      runId,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'runId',
+      runId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.StopWorkflowRun'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'RunId': runId,
+      },
+    );
+
+    return StopWorkflowRunResponse.fromJson(jsonResponse.body);
+  }
+
   /// Adds tags to a resource. A tag is a label you can assign to an AWS
   /// resource. In AWS Glue, you can tag only certain resources. For information
   /// about what resources you can tag, see <a
@@ -7468,6 +9762,195 @@ class Glue {
     return UpdateClassifierResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates or updates partition statistics of columns.
+  ///
+  /// The Identity and Access Management (IAM) permission required for this
+  /// operation is <code>UpdatePartition</code>.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [GlueEncryptionException].
+  ///
+  /// Parameter [columnStatisticsList] :
+  /// A list of the column statistics.
+  ///
+  /// Parameter [databaseName] :
+  /// The name of the catalog database where the partitions reside.
+  ///
+  /// Parameter [partitionValues] :
+  /// A list of partition values identifying the partition.
+  ///
+  /// Parameter [tableName] :
+  /// The name of the partitions' table.
+  ///
+  /// Parameter [catalogId] :
+  /// The ID of the Data Catalog where the partitions in question reside. If
+  /// none is supplied, the AWS account ID is used by default.
+  Future<UpdateColumnStatisticsForPartitionResponse>
+      updateColumnStatisticsForPartition({
+    @_s.required List<ColumnStatistics> columnStatisticsList,
+    @_s.required String databaseName,
+    @_s.required List<String> partitionValues,
+    @_s.required String tableName,
+    String catalogId,
+  }) async {
+    ArgumentError.checkNotNull(columnStatisticsList, 'columnStatisticsList');
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'databaseName',
+      databaseName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(partitionValues, 'partitionValues');
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'catalogId',
+      catalogId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'catalogId',
+      catalogId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.UpdateColumnStatisticsForPartition'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ColumnStatisticsList': columnStatisticsList,
+        'DatabaseName': databaseName,
+        'PartitionValues': partitionValues,
+        'TableName': tableName,
+        if (catalogId != null) 'CatalogId': catalogId,
+      },
+    );
+
+    return UpdateColumnStatisticsForPartitionResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Creates or updates table statistics of columns.
+  ///
+  /// The Identity and Access Management (IAM) permission required for this
+  /// operation is <code>UpdateTable</code>.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [GlueEncryptionException].
+  ///
+  /// Parameter [columnStatisticsList] :
+  /// A list of the column statistics.
+  ///
+  /// Parameter [databaseName] :
+  /// The name of the catalog database where the partitions reside.
+  ///
+  /// Parameter [tableName] :
+  /// The name of the partitions' table.
+  ///
+  /// Parameter [catalogId] :
+  /// The ID of the Data Catalog where the partitions in question reside. If
+  /// none is supplied, the AWS account ID is used by default.
+  Future<UpdateColumnStatisticsForTableResponse>
+      updateColumnStatisticsForTable({
+    @_s.required List<ColumnStatistics> columnStatisticsList,
+    @_s.required String databaseName,
+    @_s.required String tableName,
+    String catalogId,
+  }) async {
+    ArgumentError.checkNotNull(columnStatisticsList, 'columnStatisticsList');
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'databaseName',
+      databaseName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'catalogId',
+      catalogId,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'catalogId',
+      catalogId,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.UpdateColumnStatisticsForTable'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ColumnStatisticsList': columnStatisticsList,
+        'DatabaseName': databaseName,
+        'TableName': tableName,
+        if (catalogId != null) 'CatalogId': catalogId,
+      },
+    );
+
+    return UpdateColumnStatisticsForTableResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates a connection definition in the Data Catalog.
   ///
   /// May throw [InvalidInputException].
@@ -7555,10 +10038,9 @@ class Glue {
   /// always override the default classifiers for a given classification.
   ///
   /// Parameter [configuration] :
-  /// The crawler configuration information. This versioned JSON string allows
-  /// users to specify aspects of a crawler's behavior. For more information,
-  /// see <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html">Configuring
+  /// Crawler configuration information. This versioned JSON string allows users
+  /// to specify aspects of a crawler's behavior. For more information, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html">Configuring
   /// a Crawler</a>.
   ///
   /// Parameter [crawlerSecurityConfiguration] :
@@ -7572,16 +10054,22 @@ class Glue {
   /// Parameter [description] :
   /// A description of the new crawler.
   ///
+  /// Parameter [lineageConfiguration] :
+  /// Specifies data lineage configuration settings for the crawler.
+  ///
+  /// Parameter [recrawlPolicy] :
+  /// A policy that specifies whether to crawl the entire dataset again, or to
+  /// crawl only folders that were added since the last crawler run.
+  ///
   /// Parameter [role] :
   /// The IAM role or Amazon Resource Name (ARN) of an IAM role that is used by
   /// the new crawler to access customer resources.
   ///
   /// Parameter [schedule] :
-  /// A <code>cron</code> expression used to specify the schedule. For more
-  /// information, see <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
+  /// A <code>cron</code> expression used to specify the schedule (see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
   /// Schedules for Jobs and Crawlers</a>. For example, to run something every
-  /// day at 12:15 UTC, specify <code>cron(15 12 * * ? *)</code>.
+  /// day at 12:15 UTC, you would specify: <code>cron(15 12 * * ? *)</code>.
   ///
   /// Parameter [schemaChangePolicy] :
   /// The policy for the crawler's update and deletion behavior.
@@ -7598,6 +10086,8 @@ class Glue {
     String crawlerSecurityConfiguration,
     String databaseName,
     String description,
+    LineageConfiguration lineageConfiguration,
+    RecrawlPolicy recrawlPolicy,
     String role,
     String schedule,
     SchemaChangePolicy schemaChangePolicy,
@@ -7659,6 +10149,9 @@ class Glue {
           'CrawlerSecurityConfiguration': crawlerSecurityConfiguration,
         if (databaseName != null) 'DatabaseName': databaseName,
         if (description != null) 'Description': description,
+        if (lineageConfiguration != null)
+          'LineageConfiguration': lineageConfiguration,
+        if (recrawlPolicy != null) 'RecrawlPolicy': recrawlPolicy,
         if (role != null) 'Role': role,
         if (schedule != null) 'Schedule': schedule,
         if (schemaChangePolicy != null)
@@ -7683,11 +10176,11 @@ class Glue {
   /// The name of the crawler whose schedule to update.
   ///
   /// Parameter [schedule] :
-  /// The updated <code>cron</code> expression used to specify the schedule. For
-  /// more information, see <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
+  /// The updated <code>cron</code> expression used to specify the schedule (see
+  /// <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
   /// Schedules for Jobs and Crawlers</a>. For example, to run something every
-  /// day at 12:15 UTC, specify <code>cron(15 12 * * ? *)</code>.
+  /// day at 12:15 UTC, you would specify: <code>cron(15 12 * * ? *)</code>.
   Future<void> updateCrawlerSchedule({
     @_s.required String crawlerName,
     String schedule,
@@ -8128,8 +10621,12 @@ class Glue {
   /// Parameter [partitionInput] :
   /// The new partition object to update the partition to.
   ///
+  /// The <code>Values</code> property can't be changed. If you want to change
+  /// the partition key values for a partition, delete and recreate the
+  /// partition.
+  ///
   /// Parameter [partitionValueList] :
-  /// A list of the values defining the partition.
+  /// List of partition key values that define the partition to update.
   ///
   /// Parameter [tableName] :
   /// The name of the table in which the partition to be updated is located.
@@ -8205,6 +10702,147 @@ class Glue {
     );
 
     return UpdatePartitionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates an existing registry which is used to hold a collection of
+  /// schemas. The updated properties relate to the registry, and do not modify
+  /// any of the schemas within the registry.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [description] :
+  /// A description of the registry. If description is not provided, this field
+  /// will not be updated.
+  ///
+  /// Parameter [registryId] :
+  /// This is a wrapper structure that may contain the registry name and Amazon
+  /// Resource Name (ARN).
+  Future<UpdateRegistryResponse> updateRegistry({
+    @_s.required String description,
+    @_s.required RegistryId registryId,
+  }) async {
+    ArgumentError.checkNotNull(description, 'description');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(registryId, 'registryId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.UpdateRegistry'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Description': description,
+        'RegistryId': registryId,
+      },
+    );
+
+    return UpdateRegistryResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the description, compatibility setting, or version checkpoint for
+  /// a schema set.
+  ///
+  /// For updating the compatibility setting, the call will not validate
+  /// compatibility for the entire set of schema versions with the new
+  /// compatibility setting. If the value for <code>Compatibility</code> is
+  /// provided, the <code>VersionNumber</code> (a checkpoint) is also required.
+  /// The API will validate the checkpoint version number for consistency.
+  ///
+  /// If the value for the <code>VersionNumber</code> (checkpoint) is provided,
+  /// <code>Compatibility</code> is optional and this can be used to set/reset a
+  /// checkpoint for the schema.
+  ///
+  /// This update will happen only if the schema is in the AVAILABLE state.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [schemaId] :
+  /// This is a wrapper structure to contain schema identity fields. The
+  /// structure contains:
+  ///
+  /// <ul>
+  /// <li>
+  /// SchemaId$SchemaArn: The Amazon Resource Name (ARN) of the schema. One of
+  /// <code>SchemaArn</code> or <code>SchemaName</code> has to be provided.
+  /// </li>
+  /// <li>
+  /// SchemaId$SchemaName: The name of the schema. One of <code>SchemaArn</code>
+  /// or <code>SchemaName</code> has to be provided.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [compatibility] :
+  /// The new compatibility setting for the schema.
+  ///
+  /// Parameter [description] :
+  /// The new description for the schema.
+  ///
+  /// Parameter [schemaVersionNumber] :
+  /// Version number required for check pointing. One of
+  /// <code>VersionNumber</code> or <code>Compatibility</code> has to be
+  /// provided.
+  Future<UpdateSchemaResponse> updateSchema({
+    @_s.required SchemaId schemaId,
+    Compatibility compatibility,
+    String description,
+    SchemaVersionNumber schemaVersionNumber,
+  }) async {
+    ArgumentError.checkNotNull(schemaId, 'schemaId');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.UpdateSchema'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SchemaId': schemaId,
+        if (compatibility != null) 'Compatibility': compatibility.toValue(),
+        if (description != null) 'Description': description,
+        if (schemaVersionNumber != null)
+          'SchemaVersionNumber': schemaVersionNumber,
+      },
+    );
+
+    return UpdateSchemaResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates a metadata table in the Data Catalog.
@@ -8443,10 +11081,18 @@ class Glue {
   ///
   /// Parameter [description] :
   /// The description of the workflow.
+  ///
+  /// Parameter [maxConcurrentRuns] :
+  /// You can use this parameter to prevent unwanted multiple updates to data,
+  /// to control costs, or in some cases, to prevent exceeding the maximum
+  /// number of concurrent runs of any of the component jobs. If you leave this
+  /// parameter blank, there is no limit to the number of concurrent workflow
+  /// runs.
   Future<UpdateWorkflowResponse> updateWorkflow({
     @_s.required String name,
     Map<String, String> defaultRunProperties,
     String description,
+    int maxConcurrentRuns,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -8477,6 +11123,7 @@ class Glue {
         if (defaultRunProperties != null)
           'DefaultRunProperties': defaultRunProperties,
         if (description != null) 'Description': description,
+        if (maxConcurrentRuns != null) 'MaxConcurrentRuns': maxConcurrentRuns,
       },
     );
 
@@ -8544,6 +11191,69 @@ class Action {
   factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
 
   Map<String, dynamic> toJson() => _$ActionToJson(this);
+}
+
+/// A list of errors that can occur when registering partition indexes for an
+/// existing table.
+///
+/// These errors give the details about why an index registration failed and
+/// provide a limited number of partitions in the response, so that you can fix
+/// the partitions at fault and try registering the index again. The most common
+/// set of errors that can occur are categorized as follows:
+///
+/// <ul>
+/// <li>
+/// EncryptedPartitionError: The partitions are encrypted.
+/// </li>
+/// <li>
+/// InvalidPartitionTypeDataError: The partition value doesn't match the data
+/// type for that partition column.
+/// </li>
+/// <li>
+/// MissingPartitionValueError: The partitions are encrypted.
+/// </li>
+/// <li>
+/// UnsupportedPartitionCharacterError: Characters inside the partition value
+/// are not supported. For example: U+0000 , U+0001, U+0002.
+/// </li>
+/// <li>
+/// InternalError: Any error which does not belong to other error codes.
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BackfillError {
+  /// The error code for an error that occurred when registering partition indexes
+  /// for an existing table.
+  @_s.JsonKey(name: 'Code')
+  final BackfillErrorCode code;
+
+  /// A list of a limited number of partitions in the response.
+  @_s.JsonKey(name: 'Partitions')
+  final List<PartitionValueList> partitions;
+
+  BackfillError({
+    this.code,
+    this.partitions,
+  });
+  factory BackfillError.fromJson(Map<String, dynamic> json) =>
+      _$BackfillErrorFromJson(json);
+}
+
+enum BackfillErrorCode {
+  @_s.JsonValue('ENCRYPTED_PARTITION_ERROR')
+  encryptedPartitionError,
+  @_s.JsonValue('INTERNAL_ERROR')
+  internalError,
+  @_s.JsonValue('INVALID_PARTITION_TYPE_DATA_ERROR')
+  invalidPartitionTypeDataError,
+  @_s.JsonValue('MISSING_PARTITION_VALUE_ERROR')
+  missingPartitionValueError,
+  @_s.JsonValue('UNSUPPORTED_PARTITION_CHARACTER_ERROR')
+  unsupportedPartitionCharacterError,
 }
 
 @_s.JsonSerializable(
@@ -8848,6 +11558,132 @@ class BatchStopJobRunSuccessfulSubmission {
       _$BatchStopJobRunSuccessfulSubmissionFromJson(json);
 }
 
+/// Contains information about a batch update partition error.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchUpdatePartitionFailureEntry {
+  /// The details about the batch update partition error.
+  @_s.JsonKey(name: 'ErrorDetail')
+  final ErrorDetail errorDetail;
+
+  /// A list of values defining the partitions.
+  @_s.JsonKey(name: 'PartitionValueList')
+  final List<String> partitionValueList;
+
+  BatchUpdatePartitionFailureEntry({
+    this.errorDetail,
+    this.partitionValueList,
+  });
+  factory BatchUpdatePartitionFailureEntry.fromJson(
+          Map<String, dynamic> json) =>
+      _$BatchUpdatePartitionFailureEntryFromJson(json);
+}
+
+/// A structure that contains the values and structure used to update a
+/// partition.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchUpdatePartitionRequestEntry {
+  /// The structure used to update a partition.
+  @_s.JsonKey(name: 'PartitionInput')
+  final PartitionInput partitionInput;
+
+  /// A list of values defining the partitions.
+  @_s.JsonKey(name: 'PartitionValueList')
+  final List<String> partitionValueList;
+
+  BatchUpdatePartitionRequestEntry({
+    @_s.required this.partitionInput,
+    @_s.required this.partitionValueList,
+  });
+  Map<String, dynamic> toJson() =>
+      _$BatchUpdatePartitionRequestEntryToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchUpdatePartitionResponse {
+  /// The errors encountered when trying to update the requested partitions. A
+  /// list of <code>BatchUpdatePartitionFailureEntry</code> objects.
+  @_s.JsonKey(name: 'Errors')
+  final List<BatchUpdatePartitionFailureEntry> errors;
+
+  BatchUpdatePartitionResponse({
+    this.errors,
+  });
+  factory BatchUpdatePartitionResponse.fromJson(Map<String, dynamic> json) =>
+      _$BatchUpdatePartitionResponseFromJson(json);
+}
+
+/// Defines column statistics supported for bit sequence data values.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class BinaryColumnStatisticsData {
+  /// The average bit sequence length in the column.
+  @_s.JsonKey(name: 'AverageLength')
+  final double averageLength;
+
+  /// The size of the longest bit sequence in the column.
+  @_s.JsonKey(name: 'MaximumLength')
+  final int maximumLength;
+
+  /// The number of null values in the column.
+  @_s.JsonKey(name: 'NumberOfNulls')
+  final int numberOfNulls;
+
+  BinaryColumnStatisticsData({
+    @_s.required this.averageLength,
+    @_s.required this.maximumLength,
+    @_s.required this.numberOfNulls,
+  });
+  factory BinaryColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
+      _$BinaryColumnStatisticsDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BinaryColumnStatisticsDataToJson(this);
+}
+
+/// Defines column statistics supported for Boolean data columns.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class BooleanColumnStatisticsData {
+  /// The number of false values in the column.
+  @_s.JsonKey(name: 'NumberOfFalses')
+  final int numberOfFalses;
+
+  /// The number of null values in the column.
+  @_s.JsonKey(name: 'NumberOfNulls')
+  final int numberOfNulls;
+
+  /// The number of true values in the column.
+  @_s.JsonKey(name: 'NumberOfTrues')
+  final int numberOfTrues;
+
+  BooleanColumnStatisticsData({
+    @_s.required this.numberOfFalses,
+    @_s.required this.numberOfNulls,
+    @_s.required this.numberOfTrues,
+  });
+  factory BooleanColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
+      _$BooleanColumnStatisticsDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BooleanColumnStatisticsDataToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8957,6 +11793,29 @@ class CatalogTarget {
       _$CatalogTargetFromJson(json);
 
   Map<String, dynamic> toJson() => _$CatalogTargetToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CheckSchemaVersionValidityResponse {
+  /// A validation failure error message.
+  @_s.JsonKey(name: 'Error')
+  final String error;
+
+  /// Return true, if the schema is valid and false otherwise.
+  @_s.JsonKey(name: 'Valid')
+  final bool valid;
+
+  CheckSchemaVersionValidityResponse({
+    this.error,
+    this.valid,
+  });
+  factory CheckSchemaVersionValidityResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CheckSchemaVersionValidityResponseFromJson(json);
 }
 
 /// Classifiers are triggered during a crawl task. A classifier checks whether a
@@ -9164,6 +12023,190 @@ class Column {
   Map<String, dynamic> toJson() => _$ColumnToJson(this);
 }
 
+/// Encapsulates a column name that failed and the reason for failure.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ColumnError {
+  /// The name of the column that failed.
+  @_s.JsonKey(name: 'ColumnName')
+  final String columnName;
+
+  /// An error message with the reason for the failure of an operation.
+  @_s.JsonKey(name: 'Error')
+  final ErrorDetail error;
+
+  ColumnError({
+    this.columnName,
+    this.error,
+  });
+  factory ColumnError.fromJson(Map<String, dynamic> json) =>
+      _$ColumnErrorFromJson(json);
+}
+
+/// A structure containing the column name and column importance score for a
+/// column.
+///
+/// Column importance helps you understand how columns contribute to your model,
+/// by identifying which columns in your records are more important than others.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ColumnImportance {
+  /// The name of a column.
+  @_s.JsonKey(name: 'ColumnName')
+  final String columnName;
+
+  /// The column importance score for the column, as a decimal.
+  @_s.JsonKey(name: 'Importance')
+  final double importance;
+
+  ColumnImportance({
+    this.columnName,
+    this.importance,
+  });
+  factory ColumnImportance.fromJson(Map<String, dynamic> json) =>
+      _$ColumnImportanceFromJson(json);
+}
+
+/// Represents the generated column-level statistics for a table or partition.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ColumnStatistics {
+  /// The timestamp of when column statistics were generated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'AnalyzedTime')
+  final DateTime analyzedTime;
+
+  /// Name of column which statistics belong to.
+  @_s.JsonKey(name: 'ColumnName')
+  final String columnName;
+
+  /// The data type of the column.
+  @_s.JsonKey(name: 'ColumnType')
+  final String columnType;
+
+  /// A <code>ColumnStatisticData</code> object that contains the statistics data
+  /// values.
+  @_s.JsonKey(name: 'StatisticsData')
+  final ColumnStatisticsData statisticsData;
+
+  ColumnStatistics({
+    @_s.required this.analyzedTime,
+    @_s.required this.columnName,
+    @_s.required this.columnType,
+    @_s.required this.statisticsData,
+  });
+  factory ColumnStatistics.fromJson(Map<String, dynamic> json) =>
+      _$ColumnStatisticsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ColumnStatisticsToJson(this);
+}
+
+/// Contains the individual types of column statistics data. Only one data
+/// object should be set and indicated by the <code>Type</code> attribute.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ColumnStatisticsData {
+  /// The type of column statistics data.
+  @_s.JsonKey(name: 'Type')
+  final ColumnStatisticsType type;
+
+  /// Binary column statistics data.
+  @_s.JsonKey(name: 'BinaryColumnStatisticsData')
+  final BinaryColumnStatisticsData binaryColumnStatisticsData;
+
+  /// Boolean column statistics data.
+  @_s.JsonKey(name: 'BooleanColumnStatisticsData')
+  final BooleanColumnStatisticsData booleanColumnStatisticsData;
+
+  /// Date column statistics data.
+  @_s.JsonKey(name: 'DateColumnStatisticsData')
+  final DateColumnStatisticsData dateColumnStatisticsData;
+
+  /// Decimal column statistics data.
+  @_s.JsonKey(name: 'DecimalColumnStatisticsData')
+  final DecimalColumnStatisticsData decimalColumnStatisticsData;
+
+  /// Double column statistics data.
+  @_s.JsonKey(name: 'DoubleColumnStatisticsData')
+  final DoubleColumnStatisticsData doubleColumnStatisticsData;
+
+  /// Long column statistics data.
+  @_s.JsonKey(name: 'LongColumnStatisticsData')
+  final LongColumnStatisticsData longColumnStatisticsData;
+
+  /// String column statistics data.
+  @_s.JsonKey(name: 'StringColumnStatisticsData')
+  final StringColumnStatisticsData stringColumnStatisticsData;
+
+  ColumnStatisticsData({
+    @_s.required this.type,
+    this.binaryColumnStatisticsData,
+    this.booleanColumnStatisticsData,
+    this.dateColumnStatisticsData,
+    this.decimalColumnStatisticsData,
+    this.doubleColumnStatisticsData,
+    this.longColumnStatisticsData,
+    this.stringColumnStatisticsData,
+  });
+  factory ColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
+      _$ColumnStatisticsDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ColumnStatisticsDataToJson(this);
+}
+
+/// Encapsulates a <code>ColumnStatistics</code> object that failed and the
+/// reason for failure.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ColumnStatisticsError {
+  /// The <code>ColumnStatistics</code> of the column.
+  @_s.JsonKey(name: 'ColumnStatistics')
+  final ColumnStatistics columnStatistics;
+
+  /// An error message with the reason for the failure of an operation.
+  @_s.JsonKey(name: 'Error')
+  final ErrorDetail error;
+
+  ColumnStatisticsError({
+    this.columnStatistics,
+    this.error,
+  });
+  factory ColumnStatisticsError.fromJson(Map<String, dynamic> json) =>
+      _$ColumnStatisticsErrorFromJson(json);
+}
+
+enum ColumnStatisticsType {
+  @_s.JsonValue('BOOLEAN')
+  boolean,
+  @_s.JsonValue('DATE')
+  date,
+  @_s.JsonValue('DECIMAL')
+  decimal,
+  @_s.JsonValue('DOUBLE')
+  double,
+  @_s.JsonValue('LONG')
+  long,
+  @_s.JsonValue('STRING')
+  string,
+  @_s.JsonValue('BINARY')
+  binary,
+}
+
 enum Comparator {
   @_s.JsonValue('EQUALS')
   equals,
@@ -9175,6 +12218,49 @@ enum Comparator {
   greaterThanEquals,
   @_s.JsonValue('LESS_THAN_EQUALS')
   lessThanEquals,
+}
+
+enum Compatibility {
+  @_s.JsonValue('NONE')
+  none,
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('BACKWARD')
+  backward,
+  @_s.JsonValue('BACKWARD_ALL')
+  backwardAll,
+  @_s.JsonValue('FORWARD')
+  forward,
+  @_s.JsonValue('FORWARD_ALL')
+  forwardAll,
+  @_s.JsonValue('FULL')
+  full,
+  @_s.JsonValue('FULL_ALL')
+  fullAll,
+}
+
+extension on Compatibility {
+  String toValue() {
+    switch (this) {
+      case Compatibility.none:
+        return 'NONE';
+      case Compatibility.disabled:
+        return 'DISABLED';
+      case Compatibility.backward:
+        return 'BACKWARD';
+      case Compatibility.backwardAll:
+        return 'BACKWARD_ALL';
+      case Compatibility.forward:
+        return 'FORWARD';
+      case Compatibility.forwardAll:
+        return 'FORWARD_ALL';
+      case Compatibility.full:
+        return 'FULL';
+      case Compatibility.fullAll:
+        return 'FULL_ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Defines a condition under which a trigger fires.
@@ -9201,9 +12287,11 @@ class Condition {
   @_s.JsonKey(name: 'LogicalOperator')
   final LogicalOperator logicalOperator;
 
-  /// The condition state. Currently, the values supported are
-  /// <code>SUCCEEDED</code>, <code>STOPPED</code>, <code>TIMEOUT</code>, and
-  /// <code>FAILED</code>.
+  /// The condition state. Currently, the only job states that a trigger can
+  /// listen for are <code>SUCCEEDED</code>, <code>STOPPED</code>,
+  /// <code>FAILED</code>, and <code>TIMEOUT</code>. The only crawler states that
+  /// a trigger can listen for are <code>SUCCEEDED</code>, <code>FAILED</code>,
+  /// and <code>CANCELLED</code>.
   @_s.JsonKey(name: 'State')
   final JobRunState state;
 
@@ -9353,12 +12441,41 @@ class Connection {
   /// port pairs that are the addresses of the Apache Kafka brokers in a Kafka
   /// cluster to which a Kafka client will connect to and bootstrap itself.
   /// </li>
+  /// <li>
+  /// <code>KAFKA_SSL_ENABLED</code> - Whether to enable or disable SSL on an
+  /// Apache Kafka connection. Default value is "true".
+  /// </li>
+  /// <li>
+  /// <code>KAFKA_CUSTOM_CERT</code> - The Amazon S3 URL for the private CA cert
+  /// file (.pem format). The default is an empty string.
+  /// </li>
+  /// <li>
+  /// <code>KAFKA_SKIP_CUSTOM_CERT_VALIDATION</code> - Whether to skip the
+  /// validation of the CA cert file or not. AWS Glue validates for three
+  /// algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is
+  /// "false".
+  /// </li>
+  /// <li>
+  /// <code>SECRET_ID</code> - The secret ID used for the secret manager of
+  /// credentials.
+  /// </li>
+  /// <li>
+  /// <code>CONNECTOR_URL</code> - The connector URL for a MARKETPLACE or CUSTOM
+  /// connection.
+  /// </li>
+  /// <li>
+  /// <code>CONNECTOR_TYPE</code> - The connector type for a MARKETPLACE or CUSTOM
+  /// connection.
+  /// </li>
+  /// <li>
+  /// <code>CONNECTOR_CLASS_NAME</code> - The connector class name for a
+  /// MARKETPLACE or CUSTOM connection.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ConnectionProperties')
   final Map<ConnectionPropertyKey, String> connectionProperties;
 
-  /// The type of the connection. Currently, only JDBC is supported; SFTP is not
-  /// supported.
+  /// The type of the connection. Currently, SFTP is not supported.
   @_s.JsonKey(name: 'ConnectionType')
   final ConnectionType connectionType;
 
@@ -9434,6 +12551,20 @@ class ConnectionInput {
   /// <li>
   /// <code>MONGODB</code> - Designates a connection to a MongoDB document
   /// database.
+  /// </li>
+  /// <li>
+  /// <code>NETWORK</code> - Designates a network connection to a data source
+  /// within an Amazon Virtual Private Cloud environment (Amazon VPC).
+  /// </li>
+  /// <li>
+  /// <code>MARKETPLACE</code> - Uses configuration settings contained in a
+  /// connector purchased from AWS Marketplace to read from and write to data
+  /// stores that are not natively supported by AWS Glue.
+  /// </li>
+  /// <li>
+  /// <code>CUSTOM</code> - Uses configuration settings contained in a custom
+  /// connector to read from and write to data stores that are not natively
+  /// supported by AWS Glue.
   /// </li>
   /// </ul>
   /// SFTP is not supported.
@@ -9555,6 +12686,20 @@ enum ConnectionPropertyKey {
   connectionUrl,
   @_s.JsonValue('KAFKA_BOOTSTRAP_SERVERS')
   kafkaBootstrapServers,
+  @_s.JsonValue('KAFKA_SSL_ENABLED')
+  kafkaSslEnabled,
+  @_s.JsonValue('KAFKA_CUSTOM_CERT')
+  kafkaCustomCert,
+  @_s.JsonValue('KAFKA_SKIP_CUSTOM_CERT_VALIDATION')
+  kafkaSkipCustomCertValidation,
+  @_s.JsonValue('SECRET_ID')
+  secretId,
+  @_s.JsonValue('CONNECTOR_URL')
+  connectorUrl,
+  @_s.JsonValue('CONNECTOR_TYPE')
+  connectorType,
+  @_s.JsonValue('CONNECTOR_CLASS_NAME')
+  connectorClassName,
 }
 
 enum ConnectionType {
@@ -9566,6 +12711,12 @@ enum ConnectionType {
   mongodb,
   @_s.JsonValue('KAFKA')
   kafka,
+  @_s.JsonValue('NETWORK')
+  network,
+  @_s.JsonValue('MARKETPLACE')
+  marketplace,
+  @_s.JsonValue('CUSTOM')
+  custom,
 }
 
 /// Specifies the connections used by a job.
@@ -9635,10 +12786,12 @@ class Crawl {
 enum CrawlState {
   @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('SUCCEEDED')
-  succeeded,
+  @_s.JsonValue('CANCELLING')
+  cancelling,
   @_s.JsonValue('CANCELLED')
   cancelled,
+  @_s.JsonValue('SUCCEEDED')
+  succeeded,
   @_s.JsonValue('FAILED')
   failed,
 }
@@ -9659,7 +12812,7 @@ class Crawler {
 
   /// Crawler configuration information. This versioned JSON string allows users
   /// to specify aspects of a crawler's behavior. For more information, see <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html">Configuring
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html">Configuring
   /// a Crawler</a>.
   @_s.JsonKey(name: 'Configuration')
   final String configuration;
@@ -9697,9 +12850,19 @@ class Crawler {
   @_s.JsonKey(name: 'LastUpdated')
   final DateTime lastUpdated;
 
+  /// A configuration that specifies whether data lineage is enabled for the
+  /// crawler.
+  @_s.JsonKey(name: 'LineageConfiguration')
+  final LineageConfiguration lineageConfiguration;
+
   /// The name of the crawler.
   @_s.JsonKey(name: 'Name')
   final String name;
+
+  /// A policy that specifies whether to crawl the entire dataset again, or to
+  /// crawl only folders that were added since the last crawler run.
+  @_s.JsonKey(name: 'RecrawlPolicy')
+  final RecrawlPolicy recrawlPolicy;
 
   /// The Amazon Resource Name (ARN) of an IAM role that's used to access customer
   /// resources, such as Amazon Simple Storage Service (Amazon S3) data.
@@ -9740,7 +12903,9 @@ class Crawler {
     this.description,
     this.lastCrawl,
     this.lastUpdated,
+    this.lineageConfiguration,
     this.name,
+    this.recrawlPolicy,
     this.role,
     this.schedule,
     this.schemaChangePolicy,
@@ -9751,6 +12916,13 @@ class Crawler {
   });
   factory Crawler.fromJson(Map<String, dynamic> json) =>
       _$CrawlerFromJson(json);
+}
+
+enum CrawlerLineageSettings {
+  @_s.JsonValue('ENABLE')
+  enable,
+  @_s.JsonValue('DISABLE')
+  disable,
 }
 
 /// Metrics for a specified crawler.
@@ -9853,6 +13025,10 @@ class CrawlerTargets {
   @_s.JsonKey(name: 'JdbcTargets')
   final List<JdbcTarget> jdbcTargets;
 
+  /// Specifies Amazon DocumentDB or MongoDB targets.
+  @_s.JsonKey(name: 'MongoDBTargets')
+  final List<MongoDBTarget> mongoDBTargets;
+
   /// Specifies Amazon Simple Storage Service (Amazon S3) targets.
   @_s.JsonKey(name: 'S3Targets')
   final List<S3Target> s3Targets;
@@ -9861,6 +13037,7 @@ class CrawlerTargets {
     this.catalogTargets,
     this.dynamoDBTargets,
     this.jdbcTargets,
+    this.mongoDBTargets,
     this.s3Targets,
   });
   factory CrawlerTargets.fromJson(Map<String, dynamic> json) =>
@@ -10158,8 +13335,7 @@ class CreateJobResponse {
     createToJson: true)
 class CreateJsonClassifierRequest {
   /// A <code>JsonPath</code> string defining the JSON data for the classifier to
-  /// classify. AWS Glue supports a subset of <code>JsonPath</code>, as described
-  /// in <a
+  /// classify. AWS Glue supports a subset of JsonPath, as described in <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html#custom-classifier-json">Writing
   /// JsonPath Custom Classifiers</a>.
   @_s.JsonKey(name: 'JsonPath')
@@ -10198,10 +13374,139 @@ class CreateMLTransformResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreatePartitionIndexResponse {
+  CreatePartitionIndexResponse();
+  factory CreatePartitionIndexResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreatePartitionIndexResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreatePartitionResponse {
   CreatePartitionResponse();
   factory CreatePartitionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreatePartitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateRegistryResponse {
+  /// A description of the registry.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The Amazon Resource Name (ARN) of the newly created registry.
+  @_s.JsonKey(name: 'RegistryArn')
+  final String registryArn;
+
+  /// The name of the registry.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  /// The tags for the registry.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateRegistryResponse({
+    this.description,
+    this.registryArn,
+    this.registryName,
+    this.tags,
+  });
+  factory CreateRegistryResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateRegistryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateSchemaResponse {
+  /// The schema compatibility mode.
+  @_s.JsonKey(name: 'Compatibility')
+  final Compatibility compatibility;
+
+  /// The data format of the schema definition. Currently only <code>AVRO</code>
+  /// is supported.
+  @_s.JsonKey(name: 'DataFormat')
+  final DataFormat dataFormat;
+
+  /// A description of the schema if specified when created.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The latest version of the schema associated with the returned schema
+  /// definition.
+  @_s.JsonKey(name: 'LatestSchemaVersion')
+  final int latestSchemaVersion;
+
+  /// The next version of the schema associated with the returned schema
+  /// definition.
+  @_s.JsonKey(name: 'NextSchemaVersion')
+  final int nextSchemaVersion;
+
+  /// The Amazon Resource Name (ARN) of the registry.
+  @_s.JsonKey(name: 'RegistryArn')
+  final String registryArn;
+
+  /// The name of the registry.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  /// The Amazon Resource Name (ARN) of the schema.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  /// The version number of the checkpoint (the last time the compatibility mode
+  /// was changed).
+  @_s.JsonKey(name: 'SchemaCheckpoint')
+  final int schemaCheckpoint;
+
+  /// The name of the schema.
+  @_s.JsonKey(name: 'SchemaName')
+  final String schemaName;
+
+  /// The status of the schema.
+  @_s.JsonKey(name: 'SchemaStatus')
+  final SchemaStatus schemaStatus;
+
+  /// The unique identifier of the first schema version.
+  @_s.JsonKey(name: 'SchemaVersionId')
+  final String schemaVersionId;
+
+  /// The status of the first schema version created.
+  @_s.JsonKey(name: 'SchemaVersionStatus')
+  final SchemaVersionStatus schemaVersionStatus;
+
+  /// The tags for the schema.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  CreateSchemaResponse({
+    this.compatibility,
+    this.dataFormat,
+    this.description,
+    this.latestSchemaVersion,
+    this.nextSchemaVersion,
+    this.registryArn,
+    this.registryName,
+    this.schemaArn,
+    this.schemaCheckpoint,
+    this.schemaName,
+    this.schemaStatus,
+    this.schemaVersionId,
+    this.schemaVersionStatus,
+    this.tags,
+  });
+  factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateSchemaResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -10444,6 +13749,21 @@ class DataCatalogEncryptionSettings {
   Map<String, dynamic> toJson() => _$DataCatalogEncryptionSettingsToJson(this);
 }
 
+enum DataFormat {
+  @_s.JsonValue('AVRO')
+  avro,
+}
+
+extension on DataFormat {
+  String toValue() {
+    switch (this) {
+      case DataFormat.avro:
+        return 'AVRO';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The AWS Lake Formation principal.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10477,6 +13797,10 @@ class Database {
   @_s.JsonKey(name: 'Name')
   final String name;
 
+  /// The ID of the Data Catalog in which the database resides.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
   /// Creates a set of default permissions on the table for principals.
   @_s.JsonKey(name: 'CreateTableDefaultPermissions')
   final List<PrincipalPermissions> createTableDefaultPermissions;
@@ -10498,16 +13822,48 @@ class Database {
   @_s.JsonKey(name: 'Parameters')
   final Map<String, String> parameters;
 
+  /// A <code>DatabaseIdentifier</code> structure that describes a target database
+  /// for resource linking.
+  @_s.JsonKey(name: 'TargetDatabase')
+  final DatabaseIdentifier targetDatabase;
+
   Database({
     @_s.required this.name,
+    this.catalogId,
     this.createTableDefaultPermissions,
     this.createTime,
     this.description,
     this.locationUri,
     this.parameters,
+    this.targetDatabase,
   });
   factory Database.fromJson(Map<String, dynamic> json) =>
       _$DatabaseFromJson(json);
+}
+
+/// A structure that describes a target database for resource linking.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DatabaseIdentifier {
+  /// The ID of the Data Catalog in which the database resides.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// The name of the catalog database.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  DatabaseIdentifier({
+    this.catalogId,
+    this.databaseName,
+  });
+  factory DatabaseIdentifier.fromJson(Map<String, dynamic> json) =>
+      _$DatabaseIdentifierFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DatabaseIdentifierToJson(this);
 }
 
 /// The structure used to create or update a database.
@@ -10540,14 +13896,119 @@ class DatabaseInput {
   @_s.JsonKey(name: 'Parameters')
   final Map<String, String> parameters;
 
+  /// A <code>DatabaseIdentifier</code> structure that describes a target database
+  /// for resource linking.
+  @_s.JsonKey(name: 'TargetDatabase')
+  final DatabaseIdentifier targetDatabase;
+
   DatabaseInput({
     @_s.required this.name,
     this.createTableDefaultPermissions,
     this.description,
     this.locationUri,
     this.parameters,
+    this.targetDatabase,
   });
   Map<String, dynamic> toJson() => _$DatabaseInputToJson(this);
+}
+
+/// Defines column statistics supported for timestamp data columns.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DateColumnStatisticsData {
+  /// The number of distinct values in a column.
+  @_s.JsonKey(name: 'NumberOfDistinctValues')
+  final int numberOfDistinctValues;
+
+  /// The number of null values in the column.
+  @_s.JsonKey(name: 'NumberOfNulls')
+  final int numberOfNulls;
+
+  /// The highest value in the column.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'MaximumValue')
+  final DateTime maximumValue;
+
+  /// The lowest value in the column.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'MinimumValue')
+  final DateTime minimumValue;
+
+  DateColumnStatisticsData({
+    @_s.required this.numberOfDistinctValues,
+    @_s.required this.numberOfNulls,
+    this.maximumValue,
+    this.minimumValue,
+  });
+  factory DateColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
+      _$DateColumnStatisticsDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DateColumnStatisticsDataToJson(this);
+}
+
+/// Defines column statistics supported for fixed-point number data columns.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DecimalColumnStatisticsData {
+  /// The number of distinct values in a column.
+  @_s.JsonKey(name: 'NumberOfDistinctValues')
+  final int numberOfDistinctValues;
+
+  /// The number of null values in the column.
+  @_s.JsonKey(name: 'NumberOfNulls')
+  final int numberOfNulls;
+
+  /// The highest value in the column.
+  @_s.JsonKey(name: 'MaximumValue')
+  final DecimalNumber maximumValue;
+
+  /// The lowest value in the column.
+  @_s.JsonKey(name: 'MinimumValue')
+  final DecimalNumber minimumValue;
+
+  DecimalColumnStatisticsData({
+    @_s.required this.numberOfDistinctValues,
+    @_s.required this.numberOfNulls,
+    this.maximumValue,
+    this.minimumValue,
+  });
+  factory DecimalColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
+      _$DecimalColumnStatisticsDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DecimalColumnStatisticsDataToJson(this);
+}
+
+/// Contains a numeric value in decimal format.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DecimalNumber {
+  /// The scale that determines where the decimal point falls in the unscaled
+  /// value.
+  @_s.JsonKey(name: 'Scale')
+  final int scale;
+
+  /// The unscaled numeric value.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'UnscaledValue')
+  final Uint8List unscaledValue;
+
+  DecimalNumber({
+    @_s.required this.scale,
+    @_s.required this.unscaledValue,
+  });
+  factory DecimalNumber.fromJson(Map<String, dynamic> json) =>
+      _$DecimalNumberFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DecimalNumberToJson(this);
 }
 
 enum DeleteBehavior {
@@ -10568,6 +14029,30 @@ class DeleteClassifierResponse {
   DeleteClassifierResponse();
   factory DeleteClassifierResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteClassifierResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteColumnStatisticsForPartitionResponse {
+  DeleteColumnStatisticsForPartitionResponse();
+  factory DeleteColumnStatisticsForPartitionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteColumnStatisticsForPartitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteColumnStatisticsForTableResponse {
+  DeleteColumnStatisticsForTableResponse();
+  factory DeleteColumnStatisticsForTableResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteColumnStatisticsForTableResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -10653,6 +14138,17 @@ class DeleteMLTransformResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeletePartitionIndexResponse {
+  DeletePartitionIndexResponse();
+  factory DeletePartitionIndexResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeletePartitionIndexResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeletePartitionResponse {
   DeletePartitionResponse();
   factory DeletePartitionResponse.fromJson(Map<String, dynamic> json) =>
@@ -10664,10 +14160,83 @@ class DeletePartitionResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteRegistryResponse {
+  /// The Amazon Resource Name (ARN) of the registry being deleted.
+  @_s.JsonKey(name: 'RegistryArn')
+  final String registryArn;
+
+  /// The name of the registry being deleted.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  /// The status of the registry. A successful operation will return the
+  /// <code>Deleting</code> status.
+  @_s.JsonKey(name: 'Status')
+  final RegistryStatus status;
+
+  DeleteRegistryResponse({
+    this.registryArn,
+    this.registryName,
+    this.status,
+  });
+  factory DeleteRegistryResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteRegistryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
   factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteResourcePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteSchemaResponse {
+  /// The Amazon Resource Name (ARN) of the schema being deleted.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  /// The name of the schema being deleted.
+  @_s.JsonKey(name: 'SchemaName')
+  final String schemaName;
+
+  /// The status of the schema.
+  @_s.JsonKey(name: 'Status')
+  final SchemaStatus status;
+
+  DeleteSchemaResponse({
+    this.schemaArn,
+    this.schemaName,
+    this.status,
+  });
+  factory DeleteSchemaResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteSchemaResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteSchemaVersionsResponse {
+  /// A list of <code>SchemaVersionErrorItem</code> objects, each containing an
+  /// error and schema version.
+  @_s.JsonKey(name: 'SchemaVersionErrors')
+  final List<SchemaVersionErrorItem> schemaVersionErrors;
+
+  DeleteSchemaVersionsResponse({
+    this.schemaVersionErrors,
+  });
+  factory DeleteSchemaVersionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteSchemaVersionsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -11018,6 +14587,41 @@ class DevEndpointCustomLibraries {
   Map<String, dynamic> toJson() => _$DevEndpointCustomLibrariesToJson(this);
 }
 
+/// Defines column statistics supported for floating-point number data columns.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DoubleColumnStatisticsData {
+  /// The number of distinct values in a column.
+  @_s.JsonKey(name: 'NumberOfDistinctValues')
+  final int numberOfDistinctValues;
+
+  /// The number of null values in the column.
+  @_s.JsonKey(name: 'NumberOfNulls')
+  final int numberOfNulls;
+
+  /// The highest value in the column.
+  @_s.JsonKey(name: 'MaximumValue')
+  final double maximumValue;
+
+  /// The lowest value in the column.
+  @_s.JsonKey(name: 'MinimumValue')
+  final double minimumValue;
+
+  DoubleColumnStatisticsData({
+    @_s.required this.numberOfDistinctValues,
+    @_s.required this.numberOfNulls,
+    this.maximumValue,
+    this.minimumValue,
+  });
+  factory DoubleColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
+      _$DoubleColumnStatisticsDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DoubleColumnStatisticsDataToJson(this);
+}
+
 /// Specifies an Amazon DynamoDB table to crawl.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11029,8 +14633,32 @@ class DynamoDBTarget {
   @_s.JsonKey(name: 'Path')
   final String path;
 
+  /// Indicates whether to scan all the records, or to sample rows from the table.
+  /// Scanning all the records can take a long time when the table is not a high
+  /// throughput table.
+  ///
+  /// A value of <code>true</code> means to scan all records, while a value of
+  /// <code>false</code> means to sample the records. If no value is specified,
+  /// the value defaults to <code>true</code>.
+  @_s.JsonKey(name: 'scanAll')
+  final bool scanAll;
+
+  /// The percentage of the configured read capacity units to use by the AWS Glue
+  /// crawler. Read capacity units is a term defined by DynamoDB, and is a numeric
+  /// value that acts as rate limiter for the number of reads that can be
+  /// performed on that table per second.
+  ///
+  /// The valid values are null or a value between 0.1 to 1.5. A null value is
+  /// used when user does not provide a value, and defaults to 0.5 of the
+  /// configured Read Capacity Unit (for provisioned tables), or 0.25 of the max
+  /// configured Read Capacity Unit (for tables using on-demand mode).
+  @_s.JsonKey(name: 'scanRate')
+  final double scanRate;
+
   DynamoDBTarget({
     this.path,
+    this.scanAll,
+    this.scanRate,
   });
   factory DynamoDBTarget.fromJson(Map<String, dynamic> json) =>
       _$DynamoDBTargetFromJson(json);
@@ -11039,7 +14667,7 @@ class DynamoDBTarget {
 }
 
 /// An edge represents a directed connection between two AWS Glue components
-/// which are part of the workflow the edge belongs to.
+/// that are part of the workflow the edge belongs to.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11059,6 +14687,25 @@ class Edge {
     this.sourceId,
   });
   factory Edge.fromJson(Map<String, dynamic> json) => _$EdgeFromJson(json);
+}
+
+enum EnableHybridValues {
+  @_s.JsonValue('TRUE')
+  $true,
+  @_s.JsonValue('FALSE')
+  $false,
+}
+
+extension on EnableHybridValues {
+  String toValue() {
+    switch (this) {
+      case EnableHybridValues.$true:
+        return 'TRUE';
+      case EnableHybridValues.$false:
+        return 'FALSE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Specifies the encryption-at-rest configuration for the Data Catalog.
@@ -11138,6 +14785,29 @@ class ErrorDetail {
   });
   factory ErrorDetail.fromJson(Map<String, dynamic> json) =>
       _$ErrorDetailFromJson(json);
+}
+
+/// An object containing error details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ErrorDetails {
+  /// The error code for an error.
+  @_s.JsonKey(name: 'ErrorCode')
+  final String errorCode;
+
+  /// The error message for an error.
+  @_s.JsonKey(name: 'ErrorMessage')
+  final String errorMessage;
+
+  ErrorDetails({
+    this.errorCode,
+    this.errorMessage,
+  });
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) =>
+      _$ErrorDetailsFromJson(json);
 }
 
 /// Evaluation metrics provide an estimate of the quality of your machine
@@ -11250,6 +14920,11 @@ class FindMatchesMetrics {
   @_s.JsonKey(name: 'AreaUnderPRCurve')
   final double areaUnderPRCurve;
 
+  /// A list of <code>ColumnImportance</code> structures containing column
+  /// importance metrics, sorted in order of descending importance.
+  @_s.JsonKey(name: 'ColumnImportances')
+  final List<ColumnImportance> columnImportances;
+
   /// The confusion matrix shows you what your transform is predicting accurately
   /// and what types of errors it is making.
   ///
@@ -11289,6 +14964,7 @@ class FindMatchesMetrics {
 
   FindMatchesMetrics({
     this.areaUnderPRCurve,
+    this.columnImportances,
     this.confusionMatrix,
     this.f1,
     this.precision,
@@ -11454,6 +15130,52 @@ class GetClassifiersResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetColumnStatisticsForPartitionResponse {
+  /// List of ColumnStatistics that failed to be retrieved.
+  @_s.JsonKey(name: 'ColumnStatisticsList')
+  final List<ColumnStatistics> columnStatisticsList;
+
+  /// Error occurred during retrieving column statistics data.
+  @_s.JsonKey(name: 'Errors')
+  final List<ColumnError> errors;
+
+  GetColumnStatisticsForPartitionResponse({
+    this.columnStatisticsList,
+    this.errors,
+  });
+  factory GetColumnStatisticsForPartitionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetColumnStatisticsForPartitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetColumnStatisticsForTableResponse {
+  /// List of ColumnStatistics that failed to be retrieved.
+  @_s.JsonKey(name: 'ColumnStatisticsList')
+  final List<ColumnStatistics> columnStatisticsList;
+
+  /// List of ColumnStatistics that failed to be retrieved.
+  @_s.JsonKey(name: 'Errors')
+  final List<ColumnError> errors;
+
+  GetColumnStatisticsForTableResponse({
+    this.columnStatisticsList,
+    this.errors,
+  });
+  factory GetColumnStatisticsForTableResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetColumnStatisticsForTableResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetConnectionResponse {
   /// The requested connection definition.
   @_s.JsonKey(name: 'Connection')
@@ -11474,8 +15196,7 @@ class GetConnectionResponse {
     createFactory: false,
     createToJson: true)
 class GetConnectionsFilter {
-  /// The type of connections to return. Currently, only JDBC is supported; SFTP
-  /// is not supported.
+  /// The type of connections to return. Currently, SFTP is not supported.
   @_s.JsonKey(name: 'ConnectionType')
   final ConnectionType connectionType;
 
@@ -11973,6 +15694,12 @@ class GetMLTransformResponse {
   @_s.JsonKey(name: 'Timeout')
   final int timeout;
 
+  /// The encryption-at-rest settings of the transform that apply to accessing
+  /// user data. Machine learning transforms can access user data encrypted in
+  /// Amazon S3 using KMS.
+  @_s.JsonKey(name: 'TransformEncryption')
+  final TransformEncryption transformEncryption;
+
   /// The unique identifier of the transform, generated at the time that the
   /// transform was created.
   @_s.JsonKey(name: 'TransformId')
@@ -12015,6 +15742,7 @@ class GetMLTransformResponse {
     this.schema,
     this.status,
     this.timeout,
+    this.transformEncryption,
     this.transformId,
     this.workerType,
   });
@@ -12059,6 +15787,28 @@ class GetMappingResponse {
   });
   factory GetMappingResponse.fromJson(Map<String, dynamic> json) =>
       _$GetMappingResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetPartitionIndexesResponse {
+  /// A continuation token, present if the current list segment is not the last.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of index descriptors.
+  @_s.JsonKey(name: 'PartitionIndexDescriptorList')
+  final List<PartitionIndexDescriptor> partitionIndexDescriptorList;
+
+  GetPartitionIndexesResponse({
+    this.nextToken,
+    this.partitionIndexDescriptorList,
+  });
+  factory GetPartitionIndexesResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetPartitionIndexesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -12128,6 +15878,72 @@ class GetPlanResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetRegistryResponse {
+  /// The date and time the registry was created.
+  @_s.JsonKey(name: 'CreatedTime')
+  final String createdTime;
+
+  /// A description of the registry.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The Amazon Resource Name (ARN) of the registry.
+  @_s.JsonKey(name: 'RegistryArn')
+  final String registryArn;
+
+  /// The name of the registry.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  /// The status of the registry.
+  @_s.JsonKey(name: 'Status')
+  final RegistryStatus status;
+
+  /// The date and time the registry was updated.
+  @_s.JsonKey(name: 'UpdatedTime')
+  final String updatedTime;
+
+  GetRegistryResponse({
+    this.createdTime,
+    this.description,
+    this.registryArn,
+    this.registryName,
+    this.status,
+    this.updatedTime,
+  });
+  factory GetRegistryResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetRegistryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetResourcePoliciesResponse {
+  /// A list of the individual resource policies and the account-level resource
+  /// policy.
+  @_s.JsonKey(name: 'GetResourcePoliciesResponseList')
+  final List<GluePolicy> getResourcePoliciesResponseList;
+
+  /// A continuation token, if the returned list does not contain the last
+  /// resource policy available.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetResourcePoliciesResponse({
+    this.getResourcePoliciesResponseList,
+    this.nextToken,
+  });
+  factory GetResourcePoliciesResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetResourcePoliciesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetResourcePolicyResponse {
   /// The date and time at which the policy was created.
   @UnixDateTimeConverter()
@@ -12155,6 +15971,190 @@ class GetResourcePolicyResponse {
   });
   factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
       _$GetResourcePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetSchemaByDefinitionResponse {
+  /// The date and time the schema was created.
+  @_s.JsonKey(name: 'CreatedTime')
+  final String createdTime;
+
+  /// The data format of the schema definition. Currently only <code>AVRO</code>
+  /// is supported.
+  @_s.JsonKey(name: 'DataFormat')
+  final DataFormat dataFormat;
+
+  /// The Amazon Resource Name (ARN) of the schema.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  /// The schema ID of the schema version.
+  @_s.JsonKey(name: 'SchemaVersionId')
+  final String schemaVersionId;
+
+  /// The status of the schema version.
+  @_s.JsonKey(name: 'Status')
+  final SchemaVersionStatus status;
+
+  GetSchemaByDefinitionResponse({
+    this.createdTime,
+    this.dataFormat,
+    this.schemaArn,
+    this.schemaVersionId,
+    this.status,
+  });
+  factory GetSchemaByDefinitionResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetSchemaByDefinitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetSchemaResponse {
+  /// The compatibility mode of the schema.
+  @_s.JsonKey(name: 'Compatibility')
+  final Compatibility compatibility;
+
+  /// The date and time the schema was created.
+  @_s.JsonKey(name: 'CreatedTime')
+  final String createdTime;
+
+  /// The data format of the schema definition. Currently only <code>AVRO</code>
+  /// is supported.
+  @_s.JsonKey(name: 'DataFormat')
+  final DataFormat dataFormat;
+
+  /// A description of schema if specified when created
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The latest version of the schema associated with the returned schema
+  /// definition.
+  @_s.JsonKey(name: 'LatestSchemaVersion')
+  final int latestSchemaVersion;
+
+  /// The next version of the schema associated with the returned schema
+  /// definition.
+  @_s.JsonKey(name: 'NextSchemaVersion')
+  final int nextSchemaVersion;
+
+  /// The Amazon Resource Name (ARN) of the registry.
+  @_s.JsonKey(name: 'RegistryArn')
+  final String registryArn;
+
+  /// The name of the registry.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  /// The Amazon Resource Name (ARN) of the schema.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  /// The version number of the checkpoint (the last time the compatibility mode
+  /// was changed).
+  @_s.JsonKey(name: 'SchemaCheckpoint')
+  final int schemaCheckpoint;
+
+  /// The name of the schema.
+  @_s.JsonKey(name: 'SchemaName')
+  final String schemaName;
+
+  /// The status of the schema.
+  @_s.JsonKey(name: 'SchemaStatus')
+  final SchemaStatus schemaStatus;
+
+  /// The date and time the schema was updated.
+  @_s.JsonKey(name: 'UpdatedTime')
+  final String updatedTime;
+
+  GetSchemaResponse({
+    this.compatibility,
+    this.createdTime,
+    this.dataFormat,
+    this.description,
+    this.latestSchemaVersion,
+    this.nextSchemaVersion,
+    this.registryArn,
+    this.registryName,
+    this.schemaArn,
+    this.schemaCheckpoint,
+    this.schemaName,
+    this.schemaStatus,
+    this.updatedTime,
+  });
+  factory GetSchemaResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetSchemaResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetSchemaVersionResponse {
+  /// The date and time the schema version was created.
+  @_s.JsonKey(name: 'CreatedTime')
+  final String createdTime;
+
+  /// The data format of the schema definition. Currently only <code>AVRO</code>
+  /// is supported.
+  @_s.JsonKey(name: 'DataFormat')
+  final DataFormat dataFormat;
+
+  /// The Amazon Resource Name (ARN) of the schema.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  /// The schema definition for the schema ID.
+  @_s.JsonKey(name: 'SchemaDefinition')
+  final String schemaDefinition;
+
+  /// The <code>SchemaVersionId</code> of the schema version.
+  @_s.JsonKey(name: 'SchemaVersionId')
+  final String schemaVersionId;
+
+  /// The status of the schema version.
+  @_s.JsonKey(name: 'Status')
+  final SchemaVersionStatus status;
+
+  /// The version number of the schema.
+  @_s.JsonKey(name: 'VersionNumber')
+  final int versionNumber;
+
+  GetSchemaVersionResponse({
+    this.createdTime,
+    this.dataFormat,
+    this.schemaArn,
+    this.schemaDefinition,
+    this.schemaVersionId,
+    this.status,
+    this.versionNumber,
+  });
+  factory GetSchemaVersionResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetSchemaVersionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetSchemaVersionsDiffResponse {
+  /// The difference between schemas as a string in JsonPatch format.
+  @_s.JsonKey(name: 'Diff')
+  final String diff;
+
+  GetSchemaVersionsDiffResponse({
+    this.diff,
+  });
+  factory GetSchemaVersionsDiffResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetSchemaVersionsDiffResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -12448,6 +16448,41 @@ class GetWorkflowRunsResponse {
       _$GetWorkflowRunsResponseFromJson(json);
 }
 
+/// A structure for returning a resource policy.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GluePolicy {
+  /// The date and time at which the policy was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreateTime')
+  final DateTime createTime;
+
+  /// Contains the hash value associated with this policy.
+  @_s.JsonKey(name: 'PolicyHash')
+  final String policyHash;
+
+  /// Contains the requested policy document, in JSON format.
+  @_s.JsonKey(name: 'PolicyInJson')
+  final String policyInJson;
+
+  /// The date and time at which the policy was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UpdateTime')
+  final DateTime updateTime;
+
+  GluePolicy({
+    this.createTime,
+    this.policyHash,
+    this.policyInJson,
+    this.updateTime,
+  });
+  factory GluePolicy.fromJson(Map<String, dynamic> json) =>
+      _$GluePolicyFromJson(json);
+}
+
 /// The database and table in the AWS Glue Data Catalog that is used for input
 /// or output data.
 @_s.JsonSerializable(
@@ -12498,7 +16533,7 @@ class GrokClassifier {
 
   /// The grok pattern applied to a data store by this classifier. For more
   /// information, see built-in patterns in <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html">Writing
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html">Writing
   /// Custom Classifiers</a>.
   @_s.JsonKey(name: 'GrokPattern')
   final String grokPattern;
@@ -12514,7 +16549,7 @@ class GrokClassifier {
 
   /// Optional custom grok patterns defined by this classifier. For more
   /// information, see custom patterns in <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html">Writing
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html">Writing
   /// Custom Classifiers</a>.
   @_s.JsonKey(name: 'CustomPatterns')
   final String customPatterns;
@@ -12589,7 +16624,7 @@ class JdbcTarget {
 
   /// A list of glob patterns used to exclude from the crawl. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/add-crawler.html">Catalog
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html">Catalog
   /// Tables with a Crawler</a>.
   @_s.JsonKey(name: 'Exclusions')
   final List<String> exclusions;
@@ -12698,7 +16733,8 @@ class Job {
   /// <code>NumberOfWorkers</code>.
   ///
   /// The value that can be allocated for <code>MaxCapacity</code> depends on
-  /// whether you are running a Python shell job or an Apache Spark ETL job:
+  /// whether you are running a Python shell job, an Apache Spark ETL job, or an
+  /// Apache Spark streaming ETL job:
   ///
   /// <ul>
   /// <li>
@@ -12708,8 +16744,9 @@ class Job {
   /// </li>
   /// <li>
   /// When you specify an Apache Spark ETL job
-  /// (<code>JobCommand.Name</code>="glueetl"), you can allocate from 2 to 100
-  /// DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU
+  /// (<code>JobCommand.Name</code>="glueetl") or Apache Spark streaming ETL job
+  /// (<code>JobCommand.Name</code>="gluestreaming"), you can allocate from 2 to
+  /// 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU
   /// allocation.
   /// </li>
   /// </ul>
@@ -12893,7 +16930,8 @@ enum JobBookmarksEncryptionMode {
 class JobCommand {
   /// The name of the job command. For an Apache Spark ETL job, this must be
   /// <code>glueetl</code>. For a Python shell job, it must be
-  /// <code>pythonshell</code>.
+  /// <code>pythonshell</code>. For an Apache Spark streaming ETL job, this must
+  /// be <code>gluestreaming</code>.
   @_s.JsonKey(name: 'Name')
   final String name;
 
@@ -13009,7 +17047,10 @@ class JobRun {
   @_s.JsonKey(name: 'JobName')
   final String jobName;
 
-  /// The current state of the job run.
+  /// The current state of the job run. For more information about the statuses of
+  /// jobs that have terminated abnormally, see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/job-run-statuses.html">AWS
+  /// Glue Job Run Statuses</a>.
   @_s.JsonKey(name: 'JobRunState')
   final JobRunState jobRunState;
 
@@ -13250,8 +17291,9 @@ class JobUpdate {
   /// </li>
   /// <li>
   /// When you specify an Apache Spark ETL job
-  /// (<code>JobCommand.Name</code>="glueetl"), you can allocate from 2 to 100
-  /// DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU
+  /// (<code>JobCommand.Name</code>="glueetl") or Apache Spark streaming ETL job
+  /// (<code>JobCommand.Name</code>="gluestreaming"), you can allocate from 2 to
+  /// 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU
   /// allocation.
   /// </li>
   /// </ul>
@@ -13346,8 +17388,7 @@ class JobUpdate {
     createToJson: false)
 class JsonClassifier {
   /// A <code>JsonPath</code> string defining the JSON data for the classifier to
-  /// classify. AWS Glue supports a subset of <code>JsonPath</code>, as described
-  /// in <a
+  /// classify. AWS Glue supports a subset of JsonPath, as described in <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html#custom-classifier-json">Writing
   /// JsonPath Custom Classifiers</a>.
   @_s.JsonKey(name: 'JsonPath')
@@ -13380,6 +17421,29 @@ class JsonClassifier {
   });
   factory JsonClassifier.fromJson(Map<String, dynamic> json) =>
       _$JsonClassifierFromJson(json);
+}
+
+/// A partition key pair consisting of a name and a type.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class KeySchemaElement {
+  /// The name of a partition key.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The type of a partition key.
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  KeySchemaElement({
+    @_s.required this.name,
+    @_s.required this.type,
+  });
+  factory KeySchemaElement.fromJson(Map<String, dynamic> json) =>
+      _$KeySchemaElementFromJson(json);
 }
 
 /// Specifies configuration properties for a labeling set generation task run.
@@ -13472,6 +17536,35 @@ enum LastCrawlStatus {
   cancelled,
   @_s.JsonValue('FAILED')
   failed,
+}
+
+/// Specifies data lineage configuration settings for the crawler.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class LineageConfiguration {
+  /// Specifies whether data lineage is enabled for the crawler. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// ENABLE: enables data lineage for the crawler
+  /// </li>
+  /// <li>
+  /// DISABLE: disables data lineage for the crawler
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'CrawlerLineageSettings')
+  final CrawlerLineageSettings crawlerLineageSettings;
+
+  LineageConfiguration({
+    this.crawlerLineageSettings,
+  });
+  factory LineageConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$LineageConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LineageConfigurationToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -13574,6 +17667,78 @@ class ListMLTransformsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListRegistriesResponse {
+  /// A continuation token for paginating the returned list of tokens, returned if
+  /// the current segment of the list is not the last.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An array of <code>RegistryDetailedListItem</code> objects containing minimal
+  /// details of each registry.
+  @_s.JsonKey(name: 'Registries')
+  final List<RegistryListItem> registries;
+
+  ListRegistriesResponse({
+    this.nextToken,
+    this.registries,
+  });
+  factory ListRegistriesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListRegistriesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListSchemaVersionsResponse {
+  /// A continuation token for paginating the returned list of tokens, returned if
+  /// the current segment of the list is not the last.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An array of <code>SchemaVersionList</code> objects containing details of
+  /// each schema version.
+  @_s.JsonKey(name: 'Schemas')
+  final List<SchemaVersionListItem> schemas;
+
+  ListSchemaVersionsResponse({
+    this.nextToken,
+    this.schemas,
+  });
+  factory ListSchemaVersionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListSchemaVersionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListSchemasResponse {
+  /// A continuation token for paginating the returned list of tokens, returned if
+  /// the current segment of the list is not the last.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An array of <code>SchemaListItem</code> objects containing details of each
+  /// schema.
+  @_s.JsonKey(name: 'Schemas')
+  final List<SchemaListItem> schemas;
+
+  ListSchemasResponse({
+    this.nextToken,
+    this.schemas,
+  });
+  factory ListSchemasResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListSchemasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListTriggersResponse {
   /// A continuation token, if the returned list does not contain the last metric
   /// available.
@@ -13652,6 +17817,41 @@ enum Logical {
 enum LogicalOperator {
   @_s.JsonValue('EQUALS')
   equals,
+}
+
+/// Defines column statistics supported for integer data columns.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class LongColumnStatisticsData {
+  /// The number of distinct values in a column.
+  @_s.JsonKey(name: 'NumberOfDistinctValues')
+  final int numberOfDistinctValues;
+
+  /// The number of null values in the column.
+  @_s.JsonKey(name: 'NumberOfNulls')
+  final int numberOfNulls;
+
+  /// The highest value in the column.
+  @_s.JsonKey(name: 'MaximumValue')
+  final int maximumValue;
+
+  /// The lowest value in the column.
+  @_s.JsonKey(name: 'MinimumValue')
+  final int minimumValue;
+
+  LongColumnStatisticsData({
+    @_s.required this.numberOfDistinctValues,
+    @_s.required this.numberOfNulls,
+    this.maximumValue,
+    this.minimumValue,
+  });
+  factory LongColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
+      _$LongColumnStatisticsDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LongColumnStatisticsDataToJson(this);
 }
 
 /// A structure for a machine learning transform.
@@ -13796,6 +17996,12 @@ class MLTransform {
   @_s.JsonKey(name: 'Timeout')
   final int timeout;
 
+  /// The encryption-at-rest settings of the transform that apply to accessing
+  /// user data. Machine learning transforms can access user data encrypted in
+  /// Amazon S3 using KMS.
+  @_s.JsonKey(name: 'TransformEncryption')
+  final TransformEncryption transformEncryption;
+
   /// The unique transform ID that is generated for the machine learning
   /// transform. The ID is guaranteed to be unique and does not change.
   @_s.JsonKey(name: 'TransformId')
@@ -13859,11 +18065,55 @@ class MLTransform {
     this.schema,
     this.status,
     this.timeout,
+    this.transformEncryption,
     this.transformId,
     this.workerType,
   });
   factory MLTransform.fromJson(Map<String, dynamic> json) =>
       _$MLTransformFromJson(json);
+}
+
+/// The encryption-at-rest settings of the transform that apply to accessing
+/// user data.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class MLUserDataEncryption {
+  /// The encryption mode applied to user data. Valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// DISABLED: encryption is disabled
+  /// </li>
+  /// <li>
+  /// SSEKMS: use of server-side encryption with AWS Key Management Service
+  /// (SSE-KMS) for user data stored in Amazon S3.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'MlUserDataEncryptionMode')
+  final MLUserDataEncryptionModeString mlUserDataEncryptionMode;
+
+  /// The ID for the customer-provided KMS key.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  MLUserDataEncryption({
+    @_s.required this.mlUserDataEncryptionMode,
+    this.kmsKeyId,
+  });
+  factory MLUserDataEncryption.fromJson(Map<String, dynamic> json) =>
+      _$MLUserDataEncryptionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MLUserDataEncryptionToJson(this);
+}
+
+enum MLUserDataEncryptionModeString {
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('SSE-KMS')
+  sseKms,
 }
 
 /// Defines a mapping.
@@ -13911,8 +18161,90 @@ class MappingEntry {
   Map<String, dynamic> toJson() => _$MappingEntryToJson(this);
 }
 
-/// A node represents an AWS Glue component like Trigger, Job etc. which is part
-/// of a workflow.
+/// A structure containing metadata information for a schema version.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class MetadataInfo {
+  /// The time at which the entry was created.
+  @_s.JsonKey(name: 'CreatedTime')
+  final String createdTime;
+
+  /// The metadata key’s corresponding value.
+  @_s.JsonKey(name: 'MetadataValue')
+  final String metadataValue;
+
+  MetadataInfo({
+    this.createdTime,
+    this.metadataValue,
+  });
+  factory MetadataInfo.fromJson(Map<String, dynamic> json) =>
+      _$MetadataInfoFromJson(json);
+}
+
+/// A structure containing a key value pair for metadata.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MetadataKeyValuePair {
+  /// A metadata key.
+  @_s.JsonKey(name: 'MetadataKey')
+  final String metadataKey;
+
+  /// A metadata key’s corresponding value.
+  @_s.JsonKey(name: 'MetadataValue')
+  final String metadataValue;
+
+  MetadataKeyValuePair({
+    this.metadataKey,
+    this.metadataValue,
+  });
+  Map<String, dynamic> toJson() => _$MetadataKeyValuePairToJson(this);
+}
+
+/// Specifies an Amazon DocumentDB or MongoDB data store to crawl.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class MongoDBTarget {
+  /// The name of the connection to use to connect to the Amazon DocumentDB or
+  /// MongoDB target.
+  @_s.JsonKey(name: 'ConnectionName')
+  final String connectionName;
+
+  /// The path of the Amazon DocumentDB or MongoDB target (database/collection).
+  @_s.JsonKey(name: 'Path')
+  final String path;
+
+  /// Indicates whether to scan all the records, or to sample rows from the table.
+  /// Scanning all the records can take a long time when the table is not a high
+  /// throughput table.
+  ///
+  /// A value of <code>true</code> means to scan all records, while a value of
+  /// <code>false</code> means to sample the records. If no value is specified,
+  /// the value defaults to <code>true</code>.
+  @_s.JsonKey(name: 'ScanAll')
+  final bool scanAll;
+
+  MongoDBTarget({
+    this.connectionName,
+    this.path,
+    this.scanAll,
+  });
+  factory MongoDBTarget.fromJson(Map<String, dynamic> json) =>
+      _$MongoDBTargetFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MongoDBTargetToJson(this);
+}
+
+/// A node represents an AWS Glue component such as a trigger, or job, etc.,
+/// that is part of a workflow.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -14016,6 +18348,10 @@ class Order {
     createFactory: true,
     createToJson: false)
 class Partition {
+  /// The ID of the Data Catalog in which the partition resides.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
   /// The time at which the partition was created.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CreationTime')
@@ -14053,6 +18389,7 @@ class Partition {
   final List<String> values;
 
   Partition({
+    this.catalogId,
     this.creationTime,
     this.databaseName,
     this.lastAccessTime,
@@ -14087,6 +18424,92 @@ class PartitionError {
   });
   factory PartitionError.fromJson(Map<String, dynamic> json) =>
       _$PartitionErrorFromJson(json);
+}
+
+/// A structure for a partition index.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PartitionIndex {
+  /// The name of the partition index.
+  @_s.JsonKey(name: 'IndexName')
+  final String indexName;
+
+  /// The keys for the partition index.
+  @_s.JsonKey(name: 'Keys')
+  final List<String> keys;
+
+  PartitionIndex({
+    @_s.required this.indexName,
+    @_s.required this.keys,
+  });
+  Map<String, dynamic> toJson() => _$PartitionIndexToJson(this);
+}
+
+/// A descriptor for a partition index in a table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PartitionIndexDescriptor {
+  /// The name of the partition index.
+  @_s.JsonKey(name: 'IndexName')
+  final String indexName;
+
+  /// The status of the partition index.
+  ///
+  /// The possible statuses are:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATING: The index is being created. When an index is in a CREATING state,
+  /// the index or its table cannot be deleted.
+  /// </li>
+  /// <li>
+  /// ACTIVE: The index creation succeeds.
+  /// </li>
+  /// <li>
+  /// FAILED: The index creation fails.
+  /// </li>
+  /// <li>
+  /// DELETING: The index is deleted from the list of indexes.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'IndexStatus')
+  final PartitionIndexStatus indexStatus;
+
+  /// A list of one or more keys, as <code>KeySchemaElement</code> structures, for
+  /// the partition index.
+  @_s.JsonKey(name: 'Keys')
+  final List<KeySchemaElement> keys;
+
+  /// A list of errors that can occur when registering partition indexes for an
+  /// existing table.
+  @_s.JsonKey(name: 'BackfillErrors')
+  final List<BackfillError> backfillErrors;
+
+  PartitionIndexDescriptor({
+    @_s.required this.indexName,
+    @_s.required this.indexStatus,
+    @_s.required this.keys,
+    this.backfillErrors,
+  });
+  factory PartitionIndexDescriptor.fromJson(Map<String, dynamic> json) =>
+      _$PartitionIndexDescriptorFromJson(json);
+}
+
+enum PartitionIndexStatus {
+  @_s.JsonValue('CREATING')
+  creating,
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('DELETING')
+  deleting,
+  @_s.JsonValue('FAILED')
+  failed,
 }
 
 /// The structure used to create and update a partition.
@@ -14354,11 +18777,287 @@ class PutResourcePolicyResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class PutSchemaVersionMetadataResponse {
+  /// The latest version of the schema.
+  @_s.JsonKey(name: 'LatestVersion')
+  final bool latestVersion;
+
+  /// The metadata key.
+  @_s.JsonKey(name: 'MetadataKey')
+  final String metadataKey;
+
+  /// The value of the metadata key.
+  @_s.JsonKey(name: 'MetadataValue')
+  final String metadataValue;
+
+  /// The name for the registry.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  /// The Amazon Resource Name (ARN) for the schema.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  /// The name for the schema.
+  @_s.JsonKey(name: 'SchemaName')
+  final String schemaName;
+
+  /// The unique version ID of the schema version.
+  @_s.JsonKey(name: 'SchemaVersionId')
+  final String schemaVersionId;
+
+  /// The version number of the schema.
+  @_s.JsonKey(name: 'VersionNumber')
+  final int versionNumber;
+
+  PutSchemaVersionMetadataResponse({
+    this.latestVersion,
+    this.metadataKey,
+    this.metadataValue,
+    this.registryName,
+    this.schemaArn,
+    this.schemaName,
+    this.schemaVersionId,
+    this.versionNumber,
+  });
+  factory PutSchemaVersionMetadataResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$PutSchemaVersionMetadataResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class PutWorkflowRunPropertiesResponse {
   PutWorkflowRunPropertiesResponse();
   factory PutWorkflowRunPropertiesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutWorkflowRunPropertiesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class QuerySchemaVersionMetadataResponse {
+  /// A map of a metadata key and associated values.
+  @_s.JsonKey(name: 'MetadataInfoMap')
+  final Map<String, MetadataInfo> metadataInfoMap;
+
+  /// A continuation token for paginating the returned list of tokens, returned if
+  /// the current segment of the list is not the last.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The unique version ID of the schema version.
+  @_s.JsonKey(name: 'SchemaVersionId')
+  final String schemaVersionId;
+
+  QuerySchemaVersionMetadataResponse({
+    this.metadataInfoMap,
+    this.nextToken,
+    this.schemaVersionId,
+  });
+  factory QuerySchemaVersionMetadataResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$QuerySchemaVersionMetadataResponseFromJson(json);
+}
+
+enum RecrawlBehavior {
+  @_s.JsonValue('CRAWL_EVERYTHING')
+  crawlEverything,
+  @_s.JsonValue('CRAWL_NEW_FOLDERS_ONLY')
+  crawlNewFoldersOnly,
+}
+
+/// When crawling an Amazon S3 data source after the first crawl is complete,
+/// specifies whether to crawl the entire dataset again or to crawl only folders
+/// that were added since the last crawler run. For more information, see <a
+/// href="https://docs.aws.amazon.com/glue/latest/dg/incremental-crawls.html">Incremental
+/// Crawls in AWS Glue</a> in the developer guide.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class RecrawlPolicy {
+  /// Specifies whether to crawl the entire dataset again or to crawl only folders
+  /// that were added since the last crawler run.
+  ///
+  /// A value of <code>CRAWL_EVERYTHING</code> specifies crawling the entire
+  /// dataset again.
+  ///
+  /// A value of <code>CRAWL_NEW_FOLDERS_ONLY</code> specifies crawling only
+  /// folders that were added since the last crawler run.
+  @_s.JsonKey(name: 'RecrawlBehavior')
+  final RecrawlBehavior recrawlBehavior;
+
+  RecrawlPolicy({
+    this.recrawlBehavior,
+  });
+  factory RecrawlPolicy.fromJson(Map<String, dynamic> json) =>
+      _$RecrawlPolicyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RecrawlPolicyToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RegisterSchemaVersionResponse {
+  /// The unique ID that represents the version of this schema.
+  @_s.JsonKey(name: 'SchemaVersionId')
+  final String schemaVersionId;
+
+  /// The status of the schema version.
+  @_s.JsonKey(name: 'Status')
+  final SchemaVersionStatus status;
+
+  /// The version of this schema (for sync flow only, in case this is the first
+  /// version).
+  @_s.JsonKey(name: 'VersionNumber')
+  final int versionNumber;
+
+  RegisterSchemaVersionResponse({
+    this.schemaVersionId,
+    this.status,
+    this.versionNumber,
+  });
+  factory RegisterSchemaVersionResponse.fromJson(Map<String, dynamic> json) =>
+      _$RegisterSchemaVersionResponseFromJson(json);
+}
+
+/// A wrapper structure that may contain the registry name and Amazon Resource
+/// Name (ARN).
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RegistryId {
+  /// Arn of the registry to be updated. One of <code>RegistryArn</code> or
+  /// <code>RegistryName</code> has to be provided.
+  @_s.JsonKey(name: 'RegistryArn')
+  final String registryArn;
+
+  /// Name of the registry. Used only for lookup. One of <code>RegistryArn</code>
+  /// or <code>RegistryName</code> has to be provided.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  RegistryId({
+    this.registryArn,
+    this.registryName,
+  });
+  Map<String, dynamic> toJson() => _$RegistryIdToJson(this);
+}
+
+/// A structure containing the details for a registry.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RegistryListItem {
+  /// The data the registry was created.
+  @_s.JsonKey(name: 'CreatedTime')
+  final String createdTime;
+
+  /// A description of the registry.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The Amazon Resource Name (ARN) of the registry.
+  @_s.JsonKey(name: 'RegistryArn')
+  final String registryArn;
+
+  /// The name of the registry.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  /// The status of the registry.
+  @_s.JsonKey(name: 'Status')
+  final RegistryStatus status;
+
+  /// The date the registry was updated.
+  @_s.JsonKey(name: 'UpdatedTime')
+  final String updatedTime;
+
+  RegistryListItem({
+    this.createdTime,
+    this.description,
+    this.registryArn,
+    this.registryName,
+    this.status,
+    this.updatedTime,
+  });
+  factory RegistryListItem.fromJson(Map<String, dynamic> json) =>
+      _$RegistryListItemFromJson(json);
+}
+
+enum RegistryStatus {
+  @_s.JsonValue('AVAILABLE')
+  available,
+  @_s.JsonValue('DELETING')
+  deleting,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RemoveSchemaVersionMetadataResponse {
+  /// The latest version of the schema.
+  @_s.JsonKey(name: 'LatestVersion')
+  final bool latestVersion;
+
+  /// The metadata key.
+  @_s.JsonKey(name: 'MetadataKey')
+  final String metadataKey;
+
+  /// The value of the metadata key.
+  @_s.JsonKey(name: 'MetadataValue')
+  final String metadataValue;
+
+  /// The name of the registry.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  /// The Amazon Resource Name (ARN) of the schema.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  /// The name of the schema.
+  @_s.JsonKey(name: 'SchemaName')
+  final String schemaName;
+
+  /// The version ID for the schema version.
+  @_s.JsonKey(name: 'SchemaVersionId')
+  final String schemaVersionId;
+
+  /// The version number of the schema.
+  @_s.JsonKey(name: 'VersionNumber')
+  final int versionNumber;
+
+  RemoveSchemaVersionMetadataResponse({
+    this.latestVersion,
+    this.metadataKey,
+    this.metadataValue,
+    this.registryName,
+    this.schemaArn,
+    this.schemaName,
+    this.schemaVersionId,
+    this.versionNumber,
+  });
+  factory RemoveSchemaVersionMetadataResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$RemoveSchemaVersionMetadataResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -14376,6 +19075,25 @@ class ResetJobBookmarkResponse {
   });
   factory ResetJobBookmarkResponse.fromJson(Map<String, dynamic> json) =>
       _$ResetJobBookmarkResponseFromJson(json);
+}
+
+enum ResourceShareType {
+  @_s.JsonValue('FOREIGN')
+  foreign,
+  @_s.JsonValue('ALL')
+  all,
+}
+
+extension on ResourceShareType {
+  String toValue() {
+    switch (this) {
+      case ResourceShareType.foreign:
+        return 'FOREIGN';
+      case ResourceShareType.all:
+        return 'ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ResourceType {
@@ -14410,6 +19128,29 @@ class ResourceUri {
       _$ResourceUriFromJson(json);
 
   Map<String, dynamic> toJson() => _$ResourceUriToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ResumeWorkflowRunResponse {
+  /// A list of the node IDs for the nodes that were actually restarted.
+  @_s.JsonKey(name: 'NodeIds')
+  final List<String> nodeIds;
+
+  /// The new ID assigned to the resumed workflow run. Each resume of a workflow
+  /// run will have a new run ID.
+  @_s.JsonKey(name: 'RunId')
+  final String runId;
+
+  ResumeWorkflowRunResponse({
+    this.nodeIds,
+    this.runId,
+  });
+  factory ResumeWorkflowRunResponse.fromJson(Map<String, dynamic> json) =>
+      _$ResumeWorkflowRunResponseFromJson(json);
 }
 
 /// Specifies how Amazon Simple Storage Service (Amazon S3) data should be
@@ -14455,9 +19196,14 @@ enum S3EncryptionMode {
     createFactory: true,
     createToJson: true)
 class S3Target {
+  /// The name of a connection which allows a job or crawler to access data in
+  /// Amazon S3 within an Amazon Virtual Private Cloud environment (Amazon VPC).
+  @_s.JsonKey(name: 'ConnectionName')
+  final String connectionName;
+
   /// A list of glob patterns used to exclude from the crawl. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/add-crawler.html">Catalog
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/add-crawler.html">Catalog
   /// Tables with a Crawler</a>.
   @_s.JsonKey(name: 'Exclusions')
   final List<String> exclusions;
@@ -14467,6 +19213,7 @@ class S3Target {
   final String path;
 
   S3Target({
+    this.connectionName,
     this.exclusions,
     this.path,
   });
@@ -14484,11 +19231,10 @@ class S3Target {
     createFactory: true,
     createToJson: false)
 class Schedule {
-  /// A <code>cron</code> expression used to specify the schedule. For more
-  /// information, see <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
+  /// A <code>cron</code> expression used to specify the schedule (see <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
   /// Schedules for Jobs and Crawlers</a>. For example, to run something every day
-  /// at 12:15 UTC, specify <code>cron(15 12 * * ? *)</code>.
+  /// at 12:15 UTC, you would specify: <code>cron(15 12 * * ? *)</code>.
   @_s.JsonKey(name: 'ScheduleExpression')
   final String scheduleExpression;
 
@@ -14563,6 +19309,237 @@ class SchemaColumn {
       _$SchemaColumnFromJson(json);
 
   Map<String, dynamic> toJson() => _$SchemaColumnToJson(this);
+}
+
+enum SchemaDiffType {
+  @_s.JsonValue('SYNTAX_DIFF')
+  syntaxDiff,
+}
+
+extension on SchemaDiffType {
+  String toValue() {
+    switch (this) {
+      case SchemaDiffType.syntaxDiff:
+        return 'SYNTAX_DIFF';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// The unique ID of the schema in the AWS Glue schema registry.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SchemaId {
+  /// The name of the schema registry that contains the schema.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  /// The Amazon Resource Name (ARN) of the schema. One of <code>SchemaArn</code>
+  /// or <code>SchemaName</code> has to be provided.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  /// The name of the schema. One of <code>SchemaArn</code> or
+  /// <code>SchemaName</code> has to be provided.
+  @_s.JsonKey(name: 'SchemaName')
+  final String schemaName;
+
+  SchemaId({
+    this.registryName,
+    this.schemaArn,
+    this.schemaName,
+  });
+  factory SchemaId.fromJson(Map<String, dynamic> json) =>
+      _$SchemaIdFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SchemaIdToJson(this);
+}
+
+/// An object that contains minimal details for a schema.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SchemaListItem {
+  /// The date and time that a schema was created.
+  @_s.JsonKey(name: 'CreatedTime')
+  final String createdTime;
+
+  /// A description for the schema.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// the name of the registry where the schema resides.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  /// The Amazon Resource Name (ARN) for the schema.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  /// The name of the schema.
+  @_s.JsonKey(name: 'SchemaName')
+  final String schemaName;
+
+  /// The status of the schema.
+  @_s.JsonKey(name: 'SchemaStatus')
+  final SchemaStatus schemaStatus;
+
+  /// The date and time that a schema was updated.
+  @_s.JsonKey(name: 'UpdatedTime')
+  final String updatedTime;
+
+  SchemaListItem({
+    this.createdTime,
+    this.description,
+    this.registryName,
+    this.schemaArn,
+    this.schemaName,
+    this.schemaStatus,
+    this.updatedTime,
+  });
+  factory SchemaListItem.fromJson(Map<String, dynamic> json) =>
+      _$SchemaListItemFromJson(json);
+}
+
+/// An object that references a schema stored in the AWS Glue Schema Registry.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SchemaReference {
+  /// A structure that contains schema identity fields. Either this or the
+  /// <code>SchemaVersionId</code> has to be provided.
+  @_s.JsonKey(name: 'SchemaId')
+  final SchemaId schemaId;
+
+  /// The unique ID assigned to a version of the schema. Either this or the
+  /// <code>SchemaId</code> has to be provided.
+  @_s.JsonKey(name: 'SchemaVersionId')
+  final String schemaVersionId;
+
+  /// The version number of the schema.
+  @_s.JsonKey(name: 'SchemaVersionNumber')
+  final int schemaVersionNumber;
+
+  SchemaReference({
+    this.schemaId,
+    this.schemaVersionId,
+    this.schemaVersionNumber,
+  });
+  factory SchemaReference.fromJson(Map<String, dynamic> json) =>
+      _$SchemaReferenceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SchemaReferenceToJson(this);
+}
+
+enum SchemaStatus {
+  @_s.JsonValue('AVAILABLE')
+  available,
+  @_s.JsonValue('PENDING')
+  pending,
+  @_s.JsonValue('DELETING')
+  deleting,
+}
+
+/// An object that contains the error details for an operation on a schema
+/// version.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SchemaVersionErrorItem {
+  /// The details of the error for the schema version.
+  @_s.JsonKey(name: 'ErrorDetails')
+  final ErrorDetails errorDetails;
+
+  /// The version number of the schema.
+  @_s.JsonKey(name: 'VersionNumber')
+  final int versionNumber;
+
+  SchemaVersionErrorItem({
+    this.errorDetails,
+    this.versionNumber,
+  });
+  factory SchemaVersionErrorItem.fromJson(Map<String, dynamic> json) =>
+      _$SchemaVersionErrorItemFromJson(json);
+}
+
+/// An object containing the details about a schema version.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SchemaVersionListItem {
+  /// The date and time the schema version was created.
+  @_s.JsonKey(name: 'CreatedTime')
+  final String createdTime;
+
+  /// The Amazon Resource Name (ARN) of the schema.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  /// The unique identifier of the schema version.
+  @_s.JsonKey(name: 'SchemaVersionId')
+  final String schemaVersionId;
+
+  /// The status of the schema version.
+  @_s.JsonKey(name: 'Status')
+  final SchemaVersionStatus status;
+
+  /// The version number of the schema.
+  @_s.JsonKey(name: 'VersionNumber')
+  final int versionNumber;
+
+  SchemaVersionListItem({
+    this.createdTime,
+    this.schemaArn,
+    this.schemaVersionId,
+    this.status,
+    this.versionNumber,
+  });
+  factory SchemaVersionListItem.fromJson(Map<String, dynamic> json) =>
+      _$SchemaVersionListItemFromJson(json);
+}
+
+/// A structure containing the schema version information.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SchemaVersionNumber {
+  /// The latest version available for the schema.
+  @_s.JsonKey(name: 'LatestVersion')
+  final bool latestVersion;
+
+  /// The version number of the schema.
+  @_s.JsonKey(name: 'VersionNumber')
+  final int versionNumber;
+
+  SchemaVersionNumber({
+    this.latestVersion,
+    this.versionNumber,
+  });
+  Map<String, dynamic> toJson() => _$SchemaVersionNumberToJson(this);
+}
+
+enum SchemaVersionStatus {
+  @_s.JsonValue('AVAILABLE')
+  available,
+  @_s.JsonValue('PENDING')
+  pending,
+  @_s.JsonValue('FAILURE')
+  failure,
+  @_s.JsonValue('DELETING')
+  deleting,
 }
 
 @_s.JsonSerializable(
@@ -14925,6 +19902,17 @@ class StopTriggerResponse {
       _$StopTriggerResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StopWorkflowRunResponse {
+  StopWorkflowRunResponse();
+  factory StopWorkflowRunResponse.fromJson(Map<String, dynamic> json) =>
+      _$StopWorkflowRunResponseFromJson(json);
+}
+
 /// Describes the physical storage of table data.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -14970,6 +19958,13 @@ class StorageDescriptor {
   @_s.JsonKey(name: 'Parameters')
   final Map<String, String> parameters;
 
+  /// An object that references a schema stored in the AWS Glue Schema Registry.
+  ///
+  /// When creating a table, you can pass an empty list of columns for the schema,
+  /// and instead use a schema reference.
+  @_s.JsonKey(name: 'SchemaReference')
+  final SchemaReference schemaReference;
+
   /// The serialization/deserialization (SerDe) information.
   @_s.JsonKey(name: 'SerdeInfo')
   final SerDeInfo serdeInfo;
@@ -14997,6 +19992,7 @@ class StorageDescriptor {
     this.numberOfBuckets,
     this.outputFormat,
     this.parameters,
+    this.schemaReference,
     this.serdeInfo,
     this.skewedInfo,
     this.sortColumns,
@@ -15006,6 +20002,41 @@ class StorageDescriptor {
       _$StorageDescriptorFromJson(json);
 
   Map<String, dynamic> toJson() => _$StorageDescriptorToJson(this);
+}
+
+/// Defines column statistics supported for character sequence data values.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class StringColumnStatisticsData {
+  /// The average string length in the column.
+  @_s.JsonKey(name: 'AverageLength')
+  final double averageLength;
+
+  /// The size of the longest string in the column.
+  @_s.JsonKey(name: 'MaximumLength')
+  final int maximumLength;
+
+  /// The number of distinct values in a column.
+  @_s.JsonKey(name: 'NumberOfDistinctValues')
+  final int numberOfDistinctValues;
+
+  /// The number of null values in the column.
+  @_s.JsonKey(name: 'NumberOfNulls')
+  final int numberOfNulls;
+
+  StringColumnStatisticsData({
+    @_s.required this.averageLength,
+    @_s.required this.maximumLength,
+    @_s.required this.numberOfDistinctValues,
+    @_s.required this.numberOfNulls,
+  });
+  factory StringColumnStatisticsData.fromJson(Map<String, dynamic> json) =>
+      _$StringColumnStatisticsDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StringColumnStatisticsDataToJson(this);
 }
 
 /// Represents a collection of related data organized in columns and rows.
@@ -15018,6 +20049,10 @@ class Table {
   /// The table name. For Hive compatibility, this must be entirely lowercase.
   @_s.JsonKey(name: 'Name')
   final String name;
+
+  /// The ID of the Data Catalog in which the table resides.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
 
   /// The time when the table definition was created in the Data Catalog.
   @UnixDateTimeConverter()
@@ -15085,6 +20120,11 @@ class Table {
   @_s.JsonKey(name: 'TableType')
   final String tableType;
 
+  /// A <code>TableIdentifier</code> structure that describes a target table for
+  /// resource linking.
+  @_s.JsonKey(name: 'TargetTable')
+  final TableIdentifier targetTable;
+
   /// The last time that the table was updated.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'UpdateTime')
@@ -15102,6 +20142,7 @@ class Table {
 
   Table({
     @_s.required this.name,
+    this.catalogId,
     this.createTime,
     this.createdBy,
     this.databaseName,
@@ -15115,6 +20156,7 @@ class Table {
     this.retention,
     this.storageDescriptor,
     this.tableType,
+    this.targetTable,
     this.updateTime,
     this.viewExpandedText,
     this.viewOriginalText,
@@ -15144,6 +20186,36 @@ class TableError {
   });
   factory TableError.fromJson(Map<String, dynamic> json) =>
       _$TableErrorFromJson(json);
+}
+
+/// A structure that describes a target table for resource linking.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TableIdentifier {
+  /// The ID of the Data Catalog in which the table resides.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// The name of the catalog database that contains the target table.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
+
+  /// The name of the target table.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  TableIdentifier({
+    this.catalogId,
+    this.databaseName,
+    this.name,
+  });
+  factory TableIdentifier.fromJson(Map<String, dynamic> json) =>
+      _$TableIdentifierFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TableIdentifierToJson(this);
 }
 
 /// A structure used to define a table.
@@ -15205,6 +20277,11 @@ class TableInput {
   @_s.JsonKey(name: 'TableType')
   final String tableType;
 
+  /// A <code>TableIdentifier</code> structure that describes a target table for
+  /// resource linking.
+  @_s.JsonKey(name: 'TargetTable')
+  final TableIdentifier targetTable;
+
   /// If the table is a view, the expanded text of the view; otherwise
   /// <code>null</code>.
   @_s.JsonKey(name: 'ViewExpandedText')
@@ -15226,6 +20303,7 @@ class TableInput {
     this.retention,
     this.storageDescriptor,
     this.tableType,
+    this.targetTable,
     this.viewExpandedText,
     this.viewOriginalText,
   });
@@ -15502,6 +20580,37 @@ enum TaskType {
   findMatches,
 }
 
+/// The encryption-at-rest settings of the transform that apply to accessing
+/// user data. Machine learning transforms can access user data encrypted in
+/// Amazon S3 using KMS.
+///
+/// Additionally, imported labels and trained transforms can now be encrypted
+/// using a customer provided KMS key.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TransformEncryption {
+  /// An <code>MLUserDataEncryption</code> object containing the encryption mode
+  /// and customer-provided KMS key ID.
+  @_s.JsonKey(name: 'MlUserDataEncryption')
+  final MLUserDataEncryption mlUserDataEncryption;
+
+  /// The name of the security configuration.
+  @_s.JsonKey(name: 'TaskRunSecurityConfigurationName')
+  final String taskRunSecurityConfigurationName;
+
+  TransformEncryption({
+    this.mlUserDataEncryption,
+    this.taskRunSecurityConfigurationName,
+  });
+  factory TransformEncryption.fromJson(Map<String, dynamic> json) =>
+      _$TransformEncryptionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TransformEncryptionToJson(this);
+}
+
 /// The criteria used to filter the machine learning transforms.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -15587,7 +20696,7 @@ class TransformParameters {
   /// The type of machine learning transform.
   ///
   /// For information about the types of machine learning transforms, see <a
-  /// href="http://docs.aws.amazon.com/glue/latest/dg/add-job-machine-learning-transform.html">Creating
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/add-job-machine-learning-transform.html">Creating
   /// Machine Learning Transforms</a>.
   @_s.JsonKey(name: 'TransformType')
   final TransformType transformType;
@@ -15854,6 +20963,42 @@ class UpdateClassifierResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateColumnStatisticsForPartitionResponse {
+  /// Error occurred during updating column statistics data.
+  @_s.JsonKey(name: 'Errors')
+  final List<ColumnStatisticsError> errors;
+
+  UpdateColumnStatisticsForPartitionResponse({
+    this.errors,
+  });
+  factory UpdateColumnStatisticsForPartitionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateColumnStatisticsForPartitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateColumnStatisticsForTableResponse {
+  /// List of ColumnStatisticsErrors.
+  @_s.JsonKey(name: 'Errors')
+  final List<ColumnStatisticsError> errors;
+
+  UpdateColumnStatisticsForTableResponse({
+    this.errors,
+  });
+  factory UpdateColumnStatisticsForTableResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateColumnStatisticsForTableResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdateConnectionResponse {
   UpdateConnectionResponse();
   factory UpdateConnectionResponse.fromJson(Map<String, dynamic> json) =>
@@ -16016,8 +21161,7 @@ class UpdateJsonClassifierRequest {
   final String name;
 
   /// A <code>JsonPath</code> string defining the JSON data for the classifier to
-  /// classify. AWS Glue supports a subset of <code>JsonPath</code>, as described
-  /// in <a
+  /// classify. AWS Glue supports a subset of JsonPath, as described in <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html#custom-classifier-json">Writing
   /// JsonPath Custom Classifiers</a>.
   @_s.JsonKey(name: 'JsonPath')
@@ -16056,6 +21200,55 @@ class UpdatePartitionResponse {
   UpdatePartitionResponse();
   factory UpdatePartitionResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdatePartitionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateRegistryResponse {
+  /// The Amazon Resource name (ARN) of the updated registry.
+  @_s.JsonKey(name: 'RegistryArn')
+  final String registryArn;
+
+  /// The name of the updated registry.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  UpdateRegistryResponse({
+    this.registryArn,
+    this.registryName,
+  });
+  factory UpdateRegistryResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateRegistryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateSchemaResponse {
+  /// The name of the registry that contains the schema.
+  @_s.JsonKey(name: 'RegistryName')
+  final String registryName;
+
+  /// The Amazon Resource Name (ARN) of the schema.
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+
+  /// The name of the schema.
+  @_s.JsonKey(name: 'SchemaName')
+  final String schemaName;
+
+  UpdateSchemaResponse({
+    this.registryName,
+    this.schemaArn,
+    this.schemaName,
+  });
+  factory UpdateSchemaResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateSchemaResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -16155,6 +21348,10 @@ class UpdateXMLClassifierRequest {
     createFactory: true,
     createToJson: false)
 class UserDefinedFunction {
+  /// The ID of the Data Catalog in which the function resides.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
   /// The Java class that contains the function code.
   @_s.JsonKey(name: 'ClassName')
   final String className;
@@ -16163,6 +21360,10 @@ class UserDefinedFunction {
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CreateTime')
   final DateTime createTime;
+
+  /// The name of the catalog database that contains the function.
+  @_s.JsonKey(name: 'DatabaseName')
+  final String databaseName;
 
   /// The name of the function.
   @_s.JsonKey(name: 'FunctionName')
@@ -16181,8 +21382,10 @@ class UserDefinedFunction {
   final List<ResourceUri> resourceUris;
 
   UserDefinedFunction({
+    this.catalogId,
     this.className,
     this.createTime,
+    this.databaseName,
     this.functionName,
     this.ownerName,
     this.ownerType,
@@ -16288,6 +21491,13 @@ class Workflow {
   @_s.JsonKey(name: 'LastRun')
   final WorkflowRun lastRun;
 
+  /// You can use this parameter to prevent unwanted multiple updates to data, to
+  /// control costs, or in some cases, to prevent exceeding the maximum number of
+  /// concurrent runs of any of the component jobs. If you leave this parameter
+  /// blank, there is no limit to the number of concurrent workflow runs.
+  @_s.JsonKey(name: 'MaxConcurrentRuns')
+  final int maxConcurrentRuns;
+
   /// The name of the workflow representing the flow.
   @_s.JsonKey(name: 'Name')
   final String name;
@@ -16299,6 +21509,7 @@ class Workflow {
     this.graph,
     this.lastModifiedOn,
     this.lastRun,
+    this.maxConcurrentRuns,
     this.name,
   });
   factory Workflow.fromJson(Map<String, dynamic> json) =>
@@ -16345,14 +21556,24 @@ class WorkflowRun {
   @_s.JsonKey(name: 'CompletedOn')
   final DateTime completedOn;
 
+  /// This error message describes any error that may have occurred in starting
+  /// the workflow run. Currently the only error message is "Concurrent runs
+  /// exceeded for workflow: <code>foo</code>."
+  @_s.JsonKey(name: 'ErrorMessage')
+  final String errorMessage;
+
   /// The graph representing all the AWS Glue components that belong to the
   /// workflow as nodes and directed connections between them as edges.
   @_s.JsonKey(name: 'Graph')
   final WorkflowGraph graph;
 
-  /// Name of the workflow which was executed.
+  /// Name of the workflow that was executed.
   @_s.JsonKey(name: 'Name')
   final String name;
+
+  /// The ID of the previous workflow run.
+  @_s.JsonKey(name: 'PreviousRunId')
+  final String previousRunId;
 
   /// The date and time when the workflow run was started.
   @UnixDateTimeConverter()
@@ -16377,8 +21598,10 @@ class WorkflowRun {
 
   WorkflowRun({
     this.completedOn,
+    this.errorMessage,
     this.graph,
     this.name,
+    this.previousRunId,
     this.startedOn,
     this.statistics,
     this.status,
@@ -16396,7 +21619,7 @@ class WorkflowRun {
     createFactory: true,
     createToJson: false)
 class WorkflowRunStatistics {
-  /// Total number of Actions which have failed.
+  /// Total number of Actions that have failed.
   @_s.JsonKey(name: 'FailedActions')
   final int failedActions;
 
@@ -16404,15 +21627,15 @@ class WorkflowRunStatistics {
   @_s.JsonKey(name: 'RunningActions')
   final int runningActions;
 
-  /// Total number of Actions which have stopped.
+  /// Total number of Actions that have stopped.
   @_s.JsonKey(name: 'StoppedActions')
   final int stoppedActions;
 
-  /// Total number of Actions which have succeeded.
+  /// Total number of Actions that have succeeded.
   @_s.JsonKey(name: 'SucceededActions')
   final int succeededActions;
 
-  /// Total number of Actions which timed out.
+  /// Total number of Actions that timed out.
   @_s.JsonKey(name: 'TimeoutActions')
   final int timeoutActions;
 
@@ -16437,6 +21660,12 @@ enum WorkflowRunStatus {
   running,
   @_s.JsonValue('COMPLETED')
   completed,
+  @_s.JsonValue('STOPPING')
+  stopping,
+  @_s.JsonValue('STOPPED')
+  stopped,
+  @_s.JsonValue('ERROR')
+  error,
 }
 
 /// A classifier for <code>XML</code> content.
@@ -16523,6 +21752,11 @@ class ConditionCheckFailureException extends _s.GenericAwsException {
             message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String type, String message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
 class CrawlerNotRunningException extends _s.GenericAwsException {
   CrawlerNotRunningException({String type, String message})
       : super(type: type, code: 'CrawlerNotRunningException', message: message);
@@ -16553,6 +21787,14 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'IdempotentParameterMismatchException',
+            message: message);
+}
+
+class IllegalWorkflowStateException extends _s.GenericAwsException {
+  IllegalWorkflowStateException({String type, String message})
+      : super(
+            type: type,
+            code: 'IllegalWorkflowStateException',
             message: message);
 }
 
@@ -16630,6 +21872,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConcurrentRunsExceededException(type: type, message: message),
   'ConditionCheckFailureException': (type, message) =>
       ConditionCheckFailureException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'CrawlerNotRunningException': (type, message) =>
       CrawlerNotRunningException(type: type, message: message),
   'CrawlerRunningException': (type, message) =>
@@ -16642,6 +21886,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       GlueEncryptionException(type: type, message: message),
   'IdempotentParameterMismatchException': (type, message) =>
       IdempotentParameterMismatchException(type: type, message: message),
+  'IllegalWorkflowStateException': (type, message) =>
+      IllegalWorkflowStateException(type: type, message: message),
   'InternalServiceException': (type, message) =>
       InternalServiceException(type: type, message: message),
   'InvalidInputException': (type, message) =>

@@ -153,6 +153,9 @@ DescribeFleetMetadataResponse _$DescribeFleetMetadataResponseFromJson(
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
     optimizeForEndUserLocation: json['OptimizeForEndUserLocation'] as bool,
+    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -237,6 +240,9 @@ FleetSummary _$FleetSummaryFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$FleetStatusEnumMap, json['FleetStatus']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
+    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -269,6 +275,15 @@ ListFleetsResponse _$ListFleetsResponseFromJson(Map<String, dynamic> json) {
             e == null ? null : FleetSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextToken: json['NextToken'] as String,
+  );
+}
+
+ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListTagsForResourceResponse(
+    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -313,6 +328,15 @@ RevokeDomainAccessResponse _$RevokeDomainAccessResponseFromJson(
 
 SignOutUserResponse _$SignOutUserResponseFromJson(Map<String, dynamic> json) {
   return SignOutUserResponse();
+}
+
+TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
+  return TagResourceResponse();
+}
+
+UntagResourceResponse _$UntagResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return UntagResourceResponse();
 }
 
 UpdateAuditStreamConfigurationResponse

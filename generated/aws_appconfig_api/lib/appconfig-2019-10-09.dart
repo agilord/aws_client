@@ -146,12 +146,12 @@ class AppConfig {
   /// Parameter [name] :
   /// A name for the configuration profile.
   ///
+  /// Parameter [description] :
+  /// A description of the configuration profile.
+  ///
   /// Parameter [retrievalRoleArn] :
   /// The ARN of an IAM role with permission to access the configuration at the
   /// specified LocationUri.
-  ///
-  /// Parameter [description] :
-  /// A description of the configuration profile.
   ///
   /// Parameter [tags] :
   /// Metadata to assign to the configuration profile. Tags help organize and
@@ -164,8 +164,8 @@ class AppConfig {
     @_s.required String applicationId,
     @_s.required String locationUri,
     @_s.required String name,
-    @_s.required String retrievalRoleArn,
     String description,
+    String retrievalRoleArn,
     Map<String, String> tags,
     List<Validator> validators,
   }) async {
@@ -192,31 +192,28 @@ class AppConfig {
       64,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(retrievalRoleArn, 'retrievalRoleArn');
-    _s.validateStringLength(
-      'retrievalRoleArn',
-      retrievalRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'retrievalRoleArn',
-      retrievalRoleArn,
-      r'''arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1})?:(\d{12})?:[a-zA-Z0-9-_/:.]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1024,
     );
+    _s.validateStringLength(
+      'retrievalRoleArn',
+      retrievalRoleArn,
+      20,
+      2048,
+    );
+    _s.validateStringPattern(
+      'retrievalRoleArn',
+      retrievalRoleArn,
+      r'''^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\d{12}:role[/].*)$''',
+    );
     final $payload = <String, dynamic>{
       'LocationUri': locationUri,
       'Name': name,
-      'RetrievalRoleArn': retrievalRoleArn,
       if (description != null) 'Description': description,
+      if (retrievalRoleArn != null) 'RetrievalRoleArn': retrievalRoleArn,
       if (tags != null) 'Tags': tags,
       if (validators != null) 'Validators': validators,
     };
@@ -433,6 +430,103 @@ class AppConfig {
     return Environment.fromJson(response);
   }
 
+  /// Create a new configuration in the AppConfig configuration store.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [PayloadTooLargeException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [applicationId] :
+  /// The application ID.
+  ///
+  /// Parameter [configurationProfileId] :
+  /// The configuration profile ID.
+  ///
+  /// Parameter [content] :
+  /// The content of the configuration or the configuration data.
+  ///
+  /// Parameter [contentType] :
+  /// A standard MIME type describing the format of the configuration content.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
+  ///
+  /// Parameter [description] :
+  /// A description of the configuration.
+  ///
+  /// Parameter [latestVersionNumber] :
+  /// An optional locking token used to prevent race conditions from overwriting
+  /// configuration updates when creating a new version. To ensure your data is
+  /// not overwritten when creating multiple hosted configuration versions in
+  /// rapid succession, specify the version of the latest hosted configuration
+  /// version.
+  Future<HostedConfigurationVersion> createHostedConfigurationVersion({
+    @_s.required String applicationId,
+    @_s.required String configurationProfileId,
+    @_s.required Uint8List content,
+    @_s.required String contentType,
+    String description,
+    int latestVersionNumber,
+  }) async {
+    ArgumentError.checkNotNull(applicationId, 'applicationId');
+    _s.validateStringPattern(
+      'applicationId',
+      applicationId,
+      r'''[a-z0-9]{4,7}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        configurationProfileId, 'configurationProfileId');
+    _s.validateStringPattern(
+      'configurationProfileId',
+      configurationProfileId,
+      r'''[a-z0-9]{4,7}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(content, 'content');
+    ArgumentError.checkNotNull(contentType, 'contentType');
+    _s.validateStringLength(
+      'contentType',
+      contentType,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      1024,
+    );
+    final headers = <String, String>{};
+    contentType?.let((v) => headers['Content-Type'] = v.toString());
+    description?.let((v) => headers['Description'] = v.toString());
+    latestVersionNumber
+        ?.let((v) => headers['Latest-Version-Number'] = v.toString());
+    final response = await _protocol.sendRaw(
+      payload: content,
+      method: 'POST',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationId)}/configurationprofiles/${Uri.encodeComponent(configurationProfileId)}/hostedconfigurationversions',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return HostedConfigurationVersion(
+      content: await response.stream.toBytes(),
+      applicationId:
+          _s.extractHeaderStringValue(response.headers, 'Application-Id'),
+      configurationProfileId: _s.extractHeaderStringValue(
+          response.headers, 'Configuration-Profile-Id'),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+      description: _s.extractHeaderStringValue(response.headers, 'Description'),
+      versionNumber:
+          _s.extractHeaderIntValue(response.headers, 'Version-Number'),
+    );
+  }
+
   /// Delete an application. Deleting an application does not delete a
   /// configuration from a host.
   ///
@@ -518,7 +612,7 @@ class AppConfig {
     _s.validateStringPattern(
       'deploymentStrategyId',
       deploymentStrategyId,
-      r'''([a-z0-9]{4,7}|arn:aws.*)''',
+      r'''(^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)''',
       isRequired: true,
     );
     await _protocol.send(
@@ -570,6 +664,51 @@ class AppConfig {
     );
   }
 
+  /// Delete a version of a configuration from the AppConfig configuration
+  /// store.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [applicationId] :
+  /// The application ID.
+  ///
+  /// Parameter [configurationProfileId] :
+  /// The configuration profile ID.
+  ///
+  /// Parameter [versionNumber] :
+  /// The versions number to delete.
+  Future<void> deleteHostedConfigurationVersion({
+    @_s.required String applicationId,
+    @_s.required String configurationProfileId,
+    @_s.required int versionNumber,
+  }) async {
+    ArgumentError.checkNotNull(applicationId, 'applicationId');
+    _s.validateStringPattern(
+      'applicationId',
+      applicationId,
+      r'''[a-z0-9]{4,7}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        configurationProfileId, 'configurationProfileId');
+    _s.validateStringPattern(
+      'configurationProfileId',
+      configurationProfileId,
+      r'''[a-z0-9]{4,7}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(versionNumber, 'versionNumber');
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationId)}/configurationprofiles/${Uri.encodeComponent(configurationProfileId)}/hostedconfigurationversions/${Uri.encodeComponent(versionNumber.toString())}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Retrieve information about an application.
   ///
   /// May throw [ResourceNotFoundException].
@@ -597,11 +736,25 @@ class AppConfig {
     return Application.fromJson(response);
   }
 
-  /// Retrieve information about a configuration.
+  /// Receive information about a configuration.
+  /// <important>
+  /// AWS AppConfig uses the value of the
+  /// <code>ClientConfigurationVersion</code> parameter to identify the
+  /// configuration version on your clients. If you don’t send
+  /// <code>ClientConfigurationVersion</code> with each call to
+  /// <code>GetConfiguration</code>, your clients receive the current
+  /// configuration. You are charged each time your clients receive a
+  /// configuration.
+  ///
+  /// To avoid excess charges, we recommend that you include the
+  /// <code>ClientConfigurationVersion</code> value with every call to
+  /// <code>GetConfiguration</code>. This value must be saved on your client.
+  /// Subsequent calls to <code>GetConfiguration</code> must pass this value by
+  /// using the <code>ClientConfigurationVersion</code> parameter.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [BadRequestException].
   ///
   /// Parameter [application] :
@@ -622,8 +775,26 @@ class AppConfig {
   /// environment ID.
   ///
   /// Parameter [clientConfigurationVersion] :
-  /// The configuration version returned in the most recent GetConfiguration
-  /// response.
+  /// The configuration version returned in the most recent
+  /// <code>GetConfiguration</code> response.
+  /// <important>
+  /// AWS AppConfig uses the value of the
+  /// <code>ClientConfigurationVersion</code> parameter to identify the
+  /// configuration version on your clients. If you don’t send
+  /// <code>ClientConfigurationVersion</code> with each call to
+  /// <code>GetConfiguration</code>, your clients receive the current
+  /// configuration. You are charged each time your clients receive a
+  /// configuration.
+  ///
+  /// To avoid excess charges, we recommend that you include the
+  /// <code>ClientConfigurationVersion</code> value with every call to
+  /// <code>GetConfiguration</code>. This value must be saved on your client.
+  /// Subsequent calls to <code>GetConfiguration</code> must pass this value by
+  /// using the <code>ClientConfigurationVersion</code> parameter.
+  /// </important>
+  /// For more information about working with configurations, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/appconfig-retrieving-the-configuration.html">Retrieving
+  /// the Configuration</a> in the <i>AWS AppConfig User Guide</i>.
   Future<Configuration> getConfiguration({
     @_s.required String application,
     @_s.required String clientId,
@@ -667,7 +838,7 @@ class AppConfig {
       'clientConfigurationVersion',
       clientConfigurationVersion,
       1,
-      128,
+      1024,
     );
     final $query = <String, List<String>>{
       if (clientId != null) 'client_id': [clientId],
@@ -795,7 +966,7 @@ class AppConfig {
     _s.validateStringPattern(
       'deploymentStrategyId',
       deploymentStrategyId,
-      r'''([a-z0-9]{4,7}|arn:aws.*)''',
+      r'''(^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -851,6 +1022,62 @@ class AppConfig {
       exceptionFnMap: _exceptionFns,
     );
     return Environment.fromJson(response);
+  }
+
+  /// Get information about a specific configuration version.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [applicationId] :
+  /// The application ID.
+  ///
+  /// Parameter [configurationProfileId] :
+  /// The configuration profile ID.
+  ///
+  /// Parameter [versionNumber] :
+  /// The version.
+  Future<HostedConfigurationVersion> getHostedConfigurationVersion({
+    @_s.required String applicationId,
+    @_s.required String configurationProfileId,
+    @_s.required int versionNumber,
+  }) async {
+    ArgumentError.checkNotNull(applicationId, 'applicationId');
+    _s.validateStringPattern(
+      'applicationId',
+      applicationId,
+      r'''[a-z0-9]{4,7}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        configurationProfileId, 'configurationProfileId');
+    _s.validateStringPattern(
+      'configurationProfileId',
+      configurationProfileId,
+      r'''[a-z0-9]{4,7}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(versionNumber, 'versionNumber');
+    final response = await _protocol.sendRaw(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationId)}/configurationprofiles/${Uri.encodeComponent(configurationProfileId)}/hostedconfigurationversions/${Uri.encodeComponent(versionNumber.toString())}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return HostedConfigurationVersion(
+      content: await response.stream.toBytes(),
+      applicationId:
+          _s.extractHeaderStringValue(response.headers, 'Application-Id'),
+      configurationProfileId: _s.extractHeaderStringValue(
+          response.headers, 'Configuration-Profile-Id'),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+      description: _s.extractHeaderStringValue(response.headers, 'Description'),
+      versionNumber:
+          _s.extractHeaderIntValue(response.headers, 'Version-Number'),
+    );
   }
 
   /// List all applications in your AWS account.
@@ -1113,6 +1340,74 @@ class AppConfig {
     return Environments.fromJson(response);
   }
 
+  /// View a list of configurations stored in the AppConfig configuration store
+  /// by version.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [applicationId] :
+  /// The application ID.
+  ///
+  /// Parameter [configurationProfileId] :
+  /// The configuration profile ID.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call. The call also returns
+  /// a token that you can specify in a subsequent call to get the next set of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to start the list. Use this token to get the next set of results.
+  Future<HostedConfigurationVersions> listHostedConfigurationVersions({
+    @_s.required String applicationId,
+    @_s.required String configurationProfileId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(applicationId, 'applicationId');
+    _s.validateStringPattern(
+      'applicationId',
+      applicationId,
+      r'''[a-z0-9]{4,7}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        configurationProfileId, 'configurationProfileId');
+    _s.validateStringPattern(
+      'configurationProfileId',
+      configurationProfileId,
+      r'''[a-z0-9]{4,7}''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max_results': [maxResults.toString()],
+      if (nextToken != null) 'next_token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/applications/${Uri.encodeComponent(applicationId)}/configurationprofiles/${Uri.encodeComponent(configurationProfileId)}/hostedconfigurationversions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return HostedConfigurationVersions.fromJson(response);
+  }
+
   /// Retrieves the list of key-value tags assigned to the resource.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1205,14 +1500,14 @@ class AppConfig {
       'configurationVersion',
       configurationVersion,
       1,
-      128,
+      1024,
       isRequired: true,
     );
     ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
     _s.validateStringPattern(
       'deploymentStrategyId',
       deploymentStrategyId,
-      r'''([a-z0-9]{4,7}|arn:aws.*)''',
+      r'''(^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(environmentId, 'environmentId');
@@ -1498,7 +1793,7 @@ class AppConfig {
     _s.validateStringPattern(
       'retrievalRoleArn',
       retrievalRoleArn,
-      r'''arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1})?:(\d{12})?:[a-zA-Z0-9-_/:.]+''',
+      r'''^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\d{12}:role[/].*)$''',
     );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
@@ -1579,7 +1874,7 @@ class AppConfig {
     _s.validateStringPattern(
       'deploymentStrategyId',
       deploymentStrategyId,
-      r'''([a-z0-9]{4,7}|arn:aws.*)''',
+      r'''(^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1733,7 +2028,7 @@ class AppConfig {
       'configurationVersion',
       configurationVersion,
       1,
-      128,
+      1024,
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -2386,6 +2681,115 @@ extension on GrowthType {
   }
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class HostedConfigurationVersion {
+  /// The application ID.
+  @_s.JsonKey(name: 'Application-Id')
+  final String applicationId;
+
+  /// The configuration profile ID.
+  @_s.JsonKey(name: 'Configuration-Profile-Id')
+  final String configurationProfileId;
+
+  /// The content of the configuration or the configuration data.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'Content')
+  final Uint8List content;
+
+  /// A standard MIME type describing the format of the configuration content. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
+  @_s.JsonKey(name: 'Content-Type')
+  final String contentType;
+
+  /// A description of the configuration.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The configuration version.
+  @_s.JsonKey(name: 'Version-Number')
+  final int versionNumber;
+
+  HostedConfigurationVersion({
+    this.applicationId,
+    this.configurationProfileId,
+    this.content,
+    this.contentType,
+    this.description,
+    this.versionNumber,
+  });
+  factory HostedConfigurationVersion.fromJson(Map<String, dynamic> json) =>
+      _$HostedConfigurationVersionFromJson(json);
+}
+
+/// Information about the configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class HostedConfigurationVersionSummary {
+  /// The application ID.
+  @_s.JsonKey(name: 'ApplicationId')
+  final String applicationId;
+
+  /// The configuration profile ID.
+  @_s.JsonKey(name: 'ConfigurationProfileId')
+  final String configurationProfileId;
+
+  /// A standard MIME type describing the format of the configuration content. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
+  @_s.JsonKey(name: 'ContentType')
+  final String contentType;
+
+  /// A description of the configuration.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The configuration version.
+  @_s.JsonKey(name: 'VersionNumber')
+  final int versionNumber;
+
+  HostedConfigurationVersionSummary({
+    this.applicationId,
+    this.configurationProfileId,
+    this.contentType,
+    this.description,
+    this.versionNumber,
+  });
+  factory HostedConfigurationVersionSummary.fromJson(
+          Map<String, dynamic> json) =>
+      _$HostedConfigurationVersionSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class HostedConfigurationVersions {
+  /// The elements from this collection.
+  @_s.JsonKey(name: 'Items')
+  final List<HostedConfigurationVersionSummary> items;
+
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  HostedConfigurationVersions({
+    this.items,
+    this.nextToken,
+  });
+  factory HostedConfigurationVersions.fromJson(Map<String, dynamic> json) =>
+      _$HostedConfigurationVersionsFromJson(json);
+}
+
 /// Amazon CloudWatch alarms to monitor during the deployment process.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2513,9 +2917,22 @@ class InternalServerException extends _s.GenericAwsException {
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+class PayloadTooLargeException extends _s.GenericAwsException {
+  PayloadTooLargeException({String type, String message})
+      : super(type: type, code: 'PayloadTooLargeException', message: message);
+}
+
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String type, String message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String type, String message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
@@ -2525,6 +2942,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConflictException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
+  'PayloadTooLargeException': (type, message) =>
+      PayloadTooLargeException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
 };

@@ -217,7 +217,7 @@ class IoTSecureTunneling {
   }
 
   /// Creates a new tunnel, and returns two client access tokens for clients to
-  /// use to connect to the AWS IoT Secure Tunneling proxy server. .
+  /// use to connect to the AWS IoT Secure Tunneling proxy server.
   ///
   /// May throw [LimitExceededException].
   ///
@@ -414,11 +414,11 @@ class DescribeTunnelResponse {
     createFactory: true,
     createToJson: true)
 class DestinationConfig {
-  /// A list of service names that identity the target application. Currently, you
-  /// can only specify a single name. The AWS IoT client running on the
-  /// destination device reads this value and uses it to look up a port or an IP
-  /// address and a port. The AWS IoT client instantiates the local proxy which
-  /// uses this information to connect to the destination application.
+  /// A list of service names that identity the target application. The AWS IoT
+  /// client running on the destination device reads this value and uses it to
+  /// look up a port or an IP address and a port. The AWS IoT client instantiates
+  /// the local proxy which uses this information to connect to the destination
+  /// application.
   @_s.JsonKey(name: 'services')
   final List<String> services;
 
@@ -428,7 +428,7 @@ class DestinationConfig {
 
   DestinationConfig({
     @_s.required this.services,
-    @_s.required this.thingName,
+    this.thingName,
   });
   factory DestinationConfig.fromJson(Map<String, dynamic> json) =>
       _$DestinationConfigFromJson(json);

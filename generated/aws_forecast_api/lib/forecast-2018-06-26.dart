@@ -74,7 +74,7 @@ class ForecastService {
   /// To get a list of all your datasets, use the <a>ListDatasets</a> operation.
   ///
   /// For example Forecast datasets, see the <a
-  /// href="https://github.com/aws-samples/amazon-forecast-samples/tree/master/data">Amazon
+  /// href="https://github.com/aws-samples/amazon-forecast-samples">Amazon
   /// Forecast Sample GitHub repository</a>.
   /// <note>
   /// The <code>Status</code> of a dataset must be <code>ACTIVE</code> before
@@ -126,6 +126,47 @@ class ForecastService {
   /// Parameter [encryptionConfig] :
   /// An AWS Key Management Service (KMS) key and the AWS Identity and Access
   /// Management (IAM) role that Amazon Forecast can assume to access the key.
+  ///
+  /// Parameter [tags] :
+  /// The optional metadata that you apply to the dataset to help you categorize
+  /// and organize them. Each tag consists of a key and an optional value, both
+  /// of which you define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50.
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces
+  /// representable in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for keys as it is reserved for AWS use.
+  /// You cannot edit or delete tag keys with this prefix. Values can have this
+  /// prefix. If a tag value has <code>aws</code> as its prefix but the key does
+  /// not, then Forecast considers it to be a user tag and will count against
+  /// the limit of 50 tags. Tags with only the key prefix of <code>aws</code> do
+  /// not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
   Future<CreateDatasetResponse> createDataset({
     @_s.required String datasetName,
     @_s.required DatasetType datasetType,
@@ -133,6 +174,7 @@ class ForecastService {
     @_s.required Schema schema,
     String dataFrequency,
     EncryptionConfig encryptionConfig,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
     _s.validateStringLength(
@@ -173,6 +215,7 @@ class ForecastService {
         'Schema': schema,
         if (dataFrequency != null) 'DataFrequency': dataFrequency,
         if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -191,8 +234,8 @@ class ForecastService {
   /// <a>ListDatasetGroups</a> operation.
   /// <note>
   /// The <code>Status</code> of a dataset group must be <code>ACTIVE</code>
-  /// before you can create use the dataset group to create a predictor. To get
-  /// the status, use the <a>DescribeDatasetGroup</a> operation.
+  /// before you can use the dataset group to create a predictor. To get the
+  /// status, use the <a>DescribeDatasetGroup</a> operation.
   /// </note>
   ///
   /// May throw [InvalidInputException].
@@ -221,10 +264,52 @@ class ForecastService {
   /// Parameter [datasetArns] :
   /// An array of Amazon Resource Names (ARNs) of the datasets that you want to
   /// include in the dataset group.
+  ///
+  /// Parameter [tags] :
+  /// The optional metadata that you apply to the dataset group to help you
+  /// categorize and organize them. Each tag consists of a key and an optional
+  /// value, both of which you define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50.
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces
+  /// representable in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for keys as it is reserved for AWS use.
+  /// You cannot edit or delete tag keys with this prefix. Values can have this
+  /// prefix. If a tag value has <code>aws</code> as its prefix but the key does
+  /// not, then Forecast considers it to be a user tag and will count against
+  /// the limit of 50 tags. Tags with only the key prefix of <code>aws</code> do
+  /// not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
   Future<CreateDatasetGroupResponse> createDatasetGroup({
     @_s.required String datasetGroupName,
     @_s.required Domain domain,
     List<String> datasetArns,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(datasetGroupName, 'datasetGroupName');
     _s.validateStringLength(
@@ -255,6 +340,7 @@ class ForecastService {
         'DatasetGroupName': datasetGroupName,
         'Domain': domain?.toValue() ?? '',
         if (datasetArns != null) 'DatasetArns': datasetArns,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -268,7 +354,9 @@ class ForecastService {
   ///
   /// You must specify a <a>DataSource</a> object that includes an AWS Identity
   /// and Access Management (IAM) role that Amazon Forecast can assume to access
-  /// the data. For more information, see <a>aws-forecast-iam-roles</a>.
+  /// the data, as Amazon Forecast makes a copy of your data and processes it in
+  /// an internal AWS system. For more information, see
+  /// <a>aws-forecast-iam-roles</a>.
   ///
   /// The training data must be in CSV format. The delimiter must be a comma
   /// (,).
@@ -276,6 +364,12 @@ class ForecastService {
   /// You can specify the path to a specific CSV file, the S3 bucket, or to a
   /// folder in the S3 bucket. For the latter two cases, Amazon Forecast imports
   /// all files up to the limit of 10,000 files.
+  ///
+  /// Because dataset imports are not aggregated, your most recent dataset
+  /// import is the one that is used when training a predictor or generating a
+  /// forecast. Make sure that your most recent dataset import contains all of
+  /// the data you want to model off of, and not just the new data collected
+  /// since the previous import.
   ///
   /// To get a list of all your dataset import jobs, filtered by specified
   /// criteria, use the <a>ListDatasetImportJobs</a> operation.
@@ -307,6 +401,71 @@ class ForecastService {
   /// This can help you avoid getting a
   /// <code>ResourceAlreadyExistsException</code> exception.
   ///
+  /// Parameter [geolocationFormat] :
+  /// The format of the geolocation attribute. The geolocation attribute can be
+  /// formatted in one of two ways:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LAT_LONG</code> - the latitude and longitude in decimal format
+  /// (Example: 47.61_-122.33).
+  /// </li>
+  /// <li>
+  /// <code>CC_POSTALCODE</code> (US Only) - the country code (US), followed by
+  /// the 5-digit ZIP code (Example: US_98121).
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [tags] :
+  /// The optional metadata that you apply to the dataset import job to help you
+  /// categorize and organize them. Each tag consists of a key and an optional
+  /// value, both of which you define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50.
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces
+  /// representable in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for keys as it is reserved for AWS use.
+  /// You cannot edit or delete tag keys with this prefix. Values can have this
+  /// prefix. If a tag value has <code>aws</code> as its prefix but the key does
+  /// not, then Forecast considers it to be a user tag and will count against
+  /// the limit of 50 tags. Tags with only the key prefix of <code>aws</code> do
+  /// not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [timeZone] :
+  /// A single time zone for every item in your dataset. This option is ideal
+  /// for datasets with all timestamps within a single time zone, or if all
+  /// timestamps are normalized to a single time zone.
+  ///
+  /// Refer to the <a
+  /// href="http://joda-time.sourceforge.net/timezones.html">Joda-Time API</a>
+  /// for a complete list of valid time zone names.
+  ///
   /// Parameter [timestampFormat] :
   /// The format of timestamps in the dataset. The format that you specify
   /// depends on the <code>DataFrequency</code> specified when the dataset was
@@ -327,11 +486,20 @@ class ForecastService {
   /// </ul>
   /// If the format isn't specified, Amazon Forecast expects the format to be
   /// "yyyy-MM-dd HH:mm:ss".
+  ///
+  /// Parameter [useGeolocationForTimeZone] :
+  /// Automatically derive time zone information from the geolocation attribute.
+  /// This option is ideal for datasets that contain timestamps in multiple time
+  /// zones and those timestamps are expressed in local time.
   Future<CreateDatasetImportJobResponse> createDatasetImportJob({
     @_s.required DataSource dataSource,
     @_s.required String datasetArn,
     @_s.required String datasetImportJobName,
+    String geolocationFormat,
+    List<Tag> tags,
+    String timeZone,
     String timestampFormat,
+    bool useGeolocationForTimeZone,
   }) async {
     ArgumentError.checkNotNull(dataSource, 'dataSource');
     ArgumentError.checkNotNull(datasetArn, 'datasetArn');
@@ -363,6 +531,28 @@ class ForecastService {
       isRequired: true,
     );
     _s.validateStringLength(
+      'geolocationFormat',
+      geolocationFormat,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'geolocationFormat',
+      geolocationFormat,
+      r'''^[a-zA-Z0-9_]+$''',
+    );
+    _s.validateStringLength(
+      'timeZone',
+      timeZone,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'timeZone',
+      timeZone,
+      r'''^[a-zA-Z0-9\/\+\-\_]+$''',
+    );
+    _s.validateStringLength(
       'timestampFormat',
       timestampFormat,
       0,
@@ -387,7 +577,12 @@ class ForecastService {
         'DataSource': dataSource,
         'DatasetArn': datasetArn,
         'DatasetImportJobName': datasetImportJobName,
+        if (geolocationFormat != null) 'GeolocationFormat': geolocationFormat,
+        if (tags != null) 'Tags': tags,
+        if (timeZone != null) 'TimeZone': timeZone,
         if (timestampFormat != null) 'TimestampFormat': timestampFormat,
+        if (useGeolocationForTimeZone != null)
+          'UseGeolocationForTimeZone': useGeolocationForTimeZone,
       },
     );
 
@@ -403,10 +598,8 @@ class ForecastService {
   ///
   /// The range of the forecast is determined by the
   /// <code>ForecastHorizon</code> value, which you specify in the
-  /// <a>CreatePredictor</a> request, multiplied by the
-  /// <code>DataFrequency</code> value, which you specify in the
-  /// <a>CreateDataset</a> request. When you query a forecast, you can request a
-  /// specific date range within the forecast.
+  /// <a>CreatePredictor</a> request. When you query a forecast, you can request
+  /// a specific date range within the forecast.
   ///
   /// To get a list of all your forecasts, use the <a>ListForecasts</a>
   /// operation.
@@ -435,16 +628,58 @@ class ForecastService {
   /// forecast.
   ///
   /// Parameter [forecastTypes] :
-  /// The quantiles at which probabilistic forecasts are generated. You can
-  /// specify up to 5 quantiles per forecast. Accepted values include <code>0.01
-  /// to 0.99</code> (increments of .01 only) and <code>mean</code>. The mean
-  /// forecast is different from the median (0.50) when the distribution is not
-  /// symmetric (e.g. Beta, Negative Binomial). The default value is
-  /// <code>["0.1", "0.5", "0.9"]</code>.
+  /// The quantiles at which probabilistic forecasts are generated. <b>You can
+  /// currently specify up to 5 quantiles per forecast</b>. Accepted values
+  /// include <code>0.01 to 0.99</code> (increments of .01 only) and
+  /// <code>mean</code>. The mean forecast is different from the median (0.50)
+  /// when the distribution is not symmetric (for example, Beta and Negative
+  /// Binomial). The default value is <code>["0.1", "0.5", "0.9"]</code>.
+  ///
+  /// Parameter [tags] :
+  /// The optional metadata that you apply to the forecast to help you
+  /// categorize and organize them. Each tag consists of a key and an optional
+  /// value, both of which you define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50.
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces
+  /// representable in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for keys as it is reserved for AWS use.
+  /// You cannot edit or delete tag keys with this prefix. Values can have this
+  /// prefix. If a tag value has <code>aws</code> as its prefix but the key does
+  /// not, then Forecast considers it to be a user tag and will count against
+  /// the limit of 50 tags. Tags with only the key prefix of <code>aws</code> do
+  /// not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
   Future<CreateForecastResponse> createForecast({
     @_s.required String forecastName,
     @_s.required String predictorArn,
     List<String> forecastTypes,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(forecastName, 'forecastName');
     _s.validateStringLength(
@@ -488,6 +723,7 @@ class ForecastService {
         'ForecastName': forecastName,
         'PredictorArn': predictorArn,
         if (forecastTypes != null) 'ForecastTypes': forecastTypes,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -498,7 +734,7 @@ class ForecastService {
   /// Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name
   /// will match the following conventions:
   ///
-  /// &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PageNumber&gt;
+  /// &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;
   ///
   /// where the &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat
   /// (yyyy-MM-ddTHH-mm-ssZ).
@@ -539,10 +775,52 @@ class ForecastService {
   ///
   /// Parameter [forecastExportJobName] :
   /// The name for the forecast export job.
+  ///
+  /// Parameter [tags] :
+  /// The optional metadata that you apply to the forecast export job to help
+  /// you categorize and organize them. Each tag consists of a key and an
+  /// optional value, both of which you define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50.
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces
+  /// representable in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for keys as it is reserved for AWS use.
+  /// You cannot edit or delete tag keys with this prefix. Values can have this
+  /// prefix. If a tag value has <code>aws</code> as its prefix but the key does
+  /// not, then Forecast considers it to be a user tag and will count against
+  /// the limit of 50 tags. Tags with only the key prefix of <code>aws</code> do
+  /// not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
   Future<CreateForecastExportJobResponse> createForecastExportJob({
     @_s.required DataDestination destination,
     @_s.required String forecastArn,
     @_s.required String forecastExportJobName,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(destination, 'destination');
     ArgumentError.checkNotNull(forecastArn, 'forecastArn');
@@ -587,6 +865,7 @@ class ForecastService {
         'Destination': destination,
         'ForecastArn': forecastArn,
         'ForecastExportJobName': forecastExportJobName,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -595,25 +874,21 @@ class ForecastService {
 
   /// Creates an Amazon Forecast predictor.
   ///
-  /// In the request, you provide a dataset group and either specify an
-  /// algorithm or let Amazon Forecast choose the algorithm for you using
-  /// AutoML. If you specify an algorithm, you also can override
-  /// algorithm-specific hyperparameters.
+  /// In the request, provide a dataset group and either specify an algorithm or
+  /// let Amazon Forecast choose an algorithm for you using AutoML. If you
+  /// specify an algorithm, you also can override algorithm-specific
+  /// hyperparameters.
   ///
-  /// Amazon Forecast uses the chosen algorithm to train a model using the
-  /// latest version of the datasets in the specified dataset group. The result
-  /// is called a predictor. You then generate a forecast using the
-  /// <a>CreateForecast</a> operation.
+  /// Amazon Forecast uses the algorithm to train a predictor using the latest
+  /// version of the datasets in the specified dataset group. You can then
+  /// generate a forecast using the <a>CreateForecast</a> operation.
   ///
-  /// After training a model, the <code>CreatePredictor</code> operation also
-  /// evaluates it. To see the evaluation metrics, use the
-  /// <a>GetAccuracyMetrics</a> operation. Always review the evaluation metrics
-  /// before deciding to use the predictor to generate a forecast.
+  /// To see the evaluation metrics, use the <a>GetAccuracyMetrics</a>
+  /// operation.
   ///
-  /// Optionally, you can specify a featurization configuration to fill and
-  /// aggregate the data fields in the <code>TARGET_TIME_SERIES</code> dataset
-  /// to improve model training. For more information, see
-  /// <a>FeaturizationConfig</a>.
+  /// You can specify a featurization configuration to fill and aggregate the
+  /// data fields in the <code>TARGET_TIME_SERIES</code> dataset to improve
+  /// model training. For more information, see <a>FeaturizationConfig</a>.
   ///
   /// For RELATED_TIME_SERIES datasets, <code>CreatePredictor</code> verifies
   /// that the <code>DataFrequency</code> specified when the dataset was created
@@ -622,13 +897,19 @@ class ForecastService {
   /// and timestamp format. For more information, see
   /// <a>howitworks-datasets-groups</a>.
   ///
+  /// By default, predictors are trained and evaluated at the 0.1 (P10), 0.5
+  /// (P50), and 0.9 (P90) quantiles. You can choose custom forecast types to
+  /// train and evaluate your predictor by setting the
+  /// <code>ForecastTypes</code>.
+  ///
   /// <b>AutoML</b>
   ///
   /// If you want Amazon Forecast to evaluate each algorithm and choose the one
   /// that minimizes the <code>objective function</code>, set
   /// <code>PerformAutoML</code> to <code>true</code>. The <code>objective
-  /// function</code> is defined as the mean of the weighted p10, p50, and p90
-  /// quantile losses. For more information, see <a>EvaluationResult</a>.
+  /// function</code> is defined as the mean of the weighted losses over the
+  /// forecast types. By default, these are the p10, p50, and p90 quantile
+  /// losses. For more information, see <a>EvaluationResult</a>.
   ///
   /// When AutoML is enabled, the following properties are disallowed:
   ///
@@ -693,9 +974,10 @@ class ForecastService {
   /// <code>arn:aws:forecast:::algorithm/ARIMA</code>
   /// </li>
   /// <li>
+  /// <code>arn:aws:forecast:::algorithm/CNN-QR</code>
+  /// </li>
+  /// <li>
   /// <code>arn:aws:forecast:::algorithm/Deep_AR_Plus</code>
-  ///
-  /// Supports hyperparameter optimization (HPO)
   /// </li>
   /// <li>
   /// <code>arn:aws:forecast:::algorithm/ETS</code>
@@ -717,6 +999,14 @@ class ForecastService {
   /// algorithm. Amazon Forecast evaluates a predictor by splitting a dataset
   /// into training data and testing data. The evaluation parameters define how
   /// to perform the split and the number of iterations.
+  ///
+  /// Parameter [forecastTypes] :
+  /// Specifies the forecast types used to train a predictor. You can specify up
+  /// to five forecast types. Forecast types can be quantiles from 0.01 to 0.99,
+  /// by increments of 0.01 or higher. You can also specify the mean forecast
+  /// with <code>mean</code>.
+  ///
+  /// The default value is <code>["0.10", "0.50", "0.9"]</code>.
   ///
   /// Parameter [hPOConfig] :
   /// Provides hyperparameter override values for the algorithm. If you don't
@@ -757,11 +1047,55 @@ class ForecastService {
   /// required to specify an algorithm and <code>PerformAutoML</code> must be
   /// false.
   ///
-  /// The following algorithm supports HPO:
+  /// The following algorithms support HPO:
   ///
   /// <ul>
   /// <li>
   /// DeepAR+
+  /// </li>
+  /// <li>
+  /// CNN-QR
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [tags] :
+  /// The optional metadata that you apply to the predictor to help you
+  /// categorize and organize them. Each tag consists of a key and an optional
+  /// value, both of which you define.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50.
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces
+  /// representable in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for keys as it is reserved for AWS use.
+  /// You cannot edit or delete tag keys with this prefix. Values can have this
+  /// prefix. If a tag value has <code>aws</code> as its prefix but the key does
+  /// not, then Forecast considers it to be a user tag and will count against
+  /// the limit of 50 tags. Tags with only the key prefix of <code>aws</code> do
+  /// not count against your tags per resource limit.
   /// </li>
   /// </ul>
   ///
@@ -777,9 +1111,11 @@ class ForecastService {
     String algorithmArn,
     EncryptionConfig encryptionConfig,
     EvaluationParameters evaluationParameters,
+    List<String> forecastTypes,
     HyperParameterTuningJobConfig hPOConfig,
     bool performAutoML,
     bool performHPO,
+    List<Tag> tags,
     Map<String, String> trainingParameters,
   }) async {
     ArgumentError.checkNotNull(featurizationConfig, 'featurizationConfig');
@@ -829,9 +1165,11 @@ class ForecastService {
         if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
         if (evaluationParameters != null)
           'EvaluationParameters': evaluationParameters,
+        if (forecastTypes != null) 'ForecastTypes': forecastTypes,
         if (hPOConfig != null) 'HPOConfig': hPOConfig,
         if (performAutoML != null) 'PerformAutoML': performAutoML,
         if (performHPO != null) 'PerformHPO': performHPO,
+        if (tags != null) 'Tags': tags,
         if (trainingParameters != null)
           'TrainingParameters': trainingParameters,
       },
@@ -840,10 +1178,143 @@ class ForecastService {
     return CreatePredictorResponse.fromJson(jsonResponse.body);
   }
 
+  /// Exports backtest forecasts and accuracy metrics generated by the
+  /// <a>CreatePredictor</a> operation. Two folders containing CSV files are
+  /// exported to your specified S3 bucket.
+  ///
+  /// The export file names will match the following conventions:
+  ///
+  /// <code>&lt;ExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;.csv</code>
+  ///
+  /// The &lt;ExportTimestamp&gt; component is in Java SimpleDate format
+  /// (yyyy-MM-ddTHH-mm-ssZ).
+  ///
+  /// You must specify a <a>DataDestination</a> object that includes an Amazon
+  /// S3 bucket and an AWS Identity and Access Management (IAM) role that Amazon
+  /// Forecast can assume to access the Amazon S3 bucket. For more information,
+  /// see <a>aws-forecast-iam-roles</a>.
+  /// <note>
+  /// The <code>Status</code> of the export job must be <code>ACTIVE</code>
+  /// before you can access the export in your Amazon S3 bucket. To get the
+  /// status, use the <a>DescribePredictorBacktestExportJob</a> operation.
+  /// </note>
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [predictorArn] :
+  /// The Amazon Resource Name (ARN) of the predictor that you want to export.
+  ///
+  /// Parameter [predictorBacktestExportJobName] :
+  /// The name for the backtest export job.
+  ///
+  /// Parameter [tags] :
+  /// Optional metadata to help you categorize and organize your backtests. Each
+  /// tag consists of a key and an optional value, both of which you define. Tag
+  /// keys and values are case sensitive.
+  ///
+  /// The following restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// For each resource, each tag key must be unique and each tag key must have
+  /// one value.
+  /// </li>
+  /// <li>
+  /// Maximum number of tags per resource: 50.
+  /// </li>
+  /// <li>
+  /// Maximum key length: 128 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// Maximum value length: 256 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// Accepted characters: all letters and numbers, spaces representable in
+  /// UTF-8, and + - = . _ : / @. If your tagging schema is used across other
+  /// services and resources, the character restrictions of those services also
+  /// apply.
+  /// </li>
+  /// <li>
+  /// Key prefixes cannot include any upper or lowercase combination of
+  /// <code>aws:</code> or <code>AWS:</code>. Values can have this prefix. If a
+  /// tag value has <code>aws</code> as its prefix but the key does not,
+  /// Forecast considers it to be a user tag and will count against the limit of
+  /// 50 tags. Tags with only the key prefix of <code>aws</code> do not count
+  /// against your tags per resource limit. You cannot edit or delete tag keys
+  /// with this prefix.
+  /// </li>
+  /// </ul>
+  Future<CreatePredictorBacktestExportJobResponse>
+      createPredictorBacktestExportJob({
+    @_s.required DataDestination destination,
+    @_s.required String predictorArn,
+    @_s.required String predictorBacktestExportJobName,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(destination, 'destination');
+    ArgumentError.checkNotNull(predictorArn, 'predictorArn');
+    _s.validateStringLength(
+      'predictorArn',
+      predictorArn,
+      0,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'predictorArn',
+      predictorArn,
+      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        predictorBacktestExportJobName, 'predictorBacktestExportJobName');
+    _s.validateStringLength(
+      'predictorBacktestExportJobName',
+      predictorBacktestExportJobName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'predictorBacktestExportJobName',
+      predictorBacktestExportJobName,
+      r'''^[a-zA-Z][a-zA-Z0-9_]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.CreatePredictorBacktestExportJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Destination': destination,
+        'PredictorArn': predictorArn,
+        'PredictorBacktestExportJobName': predictorBacktestExportJobName,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreatePredictorBacktestExportJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes an Amazon Forecast dataset that was created using the
   /// <a>CreateDataset</a> operation. You can only delete datasets that have a
   /// status of <code>ACTIVE</code> or <code>CREATE_FAILED</code>. To get the
   /// status use the <a>DescribeDataset</a> operation.
+  /// <note>
+  /// Forecast does not automatically update any dataset groups that contain the
+  /// deleted dataset. In order to update the dataset group, use the operation,
+  /// omitting the deleted dataset's ARN.
+  /// </note>
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
@@ -1108,6 +1579,49 @@ class ForecastService {
       headers: headers,
       payload: {
         'PredictorArn': predictorArn,
+      },
+    );
+  }
+
+  /// Deletes a predictor backtest export job.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [predictorBacktestExportJobArn] :
+  /// The Amazon Resource Name (ARN) of the predictor backtest export job to
+  /// delete.
+  Future<void> deletePredictorBacktestExportJob({
+    @_s.required String predictorBacktestExportJobArn,
+  }) async {
+    ArgumentError.checkNotNull(
+        predictorBacktestExportJobArn, 'predictorBacktestExportJobArn');
+    _s.validateStringLength(
+      'predictorBacktestExportJobArn',
+      predictorBacktestExportJobArn,
+      0,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'predictorBacktestExportJobArn',
+      predictorBacktestExportJobArn,
+      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.DeletePredictorBacktestExportJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PredictorBacktestExportJobArn': predictorBacktestExportJobArn,
       },
     );
   }
@@ -1498,10 +2012,77 @@ class ForecastService {
     return DescribePredictorResponse.fromJson(jsonResponse.body);
   }
 
+  /// Describes a predictor backtest export job created using the
+  /// <a>CreatePredictorBacktestExportJob</a> operation.
+  ///
+  /// In addition to listing the properties provided by the user in the
+  /// <code>CreatePredictorBacktestExportJob</code> request, this operation
+  /// lists the following properties:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CreationTime</code>
+  /// </li>
+  /// <li>
+  /// <code>LastModificationTime</code>
+  /// </li>
+  /// <li>
+  /// <code>Status</code>
+  /// </li>
+  /// <li>
+  /// <code>Message</code> (if an error occurred)
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [predictorBacktestExportJobArn] :
+  /// The Amazon Resource Name (ARN) of the predictor backtest export job.
+  Future<DescribePredictorBacktestExportJobResponse>
+      describePredictorBacktestExportJob({
+    @_s.required String predictorBacktestExportJobArn,
+  }) async {
+    ArgumentError.checkNotNull(
+        predictorBacktestExportJobArn, 'predictorBacktestExportJobArn');
+    _s.validateStringLength(
+      'predictorBacktestExportJobArn',
+      predictorBacktestExportJobArn,
+      0,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'predictorBacktestExportJobArn',
+      predictorBacktestExportJobArn,
+      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.DescribePredictorBacktestExportJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'PredictorBacktestExportJobArn': predictorBacktestExportJobArn,
+      },
+    );
+
+    return DescribePredictorBacktestExportJobResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Provides metrics on the accuracy of the models that were trained by the
   /// <a>CreatePredictor</a> operation. Use metrics to see how well the model
   /// performed and to decide whether to use the predictor to generate a
-  /// forecast. For more information, see <a>metrics</a>.
+  /// forecast. For more information, see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">Predictor
+  /// Metrics</a>.
   ///
   /// This operation generates metrics for each backtest window that was
   /// evaluated. The number of backtest windows
@@ -1917,6 +2498,88 @@ class ForecastService {
     return ListForecastsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of predictor backtest export jobs created using the
+  /// <a>CreatePredictorBacktestExportJob</a> operation. This operation returns
+  /// a summary for each backtest export job. You can filter the list using an
+  /// array of <a>Filter</a> objects.
+  ///
+  /// To retrieve the complete set of properties for a particular backtest
+  /// export job, use the ARN with the <a>DescribePredictorBacktestExportJob</a>
+  /// operation.
+  ///
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [filters] :
+  /// An array of filters. For each filter, provide a condition and a match
+  /// statement. The condition is either <code>IS</code> or <code>IS_NOT</code>,
+  /// which specifies whether to include or exclude the predictor backtest
+  /// export jobs that match the statement from the list. The match statement
+  /// consists of a key and a value.
+  ///
+  /// <b>Filter properties</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Condition</code> - The condition to apply. Valid values are
+  /// <code>IS</code> and <code>IS_NOT</code>. To include the predictor backtest
+  /// export jobs that match the statement, specify <code>IS</code>. To exclude
+  /// matching predictor backtest export jobs, specify <code>IS_NOT</code>.
+  /// </li>
+  /// <li>
+  /// <code>Key</code> - The name of the parameter to filter on. Valid values
+  /// are <code>PredictorBacktestExportJobArn</code> and <code>Status</code>.
+  /// </li>
+  /// <li>
+  /// <code>Value</code> - The value to match.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The number of items to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// If the result of the previous request was truncated, the response includes
+  /// a NextToken. To retrieve the next set of results, use the token in the
+  /// next request. Tokens expire after 24 hours.
+  Future<ListPredictorBacktestExportJobsResponse>
+      listPredictorBacktestExportJobs({
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      3000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.ListPredictorBacktestExportJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListPredictorBacktestExportJobsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of predictors created using the <a>CreatePredictor</a>
   /// operation. For each predictor, this operation returns a summary of its
   /// properties, including its Amazon Resource Name (ARN). You can retrieve the
@@ -2001,6 +2664,193 @@ class ForecastService {
     return ListPredictorsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists the tags for an Amazon Forecast resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) that identifies the resource for which to
+  /// list the tags. Currently, the supported resources are Forecast dataset
+  /// groups, datasets, dataset import jobs, predictors, forecasts, and forecast
+  /// export jobs.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    @_s.required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      0,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+      },
+    );
+
+    return ListTagsForResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Associates the specified tags to a resource with the specified
+  /// <code>resourceArn</code>. If existing tags on a resource are not specified
+  /// in the request parameters, they are not changed. When a resource is
+  /// deleted, the tags associated with that resource are also deleted.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) that identifies the resource for which to
+  /// list the tags. Currently, the supported resources are Forecast dataset
+  /// groups, datasets, dataset import jobs, predictors, forecasts, and forecast
+  /// export jobs.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the resource. A tag is an array of key-value pairs.
+  ///
+  /// The following basic restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of tags per resource - 50.
+  /// </li>
+  /// <li>
+  /// For each resource, each tag key must be unique, and each tag key can have
+  /// only one value.
+  /// </li>
+  /// <li>
+  /// Maximum key length - 128 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// Maximum value length - 256 Unicode characters in UTF-8.
+  /// </li>
+  /// <li>
+  /// If your tagging schema is used across multiple services and resources,
+  /// remember that other services may have restrictions on allowed characters.
+  /// Generally allowed characters are: letters, numbers, and spaces
+  /// representable in UTF-8, and the following characters: + - = . _ : / @.
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+  /// combination of such as a prefix for keys as it is reserved for AWS use.
+  /// You cannot edit or delete tag keys with this prefix. Values can have this
+  /// prefix. If a tag value has <code>aws</code> as its prefix but the key does
+  /// not, then Forecast considers it to be a user tag and will count against
+  /// the limit of 50 tags. Tags with only the key prefix of <code>aws</code> do
+  /// not count against your tags per resource limit.
+  /// </li>
+  /// </ul>
+  Future<void> tagResource({
+    @_s.required String resourceArn,
+    @_s.required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      0,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.TagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'Tags': tags,
+      },
+    );
+
+    return TagResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the specified tags from a resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) that identifies the resource for which to
+  /// list the tags. Currently, the supported resources are Forecast dataset
+  /// groups, datasets, dataset import jobs, predictors, forecasts, and forecast
+  /// exports.
+  ///
+  /// Parameter [tagKeys] :
+  /// The keys of the tags to be removed.
+  Future<void> untagResource({
+    @_s.required String resourceArn,
+    @_s.required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      0,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''^[a-zA-Z0-9\-\_\.\/\:]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.UntagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'TagKeys': tagKeys,
+      },
+    );
+
+    return UntagResourceResponse.fromJson(jsonResponse.body);
+  }
+
   /// Replaces the datasets in a dataset group with the specified datasets.
   /// <note>
   /// The <code>Status</code> of the dataset group must be <code>ACTIVE</code>
@@ -2066,6 +2916,8 @@ enum AttributeType {
   float,
   @_s.JsonValue('timestamp')
   timestamp,
+  @_s.JsonValue('geolocation')
+  geolocation,
 }
 
 /// Specifies a categorical hyperparameter and it's range of tunable values.
@@ -2242,6 +3094,25 @@ class CreateForecastResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreatePredictorBacktestExportJobResponse {
+  /// The Amazon Resource Name (ARN) of the predictor backtest export job that you
+  /// want to export.
+  @_s.JsonKey(name: 'PredictorBacktestExportJobArn')
+  final String predictorBacktestExportJobArn;
+
+  CreatePredictorBacktestExportJobResponse({
+    this.predictorBacktestExportJobArn,
+  });
+  factory CreatePredictorBacktestExportJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreatePredictorBacktestExportJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreatePredictorResponse {
   /// The Amazon Resource Name (ARN) of the predictor.
   @_s.JsonKey(name: 'PredictorArn')
@@ -2254,10 +3125,9 @@ class CreatePredictorResponse {
       _$CreatePredictorResponseFromJson(json);
 }
 
-/// The destination for an exported forecast, an AWS Identity and Access
-/// Management (IAM) role that allows Amazon Forecast to access the location
-/// and, optionally, an AWS Key Management Service (KMS) key. This object is
-/// submitted in the <a>CreateForecastExportJob</a> request.
+/// The destination for an export job. Provide an S3 path, an AWS Identity and
+/// Access Management (IAM) role that allows Amazon Forecast to access the
+/// location, and an AWS Key Management Service (KMS) key (optional).
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2624,6 +3494,11 @@ class DescribeDatasetImportJobResponse {
   @_s.JsonKey(name: 'FieldStatistics')
   final Map<String, Statistics> fieldStatistics;
 
+  /// The format of the geolocation attribute. Valid
+  /// Values:<code>"LAT_LONG"</code> and <code>"CC_POSTALCODE"</code>.
+  @_s.JsonKey(name: 'GeolocationFormat')
+  final String geolocationFormat;
+
   /// The last time that the dataset was modified. The time depends on the status
   /// of the job, as follows:
   ///
@@ -2668,6 +3543,10 @@ class DescribeDatasetImportJobResponse {
   @_s.JsonKey(name: 'Status')
   final String status;
 
+  /// The single time zone applied to every item in the dataset
+  @_s.JsonKey(name: 'TimeZone')
+  final String timeZone;
+
   /// The format of timestamps in the dataset. The format that you specify depends
   /// on the <code>DataFrequency</code> specified when the dataset was created.
   /// The following formats are supported
@@ -2688,6 +3567,11 @@ class DescribeDatasetImportJobResponse {
   @_s.JsonKey(name: 'TimestampFormat')
   final String timestampFormat;
 
+  /// Whether <code>TimeZone</code> is automatically derived from the geolocation
+  /// attribute.
+  @_s.JsonKey(name: 'UseGeolocationForTimeZone')
+  final bool useGeolocationForTimeZone;
+
   DescribeDatasetImportJobResponse({
     this.creationTime,
     this.dataSize,
@@ -2696,10 +3580,13 @@ class DescribeDatasetImportJobResponse {
     this.datasetImportJobArn,
     this.datasetImportJobName,
     this.fieldStatistics,
+    this.geolocationFormat,
     this.lastModificationTime,
     this.message,
     this.status,
+    this.timeZone,
     this.timestampFormat,
+    this.useGeolocationForTimeZone,
   });
   factory DescribeDatasetImportJobResponse.fromJson(
           Map<String, dynamic> json) =>
@@ -2907,7 +3794,7 @@ class DescribeForecastResponse {
   @_s.JsonKey(name: 'ForecastName')
   final String forecastName;
 
-  /// The quantiles at which proababilistic forecasts were generated.
+  /// The quantiles at which probabilistic forecasts were generated.
   @_s.JsonKey(name: 'ForecastTypes')
   final List<String> forecastTypes;
 
@@ -2969,6 +3856,84 @@ class DescribeForecastResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribePredictorBacktestExportJobResponse {
+  /// When the predictor backtest export job was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
+  final DateTime creationTime;
+  @_s.JsonKey(name: 'Destination')
+  final DataDestination destination;
+
+  /// When the last successful export job finished.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
+  final DateTime lastModificationTime;
+
+  /// Information about any errors that may have occurred during the backtest
+  /// export.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  /// The Amazon Resource Name (ARN) of the predictor.
+  @_s.JsonKey(name: 'PredictorArn')
+  final String predictorArn;
+
+  /// The Amazon Resource Name (ARN) of the predictor backtest export job.
+  @_s.JsonKey(name: 'PredictorBacktestExportJobArn')
+  final String predictorBacktestExportJobArn;
+
+  /// The name of the predictor backtest export job.
+  @_s.JsonKey(name: 'PredictorBacktestExportJobName')
+  final String predictorBacktestExportJobName;
+
+  /// The status of the predictor backtest export job. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  DescribePredictorBacktestExportJobResponse({
+    this.creationTime,
+    this.destination,
+    this.lastModificationTime,
+    this.message,
+    this.predictorArn,
+    this.predictorBacktestExportJobArn,
+    this.predictorBacktestExportJobName,
+    this.status,
+  });
+  factory DescribePredictorBacktestExportJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribePredictorBacktestExportJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribePredictorResponse {
   /// The Amazon Resource Name (ARN) of the algorithm used for model training.
   @_s.JsonKey(name: 'AlgorithmArn')
@@ -3009,6 +3974,11 @@ class DescribePredictorResponse {
   /// called the prediction length.
   @_s.JsonKey(name: 'ForecastHorizon')
   final int forecastHorizon;
+
+  /// The forecast types used during predictor training. Default value is
+  /// <code>["0.1","0.5","0.9"]</code>
+  @_s.JsonKey(name: 'ForecastTypes')
+  final List<String> forecastTypes;
 
   /// The hyperparameter override values for the algorithm.
   @_s.JsonKey(name: 'HPOConfig')
@@ -3080,9 +4050,9 @@ class DescribePredictorResponse {
   final String status;
 
   /// The default training parameters or overrides selected during model training.
-  /// If using the AutoML algorithm or if HPO is turned on while using the DeepAR+
-  /// algorithms, the optimized values for the chosen hyperparameters are
-  /// returned. For more information, see <a>aws-forecast-choosing-recipes</a>.
+  /// When running AutoML or choosing HPO with CNN-QR or DeepAR+, the optimized
+  /// values for the chosen hyperparameters are returned. For more information,
+  /// see <a>aws-forecast-choosing-recipes</a>.
   @_s.JsonKey(name: 'TrainingParameters')
   final Map<String, String> trainingParameters;
 
@@ -3095,6 +4065,7 @@ class DescribePredictorResponse {
     this.evaluationParameters,
     this.featurizationConfig,
     this.forecastHorizon,
+    this.forecastTypes,
     this.hPOConfig,
     this.inputDataConfig,
     this.lastModificationTime,
@@ -3180,6 +4151,35 @@ class EncryptionConfig {
       _$EncryptionConfigFromJson(json);
 
   Map<String, dynamic> toJson() => _$EncryptionConfigToJson(this);
+}
+
+/// Provides detailed error metrics to evaluate the performance of a predictor.
+/// This object is part of the <a>Metrics</a> object.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ErrorMetric {
+  /// The Forecast type used to compute WAPE and RMSE.
+  @_s.JsonKey(name: 'ForecastType')
+  final String forecastType;
+
+  /// The root-mean-square error (RMSE).
+  @_s.JsonKey(name: 'RMSE')
+  final double rmse;
+
+  /// The weighted absolute percentage error (WAPE).
+  @_s.JsonKey(name: 'WAPE')
+  final double wape;
+
+  ErrorMetric({
+    this.forecastType,
+    this.rmse,
+    this.wape,
+  });
+  factory ErrorMetric.fromJson(Map<String, dynamic> json) =>
+      _$ErrorMetricFromJson(json);
 }
 
 /// Parameters that define how to split a dataset into training data and testing
@@ -3279,10 +4279,12 @@ enum EvaluationType {
     createToJson: true)
 class Featurization {
   /// The name of the schema attribute that specifies the data field to be
-  /// featurized. Only the <code>target</code> field of the
-  /// <code>TARGET_TIME_SERIES</code> dataset type is supported. For example, for
-  /// the <code>RETAIL</code> domain, the target is <code>demand</code>, and for
-  /// the <code>CUSTOM</code> domain, the target is <code>target_value</code>.
+  /// featurized. Amazon Forecast supports the target field of the
+  /// <code>TARGET_TIME_SERIES</code> and the <code>RELATED_TIME_SERIES</code>
+  /// datasets. For example, for the <code>RETAIL</code> domain, the target is
+  /// <code>demand</code>, and for the <code>CUSTOM</code> domain, the target is
+  /// <code>target_value</code>. For more information, see
+  /// <a>howitworks-missing-values</a>.
   @_s.JsonKey(name: 'AttributeName')
   final String attributeName;
 
@@ -3310,8 +4312,8 @@ class Featurization {
 /// You specify an array of transformations, one for each field that you want to
 /// featurize. You then include the <code>FeaturizationConfig</code> object in
 /// your <code>CreatePredictor</code> request. Amazon Forecast applies the
-/// featurization to the <code>TARGET_TIME_SERIES</code> dataset before model
-/// training.
+/// featurization to the <code>TARGET_TIME_SERIES</code> and
+/// <code>RELATED_TIME_SERIES</code> datasets before model training.
 ///
 /// You can create multiple featurization configurations. For example, you might
 /// call the <code>CreatePredictor</code> operation twice by specifying
@@ -3338,7 +4340,7 @@ class FeaturizationConfig {
   final String forecastFrequency;
 
   /// An array of featurization (transformation) information for the fields of a
-  /// dataset. Only a single featurization is supported.
+  /// dataset.
   @_s.JsonKey(name: 'Featurizations')
   final List<Featurization> featurizations;
 
@@ -3371,9 +4373,7 @@ class FeaturizationConfig {
 
 /// Provides information about the method that featurizes (transforms) a dataset
 /// field. The method is part of the <code>FeaturizationPipeline</code> of the
-/// <a>Featurization</a> object. If you don't specify
-/// <code>FeaturizationMethodParameters</code>, Amazon Forecast uses default
-/// parameters.
+/// <a>Featurization</a> object.
 ///
 /// The following is an example of how you specify a
 /// <code>FeaturizationMethod</code> object.
@@ -3382,8 +4382,8 @@ class FeaturizationConfig {
 ///
 /// <code>"FeaturizationMethodName": "filling",</code>
 ///
-/// <code>"FeaturizationMethodParameters": {"aggregation": "avg", "backfill":
-/// "nan"}</code>
+/// <code>"FeaturizationMethodParameters": {"aggregation": "sum", "middlefill":
+/// "zero", "backfill": "zero"}</code>
 ///
 /// <code>}</code>
 @_s.JsonSerializable(
@@ -3396,9 +4396,13 @@ class FeaturizationMethod {
   @_s.JsonKey(name: 'FeaturizationMethodName')
   final FeaturizationMethodName featurizationMethodName;
 
-  /// The method parameters (key-value pairs). Specify these parameters to
-  /// override the default values. The following list shows the parameters and
-  /// their valid values. Bold signifies the default value.
+  /// The method parameters (key-value pairs), which are a map of override
+  /// parameters. Specify these parameters to override the default values. Related
+  /// Time Series attributes do not accept aggregation parameters.
+  ///
+  /// The following list shows the parameters and their valid values for the
+  /// "filling" featurization method for a <b>Target Time Series</b> dataset. Bold
+  /// signifies the default value.
   ///
   /// <ul>
   /// <li>
@@ -3409,12 +4413,37 @@ class FeaturizationMethod {
   /// <code>frontfill</code>: <b>none</b>
   /// </li>
   /// <li>
-  /// <code>middlefill</code>: <b>zero</b>, <code>nan</code> (not a number)
+  /// <code>middlefill</code>: <b>zero</b>, <code>nan</code> (not a number),
+  /// <code>value</code>, <code>median</code>, <code>mean</code>,
+  /// <code>min</code>, <code>max</code>
   /// </li>
   /// <li>
-  /// <code>backfill</code>: <b>zero</b>, <code>nan</code>
+  /// <code>backfill</code>: <b>zero</b>, <code>nan</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
   /// </li>
   /// </ul>
+  /// The following list shows the parameters and their valid values for a
+  /// <b>Related Time Series</b> featurization method (there are no defaults):
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>middlefill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>backfill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// <li>
+  /// <code>futurefill</code>: <code>zero</code>, <code>value</code>,
+  /// <code>median</code>, <code>mean</code>, <code>min</code>, <code>max</code>
+  /// </li>
+  /// </ul>
+  /// To set a filling method to a specific value, set the fill parameter to
+  /// <code>value</code> and define the value in a corresponding
+  /// <code>_value</code> parameter. For example, to set backfilling to a value of
+  /// 2, include the following: <code>"backfill": "value"</code> and
+  /// <code>"backfill_value":"2"</code>.
   @_s.JsonKey(name: 'FeaturizationMethodParameters')
   final Map<String, String> featurizationMethodParameters;
 
@@ -3878,6 +4907,31 @@ class ListForecastsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListPredictorBacktestExportJobsResponse {
+  /// Returns this token if the response is truncated. To retrieve the next set of
+  /// results, use the token in the next request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An array of objects that summarize the properties of each predictor backtest
+  /// export job.
+  @_s.JsonKey(name: 'PredictorBacktestExportJobs')
+  final List<PredictorBacktestExportJobSummary> predictorBacktestExportJobs;
+
+  ListPredictorBacktestExportJobsResponse({
+    this.nextToken,
+    this.predictorBacktestExportJobs,
+  });
+  factory ListPredictorBacktestExportJobsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListPredictorBacktestExportJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListPredictorsResponse {
   /// If the response is truncated, Amazon Forecast returns this token. To
   /// retrieve the next set of results, use the token in the next request.
@@ -3896,6 +4950,23 @@ class ListPredictorsResponse {
       _$ListPredictorsResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListTagsForResourceResponse {
+  /// The tags for the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListTagsForResourceResponseFromJson(json);
+}
+
 /// Provides metrics that are used to evaluate the performance of a predictor.
 /// This object is part of the <a>WindowSummary</a> object.
 @_s.JsonSerializable(
@@ -3904,7 +4975,12 @@ class ListPredictorsResponse {
     createFactory: true,
     createToJson: false)
 class Metrics {
-  /// The root mean square error (RMSE).
+  /// Provides detailed error metrics on forecast type, root-mean square-error
+  /// (RMSE), and weighted average percentage error (WAPE).
+  @_s.JsonKey(name: 'ErrorMetrics')
+  final List<ErrorMetric> errorMetrics;
+
+  /// The root-mean-square error (RMSE).
   @_s.JsonKey(name: 'RMSE')
   final double rmse;
 
@@ -3915,6 +4991,7 @@ class Metrics {
   final List<WeightedQuantileLoss> weightedQuantileLosses;
 
   Metrics({
+    this.errorMetrics,
     this.rmse,
     this.weightedQuantileLosses,
   });
@@ -3954,6 +5031,83 @@ class ParameterRanges {
       _$ParameterRangesFromJson(json);
 
   Map<String, dynamic> toJson() => _$ParameterRangesToJson(this);
+}
+
+/// Provides a summary of the predictor backtest export job properties used in
+/// the <a>ListPredictorBacktestExportJobs</a> operation. To get a complete set
+/// of properties, call the <a>DescribePredictorBacktestExportJob</a> operation,
+/// and provide the listed <code>PredictorBacktestExportJobArn</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PredictorBacktestExportJobSummary {
+  /// When the predictor backtest export job was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
+  final DateTime creationTime;
+  @_s.JsonKey(name: 'Destination')
+  final DataDestination destination;
+
+  /// When the last successful export job finished.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
+  final DateTime lastModificationTime;
+
+  /// Information about any errors that may have occurred during the backtest
+  /// export.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  /// The Amazon Resource Name (ARN) of the predictor backtest export job.
+  @_s.JsonKey(name: 'PredictorBacktestExportJobArn')
+  final String predictorBacktestExportJobArn;
+
+  /// The name of the predictor backtest export job.
+  @_s.JsonKey(name: 'PredictorBacktestExportJobName')
+  final String predictorBacktestExportJobName;
+
+  /// The status of the predictor backtest export job. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Status')
+  final String status;
+
+  PredictorBacktestExportJobSummary({
+    this.creationTime,
+    this.destination,
+    this.lastModificationTime,
+    this.message,
+    this.predictorBacktestExportJobArn,
+    this.predictorBacktestExportJobName,
+    this.status,
+  });
+  factory PredictorBacktestExportJobSummary.fromJson(
+          Map<String, dynamic> json) =>
+      _$PredictorBacktestExportJobSummaryFromJson(json);
 }
 
 /// The algorithm used to perform a backtest and the status of those tests.
@@ -4089,8 +5243,7 @@ class PredictorSummary {
 /// Forecast can assume to access the file(s). Optionally, includes an AWS Key
 /// Management Service (KMS) key. This object is part of the <a>DataSource</a>
 /// object that is submitted in the <a>CreateDatasetImportJob</a> request, and
-/// part of the <a>DataDestination</a> object that is submitted in the
-/// <a>CreateForecastExportJob</a> request.
+/// part of the <a>DataDestination</a> object.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4241,39 +5394,247 @@ class Statistics {
 }
 
 /// Describes a supplementary feature of a dataset group. This object is part of
-/// the <a>InputDataConfig</a> object.
+/// the <a>InputDataConfig</a> object. Forecast supports the Weather Index and
+/// Holidays built-in featurizations.
 ///
-/// The only supported feature is a holiday calendar. If you use the calendar,
-/// all data in the datasets should belong to the same country as the calendar.
-/// For the holiday calendar data, see the <a
-/// href="http://jollyday.sourceforge.net/data.html">Jollyday</a> web site.
+/// <b>Weather Index</b>
+///
+/// The Amazon Forecast Weather Index is a built-in featurization that
+/// incorporates historical and projected weather information into your model.
+/// The Weather Index supplements your datasets with over two years of
+/// historical weather data and up to 14 days of projected weather data. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/weather.html">Amazon
+/// Forecast Weather Index</a>.
+///
+/// <b>Holidays</b>
+///
+/// Holidays is a built-in featurization that incorporates a feature-engineered
+/// dataset of national holiday information into your model. It provides native
+/// support for the holiday calendars of 66 countries. To view the holiday
+/// calendars, refer to the <a
+/// href="http://jollyday.sourceforge.net/data.html">Jollyday</a> library. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/holidays.html">Holidays
+/// Featurization</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class SupplementaryFeature {
-  /// The name of the feature. This must be "holiday".
+  /// The name of the feature. Valid values: <code>"holiday"</code> and
+  /// <code>"weather"</code>.
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// One of the following 2 letter country codes:
+  /// <b>Weather Index</b>
+  ///
+  /// To enable the Weather Index, set the value to <code>"true"</code>
+  ///
+  /// <b>Holidays</b>
+  ///
+  /// To enable Holidays, specify a country with one of the following two-letter
+  /// country codes:
   ///
   /// <ul>
   /// <li>
+  /// "AL" - ALBANIA
+  /// </li>
+  /// <li>
+  /// "AR" - ARGENTINA
+  /// </li>
+  /// <li>
+  /// "AT" - AUSTRIA
+  /// </li>
+  /// <li>
   /// "AU" - AUSTRALIA
+  /// </li>
+  /// <li>
+  /// "BA" - BOSNIA HERZEGOVINA
+  /// </li>
+  /// <li>
+  /// "BE" - BELGIUM
+  /// </li>
+  /// <li>
+  /// "BG" - BULGARIA
+  /// </li>
+  /// <li>
+  /// "BO" - BOLIVIA
+  /// </li>
+  /// <li>
+  /// "BR" - BRAZIL
+  /// </li>
+  /// <li>
+  /// "BY" - BELARUS
+  /// </li>
+  /// <li>
+  /// "CA" - CANADA
+  /// </li>
+  /// <li>
+  /// "CL" - CHILE
+  /// </li>
+  /// <li>
+  /// "CO" - COLOMBIA
+  /// </li>
+  /// <li>
+  /// "CR" - COSTA RICA
+  /// </li>
+  /// <li>
+  /// "HR" - CROATIA
+  /// </li>
+  /// <li>
+  /// "CZ" - CZECH REPUBLIC
+  /// </li>
+  /// <li>
+  /// "DK" - DENMARK
+  /// </li>
+  /// <li>
+  /// "EC" - ECUADOR
+  /// </li>
+  /// <li>
+  /// "EE" - ESTONIA
+  /// </li>
+  /// <li>
+  /// "ET" - ETHIOPIA
+  /// </li>
+  /// <li>
+  /// "FI" - FINLAND
+  /// </li>
+  /// <li>
+  /// "FR" - FRANCE
   /// </li>
   /// <li>
   /// "DE" - GERMANY
   /// </li>
   /// <li>
+  /// "GR" - GREECE
+  /// </li>
+  /// <li>
+  /// "HU" - HUNGARY
+  /// </li>
+  /// <li>
+  /// "IS" - ICELAND
+  /// </li>
+  /// <li>
+  /// "IN" - INDIA
+  /// </li>
+  /// <li>
+  /// "IE" - IRELAND
+  /// </li>
+  /// <li>
+  /// "IT" - ITALY
+  /// </li>
+  /// <li>
   /// "JP" - JAPAN
   /// </li>
   /// <li>
-  /// "US" - UNITED_STATES
+  /// "KZ" - KAZAKHSTAN
   /// </li>
   /// <li>
-  /// "UK" - UNITED_KINGDOM
+  /// "KR" - KOREA
+  /// </li>
+  /// <li>
+  /// "LV" - LATVIA
+  /// </li>
+  /// <li>
+  /// "LI" - LIECHTENSTEIN
+  /// </li>
+  /// <li>
+  /// "LT" - LITHUANIA
+  /// </li>
+  /// <li>
+  /// "LU" - LUXEMBOURG
+  /// </li>
+  /// <li>
+  /// "MK" - MACEDONIA
+  /// </li>
+  /// <li>
+  /// "MT" - MALTA
+  /// </li>
+  /// <li>
+  /// "MX" - MEXICO
+  /// </li>
+  /// <li>
+  /// "MD" - MOLDOVA
+  /// </li>
+  /// <li>
+  /// "ME" - MONTENEGRO
+  /// </li>
+  /// <li>
+  /// "NL" - NETHERLANDS
+  /// </li>
+  /// <li>
+  /// "NZ" - NEW ZEALAND
+  /// </li>
+  /// <li>
+  /// "NI" - NICARAGUA
+  /// </li>
+  /// <li>
+  /// "NG" - NIGERIA
+  /// </li>
+  /// <li>
+  /// "NO" - NORWAY
+  /// </li>
+  /// <li>
+  /// "PA" - PANAMA
+  /// </li>
+  /// <li>
+  /// "PY" - PARAGUAY
+  /// </li>
+  /// <li>
+  /// "PE" - PERU
+  /// </li>
+  /// <li>
+  /// "PL" - POLAND
+  /// </li>
+  /// <li>
+  /// "PT" - PORTUGAL
+  /// </li>
+  /// <li>
+  /// "RO" - ROMANIA
+  /// </li>
+  /// <li>
+  /// "RU" - RUSSIA
+  /// </li>
+  /// <li>
+  /// "RS" - SERBIA
+  /// </li>
+  /// <li>
+  /// "SK" - SLOVAKIA
+  /// </li>
+  /// <li>
+  /// "SI" - SLOVENIA
+  /// </li>
+  /// <li>
+  /// "ZA" - SOUTH AFRICA
+  /// </li>
+  /// <li>
+  /// "ES" - SPAIN
+  /// </li>
+  /// <li>
+  /// "SE" - SWEDEN
+  /// </li>
+  /// <li>
+  /// "CH" - SWITZERLAND
+  /// </li>
+  /// <li>
+  /// "UA" - UKRAINE
+  /// </li>
+  /// <li>
+  /// "AE" - UNITED ARAB EMIRATES
+  /// </li>
+  /// <li>
+  /// "US" - UNITED STATES
+  /// </li>
+  /// <li>
+  /// "UK" - UNITED KINGDOM
+  /// </li>
+  /// <li>
+  /// "UY" - URUGUAY
+  /// </li>
+  /// <li>
+  /// "VE" - VENEZUELA
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'Value')
@@ -4287,6 +5648,81 @@ class SupplementaryFeature {
       _$SupplementaryFeatureFromJson(json);
 
   Map<String, dynamic> toJson() => _$SupplementaryFeatureToJson(this);
+}
+
+/// The optional metadata that you apply to a resource to help you categorize
+/// and organize them. Each tag consists of a key and an optional value, both of
+/// which you define.
+///
+/// The following basic restrictions apply to tags:
+///
+/// <ul>
+/// <li>
+/// Maximum number of tags per resource - 50.
+/// </li>
+/// <li>
+/// For each resource, each tag key must be unique, and each tag key can have
+/// only one value.
+/// </li>
+/// <li>
+/// Maximum key length - 128 Unicode characters in UTF-8.
+/// </li>
+/// <li>
+/// Maximum value length - 256 Unicode characters in UTF-8.
+/// </li>
+/// <li>
+/// If your tagging schema is used across multiple services and resources,
+/// remember that other services may have restrictions on allowed characters.
+/// Generally allowed characters are: letters, numbers, and spaces representable
+/// in UTF-8, and the following characters: + - = . _ : / @.
+/// </li>
+/// <li>
+/// Tag keys and values are case sensitive.
+/// </li>
+/// <li>
+/// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase
+/// combination of such as a prefix for keys as it is reserved for AWS use. You
+/// cannot edit or delete tag keys with this prefix. Values can have this
+/// prefix. If a tag value has <code>aws</code> as its prefix but the key does
+/// not, then Forecast considers it to be a user tag and will count against the
+/// limit of 50 tags. Tags with only the key prefix of <code>aws</code> do not
+/// count against your tags per resource limit.
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Tag {
+  /// One part of a key-value pair that makes up a tag. A <code>key</code> is a
+  /// general label that acts like a category for more specific tag values.
+  @_s.JsonKey(name: 'Key')
+  final String key;
+
+  /// The optional part of a key-value pair that makes up a tag. A
+  /// <code>value</code> acts as a descriptor within a tag category (key).
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  Tag({
+    @_s.required this.key,
+    @_s.required this.value,
+  });
+  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TagResourceResponse {
+  TagResourceResponse();
+  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$TagResourceResponseFromJson(json);
 }
 
 /// The status, start time, and end time of a backtest, as well as a failure
@@ -4335,6 +5771,17 @@ class TestWindowSummary {
   });
   factory TestWindowSummary.fromJson(Map<String, dynamic> json) =>
       _$TestWindowSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UntagResourceResponse {
+  UntagResourceResponse();
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$UntagResourceResponseFromJson(json);
 }
 
 @_s.JsonSerializable(

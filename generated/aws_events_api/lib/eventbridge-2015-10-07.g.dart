@@ -6,30 +6,17 @@ part of 'eventbridge-2015-10-07.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AwsVpcConfiguration _$AwsVpcConfigurationFromJson(Map<String, dynamic> json) {
-  return AwsVpcConfiguration(
-    subnets: (json['Subnets'] as List)?.map((e) => e as String)?.toList(),
-    assignPublicIp:
-        _$enumDecodeNullable(_$AssignPublicIpEnumMap, json['AssignPublicIp']),
-    securityGroups:
-        (json['SecurityGroups'] as List)?.map((e) => e as String)?.toList(),
+Archive _$ArchiveFromJson(Map<String, dynamic> json) {
+  return Archive(
+    archiveName: json['ArchiveName'] as String,
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    eventCount: json['EventCount'] as int,
+    eventSourceArn: json['EventSourceArn'] as String,
+    retentionDays: json['RetentionDays'] as int,
+    sizeBytes: json['SizeBytes'] as int,
+    state: _$enumDecodeNullable(_$ArchiveStateEnumMap, json['State']),
+    stateReason: json['StateReason'] as String,
   );
-}
-
-Map<String, dynamic> _$AwsVpcConfigurationToJson(AwsVpcConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Subnets', instance.subnets);
-  writeNotNull(
-      'AssignPublicIp', _$AssignPublicIpEnumMap[instance.assignPublicIp]);
-  writeNotNull('SecurityGroups', instance.securityGroups);
-  return val;
 }
 
 T _$enumDecode<T>(
@@ -62,6 +49,41 @@ T _$enumDecodeNullable<T>(
     return null;
   }
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$ArchiveStateEnumMap = {
+  ArchiveState.enabled: 'ENABLED',
+  ArchiveState.disabled: 'DISABLED',
+  ArchiveState.creating: 'CREATING',
+  ArchiveState.updating: 'UPDATING',
+  ArchiveState.createFailed: 'CREATE_FAILED',
+  ArchiveState.updateFailed: 'UPDATE_FAILED',
+};
+
+AwsVpcConfiguration _$AwsVpcConfigurationFromJson(Map<String, dynamic> json) {
+  return AwsVpcConfiguration(
+    subnets: (json['Subnets'] as List)?.map((e) => e as String)?.toList(),
+    assignPublicIp:
+        _$enumDecodeNullable(_$AssignPublicIpEnumMap, json['AssignPublicIp']),
+    securityGroups:
+        (json['SecurityGroups'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Map<String, dynamic> _$AwsVpcConfigurationToJson(AwsVpcConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Subnets', instance.subnets);
+  writeNotNull(
+      'AssignPublicIp', _$AssignPublicIpEnumMap[instance.assignPublicIp]);
+  writeNotNull('SecurityGroups', instance.securityGroups);
+  return val;
 }
 
 const _$AssignPublicIpEnumMap = {
@@ -139,6 +161,23 @@ Map<String, dynamic> _$BatchRetryStrategyToJson(BatchRetryStrategy instance) {
   return val;
 }
 
+CancelReplayResponse _$CancelReplayResponseFromJson(Map<String, dynamic> json) {
+  return CancelReplayResponse(
+    replayArn: json['ReplayArn'] as String,
+    state: _$enumDecodeNullable(_$ReplayStateEnumMap, json['State']),
+    stateReason: json['StateReason'] as String,
+  );
+}
+
+const _$ReplayStateEnumMap = {
+  ReplayState.starting: 'STARTING',
+  ReplayState.running: 'RUNNING',
+  ReplayState.cancelling: 'CANCELLING',
+  ReplayState.completed: 'COMPLETED',
+  ReplayState.cancelled: 'CANCELLED',
+  ReplayState.failed: 'FAILED',
+};
+
 Map<String, dynamic> _$ConditionToJson(Condition instance) {
   final val = <String, dynamic>{};
 
@@ -154,6 +193,16 @@ Map<String, dynamic> _$ConditionToJson(Condition instance) {
   return val;
 }
 
+CreateArchiveResponse _$CreateArchiveResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateArchiveResponse(
+    archiveArn: json['ArchiveArn'] as String,
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    state: _$enumDecodeNullable(_$ArchiveStateEnumMap, json['State']),
+    stateReason: json['StateReason'] as String,
+  );
+}
+
 CreateEventBusResponse _$CreateEventBusResponseFromJson(
     Map<String, dynamic> json) {
   return CreateEventBusResponse(
@@ -165,6 +214,47 @@ CreatePartnerEventSourceResponse _$CreatePartnerEventSourceResponseFromJson(
     Map<String, dynamic> json) {
   return CreatePartnerEventSourceResponse(
     eventSourceArn: json['EventSourceArn'] as String,
+  );
+}
+
+DeadLetterConfig _$DeadLetterConfigFromJson(Map<String, dynamic> json) {
+  return DeadLetterConfig(
+    arn: json['Arn'] as String,
+  );
+}
+
+Map<String, dynamic> _$DeadLetterConfigToJson(DeadLetterConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Arn', instance.arn);
+  return val;
+}
+
+DeleteArchiveResponse _$DeleteArchiveResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteArchiveResponse();
+}
+
+DescribeArchiveResponse _$DescribeArchiveResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeArchiveResponse(
+    archiveArn: json['ArchiveArn'] as String,
+    archiveName: json['ArchiveName'] as String,
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    description: json['Description'] as String,
+    eventCount: json['EventCount'] as int,
+    eventPattern: json['EventPattern'] as String,
+    eventSourceArn: json['EventSourceArn'] as String,
+    retentionDays: json['RetentionDays'] as int,
+    sizeBytes: json['SizeBytes'] as int,
+    state: _$enumDecodeNullable(_$ArchiveStateEnumMap, json['State']),
+    stateReason: json['StateReason'] as String,
   );
 }
 
@@ -204,9 +294,35 @@ DescribePartnerEventSourceResponse _$DescribePartnerEventSourceResponseFromJson(
   );
 }
 
+DescribeReplayResponse _$DescribeReplayResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeReplayResponse(
+    description: json['Description'] as String,
+    destination: json['Destination'] == null
+        ? null
+        : ReplayDestination.fromJson(
+            json['Destination'] as Map<String, dynamic>),
+    eventEndTime: const UnixDateTimeConverter().fromJson(json['EventEndTime']),
+    eventLastReplayedTime:
+        const UnixDateTimeConverter().fromJson(json['EventLastReplayedTime']),
+    eventSourceArn: json['EventSourceArn'] as String,
+    eventStartTime:
+        const UnixDateTimeConverter().fromJson(json['EventStartTime']),
+    replayArn: json['ReplayArn'] as String,
+    replayEndTime:
+        const UnixDateTimeConverter().fromJson(json['ReplayEndTime']),
+    replayName: json['ReplayName'] as String,
+    replayStartTime:
+        const UnixDateTimeConverter().fromJson(json['ReplayStartTime']),
+    state: _$enumDecodeNullable(_$ReplayStateEnumMap, json['State']),
+    stateReason: json['StateReason'] as String,
+  );
+}
+
 DescribeRuleResponse _$DescribeRuleResponseFromJson(Map<String, dynamic> json) {
   return DescribeRuleResponse(
     arn: json['Arn'] as String,
+    createdBy: json['CreatedBy'] as String,
     description: json['Description'] as String,
     eventBusName: json['EventBusName'] as String,
     eventPattern: json['EventPattern'] as String,
@@ -280,6 +396,36 @@ EventSource _$EventSourceFromJson(Map<String, dynamic> json) {
   );
 }
 
+HttpParameters _$HttpParametersFromJson(Map<String, dynamic> json) {
+  return HttpParameters(
+    headerParameters: (json['HeaderParameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    pathParameterValues: (json['PathParameterValues'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
+    queryStringParameters:
+        (json['QueryStringParameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
+Map<String, dynamic> _$HttpParametersToJson(HttpParameters instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('HeaderParameters', instance.headerParameters);
+  writeNotNull('PathParameterValues', instance.pathParameterValues);
+  writeNotNull('QueryStringParameters', instance.queryStringParameters);
+  return val;
+}
+
 InputTransformer _$InputTransformerFromJson(Map<String, dynamic> json) {
   return InputTransformer(
     inputTemplate: json['InputTemplate'] as String,
@@ -320,6 +466,16 @@ Map<String, dynamic> _$KinesisParametersToJson(KinesisParameters instance) {
 
   writeNotNull('PartitionKeyPath', instance.partitionKeyPath);
   return val;
+}
+
+ListArchivesResponse _$ListArchivesResponseFromJson(Map<String, dynamic> json) {
+  return ListArchivesResponse(
+    archives: (json['Archives'] as List)
+        ?.map((e) =>
+            e == null ? null : Archive.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
 }
 
 ListEventBusesResponse _$ListEventBusesResponseFromJson(
@@ -365,6 +521,16 @@ ListPartnerEventSourcesResponse _$ListPartnerEventSourcesResponseFromJson(
         ?.map((e) => e == null
             ? null
             : PartnerEventSource.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListReplaysResponse _$ListReplaysResponseFromJson(Map<String, dynamic> json) {
+  return ListReplaysResponse(
+    nextToken: json['NextToken'] as String,
+    replays: (json['Replays'] as List)
+        ?.map((e) =>
+            e == null ? null : Replay.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -551,6 +717,37 @@ PutTargetsResultEntry _$PutTargetsResultEntryFromJson(
   );
 }
 
+RedshiftDataParameters _$RedshiftDataParametersFromJson(
+    Map<String, dynamic> json) {
+  return RedshiftDataParameters(
+    database: json['Database'] as String,
+    sql: json['Sql'] as String,
+    dbUser: json['DbUser'] as String,
+    secretManagerArn: json['SecretManagerArn'] as String,
+    statementName: json['StatementName'] as String,
+    withEvent: json['WithEvent'] as bool,
+  );
+}
+
+Map<String, dynamic> _$RedshiftDataParametersToJson(
+    RedshiftDataParameters instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Database', instance.database);
+  writeNotNull('Sql', instance.sql);
+  writeNotNull('DbUser', instance.dbUser);
+  writeNotNull('SecretManagerArn', instance.secretManagerArn);
+  writeNotNull('StatementName', instance.statementName);
+  writeNotNull('WithEvent', instance.withEvent);
+  return val;
+}
+
 RemoveTargetsResponse _$RemoveTargetsResponseFromJson(
     Map<String, dynamic> json) {
   return RemoveTargetsResponse(
@@ -570,6 +767,66 @@ RemoveTargetsResultEntry _$RemoveTargetsResultEntryFromJson(
     errorMessage: json['ErrorMessage'] as String,
     targetId: json['TargetId'] as String,
   );
+}
+
+Replay _$ReplayFromJson(Map<String, dynamic> json) {
+  return Replay(
+    eventEndTime: const UnixDateTimeConverter().fromJson(json['EventEndTime']),
+    eventLastReplayedTime:
+        const UnixDateTimeConverter().fromJson(json['EventLastReplayedTime']),
+    eventSourceArn: json['EventSourceArn'] as String,
+    eventStartTime:
+        const UnixDateTimeConverter().fromJson(json['EventStartTime']),
+    replayEndTime:
+        const UnixDateTimeConverter().fromJson(json['ReplayEndTime']),
+    replayName: json['ReplayName'] as String,
+    replayStartTime:
+        const UnixDateTimeConverter().fromJson(json['ReplayStartTime']),
+    state: _$enumDecodeNullable(_$ReplayStateEnumMap, json['State']),
+    stateReason: json['StateReason'] as String,
+  );
+}
+
+ReplayDestination _$ReplayDestinationFromJson(Map<String, dynamic> json) {
+  return ReplayDestination(
+    arn: json['Arn'] as String,
+    filterArns: (json['FilterArns'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Map<String, dynamic> _$ReplayDestinationToJson(ReplayDestination instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Arn', instance.arn);
+  writeNotNull('FilterArns', instance.filterArns);
+  return val;
+}
+
+RetryPolicy _$RetryPolicyFromJson(Map<String, dynamic> json) {
+  return RetryPolicy(
+    maximumEventAgeInSeconds: json['MaximumEventAgeInSeconds'] as int,
+    maximumRetryAttempts: json['MaximumRetryAttempts'] as int,
+  );
+}
+
+Map<String, dynamic> _$RetryPolicyToJson(RetryPolicy instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaximumEventAgeInSeconds', instance.maximumEventAgeInSeconds);
+  writeNotNull('MaximumRetryAttempts', instance.maximumRetryAttempts);
+  return val;
 }
 
 Rule _$RuleFromJson(Map<String, dynamic> json) {
@@ -651,6 +908,16 @@ Map<String, dynamic> _$SqsParametersToJson(SqsParameters instance) {
   return val;
 }
 
+StartReplayResponse _$StartReplayResponseFromJson(Map<String, dynamic> json) {
+  return StartReplayResponse(
+    replayArn: json['ReplayArn'] as String,
+    replayStartTime:
+        const UnixDateTimeConverter().fromJson(json['ReplayStartTime']),
+    state: _$enumDecodeNullable(_$ReplayStateEnumMap, json['State']),
+    stateReason: json['StateReason'] as String,
+  );
+}
+
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['Key'] as String,
@@ -684,9 +951,17 @@ Target _$TargetFromJson(Map<String, dynamic> json) {
         ? null
         : BatchParameters.fromJson(
             json['BatchParameters'] as Map<String, dynamic>),
+    deadLetterConfig: json['DeadLetterConfig'] == null
+        ? null
+        : DeadLetterConfig.fromJson(
+            json['DeadLetterConfig'] as Map<String, dynamic>),
     ecsParameters: json['EcsParameters'] == null
         ? null
         : EcsParameters.fromJson(json['EcsParameters'] as Map<String, dynamic>),
+    httpParameters: json['HttpParameters'] == null
+        ? null
+        : HttpParameters.fromJson(
+            json['HttpParameters'] as Map<String, dynamic>),
     input: json['Input'] as String,
     inputPath: json['InputPath'] as String,
     inputTransformer: json['InputTransformer'] == null
@@ -697,6 +972,13 @@ Target _$TargetFromJson(Map<String, dynamic> json) {
         ? null
         : KinesisParameters.fromJson(
             json['KinesisParameters'] as Map<String, dynamic>),
+    redshiftDataParameters: json['RedshiftDataParameters'] == null
+        ? null
+        : RedshiftDataParameters.fromJson(
+            json['RedshiftDataParameters'] as Map<String, dynamic>),
+    retryPolicy: json['RetryPolicy'] == null
+        ? null
+        : RetryPolicy.fromJson(json['RetryPolicy'] as Map<String, dynamic>),
     roleArn: json['RoleArn'] as String,
     runCommandParameters: json['RunCommandParameters'] == null
         ? null
@@ -720,11 +1002,16 @@ Map<String, dynamic> _$TargetToJson(Target instance) {
   writeNotNull('Arn', instance.arn);
   writeNotNull('Id', instance.id);
   writeNotNull('BatchParameters', instance.batchParameters?.toJson());
+  writeNotNull('DeadLetterConfig', instance.deadLetterConfig?.toJson());
   writeNotNull('EcsParameters', instance.ecsParameters?.toJson());
+  writeNotNull('HttpParameters', instance.httpParameters?.toJson());
   writeNotNull('Input', instance.input);
   writeNotNull('InputPath', instance.inputPath);
   writeNotNull('InputTransformer', instance.inputTransformer?.toJson());
   writeNotNull('KinesisParameters', instance.kinesisParameters?.toJson());
+  writeNotNull(
+      'RedshiftDataParameters', instance.redshiftDataParameters?.toJson());
+  writeNotNull('RetryPolicy', instance.retryPolicy?.toJson());
   writeNotNull('RoleArn', instance.roleArn);
   writeNotNull('RunCommandParameters', instance.runCommandParameters?.toJson());
   writeNotNull('SqsParameters', instance.sqsParameters?.toJson());
@@ -741,4 +1028,14 @@ TestEventPatternResponse _$TestEventPatternResponseFromJson(
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+UpdateArchiveResponse _$UpdateArchiveResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateArchiveResponse(
+    archiveArn: json['ArchiveArn'] as String,
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    state: _$enumDecodeNullable(_$ArchiveStateEnumMap, json['State']),
+    stateReason: json['StateReason'] as String,
+  );
 }

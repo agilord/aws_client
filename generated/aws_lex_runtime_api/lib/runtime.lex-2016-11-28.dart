@@ -393,6 +393,15 @@ class LexRuntimeService {
   /// </ul> </li>
   /// </ul>
   ///
+  /// Parameter [activeContexts] :
+  /// A list of contexts active for the request. A context can be activated when
+  /// a previous intent is fulfilled, or by including the context in the
+  /// request,
+  ///
+  /// If you don't specify a list of contexts, Amazon Lex will use the current
+  /// list of contexts for the session. If you specify an empty list, all
+  /// contexts for the session are cleared.
+  ///
   /// Parameter [requestAttributes] :
   /// You pass this value as the <code>x-amz-lex-request-attributes</code> HTTP
   /// header.
@@ -431,6 +440,7 @@ class LexRuntimeService {
     @_s.required Uint8List inputStream,
     @_s.required String userId,
     String accept,
+    String activeContexts,
     String requestAttributes,
     String sessionAttributes,
   }) async {
@@ -455,6 +465,8 @@ class LexRuntimeService {
     final headers = <String, String>{};
     contentType?.let((v) => headers['Content-Type'] = v.toString());
     accept?.let((v) => headers['Accept'] = v.toString());
+    activeContexts?.let((v) =>
+        headers['x-amz-lex-active-contexts'] = base64Encode(utf8.encode(v)));
     requestAttributes?.let((v) =>
         headers['x-amz-lex-request-attributes'] = base64Encode(utf8.encode(v)));
     sessionAttributes?.let((v) =>
@@ -469,6 +481,12 @@ class LexRuntimeService {
     );
     return PostContentResponse(
       audioStream: await response.stream.toBytes(),
+      activeContexts: _s.extractHeaderJsonValue(
+          response.headers, 'x-amz-lex-active-contexts'),
+      alternativeIntents: _s.extractHeaderJsonValue(
+          response.headers, 'x-amz-lex-alternative-intents'),
+      botVersion: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-lex-bot-version'),
       contentType:
           _s.extractHeaderStringValue(response.headers, 'Content-Type'),
       dialogState: _s
@@ -484,6 +502,8 @@ class LexRuntimeService {
           .extractHeaderStringValue(
               response.headers, 'x-amz-lex-message-format')
           ?.toMessageFormatType(),
+      nluIntentConfidence: _s.extractHeaderJsonValue(
+          response.headers, 'x-amz-lex-nlu-intent-confidence'),
       sentimentResponse:
           _s.extractHeaderStringValue(response.headers, 'x-amz-lex-sentiment'),
       sessionAttributes: _s.extractHeaderJsonValue(
@@ -617,6 +637,15 @@ class LexRuntimeService {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [activeContexts] :
+  /// A list of contexts active for the request. A context can be activated when
+  /// a previous intent is fulfilled, or by including the context in the
+  /// request,
+  ///
+  /// If you don't specify a list of contexts, Amazon Lex will use the current
+  /// list of contexts for the session. If you specify an empty list, all
+  /// contexts for the session are cleared.
+  ///
   /// Parameter [requestAttributes] :
   /// Request-specific information passed between Amazon Lex and a client
   /// application.
@@ -641,6 +670,7 @@ class LexRuntimeService {
     @_s.required String botName,
     @_s.required String inputText,
     @_s.required String userId,
+    List<ActiveContext> activeContexts,
     Map<String, String> requestAttributes,
     Map<String, String> sessionAttributes,
   }) async {
@@ -670,6 +700,7 @@ class LexRuntimeService {
     );
     final $payload = <String, dynamic>{
       'inputText': inputText,
+      if (activeContexts != null) 'activeContexts': activeContexts,
       if (requestAttributes != null) 'requestAttributes': requestAttributes,
       if (sessionAttributes != null) 'sessionAttributes': sessionAttributes,
     };
@@ -752,6 +783,15 @@ class LexRuntimeService {
   /// </ul> </li>
   /// </ul>
   ///
+  /// Parameter [activeContexts] :
+  /// A list of contexts active for the request. A context can be activated when
+  /// a previous intent is fulfilled, or by including the context in the
+  /// request,
+  ///
+  /// If you don't specify a list of contexts, Amazon Lex will use the current
+  /// list of contexts for the session. If you specify an empty list, all
+  /// contexts for the session are cleared.
+  ///
   /// Parameter [dialogAction] :
   /// Sets the next action that the bot should take to fulfill the conversation.
   ///
@@ -792,6 +832,7 @@ class LexRuntimeService {
     @_s.required String botName,
     @_s.required String userId,
     String accept,
+    List<ActiveContext> activeContexts,
     DialogAction dialogAction,
     List<IntentSummary> recentIntentSummaryView,
     Map<String, String> sessionAttributes,
@@ -815,6 +856,7 @@ class LexRuntimeService {
     final headers = <String, String>{};
     accept?.let((v) => headers['Accept'] = v.toString());
     final $payload = <String, dynamic>{
+      if (activeContexts != null) 'activeContexts': activeContexts,
       if (dialogAction != null) 'dialogAction': dialogAction,
       if (recentIntentSummaryView != null)
         'recentIntentSummaryView': recentIntentSummaryView,
@@ -830,6 +872,8 @@ class LexRuntimeService {
     );
     return PutSessionResponse(
       audioStream: await response.stream.toBytes(),
+      activeContexts: _s.extractHeaderJsonValue(
+          response.headers, 'x-amz-lex-active-contexts'),
       contentType:
           _s.extractHeaderStringValue(response.headers, 'Content-Type'),
       dialogState: _s
@@ -852,6 +896,70 @@ class LexRuntimeService {
       slots: _s.extractHeaderJsonValue(response.headers, 'x-amz-lex-slots'),
     );
   }
+}
+
+/// A context is a variable that contains information about the current state of
+/// the conversation between a user and Amazon Lex. Context can be set
+/// automatically by Amazon Lex when an intent is fulfilled, or it can be set at
+/// runtime using the <code>PutContent</code>, <code>PutText</code>, or
+/// <code>PutSession</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ActiveContext {
+  /// The name of the context.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// State variables for the current context. You can use these values as default
+  /// values for slots in subsequent events.
+  @_s.JsonKey(name: 'parameters')
+  final Map<String, String> parameters;
+
+  /// The length of time or number of turns that a context remains active.
+  @_s.JsonKey(name: 'timeToLive')
+  final ActiveContextTimeToLive timeToLive;
+
+  ActiveContext({
+    @_s.required this.name,
+    @_s.required this.parameters,
+    @_s.required this.timeToLive,
+  });
+  factory ActiveContext.fromJson(Map<String, dynamic> json) =>
+      _$ActiveContextFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ActiveContextToJson(this);
+}
+
+/// The length of time or number of turns that a context remains active.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ActiveContextTimeToLive {
+  /// The number of seconds that the context should be active after it is first
+  /// sent in a <code>PostContent</code> or <code>PostText</code> response. You
+  /// can set the value between 5 and 86,400 seconds (24 hours).
+  @_s.JsonKey(name: 'timeToLiveInSeconds')
+  final int timeToLiveInSeconds;
+
+  /// The number of conversation turns that the context should be active. A
+  /// conversation turn is one <code>PostContent</code> or <code>PostText</code>
+  /// request and the corresponding response from Amazon Lex.
+  @_s.JsonKey(name: 'turnsToLive')
+  final int turnsToLive;
+
+  ActiveContextTimeToLive({
+    this.timeToLiveInSeconds,
+    this.turnsToLive,
+  });
+  factory ActiveContextTimeToLive.fromJson(Map<String, dynamic> json) =>
+      _$ActiveContextTimeToLiveFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ActiveContextTimeToLiveToJson(this);
 }
 
 /// Represents an option to be shown on the client platform (Facebook, Slack,
@@ -1139,6 +1247,15 @@ class GenericAttachment {
     createFactory: true,
     createToJson: false)
 class GetSessionResponse {
+  /// A list of active contexts for the session. A context can be set when an
+  /// intent is fulfilled or by calling the <code>PostContent</code>,
+  /// <code>PostText</code>, or <code>PutSession</code> operation.
+  ///
+  /// You can use a context to control the intents that can follow up an intent,
+  /// or to modify the operation of your application.
+  @_s.JsonKey(name: 'activeContexts')
+  final List<ActiveContext> activeContexts;
+
   /// Describes the current state of the bot.
   @_s.JsonKey(name: 'dialogAction')
   final DialogAction dialogAction;
@@ -1164,6 +1281,7 @@ class GetSessionResponse {
   final String sessionId;
 
   GetSessionResponse({
+    this.activeContexts,
     this.dialogAction,
     this.recentIntentSummaryView,
     this.sessionAttributes,
@@ -1171,6 +1289,27 @@ class GetSessionResponse {
   });
   factory GetSessionResponse.fromJson(Map<String, dynamic> json) =>
       _$GetSessionResponseFromJson(json);
+}
+
+/// Provides a score that indicates the confidence that Amazon Lex has that an
+/// intent is the one that satisfies the user's intent.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class IntentConfidence {
+  /// A score that indicates how confident Amazon Lex is that an intent satisfies
+  /// the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate
+  /// higher confidence.
+  @_s.JsonKey(name: 'score')
+  final double score;
+
+  IntentConfidence({
+    this.score,
+  });
+  factory IntentConfidence.fromJson(Map<String, dynamic> json) =>
+      _$IntentConfidenceFromJson(json);
 }
 
 /// Provides information about the state of an intent. You can use this
@@ -1321,6 +1460,25 @@ extension on String {
     createFactory: true,
     createToJson: false)
 class PostContentResponse {
+  /// A list of active contexts for the session. A context can be set when an
+  /// intent is fulfilled or by calling the <code>PostContent</code>,
+  /// <code>PostText</code>, or <code>PutSession</code> operation.
+  ///
+  /// You can use a context to control the intents that can follow up an intent,
+  /// or to modify the operation of your application.
+  @Base64JsonConverter()
+  @_s.JsonKey(name: 'x-amz-lex-active-contexts')
+  final Object activeContexts;
+
+  /// One to four alternative intents that may be applicable to the user's intent.
+  ///
+  /// Each alternative includes a score that indicates how confident Amazon Lex is
+  /// that the intent matches the user's intent. The intents are sorted by the
+  /// confidence score.
+  @Base64JsonConverter()
+  @_s.JsonKey(name: 'x-amz-lex-alternative-intents')
+  final Object alternativeIntents;
+
   /// The prompt (or statement) to convey to the user. This is based on the bot
   /// configuration and context. For example, if Amazon Lex did not understand the
   /// user intent, it sends the <code>clarificationPrompt</code> configured for
@@ -1332,6 +1490,12 @@ class PostContentResponse {
   @Uint8ListConverter()
   @_s.JsonKey(name: 'audioStream')
   final Uint8List audioStream;
+
+  /// The version of the bot that responded to the conversation. You can use this
+  /// information to help determine if one version of a bot is performing better
+  /// than another version.
+  @_s.JsonKey(name: 'x-amz-lex-bot-version')
+  final String botVersion;
 
   /// Content type as specified in the <code>Accept</code> HTTP header in the
   /// request.
@@ -1449,7 +1613,17 @@ class PostContentResponse {
   @_s.JsonKey(name: 'x-amz-lex-message-format')
   final MessageFormatType messageFormat;
 
-  /// The sentiment expressed in and utterance.
+  /// Provides a score that indicates how confident Amazon Lex is that the
+  /// returned intent is the one that matches the user's intent. The score is
+  /// between 0.0 and 1.0.
+  ///
+  /// The score is a relative score, not an absolute score. The score may change
+  /// based on improvements to Amazon Lex.
+  @Base64JsonConverter()
+  @_s.JsonKey(name: 'x-amz-lex-nlu-intent-confidence')
+  final Object nluIntentConfidence;
+
+  /// The sentiment expressed in an utterance.
   ///
   /// When the bot is configured to send utterances to Amazon Comprehend for
   /// sentiment analysis, this field contains the result of the analysis.
@@ -1490,13 +1664,17 @@ class PostContentResponse {
   final Object slots;
 
   PostContentResponse({
+    this.activeContexts,
+    this.alternativeIntents,
     this.audioStream,
+    this.botVersion,
     this.contentType,
     this.dialogState,
     this.inputTranscript,
     this.intentName,
     this.message,
     this.messageFormat,
+    this.nluIntentConfidence,
     this.sentimentResponse,
     this.sessionAttributes,
     this.sessionId,
@@ -1513,6 +1691,29 @@ class PostContentResponse {
     createFactory: true,
     createToJson: false)
 class PostTextResponse {
+  /// A list of active contexts for the session. A context can be set when an
+  /// intent is fulfilled or by calling the <code>PostContent</code>,
+  /// <code>PostText</code>, or <code>PutSession</code> operation.
+  ///
+  /// You can use a context to control the intents that can follow up an intent,
+  /// or to modify the operation of your application.
+  @_s.JsonKey(name: 'activeContexts')
+  final List<ActiveContext> activeContexts;
+
+  /// One to four alternative intents that may be applicable to the user's intent.
+  ///
+  /// Each alternative includes a score that indicates how confident Amazon Lex is
+  /// that the intent matches the user's intent. The intents are sorted by the
+  /// confidence score.
+  @_s.JsonKey(name: 'alternativeIntents')
+  final List<PredictedIntent> alternativeIntents;
+
+  /// The version of the bot that responded to the conversation. You can use this
+  /// information to help determine if one version of a bot is performing better
+  /// than another version.
+  @_s.JsonKey(name: 'botVersion')
+  final String botVersion;
+
   /// Identifies the current state of the user interaction. Amazon Lex returns one
   /// of the following values as <code>dialogState</code>. The client can
   /// optionally use this information to customize the user interface.
@@ -1615,6 +1816,17 @@ class PostTextResponse {
   @_s.JsonKey(name: 'messageFormat')
   final MessageFormatType messageFormat;
 
+  /// Provides a score that indicates how confident Amazon Lex is that the
+  /// returned intent is the one that matches the user's intent. The score is
+  /// between 0.0 and 1.0. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/confidence-scores.html">Confidence
+  /// Scores</a>.
+  ///
+  /// The score is a relative score, not an absolute score. The score may change
+  /// based on improvements to Amazon Lex.
+  @_s.JsonKey(name: 'nluIntentConfidence')
+  final IntentConfidence nluIntentConfidence;
+
   /// Represents the options that the user has to respond to the current prompt.
   /// Response Card can come from the bot configuration (in the Amazon Lex
   /// console, choose the settings button next to a slot) or from a code hook
@@ -1661,10 +1873,14 @@ class PostTextResponse {
   final Map<String, String> slots;
 
   PostTextResponse({
+    this.activeContexts,
+    this.alternativeIntents,
+    this.botVersion,
     this.dialogState,
     this.intentName,
     this.message,
     this.messageFormat,
+    this.nluIntentConfidence,
     this.responseCard,
     this.sentimentResponse,
     this.sessionAttributes,
@@ -1676,12 +1892,48 @@ class PostTextResponse {
       _$PostTextResponseFromJson(json);
 }
 
+/// An intent that Amazon Lex suggests satisfies the user's intent. Includes the
+/// name of the intent, the confidence that Amazon Lex has that the user's
+/// intent is satisfied, and the slots defined for the intent.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PredictedIntent {
+  /// The name of the intent that Amazon Lex suggests satisfies the user's intent.
+  @_s.JsonKey(name: 'intentName')
+  final String intentName;
+
+  /// Indicates how confident Amazon Lex is that an intent satisfies the user's
+  /// intent.
+  @_s.JsonKey(name: 'nluIntentConfidence')
+  final IntentConfidence nluIntentConfidence;
+
+  /// The slot and slot values associated with the predicted intent.
+  @_s.JsonKey(name: 'slots')
+  final Map<String, String> slots;
+
+  PredictedIntent({
+    this.intentName,
+    this.nluIntentConfidence,
+    this.slots,
+  });
+  factory PredictedIntent.fromJson(Map<String, dynamic> json) =>
+      _$PredictedIntentFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class PutSessionResponse {
+  /// A list of active contexts for the session.
+  @Base64JsonConverter()
+  @_s.JsonKey(name: 'x-amz-lex-active-contexts')
+  final Object activeContexts;
+
   /// The audio version of the message to convey to the user.
   @Uint8ListConverter()
   @_s.JsonKey(name: 'audioStream')
@@ -1785,6 +2037,7 @@ class PutSessionResponse {
   final Object slots;
 
   PutSessionResponse({
+    this.activeContexts,
     this.audioStream,
     this.contentType,
     this.dialogState,

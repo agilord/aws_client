@@ -8,6 +8,7 @@ part of 'imagebuilder-2019-12-02.dart';
 
 Ami _$AmiFromJson(Map<String, dynamic> json) {
   return Ami(
+    accountId: json['accountId'] as String,
     description: json['description'] as String,
     image: json['image'] as String,
     name: json['name'] as String,
@@ -25,11 +26,14 @@ AmiDistributionConfiguration _$AmiDistributionConfigurationFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
     description: json['description'] as String,
+    kmsKeyId: json['kmsKeyId'] as String,
     launchPermission: json['launchPermission'] == null
         ? null
         : LaunchPermissionConfiguration.fromJson(
             json['launchPermission'] as Map<String, dynamic>),
     name: json['name'] as String,
+    targetAccountIds:
+        (json['targetAccountIds'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
@@ -45,8 +49,10 @@ Map<String, dynamic> _$AmiDistributionConfigurationToJson(
 
   writeNotNull('amiTags', instance.amiTags);
   writeNotNull('description', instance.description);
+  writeNotNull('kmsKeyId', instance.kmsKeyId);
   writeNotNull('launchPermission', instance.launchPermission?.toJson());
   writeNotNull('name', instance.name);
+  writeNotNull('targetAccountIds', instance.targetAccountIds);
   return val;
 }
 
@@ -71,6 +77,9 @@ Component _$ComponentFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     owner: json['owner'] as String,
     platform: _$enumDecodeNullable(_$PlatformEnumMap, json['platform']),
+    supportedOsVersions: (json['supportedOsVersions'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -151,6 +160,9 @@ ComponentSummary _$ComponentSummaryFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     owner: json['owner'] as String,
     platform: _$enumDecodeNullable(_$PlatformEnumMap, json['platform']),
+    supportedOsVersions: (json['supportedOsVersions'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -167,8 +179,99 @@ ComponentVersion _$ComponentVersionFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     owner: json['owner'] as String,
     platform: _$enumDecodeNullable(_$PlatformEnumMap, json['platform']),
+    supportedOsVersions: (json['supportedOsVersions'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
     type: _$enumDecodeNullable(_$ComponentTypeEnumMap, json['type']),
     version: json['version'] as String,
+  );
+}
+
+Container _$ContainerFromJson(Map<String, dynamic> json) {
+  return Container(
+    imageUris: (json['imageUris'] as List)?.map((e) => e as String)?.toList(),
+    region: json['region'] as String,
+  );
+}
+
+ContainerDistributionConfiguration _$ContainerDistributionConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return ContainerDistributionConfiguration(
+    targetRepository: json['targetRepository'] == null
+        ? null
+        : TargetContainerRepository.fromJson(
+            json['targetRepository'] as Map<String, dynamic>),
+    containerTags:
+        (json['containerTags'] as List)?.map((e) => e as String)?.toList(),
+    description: json['description'] as String,
+  );
+}
+
+Map<String, dynamic> _$ContainerDistributionConfigurationToJson(
+    ContainerDistributionConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('targetRepository', instance.targetRepository?.toJson());
+  writeNotNull('containerTags', instance.containerTags);
+  writeNotNull('description', instance.description);
+  return val;
+}
+
+ContainerRecipe _$ContainerRecipeFromJson(Map<String, dynamic> json) {
+  return ContainerRecipe(
+    arn: json['arn'] as String,
+    components: (json['components'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ComponentConfiguration.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    containerType:
+        _$enumDecodeNullable(_$ContainerTypeEnumMap, json['containerType']),
+    dateCreated: json['dateCreated'] as String,
+    description: json['description'] as String,
+    dockerfileTemplateData: json['dockerfileTemplateData'] as String,
+    encrypted: json['encrypted'] as bool,
+    kmsKeyId: json['kmsKeyId'] as String,
+    name: json['name'] as String,
+    owner: json['owner'] as String,
+    parentImage: json['parentImage'] as String,
+    platform: _$enumDecodeNullable(_$PlatformEnumMap, json['platform']),
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    targetRepository: json['targetRepository'] == null
+        ? null
+        : TargetContainerRepository.fromJson(
+            json['targetRepository'] as Map<String, dynamic>),
+    version: json['version'] as String,
+    workingDirectory: json['workingDirectory'] as String,
+  );
+}
+
+const _$ContainerTypeEnumMap = {
+  ContainerType.docker: 'DOCKER',
+};
+
+ContainerRecipeSummary _$ContainerRecipeSummaryFromJson(
+    Map<String, dynamic> json) {
+  return ContainerRecipeSummary(
+    arn: json['arn'] as String,
+    containerType:
+        _$enumDecodeNullable(_$ContainerTypeEnumMap, json['containerType']),
+    dateCreated: json['dateCreated'] as String,
+    name: json['name'] as String,
+    owner: json['owner'] as String,
+    parentImage: json['parentImage'] as String,
+    platform: _$enumDecodeNullable(_$PlatformEnumMap, json['platform']),
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -177,6 +280,15 @@ CreateComponentResponse _$CreateComponentResponseFromJson(
   return CreateComponentResponse(
     clientToken: json['clientToken'] as String,
     componentBuildVersionArn: json['componentBuildVersionArn'] as String,
+    requestId: json['requestId'] as String,
+  );
+}
+
+CreateContainerRecipeResponse _$CreateContainerRecipeResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateContainerRecipeResponse(
+    clientToken: json['clientToken'] as String,
+    containerRecipeArn: json['containerRecipeArn'] as String,
     requestId: json['requestId'] as String,
   );
 }
@@ -237,6 +349,14 @@ DeleteComponentResponse _$DeleteComponentResponseFromJson(
   );
 }
 
+DeleteContainerRecipeResponse _$DeleteContainerRecipeResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteContainerRecipeResponse(
+    containerRecipeArn: json['containerRecipeArn'] as String,
+    requestId: json['requestId'] as String,
+  );
+}
+
 DeleteDistributionConfigurationResponse
     _$DeleteDistributionConfigurationResponseFromJson(
         Map<String, dynamic> json) {
@@ -287,6 +407,12 @@ Distribution _$DistributionFromJson(Map<String, dynamic> json) {
         ? null
         : AmiDistributionConfiguration.fromJson(
             json['amiDistributionConfiguration'] as Map<String, dynamic>),
+    containerDistributionConfiguration:
+        json['containerDistributionConfiguration'] == null
+            ? null
+            : ContainerDistributionConfiguration.fromJson(
+                json['containerDistributionConfiguration']
+                    as Map<String, dynamic>),
     licenseConfigurationArns: (json['licenseConfigurationArns'] as List)
         ?.map((e) => e as String)
         ?.toList(),
@@ -305,6 +431,8 @@ Map<String, dynamic> _$DistributionToJson(Distribution instance) {
   writeNotNull('region', instance.region);
   writeNotNull('amiDistributionConfiguration',
       instance.amiDistributionConfiguration?.toJson());
+  writeNotNull('containerDistributionConfiguration',
+      instance.containerDistributionConfiguration?.toJson());
   writeNotNull('licenseConfigurationArns', instance.licenseConfigurationArns);
   return val;
 }
@@ -336,6 +464,7 @@ DistributionConfigurationSummary _$DistributionConfigurationSummaryFromJson(
     dateUpdated: json['dateUpdated'] as String,
     description: json['description'] as String,
     name: json['name'] as String,
+    regions: (json['regions'] as List)?.map((e) => e as String)?.toList(),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -379,6 +508,7 @@ Map<String, dynamic> _$EbsInstanceBlockDeviceSpecificationToJson(
 const _$EbsVolumeTypeEnumMap = {
   EbsVolumeType.standard: 'standard',
   EbsVolumeType.io1: 'io1',
+  EbsVolumeType.io2: 'io2',
   EbsVolumeType.gp2: 'gp2',
   EbsVolumeType.sc1: 'sc1',
   EbsVolumeType.st1: 'st1',
@@ -411,6 +541,25 @@ GetComponentResponse _$GetComponentResponseFromJson(Map<String, dynamic> json) {
     component: json['component'] == null
         ? null
         : Component.fromJson(json['component'] as Map<String, dynamic>),
+    requestId: json['requestId'] as String,
+  );
+}
+
+GetContainerRecipePolicyResponse _$GetContainerRecipePolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetContainerRecipePolicyResponse(
+    policy: json['policy'] as String,
+    requestId: json['requestId'] as String,
+  );
+}
+
+GetContainerRecipeResponse _$GetContainerRecipeResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetContainerRecipeResponse(
+    containerRecipe: json['containerRecipe'] == null
+        ? null
+        : ContainerRecipe.fromJson(
+            json['containerRecipe'] as Map<String, dynamic>),
     requestId: json['requestId'] as String,
   );
 }
@@ -486,6 +635,10 @@ GetInfrastructureConfigurationResponse
 Image _$ImageFromJson(Map<String, dynamic> json) {
   return Image(
     arn: json['arn'] as String,
+    containerRecipe: json['containerRecipe'] == null
+        ? null
+        : ContainerRecipe.fromJson(
+            json['containerRecipe'] as Map<String, dynamic>),
     dateCreated: json['dateCreated'] as String,
     distributionConfiguration: json['distributionConfiguration'] == null
         ? null
@@ -518,13 +671,20 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
+    type: _$enumDecodeNullable(_$ImageTypeEnumMap, json['type']),
     version: json['version'] as String,
   );
 }
 
+const _$ImageTypeEnumMap = {
+  ImageType.ami: 'AMI',
+  ImageType.docker: 'DOCKER',
+};
+
 ImagePipeline _$ImagePipelineFromJson(Map<String, dynamic> json) {
   return ImagePipeline(
     arn: json['arn'] as String,
+    containerRecipeArn: json['containerRecipeArn'] as String,
     dateCreated: json['dateCreated'] as String,
     dateLastRun: json['dateLastRun'] as String,
     dateNextRun: json['dateNextRun'] as String,
@@ -579,7 +739,9 @@ ImageRecipe _$ImageRecipeFromJson(Map<String, dynamic> json) {
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
+    type: _$enumDecodeNullable(_$ImageTypeEnumMap, json['type']),
     version: json['version'] as String,
+    workingDirectory: json['workingDirectory'] as String,
   );
 }
 
@@ -636,6 +798,7 @@ ImageSummary _$ImageSummaryFromJson(Map<String, dynamic> json) {
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
+    type: _$enumDecodeNullable(_$ImageTypeEnumMap, json['type']),
     version: json['version'] as String,
   );
 }
@@ -671,6 +834,7 @@ ImageVersion _$ImageVersionFromJson(Map<String, dynamic> json) {
     osVersion: json['osVersion'] as String,
     owner: json['owner'] as String,
     platform: _$enumDecodeNullable(_$PlatformEnumMap, json['platform']),
+    type: _$enumDecodeNullable(_$ImageTypeEnumMap, json['type']),
     version: json['version'] as String,
   );
 }
@@ -699,6 +863,9 @@ InfrastructureConfiguration _$InfrastructureConfigurationFromJson(
         ? null
         : Logging.fromJson(json['logging'] as Map<String, dynamic>),
     name: json['name'] as String,
+    resourceTags: (json['resourceTags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
     securityGroupIds:
         (json['securityGroupIds'] as List)?.map((e) => e as String)?.toList(),
     snsTopicArn: json['snsTopicArn'] as String,
@@ -718,6 +885,9 @@ InfrastructureConfigurationSummary _$InfrastructureConfigurationSummaryFromJson(
     dateUpdated: json['dateUpdated'] as String,
     description: json['description'] as String,
     name: json['name'] as String,
+    resourceTags: (json['resourceTags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -797,6 +967,19 @@ ListComponentsResponse _$ListComponentsResponseFromJson(
         ?.map((e) => e == null
             ? null
             : ComponentVersion.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['nextToken'] as String,
+    requestId: json['requestId'] as String,
+  );
+}
+
+ListContainerRecipesResponse _$ListContainerRecipesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListContainerRecipesResponse(
+    containerRecipeSummaryList: (json['containerRecipeSummaryList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ContainerRecipeSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextToken: json['nextToken'] as String,
     requestId: json['requestId'] as String,
@@ -931,6 +1114,10 @@ OutputResources _$OutputResourcesFromJson(Map<String, dynamic> json) {
     amis: (json['amis'] as List)
         ?.map((e) => e == null ? null : Ami.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    containers: (json['containers'] as List)
+        ?.map((e) =>
+            e == null ? null : Container.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -938,6 +1125,14 @@ PutComponentPolicyResponse _$PutComponentPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutComponentPolicyResponse(
     componentArn: json['componentArn'] as String,
+    requestId: json['requestId'] as String,
+  );
+}
+
+PutContainerRecipePolicyResponse _$PutContainerRecipePolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return PutContainerRecipePolicyResponse(
+    containerRecipeArn: json['containerRecipeArn'] as String,
     requestId: json['requestId'] as String,
   );
 }
@@ -1023,6 +1218,35 @@ StartImagePipelineExecutionResponse
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
+
+TargetContainerRepository _$TargetContainerRepositoryFromJson(
+    Map<String, dynamic> json) {
+  return TargetContainerRepository(
+    repositoryName: json['repositoryName'] as String,
+    service: _$enumDecodeNullable(
+        _$ContainerRepositoryServiceEnumMap, json['service']),
+  );
+}
+
+Map<String, dynamic> _$TargetContainerRepositoryToJson(
+    TargetContainerRepository instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('repositoryName', instance.repositoryName);
+  writeNotNull(
+      'service', _$ContainerRepositoryServiceEnumMap[instance.service]);
+  return val;
+}
+
+const _$ContainerRepositoryServiceEnumMap = {
+  ContainerRepositoryService.ecr: 'ECR',
+};
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {

@@ -94,6 +94,14 @@ DeleteLifecyclePolicyResponse _$DeleteLifecyclePolicyResponseFromJson(
   );
 }
 
+DeleteRegistryPolicyResponse _$DeleteRegistryPolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteRegistryPolicyResponse(
+    policyText: json['policyText'] as String,
+    registryId: json['registryId'] as String,
+  );
+}
+
 DeleteRepositoryPolicyResponse _$DeleteRepositoryPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRepositoryPolicyResponse(
@@ -163,6 +171,17 @@ DescribeImagesResponse _$DescribeImagesResponseFromJson(
   );
 }
 
+DescribeRegistryResponse _$DescribeRegistryResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeRegistryResponse(
+    registryId: json['registryId'] as String,
+    replicationConfiguration: json['replicationConfiguration'] == null
+        ? null
+        : ReplicationConfiguration.fromJson(
+            json['replicationConfiguration'] as Map<String, dynamic>),
+  );
+}
+
 DescribeRepositoriesResponse _$DescribeRepositoriesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeRepositoriesResponse(
@@ -173,6 +192,68 @@ DescribeRepositoriesResponse _$DescribeRepositoriesResponseFromJson(
         ?.toList(),
   );
 }
+
+EncryptionConfiguration _$EncryptionConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return EncryptionConfiguration(
+    encryptionType:
+        _$enumDecodeNullable(_$EncryptionTypeEnumMap, json['encryptionType']),
+    kmsKey: json['kmsKey'] as String,
+  );
+}
+
+Map<String, dynamic> _$EncryptionConfigurationToJson(
+    EncryptionConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'encryptionType', _$EncryptionTypeEnumMap[instance.encryptionType]);
+  writeNotNull('kmsKey', instance.kmsKey);
+  return val;
+}
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$EncryptionTypeEnumMap = {
+  EncryptionType.aes256: 'AES256',
+  EncryptionType.kms: 'KMS',
+};
 
 GetAuthorizationTokenResponse _$GetAuthorizationTokenResponseFromJson(
     Map<String, dynamic> json) {
@@ -214,38 +295,6 @@ GetLifecyclePolicyPreviewResponse _$GetLifecyclePolicyPreviewResponseFromJson(
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
-}
-
 const _$LifecyclePolicyPreviewStatusEnumMap = {
   LifecyclePolicyPreviewStatus.inProgress: 'IN_PROGRESS',
   LifecyclePolicyPreviewStatus.complete: 'COMPLETE',
@@ -264,6 +313,14 @@ GetLifecyclePolicyResponse _$GetLifecyclePolicyResponseFromJson(
   );
 }
 
+GetRegistryPolicyResponse _$GetRegistryPolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetRegistryPolicyResponse(
+    policyText: json['policyText'] as String,
+    registryId: json['registryId'] as String,
+  );
+}
+
 GetRepositoryPolicyResponse _$GetRepositoryPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetRepositoryPolicyResponse(
@@ -279,6 +336,7 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
         ? null
         : ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>),
     imageManifest: json['imageManifest'] as String,
+    imageManifestMediaType: json['imageManifestMediaType'] as String,
     registryId: json['registryId'] as String,
     repositoryName: json['repositoryName'] as String,
   );
@@ -286,7 +344,9 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
 
 ImageDetail _$ImageDetailFromJson(Map<String, dynamic> json) {
   return ImageDetail(
+    artifactMediaType: json['artifactMediaType'] as String,
     imageDigest: json['imageDigest'] as String,
+    imageManifestMediaType: json['imageManifestMediaType'] as String,
     imagePushedAt:
         const UnixDateTimeConverter().fromJson(json['imagePushedAt']),
     imageScanFindingsSummary: json['imageScanFindingsSummary'] == null
@@ -321,6 +381,9 @@ const _$ImageFailureCodeEnumMap = {
   ImageFailureCode.imageTagDoesNotMatchDigest: 'ImageTagDoesNotMatchDigest',
   ImageFailureCode.imageNotFound: 'ImageNotFound',
   ImageFailureCode.missingDigestAndTag: 'MissingDigestAndTag',
+  ImageFailureCode.imageReferencedByManifestList:
+      'ImageReferencedByManifestList',
+  ImageFailureCode.kmsError: 'KmsError',
 };
 
 ImageIdentifier _$ImageIdentifierFromJson(Map<String, dynamic> json) {
@@ -595,9 +658,103 @@ PutLifecyclePolicyResponse _$PutLifecyclePolicyResponseFromJson(
   );
 }
 
+PutRegistryPolicyResponse _$PutRegistryPolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return PutRegistryPolicyResponse(
+    policyText: json['policyText'] as String,
+    registryId: json['registryId'] as String,
+  );
+}
+
+PutReplicationConfigurationResponse
+    _$PutReplicationConfigurationResponseFromJson(Map<String, dynamic> json) {
+  return PutReplicationConfigurationResponse(
+    replicationConfiguration: json['replicationConfiguration'] == null
+        ? null
+        : ReplicationConfiguration.fromJson(
+            json['replicationConfiguration'] as Map<String, dynamic>),
+  );
+}
+
+ReplicationConfiguration _$ReplicationConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return ReplicationConfiguration(
+    rules: (json['rules'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ReplicationRule.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$ReplicationConfigurationToJson(
+    ReplicationConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+ReplicationDestination _$ReplicationDestinationFromJson(
+    Map<String, dynamic> json) {
+  return ReplicationDestination(
+    region: json['region'] as String,
+    registryId: json['registryId'] as String,
+  );
+}
+
+Map<String, dynamic> _$ReplicationDestinationToJson(
+    ReplicationDestination instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('region', instance.region);
+  writeNotNull('registryId', instance.registryId);
+  return val;
+}
+
+ReplicationRule _$ReplicationRuleFromJson(Map<String, dynamic> json) {
+  return ReplicationRule(
+    destinations: (json['destinations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ReplicationDestination.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$ReplicationRuleToJson(ReplicationRule instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'destinations', instance.destinations?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 Repository _$RepositoryFromJson(Map<String, dynamic> json) {
   return Repository(
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    encryptionConfiguration: json['encryptionConfiguration'] == null
+        ? null
+        : EncryptionConfiguration.fromJson(
+            json['encryptionConfiguration'] as Map<String, dynamic>),
     imageScanningConfiguration: json['imageScanningConfiguration'] == null
         ? null
         : ImageScanningConfiguration.fromJson(

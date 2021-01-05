@@ -1438,7 +1438,7 @@ class Pinpoint {
   /// alphanumeric characters, separated by a hyphen. Examples are
   /// email-open-rate and successful-delivery-rate. For a list of valid values,
   /// see the <a
-  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html">Amazon
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html">Amazon
   /// Pinpoint Developer Guide</a>.
   ///
   /// Parameter [endTime] :
@@ -1449,13 +1449,13 @@ class Pinpoint {
   ///
   /// Parameter [nextToken] :
   /// The  string that specifies which page of results to return in a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [startTime] :
   /// The first date and time to retrieve data for, as part of an inclusive date
@@ -1537,8 +1537,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -1650,8 +1650,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -1707,7 +1707,7 @@ class Pinpoint {
   /// alphanumeric characters, separated by a hyphen. Examples are
   /// email-open-rate and successful-delivery-rate. For a list of valid values,
   /// see the <a
-  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html">Amazon
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html">Amazon
   /// Pinpoint Developer Guide</a>.
   ///
   /// Parameter [endTime] :
@@ -1718,13 +1718,13 @@ class Pinpoint {
   ///
   /// Parameter [nextToken] :
   /// The  string that specifies which page of results to return in a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [startTime] :
   /// The first date and time to retrieve data for, as part of an inclusive date
@@ -1827,8 +1827,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -1876,8 +1876,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -2152,8 +2152,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -2264,8 +2264,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -2354,7 +2354,7 @@ class Pinpoint {
   /// alphanumeric characters, separated by a hyphen. Examples are
   /// email-open-rate and successful-delivery-rate. For a list of valid values,
   /// see the <a
-  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html">Amazon
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html">Amazon
   /// Pinpoint Developer Guide</a>.
   ///
   /// Parameter [endTime] :
@@ -2365,13 +2365,13 @@ class Pinpoint {
   ///
   /// Parameter [nextToken] :
   /// The  string that specifies which page of results to return in a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [startTime] :
   /// The first date and time to retrieve data for, as part of an inclusive date
@@ -2435,13 +2435,13 @@ class Pinpoint {
   ///
   /// Parameter [nextToken] :
   /// The  string that specifies which page of results to return in a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   Future<GetJourneyExecutionActivityMetricsResponse>
       getJourneyExecutionActivityMetrics({
     @_s.required String applicationId,
@@ -2492,13 +2492,13 @@ class Pinpoint {
   ///
   /// Parameter [nextToken] :
   /// The  string that specifies which page of results to return in a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   Future<GetJourneyExecutionMetricsResponse> getJourneyExecutionMetrics({
     @_s.required String applicationId,
     @_s.required String journeyId,
@@ -2640,8 +2640,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -2724,8 +2724,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -2776,8 +2776,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -2871,8 +2871,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -2920,8 +2920,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -3199,8 +3199,8 @@ class Pinpoint {
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [token] :
   /// The NextToken string that specifies which page of results to return in a
@@ -3272,13 +3272,13 @@ class Pinpoint {
   ///
   /// Parameter [nextToken] :
   /// The  string that specifies which page of results to return in a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   Future<ListTemplateVersionsResponse> listTemplateVersions({
     @_s.required String templateName,
     @_s.required String templateType,
@@ -3316,13 +3316,13 @@ class Pinpoint {
   ///
   /// Parameter [nextToken] :
   /// The  string that specifies which page of results to return in a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [pageSize] :
   /// The maximum number of items to include in each page of a paginated
-  /// response. This parameter is currently not supported for application,
-  /// campaign, and journey metrics.
+  /// response. This parameter is not supported for application, campaign, and
+  /// journey metrics.
   ///
   /// Parameter [prefix] :
   /// The substring to match in the names of the message templates to include in
@@ -4004,8 +4004,9 @@ class Pinpoint {
 
   /// Creates a new endpoint for an application or updates the settings and
   /// attributes of an existing endpoint for an application. You can also use
-  /// this operation to define custom attributes (Attributes, Metrics, and
-  /// UserAttributes properties) for an endpoint.
+  /// this operation to define custom attributes for an endpoint. If an update
+  /// includes one or more values for a custom attribute, Amazon Pinpoint
+  /// replaces (overwrites) any existing values with the new values.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -4045,8 +4046,9 @@ class Pinpoint {
   /// Creates a new batch of endpoints for an application or updates the
   /// settings and attributes of a batch of existing endpoints for an
   /// application. You can also use this operation to define custom attributes
-  /// (Attributes, Metrics, and UserAttributes properties) for a batch of
-  /// endpoints.
+  /// for a batch of endpoints. If an update includes one or more values for a
+  /// custom attribute, Amazon Pinpoint replaces (overwrites) any existing
+  /// values with the new values.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -4118,6 +4120,7 @@ class Pinpoint {
   /// May throw [NotFoundException].
   /// May throw [MethodNotAllowedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [applicationId] :
   /// The unique identifier for the application. This identifier is displayed as
@@ -5762,6 +5765,11 @@ class ActivitiesResponse {
     createFactory: true,
     createToJson: true)
 class Activity {
+  /// The settings for a custom message activity. This type of activity calls an
+  /// AWS Lambda function or web hook that sends messages to participants.
+  @_s.JsonKey(name: 'CUSTOM')
+  final CustomMessageActivity custom;
+
   /// The settings for a yes/no split activity. This type of activity sends
   /// participants down one of two paths in a journey, based on conditions that
   /// you specify.
@@ -5788,11 +5796,21 @@ class Activity {
   @_s.JsonKey(name: 'MultiCondition')
   final MultiConditionalSplitActivity multiCondition;
 
+  /// The settings for a push notification activity. This type of activity sends a
+  /// push notification to participants.
+  @_s.JsonKey(name: 'PUSH')
+  final PushMessageActivity push;
+
   /// The settings for a random split activity. This type of activity randomly
   /// sends specified percentages of participants down one of as many as five
   /// paths in a journey, based on conditions that you specify.
   @_s.JsonKey(name: 'RandomSplit')
   final RandomSplitActivity randomSplit;
+
+  /// The settings for an SMS activity. This type of activity sends a text message
+  /// to participants.
+  @_s.JsonKey(name: 'SMS')
+  final SMSMessageActivity sms;
 
   /// The settings for a wait activity. This type of activity waits for a certain
   /// amount of time or until a specific date and time before moving participants
@@ -5801,12 +5819,15 @@ class Activity {
   final WaitActivity wait;
 
   Activity({
+    this.custom,
     this.conditionalSplit,
     this.description,
     this.email,
     this.holdout,
     this.multiCondition,
+    this.push,
     this.randomSplit,
+    this.sms,
     this.wait,
   });
   factory Activity.fromJson(Map<String, dynamic> json) =>
@@ -6071,7 +6092,7 @@ class ApplicationDateRangeKpiResponse {
   /// associated metric and consists of two or more terms, which are comprised of
   /// lowercase alphanumeric characters, separated by a hyphen. For a list of
   /// possible values, see the <a
-  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html">Amazon
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html">Amazon
   /// Pinpoint Developer Guide</a>.
   @_s.JsonKey(name: 'KpiName')
   final String kpiName;
@@ -6155,8 +6176,9 @@ class ApplicationSettingsResource {
   @_s.JsonKey(name: 'ApplicationId')
   final String applicationId;
 
-  /// The settings for the AWS Lambda function to use by default as a code hook
-  /// for campaigns in the application.
+  /// The settings for the AWS Lambda function to invoke by default as a code hook
+  /// for campaigns in the application. You can use this hook to customize
+  /// segments that are used by campaigns in the application.
   @_s.JsonKey(name: 'CampaignHook')
   final CampaignHook campaignHook;
 
@@ -6169,9 +6191,9 @@ class ApplicationSettingsResource {
   @_s.JsonKey(name: 'Limits')
   final CampaignLimits limits;
 
-  /// The default quiet time for campaigns and journeys in the application. Quiet
-  /// time is a specific time range when messages aren't sent to endpoints, if all
-  /// the following conditions are met:
+  /// The default quiet time for campaigns in the application. Quiet time is a
+  /// specific time range when messages aren't sent to endpoints, if all the
+  /// following conditions are met:
   ///
   /// <ul>
   /// <li>
@@ -6549,6 +6571,28 @@ class BaseKpiResult {
       _$BaseKpiResultFromJson(json);
 }
 
+/// Specifies the contents of a message that's sent through a custom channel to
+/// recipients of a campaign.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CampaignCustomMessage {
+  /// The raw, JSON-formatted string to use as the payload for the message. The
+  /// maximum size is 5 KB.
+  @_s.JsonKey(name: 'Data')
+  final String data;
+
+  CampaignCustomMessage({
+    this.data,
+  });
+  factory CampaignCustomMessage.fromJson(Map<String, dynamic> json) =>
+      _$CampaignCustomMessageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CampaignCustomMessageToJson(this);
+}
+
 /// Provides the results of a query that retrieved the data for a standard
 /// metric that applies to a campaign, and provides information about that
 /// query.
@@ -6577,7 +6621,7 @@ class CampaignDateRangeKpiResponse {
   /// associated metric and consists of two or more terms, which are comprised of
   /// lowercase alphanumeric characters, separated by a hyphen. For a list of
   /// possible values, see the <a
-  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html">Amazon
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html">Amazon
   /// Pinpoint Developer Guide</a>.
   @_s.JsonKey(name: 'KpiName')
   final String kpiName;
@@ -6679,7 +6723,8 @@ class CampaignEventFilter {
   Map<String, dynamic> toJson() => _$CampaignEventFilterToJson(this);
 }
 
-/// Specifies the AWS Lambda function to use as a code hook for a campaign.
+/// Specifies settings for invoking an AWS Lambda function that customizes a
+/// segment for a campaign.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6687,11 +6732,26 @@ class CampaignEventFilter {
     createToJson: true)
 class CampaignHook {
   /// The name or Amazon Resource Name (ARN) of the AWS Lambda function that
-  /// Amazon Pinpoint invokes to send messages for a campaign.
+  /// Amazon Pinpoint invokes to customize a segment for a campaign.
   @_s.JsonKey(name: 'LambdaFunctionName')
   final String lambdaFunctionName;
 
-  /// Specifies which Lambda mode to use when invoking the AWS Lambda function.
+  /// The mode that Amazon Pinpoint uses to invoke the AWS Lambda function.
+  /// Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// FILTER - Invoke the function to customize the segment that's used by a
+  /// campaign.
+  /// </li>
+  /// <li>
+  /// DELIVERY - (Deprecated) Previously, invoked the function to send a campaign
+  /// through a custom channel. This functionality is not supported anymore. To
+  /// send a campaign through a custom channel, use the
+  /// CustomDeliveryConfiguration and CampaignCustomMessage objects of the
+  /// campaign.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'Mode')
   final Mode mode;
 
@@ -6711,7 +6771,9 @@ class CampaignHook {
   Map<String, dynamic> toJson() => _$CampaignHookToJson(this);
 }
 
-/// Specifies limits on the messages that a campaign can send.
+/// For a campaign, specifies limits on the messages that the campaign can send.
+/// For an application, specifies the default limits for messages that campaigns
+/// in the application can send.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6719,7 +6781,9 @@ class CampaignHook {
     createToJson: true)
 class CampaignLimits {
   /// The maximum number of messages that a campaign can send to a single endpoint
-  /// during a 24-hour period. The maximum value is 100.
+  /// during a 24-hour period. For an application, this value specifies the
+  /// default limit for the number of messages that campaigns and journeys can
+  /// send to a single endpoint during a 24-hour period. The maximum value is 100.
   @_s.JsonKey(name: 'Daily')
   final int daily;
 
@@ -6729,13 +6793,16 @@ class CampaignLimits {
   @_s.JsonKey(name: 'MaximumDuration')
   final int maximumDuration;
 
-  /// The maximum number of messages that a campaign can send each second. The
-  /// minimum value is 50. The maximum value is 20,000.
+  /// The maximum number of messages that a campaign can send each second. For an
+  /// application, this value specifies the default limit for the number of
+  /// messages that campaigns can send each second. The minimum value is 50. The
+  /// maximum value is 20,000.
   @_s.JsonKey(name: 'MessagesPerSecond')
   final int messagesPerSecond;
 
   /// The maximum number of messages that a campaign can send to a single endpoint
-  /// during the course of the campaign. The maximum value is 100.
+  /// during the course of the campaign. If a campaign recurs, this setting
+  /// applies to all runs of the campaign. The maximum value is 100.
   @_s.JsonKey(name: 'Total')
   final int total;
 
@@ -6792,9 +6859,13 @@ class CampaignResponse {
   @_s.JsonKey(name: 'AdditionalTreatments')
   final List<TreatmentResource> additionalTreatments;
 
+  /// The delivery configuration settings for sending the campaign through a
+  /// custom channel.
+  @_s.JsonKey(name: 'CustomDeliveryConfiguration')
+  final CustomDeliveryConfiguration customDeliveryConfiguration;
+
   /// The current status of the campaign's default treatment. This value exists
-  /// only for campaigns that have more than one treatment, to support A/B
-  /// testing.
+  /// only for campaigns that have more than one treatment.
   @_s.JsonKey(name: 'DefaultState')
   final CampaignState defaultState;
 
@@ -6808,6 +6879,7 @@ class CampaignResponse {
   final int holdoutPercent;
 
   /// The settings for the AWS Lambda function to use as a code hook for the
+  /// campaign. You can use this hook to customize the segment that's used by the
   /// campaign.
   @_s.JsonKey(name: 'Hook')
   final CampaignHook hook;
@@ -6841,12 +6913,13 @@ class CampaignResponse {
   @_s.JsonKey(name: 'TemplateConfiguration')
   final TemplateConfiguration templateConfiguration;
 
-  /// The custom description of a variation of the campaign that's used for A/B
-  /// testing.
+  /// The custom description of the default treatment for the campaign.
   @_s.JsonKey(name: 'TreatmentDescription')
   final String treatmentDescription;
 
-  /// The custom name of a variation of the campaign that's used for A/B testing.
+  /// The custom name of the default treatment for the campaign, if the campaign
+  /// has multiple treatments. A <i>treatment</i> is a variation of a campaign
+  /// that's used for A/B testing.
   @_s.JsonKey(name: 'TreatmentName')
   final String treatmentName;
 
@@ -6869,6 +6942,7 @@ class CampaignResponse {
     @_s.required this.segmentId,
     @_s.required this.segmentVersion,
     this.additionalTreatments,
+    this.customDeliveryConfiguration,
     this.defaultState,
     this.description,
     this.holdoutPercent,
@@ -6901,10 +6975,10 @@ class CampaignSmsMessage {
   @_s.JsonKey(name: 'Body')
   final String body;
 
-  /// The type of SMS message. Valid values are: TRANSACTIONAL, the message is
-  /// critical or time-sensitive, such as a one-time password that supports a
-  /// customer transaction; and, PROMOTIONAL, the message isn't critical or
-  /// time-sensitive, such as a marketing message.
+  /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are
+  /// critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL
+  /// (for messsages that aren't critical or time-sensitive, such as marketing
+  /// messages).
   @_s.JsonKey(name: 'MessageType')
   final MessageType messageType;
 
@@ -6932,9 +7006,12 @@ class CampaignSmsMessage {
     createToJson: false)
 class CampaignState {
   /// The current status of the campaign, or the current status of a treatment
-  /// that belongs to an A/B test campaign. If a campaign uses A/B testing, the
-  /// campaign has a status of COMPLETED only if all campaign treatments have a
-  /// status of COMPLETED.
+  /// that belongs to an A/B test campaign.
+  ///
+  /// If a campaign uses A/B testing, the campaign has a status of COMPLETED only
+  /// if all campaign treatments have a status of COMPLETED. If you delete the
+  /// segment that's associated with a campaign, the campaign fails and has a
+  /// status of DELETED.
   @_s.JsonKey(name: 'CampaignStatus')
   final CampaignStatus campaignStatus;
 
@@ -6958,6 +7035,8 @@ enum CampaignStatus {
   paused,
   @_s.JsonValue('DELETED')
   deleted,
+  @_s.JsonValue('INVALID')
+  invalid,
 }
 
 /// Provides information about the configuration and other settings for all the
@@ -7047,6 +7126,8 @@ class ChannelResponse {
 }
 
 enum ChannelType {
+  @_s.JsonValue('PUSH')
+  push,
   @_s.JsonValue('GCM')
   gcm,
   @_s.JsonValue('APNS')
@@ -7123,6 +7204,15 @@ class Condition {
 /// Specifies the settings for a yes/no split activity in a journey. This type
 /// of activity sends participants down one of two paths in a journey, based on
 /// conditions that you specify.
+/// <note>
+/// To create yes/no split activities that send participants down different
+/// paths based on push notification events (such as Open or Received events),
+/// your mobile app has to specify the User ID and Endpoint ID values. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/integrate.html">Integrating
+/// Amazon Pinpoint with your application</a> in the <i>Amazon Pinpoint
+/// Developer Guide</i>.
+/// </note>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7320,15 +7410,15 @@ class CreateRecommenderConfiguration {
   final String recommendationProviderUri;
 
   /// A map of key-value pairs that defines 1-10 custom endpoint or user
-  /// attributes, depending on the value for the RecommenderUserIdType property.
-  /// Each of these attributes temporarily stores a recommended item that's
-  /// retrieved from the recommender model and sent to an AWS Lambda function for
-  /// additional processing. Each attribute can be used as a message variable in a
-  /// message template.
+  /// attributes, depending on the value for the RecommendationProviderIdType
+  /// property. Each of these attributes temporarily stores a recommended item
+  /// that's retrieved from the recommender model and sent to an AWS Lambda
+  /// function for additional processing. Each attribute can be used as a message
+  /// variable in a message template.
   ///
   /// In the map, the key is the name of a custom attribute and the value is a
   /// custom display name for that attribute. The display name appears in the
-  /// <b>Attribute finder</b> pane of the template editor on the Amazon Pinpoint
+  /// <b>Attribute finder</b> of the template editor on the Amazon Pinpoint
   /// console. The following restrictions apply to these names:
   ///
   /// <ul>
@@ -7344,13 +7434,14 @@ class CreateRecommenderConfiguration {
   /// </li>
   /// </ul>
   /// This object is required if the configuration invokes an AWS Lambda function
-  /// (LambdaFunctionArn) to process recommendation data. Otherwise, don't include
-  /// this object in your request.
+  /// (RecommendationTransformerUri) to process recommendation data. Otherwise,
+  /// don't include this object in your request.
   @_s.JsonKey(name: 'Attributes')
   final Map<String, String> attributes;
 
   /// A custom description of the configuration for the recommender model. The
-  /// description can contain up to 128 characters.
+  /// description can contain up to 128 characters. The characters can be letters,
+  /// numbers, spaces, or the following symbols: _ ; () , ‐.
   @_s.JsonKey(name: 'Description')
   final String description;
 
@@ -7375,7 +7466,7 @@ class CreateRecommenderConfiguration {
   /// PINPOINT_USER_ID - Associate each user in the model with a particular user
   /// and endpoint in Amazon Pinpoint. The data is correlated based on user IDs in
   /// Amazon Pinpoint. If you specify this value, an endpoint definition in Amazon
-  /// Pinpoint has to specify a both a user ID (UserId) and an endpoint ID.
+  /// Pinpoint has to specify both a user ID (UserId) and an endpoint ID.
   /// Otherwise, messages won’t be sent to the user's endpoint.
   /// </li>
   /// </ul>
@@ -7389,28 +7480,30 @@ class CreateRecommenderConfiguration {
   final String recommendationTransformerUri;
 
   /// A custom display name for the standard endpoint or user attribute
-  /// (RecommendationItems) that temporarily stores a recommended item for each
-  /// endpoint or user, depending on the value for the RecommenderUserIdType
-  /// property. This value is required if the configuration doesn't invoke an AWS
-  /// Lambda function (LambdaFunctionArn) to perform additional processing of
+  /// (RecommendationItems) that temporarily stores recommended items for each
+  /// endpoint or user, depending on the value for the
+  /// RecommendationProviderIdType property. This value is required if the
+  /// configuration doesn't invoke an AWS Lambda function
+  /// (RecommendationTransformerUri) to perform additional processing of
   /// recommendation data.
   ///
-  /// This name appears in the <b>Attribute finder</b> pane of the template editor
-  /// on the Amazon Pinpoint console. The name can contain up to 25 characters.
-  /// The characters can be letters, numbers, spaces, underscores (_), or hyphens
-  /// (-). These restrictions don't apply to attribute values.
+  /// This name appears in the <b>Attribute finder</b> of the template editor on
+  /// the Amazon Pinpoint console. The name can contain up to 25 characters. The
+  /// characters can be letters, numbers, spaces, underscores (_), or hyphens (-).
+  /// These restrictions don't apply to attribute values.
   @_s.JsonKey(name: 'RecommendationsDisplayName')
   final String recommendationsDisplayName;
 
   /// The number of recommended items to retrieve from the model for each endpoint
-  /// or user, depending on the value for the RecommenderUserIdType property. This
-  /// number determines how many recommended attributes are available for use as
-  /// message variables in message templates. The minimum value is 1. The maximum
-  /// value is 5. The default value is 5.
+  /// or user, depending on the value for the RecommendationProviderIdType
+  /// property. This number determines how many recommended items are available
+  /// for use in message variables. The minimum value is 1. The maximum value is
+  /// 5. The default value is 5.
   ///
   /// To use multiple recommended items and custom attributes with message
-  /// variables, you have to use an AWS Lambda function (LambdaFunctionArn) to
-  /// perform additional processing of recommendation data.
+  /// variables, you have to use an AWS Lambda function
+  /// (RecommendationTransformerUri) to perform additional processing of
+  /// recommendation data.
   @_s.JsonKey(name: 'RecommendationsPerMessage')
   final int recommendationsPerMessage;
 
@@ -7520,6 +7613,122 @@ class CreateVoiceTemplateResponse {
   });
   factory CreateVoiceTemplateResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateVoiceTemplateResponseFromJson(json);
+}
+
+/// Specifies the delivery configuration settings for sending a campaign or
+/// campaign treatment through a custom channel. This object is required if you
+/// use the CampaignCustomMessage object to define the message to send for the
+/// campaign or campaign treatment.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CustomDeliveryConfiguration {
+  /// The destination to send the campaign or treatment to. This value can be one
+  /// of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The name or Amazon Resource Name (ARN) of an AWS Lambda function to invoke
+  /// to handle delivery of the campaign or treatment.
+  /// </li>
+  /// <li>
+  /// The URL for a web application or service that supports HTTPS and can receive
+  /// the message. The URL has to be a full URL, including the HTTPS protocol.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'DeliveryUri')
+  final String deliveryUri;
+
+  /// The types of endpoints to send the campaign or treatment to. Each valid
+  /// value maps to a type of channel that you can associate with an endpoint by
+  /// using the ChannelType property of an endpoint.
+  @_s.JsonKey(name: 'EndpointTypes')
+  final List<EndpointTypesElement> endpointTypes;
+
+  CustomDeliveryConfiguration({
+    @_s.required this.deliveryUri,
+    this.endpointTypes,
+  });
+  factory CustomDeliveryConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$CustomDeliveryConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CustomDeliveryConfigurationToJson(this);
+}
+
+/// The settings for a custom message activity. This type of activity calls an
+/// AWS Lambda function or web hook that sends messages to participants.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CustomMessageActivity {
+  /// The destination to send the campaign or treatment to. This value can be one
+  /// of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The name or Amazon Resource Name (ARN) of an AWS Lambda function to invoke
+  /// to handle delivery of the campaign or treatment.
+  /// </li>
+  /// <li>
+  /// The URL for a web application or service that supports HTTPS and can receive
+  /// the message. The URL has to be a full URL, including the HTTPS protocol.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'DeliveryUri')
+  final String deliveryUri;
+
+  /// The types of endpoints to send the custom message to. Each valid value maps
+  /// to a type of channel that you can associate with an endpoint by using the
+  /// ChannelType property of an endpoint.
+  @_s.JsonKey(name: 'EndpointTypes')
+  final List<EndpointTypesElement> endpointTypes;
+
+  /// Specifies the message data included in a custom channel message that's sent
+  /// to participants in a journey.
+  @_s.JsonKey(name: 'MessageConfig')
+  final JourneyCustomMessage messageConfig;
+
+  /// The unique identifier for the next activity to perform, after Amazon
+  /// Pinpoint calls the AWS Lambda function or web hook.
+  @_s.JsonKey(name: 'NextActivity')
+  final String nextActivity;
+
+  /// The name of the custom message template to use for the message. If
+  /// specified, this value must match the name of an existing message template.
+  @_s.JsonKey(name: 'TemplateName')
+  final String templateName;
+
+  /// The unique identifier for the version of the message template to use for the
+  /// message. If specified, this value must match the identifier for an existing
+  /// template version. To retrieve a list of versions and version identifiers for
+  /// a template, use the <link
+  /// linkend="templates-template-name-template-type-versions">Template
+  /// Versions</link> resource.
+  ///
+  /// If you don't specify a value for this property, Amazon Pinpoint uses the
+  /// <i>active version</i> of the template. The <i>active version</i> is
+  /// typically the version of a template that's been most recently reviewed and
+  /// approved for use, depending on your workflow. It isn't necessarily the
+  /// latest version of a template.
+  @_s.JsonKey(name: 'TemplateVersion')
+  final String templateVersion;
+
+  CustomMessageActivity({
+    this.deliveryUri,
+    this.endpointTypes,
+    this.messageConfig,
+    this.nextActivity,
+    this.templateName,
+    this.templateVersion,
+  });
+  factory CustomMessageActivity.fromJson(Map<String, dynamic> json) =>
+      _$CustomMessageActivityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CustomMessageActivityToJson(this);
 }
 
 /// Specifies the default message for all channels.
@@ -8169,9 +8378,10 @@ class EmailChannelRequest {
   @_s.JsonKey(name: 'Identity')
   final String identity;
 
-  /// The configuration set that you want to apply to email that you send through
-  /// the channel by using the <a href="emailAPIreference.html">Amazon Pinpoint
-  /// Email API</a>.
+  /// The <a
+  /// href="https://docs.aws.amazon.com/ses/latest/APIReference/API_ConfigurationSet.html">Amazon
+  /// SES configuration set</a> that you want to apply to messages that you send
+  /// through the channel.
   @_s.JsonKey(name: 'ConfigurationSet')
   final String configurationSet;
 
@@ -8212,9 +8422,10 @@ class EmailChannelResponse {
   @_s.JsonKey(name: 'ApplicationId')
   final String applicationId;
 
-  /// The configuration set that's applied to email that's sent through the
-  /// channel by using the <a href="emailAPIreference.html">Amazon Pinpoint Email
-  /// API</a>.
+  /// The <a
+  /// href="https://docs.aws.amazon.com/ses/latest/APIReference/API_ConfigurationSet.html">Amazon
+  /// SES configuration set</a> that's applied to messages that are sent through
+  /// the channel.
   @_s.JsonKey(name: 'ConfigurationSet')
   final String configurationSet;
 
@@ -8226,7 +8437,7 @@ class EmailChannelResponse {
   @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
-  /// The verified email address that you send email from when you send email
+  /// The verified email address that email is sent from when you send email
   /// through the channel.
   @_s.JsonKey(name: 'FromAddress')
   final String fromAddress;
@@ -8241,7 +8452,7 @@ class EmailChannelResponse {
   final String id;
 
   /// The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple
-  /// Email Service (Amazon SES), that you use when you send email through the
+  /// Email Service (Amazon SES), that's used when you send email through the
   /// channel.
   @_s.JsonKey(name: 'Identity')
   final String identity;
@@ -8259,7 +8470,7 @@ class EmailChannelResponse {
   @_s.JsonKey(name: 'LastModifiedDate')
   final String lastModifiedDate;
 
-  /// The maximum number of emails that you can send through the channel each
+  /// The maximum number of emails that can be sent through the channel each
   /// second.
   @_s.JsonKey(name: 'MessagesPerSecond')
   final int messagesPerSecond;
@@ -8354,7 +8565,8 @@ class EmailMessage {
     createFactory: true,
     createToJson: true)
 class EmailMessageActivity {
-  /// The "From" address to use for the message.
+  /// Specifies the sender address for an email message that's sent to
+  /// participants in the journey.
   @_s.JsonKey(name: 'MessageConfig')
   final JourneyEmailMessage messageConfig;
 
@@ -8363,7 +8575,8 @@ class EmailMessageActivity {
   @_s.JsonKey(name: 'NextActivity')
   final String nextActivity;
 
-  /// The name of the email template to use for the message.
+  /// The name of the email message template to use for the message. If specified,
+  /// this value must match the name of an existing message template.
   @_s.JsonKey(name: 'TemplateName')
   final String templateName;
 
@@ -8635,8 +8848,8 @@ class EndpointBatchItem {
   @_s.JsonKey(name: 'RequestId')
   final String requestId;
 
-  /// One or more custom user attributes that describe the user who's associated
-  /// with the endpoint.
+  /// One or more custom attributes that describe the user who's associated with
+  /// the endpoint.
   @_s.JsonKey(name: 'User')
   final EndpointUser user;
 
@@ -8968,8 +9181,8 @@ class EndpointRequest {
   @_s.JsonKey(name: 'RequestId')
   final String requestId;
 
-  /// One or more custom user attributes that describe the user who's associated
-  /// with the endpoint.
+  /// One or more custom attributes that describe the user who's associated with
+  /// the endpoint.
   @_s.JsonKey(name: 'User')
   final EndpointUser user;
 
@@ -9294,7 +9507,7 @@ class EventCondition {
   final String messageActivity;
 
   EventCondition({
-    @_s.required this.dimensions,
+    this.dimensions,
     this.messageActivity,
   });
   factory EventCondition.fromJson(Map<String, dynamic> json) =>
@@ -9344,6 +9557,37 @@ class EventDimensions {
   Map<String, dynamic> toJson() => _$EventDimensionsToJson(this);
 }
 
+/// Specifies the settings for an event that causes a campaign to be sent or a
+/// journey activity to be performed.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EventFilter {
+  /// The dimensions for the event filter to use for the campaign or the journey
+  /// activity.
+  @_s.JsonKey(name: 'Dimensions')
+  final EventDimensions dimensions;
+
+  /// The type of event that causes the campaign to be sent or the journey
+  /// activity to be performed. Valid values are: SYSTEM, sends the campaign or
+  /// performs the activity when a system event occurs; and, ENDPOINT, sends the
+  /// campaign or performs the activity when an endpoint event (<link
+  /// linkend="apps-application-id-events">Events resource</link>) occurs.
+  @_s.JsonKey(name: 'FilterType')
+  final FilterType filterType;
+
+  EventFilter({
+    @_s.required this.dimensions,
+    @_s.required this.filterType,
+  });
+  factory EventFilter.fromJson(Map<String, dynamic> json) =>
+      _$EventFilterFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EventFilterToJson(this);
+}
+
 /// Provides the status code and message that result from processing an event.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9368,6 +9612,28 @@ class EventItemResponse {
   });
   factory EventItemResponse.fromJson(Map<String, dynamic> json) =>
       _$EventItemResponseFromJson(json);
+}
+
+/// Specifies the settings for an event that causes a journey activity to start.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EventStartCondition {
+  @_s.JsonKey(name: 'EventFilter')
+  final EventFilter eventFilter;
+  @_s.JsonKey(name: 'SegmentId')
+  final String segmentId;
+
+  EventStartCondition({
+    this.eventFilter,
+    this.segmentId,
+  });
+  factory EventStartCondition.fromJson(Map<String, dynamic> json) =>
+      _$EventStartConditionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EventStartConditionToJson(this);
 }
 
 /// Specifies settings for publishing event data to an Amazon Kinesis data
@@ -11110,6 +11376,28 @@ enum JobStatus {
   failed,
 }
 
+/// Specifies the message content for a custom channel message that's sent to
+/// participants in a journey.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class JourneyCustomMessage {
+  /// The message content that's passed to an AWS Lambda function or to a web
+  /// hook.
+  @_s.JsonKey(name: 'Data')
+  final String data;
+
+  JourneyCustomMessage({
+    this.data,
+  });
+  factory JourneyCustomMessage.fromJson(Map<String, dynamic> json) =>
+      _$JourneyCustomMessageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$JourneyCustomMessageToJson(this);
+}
+
 /// Provides the results of a query that retrieved the data for a standard
 /// engagement metric that applies to a journey, and provides information about
 /// that query.
@@ -11138,7 +11426,7 @@ class JourneyDateRangeKpiResponse {
   /// associated metric and consists of two or more terms, which are comprised of
   /// lowercase alphanumeric characters, separated by a hyphen. For a list of
   /// possible values, see the <a
-  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html">Amazon
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html">Amazon
   /// Pinpoint Developer Guide</a>.
   @_s.JsonKey(name: 'KpiName')
   final String kpiName;
@@ -11259,7 +11547,7 @@ class JourneyExecutionActivityMetricsResponse {
   /// A JSON object that contains the results of the query. The results vary
   /// depending on the type of activity (ActivityType). For information about the
   /// structure and contents of the results, see the <a
-  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html">Amazon
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html">Amazon
   /// Pinpoint Developer Guide</a>.
   @_s.JsonKey(name: 'Metrics')
   final Map<String, String> metrics;
@@ -11301,7 +11589,7 @@ class JourneyExecutionMetricsResponse {
 
   /// A JSON object that contains the results of the query. For information about
   /// the structure and contents of the results, see the <a
-  /// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html">Amazon
+  /// href="https://docs.aws.amazon.com//pinpoint/latest/developerguide/analytics-standard-metrics.html">Amazon
   /// Pinpoint Developer Guide</a>.
   @_s.JsonKey(name: 'Metrics')
   final Map<String, String> metrics;
@@ -11348,6 +11636,35 @@ class JourneyLimits {
       _$JourneyLimitsFromJson(json);
 
   Map<String, dynamic> toJson() => _$JourneyLimitsToJson(this);
+}
+
+/// Specifies the message configuration for a push notification that's sent to
+/// participants in a journey.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class JourneyPushMessage {
+  /// The number of seconds that the push notification service should keep the
+  /// message, if the service is unable to deliver the notification the first
+  /// time. This value is converted to an expiration value when it's sent to a
+  /// push-notification service. If this value is 0, the service treats the
+  /// notification as if it expires immediately and the service doesn't store or
+  /// try to deliver the notification again.
+  ///
+  /// This value doesn't apply to messages that are sent through the Amazon Device
+  /// Messaging (ADM) service.
+  @_s.JsonKey(name: 'TimeToLive')
+  final String timeToLive;
+
+  JourneyPushMessage({
+    this.timeToLive,
+  });
+  factory JourneyPushMessage.fromJson(Map<String, dynamic> json) =>
+      _$JourneyPushMessageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$JourneyPushMessageToJson(this);
 }
 
 /// Provides information about the status, configuration, and other settings for
@@ -11491,6 +11808,39 @@ class JourneyResponse {
   });
   factory JourneyResponse.fromJson(Map<String, dynamic> json) =>
       _$JourneyResponseFromJson(json);
+}
+
+/// Specifies the sender ID and message type for an SMS message that's sent to
+/// participants in a journey.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class JourneySMSMessage {
+  /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are
+  /// critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL
+  /// (for messsages that aren't critical or time-sensitive, such as marketing
+  /// messages).
+  @_s.JsonKey(name: 'MessageType')
+  final MessageType messageType;
+
+  /// The sender ID to display as the sender of the message on a recipient's
+  /// device. Support for sender IDs varies by country or region. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-countries.html">Supported
+  /// Countries and Regions</a> in the Amazon Pinpoint User Guide.
+  @_s.JsonKey(name: 'SenderId')
+  final String senderId;
+
+  JourneySMSMessage({
+    this.messageType,
+    this.senderId,
+  });
+  factory JourneySMSMessage.fromJson(Map<String, dynamic> json) =>
+      _$JourneySMSMessageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$JourneySMSMessageToJson(this);
 }
 
 /// Specifies the schedule settings for a journey.
@@ -11818,37 +12168,47 @@ class MessageBody {
     createToJson: true)
 class MessageConfiguration {
   /// The message that the campaign sends through the ADM (Amazon Device
-  /// Messaging) channel. This message overrides the default message.
+  /// Messaging) channel. If specified, this message overrides the default
+  /// message.
   @_s.JsonKey(name: 'ADMMessage')
   final Message aDMMessage;
 
   /// The message that the campaign sends through the APNs (Apple Push
-  /// Notification service) channel. This message overrides the default message.
+  /// Notification service) channel. If specified, this message overrides the
+  /// default message.
   @_s.JsonKey(name: 'APNSMessage')
   final Message aPNSMessage;
 
   /// The message that the campaign sends through the Baidu (Baidu Cloud Push)
-  /// channel. This message overrides the default message.
+  /// channel. If specified, this message overrides the default message.
   @_s.JsonKey(name: 'BaiduMessage')
   final Message baiduMessage;
+
+  /// The message that the campaign sends through a custom channel, as specified
+  /// by the delivery configuration (CustomDeliveryConfiguration) settings for the
+  /// campaign. If specified, this message overrides the default message.
+  @_s.JsonKey(name: 'CustomMessage')
+  final CampaignCustomMessage customMessage;
 
   /// The default message that the campaign sends through all the channels that
   /// are configured for the campaign.
   @_s.JsonKey(name: 'DefaultMessage')
   final Message defaultMessage;
 
-  /// The message that the campaign sends through the email channel.
+  /// The message that the campaign sends through the email channel. If specified,
+  /// this message overrides the default message.
   @_s.JsonKey(name: 'EmailMessage')
   final CampaignEmailMessage emailMessage;
 
   /// The message that the campaign sends through the GCM channel, which enables
   /// Amazon Pinpoint to send push notifications through the Firebase Cloud
-  /// Messaging (FCM), formerly Google Cloud Messaging (GCM), service. This
-  /// message overrides the default message.
+  /// Messaging (FCM), formerly Google Cloud Messaging (GCM), service. If
+  /// specified, this message overrides the default message.
   @_s.JsonKey(name: 'GCMMessage')
   final Message gCMMessage;
 
-  /// The message that the campaign sends through the SMS channel.
+  /// The message that the campaign sends through the SMS channel. If specified,
+  /// this message overrides the default message.
   @_s.JsonKey(name: 'SMSMessage')
   final CampaignSmsMessage sMSMessage;
 
@@ -11856,6 +12216,7 @@ class MessageConfiguration {
     this.aDMMessage,
     this.aPNSMessage,
     this.baiduMessage,
+    this.customMessage,
     this.defaultMessage,
     this.emailMessage,
     this.gCMMessage,
@@ -11880,8 +12241,11 @@ class MessageRequest {
   final DirectMessageConfiguration messageConfiguration;
 
   /// A map of key-value pairs, where each key is an address and each value is an
-  /// AddressConfiguration object. An address can be a push notification token, a
-  /// phone number, or an email address. You can use an AddressConfiguration
+  /// <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-messages.html#apps-application-id-messages-model-addressconfiguration">AddressConfiguration</a>
+  /// object. An address can be a push notification token, a phone number, or an
+  /// email address. You can use an <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-messages.html#apps-application-id-messages-model-addressconfiguration">AddressConfiguration</a>
   /// object to tailor the message for an address by specifying settings such as
   /// content overrides and message variables.
   @_s.JsonKey(name: 'Addresses')
@@ -11895,9 +12259,12 @@ class MessageRequest {
   final Map<String, String> context;
 
   /// A map of key-value pairs, where each key is an endpoint ID and each value is
-  /// an EndpointSendConfiguration object. You can use an
-  /// EndpointSendConfiguration object to tailor the message for an endpoint by
-  /// specifying settings such as content overrides and message variables.
+  /// an <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-messages.html#apps-application-id-messages-model-endpointsendconfiguration">EndpointSendConfiguration</a>
+  /// object. You can use an <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-messages.html#apps-application-id-messages-model-endpointsendconfiguration">EndpointSendConfiguration</a>
+  /// object to tailor the message for an endpoint by specifying settings such as
+  /// content overrides and message variables.
   @_s.JsonKey(name: 'Endpoints')
   final Map<String, EndpointSendConfiguration> endpoints;
 
@@ -12106,6 +12473,15 @@ class MultiConditionalBranch {
 /// type of activity sends participants down one of as many as five paths
 /// (including a default <i>Else</i> path) in a journey, based on conditions
 /// that you specify.
+/// <note>
+/// To create multivariate split activities that send participants down
+/// different paths based on push notification events (such as Open or Received
+/// events), your mobile app has to specify the User ID and Endpoint ID values.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/integrate.html">Integrating
+/// Amazon Pinpoint with your application</a> in the <i>Amazon Pinpoint
+/// Developer Guide</i>.
+/// </note>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -12366,6 +12742,56 @@ class PublicEndpoint {
     this.user,
   });
   Map<String, dynamic> toJson() => _$PublicEndpointToJson(this);
+}
+
+/// Specifies the settings for a push notification activity in a journey. This
+/// type of activity sends a push notification to participants.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class PushMessageActivity {
+  /// Specifies the time to live (TTL) value for push notifications that are sent
+  /// to participants in a journey.
+  @_s.JsonKey(name: 'MessageConfig')
+  final JourneyPushMessage messageConfig;
+
+  /// The unique identifier for the next activity to perform, after the message is
+  /// sent.
+  @_s.JsonKey(name: 'NextActivity')
+  final String nextActivity;
+
+  /// The name of the push notification template to use for the message. If
+  /// specified, this value must match the name of an existing message template.
+  @_s.JsonKey(name: 'TemplateName')
+  final String templateName;
+
+  /// The unique identifier for the version of the push notification template to
+  /// use for the message. If specified, this value must match the identifier for
+  /// an existing template version. To retrieve a list of versions and version
+  /// identifiers for a template, use the <link
+  /// linkend="templates-template-name-template-type-versions">Template
+  /// Versions</link> resource.
+  ///
+  /// If you don't specify a value for this property, Amazon Pinpoint uses the
+  /// <i>active version</i> of the template. The <i>active version</i> is
+  /// typically the version of a template that's been most recently reviewed and
+  /// approved for use, depending on your workflow. It isn't necessarily the
+  /// latest version of a template.
+  @_s.JsonKey(name: 'TemplateVersion')
+  final String templateVersion;
+
+  PushMessageActivity({
+    this.messageConfig,
+    this.nextActivity,
+    this.templateName,
+    this.templateVersion,
+  });
+  factory PushMessageActivity.fromJson(Map<String, dynamic> json) =>
+      _$PushMessageActivityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PushMessageActivityToJson(this);
 }
 
 /// Specifies the content and settings for a message template that can be used
@@ -12766,13 +13192,14 @@ class RecommenderConfigurationResponse {
   final String recommendationProviderUri;
 
   /// A map that defines 1-10 custom endpoint or user attributes, depending on the
-  /// value for the RecommenderUserIdType property. Each of these attributes
-  /// temporarily stores a recommended item that's retrieved from the recommender
-  /// model and sent to an AWS Lambda function for additional processing. Each
-  /// attribute can be used as a message variable in a message template.
+  /// value for the RecommendationProviderIdType property. Each of these
+  /// attributes temporarily stores a recommended item that's retrieved from the
+  /// recommender model and sent to an AWS Lambda function for additional
+  /// processing. Each attribute can be used as a message variable in a message
+  /// template.
   ///
   /// This value is null if the configuration doesn't invoke an AWS Lambda
-  /// function (LambdaFunctionArn) to perform additional processing of
+  /// function (RecommendationTransformerUri) to perform additional processing of
   /// recommendation data.
   @_s.JsonKey(name: 'Attributes')
   final Map<String, String> attributes;
@@ -12814,21 +13241,21 @@ class RecommenderConfigurationResponse {
   final String recommendationTransformerUri;
 
   /// The custom display name for the standard endpoint or user attribute
-  /// (RecommendationItems) that temporarily stores a recommended item for each
-  /// endpoint or user, depending on the value for the RecommenderUserIdType
-  /// property. This name appears in the <b>Attribute finder</b> pane of the
-  /// template editor on the Amazon Pinpoint console.
+  /// (RecommendationItems) that temporarily stores recommended items for each
+  /// endpoint or user, depending on the value for the
+  /// RecommendationProviderIdType property. This name appears in the <b>Attribute
+  /// finder</b> of the template editor on the Amazon Pinpoint console.
   ///
   /// This value is null if the configuration doesn't invoke an AWS Lambda
-  /// function (LambdaFunctionArn) to perform additional processing of
+  /// function (RecommendationTransformerUri) to perform additional processing of
   /// recommendation data.
   @_s.JsonKey(name: 'RecommendationsDisplayName')
   final String recommendationsDisplayName;
 
   /// The number of recommended items that are retrieved from the model for each
-  /// endpoint or user, depending on the value for the RecommenderUserIdType
-  /// property. This number determines how many recommended attributes are
-  /// available for use as message variables in message templates.
+  /// endpoint or user, depending on the value for the
+  /// RecommendationProviderIdType property. This number determines how many
+  /// recommended items are available for use in message variables.
   @_s.JsonKey(name: 'RecommendationsPerMessage')
   final int recommendationsPerMessage;
 
@@ -13064,14 +13491,14 @@ class SMSMessage {
   @_s.JsonKey(name: 'Keyword')
   final String keyword;
 
-  /// The URL of an image or video to display in the SMS message.
+  /// This field is reserved for future use.
   @_s.JsonKey(name: 'MediaUrl')
   final String mediaUrl;
 
-  /// The SMS message type. Valid values are: TRANSACTIONAL, the message is
-  /// critical or time-sensitive, such as a one-time password that supports a
-  /// customer transaction; and, PROMOTIONAL, the message is not critical or
-  /// time-sensitive, such as a marketing message.
+  /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are
+  /// critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL
+  /// (for messsages that aren't critical or time-sensitive, such as marketing
+  /// messages).
   @_s.JsonKey(name: 'MessageType')
   final MessageType messageType;
 
@@ -13102,6 +13529,56 @@ class SMSMessage {
     this.substitutions,
   });
   Map<String, dynamic> toJson() => _$SMSMessageToJson(this);
+}
+
+/// Specifies the settings for an SMS activity in a journey. This type of
+/// activity sends a text message to participants.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SMSMessageActivity {
+  /// Specifies the sender ID and message type for an SMS message that's sent to
+  /// participants in a journey.
+  @_s.JsonKey(name: 'MessageConfig')
+  final JourneySMSMessage messageConfig;
+
+  /// The unique identifier for the next activity to perform, after the message is
+  /// sent.
+  @_s.JsonKey(name: 'NextActivity')
+  final String nextActivity;
+
+  /// The name of the SMS message template to use for the message. If specified,
+  /// this value must match the name of an existing message template.
+  @_s.JsonKey(name: 'TemplateName')
+  final String templateName;
+
+  /// The unique identifier for the version of the SMS template to use for the
+  /// message. If specified, this value must match the identifier for an existing
+  /// template version. To retrieve a list of versions and version identifiers for
+  /// a template, use the <link
+  /// linkend="templates-template-name-template-type-versions">Template
+  /// Versions</link> resource.
+  ///
+  /// If you don't specify a value for this property, Amazon Pinpoint uses the
+  /// <i>active version</i> of the template. The <i>active version</i> is
+  /// typically the version of a template that's been most recently reviewed and
+  /// approved for use, depending on your workflow. It isn't necessarily the
+  /// latest version of a template.
+  @_s.JsonKey(name: 'TemplateVersion')
+  final String templateVersion;
+
+  SMSMessageActivity({
+    this.messageConfig,
+    this.nextActivity,
+    this.templateName,
+    this.templateVersion,
+  });
+  factory SMSMessageActivity.fromJson(Map<String, dynamic> json) =>
+      _$SMSMessageActivityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SMSMessageActivityToJson(this);
 }
 
 /// Specifies the content and settings for a message template that can be used
@@ -13788,9 +14265,12 @@ class SendUsersMessageRequest {
   @_s.JsonKey(name: 'MessageConfiguration')
   final DirectMessageConfiguration messageConfiguration;
 
-  /// A map that associates user IDs with EndpointSendConfiguration objects. You
-  /// can use an EndpointSendConfiguration object to tailor the message for a user
-  /// by specifying settings such as content overrides and message variables.
+  /// A map that associates user IDs with <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-messages.html#apps-application-id-messages-model-endpointsendconfiguration">EndpointSendConfiguration</a>
+  /// objects. You can use an <a
+  /// href="https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-messages.html#apps-application-id-messages-model-endpointsendconfiguration">EndpointSendConfiguration</a>
+  /// object to tailor the message for a user by specifying settings such as
+  /// content overrides and message variables.
   @_s.JsonKey(name: 'Users')
   final Map<String, EndpointSendConfiguration> users;
 
@@ -14033,6 +14513,8 @@ class StartCondition {
   /// The custom description of the condition.
   @_s.JsonKey(name: 'Description')
   final String description;
+  @_s.JsonKey(name: 'EventStartCondition')
+  final EventStartCondition eventStartCondition;
 
   /// The segment that's associated with the first activity in the journey. This
   /// segment determines which users are participants in the journey.
@@ -14041,6 +14523,7 @@ class StartCondition {
 
   StartCondition({
     this.description,
+    this.eventStartCondition,
     this.segmentStartCondition,
   });
   factory StartCondition.fromJson(Map<String, dynamic> json) =>
@@ -14397,8 +14880,8 @@ class TemplatesResponse {
       _$TemplatesResponseFromJson(json);
 }
 
-/// Specifies the settings for a campaign treatment. A treatment is a variation
-/// of a campaign that's used for A/B testing of a campaign.
+/// Specifies the settings for a campaign treatment. A <i>treatment</i> is a
+/// variation of a campaign that's used for A/B testing of a campaign.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -14413,6 +14896,12 @@ class TreatmentResource {
   /// sent to.
   @_s.JsonKey(name: 'SizePercent')
   final int sizePercent;
+
+  /// The delivery configuration settings for sending the treatment through a
+  /// custom channel. This object is required if the MessageConfiguration object
+  /// for the treatment specifies a CustomMessage object.
+  @_s.JsonKey(name: 'CustomDeliveryConfiguration')
+  final CustomDeliveryConfiguration customDeliveryConfiguration;
 
   /// The message configuration settings for the treatment.
   @_s.JsonKey(name: 'MessageConfiguration')
@@ -14434,14 +14923,14 @@ class TreatmentResource {
   @_s.JsonKey(name: 'TreatmentDescription')
   final String treatmentDescription;
 
-  /// The custom name of the treatment. A treatment is a variation of a campaign
-  /// that's used for A/B testing of a campaign.
+  /// The custom name of the treatment.
   @_s.JsonKey(name: 'TreatmentName')
   final String treatmentName;
 
   TreatmentResource({
     @_s.required this.id,
     @_s.required this.sizePercent,
+    this.customDeliveryConfiguration,
     this.messageConfiguration,
     this.schedule,
     this.state,
@@ -14763,15 +15252,15 @@ class UpdateRecommenderConfiguration {
   final String recommendationProviderUri;
 
   /// A map of key-value pairs that defines 1-10 custom endpoint or user
-  /// attributes, depending on the value for the RecommenderUserIdType property.
-  /// Each of these attributes temporarily stores a recommended item that's
-  /// retrieved from the recommender model and sent to an AWS Lambda function for
-  /// additional processing. Each attribute can be used as a message variable in a
-  /// message template.
+  /// attributes, depending on the value for the RecommendationProviderIdType
+  /// property. Each of these attributes temporarily stores a recommended item
+  /// that's retrieved from the recommender model and sent to an AWS Lambda
+  /// function for additional processing. Each attribute can be used as a message
+  /// variable in a message template.
   ///
   /// In the map, the key is the name of a custom attribute and the value is a
   /// custom display name for that attribute. The display name appears in the
-  /// <b>Attribute finder</b> pane of the template editor on the Amazon Pinpoint
+  /// <b>Attribute finder</b> of the template editor on the Amazon Pinpoint
   /// console. The following restrictions apply to these names:
   ///
   /// <ul>
@@ -14787,13 +15276,14 @@ class UpdateRecommenderConfiguration {
   /// </li>
   /// </ul>
   /// This object is required if the configuration invokes an AWS Lambda function
-  /// (LambdaFunctionArn) to process recommendation data. Otherwise, don't include
-  /// this object in your request.
+  /// (RecommendationTransformerUri) to process recommendation data. Otherwise,
+  /// don't include this object in your request.
   @_s.JsonKey(name: 'Attributes')
   final Map<String, String> attributes;
 
   /// A custom description of the configuration for the recommender model. The
-  /// description can contain up to 128 characters.
+  /// description can contain up to 128 characters. The characters can be letters,
+  /// numbers, spaces, or the following symbols: _ ; () , ‐.
   @_s.JsonKey(name: 'Description')
   final String description;
 
@@ -14818,7 +15308,7 @@ class UpdateRecommenderConfiguration {
   /// PINPOINT_USER_ID - Associate each user in the model with a particular user
   /// and endpoint in Amazon Pinpoint. The data is correlated based on user IDs in
   /// Amazon Pinpoint. If you specify this value, an endpoint definition in Amazon
-  /// Pinpoint has to specify a both a user ID (UserId) and an endpoint ID.
+  /// Pinpoint has to specify both a user ID (UserId) and an endpoint ID.
   /// Otherwise, messages won’t be sent to the user's endpoint.
   /// </li>
   /// </ul>
@@ -14832,28 +15322,30 @@ class UpdateRecommenderConfiguration {
   final String recommendationTransformerUri;
 
   /// A custom display name for the standard endpoint or user attribute
-  /// (RecommendationItems) that temporarily stores a recommended item for each
-  /// endpoint or user, depending on the value for the RecommenderUserIdType
-  /// property. This value is required if the configuration doesn't invoke an AWS
-  /// Lambda function (LambdaFunctionArn) to perform additional processing of
+  /// (RecommendationItems) that temporarily stores recommended items for each
+  /// endpoint or user, depending on the value for the
+  /// RecommendationProviderIdType property. This value is required if the
+  /// configuration doesn't invoke an AWS Lambda function
+  /// (RecommendationTransformerUri) to perform additional processing of
   /// recommendation data.
   ///
-  /// This name appears in the <b>Attribute finder</b> pane of the template editor
-  /// on the Amazon Pinpoint console. The name can contain up to 25 characters.
-  /// The characters can be letters, numbers, spaces, underscores (_), or hyphens
-  /// (-). These restrictions don't apply to attribute values.
+  /// This name appears in the <b>Attribute finder</b> of the template editor on
+  /// the Amazon Pinpoint console. The name can contain up to 25 characters. The
+  /// characters can be letters, numbers, spaces, underscores (_), or hyphens (-).
+  /// These restrictions don't apply to attribute values.
   @_s.JsonKey(name: 'RecommendationsDisplayName')
   final String recommendationsDisplayName;
 
   /// The number of recommended items to retrieve from the model for each endpoint
-  /// or user, depending on the value for the RecommenderUserIdType property. This
-  /// number determines how many recommended attributes are available for use as
-  /// message variables in message templates. The minimum value is 1. The maximum
-  /// value is 5. The default value is 5.
+  /// or user, depending on the value for the RecommendationProviderIdType
+  /// property. This number determines how many recommended items are available
+  /// for use in message variables. The minimum value is 1. The maximum value is
+  /// 5. The default value is 5.
   ///
   /// To use multiple recommended items and custom attributes with message
-  /// variables, you have to use an AWS Lambda function (LambdaFunctionArn) to
-  /// perform additional processing of recommendation data.
+  /// variables, you have to use an AWS Lambda function
+  /// (RecommendationTransformerUri) to perform additional processing of
+  /// recommendation data.
   @_s.JsonKey(name: 'RecommendationsPerMessage')
   final int recommendationsPerMessage;
 
@@ -15333,28 +15825,36 @@ class WaitTime {
     createFactory: false,
     createToJson: true)
 class WriteApplicationSettingsRequest {
-  /// The settings for the AWS Lambda function to use by default as a code hook
-  /// for campaigns in the application. To override these settings for a specific
-  /// campaign, use the <link
-  /// linkend="apps-application-id-campaigns-campaign-id">Campaign</link> resource
-  /// to define custom Lambda function settings for the campaign.
+  /// The settings for the AWS Lambda function to invoke by default as a code hook
+  /// for campaigns in the application. You can use this hook to customize
+  /// segments that are used by campaigns in the application.
+  ///
+  /// To override these settings and define custom settings for a specific
+  /// campaign, use the CampaignHook object of the <link
+  /// linkend="apps-application-id-campaigns-campaign-id">Campaign</link>
+  /// resource.
   @_s.JsonKey(name: 'CampaignHook')
   final CampaignHook campaignHook;
 
   /// Specifies whether to enable application-related alarms in Amazon CloudWatch.
   @_s.JsonKey(name: 'CloudWatchMetricsEnabled')
   final bool cloudWatchMetricsEnabled;
+  @_s.JsonKey(name: 'EventTaggingEnabled')
+  final bool eventTaggingEnabled;
 
   /// The default sending limits for campaigns in the application. To override
-  /// these limits for a specific campaign, use the <link
+  /// these limits and define custom limits for a specific campaign or journey,
+  /// use the <link
   /// linkend="apps-application-id-campaigns-campaign-id">Campaign</link> resource
-  /// to define custom limits for the campaign.
+  /// or the <link
+  /// linkend="apps-application-id-journeys-journey-id">Journey</link> resource,
+  /// respectively.
   @_s.JsonKey(name: 'Limits')
   final CampaignLimits limits;
 
-  /// The default quiet time for campaigns and journeys in the application. Quiet
-  /// time is a specific time range when messages aren't sent to endpoints, if all
-  /// the following conditions are met:
+  /// The default quiet time for campaigns in the application. Quiet time is a
+  /// specific time range when messages aren't sent to endpoints, if all the
+  /// following conditions are met:
   ///
   /// <ul>
   /// <li>
@@ -15387,6 +15887,7 @@ class WriteApplicationSettingsRequest {
   WriteApplicationSettingsRequest({
     this.campaignHook,
     this.cloudWatchMetricsEnabled,
+    this.eventTaggingEnabled,
     this.limits,
     this.quietTime,
   });
@@ -15406,6 +15907,12 @@ class WriteCampaignRequest {
   @_s.JsonKey(name: 'AdditionalTreatments')
   final List<WriteTreatmentResource> additionalTreatments;
 
+  /// The delivery configuration settings for sending the campaign through a
+  /// custom channel. This object is required if the MessageConfiguration object
+  /// for the campaign specifies a CustomMessage object.
+  @_s.JsonKey(name: 'CustomDeliveryConfiguration')
+  final CustomDeliveryConfiguration customDeliveryConfiguration;
+
   /// A custom description of the campaign.
   @_s.JsonKey(name: 'Description')
   final String description;
@@ -15415,13 +15922,14 @@ class WriteCampaignRequest {
   @_s.JsonKey(name: 'HoldoutPercent')
   final int holdoutPercent;
 
-  /// The settings for the AWS Lambda function to use as a code hook for the
+  /// The settings for the AWS Lambda function to invoke as a code hook for the
+  /// campaign. You can use this hook to customize the segment that's used by the
   /// campaign.
   @_s.JsonKey(name: 'Hook')
   final CampaignHook hook;
 
   /// Specifies whether to pause the campaign. A paused campaign doesn't run
-  /// unless you resume it by setting this value to false.
+  /// unless you resume it by changing this value to false.
   @_s.JsonKey(name: 'IsPaused')
   final bool isPaused;
 
@@ -15453,11 +15961,13 @@ class WriteCampaignRequest {
   @_s.JsonKey(name: 'TemplateConfiguration')
   final TemplateConfiguration templateConfiguration;
 
-  /// A custom description of a variation of the campaign to use for A/B testing.
+  /// A custom description of the default treatment for the campaign.
   @_s.JsonKey(name: 'TreatmentDescription')
   final String treatmentDescription;
 
-  /// A custom name for a variation of the campaign to use for A/B testing.
+  /// A custom name of the default treatment for the campaign, if the campaign has
+  /// multiple treatments. A <i>treatment</i> is a variation of a campaign that's
+  /// used for A/B testing.
   @_s.JsonKey(name: 'TreatmentName')
   final String treatmentName;
 
@@ -15469,6 +15979,7 @@ class WriteCampaignRequest {
 
   WriteCampaignRequest({
     this.additionalTreatments,
+    this.customDeliveryConfiguration,
     this.description,
     this.holdoutPercent,
     this.hook,
@@ -15678,8 +16189,8 @@ class WriteSegmentRequest {
   Map<String, dynamic> toJson() => _$WriteSegmentRequestToJson(this);
 }
 
-/// Specifies the settings for a campaign treatment. A treatment is a variation
-/// of a campaign that's used for A/B testing of a campaign.
+/// Specifies the settings for a campaign treatment. A <i>treatment</i> is a
+/// variation of a campaign that's used for A/B testing of a campaign.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -15690,6 +16201,12 @@ class WriteTreatmentResource {
   /// to.
   @_s.JsonKey(name: 'SizePercent')
   final int sizePercent;
+
+  /// The delivery configuration settings for sending the treatment through a
+  /// custom channel. This object is required if the MessageConfiguration object
+  /// for the treatment specifies a CustomMessage object.
+  @_s.JsonKey(name: 'CustomDeliveryConfiguration')
+  final CustomDeliveryConfiguration customDeliveryConfiguration;
 
   /// The message configuration settings for the treatment.
   @_s.JsonKey(name: 'MessageConfiguration')
@@ -15707,13 +16224,13 @@ class WriteTreatmentResource {
   @_s.JsonKey(name: 'TreatmentDescription')
   final String treatmentDescription;
 
-  /// A custom name for the treatment. A treatment is a variation of a campaign
-  /// that's used for A/B testing of a campaign.
+  /// A custom name for the treatment.
   @_s.JsonKey(name: 'TreatmentName')
   final String treatmentName;
 
   WriteTreatmentResource({
     @_s.required this.sizePercent,
+    this.customDeliveryConfiguration,
     this.messageConfiguration,
     this.schedule,
     this.templateConfiguration,
@@ -15723,9 +16240,41 @@ class WriteTreatmentResource {
   Map<String, dynamic> toJson() => _$WriteTreatmentResourceToJson(this);
 }
 
+enum EndpointTypesElement {
+  @_s.JsonValue('PUSH')
+  push,
+  @_s.JsonValue('GCM')
+  gcm,
+  @_s.JsonValue('APNS')
+  apns,
+  @_s.JsonValue('APNS_SANDBOX')
+  apnsSandbox,
+  @_s.JsonValue('APNS_VOIP')
+  apnsVoip,
+  @_s.JsonValue('APNS_VOIP_SANDBOX')
+  apnsVoipSandbox,
+  @_s.JsonValue('ADM')
+  adm,
+  @_s.JsonValue('SMS')
+  sms,
+  @_s.JsonValue('VOICE')
+  voice,
+  @_s.JsonValue('EMAIL')
+  email,
+  @_s.JsonValue('BAIDU')
+  baidu,
+  @_s.JsonValue('CUSTOM')
+  custom,
+}
+
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String type, String message})
       : super(type: type, code: 'BadRequestException', message: message);
+}
+
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String type, String message})
+      : super(type: type, code: 'ConflictException', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
@@ -15762,6 +16311,8 @@ class TooManyRequestsException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'ForbiddenException': (type, message) =>
       ForbiddenException(type: type, message: message),
   'InternalServerErrorException': (type, message) =>

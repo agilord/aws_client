@@ -24,7 +24,7 @@ programming languages and platforms such as Java, Ruby, .Net, iOS, and
 Android. The SDKs provide a convenient way to create programmatic access to
 AWS SSO and other AWS services. For more information about the AWS SDKs,
 including how to download and install them, see <a
-href="http://aws.amazon.com/tools/">Tools for Amazon Web Services</a>.
+href="https://aws.amazon.com/tools/">Tools for Amazon Web Services</a>.
 </note>
 
 ## Links

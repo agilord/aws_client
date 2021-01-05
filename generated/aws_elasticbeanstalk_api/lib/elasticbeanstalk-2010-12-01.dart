@@ -126,6 +126,56 @@ class ElasticBeanstalk {
     return ApplyEnvironmentManagedActionResult.fromXml($result);
   }
 
+  /// Add or change the operations role used by an environment. After this call
+  /// is made, Elastic Beanstalk uses the associated operations role for
+  /// permissions to downstream services during subsequent calls acting on this
+  /// environment. For more information, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html">Operations
+  /// roles</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
+  ///
+  /// May throw [InsufficientPrivilegesException].
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the environment to which to set the operations role.
+  ///
+  /// Parameter [operationsRole] :
+  /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the
+  /// environment's operations role.
+  Future<void> associateEnvironmentOperationsRole({
+    @_s.required String environmentName,
+    @_s.required String operationsRole,
+  }) async {
+    ArgumentError.checkNotNull(environmentName, 'environmentName');
+    _s.validateStringLength(
+      'environmentName',
+      environmentName,
+      4,
+      40,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(operationsRole, 'operationsRole');
+    _s.validateStringLength(
+      'operationsRole',
+      operationsRole,
+      1,
+      256,
+      isRequired: true,
+    );
+    final $request = <String, dynamic>{};
+    $request['EnvironmentName'] = environmentName;
+    $request['OperationsRole'] = operationsRole;
+    await _protocol.send(
+      $request,
+      action: 'AssociateEnvironmentOperationsRole',
+      version: '2010-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['AssociateEnvironmentOperationsRoleMessage'],
+      shapes: shapes,
+    );
+  }
+
   /// Checks if the specified CNAME is available.
   ///
   /// Parameter [cNAMEPrefix] :
@@ -619,6 +669,16 @@ class ElasticBeanstalk {
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-manifest.html">Environment
   /// Manifest (env.yaml)</a> for details.
   ///
+  /// Parameter [operationsRole] :
+  /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the
+  /// environment's operations role. If specified, Elastic Beanstalk uses the
+  /// operations role for permissions to downstream services during this call
+  /// and during subsequent calls acting on this environment. To specify an
+  /// operations role, you must have the <code>iam:PassRole</code> permission
+  /// for the role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html">Operations
+  /// roles</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
+  ///
   /// Parameter [optionSettings] :
   /// If specified, AWS Elastic Beanstalk sets the specified configuration
   /// options to the requested value in the configuration set for the new
@@ -632,8 +692,8 @@ class ElasticBeanstalk {
   /// Parameter [platformArn] :
   /// The Amazon Resource Name (ARN) of the custom platform to use with the
   /// environment. For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/custom-platforms.html">
-  /// Custom Platforms</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/custom-platforms.html">Custom
+  /// Platforms</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
   /// <note>
   /// If you specify <code>PlatformArn</code>, don't specify
   /// <code>SolutionStackName</code>.
@@ -680,6 +740,7 @@ class ElasticBeanstalk {
     String description,
     String environmentName,
     String groupName,
+    String operationsRole,
     List<ConfigurationOptionSetting> optionSettings,
     List<OptionSpecification> optionsToRemove,
     String platformArn,
@@ -722,6 +783,12 @@ class ElasticBeanstalk {
       19,
     );
     _s.validateStringLength(
+      'operationsRole',
+      operationsRole,
+      1,
+      256,
+    );
+    _s.validateStringLength(
       'templateName',
       templateName,
       1,
@@ -739,6 +806,7 @@ class ElasticBeanstalk {
     description?.also((arg) => $request['Description'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     groupName?.also((arg) => $request['GroupName'] = arg);
+    operationsRole?.also((arg) => $request['OperationsRole'] = arg);
     optionSettings?.also((arg) => $request['OptionSettings'] = arg);
     optionsToRemove?.also((arg) => $request['OptionsToRemove'] = arg);
     platformArn?.also((arg) => $request['PlatformArn'] = arg);
@@ -1423,6 +1491,12 @@ class ElasticBeanstalk {
       4,
       40,
     );
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      100,
+    );
     final $request = <String, dynamic>{};
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
@@ -1833,6 +1907,43 @@ class ElasticBeanstalk {
       resultWrapper: 'DescribePlatformVersionResult',
     );
     return DescribePlatformVersionResult.fromXml($result);
+  }
+
+  /// Disassociate the operations role from an environment. After this call is
+  /// made, Elastic Beanstalk uses the caller's permissions for permissions to
+  /// downstream services during subsequent calls acting on this environment.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html">Operations
+  /// roles</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
+  ///
+  /// May throw [InsufficientPrivilegesException].
+  ///
+  /// Parameter [environmentName] :
+  /// The name of the environment from which to disassociate the operations
+  /// role.
+  Future<void> disassociateEnvironmentOperationsRole({
+    @_s.required String environmentName,
+  }) async {
+    ArgumentError.checkNotNull(environmentName, 'environmentName');
+    _s.validateStringLength(
+      'environmentName',
+      environmentName,
+      4,
+      40,
+      isRequired: true,
+    );
+    final $request = <String, dynamic>{};
+    $request['EnvironmentName'] = environmentName;
+    await _protocol.send(
+      $request,
+      action: 'DisassociateEnvironmentOperationsRole',
+      version: '2010-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DisassociateEnvironmentOperationsRoleMessage'],
+      shapes: shapes,
+    );
   }
 
   /// Returns a list of the available solution stack names, with the public
@@ -2870,14 +2981,18 @@ class ElasticBeanstalk {
   /// Must be the ARN of an Elastic Beanstalk resource.
   ///
   /// Parameter [tagsToAdd] :
-  /// A list of tags to add or update.
+  /// A list of tags to add or update. If a key of an existing tag is added, the
+  /// tag's value is updated.
   ///
-  /// If a key of an existing tag is added, the tag's value is updated.
+  /// Specify at least one of these parameters: <code>TagsToAdd</code>,
+  /// <code>TagsToRemove</code>.
   ///
   /// Parameter [tagsToRemove] :
-  /// A list of tag keys to remove.
+  /// A list of tag keys to remove. If a tag key doesn't exist, it is silently
+  /// ignored.
   ///
-  /// If a tag key doesn't exist, it is silently ignored.
+  /// Specify at least one of these parameters: <code>TagsToAdd</code>,
+  /// <code>TagsToRemove</code>.
   Future<void> updateTagsForResource({
     @_s.required String resourceArn,
     List<Tag> tagsToAdd,
@@ -4462,6 +4577,12 @@ class EnvironmentDescription {
   /// Colors and Statuses</a>.
   final EnvironmentHealthStatus healthStatus;
 
+  /// The Amazon Resource Name (ARN) of the environment's operations role. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html">Operations
+  /// roles</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
+  final String operationsRole;
+
   /// The ARN of the platform version.
   final String platformArn;
 
@@ -4518,6 +4639,7 @@ class EnvironmentDescription {
     this.environmentName,
     this.health,
     this.healthStatus,
+    this.operationsRole,
     this.platformArn,
     this.resources,
     this.solutionStackName,
@@ -4548,6 +4670,7 @@ class EnvironmentDescription {
       healthStatus: _s
           .extractXmlStringValue(elem, 'HealthStatus')
           ?.toEnvironmentHealthStatus(),
+      operationsRole: _s.extractXmlStringValue(elem, 'OperationsRole'),
       platformArn: _s.extractXmlStringValue(elem, 'PlatformArn'),
       resources: _s
           .extractXmlChild(elem, 'Resources')
@@ -4924,10 +5047,16 @@ class EnvironmentResourcesDescription {
 }
 
 enum EnvironmentStatus {
+  @_s.JsonValue('Aborting')
+  aborting,
   @_s.JsonValue('Launching')
   launching,
   @_s.JsonValue('Updating')
   updating,
+  @_s.JsonValue('LinkingFrom')
+  linkingFrom,
+  @_s.JsonValue('LinkingTo')
+  linkingTo,
   @_s.JsonValue('Ready')
   ready,
   @_s.JsonValue('Terminating')
@@ -4939,10 +5068,16 @@ enum EnvironmentStatus {
 extension on String {
   EnvironmentStatus toEnvironmentStatus() {
     switch (this) {
+      case 'Aborting':
+        return EnvironmentStatus.aborting;
       case 'Launching':
         return EnvironmentStatus.launching;
       case 'Updating':
         return EnvironmentStatus.updating;
+      case 'LinkingFrom':
+        return EnvironmentStatus.linkingFrom;
+      case 'LinkingTo':
+        return EnvironmentStatus.linkingTo;
       case 'Ready':
         return EnvironmentStatus.ready;
       case 'Terminating':

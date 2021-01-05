@@ -3,10 +3,11 @@
 **Warning: This is a generated library, some operations may not work.**
 
 *About the service:*
-Amazon EMR is a web service that makes it easy to process large amounts of
+Amazon EMR is a web service that makes it easier to process large amounts of
 data efficiently. Amazon EMR uses Hadoop processing combined with several
-AWS products to do tasks such as web indexing, data mining, log file
-analysis, machine learning, scientific simulation, and data warehousing.
+AWS services to do tasks such as web indexing, data mining, log file
+analysis, machine learning, scientific simulation, and data warehouse
+management.
 
 ## Links
 

@@ -54,11 +54,16 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [variableEntries] :
   /// The list of variables for the batch create variable request.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
   Future<BatchCreateVariableResult> batchCreateVariable({
     @_s.required List<VariableEntry> variableEntries,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(variableEntries, 'variableEntries');
     final headers = <String, String>{
@@ -73,6 +78,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'variableEntries': variableEntries,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -84,6 +90,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [names] :
   /// The list of variable names to get.
@@ -116,6 +123,7 @@ class FraudDetector {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detectorId] :
   /// The ID of the detector under which you want to create a new version.
@@ -146,6 +154,9 @@ class FraudDetector {
   /// all rules and returns the outcomes for all matched rules.
   ///
   /// The default behavior is <code>FIRST_MATCHED</code>.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
   Future<CreateDetectorVersionResult> createDetectorVersion({
     @_s.required String detectorId,
     @_s.required List<Rule> rules,
@@ -153,6 +164,7 @@ class FraudDetector {
     List<String> externalModelEndpoints,
     List<ModelVersion> modelVersions,
     RuleExecutionMode ruleExecutionMode,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -194,18 +206,21 @@ class FraudDetector {
         if (modelVersions != null) 'modelVersions': modelVersions,
         if (ruleExecutionMode != null)
           'ruleExecutionMode': ruleExecutionMode.toValue(),
+        if (tags != null) 'tags': tags,
       },
     );
 
     return CreateDetectorVersionResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates a version of the model using the specified model type.
+  /// Creates a model using the specified model type.
   ///
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [eventTypeName] :
+  /// The name of the event type.
   ///
   /// Parameter [modelId] :
   /// The model ID.
@@ -214,11 +229,95 @@ class FraudDetector {
   /// The model type.
   ///
   /// Parameter [description] :
-  /// The model version description.
-  Future<CreateModelVersionResult> createModelVersion({
+  /// The model description.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
+  Future<void> createModel({
+    @_s.required String eventTypeName,
     @_s.required String modelId,
     @_s.required ModelTypeEnum modelType,
     String description,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    ArgumentError.checkNotNull(modelId, 'modelId');
+    _s.validateStringLength(
+      'modelId',
+      modelId,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelId',
+      modelId,
+      r'''^[0-9a-z_]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(modelType, 'modelType');
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      128,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateModel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'eventTypeName': eventTypeName,
+        'modelId': modelId,
+        'modelType': modelType?.toValue() ?? '',
+        if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateModelResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a version of the model using the specified model type and model
+  /// id.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [modelId] :
+  /// The model ID.
+  ///
+  /// Parameter [modelType] :
+  /// The model type.
+  ///
+  /// Parameter [trainingDataSchema] :
+  /// The training data schema.
+  ///
+  /// Parameter [trainingDataSource] :
+  /// The training data source location in Amazon S3.
+  ///
+  /// Parameter [externalEventsDetail] :
+  /// Details for the external events data used for model version training.
+  /// Required if <code>trainingDataSource</code> is
+  /// <code>EXTERNAL_EVENTS</code>.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
+  Future<CreateModelVersionResult> createModelVersion({
+    @_s.required String modelId,
+    @_s.required ModelTypeEnum modelType,
+    @_s.required TrainingDataSchema trainingDataSchema,
+    @_s.required TrainingDataSourceEnum trainingDataSource,
+    ExternalEventsDetail externalEventsDetail,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
     _s.validateStringLength(
@@ -231,16 +330,12 @@ class FraudDetector {
     _s.validateStringPattern(
       'modelId',
       modelId,
-      r'''^[0-9a-z_-]+$''',
+      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
+    ArgumentError.checkNotNull(trainingDataSchema, 'trainingDataSchema');
+    ArgumentError.checkNotNull(trainingDataSource, 'trainingDataSource');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateModelVersion'
@@ -254,7 +349,11 @@ class FraudDetector {
       payload: {
         'modelId': modelId,
         'modelType': modelType?.toValue() ?? '',
-        if (description != null) 'description': description,
+        'trainingDataSchema': trainingDataSchema,
+        'trainingDataSource': trainingDataSource?.toValue() ?? '',
+        if (externalEventsDetail != null)
+          'externalEventsDetail': externalEventsDetail,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -266,6 +365,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID for the rule's parent detector.
@@ -284,6 +384,9 @@ class FraudDetector {
   ///
   /// Parameter [description] :
   /// The rule description.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
   Future<CreateRuleResult> createRule({
     @_s.required String detectorId,
     @_s.required String expression,
@@ -291,6 +394,7 @@ class FraudDetector {
     @_s.required List<String> outcomes,
     @_s.required String ruleId,
     String description,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -353,6 +457,7 @@ class FraudDetector {
         'outcomes': outcomes,
         'ruleId': ruleId,
         if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -364,6 +469,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [dataSource] :
   /// The source of the data.
@@ -380,14 +486,29 @@ class FraudDetector {
   /// Parameter [description] :
   /// The description.
   ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
+  ///
   /// Parameter [variableType] :
-  /// The variable type.
+  /// The variable type. For more information see <a
+  /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types">Variable
+  /// types</a>.
+  ///
+  /// Valid Values: <code>AUTH_CODE | AVS | BILLING_ADDRESS_L1 |
+  /// BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME |
+  /// BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL |
+  /// CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT
+  /// | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE |
+  /// PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 |
+  /// SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE |
+  /// SHIPPING_STATE | SHIPPING_ZIP | USERAGENT</code>
   Future<void> createVariable({
     @_s.required DataSource dataSource,
     @_s.required DataType dataType,
     @_s.required String defaultValue,
     @_s.required String name,
     String description,
+    List<Tag> tags,
     String variableType,
   }) async {
     ArgumentError.checkNotNull(dataSource, 'dataSource');
@@ -410,6 +531,7 @@ class FraudDetector {
         'defaultValue': defaultValue,
         'name': name,
         if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
         if (variableType != null) 'variableType': variableType,
       },
     );
@@ -420,10 +542,14 @@ class FraudDetector {
   /// Deletes the detector. Before deleting a detector, you must first delete
   /// all detector versions and rule versions associated with the detector.
   ///
+  /// When you delete a detector, Amazon Fraud Detector permanently deletes the
+  /// detector and the data is no longer stored in Amazon Fraud Detector.
+  ///
   /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detectorId] :
   /// The ID of the detector to delete.
@@ -465,11 +591,16 @@ class FraudDetector {
   /// Deletes the detector version. You cannot delete detector versions that are
   /// in <code>ACTIVE</code> status.
   ///
+  /// When you delete a detector version, Amazon Fraud Detector permanently
+  /// deletes the detector and the data is no longer stored in Amazon Fraud
+  /// Detector.
+  ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ConflictException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detectorId] :
   /// The ID of the parent detector for the detector version to delete.
@@ -499,7 +630,13 @@ class FraudDetector {
       'detectorVersionId',
       detectorVersionId,
       1,
-      1152921504606846976,
+      5,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'detectorVersionId',
+      detectorVersionId,
+      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -521,17 +658,104 @@ class FraudDetector {
     return DeleteDetectorVersionResult.fromJson(jsonResponse.body);
   }
 
+  /// Deletes an entity type.
+  ///
+  /// You cannot delete an entity type that is included in an event type.
+  ///
+  /// When you delete an entity type, Amazon Fraud Detector permanently deletes
+  /// that entity type from the evaluation history, and the data is no longer
+  /// stored in Amazon Fraud Detector.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of the entity type to delete.
+  Future<void> deleteEntityType({
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[0-9a-z_-]+$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEntityType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return DeleteEntityTypeResult.fromJson(jsonResponse.body);
+  }
+
   /// Deletes the specified event.
+  ///
+  /// When you delete an event, Amazon Fraud Detector permanently deletes that
+  /// event from the evaluation history, and the event data is no longer stored
+  /// in Amazon Fraud Detector.
   ///
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [eventId] :
   /// The ID of the event to delete.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The name of the event type.
   Future<void> deleteEvent({
     @_s.required String eventId,
+    @_s.required String eventTypeName,
   }) async {
     ArgumentError.checkNotNull(eventId, 'eventId');
+    _s.validateStringLength(
+      'eventId',
+      eventId,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'eventId',
+      eventId,
+      r'''^[0-9a-z_-]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    _s.validateStringLength(
+      'eventTypeName',
+      eventTypeName,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'eventTypeName',
+      eventTypeName,
+      r'''^[0-9a-z_-]+$''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEvent'
@@ -544,72 +768,48 @@ class FraudDetector {
       headers: headers,
       payload: {
         'eventId': eventId,
+        'eventTypeName': eventTypeName,
       },
     );
 
     return DeleteEventResult.fromJson(jsonResponse.body);
   }
 
-  /// Deletes the rule version. You cannot delete a rule version if it is used
-  /// by an <code>ACTIVE</code> or <code>INACTIVE</code> detector version.
+  /// Deletes an event type.
+  ///
+  /// You cannot delete an event type that is used in a detector or a model.
+  ///
+  /// When you delete an entity type, Amazon Fraud Detector permanently deletes
+  /// that entity type from the evaluation history, and the data is no longer
+  /// stored in Amazon Fraud Detector.
   ///
   /// May throw [ConflictException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
-  /// Parameter [detectorId] :
-  /// The ID of the detector that includes the rule version to delete.
-  ///
-  /// Parameter [ruleId] :
-  /// The rule ID of the rule version to delete.
-  ///
-  /// Parameter [ruleVersion] :
-  /// The rule version to delete.
-  Future<void> deleteRuleVersion({
-    @_s.required String detectorId,
-    @_s.required String ruleId,
-    @_s.required String ruleVersion,
+  /// Parameter [name] :
+  /// The name of the event type to delete.
+  Future<void> deleteEventType({
+    @_s.required String name,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
+    ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
-      'detectorId',
-      detectorId,
+      'name',
+      name,
       1,
       64,
       isRequired: true,
     );
     _s.validateStringPattern(
-      'detectorId',
-      detectorId,
+      'name',
+      name,
       r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(ruleId, 'ruleId');
-    _s.validateStringLength(
-      'ruleId',
-      ruleId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(ruleVersion, 'ruleVersion');
-    _s.validateStringLength(
-      'ruleVersion',
-      ruleVersion,
-      1,
-      1152921504606846976,
       isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteRuleVersion'
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEventType'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -618,13 +818,374 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'detectorId': detectorId,
-        'ruleId': ruleId,
-        'ruleVersion': ruleVersion,
+        'name': name,
       },
     );
 
-    return DeleteRuleVersionResult.fromJson(jsonResponse.body);
+    return DeleteEventTypeResult.fromJson(jsonResponse.body);
+  }
+
+  /// Removes a SageMaker model from Amazon Fraud Detector.
+  ///
+  /// You can remove an Amazon SageMaker model if it is not associated with a
+  /// detector version. Removing a SageMaker model disconnects it from Amazon
+  /// Fraud Detector, but the model remains available in SageMaker.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [modelEndpoint] :
+  /// The endpoint of the Amazon Sagemaker model to delete.
+  Future<void> deleteExternalModel({
+    @_s.required String modelEndpoint,
+  }) async {
+    ArgumentError.checkNotNull(modelEndpoint, 'modelEndpoint');
+    _s.validateStringLength(
+      'modelEndpoint',
+      modelEndpoint,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelEndpoint',
+      modelEndpoint,
+      r'''^[0-9A-Za-z_-]+$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteExternalModel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'modelEndpoint': modelEndpoint,
+      },
+    );
+
+    return DeleteExternalModelResult.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a label.
+  ///
+  /// You cannot delete labels that are included in an event type in Amazon
+  /// Fraud Detector.
+  ///
+  /// You cannot delete a label assigned to an event ID. You must first delete
+  /// the relevant event ID.
+  ///
+  /// When you delete a label, Amazon Fraud Detector permanently deletes that
+  /// label from the evaluation history, and the data is no longer stored in
+  /// Amazon Fraud Detector.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [name] :
+  /// The name of the label to delete.
+  Future<void> deleteLabel({
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[0-9a-z_-]+$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteLabel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return DeleteLabelResult.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a model.
+  ///
+  /// You can delete models and model versions in Amazon Fraud Detector,
+  /// provided that they are not associated with a detector version.
+  ///
+  /// When you delete a model, Amazon Fraud Detector permanently deletes that
+  /// model from the evaluation history, and the data is no longer stored in
+  /// Amazon Fraud Detector.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [modelId] :
+  /// The model ID of the model to delete.
+  ///
+  /// Parameter [modelType] :
+  /// The model type of the model to delete.
+  Future<void> deleteModel({
+    @_s.required String modelId,
+    @_s.required ModelTypeEnum modelType,
+  }) async {
+    ArgumentError.checkNotNull(modelId, 'modelId');
+    _s.validateStringLength(
+      'modelId',
+      modelId,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelId',
+      modelId,
+      r'''^[0-9a-z_]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(modelType, 'modelType');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteModel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'modelId': modelId,
+        'modelType': modelType?.toValue() ?? '',
+      },
+    );
+
+    return DeleteModelResult.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a model version.
+  ///
+  /// You can delete models and model versions in Amazon Fraud Detector,
+  /// provided that they are not associated with a detector version.
+  ///
+  /// When you delete a model version, Amazon Fraud Detector permanently deletes
+  /// that model version from the evaluation history, and the data is no longer
+  /// stored in Amazon Fraud Detector.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [modelId] :
+  /// The model ID of the model version to delete.
+  ///
+  /// Parameter [modelType] :
+  /// The model type of the model version to delete.
+  ///
+  /// Parameter [modelVersionNumber] :
+  /// The model version number of the model version to delete.
+  Future<void> deleteModelVersion({
+    @_s.required String modelId,
+    @_s.required ModelTypeEnum modelType,
+    @_s.required String modelVersionNumber,
+  }) async {
+    ArgumentError.checkNotNull(modelId, 'modelId');
+    _s.validateStringLength(
+      'modelId',
+      modelId,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelId',
+      modelId,
+      r'''^[0-9a-z_]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(modelType, 'modelType');
+    ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
+    _s.validateStringLength(
+      'modelVersionNumber',
+      modelVersionNumber,
+      3,
+      7,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelVersionNumber',
+      modelVersionNumber,
+      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteModelVersion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'modelId': modelId,
+        'modelType': modelType?.toValue() ?? '',
+        'modelVersionNumber': modelVersionNumber,
+      },
+    );
+
+    return DeleteModelVersionResult.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes an outcome.
+  ///
+  /// You cannot delete an outcome that is used in a rule version.
+  ///
+  /// When you delete an outcome, Amazon Fraud Detector permanently deletes that
+  /// outcome from the evaluation history, and the data is no longer stored in
+  /// Amazon Fraud Detector.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of the outcome to delete.
+  Future<void> deleteOutcome({
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[0-9a-z_-]+$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteOutcome'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return DeleteOutcomeResult.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the rule. You cannot delete a rule if it is used by an
+  /// <code>ACTIVE</code> or <code>INACTIVE</code> detector version.
+  ///
+  /// When you delete a rule, Amazon Fraud Detector permanently deletes that
+  /// rule from the evaluation history, and the data is no longer stored in
+  /// Amazon Fraud Detector.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  Future<void> deleteRule({
+    @_s.required Rule rule,
+  }) async {
+    ArgumentError.checkNotNull(rule, 'rule');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteRule'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'rule': rule,
+      },
+    );
+
+    return DeleteRuleResult.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a variable.
+  ///
+  /// You can't delete variables that are included in an event type in Amazon
+  /// Fraud Detector.
+  ///
+  /// Amazon Fraud Detector automatically deletes model output variables and
+  /// SageMaker model output variables when you delete the model. You can't
+  /// delete these variables manually.
+  ///
+  /// When you delete a variable, Amazon Fraud Detector permanently deletes that
+  /// variable from the evaluation history, and the data is no longer stored in
+  /// Amazon Fraud Detector.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of the variable to delete.
+  Future<void> deleteVariable({
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteVariable'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return DeleteVariableResult.fromJson(jsonResponse.body);
   }
 
   /// Gets all versions for a specified detector.
@@ -633,6 +1194,7 @@ class FraudDetector {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
@@ -694,7 +1256,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
@@ -706,7 +1268,7 @@ class FraudDetector {
   /// The model type.
   ///
   /// Parameter [modelVersionNumber] :
-  /// The model version.
+  /// The model version number.
   ///
   /// Parameter [nextToken] :
   /// The next token from the previous results.
@@ -732,13 +1294,18 @@ class FraudDetector {
     _s.validateStringPattern(
       'modelId',
       modelId,
-      r'''^[0-9a-z_-]+$''',
+      r'''^[0-9a-z_]+$''',
     );
     _s.validateStringLength(
       'modelVersionNumber',
       modelVersionNumber,
-      1,
-      1152921504606846976,
+      3,
+      7,
+    );
+    _s.validateStringPattern(
+      'modelVersionNumber',
+      modelVersionNumber,
+      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -769,6 +1336,7 @@ class FraudDetector {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
@@ -798,7 +1366,13 @@ class FraudDetector {
       'detectorVersionId',
       detectorVersionId,
       1,
-      1152921504606846976,
+      5,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'detectorVersionId',
+      detectorVersionId,
+      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -820,18 +1394,19 @@ class FraudDetector {
     return GetDetectorVersionResult.fromJson(jsonResponse.body);
   }
 
-  /// Gets all of detectors. This is a paginated API. If you provide a null
-  /// <code>maxSizePerPage</code>, this actions retrieves a maximum of 10
-  /// records per page. If you provide a <code>maxSizePerPage</code>, the value
-  /// must be between 5 and 10. To get the next page results, provide the
-  /// pagination token from the <code>GetEventTypesResponse</code> as part of
-  /// your request. A null pagination token fetches the records from the
-  /// beginning.
+  /// Gets all detectors or a single detector if a <code>detectorId</code> is
+  /// specified. This is a paginated API. If you provide a null
+  /// <code>maxResults</code>, this action retrieves a maximum of 10 records per
+  /// page. If you provide a <code>maxResults</code>, the value must be between
+  /// 5 and 10. To get the next page results, provide the pagination token from
+  /// the <code>GetDetectorsResponse</code> as part of your request. A null
+  /// pagination token fetches the records from the beginning.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
@@ -883,19 +1458,235 @@ class FraudDetector {
     return GetDetectorsResult.fromJson(jsonResponse.body);
   }
 
-  /// Gets the details for one or more Amazon SageMaker models that have been
-  /// imported into the service. This is a paginated API. If you provide a null
-  /// <code>maxSizePerPage</code>, this actions retrieves a maximum of 10
-  /// records per page. If you provide a <code>maxSizePerPage</code>, the value
-  /// must be between 5 and 10. To get the next page results, provide the
-  /// pagination token from the <code>GetExternalModelsResult</code> as part of
-  /// your request. A null pagination token fetches the records from the
-  /// beginning.
+  /// Gets all entity types or a specific entity type if a name is specified.
+  /// This is a paginated API. If you provide a null <code>maxResults</code>,
+  /// this action retrieves a maximum of 10 records per page. If you provide a
+  /// <code>maxResults</code>, the value must be between 5 and 10. To get the
+  /// next page results, provide the pagination token from the
+  /// <code>GetEntityTypesResponse</code> as part of your request. A null
+  /// pagination token fetches the records from the beginning.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects to return for the request.
+  ///
+  /// Parameter [name] :
+  /// The name.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token for the subsequent request.
+  Future<GetEntityTypesResult> getEntityTypes({
+    int maxResults,
+    String name,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      10,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[0-9a-z_-]+$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetEntityTypes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (name != null) 'name': name,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetEntityTypesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Evaluates an event against a detector version. If a version ID is not
+  /// provided, the detector’s (<code>ACTIVE</code>) version is used.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [detectorId] :
+  /// The detector ID.
+  ///
+  /// Parameter [entities] :
+  /// The entity type (associated with the detector's event type) and specific
+  /// entity ID representing who performed the event. If an entity id is not
+  /// available, use "UNKNOWN."
+  ///
+  /// Parameter [eventId] :
+  /// The unique ID used to identify the event.
+  ///
+  /// Parameter [eventTimestamp] :
+  /// Timestamp that defines when the event under evaluation occurred.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The event type associated with the detector specified for the prediction.
+  ///
+  /// Parameter [eventVariables] :
+  /// Names of the event type's variables you defined in Amazon Fraud Detector
+  /// to represent data elements and their corresponding values for the event
+  /// you are sending for evaluation.
+  ///
+  /// Parameter [detectorVersionId] :
+  /// The detector version ID.
+  ///
+  /// Parameter [externalModelEndpointDataBlobs] :
+  /// The Amazon SageMaker model endpoint input data blobs.
+  Future<GetEventPredictionResult> getEventPrediction({
+    @_s.required String detectorId,
+    @_s.required List<Entity> entities,
+    @_s.required String eventId,
+    @_s.required String eventTimestamp,
+    @_s.required String eventTypeName,
+    @_s.required Map<String, String> eventVariables,
+    String detectorVersionId,
+    Map<String, ModelEndpointDataBlob> externalModelEndpointDataBlobs,
+  }) async {
+    ArgumentError.checkNotNull(detectorId, 'detectorId');
+    ArgumentError.checkNotNull(entities, 'entities');
+    ArgumentError.checkNotNull(eventId, 'eventId');
+    ArgumentError.checkNotNull(eventTimestamp, 'eventTimestamp');
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    ArgumentError.checkNotNull(eventVariables, 'eventVariables');
+    _s.validateStringLength(
+      'detectorVersionId',
+      detectorVersionId,
+      1,
+      5,
+    );
+    _s.validateStringPattern(
+      'detectorVersionId',
+      detectorVersionId,
+      r'''^([1-9][0-9]*)$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetEventPrediction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'detectorId': detectorId,
+        'entities': entities,
+        'eventId': eventId,
+        'eventTimestamp': eventTimestamp,
+        'eventTypeName': eventTypeName,
+        'eventVariables': eventVariables,
+        if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
+        if (externalModelEndpointDataBlobs != null)
+          'externalModelEndpointDataBlobs': externalModelEndpointDataBlobs,
+      },
+    );
+
+    return GetEventPredictionResult.fromJson(jsonResponse.body);
+  }
+
+  /// Gets all event types or a specific event type if name is provided. This is
+  /// a paginated API. If you provide a null <code>maxResults</code>, this
+  /// action retrieves a maximum of 10 records per page. If you provide a
+  /// <code>maxResults</code>, the value must be between 5 and 10. To get the
+  /// next page results, provide the pagination token from the
+  /// <code>GetEventTypesResponse</code> as part of your request. A null
+  /// pagination token fetches the records from the beginning.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects to return for the request.
+  ///
+  /// Parameter [name] :
+  /// The name.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token for the subsequent request.
+  Future<GetEventTypesResult> getEventTypes({
+    int maxResults,
+    String name,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      10,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[0-9a-z_-]+$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetEventTypes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (name != null) 'name': name,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetEventTypesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Gets the details for one or more Amazon SageMaker models that have been
+  /// imported into the service. This is a paginated API. If you provide a null
+  /// <code>maxResults</code>, this actions retrieves a maximum of 10 records
+  /// per page. If you provide a <code>maxResults</code>, the value must be
+  /// between 5 and 10. To get the next page results, provide the pagination
+  /// token from the <code>GetExternalModelsResult</code> as part of your
+  /// request. A null pagination token fetches the records from the beginning.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of objects to return for the request.
@@ -936,12 +1727,98 @@ class FraudDetector {
     return GetExternalModelsResult.fromJson(jsonResponse.body);
   }
 
-  /// Gets a model version.
+  /// Gets the encryption key if a Key Management Service (KMS) customer master
+  /// key (CMK) has been specified to be used to encrypt content in Amazon Fraud
+  /// Detector.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  Future<GetKMSEncryptionKeyResult> getKMSEncryptionKey() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetKMSEncryptionKey'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetKMSEncryptionKeyResult.fromJson(jsonResponse.body);
+  }
+
+  /// Gets all labels or a specific label if name is provided. This is a
+  /// paginated API. If you provide a null <code>maxResults</code>, this action
+  /// retrieves a maximum of 50 records per page. If you provide a
+  /// <code>maxResults</code>, the value must be between 10 and 50. To get the
+  /// next page results, provide the pagination token from the
+  /// <code>GetGetLabelsResponse</code> as part of your request. A null
+  /// pagination token fetches the records from the beginning.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects to return for the request.
+  ///
+  /// Parameter [name] :
+  /// The name of the label or labels to get.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token for the subsequent request.
+  Future<GetLabelsResult> getLabels({
+    int maxResults,
+    String name,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      10,
+      50,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[0-9a-z_-]+$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetLabels'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (name != null) 'name': name,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetLabelsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Gets the details of the specified model version.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [modelId] :
   /// The model ID.
@@ -950,7 +1827,7 @@ class FraudDetector {
   /// The model type.
   ///
   /// Parameter [modelVersionNumber] :
-  /// The model version.
+  /// The model version number.
   Future<GetModelVersionResult> getModelVersion({
     @_s.required String modelId,
     @_s.required ModelTypeEnum modelType,
@@ -967,7 +1844,7 @@ class FraudDetector {
     _s.validateStringPattern(
       'modelId',
       modelId,
-      r'''^[0-9a-z_-]+$''',
+      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -975,8 +1852,14 @@ class FraudDetector {
     _s.validateStringLength(
       'modelVersionNumber',
       modelVersionNumber,
-      1,
-      1152921504606846976,
+      3,
+      7,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelVersionNumber',
+      modelVersionNumber,
+      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -999,16 +1882,25 @@ class FraudDetector {
     return GetModelVersionResult.fromJson(jsonResponse.body);
   }
 
-  /// Gets all of the models for the AWS account, or the specified model type,
-  /// or gets a single model for the specified model type, model ID combination.
+  /// Gets one or more models. Gets all models for the AWS account if no model
+  /// type and no model id provided. Gets all models for the AWS account and
+  /// model type, if the model type is specified but model id is not provided.
+  /// Gets a specific model if (model type, model id) tuple is specified.
+  ///
+  /// This is a paginated API. If you provide a null <code>maxResults</code>,
+  /// this action retrieves a maximum of 10 records per page. If you provide a
+  /// <code>maxResults</code>, the value must be between 1 and 10. To get the
+  /// next page results, provide the pagination token from the response as part
+  /// of your request. A null pagination token fetches the records from the
+  /// beginning.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum results to return for the request.
+  /// The maximum number of objects to return for the request.
   ///
   /// Parameter [modelId] :
   /// The model ID.
@@ -1017,7 +1909,7 @@ class FraudDetector {
   /// The model type.
   ///
   /// Parameter [nextToken] :
-  /// The next token for the request.
+  /// The next token for the subsequent request.
   Future<GetModelsResult> getModels({
     int maxResults,
     String modelId,
@@ -1039,7 +1931,7 @@ class FraudDetector {
     _s.validateStringPattern(
       'modelId',
       modelId,
-      r'''^[0-9a-z_-]+$''',
+      r'''^[0-9a-z_]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1063,16 +1955,17 @@ class FraudDetector {
   }
 
   /// Gets one or more outcomes. This is a paginated API. If you provide a null
-  /// <code>maxSizePerPage</code>, this actions retrieves a maximum of 10
-  /// records per page. If you provide a <code>maxSizePerPage</code>, the value
-  /// must be between 50 and 100. To get the next page results, provide the
-  /// pagination token from the <code>GetOutcomesResult</code> as part of your
-  /// request. A null pagination token fetches the records from the beginning.
+  /// <code>maxResults</code>, this actions retrieves a maximum of 100 records
+  /// per page. If you provide a <code>maxResults</code>, the value must be
+  /// between 50 and 100. To get the next page results, provide the pagination
+  /// token from the <code>GetOutcomesResult</code> as part of your request. A
+  /// null pagination token fetches the records from the beginning.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of objects to return for the request.
@@ -1124,68 +2017,23 @@ class FraudDetector {
     return GetOutcomesResult.fromJson(jsonResponse.body);
   }
 
-  /// Evaluates an event against a detector version. If a version ID is not
-  /// provided, the detector’s (<code>ACTIVE</code>) version is used.
+  /// Get all rules for a detector (paginated) if <code>ruleId</code> and
+  /// <code>ruleVersion</code> are not specified. Gets all rules for the
+  /// detector and the <code>ruleId</code> if present (paginated). Gets a
+  /// specific rule if both the <code>ruleId</code> and the
+  /// <code>ruleVersion</code> are specified.
+  ///
+  /// This is a paginated API. Providing null maxResults results in retrieving
+  /// maximum of 100 records per page. If you provide maxResults the value must
+  /// be between 50 and 100. To get the next page result, a provide a pagination
+  /// token from GetRulesResult as part of your request. Null pagination token
+  /// fetches the records from the beginning.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
-  ///
-  /// Parameter [detectorId] :
-  /// The detector ID.
-  ///
-  /// Parameter [eventId] :
-  /// The unique ID used to identify the event.
-  ///
-  /// Parameter [detectorVersionId] :
-  /// The detector version ID.
-  ///
-  /// Parameter [eventAttributes] :
-  /// Names of variables you defined in Amazon Fraud Detector to represent event
-  /// data elements and their corresponding values for the event you are sending
-  /// for evaluation.
-  ///
-  /// Parameter [externalModelEndpointDataBlobs] :
-  /// The Amazon SageMaker model endpoint input data blobs.
-  Future<GetPredictionResult> getPrediction({
-    @_s.required String detectorId,
-    @_s.required String eventId,
-    String detectorVersionId,
-    Map<String, String> eventAttributes,
-    Map<String, ModelEndpointDataBlob> externalModelEndpointDataBlobs,
-  }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    ArgumentError.checkNotNull(eventId, 'eventId');
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetPrediction'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'detectorId': detectorId,
-        'eventId': eventId,
-        if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
-        if (eventAttributes != null) 'eventAttributes': eventAttributes,
-        if (externalModelEndpointDataBlobs != null)
-          'externalModelEndpointDataBlobs': externalModelEndpointDataBlobs,
-      },
-    );
-
-    return GetPredictionResult.fromJson(jsonResponse.body);
-  }
-
-  /// Gets all rules available for the specified detector.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
@@ -1243,7 +2091,12 @@ class FraudDetector {
       'ruleVersion',
       ruleVersion,
       1,
-      1152921504606846976,
+      5,
+    );
+    _s.validateStringPattern(
+      'ruleVersion',
+      ruleVersion,
+      r'''^([1-9][0-9]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1279,6 +2132,7 @@ class FraudDetector {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The max size per page determined for the get variable request.
@@ -1319,20 +2173,91 @@ class FraudDetector {
     return GetVariablesResult.fromJson(jsonResponse.body);
   }
 
+  /// Lists all tags associated with the resource. This is a paginated API. To
+  /// get the next page results, provide the pagination token from the response
+  /// as part of your request. A null pagination token fetches the records from
+  /// the beginning.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The ARN that specifies the resource whose tags you want to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects to return for the request.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token from the previous results.
+  Future<ListTagsForResourceResult> listTagsForResource({
+    @_s.required String resourceARN,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      50,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'resourceARN': resourceARN,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListTagsForResourceResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates or updates a detector.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
   ///
+  /// Parameter [eventTypeName] :
+  /// The name of the event type.
+  ///
   /// Parameter [description] :
   /// The description of the detector.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
   Future<void> putDetector({
     @_s.required String detectorId,
+    @_s.required String eventTypeName,
     String description,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1345,6 +2270,20 @@ class FraudDetector {
     _s.validateStringPattern(
       'detectorId',
       detectorId,
+      r'''^[0-9a-z_-]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    _s.validateStringLength(
+      'eventTypeName',
+      eventTypeName,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'eventTypeName',
+      eventTypeName,
       r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
@@ -1366,11 +2305,159 @@ class FraudDetector {
       headers: headers,
       payload: {
         'detectorId': detectorId,
+        'eventTypeName': eventTypeName,
         if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
       },
     );
 
     return PutDetectorResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates or updates an entity type. An entity represents who is performing
+  /// the event. As part of a fraud prediction, you pass the entity ID to
+  /// indicate the specific entity who performed the event. An entity type
+  /// classifies the entity. Example classifications include customer, merchant,
+  /// or account.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The name of the entity type.
+  ///
+  /// Parameter [description] :
+  /// The description.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
+  Future<void> putEntityType({
+    @_s.required String name,
+    String description,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[0-9a-z_-]+$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      128,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.PutEntityType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return PutEntityTypeResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates or updates an event type. An event is a business activity that is
+  /// evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud
+  /// predictions for events. An event type defines the structure for an event
+  /// sent to Amazon Fraud Detector. This includes the variables sent as part of
+  /// the event, the entity performing the event (such as a customer), and the
+  /// labels that classify the event. Example event types include online payment
+  /// transactions, account registrations, and authentications.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [entityTypes] :
+  /// The entity type for the event type. Example entity types: customer,
+  /// merchant, account.
+  ///
+  /// Parameter [eventVariables] :
+  /// The event type variables.
+  ///
+  /// Parameter [name] :
+  /// The name.
+  ///
+  /// Parameter [description] :
+  /// The description of the event type.
+  ///
+  /// Parameter [labels] :
+  /// The event type labels.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
+  Future<void> putEventType({
+    @_s.required List<String> entityTypes,
+    @_s.required List<String> eventVariables,
+    @_s.required String name,
+    String description,
+    List<String> labels,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(entityTypes, 'entityTypes');
+    ArgumentError.checkNotNull(eventVariables, 'eventVariables');
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[0-9a-z_-]+$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      128,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.PutEventType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'entityTypes': entityTypes,
+        'eventVariables': eventVariables,
+        'name': name,
+        if (description != null) 'description': description,
+        if (labels != null) 'labels': labels,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return PutEventTypeResult.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates an Amazon SageMaker model endpoint. You can also use
@@ -1380,9 +2467,13 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [inputConfiguration] :
   /// The model endpoint input configuration.
+  ///
+  /// Parameter [invokeModelEndpointRoleArn] :
+  /// The IAM role used to invoke the model endpoint.
   ///
   /// Parameter [modelEndpoint] :
   /// The model endpoints name.
@@ -1396,22 +2487,37 @@ class FraudDetector {
   /// Parameter [outputConfiguration] :
   /// The model endpoint output configuration.
   ///
-  /// Parameter [role] :
-  /// The IAM role used to invoke the model endpoint.
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
   Future<void> putExternalModel({
     @_s.required ModelInputConfiguration inputConfiguration,
+    @_s.required String invokeModelEndpointRoleArn,
     @_s.required String modelEndpoint,
     @_s.required ModelEndpointStatus modelEndpointStatus,
     @_s.required ModelSource modelSource,
     @_s.required ModelOutputConfiguration outputConfiguration,
-    @_s.required Role role,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(inputConfiguration, 'inputConfiguration');
+    ArgumentError.checkNotNull(
+        invokeModelEndpointRoleArn, 'invokeModelEndpointRoleArn');
     ArgumentError.checkNotNull(modelEndpoint, 'modelEndpoint');
+    _s.validateStringLength(
+      'modelEndpoint',
+      modelEndpoint,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelEndpoint',
+      modelEndpoint,
+      r'''^[0-9A-Za-z_-]+$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(modelEndpointStatus, 'modelEndpointStatus');
     ArgumentError.checkNotNull(modelSource, 'modelSource');
     ArgumentError.checkNotNull(outputConfiguration, 'outputConfiguration');
-    ArgumentError.checkNotNull(role, 'role');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutExternalModel'
@@ -1424,75 +2530,48 @@ class FraudDetector {
       headers: headers,
       payload: {
         'inputConfiguration': inputConfiguration,
+        'invokeModelEndpointRoleArn': invokeModelEndpointRoleArn,
         'modelEndpoint': modelEndpoint,
         'modelEndpointStatus': modelEndpointStatus?.toValue() ?? '',
         'modelSource': modelSource?.toValue() ?? '',
         'outputConfiguration': outputConfiguration,
-        'role': role,
+        if (tags != null) 'tags': tags,
       },
     );
 
     return PutExternalModelResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates or updates a model.
+  /// Specifies the Key Management Service (KMS) customer master key (CMK) to be
+  /// used to encrypt content in Amazon Fraud Detector.
   ///
   /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
-  /// Parameter [labelSchema] :
-  /// The label schema.
-  ///
-  /// Parameter [modelId] :
-  /// The model ID.
-  ///
-  /// Parameter [modelType] :
-  /// The model type.
-  ///
-  /// Parameter [modelVariables] :
-  /// The model input variables.
-  ///
-  /// Parameter [trainingDataSource] :
-  /// The training data source location in Amazon S3.
-  ///
-  /// Parameter [description] :
-  /// The model description.
-  Future<void> putModel({
-    @_s.required LabelSchema labelSchema,
-    @_s.required String modelId,
-    @_s.required ModelTypeEnum modelType,
-    @_s.required List<ModelVariable> modelVariables,
-    @_s.required TrainingDataSource trainingDataSource,
-    String description,
+  /// Parameter [kmsEncryptionKeyArn] :
+  /// The KMS encryption key ARN.
+  Future<void> putKMSEncryptionKey({
+    @_s.required String kmsEncryptionKeyArn,
   }) async {
-    ArgumentError.checkNotNull(labelSchema, 'labelSchema');
-    ArgumentError.checkNotNull(modelId, 'modelId');
+    ArgumentError.checkNotNull(kmsEncryptionKeyArn, 'kmsEncryptionKeyArn');
     _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
+      'kmsEncryptionKeyArn',
+      kmsEncryptionKeyArn,
+      7,
+      90,
       isRequired: true,
     );
     _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_-]+$''',
+      'kmsEncryptionKeyArn',
+      kmsEncryptionKeyArn,
+      r'''^DEFAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\d{12}:key\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$''',
       isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelType, 'modelType');
-    ArgumentError.checkNotNull(modelVariables, 'modelVariables');
-    ArgumentError.checkNotNull(trainingDataSource, 'trainingDataSource');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSHawksNestServiceFacade.PutModel'
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.PutKMSEncryptionKey'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -1501,16 +2580,72 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'labelSchema': labelSchema,
-        'modelId': modelId,
-        'modelType': modelType?.toValue() ?? '',
-        'modelVariables': modelVariables,
-        'trainingDataSource': trainingDataSource,
-        if (description != null) 'description': description,
+        'kmsEncryptionKeyArn': kmsEncryptionKeyArn,
       },
     );
 
-    return PutModelResult.fromJson(jsonResponse.body);
+    return PutKMSEncryptionKeyResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates or updates label. A label classifies an event as fraudulent or
+  /// legitimate. Labels are associated with event types and used to train
+  /// supervised machine learning models in Amazon Fraud Detector.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [name] :
+  /// The label name.
+  ///
+  /// Parameter [description] :
+  /// The label description.
+  ///
+  /// Parameter [tags] :
+  /// <p/>
+  Future<void> putLabel({
+    @_s.required String name,
+    String description,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[0-9a-z_-]+$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      128,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.PutLabel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return PutLabelResult.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates an outcome.
@@ -1518,15 +2653,20 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [name] :
   /// The name of the outcome.
   ///
   /// Parameter [description] :
   /// The outcome description.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
   Future<void> putOutcome({
     @_s.required String name,
     String description,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1561,20 +2701,121 @@ class FraudDetector {
       payload: {
         'name': name,
         if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
       },
     );
 
     return PutOutcomeResult.fromJson(jsonResponse.body);
   }
 
+  /// Assigns tags to a resource.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The resource ARN.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the resource.
+  Future<void> tagResource({
+    @_s.required String resourceARN,
+    @_s.required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.TagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'resourceARN': resourceARN,
+        'tags': tags,
+      },
+    );
+
+    return TagResourceResult.fromJson(jsonResponse.body);
+  }
+
+  /// Removes tags from a resource.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The ARN of the resource from which to remove the tag.
+  ///
+  /// Parameter [tagKeys] :
+  /// The resource ARN.
+  Future<void> untagResource({
+    @_s.required String resourceARN,
+    @_s.required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.UntagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'resourceARN': resourceARN,
+        'tagKeys': tagKeys,
+      },
+    );
+
+    return UntagResourceResult.fromJson(jsonResponse.body);
+  }
+
   /// Updates a detector version. The detector version attributes that you can
-  /// update include models, external model endpoints, rules, and description.
-  /// You can only update a <code>DRAFT</code> detector version.
+  /// update include models, external model endpoints, rules, rule execution
+  /// mode, and description. You can only update a <code>DRAFT</code> detector
+  /// version.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detectorId] :
   /// The parent detector ID for the detector version you want to update.
@@ -1635,7 +2876,13 @@ class FraudDetector {
       'detectorVersionId',
       detectorVersionId,
       1,
-      1152921504606846976,
+      5,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'detectorVersionId',
+      detectorVersionId,
+      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -1679,6 +2926,7 @@ class FraudDetector {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [description] :
   /// The description.
@@ -1720,7 +2968,13 @@ class FraudDetector {
       'detectorVersionId',
       detectorVersionId,
       1,
-      1152921504606846976,
+      5,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'detectorVersionId',
+      detectorVersionId,
+      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1752,6 +3006,7 @@ class FraudDetector {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detectorId] :
   /// The detector ID.
@@ -1785,7 +3040,13 @@ class FraudDetector {
       'detectorVersionId',
       detectorVersionId,
       1,
-      1152921504606846976,
+      5,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'detectorVersionId',
+      detectorVersionId,
+      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(status, 'status');
@@ -1809,24 +3070,13 @@ class FraudDetector {
     return UpdateDetectorVersionStatusResult.fromJson(jsonResponse.body);
   }
 
-  /// Updates a model version. You can update the description and status
-  /// attributes using this action. You can perform the following status
-  /// updates:
-  /// <ol>
-  /// <li>
-  /// Change the <code>TRAINING_COMPLETE</code> status to <code>ACTIVE</code>
-  /// </li>
-  /// <li>
-  /// Change <code>ACTIVE</code> back to <code>TRAINING_COMPLETE</code>
-  /// </li> </ol>
+  /// Updates a model. You can update the description attribute using this
+  /// action.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [description] :
-  /// The model description.
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [modelId] :
   /// The model ID.
@@ -1834,24 +3084,98 @@ class FraudDetector {
   /// Parameter [modelType] :
   /// The model type.
   ///
-  /// Parameter [modelVersionNumber] :
-  /// The model version.
-  ///
-  /// Parameter [status] :
-  /// The new model status.
-  Future<void> updateModelVersion({
-    @_s.required String description,
+  /// Parameter [description] :
+  /// The new model description.
+  Future<void> updateModel({
     @_s.required String modelId,
     @_s.required ModelTypeEnum modelType,
-    @_s.required String modelVersionNumber,
-    @_s.required ModelVersionStatus status,
+    String description,
   }) async {
-    ArgumentError.checkNotNull(description, 'description');
+    ArgumentError.checkNotNull(modelId, 'modelId');
+    _s.validateStringLength(
+      'modelId',
+      modelId,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelId',
+      modelId,
+      r'''^[0-9a-z_]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(modelType, 'modelType');
     _s.validateStringLength(
       'description',
       description,
       1,
       128,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateModel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'modelId': modelId,
+        'modelType': modelType?.toValue() ?? '',
+        if (description != null) 'description': description,
+      },
+    );
+
+    return UpdateModelResult.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a model version. Updating a model version retrains an existing
+  /// model version using updated training data and produces a new minor version
+  /// of the model. You can update the training data set location and data
+  /// access role attributes using this action. This action creates and trains a
+  /// new minor version of the model, for example version 1.01, 1.02, 1.03.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [majorVersionNumber] :
+  /// The major version number.
+  ///
+  /// Parameter [modelId] :
+  /// The model ID.
+  ///
+  /// Parameter [modelType] :
+  /// The model type.
+  ///
+  /// Parameter [externalEventsDetail] :
+  /// The event details.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
+  Future<UpdateModelVersionResult> updateModelVersion({
+    @_s.required String majorVersionNumber,
+    @_s.required String modelId,
+    @_s.required ModelTypeEnum modelType,
+    ExternalEventsDetail externalEventsDetail,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(majorVersionNumber, 'majorVersionNumber');
+    _s.validateStringLength(
+      'majorVersionNumber',
+      majorVersionNumber,
+      1,
+      5,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'majorVersionNumber',
+      majorVersionNumber,
+      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelId, 'modelId');
@@ -1865,19 +3189,10 @@ class FraudDetector {
     _s.validateStringPattern(
       'modelId',
       modelId,
-      r'''^[0-9a-z_-]+$''',
+      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
-    ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
-    _s.validateStringLength(
-      'modelVersionNumber',
-      modelVersionNumber,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateModelVersion'
@@ -1889,7 +3204,92 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'description': description,
+        'majorVersionNumber': majorVersionNumber,
+        'modelId': modelId,
+        'modelType': modelType?.toValue() ?? '',
+        if (externalEventsDetail != null)
+          'externalEventsDetail': externalEventsDetail,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return UpdateModelVersionResult.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the status of a model version.
+  ///
+  /// You can perform the following status updates:
+  /// <ol>
+  /// <li>
+  /// Change the <code>TRAINING_COMPLETE</code> status to <code>ACTIVE</code>.
+  /// </li>
+  /// <li>
+  /// Change <code>ACTIVE</code>to <code>INACTIVE</code>.
+  /// </li> </ol>
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [modelId] :
+  /// The model ID of the model version to update.
+  ///
+  /// Parameter [modelType] :
+  /// The model type.
+  ///
+  /// Parameter [modelVersionNumber] :
+  /// The model version number.
+  ///
+  /// Parameter [status] :
+  /// The model version status.
+  Future<void> updateModelVersionStatus({
+    @_s.required String modelId,
+    @_s.required ModelTypeEnum modelType,
+    @_s.required String modelVersionNumber,
+    @_s.required ModelVersionStatus status,
+  }) async {
+    ArgumentError.checkNotNull(modelId, 'modelId');
+    _s.validateStringLength(
+      'modelId',
+      modelId,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelId',
+      modelId,
+      r'''^[0-9a-z_]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(modelType, 'modelType');
+    ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
+    _s.validateStringLength(
+      'modelVersionNumber',
+      modelVersionNumber,
+      3,
+      7,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelVersionNumber',
+      modelVersionNumber,
+      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(status, 'status');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateModelVersionStatus'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
         'modelId': modelId,
         'modelType': modelType?.toValue() ?? '',
         'modelVersionNumber': modelVersionNumber,
@@ -1897,15 +3297,16 @@ class FraudDetector {
       },
     );
 
-    return UpdateModelVersionResult.fromJson(jsonResponse.body);
+    return UpdateModelVersionStatusResult.fromJson(jsonResponse.body);
   }
 
-  /// Updates a rule's metadata.
+  /// Updates a rule's metadata. The description attribute can be updated.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [description] :
   /// The rule description.
@@ -1944,12 +3345,14 @@ class FraudDetector {
     return UpdateRuleMetadataResult.fromJson(jsonResponse.body);
   }
 
-  /// Updates a rule version resulting in a new rule version.
+  /// Updates a rule version resulting in a new rule version. Updates a rule
+  /// version resulting in a new rule version (version 1, 2, 3 ...).
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [expression] :
   /// The rule expression.
@@ -1965,12 +3368,16 @@ class FraudDetector {
   ///
   /// Parameter [description] :
   /// The description.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the rule version.
   Future<UpdateRuleVersionResult> updateRuleVersion({
     @_s.required String expression,
     @_s.required Language language,
     @_s.required List<String> outcomes,
     @_s.required Rule rule,
     String description,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(expression, 'expression');
     _s.validateStringLength(
@@ -2005,6 +3412,7 @@ class FraudDetector {
         'outcomes': outcomes,
         'rule': rule,
         if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -2017,6 +3425,7 @@ class FraudDetector {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [name] :
   /// The name of the variable.
@@ -2028,7 +3437,9 @@ class FraudDetector {
   /// The new description.
   ///
   /// Parameter [variableType] :
-  /// The variable type.
+  /// The variable type. For more information see <a
+  /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types">Variable
+  /// types</a>.
   Future<void> updateVariable({
     @_s.required String name,
     String defaultValue,
@@ -2185,6 +3596,17 @@ class CreateDetectorVersionResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateModelResult {
+  CreateModelResult();
+  factory CreateModelResult.fromJson(Map<String, dynamic> json) =>
+      _$CreateModelResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateModelVersionResult {
   /// The model ID.
   @_s.JsonKey(name: 'modelId')
@@ -2194,7 +3616,7 @@ class CreateModelVersionResult {
   @_s.JsonKey(name: 'modelType')
   final ModelTypeEnum modelType;
 
-  /// The version of the model.
+  /// The model version number of the model version created.
   @_s.JsonKey(name: 'modelVersionNumber')
   final String modelVersionNumber;
 
@@ -2290,6 +3712,29 @@ extension on DataType {
   }
 }
 
+/// The model training validation messages.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DataValidationMetrics {
+  /// The field-specific model training validation messages.
+  @_s.JsonKey(name: 'fieldLevelMessages')
+  final List<FieldValidationMessage> fieldLevelMessages;
+
+  /// The file-specific model training validation messages.
+  @_s.JsonKey(name: 'fileLevelMessages')
+  final List<FileValidationMessage> fileLevelMessages;
+
+  DataValidationMetrics({
+    this.fieldLevelMessages,
+    this.fileLevelMessages,
+  });
+  factory DataValidationMetrics.fromJson(Map<String, dynamic> json) =>
+      _$DataValidationMetricsFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2317,6 +3762,17 @@ class DeleteDetectorVersionResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteEntityTypeResult {
+  DeleteEntityTypeResult();
+  factory DeleteEntityTypeResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteEntityTypeResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteEventResult {
   DeleteEventResult();
   factory DeleteEventResult.fromJson(Map<String, dynamic> json) =>
@@ -2328,10 +3784,87 @@ class DeleteEventResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
-class DeleteRuleVersionResult {
-  DeleteRuleVersionResult();
-  factory DeleteRuleVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRuleVersionResultFromJson(json);
+class DeleteEventTypeResult {
+  DeleteEventTypeResult();
+  factory DeleteEventTypeResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteEventTypeResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteExternalModelResult {
+  DeleteExternalModelResult();
+  factory DeleteExternalModelResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteExternalModelResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteLabelResult {
+  DeleteLabelResult();
+  factory DeleteLabelResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteLabelResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteModelResult {
+  DeleteModelResult();
+  factory DeleteModelResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteModelResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteModelVersionResult {
+  DeleteModelVersionResult();
+  factory DeleteModelVersionResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteModelVersionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteOutcomeResult {
+  DeleteOutcomeResult();
+  factory DeleteOutcomeResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteOutcomeResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteRuleResult {
+  DeleteRuleResult();
+  factory DeleteRuleResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteRuleResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteVariableResult {
+  DeleteVariableResult();
+  factory DeleteVariableResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteVariableResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2340,6 +3873,10 @@ class DeleteRuleVersionResult {
     createFactory: true,
     createToJson: false)
 class DescribeDetectorResult {
+  /// The detector ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
   /// The detector ID.
   @_s.JsonKey(name: 'detectorId')
   final String detectorId;
@@ -2353,6 +3890,7 @@ class DescribeDetectorResult {
   final String nextToken;
 
   DescribeDetectorResult({
+    this.arn,
     this.detectorId,
     this.detectorVersionSummaries,
     this.nextToken,
@@ -2390,6 +3928,10 @@ class DescribeModelVersionsResult {
     createFactory: true,
     createToJson: false)
 class Detector {
+  /// The detector ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
   /// Timestamp of when the detector was created.
   @_s.JsonKey(name: 'createdTime')
   final String createdTime;
@@ -2402,14 +3944,20 @@ class Detector {
   @_s.JsonKey(name: 'detectorId')
   final String detectorId;
 
+  /// The name of the event type.
+  @_s.JsonKey(name: 'eventTypeName')
+  final String eventTypeName;
+
   /// Timestamp of when the detector was last updated.
   @_s.JsonKey(name: 'lastUpdatedTime')
   final String lastUpdatedTime;
 
   Detector({
+    this.arn,
     this.createdTime,
     this.description,
     this.detectorId,
+    this.eventTypeName,
     this.lastUpdatedTime,
   });
   factory Detector.fromJson(Map<String, dynamic> json) =>
@@ -2472,6 +4020,146 @@ class DetectorVersionSummary {
       _$DetectorVersionSummaryFromJson(json);
 }
 
+/// The entity details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class Entity {
+  /// The entity ID. If you do not know the <code>entityId</code>, you can pass
+  /// <code>unknown</code>, which is areserved string literal.
+  @_s.JsonKey(name: 'entityId')
+  final String entityId;
+
+  /// The entity type.
+  @_s.JsonKey(name: 'entityType')
+  final String entityType;
+
+  Entity({
+    @_s.required this.entityId,
+    @_s.required this.entityType,
+  });
+  Map<String, dynamic> toJson() => _$EntityToJson(this);
+}
+
+/// The entity type details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class EntityType {
+  /// The entity type ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Timestamp of when the entity type was created.
+  @_s.JsonKey(name: 'createdTime')
+  final String createdTime;
+
+  /// The entity type description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Timestamp of when the entity type was last updated.
+  @_s.JsonKey(name: 'lastUpdatedTime')
+  final String lastUpdatedTime;
+
+  /// The entity type name.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  EntityType({
+    this.arn,
+    this.createdTime,
+    this.description,
+    this.lastUpdatedTime,
+    this.name,
+  });
+  factory EntityType.fromJson(Map<String, dynamic> json) =>
+      _$EntityTypeFromJson(json);
+}
+
+/// The event type details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class EventType {
+  /// The entity type ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Timestamp of when the event type was created.
+  @_s.JsonKey(name: 'createdTime')
+  final String createdTime;
+
+  /// The event type description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The event type entity types.
+  @_s.JsonKey(name: 'entityTypes')
+  final List<String> entityTypes;
+
+  /// The event type event variables.
+  @_s.JsonKey(name: 'eventVariables')
+  final List<String> eventVariables;
+
+  /// The event type labels.
+  @_s.JsonKey(name: 'labels')
+  final List<String> labels;
+
+  /// Timestamp of when the event type was last updated.
+  @_s.JsonKey(name: 'lastUpdatedTime')
+  final String lastUpdatedTime;
+
+  /// The event type name.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  EventType({
+    this.arn,
+    this.createdTime,
+    this.description,
+    this.entityTypes,
+    this.eventVariables,
+    this.labels,
+    this.lastUpdatedTime,
+    this.name,
+  });
+  factory EventType.fromJson(Map<String, dynamic> json) =>
+      _$EventTypeFromJson(json);
+}
+
+/// Details for the external events data used for model version training.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ExternalEventsDetail {
+  /// The ARN of the role that provides Amazon Fraud Detector access to the data
+  /// location.
+  @_s.JsonKey(name: 'dataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// The Amazon S3 bucket location for the data.
+  @_s.JsonKey(name: 'dataLocation')
+  final String dataLocation;
+
+  ExternalEventsDetail({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.dataLocation,
+  });
+  factory ExternalEventsDetail.fromJson(Map<String, dynamic> json) =>
+      _$ExternalEventsDetailFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExternalEventsDetailToJson(this);
+}
+
 /// The Amazon SageMaker model.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2479,6 +4167,10 @@ class DetectorVersionSummary {
     createFactory: true,
     createToJson: false)
 class ExternalModel {
+  /// The model ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
   /// Timestamp of when the model was last created.
   @_s.JsonKey(name: 'createdTime')
   final String createdTime;
@@ -2486,6 +4178,10 @@ class ExternalModel {
   /// The input configuration.
   @_s.JsonKey(name: 'inputConfiguration')
   final ModelInputConfiguration inputConfiguration;
+
+  /// The role used to invoke the model.
+  @_s.JsonKey(name: 'invokeModelEndpointRoleArn')
+  final String invokeModelEndpointRoleArn;
 
   /// Timestamp of when the model was last updated.
   @_s.JsonKey(name: 'lastUpdatedTime')
@@ -2507,22 +4203,85 @@ class ExternalModel {
   @_s.JsonKey(name: 'outputConfiguration')
   final ModelOutputConfiguration outputConfiguration;
 
-  /// The role used to invoke the model.
-  @_s.JsonKey(name: 'role')
-  final Role role;
-
   ExternalModel({
+    this.arn,
     this.createdTime,
     this.inputConfiguration,
+    this.invokeModelEndpointRoleArn,
     this.lastUpdatedTime,
     this.modelEndpoint,
     this.modelEndpointStatus,
     this.modelSource,
     this.outputConfiguration,
-    this.role,
   });
   factory ExternalModel.fromJson(Map<String, dynamic> json) =>
       _$ExternalModelFromJson(json);
+}
+
+/// The message details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class FieldValidationMessage {
+  /// The message content.
+  @_s.JsonKey(name: 'content')
+  final String content;
+
+  /// The field name.
+  @_s.JsonKey(name: 'fieldName')
+  final String fieldName;
+
+  /// The message ID.
+  @_s.JsonKey(name: 'identifier')
+  final String identifier;
+
+  /// The message title.
+  @_s.JsonKey(name: 'title')
+  final String title;
+
+  /// The message type.
+  @_s.JsonKey(name: 'type')
+  final String type;
+
+  FieldValidationMessage({
+    this.content,
+    this.fieldName,
+    this.identifier,
+    this.title,
+    this.type,
+  });
+  factory FieldValidationMessage.fromJson(Map<String, dynamic> json) =>
+      _$FieldValidationMessageFromJson(json);
+}
+
+/// The message details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class FileValidationMessage {
+  /// The message content.
+  @_s.JsonKey(name: 'content')
+  final String content;
+
+  /// The message title.
+  @_s.JsonKey(name: 'title')
+  final String title;
+
+  /// The message type.
+  @_s.JsonKey(name: 'type')
+  final String type;
+
+  FileValidationMessage({
+    this.content,
+    this.title,
+    this.type,
+  });
+  factory FileValidationMessage.fromJson(Map<String, dynamic> json) =>
+      _$FileValidationMessageFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2531,6 +4290,10 @@ class ExternalModel {
     createFactory: true,
     createToJson: false)
 class GetDetectorVersionResult {
+  /// The detector version ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
   /// The timestamp when the detector version was created.
   @_s.JsonKey(name: 'createdTime')
   final String createdTime;
@@ -2581,6 +4344,7 @@ class GetDetectorVersionResult {
   final DetectorVersionStatus status;
 
   GetDetectorVersionResult({
+    this.arn,
     this.createdTime,
     this.description,
     this.detectorId,
@@ -2623,6 +4387,76 @@ class GetDetectorsResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetEntityTypesResult {
+  /// An array of entity types.
+  @_s.JsonKey(name: 'entityTypes')
+  final List<EntityType> entityTypes;
+
+  /// The next page token.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetEntityTypesResult({
+    this.entityTypes,
+    this.nextToken,
+  });
+  factory GetEntityTypesResult.fromJson(Map<String, dynamic> json) =>
+      _$GetEntityTypesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetEventPredictionResult {
+  /// The model scores. Amazon Fraud Detector generates model scores between 0 and
+  /// 1000, where 0 is low fraud risk and 1000 is high fraud risk. Model scores
+  /// are directly related to the false positive rate (FPR). For example, a score
+  /// of 600 corresponds to an estimated 10% false positive rate whereas a score
+  /// of 900 corresponds to an estimated 2% false positive rate.
+  @_s.JsonKey(name: 'modelScores')
+  final List<ModelScores> modelScores;
+
+  /// The results.
+  @_s.JsonKey(name: 'ruleResults')
+  final List<RuleResult> ruleResults;
+
+  GetEventPredictionResult({
+    this.modelScores,
+    this.ruleResults,
+  });
+  factory GetEventPredictionResult.fromJson(Map<String, dynamic> json) =>
+      _$GetEventPredictionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetEventTypesResult {
+  /// An array of event types.
+  @_s.JsonKey(name: 'eventTypes')
+  final List<EventType> eventTypes;
+
+  /// The next page token.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetEventTypesResult({
+    this.eventTypes,
+    this.nextToken,
+  });
+  factory GetEventTypesResult.fromJson(Map<String, dynamic> json) =>
+      _$GetEventTypesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetExternalModelsResult {
   /// Gets the Amazon SageMaker models.
   @_s.JsonKey(name: 'externalModels')
@@ -2645,10 +4479,53 @@ class GetExternalModelsResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetKMSEncryptionKeyResult {
+  /// The KMS encryption key.
+  @_s.JsonKey(name: 'kmsKey')
+  final KMSKey kmsKey;
+
+  GetKMSEncryptionKeyResult({
+    this.kmsKey,
+  });
+  factory GetKMSEncryptionKeyResult.fromJson(Map<String, dynamic> json) =>
+      _$GetKMSEncryptionKeyResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetLabelsResult {
+  /// An array of labels.
+  @_s.JsonKey(name: 'labels')
+  final List<Label> labels;
+
+  /// The next page token.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetLabelsResult({
+    this.labels,
+    this.nextToken,
+  });
+  factory GetLabelsResult.fromJson(Map<String, dynamic> json) =>
+      _$GetLabelsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetModelVersionResult {
-  /// The model version description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  /// The model version ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The event details.
+  @_s.JsonKey(name: 'externalEventsDetail')
+  final ExternalEventsDetail externalEventsDetail;
 
   /// The model ID.
   @_s.JsonKey(name: 'modelId')
@@ -2658,20 +4535,63 @@ class GetModelVersionResult {
   @_s.JsonKey(name: 'modelType')
   final ModelTypeEnum modelType;
 
-  /// The model version.
+  /// The model version number.
   @_s.JsonKey(name: 'modelVersionNumber')
   final String modelVersionNumber;
 
   /// The model version status.
+  ///
+  /// Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TRAINING_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>TRAINING_COMPLETE</code>
+  /// </li>
+  /// <li>
+  /// <code>ACTIVATE_REQUESTED</code>
+  /// </li>
+  /// <li>
+  /// <code>ACTIVATE_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>INACTIVATE_REQUESTED</code>
+  /// </li>
+  /// <li>
+  /// <code>INACTIVATE_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>INACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>ERROR</code>
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'status')
   final String status;
 
+  /// The training data schema.
+  @_s.JsonKey(name: 'trainingDataSchema')
+  final TrainingDataSchema trainingDataSchema;
+
+  /// The training data source.
+  @_s.JsonKey(name: 'trainingDataSource')
+  final TrainingDataSourceEnum trainingDataSource;
+
   GetModelVersionResult({
-    this.description,
+    this.arn,
+    this.externalEventsDetail,
     this.modelId,
     this.modelType,
     this.modelVersionNumber,
     this.status,
+    this.trainingDataSchema,
+    this.trainingDataSource,
   });
   factory GetModelVersionResult.fromJson(Map<String, dynamic> json) =>
       _$GetModelVersionResultFromJson(json);
@@ -2683,11 +4603,11 @@ class GetModelVersionResult {
     createFactory: true,
     createToJson: false)
 class GetModelsResult {
-  /// The returned models.
+  /// The array of models.
   @_s.JsonKey(name: 'models')
   final List<Model> models;
 
-  /// The next token for subsequent requests.
+  /// The next page token to be used in subsequent requests.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -2719,33 +4639,6 @@ class GetOutcomesResult {
   });
   factory GetOutcomesResult.fromJson(Map<String, dynamic> json) =>
       _$GetOutcomesResultFromJson(json);
-}
-
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class GetPredictionResult {
-  /// The model scores for models used in the detector version.
-  @_s.JsonKey(name: 'modelScores')
-  final List<ModelScores> modelScores;
-
-  /// The prediction outcomes.
-  @_s.JsonKey(name: 'outcomes')
-  final List<String> outcomes;
-
-  /// The rule results in the prediction.
-  @_s.JsonKey(name: 'ruleResults')
-  final List<RuleResult> ruleResults;
-
-  GetPredictionResult({
-    this.modelScores,
-    this.outcomes,
-    this.ruleResults,
-  });
-  factory GetPredictionResult.fromJson(Map<String, dynamic> json) =>
-      _$GetPredictionResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2792,6 +4685,60 @@ class GetVariablesResult {
       _$GetVariablesResultFromJson(json);
 }
 
+/// The KMS key details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class KMSKey {
+  /// The encryption key ARN.
+  @_s.JsonKey(name: 'kmsEncryptionKeyArn')
+  final String kmsEncryptionKeyArn;
+
+  KMSKey({
+    this.kmsEncryptionKeyArn,
+  });
+  factory KMSKey.fromJson(Map<String, dynamic> json) => _$KMSKeyFromJson(json);
+}
+
+/// The label details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Label {
+  /// The label ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Timestamp of when the event type was created.
+  @_s.JsonKey(name: 'createdTime')
+  final String createdTime;
+
+  /// The label description.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Timestamp of when the label was last updated.
+  @_s.JsonKey(name: 'lastUpdatedTime')
+  final String lastUpdatedTime;
+
+  /// The label name.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  Label({
+    this.arn,
+    this.createdTime,
+    this.description,
+    this.lastUpdatedTime,
+    this.name,
+  });
+  factory Label.fromJson(Map<String, dynamic> json) => _$LabelFromJson(json);
+}
+
 /// The label schema.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2799,23 +4746,20 @@ class GetVariablesResult {
     createFactory: true,
     createToJson: true)
 class LabelSchema {
-  /// The label key.
-  @_s.JsonKey(name: 'labelKey')
-  final String labelKey;
-
-  /// The label mapper maps the Amazon Fraud Detector supported label to the
-  /// appropriate source labels. For example, if <code>"FRAUD"</code> and
-  /// <code>"LEGIT"</code> are Amazon Fraud Detector supported labels, this mapper
-  /// could be: <code>{"FRAUD" =&gt; ["0"]</code>, "LEGIT" =&gt; ["1"]} or
-  /// <code>{"FRAUD" =&gt; ["false"], "LEGIT" =&gt; ["true"]}</code> or
-  /// <code>{"FRAUD" =&gt; ["fraud", "abuse"], "LEGIT" =&gt; ["legit",
-  /// "safe"]}</code>. The value part of the mapper is a list, because you may
-  /// have multiple variants for a single Amazon Fraud Detector label.
+  /// The label mapper maps the Amazon Fraud Detector supported model
+  /// classification labels (<code>FRAUD</code>, <code>LEGIT</code>) to the
+  /// appropriate event type labels. For example, if "<code>FRAUD</code>" and
+  /// "<code>LEGIT</code>" are Amazon Fraud Detector supported labels, this mapper
+  /// could be: <code>{"FRAUD" =&gt; ["0"]</code>, <code>"LEGIT" =&gt;
+  /// ["1"]}</code> or <code>{"FRAUD" =&gt; ["false"]</code>, <code>"LEGIT" =&gt;
+  /// ["true"]}</code> or <code>{"FRAUD" =&gt; ["fraud", "abuse"]</code>,
+  /// <code>"LEGIT" =&gt; ["legit", "safe"]}</code>. The value part of the mapper
+  /// is a list, because you may have multiple label variants from your event type
+  /// for a single Amazon Fraud Detector label.
   @_s.JsonKey(name: 'labelMapper')
   final Map<String, List<String>> labelMapper;
 
   LabelSchema({
-    @_s.required this.labelKey,
     @_s.required this.labelMapper,
   });
   factory LabelSchema.fromJson(Map<String, dynamic> json) =>
@@ -2839,6 +4783,66 @@ extension on Language {
   }
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListTagsForResourceResult {
+  /// The next token for subsequent requests.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// A collection of key and value pairs.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  ListTagsForResourceResult({
+    this.nextToken,
+    this.tags,
+  });
+  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) =>
+      _$ListTagsForResourceResultFromJson(json);
+}
+
+/// Model performance metrics data points.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class MetricDataPoint {
+  /// The false positive rate. This is the percentage of total legitimate events
+  /// that are incorrectly predicted as fraud.
+  @_s.JsonKey(name: 'fpr')
+  final double fpr;
+
+  /// The percentage of fraud events correctly predicted as fraudulent as compared
+  /// to all events predicted as fraudulent.
+  @_s.JsonKey(name: 'precision')
+  final double precision;
+
+  /// The model threshold that specifies an acceptable fraud capture rate. For
+  /// example, a threshold of 500 means any model score 500 or above is labeled as
+  /// fraud.
+  @_s.JsonKey(name: 'threshold')
+  final double threshold;
+
+  /// The true positive rate. This is the percentage of total fraud the model
+  /// detects. Also known as capture rate.
+  @_s.JsonKey(name: 'tpr')
+  final double tpr;
+
+  MetricDataPoint({
+    this.fpr,
+    this.precision,
+    this.threshold,
+    this.tpr,
+  });
+  factory MetricDataPoint.fromJson(Map<String, dynamic> json) =>
+      _$MetricDataPointFromJson(json);
+}
+
 /// The model.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2846,6 +4850,10 @@ extension on Language {
     createFactory: true,
     createToJson: false)
 class Model {
+  /// The ARN of the model.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
   /// Timestamp of when the model was created.
   @_s.JsonKey(name: 'createdTime')
   final String createdTime;
@@ -2854,9 +4862,9 @@ class Model {
   @_s.JsonKey(name: 'description')
   final String description;
 
-  /// The model label schema.
-  @_s.JsonKey(name: 'labelSchema')
-  final LabelSchema labelSchema;
+  /// The name of the event type.
+  @_s.JsonKey(name: 'eventTypeName')
+  final String eventTypeName;
 
   /// Timestamp of last time the model was updated.
   @_s.JsonKey(name: 'lastUpdatedTime')
@@ -2870,23 +4878,14 @@ class Model {
   @_s.JsonKey(name: 'modelType')
   final ModelTypeEnum modelType;
 
-  /// The model input variables.
-  @_s.JsonKey(name: 'modelVariables')
-  final List<ModelVariable> modelVariables;
-
-  /// The model training data source in Amazon S3.
-  @_s.JsonKey(name: 'trainingDataSource')
-  final TrainingDataSource trainingDataSource;
-
   Model({
+    this.arn,
     this.createdTime,
     this.description,
-    this.labelSchema,
+    this.eventTypeName,
     this.lastUpdatedTime,
     this.modelId,
     this.modelType,
-    this.modelVariables,
-    this.trainingDataSource,
   });
   factory Model.fromJson(Map<String, dynamic> json) => _$ModelFromJson(json);
 }
@@ -2935,25 +4934,26 @@ extension on ModelEndpointStatus {
   }
 }
 
-/// The model input configuration.
+/// The Amazon SageMaker model input configuration.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class ModelInputConfiguration {
-  /// For an opaque-model, the input to the model will be a ByteBuffer blob
-  /// provided in the getPrediction request, and will be passed to SageMaker
-  /// as-is. For non-opaque models, the input will be constructed by Amazon Fraud
-  /// Detector based on the model-configuration.
-  @_s.JsonKey(name: 'isOpaque')
-  final bool isOpaque;
+  /// The event variables.
+  @_s.JsonKey(name: 'useEventVariables')
+  final bool useEventVariables;
 
   /// Template for constructing the CSV input-data sent to SageMaker. At
   /// event-evaluation, the placeholders for variable-names in the template will
   /// be replaced with the variable values before being sent to SageMaker.
   @_s.JsonKey(name: 'csvInputTemplate')
   final String csvInputTemplate;
+
+  /// The event type name.
+  @_s.JsonKey(name: 'eventTypeName')
+  final String eventTypeName;
 
   /// The format of the model input configuration. The format differs depending on
   /// if it is passed through to SageMaker or constructed by Amazon Fraud
@@ -2968,8 +4968,9 @@ class ModelInputConfiguration {
   final String jsonInputTemplate;
 
   ModelInputConfiguration({
-    @_s.required this.isOpaque,
+    @_s.required this.useEventVariables,
     this.csvInputTemplate,
+    this.eventTypeName,
     this.format,
     this.jsonInputTemplate,
   });
@@ -2986,7 +4987,7 @@ enum ModelInputDataFormat {
   applicationJson,
 }
 
-/// Provides the model output configuration.
+/// Provides the Amazon Sagemaker model output configuration.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3078,31 +5079,6 @@ extension on ModelTypeEnum {
   }
 }
 
-/// The model variable.&gt;
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
-class ModelVariable {
-  /// The model variable's name.&gt;
-  @_s.JsonKey(name: 'name')
-  final String name;
-
-  /// The model variable's index.&gt;
-  @_s.JsonKey(name: 'index')
-  final int index;
-
-  ModelVariable({
-    @_s.required this.name,
-    this.index,
-  });
-  factory ModelVariable.fromJson(Map<String, dynamic> json) =>
-      _$ModelVariableFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ModelVariableToJson(this);
-}
-
 /// The model version.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3110,7 +5086,7 @@ class ModelVariable {
     createFactory: true,
     createToJson: true)
 class ModelVersion {
-  /// The parent model ID.
+  /// The model ID.
   @_s.JsonKey(name: 'modelId')
   final String modelId;
 
@@ -3118,14 +5094,19 @@ class ModelVersion {
   @_s.JsonKey(name: 'modelType')
   final ModelTypeEnum modelType;
 
-  /// The model version.
+  /// The model version number.
   @_s.JsonKey(name: 'modelVersionNumber')
   final String modelVersionNumber;
+
+  /// The model version ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
 
   ModelVersion({
     @_s.required this.modelId,
     @_s.required this.modelType,
     @_s.required this.modelVersionNumber,
+    this.arn,
   });
   factory ModelVersion.fromJson(Map<String, dynamic> json) =>
       _$ModelVersionFromJson(json);
@@ -3133,24 +5114,24 @@ class ModelVersion {
   Map<String, dynamic> toJson() => _$ModelVersionToJson(this);
 }
 
-/// Provides the model version details.
+/// The details of the model version.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ModelVersionDetail {
+  /// The model version ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
   /// The timestamp when the model was created.
   @_s.JsonKey(name: 'createdTime')
   final String createdTime;
 
-  /// The model description.
-  @_s.JsonKey(name: 'description')
-  final String description;
-
-  /// The model label schema.
-  @_s.JsonKey(name: 'labelSchema')
-  final LabelSchema labelSchema;
+  /// The event details.
+  @_s.JsonKey(name: 'externalEventsDetail')
+  final ExternalEventsDetail externalEventsDetail;
 
   /// The timestamp when the model was last updated.
   @_s.JsonKey(name: 'lastUpdatedTime')
@@ -3164,86 +5145,57 @@ class ModelVersionDetail {
   @_s.JsonKey(name: 'modelType')
   final ModelTypeEnum modelType;
 
-  /// The model variables.
-  @_s.JsonKey(name: 'modelVariables')
-  final List<ModelVariable> modelVariables;
-
-  /// The model version.
+  /// The model version number.
   @_s.JsonKey(name: 'modelVersionNumber')
   final String modelVersionNumber;
 
-  /// The model status.
+  /// The status of the model version.
   @_s.JsonKey(name: 'status')
   final String status;
 
-  /// The model training data source.
+  /// The training data schema.
+  @_s.JsonKey(name: 'trainingDataSchema')
+  final TrainingDataSchema trainingDataSchema;
+
+  /// The model version training data source.
   @_s.JsonKey(name: 'trainingDataSource')
-  final TrainingDataSource trainingDataSource;
+  final TrainingDataSourceEnum trainingDataSource;
 
-  /// The model training metrics.
-  @_s.JsonKey(name: 'trainingMetrics')
-  final Map<String, String> trainingMetrics;
-
-  /// The model validation metrics.
-  @_s.JsonKey(name: 'validationMetrics')
-  final Map<String, String> validationMetrics;
+  /// The training results.
+  @_s.JsonKey(name: 'trainingResult')
+  final TrainingResult trainingResult;
 
   ModelVersionDetail({
+    this.arn,
     this.createdTime,
-    this.description,
-    this.labelSchema,
+    this.externalEventsDetail,
     this.lastUpdatedTime,
     this.modelId,
     this.modelType,
-    this.modelVariables,
     this.modelVersionNumber,
     this.status,
+    this.trainingDataSchema,
     this.trainingDataSource,
-    this.trainingMetrics,
-    this.validationMetrics,
+    this.trainingResult,
   });
   factory ModelVersionDetail.fromJson(Map<String, dynamic> json) =>
       _$ModelVersionDetailFromJson(json);
 }
 
 enum ModelVersionStatus {
-  @_s.JsonValue('TRAINING_IN_PROGRESS')
-  trainingInProgress,
-  @_s.JsonValue('TRAINING_COMPLETE')
-  trainingComplete,
-  @_s.JsonValue('ACTIVATE_REQUESTED')
-  activateRequested,
-  @_s.JsonValue('ACTIVATE_IN_PROGRESS')
-  activateInProgress,
   @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVATE_IN_PROGRESS')
-  inactivateInProgress,
   @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('ERROR')
-  error,
 }
 
 extension on ModelVersionStatus {
   String toValue() {
     switch (this) {
-      case ModelVersionStatus.trainingInProgress:
-        return 'TRAINING_IN_PROGRESS';
-      case ModelVersionStatus.trainingComplete:
-        return 'TRAINING_COMPLETE';
-      case ModelVersionStatus.activateRequested:
-        return 'ACTIVATE_REQUESTED';
-      case ModelVersionStatus.activateInProgress:
-        return 'ACTIVATE_IN_PROGRESS';
       case ModelVersionStatus.active:
         return 'ACTIVE';
-      case ModelVersionStatus.inactivateInProgress:
-        return 'INACTIVATE_IN_PROGRESS';
       case ModelVersionStatus.inactive:
         return 'INACTIVE';
-      case ModelVersionStatus.error:
-        return 'ERROR';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -3256,6 +5208,10 @@ extension on ModelVersionStatus {
     createFactory: true,
     createToJson: false)
 class Outcome {
+  /// The outcome ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
   /// The timestamp when the outcome was created.
   @_s.JsonKey(name: 'createdTime')
   final String createdTime;
@@ -3273,6 +5229,7 @@ class Outcome {
   final String name;
 
   Outcome({
+    this.arn,
     this.createdTime,
     this.description,
     this.lastUpdatedTime,
@@ -3298,6 +5255,28 @@ class PutDetectorResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class PutEntityTypeResult {
+  PutEntityTypeResult();
+  factory PutEntityTypeResult.fromJson(Map<String, dynamic> json) =>
+      _$PutEntityTypeResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutEventTypeResult {
+  PutEventTypeResult();
+  factory PutEventTypeResult.fromJson(Map<String, dynamic> json) =>
+      _$PutEventTypeResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class PutExternalModelResult {
   PutExternalModelResult();
   factory PutExternalModelResult.fromJson(Map<String, dynamic> json) =>
@@ -3309,10 +5288,21 @@ class PutExternalModelResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
-class PutModelResult {
-  PutModelResult();
-  factory PutModelResult.fromJson(Map<String, dynamic> json) =>
-      _$PutModelResultFromJson(json);
+class PutKMSEncryptionKeyResult {
+  PutKMSEncryptionKeyResult();
+  factory PutKMSEncryptionKeyResult.fromJson(Map<String, dynamic> json) =>
+      _$PutKMSEncryptionKeyResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutLabelResult {
+  PutLabelResult();
+  factory PutLabelResult.fromJson(Map<String, dynamic> json) =>
+      _$PutLabelResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3324,30 +5314,6 @@ class PutOutcomeResult {
   PutOutcomeResult();
   factory PutOutcomeResult.fromJson(Map<String, dynamic> json) =>
       _$PutOutcomeResultFromJson(json);
-}
-
-/// The role used to invoke external model endpoints.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
-class Role {
-  /// The role ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
-
-  /// The role name.
-  @_s.JsonKey(name: 'name')
-  final String name;
-
-  Role({
-    @_s.required this.arn,
-    @_s.required this.name,
-  });
-  factory Role.fromJson(Map<String, dynamic> json) => _$RoleFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RoleToJson(this);
 }
 
 /// A rule.
@@ -3386,6 +5352,10 @@ class Rule {
     createFactory: true,
     createToJson: false)
 class RuleDetail {
+  /// The rule ARN.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
   /// The timestamp of when the rule was created.
   @_s.JsonKey(name: 'createdTime')
   final String createdTime;
@@ -3423,6 +5393,7 @@ class RuleDetail {
   final String ruleVersion;
 
   RuleDetail({
+    this.arn,
     this.createdTime,
     this.description,
     this.detectorId,
@@ -3479,29 +5450,138 @@ class RuleResult {
       _$RuleResultFromJson(json);
 }
 
-/// The training data source.
+/// A key and value pair.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
-class TrainingDataSource {
-  /// The data access role ARN for the training data source.
-  @_s.JsonKey(name: 'dataAccessRoleArn')
-  final String dataAccessRoleArn;
+class Tag {
+  /// A tag key.
+  @_s.JsonKey(name: 'key')
+  final String key;
 
-  /// The data location of the training data source.
-  @_s.JsonKey(name: 'dataLocation')
-  final String dataLocation;
+  /// A value assigned to a tag key.
+  @_s.JsonKey(name: 'value')
+  final String value;
 
-  TrainingDataSource({
-    @_s.required this.dataAccessRoleArn,
-    @_s.required this.dataLocation,
+  Tag({
+    @_s.required this.key,
+    @_s.required this.value,
   });
-  factory TrainingDataSource.fromJson(Map<String, dynamic> json) =>
-      _$TrainingDataSourceFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TrainingDataSourceToJson(this);
+  Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TagResourceResult {
+  TagResourceResult();
+  factory TagResourceResult.fromJson(Map<String, dynamic> json) =>
+      _$TagResourceResultFromJson(json);
+}
+
+/// The training data schema.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TrainingDataSchema {
+  @_s.JsonKey(name: 'labelSchema')
+  final LabelSchema labelSchema;
+
+  /// The training data schema variables.
+  @_s.JsonKey(name: 'modelVariables')
+  final List<String> modelVariables;
+
+  TrainingDataSchema({
+    @_s.required this.labelSchema,
+    @_s.required this.modelVariables,
+  });
+  factory TrainingDataSchema.fromJson(Map<String, dynamic> json) =>
+      _$TrainingDataSchemaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TrainingDataSchemaToJson(this);
+}
+
+enum TrainingDataSourceEnum {
+  @_s.JsonValue('EXTERNAL_EVENTS')
+  externalEvents,
+}
+
+extension on TrainingDataSourceEnum {
+  String toValue() {
+    switch (this) {
+      case TrainingDataSourceEnum.externalEvents:
+        return 'EXTERNAL_EVENTS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// The training metric details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TrainingMetrics {
+  /// The area under the curve. This summarizes true positive rate (TPR) and false
+  /// positive rate (FPR) across all possible model score thresholds. A model with
+  /// no predictive power has an AUC of 0.5, whereas a perfect model has a score
+  /// of 1.0.
+  @_s.JsonKey(name: 'auc')
+  final double auc;
+
+  /// The data points details.
+  @_s.JsonKey(name: 'metricDataPoints')
+  final List<MetricDataPoint> metricDataPoints;
+
+  TrainingMetrics({
+    this.auc,
+    this.metricDataPoints,
+  });
+  factory TrainingMetrics.fromJson(Map<String, dynamic> json) =>
+      _$TrainingMetricsFromJson(json);
+}
+
+/// The training result details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TrainingResult {
+  /// The validation metrics.
+  @_s.JsonKey(name: 'dataValidationMetrics')
+  final DataValidationMetrics dataValidationMetrics;
+
+  /// The training metric details.
+  @_s.JsonKey(name: 'trainingMetrics')
+  final TrainingMetrics trainingMetrics;
+
+  TrainingResult({
+    this.dataValidationMetrics,
+    this.trainingMetrics,
+  });
+  factory TrainingResult.fromJson(Map<String, dynamic> json) =>
+      _$TrainingResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UntagResourceResult {
+  UntagResourceResult();
+  factory UntagResourceResult.fromJson(Map<String, dynamic> json) =>
+      _$UntagResourceResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3544,10 +5624,53 @@ class UpdateDetectorVersionStatusResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateModelResult {
+  UpdateModelResult();
+  factory UpdateModelResult.fromJson(Map<String, dynamic> json) =>
+      _$UpdateModelResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdateModelVersionResult {
-  UpdateModelVersionResult();
+  /// The model ID.
+  @_s.JsonKey(name: 'modelId')
+  final String modelId;
+
+  /// The model type.
+  @_s.JsonKey(name: 'modelType')
+  final ModelTypeEnum modelType;
+
+  /// The model version number of the model version updated.
+  @_s.JsonKey(name: 'modelVersionNumber')
+  final String modelVersionNumber;
+
+  /// The status of the updated model version.
+  @_s.JsonKey(name: 'status')
+  final String status;
+
+  UpdateModelVersionResult({
+    this.modelId,
+    this.modelType,
+    this.modelVersionNumber,
+    this.status,
+  });
   factory UpdateModelVersionResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateModelVersionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateModelVersionStatusResult {
+  UpdateModelVersionStatusResult();
+  factory UpdateModelVersionStatusResult.fromJson(Map<String, dynamic> json) =>
+      _$UpdateModelVersionStatusResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3596,6 +5719,10 @@ class UpdateVariableResult {
     createFactory: true,
     createToJson: false)
 class Variable {
+  /// The ARN of the variable.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
   /// The time when the variable was created.
   @_s.JsonKey(name: 'createdTime')
   final String createdTime;
@@ -3604,7 +5731,9 @@ class Variable {
   @_s.JsonKey(name: 'dataSource')
   final DataSource dataSource;
 
-  /// The data type of the variable.
+  /// The data type of the variable. For more information see <a
+  /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types">Variable
+  /// types</a>.
   @_s.JsonKey(name: 'dataType')
   final DataType dataType;
 
@@ -3625,10 +5754,20 @@ class Variable {
   final String name;
 
   /// The variable type of the variable.
+  ///
+  /// Valid Values: <code>AUTH_CODE | AVS | BILLING_ADDRESS_L1 |
+  /// BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME |
+  /// BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL |
+  /// CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT |
+  /// IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE |
+  /// PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY
+  /// | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE |
+  /// SHIPPING_ZIP | USERAGENT </code>
   @_s.JsonKey(name: 'variableType')
   final String variableType;
 
   Variable({
+    this.arn,
     this.createdTime,
     this.dataSource,
     this.dataType,
@@ -3642,34 +5781,45 @@ class Variable {
       _$VariableFromJson(json);
 }
 
-/// The variable entry in a list.
+/// A variable in the list of variables for the batch create variable request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class VariableEntry {
-  /// The data source of the variable entry.
+  /// The data source of the variable.
   @_s.JsonKey(name: 'dataSource')
   final String dataSource;
 
-  /// The data type of the variable entry.
+  /// The data type of the variable.
   @_s.JsonKey(name: 'dataType')
   final String dataType;
 
-  /// The default value of the variable entry.
+  /// The default value of the variable.
   @_s.JsonKey(name: 'defaultValue')
   final String defaultValue;
 
-  /// The description of the variable entry.
+  /// The description of the variable.
   @_s.JsonKey(name: 'description')
   final String description;
 
-  /// The name of the variable entry.
+  /// The name of the variable.
   @_s.JsonKey(name: 'name')
   final String name;
 
-  /// The type of the variable entry.
+  /// The type of the variable. For more information see <a
+  /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types">Variable
+  /// types</a>.
+  ///
+  /// Valid Values: <code>AUTH_CODE | AVS | BILLING_ADDRESS_L1 |
+  /// BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME |
+  /// BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL |
+  /// CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT |
+  /// IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE |
+  /// PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY
+  /// | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE |
+  /// SHIPPING_ZIP | USERAGENT </code>
   @_s.JsonKey(name: 'variableType')
   final String variableType;
 
@@ -3682,6 +5832,11 @@ class VariableEntry {
     this.variableType,
   });
   Map<String, dynamic> toJson() => _$VariableEntryToJson(this);
+}
+
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String type, String message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
@@ -3710,6 +5865,8 @@ class ValidationException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
   'InternalServerException': (type, message) =>

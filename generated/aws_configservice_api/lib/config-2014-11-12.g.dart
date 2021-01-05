@@ -220,6 +220,10 @@ const _$ResourceTypeEnumMap = {
   ResourceType.awsCloudFrontStreamingDistribution:
       'AWS::CloudFront::StreamingDistribution',
   ResourceType.awsLambdaFunction: 'AWS::Lambda::Function',
+  ResourceType.awsNetworkFirewallFirewall: 'AWS::NetworkFirewall::Firewall',
+  ResourceType.awsNetworkFirewallFirewallPolicy:
+      'AWS::NetworkFirewall::FirewallPolicy',
+  ResourceType.awsNetworkFirewallRuleGroup: 'AWS::NetworkFirewall::RuleGroup',
   ResourceType.awsElasticBeanstalkApplication:
       'AWS::ElasticBeanstalk::Application',
   ResourceType.awsElasticBeanstalkApplicationVersion:
@@ -250,6 +254,9 @@ const _$ResourceTypeEnumMap = {
   ResourceType.awsSqsQueue: 'AWS::SQS::Queue',
   ResourceType.awsKmsKey: 'AWS::KMS::Key',
   ResourceType.awsQldbLedger: 'AWS::QLDB::Ledger',
+  ResourceType.awsSecretsManagerSecret: 'AWS::SecretsManager::Secret',
+  ResourceType.awsSnsTopic: 'AWS::SNS::Topic',
+  ResourceType.awsSsmFileData: 'AWS::SSM::FileData',
 };
 
 AggregatedSourceStatus _$AggregatedSourceStatusFromJson(
@@ -607,6 +614,7 @@ ConfigurationAggregator _$ConfigurationAggregatorFromJson(
         ?.toList(),
     configurationAggregatorArn: json['ConfigurationAggregatorArn'] as String,
     configurationAggregatorName: json['ConfigurationAggregatorName'] as String,
+    createdBy: json['CreatedBy'] as String,
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
@@ -741,7 +749,6 @@ ConformancePackDetail _$ConformancePackDetailFromJson(
     conformancePackArn: json['ConformancePackArn'] as String,
     conformancePackId: json['ConformancePackId'] as String,
     conformancePackName: json['ConformancePackName'] as String,
-    deliveryS3Bucket: json['DeliveryS3Bucket'] as String,
     conformancePackInputParameters: (json['ConformancePackInputParameters']
             as List)
         ?.map((e) => e == null
@@ -749,6 +756,7 @@ ConformancePackDetail _$ConformancePackDetailFromJson(
             : ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     createdBy: json['CreatedBy'] as String,
+    deliveryS3Bucket: json['DeliveryS3Bucket'] as String,
     deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String,
     lastUpdateRequestedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdateRequestedTime']),
@@ -868,6 +876,11 @@ DeleteRemediationExceptionsResponse
                 e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+DeleteStoredQueryResponse _$DeleteStoredQueryResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteStoredQueryResponse();
 }
 
 DeliverConfigSnapshotResponse _$DeliverConfigSnapshotResponseFromJson(
@@ -1326,6 +1339,25 @@ Map<String, dynamic> _$ExecutionControlsToJson(ExecutionControls instance) {
   return val;
 }
 
+Map<String, dynamic> _$ExternalEvaluationToJson(ExternalEvaluation instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ComplianceResourceId', instance.complianceResourceId);
+  writeNotNull('ComplianceResourceType', instance.complianceResourceType);
+  writeNotNull(
+      'ComplianceType', _$ComplianceTypeEnumMap[instance.complianceType]);
+  writeNotNull('OrderingTimestamp',
+      const UnixDateTimeConverter().toJson(instance.orderingTimestamp));
+  writeNotNull('Annotation', instance.annotation);
+  return val;
+}
+
 FailedDeleteRemediationExceptionsBatch
     _$FailedDeleteRemediationExceptionsBatchFromJson(
         Map<String, dynamic> json) {
@@ -1558,6 +1590,15 @@ GetResourceConfigHistoryResponse _$GetResourceConfigHistoryResponseFromJson(
   );
 }
 
+GetStoredQueryResponse _$GetStoredQueryResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetStoredQueryResponse(
+    storedQuery: json['StoredQuery'] == null
+        ? null
+        : StoredQuery.fromJson(json['StoredQuery'] as Map<String, dynamic>),
+  );
+}
+
 GroupedResourceCount _$GroupedResourceCountFromJson(Map<String, dynamic> json) {
   return GroupedResourceCount(
     groupName: json['GroupName'] as String,
@@ -1586,6 +1627,18 @@ ListDiscoveredResourcesResponse _$ListDiscoveredResourcesResponseFromJson(
         ?.map((e) => e == null
             ? null
             : ResourceIdentifier.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListStoredQueriesResponse _$ListStoredQueriesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListStoredQueriesResponse(
+    nextToken: json['NextToken'] as String,
+    storedQueryMetadata: (json['StoredQueryMetadata'] as List)
+        ?.map((e) => e == null
+            ? null
+            : StoredQueryMetadata.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -1700,7 +1753,6 @@ const _$OrganizationRuleStatusEnumMap = {
 OrganizationConformancePack _$OrganizationConformancePackFromJson(
     Map<String, dynamic> json) {
   return OrganizationConformancePack(
-    deliveryS3Bucket: json['DeliveryS3Bucket'] as String,
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
     organizationConformancePackArn:
@@ -1713,6 +1765,7 @@ OrganizationConformancePack _$OrganizationConformancePackFromJson(
             ? null
             : ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    deliveryS3Bucket: json['DeliveryS3Bucket'] as String,
     deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String,
     excludedAccounts:
         (json['ExcludedAccounts'] as List)?.map((e) => e as String)?.toList(),
@@ -1929,6 +1982,11 @@ PutEvaluationsResponse _$PutEvaluationsResponseFromJson(
   );
 }
 
+PutExternalEvaluationResponse _$PutExternalEvaluationResponseFromJson(
+    Map<String, dynamic> json) {
+  return PutExternalEvaluationResponse();
+}
+
 PutOrganizationConfigRuleResponse _$PutOrganizationConfigRuleResponseFromJson(
     Map<String, dynamic> json) {
   return PutOrganizationConfigRuleResponse(
@@ -1975,6 +2033,13 @@ PutRetentionConfigurationResponse _$PutRetentionConfigurationResponseFromJson(
         ? null
         : RetentionConfiguration.fromJson(
             json['RetentionConfiguration'] as Map<String, dynamic>),
+  );
+}
+
+PutStoredQueryResponse _$PutStoredQueryResponseFromJson(
+    Map<String, dynamic> json) {
+  return PutStoredQueryResponse(
+    queryArn: json['QueryArn'] as String,
   );
 }
 
@@ -2486,6 +2551,42 @@ Map<String, dynamic> _$StatusDetailFiltersToJson(StatusDetailFilters instance) {
   writeNotNull('MemberAccountRuleStatus',
       _$MemberAccountRuleStatusEnumMap[instance.memberAccountRuleStatus]);
   return val;
+}
+
+StoredQuery _$StoredQueryFromJson(Map<String, dynamic> json) {
+  return StoredQuery(
+    queryName: json['QueryName'] as String,
+    description: json['Description'] as String,
+    expression: json['Expression'] as String,
+    queryArn: json['QueryArn'] as String,
+    queryId: json['QueryId'] as String,
+  );
+}
+
+Map<String, dynamic> _$StoredQueryToJson(StoredQuery instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('QueryName', instance.queryName);
+  writeNotNull('Description', instance.description);
+  writeNotNull('Expression', instance.expression);
+  writeNotNull('QueryArn', instance.queryArn);
+  writeNotNull('QueryId', instance.queryId);
+  return val;
+}
+
+StoredQueryMetadata _$StoredQueryMetadataFromJson(Map<String, dynamic> json) {
+  return StoredQueryMetadata(
+    queryArn: json['QueryArn'] as String,
+    queryId: json['QueryId'] as String,
+    queryName: json['QueryName'] as String,
+    description: json['Description'] as String,
+  );
 }
 
 Tag _$TagFromJson(Map<String, dynamic> json) {

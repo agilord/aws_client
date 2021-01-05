@@ -6,6 +6,65 @@ part of 'sesv2-2019-09-27.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AccountDetails _$AccountDetailsFromJson(Map<String, dynamic> json) {
+  return AccountDetails(
+    additionalContactEmailAddresses:
+        (json['AdditionalContactEmailAddresses'] as List)
+            ?.map((e) => e as String)
+            ?.toList(),
+    contactLanguage:
+        _$enumDecodeNullable(_$ContactLanguageEnumMap, json['ContactLanguage']),
+    mailType: _$enumDecodeNullable(_$MailTypeEnumMap, json['MailType']),
+    reviewDetails: json['ReviewDetails'] == null
+        ? null
+        : ReviewDetails.fromJson(json['ReviewDetails'] as Map<String, dynamic>),
+    useCaseDescription: json['UseCaseDescription'] as String,
+    websiteURL: json['WebsiteURL'] as String,
+  );
+}
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$ContactLanguageEnumMap = {
+  ContactLanguage.en: 'EN',
+  ContactLanguage.ja: 'JA',
+};
+
+const _$MailTypeEnumMap = {
+  MailType.marketing: 'MARKETING',
+  MailType.transactional: 'TRANSACTIONAL',
+};
+
 BlacklistEntry _$BlacklistEntryFromJson(Map<String, dynamic> json) {
   return BlacklistEntry(
     description: json['Description'] as String,
@@ -27,6 +86,62 @@ Map<String, dynamic> _$BodyToJson(Body instance) {
   writeNotNull('Text', instance.text?.toJson());
   return val;
 }
+
+Map<String, dynamic> _$BulkEmailContentToJson(BulkEmailContent instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Template', instance.template?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$BulkEmailEntryToJson(BulkEmailEntry instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Destination', instance.destination?.toJson());
+  writeNotNull(
+      'ReplacementEmailContent', instance.replacementEmailContent?.toJson());
+  writeNotNull('ReplacementTags',
+      instance.replacementTags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+BulkEmailEntryResult _$BulkEmailEntryResultFromJson(Map<String, dynamic> json) {
+  return BulkEmailEntryResult(
+    error: json['Error'] as String,
+    messageId: json['MessageId'] as String,
+    status: _$enumDecodeNullable(_$BulkEmailStatusEnumMap, json['Status']),
+  );
+}
+
+const _$BulkEmailStatusEnumMap = {
+  BulkEmailStatus.success: 'SUCCESS',
+  BulkEmailStatus.messageRejected: 'MESSAGE_REJECTED',
+  BulkEmailStatus.mailFromDomainNotVerified: 'MAIL_FROM_DOMAIN_NOT_VERIFIED',
+  BulkEmailStatus.configurationSetNotFound: 'CONFIGURATION_SET_NOT_FOUND',
+  BulkEmailStatus.templateNotFound: 'TEMPLATE_NOT_FOUND',
+  BulkEmailStatus.accountSuspended: 'ACCOUNT_SUSPENDED',
+  BulkEmailStatus.accountThrottled: 'ACCOUNT_THROTTLED',
+  BulkEmailStatus.accountDailyQuotaExceeded: 'ACCOUNT_DAILY_QUOTA_EXCEEDED',
+  BulkEmailStatus.invalidSendingPoolName: 'INVALID_SENDING_POOL_NAME',
+  BulkEmailStatus.accountSendingPaused: 'ACCOUNT_SENDING_PAUSED',
+  BulkEmailStatus.configurationSetSendingPaused:
+      'CONFIGURATION_SET_SENDING_PAUSED',
+  BulkEmailStatus.invalidParameter: 'INVALID_PARAMETER',
+  BulkEmailStatus.transientFailure: 'TRANSIENT_FAILURE',
+  BulkEmailStatus.failed: 'FAILED',
+};
 
 CloudWatchDestination _$CloudWatchDestinationFromJson(
     Map<String, dynamic> json) {
@@ -82,42 +197,67 @@ Map<String, dynamic> _$CloudWatchDimensionConfigurationToJson(
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
-}
-
 const _$DimensionValueSourceEnumMap = {
   DimensionValueSource.messageTag: 'MESSAGE_TAG',
   DimensionValueSource.emailHeader: 'EMAIL_HEADER',
   DimensionValueSource.linkTag: 'LINK_TAG',
+};
+
+Contact _$ContactFromJson(Map<String, dynamic> json) {
+  return Contact(
+    emailAddress: json['EmailAddress'] as String,
+    lastUpdatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
+    topicDefaultPreferences: (json['TopicDefaultPreferences'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TopicPreference.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    topicPreferences: (json['TopicPreferences'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TopicPreference.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    unsubscribeAll: json['UnsubscribeAll'] as bool,
+  );
+}
+
+ContactList _$ContactListFromJson(Map<String, dynamic> json) {
+  return ContactList(
+    contactListName: json['ContactListName'] as String,
+    lastUpdatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
+  );
+}
+
+ContactListDestination _$ContactListDestinationFromJson(
+    Map<String, dynamic> json) {
+  return ContactListDestination(
+    contactListImportAction: _$enumDecodeNullable(
+        _$ContactListImportActionEnumMap, json['ContactListImportAction']),
+    contactListName: json['ContactListName'] as String,
+  );
+}
+
+Map<String, dynamic> _$ContactListDestinationToJson(
+    ContactListDestination instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ContactListImportAction',
+      _$ContactListImportActionEnumMap[instance.contactListImportAction]);
+  writeNotNull('ContactListName', instance.contactListName);
+  return val;
+}
+
+const _$ContactListImportActionEnumMap = {
+  ContactListImportAction.delete: 'DELETE',
+  ContactListImportAction.put: 'PUT',
 };
 
 Map<String, dynamic> _$ContentToJson(Content instance) {
@@ -145,6 +285,22 @@ CreateConfigurationSetResponse _$CreateConfigurationSetResponseFromJson(
   return CreateConfigurationSetResponse();
 }
 
+CreateContactListResponse _$CreateContactListResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateContactListResponse();
+}
+
+CreateContactResponse _$CreateContactResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateContactResponse();
+}
+
+CreateCustomVerificationEmailTemplateResponse
+    _$CreateCustomVerificationEmailTemplateResponseFromJson(
+        Map<String, dynamic> json) {
+  return CreateCustomVerificationEmailTemplateResponse();
+}
+
 CreateDedicatedIpPoolResponse _$CreateDedicatedIpPoolResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDedicatedIpPoolResponse();
@@ -165,6 +321,11 @@ const _$DeliverabilityTestStatusEnumMap = {
   DeliverabilityTestStatus.completed: 'COMPLETED',
 };
 
+CreateEmailIdentityPolicyResponse _$CreateEmailIdentityPolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateEmailIdentityPolicyResponse();
+}
+
 CreateEmailIdentityResponse _$CreateEmailIdentityResponseFromJson(
     Map<String, dynamic> json) {
   return CreateEmailIdentityResponse(
@@ -183,6 +344,30 @@ const _$IdentityTypeEnumMap = {
   IdentityType.domain: 'DOMAIN',
   IdentityType.managedDomain: 'MANAGED_DOMAIN',
 };
+
+CreateEmailTemplateResponse _$CreateEmailTemplateResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateEmailTemplateResponse();
+}
+
+CreateImportJobResponse _$CreateImportJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateImportJobResponse(
+    jobId: json['JobId'] as String,
+  );
+}
+
+CustomVerificationEmailTemplateMetadata
+    _$CustomVerificationEmailTemplateMetadataFromJson(
+        Map<String, dynamic> json) {
+  return CustomVerificationEmailTemplateMetadata(
+    failureRedirectionURL: json['FailureRedirectionURL'] as String,
+    fromEmailAddress: json['FromEmailAddress'] as String,
+    successRedirectionURL: json['SuccessRedirectionURL'] as String,
+    templateName: json['TemplateName'] as String,
+    templateSubject: json['TemplateSubject'] as String,
+  );
+}
 
 DailyVolume _$DailyVolumeFromJson(Map<String, dynamic> json) {
   return DailyVolume(
@@ -225,14 +410,40 @@ DeleteConfigurationSetResponse _$DeleteConfigurationSetResponseFromJson(
   return DeleteConfigurationSetResponse();
 }
 
+DeleteContactListResponse _$DeleteContactListResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteContactListResponse();
+}
+
+DeleteContactResponse _$DeleteContactResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteContactResponse();
+}
+
+DeleteCustomVerificationEmailTemplateResponse
+    _$DeleteCustomVerificationEmailTemplateResponseFromJson(
+        Map<String, dynamic> json) {
+  return DeleteCustomVerificationEmailTemplateResponse();
+}
+
 DeleteDedicatedIpPoolResponse _$DeleteDedicatedIpPoolResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteDedicatedIpPoolResponse();
 }
 
+DeleteEmailIdentityPolicyResponse _$DeleteEmailIdentityPolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteEmailIdentityPolicyResponse();
+}
+
 DeleteEmailIdentityResponse _$DeleteEmailIdentityResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteEmailIdentityResponse();
+}
+
+DeleteEmailTemplateResponse _$DeleteEmailTemplateResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteEmailTemplateResponse();
 }
 
 DeleteSuppressedDestinationResponse
@@ -410,6 +621,39 @@ Map<String, dynamic> _$EmailContentToJson(EmailContent instance) {
   return val;
 }
 
+EmailTemplateContent _$EmailTemplateContentFromJson(Map<String, dynamic> json) {
+  return EmailTemplateContent(
+    html: json['Html'] as String,
+    subject: json['Subject'] as String,
+    text: json['Text'] as String,
+  );
+}
+
+Map<String, dynamic> _$EmailTemplateContentToJson(
+    EmailTemplateContent instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Html', instance.html);
+  writeNotNull('Subject', instance.subject);
+  writeNotNull('Text', instance.text);
+  return val;
+}
+
+EmailTemplateMetadata _$EmailTemplateMetadataFromJson(
+    Map<String, dynamic> json) {
+  return EmailTemplateMetadata(
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    templateName: json['TemplateName'] as String,
+  );
+}
+
 EventDestination _$EventDestinationFromJson(Map<String, dynamic> json) {
   return EventDestination(
     matchingEventTypes: (json['MatchingEventTypes'] as List)
@@ -445,6 +689,8 @@ const _$EventTypeEnumMap = {
   EventType.open: 'OPEN',
   EventType.click: 'CLICK',
   EventType.renderingFailure: 'RENDERING_FAILURE',
+  EventType.deliveryDelay: 'DELIVERY_DELAY',
+  EventType.subscription: 'SUBSCRIPTION',
 };
 
 Map<String, dynamic> _$EventDestinationDefinitionToJson(
@@ -469,9 +715,19 @@ Map<String, dynamic> _$EventDestinationDefinitionToJson(
   return val;
 }
 
+FailureInfo _$FailureInfoFromJson(Map<String, dynamic> json) {
+  return FailureInfo(
+    errorMessage: json['ErrorMessage'] as String,
+    failedRecordsS3Url: json['FailedRecordsS3Url'] as String,
+  );
+}
+
 GetAccountResponse _$GetAccountResponseFromJson(Map<String, dynamic> json) {
   return GetAccountResponse(
     dedicatedIpAutoWarmupEnabled: json['DedicatedIpAutoWarmupEnabled'] as bool,
+    details: json['Details'] == null
+        ? null
+        : AccountDetails.fromJson(json['Details'] as Map<String, dynamic>),
     enforcementStatus: json['EnforcementStatus'] as String,
     productionAccessEnabled: json['ProductionAccessEnabled'] as bool,
     sendQuota: json['SendQuota'] == null
@@ -539,6 +795,61 @@ GetConfigurationSetResponse _$GetConfigurationSetResponseFromJson(
         ? null
         : TrackingOptions.fromJson(
             json['TrackingOptions'] as Map<String, dynamic>),
+  );
+}
+
+GetContactListResponse _$GetContactListResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetContactListResponse(
+    contactListName: json['ContactListName'] as String,
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    description: json['Description'] as String,
+    lastUpdatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
+    tags: (json['Tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    topics: (json['Topics'] as List)
+        ?.map(
+            (e) => e == null ? null : Topic.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+GetContactResponse _$GetContactResponseFromJson(Map<String, dynamic> json) {
+  return GetContactResponse(
+    attributesData: json['AttributesData'] as String,
+    contactListName: json['ContactListName'] as String,
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    emailAddress: json['EmailAddress'] as String,
+    lastUpdatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
+    topicDefaultPreferences: (json['TopicDefaultPreferences'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TopicPreference.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    topicPreferences: (json['TopicPreferences'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TopicPreference.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    unsubscribeAll: json['UnsubscribeAll'] as bool,
+  );
+}
+
+GetCustomVerificationEmailTemplateResponse
+    _$GetCustomVerificationEmailTemplateResponseFromJson(
+        Map<String, dynamic> json) {
+  return GetCustomVerificationEmailTemplateResponse(
+    failureRedirectionURL: json['FailureRedirectionURL'] as String,
+    fromEmailAddress: json['FromEmailAddress'] as String,
+    successRedirectionURL: json['SuccessRedirectionURL'] as String,
+    templateContent: json['TemplateContent'] as String,
+    templateName: json['TemplateName'] as String,
+    templateSubject: json['TemplateSubject'] as String,
   );
 }
 
@@ -639,6 +950,15 @@ GetDomainStatisticsReportResponse _$GetDomainStatisticsReportResponseFromJson(
   );
 }
 
+GetEmailIdentityPoliciesResponse _$GetEmailIdentityPoliciesResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetEmailIdentityPoliciesResponse(
+    policies: (json['Policies'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
 GetEmailIdentityResponse _$GetEmailIdentityResponseFromJson(
     Map<String, dynamic> json) {
   return GetEmailIdentityResponse(
@@ -653,12 +973,57 @@ GetEmailIdentityResponse _$GetEmailIdentityResponseFromJson(
         ? null
         : MailFromAttributes.fromJson(
             json['MailFromAttributes'] as Map<String, dynamic>),
+    policies: (json['Policies'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
     tags: (json['Tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     verifiedForSendingStatus: json['VerifiedForSendingStatus'] as bool,
   );
 }
+
+GetEmailTemplateResponse _$GetEmailTemplateResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetEmailTemplateResponse(
+    templateContent: json['TemplateContent'] == null
+        ? null
+        : EmailTemplateContent.fromJson(
+            json['TemplateContent'] as Map<String, dynamic>),
+    templateName: json['TemplateName'] as String,
+  );
+}
+
+GetImportJobResponse _$GetImportJobResponseFromJson(Map<String, dynamic> json) {
+  return GetImportJobResponse(
+    completedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CompletedTimestamp']),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    failedRecordsCount: json['FailedRecordsCount'] as int,
+    failureInfo: json['FailureInfo'] == null
+        ? null
+        : FailureInfo.fromJson(json['FailureInfo'] as Map<String, dynamic>),
+    importDataSource: json['ImportDataSource'] == null
+        ? null
+        : ImportDataSource.fromJson(
+            json['ImportDataSource'] as Map<String, dynamic>),
+    importDestination: json['ImportDestination'] == null
+        ? null
+        : ImportDestination.fromJson(
+            json['ImportDestination'] as Map<String, dynamic>),
+    jobId: json['JobId'] as String,
+    jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
+    processedRecordsCount: json['ProcessedRecordsCount'] as int,
+  );
+}
+
+const _$JobStatusEnumMap = {
+  JobStatus.created: 'CREATED',
+  JobStatus.processing: 'PROCESSING',
+  JobStatus.completed: 'COMPLETED',
+  JobStatus.failed: 'FAILED',
+};
 
 GetSuppressedDestinationResponse _$GetSuppressedDestinationResponseFromJson(
     Map<String, dynamic> json) {
@@ -676,6 +1041,74 @@ IdentityInfo _$IdentityInfoFromJson(Map<String, dynamic> json) {
     identityType:
         _$enumDecodeNullable(_$IdentityTypeEnumMap, json['IdentityType']),
     sendingEnabled: json['SendingEnabled'] as bool,
+  );
+}
+
+ImportDataSource _$ImportDataSourceFromJson(Map<String, dynamic> json) {
+  return ImportDataSource(
+    dataFormat: _$enumDecodeNullable(_$DataFormatEnumMap, json['DataFormat']),
+    s3Url: json['S3Url'] as String,
+  );
+}
+
+Map<String, dynamic> _$ImportDataSourceToJson(ImportDataSource instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DataFormat', _$DataFormatEnumMap[instance.dataFormat]);
+  writeNotNull('S3Url', instance.s3Url);
+  return val;
+}
+
+const _$DataFormatEnumMap = {
+  DataFormat.csv: 'CSV',
+  DataFormat.json: 'JSON',
+};
+
+ImportDestination _$ImportDestinationFromJson(Map<String, dynamic> json) {
+  return ImportDestination(
+    contactListDestination: json['ContactListDestination'] == null
+        ? null
+        : ContactListDestination.fromJson(
+            json['ContactListDestination'] as Map<String, dynamic>),
+    suppressionListDestination: json['SuppressionListDestination'] == null
+        ? null
+        : SuppressionListDestination.fromJson(
+            json['SuppressionListDestination'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$ImportDestinationToJson(ImportDestination instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ContactListDestination', instance.contactListDestination?.toJson());
+  writeNotNull('SuppressionListDestination',
+      instance.suppressionListDestination?.toJson());
+  return val;
+}
+
+ImportJobSummary _$ImportJobSummaryFromJson(Map<String, dynamic> json) {
+  return ImportJobSummary(
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    importDestination: json['ImportDestination'] == null
+        ? null
+        : ImportDestination.fromJson(
+            json['ImportDestination'] as Map<String, dynamic>),
+    jobId: json['JobId'] as String,
+    jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
 
@@ -745,6 +1178,62 @@ ListConfigurationSetsResponse _$ListConfigurationSetsResponseFromJson(
   );
 }
 
+ListContactListsResponse _$ListContactListsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListContactListsResponse(
+    contactLists: (json['ContactLists'] as List)
+        ?.map((e) =>
+            e == null ? null : ContactList.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$ListContactsFilterToJson(ListContactsFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'FilteredStatus', _$SubscriptionStatusEnumMap[instance.filteredStatus]);
+  writeNotNull('TopicFilter', instance.topicFilter?.toJson());
+  return val;
+}
+
+const _$SubscriptionStatusEnumMap = {
+  SubscriptionStatus.optIn: 'OPT_IN',
+  SubscriptionStatus.optOut: 'OPT_OUT',
+};
+
+ListContactsResponse _$ListContactsResponseFromJson(Map<String, dynamic> json) {
+  return ListContactsResponse(
+    contacts: (json['Contacts'] as List)
+        ?.map((e) =>
+            e == null ? null : Contact.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListCustomVerificationEmailTemplatesResponse
+    _$ListCustomVerificationEmailTemplatesResponseFromJson(
+        Map<String, dynamic> json) {
+  return ListCustomVerificationEmailTemplatesResponse(
+    customVerificationEmailTemplates:
+        (json['CustomVerificationEmailTemplates'] as List)
+            ?.map((e) => e == null
+                ? null
+                : CustomVerificationEmailTemplateMetadata.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
 ListDedicatedIpPoolsResponse _$ListDedicatedIpPoolsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDedicatedIpPoolsResponse(
@@ -789,6 +1278,45 @@ ListEmailIdentitiesResponse _$ListEmailIdentitiesResponseFromJson(
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
+}
+
+ListEmailTemplatesResponse _$ListEmailTemplatesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListEmailTemplatesResponse(
+    nextToken: json['NextToken'] as String,
+    templatesMetadata: (json['TemplatesMetadata'] as List)
+        ?.map((e) => e == null
+            ? null
+            : EmailTemplateMetadata.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListImportJobsResponse _$ListImportJobsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListImportJobsResponse(
+    importJobs: (json['ImportJobs'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ImportJobSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+Map<String, dynamic> _$ListManagementOptionsToJson(
+    ListManagementOptions instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ContactListName', instance.contactListName);
+  writeNotNull('TopicName', instance.topicName);
+  return val;
 }
 
 ListSuppressedDestinationsResponse _$ListSuppressedDestinationsResponseFromJson(
@@ -913,6 +1441,11 @@ PutAccountDedicatedIpWarmupAttributesResponse
   return PutAccountDedicatedIpWarmupAttributesResponse();
 }
 
+PutAccountDetailsResponse _$PutAccountDetailsResponseFromJson(
+    Map<String, dynamic> json) {
+  return PutAccountDetailsResponse();
+}
+
 PutAccountSendingAttributesResponse
     _$PutAccountSendingAttributesResponseFromJson(Map<String, dynamic> json) {
   return PutAccountSendingAttributesResponse();
@@ -1016,6 +1549,33 @@ Map<String, dynamic> _$RawMessageToJson(RawMessage instance) {
   return val;
 }
 
+Map<String, dynamic> _$ReplacementEmailContentToJson(
+    ReplacementEmailContent instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplacementTemplate', instance.replacementTemplate?.toJson());
+  return val;
+}
+
+Map<String, dynamic> _$ReplacementTemplateToJson(ReplacementTemplate instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ReplacementTemplateData', instance.replacementTemplateData);
+  return val;
+}
+
 ReputationOptions _$ReputationOptionsFromJson(Map<String, dynamic> json) {
   return ReputationOptions(
     lastFreshStart:
@@ -1037,6 +1597,38 @@ Map<String, dynamic> _$ReputationOptionsToJson(ReputationOptions instance) {
       const UnixDateTimeConverter().toJson(instance.lastFreshStart));
   writeNotNull('ReputationMetricsEnabled', instance.reputationMetricsEnabled);
   return val;
+}
+
+ReviewDetails _$ReviewDetailsFromJson(Map<String, dynamic> json) {
+  return ReviewDetails(
+    caseId: json['CaseId'] as String,
+    status: _$enumDecodeNullable(_$ReviewStatusEnumMap, json['Status']),
+  );
+}
+
+const _$ReviewStatusEnumMap = {
+  ReviewStatus.pending: 'PENDING',
+  ReviewStatus.failed: 'FAILED',
+  ReviewStatus.granted: 'GRANTED',
+  ReviewStatus.denied: 'DENIED',
+};
+
+SendBulkEmailResponse _$SendBulkEmailResponseFromJson(
+    Map<String, dynamic> json) {
+  return SendBulkEmailResponse(
+    bulkEmailEntryResults: (json['BulkEmailEntryResults'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BulkEmailEntryResult.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+SendCustomVerificationEmailResponse
+    _$SendCustomVerificationEmailResponseFromJson(Map<String, dynamic> json) {
+  return SendCustomVerificationEmailResponse(
+    messageId: json['MessageId'] as String,
+  );
 }
 
 SendEmailResponse _$SendEmailResponseFromJson(Map<String, dynamic> json) {
@@ -1139,6 +1731,37 @@ SuppressionAttributes _$SuppressionAttributesFromJson(
   );
 }
 
+SuppressionListDestination _$SuppressionListDestinationFromJson(
+    Map<String, dynamic> json) {
+  return SuppressionListDestination(
+    suppressionListImportAction: _$enumDecodeNullable(
+        _$SuppressionListImportActionEnumMap,
+        json['SuppressionListImportAction']),
+  );
+}
+
+Map<String, dynamic> _$SuppressionListDestinationToJson(
+    SuppressionListDestination instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'SuppressionListImportAction',
+      _$SuppressionListImportActionEnumMap[
+          instance.suppressionListImportAction]);
+  return val;
+}
+
+const _$SuppressionListImportActionEnumMap = {
+  SuppressionListImportAction.delete: 'DELETE',
+  SuppressionListImportAction.put: 'PUT',
+};
+
 SuppressionOptions _$SuppressionOptionsFromJson(Map<String, dynamic> json) {
   return SuppressionOptions(
     suppressedReasons: (json['SuppressedReasons'] as List)
@@ -1200,6 +1823,79 @@ Map<String, dynamic> _$TemplateToJson(Template instance) {
 
   writeNotNull('TemplateArn', instance.templateArn);
   writeNotNull('TemplateData', instance.templateData);
+  writeNotNull('TemplateName', instance.templateName);
+  return val;
+}
+
+TestRenderEmailTemplateResponse _$TestRenderEmailTemplateResponseFromJson(
+    Map<String, dynamic> json) {
+  return TestRenderEmailTemplateResponse(
+    renderedTemplate: json['RenderedTemplate'] as String,
+  );
+}
+
+Topic _$TopicFromJson(Map<String, dynamic> json) {
+  return Topic(
+    defaultSubscriptionStatus: _$enumDecodeNullable(
+        _$SubscriptionStatusEnumMap, json['DefaultSubscriptionStatus']),
+    displayName: json['DisplayName'] as String,
+    topicName: json['TopicName'] as String,
+    description: json['Description'] as String,
+  );
+}
+
+Map<String, dynamic> _$TopicToJson(Topic instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DefaultSubscriptionStatus',
+      _$SubscriptionStatusEnumMap[instance.defaultSubscriptionStatus]);
+  writeNotNull('DisplayName', instance.displayName);
+  writeNotNull('TopicName', instance.topicName);
+  writeNotNull('Description', instance.description);
+  return val;
+}
+
+Map<String, dynamic> _$TopicFilterToJson(TopicFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TopicName', instance.topicName);
+  writeNotNull('UseDefaultIfPreferenceUnavailable',
+      instance.useDefaultIfPreferenceUnavailable);
+  return val;
+}
+
+TopicPreference _$TopicPreferenceFromJson(Map<String, dynamic> json) {
+  return TopicPreference(
+    subscriptionStatus: _$enumDecodeNullable(
+        _$SubscriptionStatusEnumMap, json['SubscriptionStatus']),
+    topicName: json['TopicName'] as String,
+  );
+}
+
+Map<String, dynamic> _$TopicPreferenceToJson(TopicPreference instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SubscriptionStatus',
+      _$SubscriptionStatusEnumMap[instance.subscriptionStatus]);
+  writeNotNull('TopicName', instance.topicName);
   return val;
 }
 
@@ -1231,6 +1927,32 @@ UpdateConfigurationSetEventDestinationResponse
     _$UpdateConfigurationSetEventDestinationResponseFromJson(
         Map<String, dynamic> json) {
   return UpdateConfigurationSetEventDestinationResponse();
+}
+
+UpdateContactListResponse _$UpdateContactListResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateContactListResponse();
+}
+
+UpdateContactResponse _$UpdateContactResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateContactResponse();
+}
+
+UpdateCustomVerificationEmailTemplateResponse
+    _$UpdateCustomVerificationEmailTemplateResponseFromJson(
+        Map<String, dynamic> json) {
+  return UpdateCustomVerificationEmailTemplateResponse();
+}
+
+UpdateEmailIdentityPolicyResponse _$UpdateEmailIdentityPolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateEmailIdentityPolicyResponse();
+}
+
+UpdateEmailTemplateResponse _$UpdateEmailTemplateResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateEmailTemplateResponse();
 }
 
 VolumeStatistics _$VolumeStatisticsFromJson(Map<String, dynamic> json) {

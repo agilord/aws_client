@@ -172,6 +172,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "AssociateEnvironmentOperationsRoleMessage": {
+    "type": "structure",
+    "members": {
+      "EnvironmentName": {"shape": "EnvironmentName", "flattened": false},
+      "OperationsRole": {"shape": "OperationsRole", "flattened": false}
+    },
+    "flattened": false
+  },
   "AutoCreateApplication": {"type": "boolean", "flattened": false},
   "AutoScalingGroup": {
     "type": "structure",
@@ -468,7 +476,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "ConfigurationOptionSettingsList",
         "flattened": false
       },
-      "OptionsToRemove": {"shape": "OptionsSpecifierList", "flattened": false}
+      "OptionsToRemove": {"shape": "OptionsSpecifierList", "flattened": false},
+      "OperationsRole": {"shape": "OperationsRole", "flattened": false}
     },
     "flattened": false
   },
@@ -660,7 +669,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "EnvironmentId": {"shape": "EnvironmentId", "flattened": false},
       "EnvironmentName": {"shape": "EnvironmentName", "flattened": false},
       "NextToken": {"shape": "String", "flattened": false},
-      "MaxItems": {"shape": "Integer", "flattened": false}
+      "MaxItems": {"shape": "ManagedActionHistoryMaxItems", "flattened": false}
     },
     "flattened": false
   },
@@ -777,6 +786,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "Description": {"type": "string", "flattened": false},
+  "DisassociateEnvironmentOperationsRoleMessage": {
+    "type": "structure",
+    "members": {
+      "EnvironmentName": {"shape": "EnvironmentName", "flattened": false}
+    },
+    "flattened": false
+  },
   "Ec2InstanceId": {"type": "string", "flattened": false},
   "EndpointURL": {"type": "string", "flattened": false},
   "EnvironmentArn": {"type": "string", "flattened": false},
@@ -811,7 +827,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "Tier": {"shape": "EnvironmentTier", "flattened": false},
       "EnvironmentLinks": {"shape": "EnvironmentLinks", "flattened": false},
-      "EnvironmentArn": {"shape": "EnvironmentArn", "flattened": false}
+      "EnvironmentArn": {"shape": "EnvironmentArn", "flattened": false},
+      "OperationsRole": {"shape": "OperationsRole", "flattened": false}
     },
     "flattened": false
   },
@@ -1181,6 +1198,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "ManagedActionHistoryItem"},
     "flattened": false
   },
+  "ManagedActionHistoryMaxItems": {"type": "integer", "flattened": false},
   "ManagedActions": {
     "type": "list",
     "member": {"shape": "ManagedAction"},
@@ -1213,6 +1231,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "NullableLong": {"type": "long", "flattened": false},
   "OperatingSystemName": {"type": "string", "flattened": false},
   "OperatingSystemVersion": {"type": "string", "flattened": false},
+  "OperationsRole": {"type": "string", "flattened": false},
   "OptionNamespace": {"type": "string", "flattened": false},
   "OptionRestrictionMaxLength": {"type": "integer", "flattened": false},
   "OptionRestrictionMaxValue": {"type": "integer", "flattened": false},

@@ -267,6 +267,7 @@ Map<String, dynamic> _$ExportAssetsToS3RequestDetailsToJson(
       instance.assetDestinations?.map((e) => e?.toJson())?.toList());
   writeNotNull('DataSetId', instance.dataSetId);
   writeNotNull('RevisionId', instance.revisionId);
+  writeNotNull('Encryption', instance.encryption?.toJson());
   return val;
 }
 
@@ -280,8 +281,41 @@ ExportAssetsToS3ResponseDetails _$ExportAssetsToS3ResponseDetailsFromJson(
         ?.toList(),
     dataSetId: json['DataSetId'] as String,
     revisionId: json['RevisionId'] as String,
+    encryption: json['Encryption'] == null
+        ? null
+        : ExportServerSideEncryption.fromJson(
+            json['Encryption'] as Map<String, dynamic>),
   );
 }
+
+ExportServerSideEncryption _$ExportServerSideEncryptionFromJson(
+    Map<String, dynamic> json) {
+  return ExportServerSideEncryption(
+    type:
+        _$enumDecodeNullable(_$ServerSideEncryptionTypesEnumMap, json['Type']),
+    kmsKeyArn: json['KmsKeyArn'] as String,
+  );
+}
+
+Map<String, dynamic> _$ExportServerSideEncryptionToJson(
+    ExportServerSideEncryption instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Type', _$ServerSideEncryptionTypesEnumMap[instance.type]);
+  writeNotNull('KmsKeyArn', instance.kmsKeyArn);
+  return val;
+}
+
+const _$ServerSideEncryptionTypesEnumMap = {
+  ServerSideEncryptionTypes.awsKms: 'aws:kms',
+  ServerSideEncryptionTypes.aes256: 'AES256',
+};
 
 GetAssetResponse _$GetAssetResponseFromJson(Map<String, dynamic> json) {
   return GetAssetResponse(

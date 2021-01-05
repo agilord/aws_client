@@ -131,6 +131,15 @@ CreateForecastResponse _$CreateForecastResponseFromJson(
   );
 }
 
+CreatePredictorBacktestExportJobResponse
+    _$CreatePredictorBacktestExportJobResponseFromJson(
+        Map<String, dynamic> json) {
+  return CreatePredictorBacktestExportJobResponse(
+    predictorBacktestExportJobArn:
+        json['PredictorBacktestExportJobArn'] as String,
+  );
+}
+
 CreatePredictorResponse _$CreatePredictorResponseFromJson(
     Map<String, dynamic> json) {
   return CreatePredictorResponse(
@@ -265,11 +274,14 @@ DescribeDatasetImportJobResponse _$DescribeDatasetImportJobResponseFromJson(
       (k, e) => MapEntry(
           k, e == null ? null : Statistics.fromJson(e as Map<String, dynamic>)),
     ),
+    geolocationFormat: json['GeolocationFormat'] as String,
     lastModificationTime:
         const UnixDateTimeConverter().fromJson(json['LastModificationTime']),
     message: json['Message'] as String,
     status: json['Status'] as String,
+    timeZone: json['TimeZone'] as String,
     timestampFormat: json['TimestampFormat'] as String,
+    useGeolocationForTimeZone: json['UseGeolocationForTimeZone'] as bool,
   );
 }
 
@@ -330,6 +342,26 @@ DescribeForecastResponse _$DescribeForecastResponseFromJson(
   );
 }
 
+DescribePredictorBacktestExportJobResponse
+    _$DescribePredictorBacktestExportJobResponseFromJson(
+        Map<String, dynamic> json) {
+  return DescribePredictorBacktestExportJobResponse(
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    destination: json['Destination'] == null
+        ? null
+        : DataDestination.fromJson(json['Destination'] as Map<String, dynamic>),
+    lastModificationTime:
+        const UnixDateTimeConverter().fromJson(json['LastModificationTime']),
+    message: json['Message'] as String,
+    predictorArn: json['PredictorArn'] as String,
+    predictorBacktestExportJobArn:
+        json['PredictorBacktestExportJobArn'] as String,
+    predictorBacktestExportJobName:
+        json['PredictorBacktestExportJobName'] as String,
+    status: json['Status'] as String,
+  );
+}
+
 DescribePredictorResponse _$DescribePredictorResponseFromJson(
     Map<String, dynamic> json) {
   return DescribePredictorResponse(
@@ -354,6 +386,8 @@ DescribePredictorResponse _$DescribePredictorResponseFromJson(
         : FeaturizationConfig.fromJson(
             json['FeaturizationConfig'] as Map<String, dynamic>),
     forecastHorizon: json['ForecastHorizon'] as int,
+    forecastTypes:
+        (json['ForecastTypes'] as List)?.map((e) => e as String)?.toList(),
     hPOConfig: json['HPOConfig'] == null
         ? null
         : HyperParameterTuningJobConfig.fromJson(
@@ -400,6 +434,14 @@ Map<String, dynamic> _$EncryptionConfigToJson(EncryptionConfig instance) {
   writeNotNull('KMSKeyArn', instance.kMSKeyArn);
   writeNotNull('RoleArn', instance.roleArn);
   return val;
+}
+
+ErrorMetric _$ErrorMetricFromJson(Map<String, dynamic> json) {
+  return ErrorMetric(
+    forecastType: json['ForecastType'] as String,
+    rmse: (json['RMSE'] as num)?.toDouble(),
+    wape: (json['WAPE'] as num)?.toDouble(),
+  );
 }
 
 EvaluationParameters _$EvaluationParametersFromJson(Map<String, dynamic> json) {
@@ -719,6 +761,20 @@ ListForecastsResponse _$ListForecastsResponseFromJson(
   );
 }
 
+ListPredictorBacktestExportJobsResponse
+    _$ListPredictorBacktestExportJobsResponseFromJson(
+        Map<String, dynamic> json) {
+  return ListPredictorBacktestExportJobsResponse(
+    nextToken: json['NextToken'] as String,
+    predictorBacktestExportJobs: (json['PredictorBacktestExportJobs'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PredictorBacktestExportJobSummary.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 ListPredictorsResponse _$ListPredictorsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPredictorsResponse(
@@ -731,8 +787,21 @@ ListPredictorsResponse _$ListPredictorsResponseFromJson(
   );
 }
 
+ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListTagsForResourceResponse(
+    tags: (json['Tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 Metrics _$MetricsFromJson(Map<String, dynamic> json) {
   return Metrics(
+    errorMetrics: (json['ErrorMetrics'] as List)
+        ?.map((e) =>
+            e == null ? null : ErrorMetric.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     rmse: (json['RMSE'] as num)?.toDouble(),
     weightedQuantileLosses: (json['WeightedQuantileLosses'] as List)
         ?.map((e) => e == null
@@ -778,6 +847,24 @@ Map<String, dynamic> _$ParameterRangesToJson(ParameterRanges instance) {
   writeNotNull('IntegerParameterRanges',
       instance.integerParameterRanges?.map((e) => e?.toJson())?.toList());
   return val;
+}
+
+PredictorBacktestExportJobSummary _$PredictorBacktestExportJobSummaryFromJson(
+    Map<String, dynamic> json) {
+  return PredictorBacktestExportJobSummary(
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    destination: json['Destination'] == null
+        ? null
+        : DataDestination.fromJson(json['Destination'] as Map<String, dynamic>),
+    lastModificationTime:
+        const UnixDateTimeConverter().fromJson(json['LastModificationTime']),
+    message: json['Message'] as String,
+    predictorBacktestExportJobArn:
+        json['PredictorBacktestExportJobArn'] as String,
+    predictorBacktestExportJobName:
+        json['PredictorBacktestExportJobName'] as String,
+    status: json['Status'] as String,
+  );
 }
 
 PredictorExecution _$PredictorExecutionFromJson(Map<String, dynamic> json) {
@@ -889,6 +976,7 @@ const _$AttributeTypeEnumMap = {
   AttributeType.integer: 'integer',
   AttributeType.float: 'float',
   AttributeType.timestamp: 'timestamp',
+  AttributeType.geolocation: 'geolocation',
 };
 
 Statistics _$StatisticsFromJson(Map<String, dynamic> json) {
@@ -926,6 +1014,31 @@ Map<String, dynamic> _$SupplementaryFeatureToJson(
   return val;
 }
 
+Tag _$TagFromJson(Map<String, dynamic> json) {
+  return Tag(
+    key: json['Key'] as String,
+    value: json['Value'] as String,
+  );
+}
+
+Map<String, dynamic> _$TagToJson(Tag instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key);
+  writeNotNull('Value', instance.value);
+  return val;
+}
+
+TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
+  return TagResourceResponse();
+}
+
 TestWindowSummary _$TestWindowSummaryFromJson(Map<String, dynamic> json) {
   return TestWindowSummary(
     message: json['Message'] as String,
@@ -935,6 +1048,11 @@ TestWindowSummary _$TestWindowSummaryFromJson(Map<String, dynamic> json) {
     testWindowStart:
         const UnixDateTimeConverter().fromJson(json['TestWindowStart']),
   );
+}
+
+UntagResourceResponse _$UntagResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return UntagResourceResponse();
 }
 
 UpdateDatasetGroupResponse _$UpdateDatasetGroupResponseFromJson(

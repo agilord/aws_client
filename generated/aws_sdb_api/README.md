@@ -18,7 +18,7 @@ computing environment, are able to scale instantly, and pay only for what
 they use.
 
 Visit <a
-href="http://aws.amazon.com/simpledb/">http://aws.amazon.com/simpledb/</a>
+href="https://aws.amazon.com/simpledb/">https://aws.amazon.com/simpledb/</a>
 for more information.
 
 ## Links

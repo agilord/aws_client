@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_single_quotes
 const Map<String, Map<String, dynamic>> shapesJson = {
   "AZMode": {"type": "string", "flattened": false},
+  "AccessString": {"type": "string", "flattened": false},
   "AddTagsToResourceMessage": {
     "type": "structure",
     "members": {
@@ -20,6 +21,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "AuthTokenUpdateStatus": {"type": "string", "flattened": false},
   "AuthTokenUpdateStrategyType": {"type": "string", "flattened": false},
+  "Authentication": {
+    "type": "structure",
+    "members": {
+      "Type": {"shape": "AuthenticationType", "flattened": false},
+      "PasswordCount": {"shape": "IntegerOptional", "flattened": false}
+    },
+    "flattened": false
+  },
+  "AuthenticationType": {"type": "string", "flattened": false},
   "AuthorizeCacheSecurityGroupIngressMessage": {
     "type": "structure",
     "members": {
@@ -87,6 +97,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "CacheClusterStatus": {"shape": "String", "flattened": false},
       "NumCacheNodes": {"shape": "IntegerOptional", "flattened": false},
       "PreferredAvailabilityZone": {"shape": "String", "flattened": false},
+      "PreferredOutpostArn": {"shape": "String", "flattened": false},
       "CacheClusterCreateTime": {"shape": "TStamp", "flattened": false},
       "PreferredMaintenanceWindow": {"shape": "String", "flattened": false},
       "PendingModifiedValues": {
@@ -127,7 +138,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AtRestEncryptionEnabled": {
         "shape": "BooleanOptional",
         "flattened": false
-      }
+      },
+      "ARN": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -188,7 +200,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Endpoint": {"shape": "Endpoint", "flattened": false},
       "ParameterGroupStatus": {"shape": "String", "flattened": false},
       "SourceCacheNodeId": {"shape": "String", "flattened": false},
-      "CustomerAvailabilityZone": {"shape": "String", "flattened": false}
+      "CustomerAvailabilityZone": {"shape": "String", "flattened": false},
+      "CustomerOutpostArn": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -275,7 +288,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "CacheParameterGroupName": {"shape": "String", "flattened": false},
       "CacheParameterGroupFamily": {"shape": "String", "flattened": false},
       "Description": {"shape": "String", "flattened": false},
-      "IsGlobal": {"shape": "Boolean", "flattened": false}
+      "IsGlobal": {"shape": "Boolean", "flattened": false},
+      "ARN": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -332,7 +346,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "OwnerId": {"shape": "String", "flattened": false},
       "CacheSecurityGroupName": {"shape": "String", "flattened": false},
       "Description": {"shape": "String", "flattened": false},
-      "EC2SecurityGroups": {"shape": "EC2SecurityGroupList", "flattened": false}
+      "EC2SecurityGroups": {
+        "shape": "EC2SecurityGroupList",
+        "flattened": false
+      },
+      "ARN": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -382,7 +400,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "CacheSubnetGroupName": {"shape": "String", "flattened": false},
       "CacheSubnetGroupDescription": {"shape": "String", "flattened": false},
       "VpcId": {"shape": "String", "flattened": false},
-      "Subnets": {"shape": "SubnetList", "flattened": false}
+      "Subnets": {"shape": "SubnetList", "flattened": false},
+      "ARN": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -427,6 +446,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "NewReplicaCount": {"shape": "Integer", "flattened": false},
       "PreferredAvailabilityZones": {
         "shape": "PreferredAvailabilityZoneList",
+        "flattened": false
+      },
+      "PreferredOutpostArns": {
+        "shape": "PreferredOutpostArnList",
         "flattened": false
       }
     },
@@ -486,7 +509,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "SnapshotWindow": {"shape": "String", "flattened": false},
-      "AuthToken": {"shape": "String", "flattened": false}
+      "AuthToken": {"shape": "String", "flattened": false},
+      "OutpostMode": {"shape": "OutpostMode", "flattened": false},
+      "PreferredOutpostArn": {"shape": "String", "flattened": false},
+      "PreferredOutpostArns": {
+        "shape": "PreferredOutpostArnList",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -580,6 +609,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "BooleanOptional",
         "flattened": false
       },
+      "MultiAZEnabled": {"shape": "BooleanOptional", "flattened": false},
       "NumCacheClusters": {"shape": "IntegerOptional", "flattened": false},
       "PreferredCacheClusterAZs": {
         "shape": "AvailabilityZonesList",
@@ -625,7 +655,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "BooleanOptional",
         "flattened": false
       },
-      "KmsKeyId": {"shape": "String", "flattened": false}
+      "KmsKeyId": {"shape": "String", "flattened": false},
+      "UserGroupIds": {"shape": "UserGroupIdListInput", "flattened": false}
     },
     "flattened": false
   },
@@ -650,6 +681,27 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "Snapshot": {"shape": "Snapshot", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateUserGroupMessage": {
+    "type": "structure",
+    "members": {
+      "UserGroupId": {"shape": "String", "flattened": false},
+      "Engine": {"shape": "EngineType", "flattened": false},
+      "UserIds": {"shape": "UserIdListInput", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateUserMessage": {
+    "type": "structure",
+    "members": {
+      "UserId": {"shape": "UserId", "flattened": false},
+      "UserName": {"shape": "UserName", "flattened": false},
+      "Engine": {"shape": "EngineType", "flattened": false},
+      "Passwords": {"shape": "PasswordListInput", "flattened": false},
+      "AccessString": {"shape": "AccessString", "flattened": false},
+      "NoPasswordRequired": {"shape": "BooleanOptional", "flattened": false}
     },
     "flattened": false
   },
@@ -795,6 +847,20 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "Snapshot": {"shape": "Snapshot", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteUserGroupMessage": {
+    "type": "structure",
+    "members": {
+      "UserGroupId": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteUserMessage": {
+    "type": "structure",
+    "members": {
+      "UserId": {"shape": "UserId", "flattened": false}
     },
     "flattened": false
   },
@@ -1012,6 +1078,42 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DescribeUserGroupsMessage": {
+    "type": "structure",
+    "members": {
+      "UserGroupId": {"shape": "String", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeUserGroupsResult": {
+    "type": "structure",
+    "members": {
+      "UserGroups": {"shape": "UserGroupList", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeUsersMessage": {
+    "type": "structure",
+    "members": {
+      "Engine": {"shape": "EngineType", "flattened": false},
+      "UserId": {"shape": "UserId", "flattened": false},
+      "Filters": {"shape": "FilterList", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeUsersResult": {
+    "type": "structure",
+    "members": {
+      "Users": {"shape": "UserList", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "DisassociateGlobalReplicationGroupMessage": {
     "type": "structure",
     "members": {
@@ -1067,6 +1169,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "EngineType": {"type": "string", "flattened": false},
   "Event": {
     "type": "structure",
     "members": {
@@ -1107,6 +1210,26 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       }
     },
+    "flattened": false
+  },
+  "Filter": {
+    "type": "structure",
+    "members": {
+      "Name": {"shape": "FilterName", "flattened": false},
+      "Values": {"shape": "FilterValueList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "FilterList": {
+    "type": "list",
+    "member": {"shape": "Filter"},
+    "flattened": false
+  },
+  "FilterName": {"type": "string", "flattened": false},
+  "FilterValue": {"type": "string", "flattened": false},
+  "FilterValueList": {
+    "type": "list",
+    "member": {"shape": "FilterValue"},
     "flattened": false
   },
   "GlobalNodeGroup": {
@@ -1153,7 +1276,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AtRestEncryptionEnabled": {
         "shape": "BooleanOptional",
         "flattened": false
-      }
+      },
+      "ARN": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1376,6 +1500,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "BooleanOptional",
         "flattened": false
       },
+      "MultiAZEnabled": {"shape": "BooleanOptional", "flattened": false},
       "NodeGroupId": {"shape": "String", "flattened": false},
       "CacheSecurityGroupNames": {
         "shape": "CacheSecurityGroupNameList",
@@ -1402,7 +1527,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AuthTokenUpdateStrategy": {
         "shape": "AuthTokenUpdateStrategyType",
         "flattened": false
-      }
+      },
+      "UserGroupIdsToAdd": {"shape": "UserGroupIdList", "flattened": false},
+      "UserGroupIdsToRemove": {"shape": "UserGroupIdList", "flattened": false},
+      "RemoveUserGroups": {"shape": "BooleanOptional", "flattened": false}
     },
     "flattened": false
   },
@@ -1441,6 +1569,27 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ModifyUserGroupMessage": {
+    "type": "structure",
+    "members": {
+      "UserGroupId": {"shape": "String", "flattened": false},
+      "UserIdsToAdd": {"shape": "UserIdListInput", "flattened": false},
+      "UserIdsToRemove": {"shape": "UserIdListInput", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ModifyUserMessage": {
+    "type": "structure",
+    "members": {
+      "UserId": {"shape": "UserId", "flattened": false},
+      "AccessString": {"shape": "AccessString", "flattened": false},
+      "AppendAccessString": {"shape": "AccessString", "flattened": false},
+      "Passwords": {"shape": "PasswordListInput", "flattened": false},
+      "NoPasswordRequired": {"shape": "BooleanOptional", "flattened": false}
+    },
+    "flattened": false
+  },
+  "MultiAZStatus": {"type": "string", "flattened": false},
   "NodeGroup": {
     "type": "structure",
     "members": {
@@ -1463,7 +1612,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ReplicaAvailabilityZones": {
         "shape": "AvailabilityZonesList",
         "flattened": false
-      }
+      },
+      "PrimaryOutpostArn": {"shape": "String", "flattened": false},
+      "ReplicaOutpostArns": {"shape": "OutpostArnsList", "flattened": false}
     },
     "flattened": false
   },
@@ -1487,6 +1638,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "CacheNodeId": {"shape": "String", "flattened": false},
       "ReadEndpoint": {"shape": "Endpoint", "flattened": false},
       "PreferredAvailabilityZone": {"shape": "String", "flattened": false},
+      "PreferredOutpostArn": {"shape": "String", "flattened": false},
       "CurrentRole": {"shape": "String", "flattened": false}
     },
     "flattened": false
@@ -1593,6 +1745,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "OutpostArnsList": {
+    "type": "list",
+    "member": {"shape": "String", "locationName": "OutpostArn"},
+    "flattened": false
+  },
+  "OutpostMode": {"type": "string", "flattened": false},
   "Parameter": {
     "type": "structure",
     "members": {
@@ -1629,6 +1787,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "Parameter", "locationName": "Parameter"},
     "flattened": false
   },
+  "PasswordListInput": {
+    "type": "list",
+    "member": {"shape": "String"},
+    "flattened": false
+  },
   "PendingAutomaticFailoverStatus": {"type": "string", "flattened": false},
   "PendingModifiedValues": {
     "type": "structure",
@@ -1644,6 +1807,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "PreferredAvailabilityZoneList": {
     "type": "list",
     "member": {"shape": "String", "locationName": "PreferredAvailabilityZone"},
+    "flattened": false
+  },
+  "PreferredOutpostArnList": {
+    "type": "list",
+    "member": {"shape": "String", "locationName": "PreferredOutpostArn"},
     "flattened": false
   },
   "ProcessedUpdateAction": {
@@ -1785,6 +1953,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "AutomaticFailoverStatus",
         "flattened": false
       },
+      "MultiAZ": {"shape": "MultiAZStatus", "flattened": false},
       "ConfigurationEndpoint": {"shape": "Endpoint", "flattened": false},
       "SnapshotRetentionLimit": {
         "shape": "IntegerOptional",
@@ -1803,7 +1972,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "BooleanOptional",
         "flattened": false
       },
-      "KmsKeyId": {"shape": "String", "flattened": false}
+      "MemberClustersOutpostArns": {
+        "shape": "ReplicationGroupOutpostArnList",
+        "flattened": false
+      },
+      "KmsKeyId": {"shape": "String", "flattened": false},
+      "ARN": {"shape": "String", "flattened": false},
+      "UserGroupIds": {"shape": "UserGroupIdList", "flattened": false}
     },
     "flattened": false
   },
@@ -1825,6 +2000,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ReplicationGroupOutpostArnList": {
+    "type": "list",
+    "member": {"shape": "String", "locationName": "ReplicationGroupOutpostArn"},
+    "flattened": false
+  },
   "ReplicationGroupPendingModifiedValues": {
     "type": "structure",
     "members": {
@@ -1834,7 +2014,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "Resharding": {"shape": "ReshardingStatus", "flattened": false},
-      "AuthTokenStatus": {"shape": "AuthTokenUpdateStatus", "flattened": false}
+      "AuthTokenStatus": {"shape": "AuthTokenUpdateStatus", "flattened": false},
+      "UserGroups": {"shape": "UserGroupsUpdateStatus", "flattened": false}
     },
     "flattened": false
   },
@@ -2054,6 +2235,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "EngineVersion": {"shape": "String", "flattened": false},
       "NumCacheNodes": {"shape": "IntegerOptional", "flattened": false},
       "PreferredAvailabilityZone": {"shape": "String", "flattened": false},
+      "PreferredOutpostArn": {"shape": "String", "flattened": false},
       "CacheClusterCreateTime": {"shape": "TStamp", "flattened": false},
       "PreferredMaintenanceWindow": {"shape": "String", "flattened": false},
       "TopicArn": {"shape": "String", "flattened": false},
@@ -2073,7 +2255,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "NodeSnapshots": {"shape": "NodeSnapshotList", "flattened": false},
-      "KmsKeyId": {"shape": "String", "flattened": false}
+      "KmsKeyId": {"shape": "String", "flattened": false},
+      "ARN": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -2114,7 +2297,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "SubnetAvailabilityZone": {
         "shape": "AvailabilityZone",
         "flattened": false
-      }
+      },
+      "SubnetOutpost": {"shape": "SubnetOutpost", "flattened": false}
     },
     "flattened": false
   },
@@ -2126,6 +2310,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "SubnetList": {
     "type": "list",
     "member": {"shape": "Subnet", "locationName": "Subnet"},
+    "flattened": false
+  },
+  "SubnetOutpost": {
+    "type": "structure",
+    "members": {
+      "SubnetOutpostArn": {"shape": "String", "flattened": false}
+    },
     "flattened": false
   },
   "TStamp": {"type": "timestamp", "flattened": false},
@@ -2170,6 +2361,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StartTime": {"shape": "TStamp", "flattened": false},
       "EndTime": {"shape": "TStamp", "flattened": false}
     },
+    "flattened": false
+  },
+  "UGReplicationGroupIdList": {
+    "type": "list",
+    "member": {"shape": "String"},
     "flattened": false
   },
   "UnprocessedUpdateAction": {
@@ -2261,5 +2457,87 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "UpdateActions": {"shape": "UpdateActionList", "flattened": false}
     },
     "flattened": false
-  }
+  },
+  "User": {
+    "type": "structure",
+    "members": {
+      "UserId": {"shape": "String", "flattened": false},
+      "UserName": {"shape": "String", "flattened": false},
+      "Status": {"shape": "String", "flattened": false},
+      "Engine": {"shape": "EngineType", "flattened": false},
+      "AccessString": {"shape": "String", "flattened": false},
+      "UserGroupIds": {"shape": "UserGroupIdList", "flattened": false},
+      "Authentication": {"shape": "Authentication", "flattened": false},
+      "ARN": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "UserGroup": {
+    "type": "structure",
+    "members": {
+      "UserGroupId": {"shape": "String", "flattened": false},
+      "Status": {"shape": "String", "flattened": false},
+      "Engine": {"shape": "EngineType", "flattened": false},
+      "UserIds": {"shape": "UserIdList", "flattened": false},
+      "PendingChanges": {
+        "shape": "UserGroupPendingChanges",
+        "flattened": false
+      },
+      "ReplicationGroups": {
+        "shape": "UGReplicationGroupIdList",
+        "flattened": false
+      },
+      "ARN": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "UserGroupId": {"type": "string", "flattened": false},
+  "UserGroupIdList": {
+    "type": "list",
+    "member": {"shape": "UserGroupId"},
+    "flattened": false
+  },
+  "UserGroupIdListInput": {
+    "type": "list",
+    "member": {"shape": "UserGroupId"},
+    "flattened": false
+  },
+  "UserGroupList": {
+    "type": "list",
+    "member": {"shape": "UserGroup"},
+    "flattened": false
+  },
+  "UserGroupPendingChanges": {
+    "type": "structure",
+    "members": {
+      "UserIdsToRemove": {"shape": "UserIdList", "flattened": false},
+      "UserIdsToAdd": {"shape": "UserIdList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "UserGroupsUpdateStatus": {
+    "type": "structure",
+    "members": {
+      "UserGroupIdsToAdd": {"shape": "UserGroupIdList", "flattened": false},
+      "UserGroupIdsToRemove": {"shape": "UserGroupIdList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "UserId": {"type": "string", "flattened": false},
+  "UserIdList": {
+    "type": "list",
+    "member": {"shape": "UserId"},
+    "flattened": false
+  },
+  "UserIdListInput": {
+    "type": "list",
+    "member": {"shape": "UserId"},
+    "flattened": false
+  },
+  "UserList": {
+    "type": "list",
+    "member": {"shape": "User"},
+    "flattened": false
+  },
+  "UserName": {"type": "string", "flattened": false}
 };

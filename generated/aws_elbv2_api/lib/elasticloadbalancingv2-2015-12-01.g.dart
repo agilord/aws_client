@@ -215,6 +215,7 @@ Map<String, dynamic> _$MatcherToJson(Matcher instance) {
     }
   }
 
+  writeNotNull('GrpcCode', instance.grpcCode);
   writeNotNull('HttpCode', instance.httpCode);
   return val;
 }
@@ -346,6 +347,7 @@ Map<String, dynamic> _$SubnetMappingToJson(SubnetMapping instance) {
   }
 
   writeNotNull('AllocationId', instance.allocationId);
+  writeNotNull('IPv6Address', instance.iPv6Address);
   writeNotNull('PrivateIPv4Address', instance.privateIPv4Address);
   writeNotNull('SubnetId', instance.subnetId);
   return val;

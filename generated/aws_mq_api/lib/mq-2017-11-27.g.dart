@@ -57,6 +57,7 @@ T _$enumDecodeNullable<T>(
 
 const _$EngineTypeEnumMap = {
   EngineType.activemq: 'ACTIVEMQ',
+  EngineType.rabbitmq: 'RABBITMQ',
 };
 
 BrokerInstance _$BrokerInstanceFromJson(Map<String, dynamic> json) {
@@ -95,6 +96,7 @@ const _$BrokerStorageTypeEnumMap = {
 const _$DeploymentModeEnumMap = {
   DeploymentMode.singleInstance: 'SINGLE_INSTANCE',
   DeploymentMode.activeStandbyMultiAz: 'ACTIVE_STANDBY_MULTI_AZ',
+  DeploymentMode.clusterMultiAz: 'CLUSTER_MULTI_AZ',
 };
 
 BrokerSummary _$BrokerSummaryFromJson(Map<String, dynamic> json) {
@@ -107,6 +109,7 @@ BrokerSummary _$BrokerSummaryFromJson(Map<String, dynamic> json) {
     created: const IsoDateTimeConverter().fromJson(json['created']),
     deploymentMode:
         _$enumDecodeNullable(_$DeploymentModeEnumMap, json['deploymentMode']),
+    engineType: _$enumDecodeNullable(_$EngineTypeEnumMap, json['engineType']),
     hostInstanceType: json['hostInstanceType'] as String,
   );
 }
@@ -122,6 +125,8 @@ const _$BrokerStateEnumMap = {
 Configuration _$ConfigurationFromJson(Map<String, dynamic> json) {
   return Configuration(
     arn: json['arn'] as String,
+    authenticationStrategy: _$enumDecodeNullable(
+        _$AuthenticationStrategyEnumMap, json['authenticationStrategy']),
     created: const IsoDateTimeConverter().fromJson(json['created']),
     description: json['description'] as String,
     engineType: _$enumDecodeNullable(_$EngineTypeEnumMap, json['engineType']),
@@ -137,6 +142,11 @@ Configuration _$ConfigurationFromJson(Map<String, dynamic> json) {
     ),
   );
 }
+
+const _$AuthenticationStrategyEnumMap = {
+  AuthenticationStrategy.simple: 'SIMPLE',
+  AuthenticationStrategy.ldap: 'LDAP',
+};
 
 ConfigurationId _$ConfigurationIdFromJson(Map<String, dynamic> json) {
   return ConfigurationId(
@@ -195,6 +205,8 @@ CreateConfigurationResponse _$CreateConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateConfigurationResponse(
     arn: json['arn'] as String,
+    authenticationStrategy: _$enumDecodeNullable(
+        _$AuthenticationStrategyEnumMap, json['authenticationStrategy']),
     created: const IsoDateTimeConverter().fromJson(json['created']),
     id: json['id'] as String,
     latestRevision: json['latestRevision'] == null
@@ -248,6 +260,8 @@ DescribeBrokerInstanceOptionsResponse
 DescribeBrokerResponse _$DescribeBrokerResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeBrokerResponse(
+    authenticationStrategy: _$enumDecodeNullable(
+        _$AuthenticationStrategyEnumMap, json['authenticationStrategy']),
     autoMinorVersionUpgrade: json['autoMinorVersionUpgrade'] as bool,
     brokerArn: json['brokerArn'] as String,
     brokerId: json['brokerId'] as String,
@@ -273,6 +287,10 @@ DescribeBrokerResponse _$DescribeBrokerResponseFromJson(
     engineType: _$enumDecodeNullable(_$EngineTypeEnumMap, json['engineType']),
     engineVersion: json['engineVersion'] as String,
     hostInstanceType: json['hostInstanceType'] as String,
+    ldapServerMetadata: json['ldapServerMetadata'] == null
+        ? null
+        : LdapServerMetadataOutput.fromJson(
+            json['ldapServerMetadata'] as Map<String, dynamic>),
     logs: json['logs'] == null
         ? null
         : LogsSummary.fromJson(json['logs'] as Map<String, dynamic>),
@@ -280,8 +298,14 @@ DescribeBrokerResponse _$DescribeBrokerResponseFromJson(
         ? null
         : WeeklyStartTime.fromJson(
             json['maintenanceWindowStartTime'] as Map<String, dynamic>),
+    pendingAuthenticationStrategy: _$enumDecodeNullable(
+        _$AuthenticationStrategyEnumMap, json['pendingAuthenticationStrategy']),
     pendingEngineVersion: json['pendingEngineVersion'] as String,
     pendingHostInstanceType: json['pendingHostInstanceType'] as String,
+    pendingLdapServerMetadata: json['pendingLdapServerMetadata'] == null
+        ? null
+        : LdapServerMetadataOutput.fromJson(
+            json['pendingLdapServerMetadata'] as Map<String, dynamic>),
     pendingSecurityGroups: (json['pendingSecurityGroups'] as List)
         ?.map((e) => e as String)
         ?.toList(),
@@ -305,6 +329,8 @@ DescribeConfigurationResponse _$DescribeConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeConfigurationResponse(
     arn: json['arn'] as String,
+    authenticationStrategy: _$enumDecodeNullable(
+        _$AuthenticationStrategyEnumMap, json['authenticationStrategy']),
     created: const IsoDateTimeConverter().fromJson(json['created']),
     description: json['description'] as String,
     engineType: _$enumDecodeNullable(_$EngineTypeEnumMap, json['engineType']),
@@ -367,6 +393,46 @@ Map<String, dynamic> _$EncryptionOptionsToJson(EncryptionOptions instance) {
 EngineVersion _$EngineVersionFromJson(Map<String, dynamic> json) {
   return EngineVersion(
     name: json['name'] as String,
+  );
+}
+
+Map<String, dynamic> _$LdapServerMetadataInputToJson(
+    LdapServerMetadataInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('hosts', instance.hosts);
+  writeNotNull('roleBase', instance.roleBase);
+  writeNotNull('roleName', instance.roleName);
+  writeNotNull('roleSearchMatching', instance.roleSearchMatching);
+  writeNotNull('roleSearchSubtree', instance.roleSearchSubtree);
+  writeNotNull('serviceAccountPassword', instance.serviceAccountPassword);
+  writeNotNull('serviceAccountUsername', instance.serviceAccountUsername);
+  writeNotNull('userBase', instance.userBase);
+  writeNotNull('userRoleName', instance.userRoleName);
+  writeNotNull('userSearchMatching', instance.userSearchMatching);
+  writeNotNull('userSearchSubtree', instance.userSearchSubtree);
+  return val;
+}
+
+LdapServerMetadataOutput _$LdapServerMetadataOutputFromJson(
+    Map<String, dynamic> json) {
+  return LdapServerMetadataOutput(
+    hosts: (json['hosts'] as List)?.map((e) => e as String)?.toList(),
+    roleBase: json['roleBase'] as String,
+    roleName: json['roleName'] as String,
+    roleSearchMatching: json['roleSearchMatching'] as String,
+    roleSearchSubtree: json['roleSearchSubtree'] as bool,
+    serviceAccountUsername: json['serviceAccountUsername'] as String,
+    userBase: json['userBase'] as String,
+    userRoleName: json['userRoleName'] as String,
+    userSearchMatching: json['userSearchMatching'] as String,
+    userSearchSubtree: json['userSearchSubtree'] as bool,
   );
 }
 
@@ -492,6 +558,8 @@ const _$SanitizationWarningReasonEnumMap = {
 
 UpdateBrokerResponse _$UpdateBrokerResponseFromJson(Map<String, dynamic> json) {
   return UpdateBrokerResponse(
+    authenticationStrategy: _$enumDecodeNullable(
+        _$AuthenticationStrategyEnumMap, json['authenticationStrategy']),
     autoMinorVersionUpgrade: json['autoMinorVersionUpgrade'] as bool,
     brokerId: json['brokerId'] as String,
     configuration: json['configuration'] == null
@@ -500,6 +568,10 @@ UpdateBrokerResponse _$UpdateBrokerResponseFromJson(Map<String, dynamic> json) {
             json['configuration'] as Map<String, dynamic>),
     engineVersion: json['engineVersion'] as String,
     hostInstanceType: json['hostInstanceType'] as String,
+    ldapServerMetadata: json['ldapServerMetadata'] == null
+        ? null
+        : LdapServerMetadataOutput.fromJson(
+            json['ldapServerMetadata'] as Map<String, dynamic>),
     logs: json['logs'] == null
         ? null
         : Logs.fromJson(json['logs'] as Map<String, dynamic>),

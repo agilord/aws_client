@@ -70,6 +70,15 @@ ListSitesOutput _$ListSitesOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListTagsForResourceResponse(
+    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
 Outpost _$OutpostFromJson(Map<String, dynamic> json) {
   return Outpost(
     availabilityZone: json['AvailabilityZone'] as String,
@@ -81,6 +90,9 @@ Outpost _$OutpostFromJson(Map<String, dynamic> json) {
     outpostId: json['OutpostId'] as String,
     ownerId: json['OwnerId'] as String,
     siteId: json['SiteId'] as String,
+    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -90,5 +102,17 @@ Site _$SiteFromJson(Map<String, dynamic> json) {
     description: json['Description'] as String,
     name: json['Name'] as String,
     siteId: json['SiteId'] as String,
+    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
+}
+
+TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
+  return TagResourceResponse();
+}
+
+UntagResourceResponse _$UntagResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return UntagResourceResponse();
 }

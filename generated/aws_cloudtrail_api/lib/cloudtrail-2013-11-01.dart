@@ -126,6 +126,7 @@ class CloudTrail {
   /// May throw [NotOrganizationMasterAccountException].
   /// May throw [OrganizationsNotInUseException].
   /// May throw [OrganizationNotInAllFeaturesModeException].
+  /// May throw [CloudTrailInvalidClientTokenIdException].
   ///
   /// Parameter [name] :
   /// Specifies the name of the trail. The name must meet the following
@@ -784,8 +785,8 @@ class CloudTrail {
   /// with a maximum of 50 possible. The response includes a token that you can
   /// use to get the next page of results.
   /// <important>
-  /// The rate of lookup requests is limited to two per second per account. If
-  /// this limit is exceeded, a throttling error occurs.
+  /// The rate of lookup requests is limited to two per second, per account, per
+  /// region. If this limit is exceeded, a throttling error occurs.
   /// </important>
   ///
   /// May throw [InvalidLookupAttributesException].
@@ -864,16 +865,17 @@ class CloudTrail {
     return LookupEventsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Configures an event selector for your trail. Use event selectors to
-  /// further specify the management and data event settings for your trail. By
-  /// default, trails created without specific event selectors will be
-  /// configured to log all read and write management events, and no data
-  /// events.
+  /// Configures an event selector or advanced event selectors for your trail.
+  /// Use event selectors or advanced event selectors to specify management and
+  /// data event settings for your trail. By default, trails created without
+  /// specific event selectors are configured to log all read and write
+  /// management events, and no data events.
   ///
   /// When an event occurs in your account, CloudTrail evaluates the event
-  /// selectors in all trails. For each trail, if the event matches any event
-  /// selector, the trail processes and logs the event. If the event doesn't
-  /// match any event selector, the trail doesn't log the event.
+  /// selectors or advanced event selectors in all trails. For each trail, if
+  /// the event matches any event selector, the trail processes and logs the
+  /// event. If the event doesn't match any event selector, the trail doesn't
+  /// log the event.
   ///
   /// Example
   /// <ol>
@@ -893,19 +895,29 @@ class CloudTrail {
   /// event selector. The trail logs the event.
   /// </li>
   /// <li>
-  /// The <code>GetConsoleOutput</code> is a read-only event but it doesn't
-  /// match your event selector. The trail doesn't log the event.
+  /// The <code>GetConsoleOutput</code> is a read-only event that doesn't match
+  /// your event selector. The trail doesn't log the event.
   /// </li> </ol>
   /// The <code>PutEventSelectors</code> operation must be called from the
   /// region in which the trail was created; otherwise, an
-  /// <code>InvalidHomeRegionException</code> is thrown.
+  /// <code>InvalidHomeRegionException</code> exception is thrown.
   ///
   /// You can configure up to five event selectors for each trail. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-and-data-events-with-cloudtrail.html">Logging
-  /// Data and Management Events for Trails </a> and <a
-  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html">Limits
+  /// data and management events for trails </a> and <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html">Quotas
   /// in AWS CloudTrail</a> in the <i>AWS CloudTrail User Guide</i>.
+  ///
+  /// You can add advanced event selectors, and conditions for your advanced
+  /// event selectors, up to a maximum of 500 values for all conditions and
+  /// selectors on a trail. You can use either
+  /// <code>AdvancedEventSelectors</code> or <code>EventSelectors</code>, but
+  /// not both. If you apply <code>AdvancedEventSelectors</code> to a trail, any
+  /// existing <code>EventSelectors</code> are overwritten. For more information
+  /// about advanced event selectors, see <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html">Logging
+  /// data events for trails</a> in the <i>AWS CloudTrail User Guide</i>.
   ///
   /// May throw [TrailNotFoundException].
   /// May throw [InvalidTrailNameException].
@@ -915,10 +927,6 @@ class CloudTrail {
   /// May throw [OperationNotPermittedException].
   /// May throw [NotOrganizationMasterAccountException].
   /// May throw [InsufficientDependencyServiceAccessPermissionException].
-  ///
-  /// Parameter [eventSelectors] :
-  /// Specifies the settings for your event selectors. You can configure up to
-  /// five event selectors for a trail.
   ///
   /// Parameter [trailName] :
   /// Specifies the name of the trail or trail ARN. If you specify a trail name,
@@ -946,11 +954,31 @@ class CloudTrail {
   /// If you specify a trail ARN, it must be in the format:
   ///
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  ///
+  /// Parameter [advancedEventSelectors] :
+  /// Specifies the settings for advanced event selectors. You can add advanced
+  /// event selectors, and conditions for your advanced event selectors, up to a
+  /// maximum of 500 values for all conditions and selectors on a trail. You can
+  /// use either <code>AdvancedEventSelectors</code> or
+  /// <code>EventSelectors</code>, but not both. If you apply
+  /// <code>AdvancedEventSelectors</code> to a trail, any existing
+  /// <code>EventSelectors</code> are overwritten. For more information about
+  /// advanced event selectors, see <a
+  /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html">Logging
+  /// data events for trails</a> in the <i>AWS CloudTrail User Guide</i>.
+  ///
+  /// Parameter [eventSelectors] :
+  /// Specifies the settings for your event selectors. You can configure up to
+  /// five event selectors for a trail. You can use either
+  /// <code>EventSelectors</code> or <code>AdvancedEventSelectors</code> in a
+  /// <code>PutEventSelectors</code> request, but not both. If you apply
+  /// <code>EventSelectors</code> to a trail, any existing
+  /// <code>AdvancedEventSelectors</code> are overwritten.
   Future<PutEventSelectorsResponse> putEventSelectors({
-    @_s.required List<EventSelector> eventSelectors,
     @_s.required String trailName,
+    List<AdvancedEventSelector> advancedEventSelectors,
+    List<EventSelector> eventSelectors,
   }) async {
-    ArgumentError.checkNotNull(eventSelectors, 'eventSelectors');
     ArgumentError.checkNotNull(trailName, 'trailName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -964,8 +992,10 @@ class CloudTrail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EventSelectors': eventSelectors,
         'TrailName': trailName,
+        if (advancedEventSelectors != null)
+          'AdvancedEventSelectors': advancedEventSelectors,
+        if (eventSelectors != null) 'EventSelectors': eventSelectors,
       },
     );
 
@@ -1188,6 +1218,7 @@ class CloudTrail {
   /// May throw [OrganizationsNotInUseException].
   /// May throw [NotOrganizationMasterAccountException].
   /// May throw [OrganizationNotInAllFeaturesModeException].
+  /// May throw [CloudTrailInvalidClientTokenIdException].
   ///
   /// Parameter [name] :
   /// Specifies the name of the trail or trail ARN. If <code>Name</code> is a
@@ -1364,6 +1395,180 @@ class AddTagsResponse {
       _$AddTagsResponseFromJson(json);
 }
 
+/// Advanced event selectors let you create fine-grained selectors for the
+/// following AWS CloudTrail event record ﬁelds. They help you control costs by
+/// logging only those events that are important to you. For more information
+/// about advanced event selectors, see <a
+/// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html">Logging
+/// data events for trails</a> in the <i>AWS CloudTrail User Guide</i>.
+///
+/// <ul>
+/// <li>
+/// <code>readOnly</code>
+/// </li>
+/// <li>
+/// <code>eventSource</code>
+/// </li>
+/// <li>
+/// <code>eventName</code>
+/// </li>
+/// <li>
+/// <code>eventCategory</code>
+/// </li>
+/// <li>
+/// <code>resources.type</code>
+/// </li>
+/// <li>
+/// <code>resources.ARN</code>
+/// </li>
+/// </ul>
+/// You cannot apply both event selectors and advanced event selectors to a
+/// trail.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AdvancedEventSelector {
+  /// Contains all selector statements in an advanced event selector.
+  @_s.JsonKey(name: 'FieldSelectors')
+  final List<AdvancedFieldSelector> fieldSelectors;
+
+  /// An optional, descriptive name for an advanced event selector, such as "Log
+  /// data events for only two S3 buckets".
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  AdvancedEventSelector({
+    @_s.required this.fieldSelectors,
+    this.name,
+  });
+  factory AdvancedEventSelector.fromJson(Map<String, dynamic> json) =>
+      _$AdvancedEventSelectorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AdvancedEventSelectorToJson(this);
+}
+
+/// A single selector statement in an advanced event selector.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AdvancedFieldSelector {
+  /// A field in an event record on which to filter events to be logged. Supported
+  /// fields include <code>readOnly</code>, <code>eventCategory</code>,
+  /// <code>eventSource</code> (for management events), <code>eventName</code>,
+  /// <code>resources.type</code>, and <code>resources.ARN</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>readOnly</code> </b> - Optional. Can be set to <code>Equals</code>
+  /// a value of <code>true</code> or <code>false</code>. A value of
+  /// <code>false</code> logs both <code>read</code> and <code>write</code>
+  /// events.
+  /// </li>
+  /// <li>
+  /// <b> <code>eventSource</code> </b> - For filtering management events only.
+  /// This can be set only to <code>NotEquals</code>
+  /// <code>kms.amazonaws.com</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>eventName</code> </b> - Can use any operator. You can use it to
+  /// ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as
+  /// <code>PutBucket</code>. You can have multiple values for this ﬁeld,
+  /// separated by commas.
+  /// </li>
+  /// <li>
+  /// <b> <code>eventCategory</code> </b> - This is required. It must be set to
+  /// <code>Equals</code>, and the value must be <code>Management</code> or
+  /// <code>Data</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>resources.type</code> </b> - This ﬁeld is required.
+  /// <code>resources.type</code> can only use the <code>Equals</code> operator,
+  /// and the value can be one of the following: <code>AWS::S3::Object</code> or
+  /// <code>AWS::Lambda::Function</code>. You can have only one
+  /// <code>resources.type</code> ﬁeld per selector. To log data events on more
+  /// than one resource type, add another selector.
+  /// </li>
+  /// <li>
+  /// <b> <code>resources.ARN</code> </b> - You can use any operator with
+  /// resources.ARN, but if you use <code>Equals</code> or <code>NotEquals</code>,
+  /// the value must exactly match the ARN of a valid resource of the type you've
+  /// speciﬁed in the template as the value of resources.type. For example, if
+  /// resources.type equals <code>AWS::S3::Object</code>, the ARN must be in one
+  /// of the following formats. The trailing slash is intentional; do not exclude
+  /// it.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>arn:partition:s3:::bucket_name/</code>
+  /// </li>
+  /// <li>
+  /// <code>arn:partition:s3:::bucket_name/object_or_file_name/</code>
+  /// </li>
+  /// </ul>
+  /// When resources.type equals <code>AWS::Lambda::Function</code>, and the
+  /// operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN
+  /// must be in the following format:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>arn:partition:lambda:region:account_ID:function:function_name</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Field')
+  final String field;
+
+  /// An operator that includes events that match the last few characters of the
+  /// event record field specified as the value of <code>Field</code>.
+  @_s.JsonKey(name: 'EndsWith')
+  final List<String> endsWith;
+
+  /// An operator that includes events that match the exact value of the event
+  /// record field specified as the value of <code>Field</code>. This is the only
+  /// valid operator that you can use with the <code>readOnly</code>,
+  /// <code>eventCategory</code>, and <code>resources.type</code> fields.
+  @_s.JsonKey(name: 'Equals')
+  final List<String> equals;
+
+  /// An operator that excludes events that match the last few characters of the
+  /// event record field specified as the value of <code>Field</code>.
+  @_s.JsonKey(name: 'NotEndsWith')
+  final List<String> notEndsWith;
+
+  /// An operator that excludes events that match the exact value of the event
+  /// record field specified as the value of <code>Field</code>.
+  @_s.JsonKey(name: 'NotEquals')
+  final List<String> notEquals;
+
+  /// An operator that excludes events that match the first few characters of the
+  /// event record field specified as the value of <code>Field</code>.
+  @_s.JsonKey(name: 'NotStartsWith')
+  final List<String> notStartsWith;
+
+  /// An operator that includes events that match the first few characters of the
+  /// event record field specified as the value of <code>Field</code>.
+  @_s.JsonKey(name: 'StartsWith')
+  final List<String> startsWith;
+
+  AdvancedFieldSelector({
+    @_s.required this.field,
+    this.endsWith,
+    this.equals,
+    this.notEndsWith,
+    this.notEquals,
+    this.notStartsWith,
+    this.startsWith,
+  });
+  factory AdvancedFieldSelector.fromJson(Map<String, dynamic> json) =>
+      _$AdvancedFieldSelectorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AdvancedFieldSelectorToJson(this);
+}
+
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
 @_s.JsonSerializable(
@@ -1468,6 +1673,10 @@ class CreateTrailResponse {
 /// The total number of allowed data resources is 250. This number can be
 /// distributed between 1 and 5 event selectors, but the total cannot exceed 250
 /// across all selectors.
+///
+/// If you are using advanced event selectors, the maximum total number of
+/// values for all conditions, across all advanced event selectors for the
+/// trail, is 500.
 /// </note>
 /// The following example demonstrates how logging works when you configure
 /// logging of all data events for an S3 bucket named <code>bucket-1</code>. In
@@ -1703,6 +1912,9 @@ extension on EventCategory {
 /// event doesn't match any event selector, the trail doesn't log the event.
 ///
 /// You can configure up to five event selectors for a trail.
+///
+/// You cannot apply both event selectors and advanced event selectors to a
+/// trail.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1740,6 +1952,11 @@ class EventSelector {
   /// Events</a> in the <i>AWS CloudTrail User Guide</i>.
   ///
   /// By default, the value is <code>true</code>.
+  ///
+  /// The first copy of management events is free. You are charged for additional
+  /// copies of management events that you are logging on any subsequent trail in
+  /// the same region. For more information about CloudTrail pricing, see <a
+  /// href="http://aws.amazon.com/cloudtrail/pricing/">AWS CloudTrail Pricing</a>.
   @_s.JsonKey(name: 'IncludeManagementEvents')
   final bool includeManagementEvents;
 
@@ -1769,6 +1986,10 @@ class EventSelector {
     createFactory: true,
     createToJson: false)
 class GetEventSelectorsResponse {
+  /// The advanced event selectors that are configured for the trail.
+  @_s.JsonKey(name: 'AdvancedEventSelectors')
+  final List<AdvancedEventSelector> advancedEventSelectors;
+
   /// The event selectors that are configured for the trail.
   @_s.JsonKey(name: 'EventSelectors')
   final List<EventSelector> eventSelectors;
@@ -1778,6 +1999,7 @@ class GetEventSelectorsResponse {
   final String trailARN;
 
   GetEventSelectorsResponse({
+    this.advancedEventSelectors,
     this.eventSelectors,
     this.trailARN,
   });
@@ -2179,6 +2401,10 @@ class PublicKey {
     createFactory: true,
     createToJson: false)
 class PutEventSelectorsResponse {
+  /// Specifies the advanced event selectors configured for your trail.
+  @_s.JsonKey(name: 'AdvancedEventSelectors')
+  final List<AdvancedEventSelector> advancedEventSelectors;
+
   /// Specifies the event selectors configured for your trail.
   @_s.JsonKey(name: 'EventSelectors')
   final List<EventSelector> eventSelectors;
@@ -2191,6 +2417,7 @@ class PutEventSelectorsResponse {
   final String trailARN;
 
   PutEventSelectorsResponse({
+    this.advancedEventSelectors,
     this.eventSelectors,
     this.trailARN,
   });
@@ -2606,6 +2833,14 @@ class CloudTrailAccessNotEnabledException extends _s.GenericAwsException {
             message: message);
 }
 
+class CloudTrailInvalidClientTokenIdException extends _s.GenericAwsException {
+  CloudTrailInvalidClientTokenIdException({String type, String message})
+      : super(
+            type: type,
+            code: 'CloudTrailInvalidClientTokenIdException',
+            message: message);
+}
+
 class CloudWatchLogsDeliveryUnavailableException
     extends _s.GenericAwsException {
   CloudWatchLogsDeliveryUnavailableException({String type, String message})
@@ -2878,6 +3113,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CloudTrailARNInvalidException(type: type, message: message),
   'CloudTrailAccessNotEnabledException': (type, message) =>
       CloudTrailAccessNotEnabledException(type: type, message: message),
+  'CloudTrailInvalidClientTokenIdException': (type, message) =>
+      CloudTrailInvalidClientTokenIdException(type: type, message: message),
   'CloudWatchLogsDeliveryUnavailableException': (type, message) =>
       CloudWatchLogsDeliveryUnavailableException(type: type, message: message),
   'InsightNotEnabledException': (type, message) =>

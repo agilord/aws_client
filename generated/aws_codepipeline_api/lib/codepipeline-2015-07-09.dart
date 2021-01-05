@@ -183,11 +183,6 @@ class CodePipeline {
   /// Parameter [category] :
   /// The category of the custom action, such as a build action or a test
   /// action.
-  /// <note>
-  /// Although <code>Source</code> and <code>Approval</code> are listed as valid
-  /// values, they are not currently functional. These values are reserved for
-  /// future use.
-  /// </note>
   ///
   /// Parameter [inputArtifactDetails] :
   /// The details of the input artifact for the action, such as its commit ID.
@@ -1960,6 +1955,7 @@ class CodePipeline {
   /// continue working, and failed actions are triggered again.
   ///
   /// May throw [ValidationException].
+  /// May throw [ConflictException].
   /// May throw [PipelineNotFoundException].
   /// May throw [StageNotFoundException].
   /// May throw [StageNotRetryableException].
@@ -2046,6 +2042,7 @@ class CodePipeline {
   /// latest commit to the source location specified as part of the pipeline.
   ///
   /// May throw [ValidationException].
+  /// May throw [ConflictException].
   /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [name] :
@@ -2111,6 +2108,7 @@ class CodePipeline {
   /// or abandoned, the pipeline execution is in a <code>Stopped</code> state.
   ///
   /// May throw [ValidationException].
+  /// May throw [ConflictException].
   /// May throw [PipelineNotFoundException].
   /// May throw [PipelineExecutionNotStoppableException].
   /// May throw [DuplicatedStopRequestException].
@@ -2620,6 +2618,16 @@ class ActionDeclaration {
     createFactory: true,
     createToJson: false)
 class ActionExecution {
+  /// ID of the workflow action execution in the current stage. Use the
+  /// <a>GetPipelineState</a> action to retrieve the current action execution
+  /// details of the current stage.
+  /// <note>
+  /// For older executions, this field might be empty. The action execution ID is
+  /// available for executions run on or after March 2020.
+  /// </note>
+  @_s.JsonKey(name: 'actionExecutionId')
+  final String actionExecutionId;
+
   /// The details of an error returned by a URL external to AWS.
   @_s.JsonKey(name: 'errorDetails')
   final ErrorDetails errorDetails;
@@ -2663,6 +2671,7 @@ class ActionExecution {
   final String token;
 
   ActionExecution({
+    this.actionExecutionId,
     this.errorDetails,
     this.externalExecutionId,
     this.externalExecutionUrl,
@@ -3031,10 +3040,36 @@ class ActionTypeId {
   /// A category defines what kind of action can be taken in the stage, and
   /// constrains the provider type for the action. Valid categories are limited to
   /// one of the following values.
+  ///
+  /// <ul>
+  /// <li>
+  /// Source
+  /// </li>
+  /// <li>
+  /// Build
+  /// </li>
+  /// <li>
+  /// Test
+  /// </li>
+  /// <li>
+  /// Deploy
+  /// </li>
+  /// <li>
+  /// Invoke
+  /// </li>
+  /// <li>
+  /// Approval
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'category')
   final ActionCategory category;
 
-  /// The creator of the action being called.
+  /// The creator of the action being called. There are three valid values for the
+  /// <code>Owner</code> field in the action category section within your pipeline
+  /// structure: <code>AWS</code>, <code>ThirdParty</code>, and
+  /// <code>Custom</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers">Valid
+  /// Action Types and Providers in CodePipeline</a>.
   @_s.JsonKey(name: 'owner')
   final ActionOwner owner;
 
@@ -4222,7 +4257,7 @@ class PipelineContext {
     createFactory: true,
     createToJson: true)
 class PipelineDeclaration {
-  /// The name of the action to be performed.
+  /// The name of the pipeline.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -4839,6 +4874,8 @@ class StageState {
   /// The state of the stage.
   @_s.JsonKey(name: 'actionStates')
   final List<ActionState> actionStates;
+  @_s.JsonKey(name: 'inboundExecution')
+  final StageExecution inboundExecution;
 
   /// The state of the inbound transition, which is either enabled or disabled.
   @_s.JsonKey(name: 'inboundTransitionState')
@@ -4855,6 +4892,7 @@ class StageState {
 
   StageState({
     this.actionStates,
+    this.inboundExecution,
     this.inboundTransitionState,
     this.latestExecution,
     this.stageName,
@@ -5348,6 +5386,11 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String type, String message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
 class DuplicatedStopRequestException extends _s.GenericAwsException {
   DuplicatedStopRequestException({String type, String message})
       : super(
@@ -5545,6 +5588,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ApprovalAlreadyCompletedException(type: type, message: message),
   'ConcurrentModificationException': (type, message) =>
       ConcurrentModificationException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'DuplicatedStopRequestException': (type, message) =>
       DuplicatedStopRequestException(type: type, message: message),
   'InvalidActionDeclarationException': (type, message) =>

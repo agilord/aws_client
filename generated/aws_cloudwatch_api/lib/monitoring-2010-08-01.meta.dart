@@ -677,7 +677,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Namespace": {"shape": "Namespace", "flattened": false},
       "MetricName": {"shape": "MetricName", "flattened": false},
       "Dimensions": {"shape": "DimensionFilters", "flattened": false},
-      "NextToken": {"shape": "NextToken", "flattened": false}
+      "NextToken": {"shape": "NextToken", "flattened": false},
+      "RecentlyActive": {"shape": "RecentlyActive", "flattened": false}
     },
     "flattened": false
   },
@@ -976,6 +977,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "RecentlyActive": {"type": "string", "flattened": false},
   "ResourceList": {
     "type": "list",
     "member": {"shape": "ResourceName"},

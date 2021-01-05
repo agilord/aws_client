@@ -6,6 +6,14 @@ part of 'route53domains-2014-05-15.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AcceptDomainTransferFromAnotherAwsAccountResponse
+    _$AcceptDomainTransferFromAnotherAwsAccountResponseFromJson(
+        Map<String, dynamic> json) {
+  return AcceptDomainTransferFromAnotherAwsAccountResponse(
+    operationId: json['OperationId'] as String,
+  );
+}
+
 BillingRecord _$BillingRecordFromJson(Map<String, dynamic> json) {
   return BillingRecord(
     billDate: const UnixDateTimeConverter().fromJson(json['BillDate']),
@@ -65,7 +73,17 @@ const _$OperationTypeEnumMap = {
   OperationType.changeDomainOwner: 'CHANGE_DOMAIN_OWNER',
   OperationType.renewDomain: 'RENEW_DOMAIN',
   OperationType.pushDomain: 'PUSH_DOMAIN',
+  OperationType.internalTransferOutDomain: 'INTERNAL_TRANSFER_OUT_DOMAIN',
+  OperationType.internalTransferInDomain: 'INTERNAL_TRANSFER_IN_DOMAIN',
 };
+
+CancelDomainTransferToAnotherAwsAccountResponse
+    _$CancelDomainTransferToAnotherAwsAccountResponseFromJson(
+        Map<String, dynamic> json) {
+  return CancelDomainTransferToAnotherAwsAccountResponse(
+    operationId: json['OperationId'] as String,
+  );
+}
 
 CheckDomainAvailabilityResponse _$CheckDomainAvailabilityResponseFromJson(
     Map<String, dynamic> json) {
@@ -404,12 +422,6 @@ DisableDomainTransferLockResponse _$DisableDomainTransferLockResponseFromJson(
   );
 }
 
-DomainLimitExceeded _$DomainLimitExceededFromJson(Map<String, dynamic> json) {
-  return DomainLimitExceeded(
-    message: json['message'] as String,
-  );
-}
-
 DomainSuggestion _$DomainSuggestionFromJson(Map<String, dynamic> json) {
   return DomainSuggestion(
     availability: json['Availability'] as String,
@@ -439,12 +451,6 @@ const _$TransferableEnumMap = {
   Transferable.untransferable: 'UNTRANSFERABLE',
   Transferable.dontKnow: 'DONT_KNOW',
 };
-
-DuplicateRequest _$DuplicateRequestFromJson(Map<String, dynamic> json) {
-  return DuplicateRequest(
-    message: json['message'] as String,
-  );
-}
 
 EnableDomainAutoRenewResponse _$EnableDomainAutoRenewResponseFromJson(
     Map<String, dynamic> json) {
@@ -491,6 +497,9 @@ const _$ExtraParamNameEnumMap = {
   ExtraParamName.auIdType: 'AU_ID_TYPE',
   ExtraParamName.caLegalType: 'CA_LEGAL_TYPE',
   ExtraParamName.caBusinessEntityType: 'CA_BUSINESS_ENTITY_TYPE',
+  ExtraParamName.caLegalRepresentative: 'CA_LEGAL_REPRESENTATIVE',
+  ExtraParamName.caLegalRepresentativeCapacity:
+      'CA_LEGAL_REPRESENTATIVE_CAPACITY',
   ExtraParamName.esIdentification: 'ES_IDENTIFICATION',
   ExtraParamName.esIdentificationType: 'ES_IDENTIFICATION_TYPE',
   ExtraParamName.esLegalForm: 'ES_LEGAL_FORM',
@@ -498,6 +507,7 @@ const _$ExtraParamNameEnumMap = {
   ExtraParamName.fiIdNumber: 'FI_ID_NUMBER',
   ExtraParamName.fiNationality: 'FI_NATIONALITY',
   ExtraParamName.fiOrganizationType: 'FI_ORGANIZATION_TYPE',
+  ExtraParamName.itNationality: 'IT_NATIONALITY',
   ExtraParamName.itPin: 'IT_PIN',
   ExtraParamName.itRegistrantEntityType: 'IT_REGISTRANT_ENTITY_TYPE',
   ExtraParamName.ruPassportData: 'RU_PASSPORT_DATA',
@@ -592,12 +602,6 @@ const _$OperationStatusEnumMap = {
   OperationStatus.failed: 'FAILED',
 };
 
-InvalidInput _$InvalidInputFromJson(Map<String, dynamic> json) {
-  return InvalidInput(
-    message: json['message'] as String,
-  );
-}
-
 ListDomainsResponse _$ListDomainsResponseFromJson(Map<String, dynamic> json) {
   return ListDomainsResponse(
     domains: (json['Domains'] as List)
@@ -651,13 +655,6 @@ Map<String, dynamic> _$NameserverToJson(Nameserver instance) {
   return val;
 }
 
-OperationLimitExceeded _$OperationLimitExceededFromJson(
-    Map<String, dynamic> json) {
-  return OperationLimitExceeded(
-    message: json['message'] as String,
-  );
-}
-
 OperationSummary _$OperationSummaryFromJson(Map<String, dynamic> json) {
   return OperationSummary(
     operationId: json['OperationId'] as String,
@@ -671,6 +668,14 @@ OperationSummary _$OperationSummaryFromJson(Map<String, dynamic> json) {
 RegisterDomainResponse _$RegisterDomainResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterDomainResponse(
+    operationId: json['OperationId'] as String,
+  );
+}
+
+RejectDomainTransferFromAnotherAwsAccountResponse
+    _$RejectDomainTransferFromAnotherAwsAccountResponseFromJson(
+        Map<String, dynamic> json) {
+  return RejectDomainTransferFromAnotherAwsAccountResponse(
     operationId: json['OperationId'] as String,
   );
 }
@@ -695,12 +700,6 @@ RetrieveDomainAuthCodeResponse _$RetrieveDomainAuthCodeResponseFromJson(
     Map<String, dynamic> json) {
   return RetrieveDomainAuthCodeResponse(
     authCode: json['AuthCode'] as String,
-  );
-}
-
-TLDRulesViolation _$TLDRulesViolationFromJson(Map<String, dynamic> json) {
-  return TLDRulesViolation(
-    message: json['message'] as String,
   );
 }
 
@@ -732,9 +731,12 @@ TransferDomainResponse _$TransferDomainResponseFromJson(
   );
 }
 
-UnsupportedTLD _$UnsupportedTLDFromJson(Map<String, dynamic> json) {
-  return UnsupportedTLD(
-    message: json['message'] as String,
+TransferDomainToAnotherAwsAccountResponse
+    _$TransferDomainToAnotherAwsAccountResponseFromJson(
+        Map<String, dynamic> json) {
+  return TransferDomainToAnotherAwsAccountResponse(
+    operationId: json['OperationId'] as String,
+    password: json['Password'] as String,
   );
 }
 

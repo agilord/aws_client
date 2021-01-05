@@ -528,7 +528,7 @@ class CodeCommit {
   /// </li>
   /// </ul>
   /// For more information about IAM ARNs, wildcards, and formats, see <a
-  /// href="https://docs.aws.amazon.com/iam/latest/UserGuide/reference_identifiers.html">IAM
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
@@ -953,7 +953,7 @@ class CodeCommit {
   /// </li>
   /// </ul>
   /// For more information about IAM ARNs, wildcards, and formats, see <a
-  /// href="https://docs.aws.amazon.com/iam/latest/UserGuide/reference_identifiers.html">IAM
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
@@ -2087,11 +2087,21 @@ class CodeCommit {
 
   /// Returns the content of a comment made on a change, file, or commit in a
   /// repository.
+  /// <note>
+  /// Reaction counts might include numbers from user identities who were
+  /// deleted after the reaction was made. For a count of reactions from active
+  /// identities, use GetCommentReactions.
+  /// </note>
   ///
   /// May throw [CommentDoesNotExistException].
+  /// May throw [CommentDeletedException].
   /// May throw [CommentIdRequiredException].
   /// May throw [InvalidCommentIdException].
-  /// May throw [CommentDeletedException].
+  /// May throw [EncryptionIntegrityChecksFailedException].
+  /// May throw [EncryptionKeyAccessDeniedException].
+  /// May throw [EncryptionKeyDisabledException].
+  /// May throw [EncryptionKeyNotFoundException].
+  /// May throw [EncryptionKeyUnavailableException].
   ///
   /// Parameter [commentId] :
   /// The unique, system-generated ID of the comment. To get this ID, use
@@ -2118,8 +2128,66 @@ class CodeCommit {
     return GetCommentOutput.fromJson(jsonResponse.body);
   }
 
+  /// Returns information about reactions to a specified comment ID. Reactions
+  /// from users who have been deleted will not be included in the count.
+  ///
+  /// May throw [CommentDoesNotExistException].
+  /// May throw [CommentIdRequiredException].
+  /// May throw [InvalidCommentIdException].
+  /// May throw [InvalidReactionUserArnException].
+  /// May throw [InvalidMaxResultsException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [CommentDeletedException].
+  ///
+  /// Parameter [commentId] :
+  /// The ID of the comment for which you want to get reactions information.
+  ///
+  /// Parameter [maxResults] :
+  /// A non-zero, non-negative integer used to limit the number of returned
+  /// results. The default is the same as the allowed maximum, 1,000.
+  ///
+  /// Parameter [nextToken] :
+  /// An enumeration token that, when provided in a request, returns the next
+  /// batch of the results.
+  ///
+  /// Parameter [reactionUserArn] :
+  /// Optional. The Amazon Resource Name (ARN) of the user or identity for which
+  /// you want to get reaction information.
+  Future<GetCommentReactionsOutput> getCommentReactions({
+    @_s.required String commentId,
+    int maxResults,
+    String nextToken,
+    String reactionUserArn,
+  }) async {
+    ArgumentError.checkNotNull(commentId, 'commentId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeCommit_20150413.GetCommentReactions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'commentId': commentId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (reactionUserArn != null) 'reactionUserArn': reactionUserArn,
+      },
+    );
+
+    return GetCommentReactionsOutput.fromJson(jsonResponse.body);
+  }
+
   /// Returns information about comments made on the comparison between two
   /// commits.
+  /// <note>
+  /// Reaction counts might include numbers from user identities who were
+  /// deleted after the reaction was made. For a count of reactions from active
+  /// identities, use GetCommentReactions.
+  /// </note>
   ///
   /// May throw [RepositoryNameRequiredException].
   /// May throw [RepositoryDoesNotExistException].
@@ -2198,6 +2266,11 @@ class CodeCommit {
   }
 
   /// Returns comments made on a pull request.
+  /// <note>
+  /// Reaction counts might include numbers from user identities who were
+  /// deleted after the reaction was made. For a count of reactions from active
+  /// identities, use GetCommentReactions.
+  /// </note>
   ///
   /// May throw [PullRequestIdRequiredException].
   /// May throw [PullRequestDoesNotExistException].
@@ -4335,15 +4408,16 @@ class CodeCommit {
   /// May throw [InvalidFilePositionException].
   /// May throw [CommitIdRequiredException].
   /// May throw [InvalidCommitIdException].
+  /// May throw [BeforeCommitIdAndAfterCommitIdAreSameException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
-  /// May throw [BeforeCommitIdAndAfterCommitIdAreSameException].
   /// May throw [CommitDoesNotExistException].
   /// May throw [InvalidPathException].
   /// May throw [PathDoesNotExistException].
+  /// May throw [PathRequiredException].
   ///
   /// Parameter [afterCommitId] :
   /// To establish the directionality of the comparison, the full commit ID of
@@ -4438,6 +4512,7 @@ class CodeCommit {
   /// May throw [InvalidFilePositionException].
   /// May throw [CommitIdRequiredException].
   /// May throw [InvalidCommitIdException].
+  /// May throw [BeforeCommitIdAndAfterCommitIdAreSameException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
@@ -4447,7 +4522,6 @@ class CodeCommit {
   /// May throw [InvalidPathException].
   /// May throw [PathDoesNotExistException].
   /// May throw [PathRequiredException].
-  /// May throw [BeforeCommitIdAndAfterCommitIdAreSameException].
   ///
   /// Parameter [afterCommitId] :
   /// The full commit ID of the commit in the source branch that is the current
@@ -4584,6 +4658,52 @@ class CodeCommit {
     );
 
     return PostCommentReplyOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Adds or updates a reaction to a specified comment for the user whose
+  /// identity is used to make the request. You can only add or update a
+  /// reaction for yourself. You cannot add, modify, or delete a reaction for
+  /// another user.
+  ///
+  /// May throw [CommentDoesNotExistException].
+  /// May throw [CommentIdRequiredException].
+  /// May throw [InvalidCommentIdException].
+  /// May throw [InvalidReactionValueException].
+  /// May throw [ReactionValueRequiredException].
+  /// May throw [ReactionLimitExceededException].
+  /// May throw [CommentDeletedException].
+  ///
+  /// Parameter [commentId] :
+  /// The ID of the comment to which you want to add or update a reaction.
+  ///
+  /// Parameter [reactionValue] :
+  /// The emoji reaction you want to add or update. To remove a reaction,
+  /// provide a value of blank or null. You can also provide the value of none.
+  /// For information about emoji reaction values supported in AWS CodeCommit,
+  /// see the <a
+  /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-commit-comment.html#emoji-reaction-table">AWS
+  /// CodeCommit User Guide</a>.
+  Future<void> putCommentReaction({
+    @_s.required String commentId,
+    @_s.required String reactionValue,
+  }) async {
+    ArgumentError.checkNotNull(commentId, 'commentId');
+    ArgumentError.checkNotNull(reactionValue, 'reactionValue');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodeCommit_20150413.PutCommentReaction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'commentId': commentId,
+        'reactionValue': reactionValue,
+      },
+    );
   }
 
   /// Adds or updates a file in a branch in an AWS CodeCommit repository, and
@@ -5292,7 +5412,7 @@ class CodeCommit {
   /// </li>
   /// </ul>
   /// For more information about IAM ARNs, wildcards, and formats, see <a
-  /// href="https://docs.aws.amazon.com/iam/latest/UserGuide/reference_identifiers.html">IAM
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
   /// Identifiers</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
@@ -6272,6 +6392,11 @@ class Comment {
   @_s.JsonKey(name: 'authorArn')
   final String authorArn;
 
+  /// The emoji reactions to a comment, if any, submitted by the user whose
+  /// credentials are associated with the call to the API.
+  @_s.JsonKey(name: 'callerReactions')
+  final List<String> callerReactions;
+
   /// A unique, client-generated idempotency token that, when provided in a
   /// request, ensures the request cannot be repeated with a changed parameter. If
   /// a request is received with the same parameters and a token is included, the
@@ -6306,8 +6431,14 @@ class Comment {
   @_s.JsonKey(name: 'lastModifiedDate')
   final DateTime lastModifiedDate;
 
+  /// A string to integer map that represents the number of individual users who
+  /// have responded to a comment with the specified reactions.
+  @_s.JsonKey(name: 'reactionCounts')
+  final Map<String, int> reactionCounts;
+
   Comment({
     this.authorArn,
+    this.callerReactions,
     this.clientRequestToken,
     this.commentId,
     this.content,
@@ -6315,6 +6446,7 @@ class Comment {
     this.deleted,
     this.inReplyTo,
     this.lastModifiedDate,
+    this.reactionCounts,
   });
   factory Comment.fromJson(Map<String, dynamic> json) =>
       _$CommentFromJson(json);
@@ -7339,6 +7471,29 @@ class GetCommentOutput {
   });
   factory GetCommentOutput.fromJson(Map<String, dynamic> json) =>
       _$GetCommentOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetCommentReactionsOutput {
+  /// An array of reactions to the specified comment.
+  @_s.JsonKey(name: 'reactionsForComment')
+  final List<ReactionForComment> reactionsForComment;
+
+  /// An enumeration token that can be used in a request to return the next batch
+  /// of the results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  GetCommentReactionsOutput({
+    @_s.required this.reactionsForComment,
+    this.nextToken,
+  });
+  factory GetCommentReactionsOutput.fromJson(Map<String, dynamic> json) =>
+      _$GetCommentReactionsOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -8958,6 +9113,69 @@ class PutRepositoryTriggersOutput {
       _$PutRepositoryTriggersOutputFromJson(json);
 }
 
+/// Information about the reaction values provided by users on a comment.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ReactionForComment {
+  /// The reaction for a specified comment.
+  @_s.JsonKey(name: 'reaction')
+  final ReactionValueFormats reaction;
+
+  /// The Amazon Resource Names (ARNs) of users who have provided reactions to the
+  /// comment.
+  @_s.JsonKey(name: 'reactionUsers')
+  final List<String> reactionUsers;
+
+  /// A numerical count of users who reacted with the specified emoji whose
+  /// identities have been subsequently deleted from IAM. While these IAM users or
+  /// roles no longer exist, the reactions might still appear in total reaction
+  /// counts.
+  @_s.JsonKey(name: 'reactionsFromDeletedUsersCount')
+  final int reactionsFromDeletedUsersCount;
+
+  ReactionForComment({
+    this.reaction,
+    this.reactionUsers,
+    this.reactionsFromDeletedUsersCount,
+  });
+  factory ReactionForComment.fromJson(Map<String, dynamic> json) =>
+      _$ReactionForCommentFromJson(json);
+}
+
+/// Information about the values for reactions to a comment. AWS CodeCommit
+/// supports a limited set of reactions.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ReactionValueFormats {
+  /// The Emoji Version 1.0 graphic of the reaction. These graphics are
+  /// interpreted slightly differently on different operating systems.
+  @_s.JsonKey(name: 'emoji')
+  final String emoji;
+
+  /// The emoji short code for the reaction. Short codes are interpreted slightly
+  /// differently on different operating systems.
+  @_s.JsonKey(name: 'shortCode')
+  final String shortCode;
+
+  /// The Unicode codepoint for the reaction.
+  @_s.JsonKey(name: 'unicode')
+  final String unicode;
+
+  ReactionValueFormats({
+    this.emoji,
+    this.shortCode,
+    this.unicode,
+  });
+  factory ReactionValueFormats.fromJson(Map<String, dynamic> json) =>
+      _$ReactionValueFormatsFromJson(json);
+}
+
 enum RelativeFileVersionEnum {
   @_s.JsonValue('BEFORE')
   before,
@@ -10190,6 +10408,22 @@ class InvalidPullRequestStatusUpdateException extends _s.GenericAwsException {
             message: message);
 }
 
+class InvalidReactionUserArnException extends _s.GenericAwsException {
+  InvalidReactionUserArnException({String type, String message})
+      : super(
+            type: type,
+            code: 'InvalidReactionUserArnException',
+            message: message);
+}
+
+class InvalidReactionValueException extends _s.GenericAwsException {
+  InvalidReactionValueException({String type, String message})
+      : super(
+            type: type,
+            code: 'InvalidReactionValueException',
+            message: message);
+}
+
 class InvalidReferenceNameException extends _s.GenericAwsException {
   InvalidReferenceNameException({String type, String message})
       : super(
@@ -10606,6 +10840,22 @@ class PutFileEntryConflictException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'PutFileEntryConflictException',
+            message: message);
+}
+
+class ReactionLimitExceededException extends _s.GenericAwsException {
+  ReactionLimitExceededException({String type, String message})
+      : super(
+            type: type,
+            code: 'ReactionLimitExceededException',
+            message: message);
+}
+
+class ReactionValueRequiredException extends _s.GenericAwsException {
+  ReactionValueRequiredException({String type, String message})
+      : super(
+            type: type,
+            code: 'ReactionValueRequiredException',
             message: message);
 }
 
@@ -11038,6 +11288,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidPullRequestStatusException(type: type, message: message),
   'InvalidPullRequestStatusUpdateException': (type, message) =>
       InvalidPullRequestStatusUpdateException(type: type, message: message),
+  'InvalidReactionUserArnException': (type, message) =>
+      InvalidReactionUserArnException(type: type, message: message),
+  'InvalidReactionValueException': (type, message) =>
+      InvalidReactionValueException(type: type, message: message),
   'InvalidReferenceNameException': (type, message) =>
       InvalidReferenceNameException(type: type, message: message),
   'InvalidRelativeFileVersionEnumException': (type, message) =>
@@ -11155,6 +11409,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       PullRequestStatusRequiredException(type: type, message: message),
   'PutFileEntryConflictException': (type, message) =>
       PutFileEntryConflictException(type: type, message: message),
+  'ReactionLimitExceededException': (type, message) =>
+      ReactionLimitExceededException(type: type, message: message),
+  'ReactionValueRequiredException': (type, message) =>
+      ReactionValueRequiredException(type: type, message: message),
   'ReferenceDoesNotExistException': (type, message) =>
       ReferenceDoesNotExistException(type: type, message: message),
   'ReferenceNameRequiredException': (type, message) =>

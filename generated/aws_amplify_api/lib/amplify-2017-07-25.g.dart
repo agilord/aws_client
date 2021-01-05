@@ -32,11 +32,13 @@ App _$AppFromJson(Map<String, dynamic> json) {
         ?.toList(),
     basicAuthCredentials: json['basicAuthCredentials'] as String,
     buildSpec: json['buildSpec'] as String,
+    customHeaders: json['customHeaders'] as String,
     customRules: (json['customRules'] as List)
         ?.map((e) =>
             e == null ? null : CustomRule.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     enableAutoBranchCreation: json['enableAutoBranchCreation'] as bool,
+    enableBranchAutoDeletion: json['enableBranchAutoDeletion'] as bool,
     iamServiceRoleArn: json['iamServiceRoleArn'] as String,
     productionBranch: json['productionBranch'] == null
         ? null
@@ -98,6 +100,7 @@ AutoBranchCreationConfig _$AutoBranchCreationConfigFromJson(
     buildSpec: json['buildSpec'] as String,
     enableAutoBuild: json['enableAutoBuild'] as bool,
     enableBasicAuth: json['enableBasicAuth'] as bool,
+    enablePerformanceMode: json['enablePerformanceMode'] as bool,
     enablePullRequestPreview: json['enablePullRequestPreview'] as bool,
     environmentVariables:
         (json['environmentVariables'] as Map<String, dynamic>)?.map(
@@ -123,6 +126,7 @@ Map<String, dynamic> _$AutoBranchCreationConfigToJson(
   writeNotNull('buildSpec', instance.buildSpec);
   writeNotNull('enableAutoBuild', instance.enableAutoBuild);
   writeNotNull('enableBasicAuth', instance.enableBasicAuth);
+  writeNotNull('enablePerformanceMode', instance.enablePerformanceMode);
   writeNotNull('enablePullRequestPreview', instance.enablePullRequestPreview);
   writeNotNull('environmentVariables', instance.environmentVariables);
   writeNotNull('framework', instance.framework);
@@ -181,6 +185,7 @@ Branch _$BranchFromJson(Map<String, dynamic> json) {
     basicAuthCredentials: json['basicAuthCredentials'] as String,
     buildSpec: json['buildSpec'] as String,
     destinationBranch: json['destinationBranch'] as String,
+    enablePerformanceMode: json['enablePerformanceMode'] as bool,
     pullRequestEnvironmentName: json['pullRequestEnvironmentName'] as String,
     sourceBranch: json['sourceBranch'] as String,
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -334,6 +339,11 @@ DomainAssociation _$DomainAssociationFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : SubDomain.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    autoSubDomainCreationPatterns:
+        (json['autoSubDomainCreationPatterns'] as List)
+            ?.map((e) => e as String)
+            ?.toList(),
+    autoSubDomainIAMRole: json['autoSubDomainIAMRole'] as String,
     certificateVerificationDNSRecord:
         json['certificateVerificationDNSRecord'] as String,
   );

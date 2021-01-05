@@ -62,7 +62,7 @@ class AppSync {
   /// <b>FULL_REQUEST_CACHING</b>: All requests are fully cached.
   /// </li>
   /// <li>
-  /// <b>PER_RESOLVER_CACHING</b>: Individual resovlers that you specify are
+  /// <b>PER_RESOLVER_CACHING</b>: Individual resolvers that you specify are
   /// cached.
   /// </li>
   /// </ul>
@@ -76,7 +76,40 @@ class AppSync {
   /// Valid values are between 1 and 3600 seconds.
   ///
   /// Parameter [type] :
-  /// The cache instance type.
+  /// The cache instance type. Valid values are
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SMALL</code>
+  /// </li>
+  /// <li>
+  /// <code>MEDIUM</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE</code>
+  /// </li>
+  /// <li>
+  /// <code>XLARGE</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE_2X</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE_4X</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE_8X</code> (not available in all regions)
+  /// </li>
+  /// <li>
+  /// <code>LARGE_12X</code>
+  /// </li>
+  /// </ul>
+  /// Historically, instance types were identified by an EC2-style value. As of
+  /// July 2020, this is deprecated, and the generic identifiers above should be
+  /// used.
+  ///
+  /// The following legacy instance types are available, but their use is
+  /// discouraged:
   ///
   /// <ul>
   /// <li>
@@ -293,12 +326,12 @@ class AppSync {
   /// The <code>Function</code> name. The function name does not have to be
   /// unique.
   ///
+  /// Parameter [description] :
+  /// The <code>Function</code> description.
+  ///
   /// Parameter [requestMappingTemplate] :
   /// The <code>Function</code> request mapping template. Functions support only
   /// the 2018-05-29 version of the request mapping template.
-  ///
-  /// Parameter [description] :
-  /// The <code>Function</code> description.
   ///
   /// Parameter [responseMappingTemplate] :
   /// The <code>Function</code> response mapping template.
@@ -307,8 +340,8 @@ class AppSync {
     @_s.required String dataSourceName,
     @_s.required String functionVersion,
     @_s.required String name,
-    @_s.required String requestMappingTemplate,
     String description,
+    String requestMappingTemplate,
     String responseMappingTemplate,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
@@ -341,14 +374,11 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    ArgumentError.checkNotNull(
-        requestMappingTemplate, 'requestMappingTemplate');
     _s.validateStringLength(
       'requestMappingTemplate',
       requestMappingTemplate,
       1,
       65536,
-      isRequired: true,
     );
     _s.validateStringLength(
       'responseMappingTemplate',
@@ -360,8 +390,9 @@ class AppSync {
       'dataSourceName': dataSourceName,
       'functionVersion': functionVersion,
       'name': name,
-      'requestMappingTemplate': requestMappingTemplate,
       if (description != null) 'description': description,
+      if (requestMappingTemplate != null)
+        'requestMappingTemplate': requestMappingTemplate,
       if (responseMappingTemplate != null)
         'responseMappingTemplate': responseMappingTemplate,
     };
@@ -458,13 +489,6 @@ class AppSync {
   /// Parameter [fieldName] :
   /// The name of the field to attach the resolver to.
   ///
-  /// Parameter [requestMappingTemplate] :
-  /// The mapping template to be used for requests.
-  ///
-  /// A resolver uses a request mapping template to convert a GraphQL expression
-  /// into a format that a data source can understand. Mapping templates are
-  /// written in Apache Velocity Template Language (VTL).
-  ///
   /// Parameter [typeName] :
   /// The name of the <code>Type</code>.
   ///
@@ -494,6 +518,17 @@ class AppSync {
   /// Parameter [pipelineConfig] :
   /// The <code>PipelineConfig</code>.
   ///
+  /// Parameter [requestMappingTemplate] :
+  /// The mapping template to be used for requests.
+  ///
+  /// A resolver uses a request mapping template to convert a GraphQL expression
+  /// into a format that a data source can understand. Mapping templates are
+  /// written in Apache Velocity Template Language (VTL).
+  ///
+  /// VTL request mapping templates are optional when using a Lambda data
+  /// source. For all other data sources, VTL request and response mapping
+  /// templates are required.
+  ///
   /// Parameter [responseMappingTemplate] :
   /// The mapping template to be used for responses from the data source.
   ///
@@ -503,12 +538,12 @@ class AppSync {
   Future<CreateResolverResponse> createResolver({
     @_s.required String apiId,
     @_s.required String fieldName,
-    @_s.required String requestMappingTemplate,
     @_s.required String typeName,
     CachingConfig cachingConfig,
     String dataSourceName,
     ResolverKind kind,
     PipelineConfig pipelineConfig,
+    String requestMappingTemplate,
     String responseMappingTemplate,
     SyncConfig syncConfig,
   }) async {
@@ -525,15 +560,6 @@ class AppSync {
       'fieldName',
       fieldName,
       r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        requestMappingTemplate, 'requestMappingTemplate');
-    _s.validateStringLength(
-      'requestMappingTemplate',
-      requestMappingTemplate,
-      1,
-      65536,
       isRequired: true,
     );
     ArgumentError.checkNotNull(typeName, 'typeName');
@@ -562,6 +588,12 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
     );
     _s.validateStringLength(
+      'requestMappingTemplate',
+      requestMappingTemplate,
+      1,
+      65536,
+    );
+    _s.validateStringLength(
       'responseMappingTemplate',
       responseMappingTemplate,
       1,
@@ -569,11 +601,12 @@ class AppSync {
     );
     final $payload = <String, dynamic>{
       'fieldName': fieldName,
-      'requestMappingTemplate': requestMappingTemplate,
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
       if (dataSourceName != null) 'dataSourceName': dataSourceName,
       if (kind != null) 'kind': kind.toValue(),
       if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
+      if (requestMappingTemplate != null)
+        'requestMappingTemplate': requestMappingTemplate,
       if (responseMappingTemplate != null)
         'responseMappingTemplate': responseMappingTemplate,
       if (syncConfig != null) 'syncConfig': syncConfig,
@@ -1211,7 +1244,7 @@ class AppSync {
 
   /// Lists the API keys for a given API.
   /// <note>
-  /// API keys are deleted automatically sometime after they expire. However,
+  /// API keys are deleted automatically 60 days after they expire. However,
   /// they may still be included in the response until they have actually been
   /// deleted. You can safely call <code>DeleteApiKey</code> to manually delete
   /// a key before it's automatically deleted.
@@ -1776,7 +1809,7 @@ class AppSync {
   /// <b>FULL_REQUEST_CACHING</b>: All requests are fully cached.
   /// </li>
   /// <li>
-  /// <b>PER_RESOLVER_CACHING</b>: Individual resovlers that you specify are
+  /// <b>PER_RESOLVER_CACHING</b>: Individual resolvers that you specify are
   /// cached.
   /// </li>
   /// </ul>
@@ -1790,7 +1823,40 @@ class AppSync {
   /// Valid values are between 1 and 3600 seconds.
   ///
   /// Parameter [type] :
-  /// The cache instance type.
+  /// The cache instance type. Valid values are
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SMALL</code>
+  /// </li>
+  /// <li>
+  /// <code>MEDIUM</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE</code>
+  /// </li>
+  /// <li>
+  /// <code>XLARGE</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE_2X</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE_4X</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE_8X</code> (not available in all regions)
+  /// </li>
+  /// <li>
+  /// <code>LARGE_12X</code>
+  /// </li>
+  /// </ul>
+  /// Historically, instance types were identified by an EC2-style value. As of
+  /// July 2020, this is deprecated, and the generic identifiers above should be
+  /// used.
+  ///
+  /// The following legacy instance types are available, but their use is
+  /// discouraged:
   ///
   /// <ul>
   /// <li>
@@ -1839,7 +1905,7 @@ class AppSync {
     return UpdateApiCacheResponse.fromJson(response);
   }
 
-  /// Updates an API key.
+  /// Updates an API key. The key can be updated while it is not deleted.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -1992,12 +2058,12 @@ class AppSync {
   /// Parameter [name] :
   /// The <code>Function</code> name.
   ///
+  /// Parameter [description] :
+  /// The <code>Function</code> description.
+  ///
   /// Parameter [requestMappingTemplate] :
   /// The <code>Function</code> request mapping template. Functions support only
   /// the 2018-05-29 version of the request mapping template.
-  ///
-  /// Parameter [description] :
-  /// The <code>Function</code> description.
   ///
   /// Parameter [responseMappingTemplate] :
   /// The <code>Function</code> request mapping template.
@@ -2007,8 +2073,8 @@ class AppSync {
     @_s.required String functionId,
     @_s.required String functionVersion,
     @_s.required String name,
-    @_s.required String requestMappingTemplate,
     String description,
+    String requestMappingTemplate,
     String responseMappingTemplate,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
@@ -2055,14 +2121,11 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
       isRequired: true,
     );
-    ArgumentError.checkNotNull(
-        requestMappingTemplate, 'requestMappingTemplate');
     _s.validateStringLength(
       'requestMappingTemplate',
       requestMappingTemplate,
       1,
       65536,
-      isRequired: true,
     );
     _s.validateStringLength(
       'responseMappingTemplate',
@@ -2074,8 +2137,9 @@ class AppSync {
       'dataSourceName': dataSourceName,
       'functionVersion': functionVersion,
       'name': name,
-      'requestMappingTemplate': requestMappingTemplate,
       if (description != null) 'description': description,
+      if (requestMappingTemplate != null)
+        'requestMappingTemplate': requestMappingTemplate,
       if (responseMappingTemplate != null)
         'responseMappingTemplate': responseMappingTemplate,
     };
@@ -2171,9 +2235,6 @@ class AppSync {
   /// Parameter [fieldName] :
   /// The new field name.
   ///
-  /// Parameter [requestMappingTemplate] :
-  /// The new request mapping template.
-  ///
   /// Parameter [typeName] :
   /// The new type name.
   ///
@@ -2203,6 +2264,17 @@ class AppSync {
   /// Parameter [pipelineConfig] :
   /// The <code>PipelineConfig</code>.
   ///
+  /// Parameter [requestMappingTemplate] :
+  /// The new request mapping template.
+  ///
+  /// A resolver uses a request mapping template to convert a GraphQL expression
+  /// into a format that a data source can understand. Mapping templates are
+  /// written in Apache Velocity Template Language (VTL).
+  ///
+  /// VTL request mapping templates are optional when using a Lambda data
+  /// source. For all other data sources, VTL request and response mapping
+  /// templates are required.
+  ///
   /// Parameter [responseMappingTemplate] :
   /// The new response mapping template.
   ///
@@ -2212,12 +2284,12 @@ class AppSync {
   Future<UpdateResolverResponse> updateResolver({
     @_s.required String apiId,
     @_s.required String fieldName,
-    @_s.required String requestMappingTemplate,
     @_s.required String typeName,
     CachingConfig cachingConfig,
     String dataSourceName,
     ResolverKind kind,
     PipelineConfig pipelineConfig,
+    String requestMappingTemplate,
     String responseMappingTemplate,
     SyncConfig syncConfig,
   }) async {
@@ -2234,15 +2306,6 @@ class AppSync {
       'fieldName',
       fieldName,
       r'''[_A-Za-z][_0-9A-Za-z]*''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        requestMappingTemplate, 'requestMappingTemplate');
-    _s.validateStringLength(
-      'requestMappingTemplate',
-      requestMappingTemplate,
-      1,
-      65536,
       isRequired: true,
     );
     ArgumentError.checkNotNull(typeName, 'typeName');
@@ -2271,17 +2334,24 @@ class AppSync {
       r'''[_A-Za-z][_0-9A-Za-z]*''',
     );
     _s.validateStringLength(
+      'requestMappingTemplate',
+      requestMappingTemplate,
+      1,
+      65536,
+    );
+    _s.validateStringLength(
       'responseMappingTemplate',
       responseMappingTemplate,
       1,
       65536,
     );
     final $payload = <String, dynamic>{
-      'requestMappingTemplate': requestMappingTemplate,
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
       if (dataSourceName != null) 'dataSourceName': dataSourceName,
       if (kind != null) 'kind': kind.toValue(),
       if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
+      if (requestMappingTemplate != null)
+        'requestMappingTemplate': requestMappingTemplate,
       if (responseMappingTemplate != null)
         'responseMappingTemplate': responseMappingTemplate,
       if (syncConfig != null) 'syncConfig': syncConfig,
@@ -2399,7 +2469,7 @@ class ApiCache {
   /// <b>FULL_REQUEST_CACHING</b>: All requests are fully cached.
   /// </li>
   /// <li>
-  /// <b>PER_RESOLVER_CACHING</b>: Individual resovlers that you specify are
+  /// <b>PER_RESOLVER_CACHING</b>: Individual resolvers that you specify are
   /// cached.
   /// </li>
   /// </ul>
@@ -2444,7 +2514,40 @@ class ApiCache {
   @_s.JsonKey(name: 'ttl')
   final int ttl;
 
-  /// The cache instance type.
+  /// The cache instance type. Valid values are
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SMALL</code>
+  /// </li>
+  /// <li>
+  /// <code>MEDIUM</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE</code>
+  /// </li>
+  /// <li>
+  /// <code>XLARGE</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE_2X</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE_4X</code>
+  /// </li>
+  /// <li>
+  /// <code>LARGE_8X</code> (not available in all regions)
+  /// </li>
+  /// <li>
+  /// <code>LARGE_12X</code>
+  /// </li>
+  /// </ul>
+  /// Historically, instance types were identified by an EC2-style value. As of
+  /// July 2020, this is deprecated, and the generic identifiers above should be
+  /// used.
+  ///
+  /// The following legacy instance types are available, but their use is
+  /// discouraged:
   ///
   /// <ul>
   /// <li>
@@ -2512,6 +2615,22 @@ enum ApiCacheType {
   r4_4xlarge,
   @_s.JsonValue('R4_8XLARGE')
   r4_8xlarge,
+  @_s.JsonValue('SMALL')
+  small,
+  @_s.JsonValue('MEDIUM')
+  medium,
+  @_s.JsonValue('LARGE')
+  large,
+  @_s.JsonValue('XLARGE')
+  xlarge,
+  @_s.JsonValue('LARGE_2X')
+  large_2x,
+  @_s.JsonValue('LARGE_4X')
+  large_4x,
+  @_s.JsonValue('LARGE_8X')
+  large_8x,
+  @_s.JsonValue('LARGE_12X')
+  large_12x,
 }
 
 extension on ApiCacheType {
@@ -2531,6 +2650,22 @@ extension on ApiCacheType {
         return 'R4_4XLARGE';
       case ApiCacheType.r4_8xlarge:
         return 'R4_8XLARGE';
+      case ApiCacheType.small:
+        return 'SMALL';
+      case ApiCacheType.medium:
+        return 'MEDIUM';
+      case ApiCacheType.large:
+        return 'LARGE';
+      case ApiCacheType.xlarge:
+        return 'XLARGE';
+      case ApiCacheType.large_2x:
+        return 'LARGE_2X';
+      case ApiCacheType.large_4x:
+        return 'LARGE_4X';
+      case ApiCacheType.large_8x:
+        return 'LARGE_8X';
+      case ApiCacheType.large_12x:
+        return 'LARGE_12X';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -2590,22 +2725,30 @@ extension on ApiCachingBehavior {
 ///
 /// <ul>
 /// <li>
-/// <code>ListApiKeys</code> returns the expiration time in seconds.
+/// <code>ListApiKeys</code> returns the expiration time and deletion time in
+/// seconds.
 /// </li>
 /// <li>
-/// <code>CreateApiKey</code> returns the expiration time in seconds and accepts
-/// a user-provided expiration time in seconds.
+/// <code>CreateApiKey</code> returns the expiration time and deletion time in
+/// seconds and accepts a user-provided expiration time in seconds.
 /// </li>
 /// <li>
-/// <code>UpdateApiKey</code> returns the expiration time in seconds and accepts
-/// a user-provided expiration time in seconds. Key expiration can only be
-/// updated while the key has not expired.
+/// <code>UpdateApiKey</code> returns the expiration time and and deletion time
+/// in seconds and accepts a user-provided expiration time in seconds. Expired
+/// API keys are kept for 60 days after the expiration time. Key expiration time
+/// can be updated while the key is not deleted.
 /// </li>
 /// <li>
 /// <code>DeleteApiKey</code> deletes the item from the table.
 /// </li>
 /// <li>
-/// Expiration is stored in Amazon DynamoDB as seconds.
+/// Expiration is stored in Amazon DynamoDB as seconds. After the expiration
+/// time, using the key to authenticate will fail. But the key can be reinstated
+/// before deletion.
+/// </li>
+/// <li>
+/// Deletion is stored in Amazon DynamoDB as seconds. The key will be deleted
+/// after deletion time.
 /// </li>
 /// </ul>
 @_s.JsonSerializable(
@@ -2614,6 +2757,11 @@ extension on ApiCachingBehavior {
     createFactory: true,
     createToJson: false)
 class ApiKey {
+  /// The time after which the API key is deleted. The date is represented as
+  /// seconds since the epoch, rounded down to the nearest hour.
+  @_s.JsonKey(name: 'deletes')
+  final int deletes;
+
   /// A description of the purpose of the API key.
   @_s.JsonKey(name: 'description')
   final String description;
@@ -2628,6 +2776,7 @@ class ApiKey {
   final String id;
 
   ApiKey({
+    this.deletes,
     this.description,
     this.expires,
     this.id,
@@ -2732,8 +2881,8 @@ class AwsIamConfig {
 class CachingConfig {
   /// The caching keys for a resolver that has caching enabled.
   ///
-  /// Valid values are entries from the <code>$context.identity</code> and
-  /// <code>$context.arguments</code> maps.
+  /// Valid values are entries from the <code>$context.arguments</code>,
+  /// <code>$context.source</code>, and <code>$context.identity</code> maps.
   @_s.JsonKey(name: 'cachingKeys')
   final List<String> cachingKeys;
 
@@ -3500,6 +3649,11 @@ class GraphqlApi {
   @_s.JsonKey(name: 'userPoolConfig')
   final UserPoolConfig userPoolConfig;
 
+  /// The ARN of the AWS Web Application Firewall (WAF) ACL associated with this
+  /// <code>GraphqlApi</code>, if one exists.
+  @_s.JsonKey(name: 'wafWebAclArn')
+  final String wafWebAclArn;
+
   /// A flag representing whether X-Ray tracing is enabled for this
   /// <code>GraphqlApi</code>.
   @_s.JsonKey(name: 'xrayEnabled')
@@ -3516,6 +3670,7 @@ class GraphqlApi {
     this.tags,
     this.uris,
     this.userPoolConfig,
+    this.wafWebAclArn,
     this.xrayEnabled,
   });
   factory GraphqlApi.fromJson(Map<String, dynamic> json) =>
@@ -3929,7 +4084,7 @@ class RdsHttpEndpointConfig {
   @_s.JsonKey(name: 'databaseName')
   final String databaseName;
 
-  /// Amazon RDS cluster identifier.
+  /// Amazon RDS cluster ARN.
   @_s.JsonKey(name: 'dbClusterIdentifier')
   final String dbClusterIdentifier;
 

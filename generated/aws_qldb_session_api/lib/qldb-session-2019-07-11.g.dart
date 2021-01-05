@@ -12,7 +12,12 @@ Map<String, dynamic> _$AbortTransactionRequestToJson(
 
 AbortTransactionResult _$AbortTransactionResultFromJson(
     Map<String, dynamic> json) {
-  return AbortTransactionResult();
+  return AbortTransactionResult(
+    timingInformation: json['TimingInformation'] == null
+        ? null
+        : TimingInformation.fromJson(
+            json['TimingInformation'] as Map<String, dynamic>),
+  );
 }
 
 Map<String, dynamic> _$CommitTransactionRequestToJson(
@@ -36,6 +41,13 @@ CommitTransactionResult _$CommitTransactionResultFromJson(
   return CommitTransactionResult(
     commitDigest:
         const Uint8ListConverter().fromJson(json['CommitDigest'] as String),
+    consumedIOs: json['ConsumedIOs'] == null
+        ? null
+        : IOUsage.fromJson(json['ConsumedIOs'] as Map<String, dynamic>),
+    timingInformation: json['TimingInformation'] == null
+        ? null
+        : TimingInformation.fromJson(
+            json['TimingInformation'] as Map<String, dynamic>),
     transactionId: json['TransactionId'] as String,
   );
 }
@@ -44,7 +56,12 @@ Map<String, dynamic> _$EndSessionRequestToJson(EndSessionRequest instance) =>
     <String, dynamic>{};
 
 EndSessionResult _$EndSessionResultFromJson(Map<String, dynamic> json) {
-  return EndSessionResult();
+  return EndSessionResult(
+    timingInformation: json['TimingInformation'] == null
+        ? null
+        : TimingInformation.fromJson(
+            json['TimingInformation'] as Map<String, dynamic>),
+  );
 }
 
 Map<String, dynamic> _$ExecuteStatementRequestToJson(
@@ -67,9 +84,16 @@ Map<String, dynamic> _$ExecuteStatementRequestToJson(
 ExecuteStatementResult _$ExecuteStatementResultFromJson(
     Map<String, dynamic> json) {
   return ExecuteStatementResult(
+    consumedIOs: json['ConsumedIOs'] == null
+        ? null
+        : IOUsage.fromJson(json['ConsumedIOs'] as Map<String, dynamic>),
     firstPage: json['FirstPage'] == null
         ? null
         : Page.fromJson(json['FirstPage'] as Map<String, dynamic>),
+    timingInformation: json['TimingInformation'] == null
+        ? null
+        : TimingInformation.fromJson(
+            json['TimingInformation'] as Map<String, dynamic>),
   );
 }
 
@@ -89,9 +113,23 @@ Map<String, dynamic> _$FetchPageRequestToJson(FetchPageRequest instance) {
 
 FetchPageResult _$FetchPageResultFromJson(Map<String, dynamic> json) {
   return FetchPageResult(
+    consumedIOs: json['ConsumedIOs'] == null
+        ? null
+        : IOUsage.fromJson(json['ConsumedIOs'] as Map<String, dynamic>),
     page: json['Page'] == null
         ? null
         : Page.fromJson(json['Page'] as Map<String, dynamic>),
+    timingInformation: json['TimingInformation'] == null
+        ? null
+        : TimingInformation.fromJson(
+            json['TimingInformation'] as Map<String, dynamic>),
+  );
+}
+
+IOUsage _$IOUsageFromJson(Map<String, dynamic> json) {
+  return IOUsage(
+    readIOs: json['ReadIOs'] as int,
+    writeIOs: json['WriteIOs'] as int,
   );
 }
 
@@ -152,6 +190,10 @@ Map<String, dynamic> _$StartSessionRequestToJson(StartSessionRequest instance) {
 StartSessionResult _$StartSessionResultFromJson(Map<String, dynamic> json) {
   return StartSessionResult(
     sessionToken: json['SessionToken'] as String,
+    timingInformation: json['TimingInformation'] == null
+        ? null
+        : TimingInformation.fromJson(
+            json['TimingInformation'] as Map<String, dynamic>),
   );
 }
 
@@ -162,7 +204,17 @@ Map<String, dynamic> _$StartTransactionRequestToJson(
 StartTransactionResult _$StartTransactionResultFromJson(
     Map<String, dynamic> json) {
   return StartTransactionResult(
+    timingInformation: json['TimingInformation'] == null
+        ? null
+        : TimingInformation.fromJson(
+            json['TimingInformation'] as Map<String, dynamic>),
     transactionId: json['TransactionId'] as String,
+  );
+}
+
+TimingInformation _$TimingInformationFromJson(Map<String, dynamic> json) {
+  return TimingInformation(
+    processingTimeMilliseconds: json['ProcessingTimeMilliseconds'] as int,
   );
 }
 

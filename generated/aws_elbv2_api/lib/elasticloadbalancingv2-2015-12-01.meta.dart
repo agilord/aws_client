@@ -55,6 +55,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "AddTagsOutput": {"type": "structure", "members": {}, "flattened": false},
   "AllocationId": {"type": "string", "flattened": false},
+  "AlpnPolicyName": {
+    "type": "list",
+    "member": {"shape": "AlpnPolicyValue"},
+    "flattened": false
+  },
+  "AlpnPolicyValue": {"type": "string", "flattened": false},
   "AuthenticateCognitoActionAuthenticationRequestExtraParams": {
     "type": "map",
     "key": {"shape": "AuthenticateCognitoActionAuthenticationRequestParamName"},
@@ -224,6 +230,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ZoneName": {"shape": "ZoneName", "flattened": false},
       "SubnetId": {"shape": "SubnetId", "flattened": false},
+      "OutpostId": {"shape": "OutpostId", "flattened": false},
       "LoadBalancerAddresses": {
         "shape": "LoadBalancerAddresses",
         "flattened": false
@@ -275,7 +282,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Port": {"shape": "Port", "flattened": false},
       "SslPolicy": {"shape": "SslPolicyName", "flattened": false},
       "Certificates": {"shape": "CertificateList", "flattened": false},
-      "DefaultActions": {"shape": "Actions", "flattened": false}
+      "DefaultActions": {"shape": "Actions", "flattened": false},
+      "AlpnPolicy": {"shape": "AlpnPolicyName", "flattened": false},
+      "Tags": {"shape": "TagList", "flattened": false}
     },
     "flattened": false
   },
@@ -296,7 +305,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Scheme": {"shape": "LoadBalancerSchemeEnum", "flattened": false},
       "Tags": {"shape": "TagList", "flattened": false},
       "Type": {"shape": "LoadBalancerTypeEnum", "flattened": false},
-      "IpAddressType": {"shape": "IpAddressType", "flattened": false}
+      "IpAddressType": {"shape": "IpAddressType", "flattened": false},
+      "CustomerOwnedIpv4Pool": {
+        "shape": "CustomerOwnedIpv4Pool",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -313,7 +326,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ListenerArn": {"shape": "ListenerArn", "flattened": false},
       "Conditions": {"shape": "RuleConditionList", "flattened": false},
       "Priority": {"shape": "RulePriority", "flattened": false},
-      "Actions": {"shape": "Actions", "flattened": false}
+      "Actions": {"shape": "Actions", "flattened": false},
+      "Tags": {"shape": "TagList", "flattened": false}
     },
     "flattened": false
   },
@@ -329,6 +343,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "Name": {"shape": "TargetGroupName", "flattened": false},
       "Protocol": {"shape": "ProtocolEnum", "flattened": false},
+      "ProtocolVersion": {"shape": "ProtocolVersion", "flattened": false},
       "Port": {"shape": "Port", "flattened": false},
       "VpcId": {"shape": "VpcId", "flattened": false},
       "HealthCheckProtocol": {"shape": "ProtocolEnum", "flattened": false},
@@ -352,7 +367,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "Matcher": {"shape": "Matcher", "flattened": false},
-      "TargetType": {"shape": "TargetTypeEnum", "flattened": false}
+      "TargetType": {"shape": "TargetTypeEnum", "flattened": false},
+      "Tags": {"shape": "TagList", "flattened": false}
     },
     "flattened": false
   },
@@ -364,6 +380,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "CreatedTime": {"type": "timestamp", "flattened": false},
+  "CustomerOwnedIpv4Pool": {"type": "string", "flattened": false},
   "DNSName": {"type": "string", "flattened": false},
   "Default": {"type": "boolean", "flattened": false},
   "DeleteListenerInput": {
@@ -639,6 +656,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "GrpcCode": {"type": "string", "flattened": false},
   "HealthCheckEnabled": {"type": "boolean", "flattened": false},
   "HealthCheckIntervalSeconds": {"type": "integer", "flattened": false},
   "HealthCheckPort": {"type": "string", "flattened": false},
@@ -671,6 +689,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "IPv6Address": {"type": "string", "flattened": false},
   "IpAddress": {"type": "string", "flattened": false},
   "IpAddressType": {"type": "string", "flattened": false},
   "IsDefault": {"type": "boolean", "flattened": false},
@@ -701,7 +720,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Protocol": {"shape": "ProtocolEnum", "flattened": false},
       "Certificates": {"shape": "CertificateList", "flattened": false},
       "SslPolicy": {"shape": "SslPolicyName", "flattened": false},
-      "DefaultActions": {"shape": "Actions", "flattened": false}
+      "DefaultActions": {"shape": "Actions", "flattened": false},
+      "AlpnPolicy": {"shape": "AlpnPolicyName", "flattened": false}
     },
     "flattened": false
   },
@@ -733,7 +753,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Type": {"shape": "LoadBalancerTypeEnum", "flattened": false},
       "AvailabilityZones": {"shape": "AvailabilityZones", "flattened": false},
       "SecurityGroups": {"shape": "SecurityGroups", "flattened": false},
-      "IpAddressType": {"shape": "IpAddressType", "flattened": false}
+      "IpAddressType": {"shape": "IpAddressType", "flattened": false},
+      "CustomerOwnedIpv4Pool": {
+        "shape": "CustomerOwnedIpv4Pool",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -742,7 +766,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "IpAddress": {"shape": "IpAddress", "flattened": false},
       "AllocationId": {"shape": "AllocationId", "flattened": false},
-      "PrivateIPv4Address": {"shape": "PrivateIPv4Address", "flattened": false}
+      "PrivateIPv4Address": {"shape": "PrivateIPv4Address", "flattened": false},
+      "IPv6Address": {"shape": "IPv6Address", "flattened": false}
     },
     "flattened": false
   },
@@ -798,7 +823,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "Matcher": {
     "type": "structure",
     "members": {
-      "HttpCode": {"shape": "HttpCode", "flattened": false}
+      "HttpCode": {"shape": "HttpCode", "flattened": false},
+      "GrpcCode": {"shape": "GrpcCode", "flattened": false}
     },
     "flattened": false
   },
@@ -811,7 +837,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Protocol": {"shape": "ProtocolEnum", "flattened": false},
       "SslPolicy": {"shape": "SslPolicyName", "flattened": false},
       "Certificates": {"shape": "CertificateList", "flattened": false},
-      "DefaultActions": {"shape": "Actions", "flattened": false}
+      "DefaultActions": {"shape": "Actions", "flattened": false},
+      "AlpnPolicy": {"shape": "AlpnPolicyName", "flattened": false}
     },
     "flattened": false
   },
@@ -904,6 +931,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "Name": {"type": "string", "flattened": false},
+  "OutpostId": {"type": "string", "flattened": false},
   "PageSize": {"type": "integer", "flattened": false},
   "Path": {"type": "string", "flattened": false},
   "PathPatternConditionConfig": {
@@ -916,6 +944,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "Port": {"type": "integer", "flattened": false},
   "PrivateIPv4Address": {"type": "string", "flattened": false},
   "ProtocolEnum": {"type": "string", "flattened": false},
+  "ProtocolVersion": {"type": "string", "flattened": false},
   "QueryStringConditionConfig": {
     "type": "structure",
     "members": {
@@ -1123,14 +1152,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "LoadBalancerArn": {"shape": "LoadBalancerArn", "flattened": false},
       "Subnets": {"shape": "Subnets", "flattened": false},
-      "SubnetMappings": {"shape": "SubnetMappings", "flattened": false}
+      "SubnetMappings": {"shape": "SubnetMappings", "flattened": false},
+      "IpAddressType": {"shape": "IpAddressType", "flattened": false}
     },
     "flattened": false
   },
   "SetSubnetsOutput": {
     "type": "structure",
     "members": {
-      "AvailabilityZones": {"shape": "AvailabilityZones", "flattened": false}
+      "AvailabilityZones": {"shape": "AvailabilityZones", "flattened": false},
+      "IpAddressType": {"shape": "IpAddressType", "flattened": false}
     },
     "flattened": false
   },
@@ -1176,7 +1207,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "SubnetId": {"shape": "SubnetId", "flattened": false},
       "AllocationId": {"shape": "AllocationId", "flattened": false},
-      "PrivateIPv4Address": {"shape": "PrivateIPv4Address", "flattened": false}
+      "PrivateIPv4Address": {"shape": "PrivateIPv4Address", "flattened": false},
+      "IPv6Address": {"shape": "IPv6Address", "flattened": false}
     },
     "flattened": false
   },
@@ -1267,7 +1299,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "HealthCheckPath": {"shape": "Path", "flattened": false},
       "Matcher": {"shape": "Matcher", "flattened": false},
       "LoadBalancerArns": {"shape": "LoadBalancerArns", "flattened": false},
-      "TargetType": {"shape": "TargetTypeEnum", "flattened": false}
+      "TargetType": {"shape": "TargetTypeEnum", "flattened": false},
+      "ProtocolVersion": {"shape": "ProtocolVersion", "flattened": false}
     },
     "flattened": false
   },

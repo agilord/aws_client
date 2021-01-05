@@ -1362,10 +1362,15 @@ class ExportAssetsToS3RequestDetails {
   @_s.JsonKey(name: 'RevisionId')
   final String revisionId;
 
+  /// Encryption configuration for the export job.
+  @_s.JsonKey(name: 'Encryption')
+  final ExportServerSideEncryption encryption;
+
   ExportAssetsToS3RequestDetails({
     @_s.required this.assetDestinations,
     @_s.required this.dataSetId,
     @_s.required this.revisionId,
+    this.encryption,
   });
   Map<String, dynamic> toJson() => _$ExportAssetsToS3RequestDetailsToJson(this);
 }
@@ -1389,13 +1394,48 @@ class ExportAssetsToS3ResponseDetails {
   @_s.JsonKey(name: 'RevisionId')
   final String revisionId;
 
+  /// Encryption configuration of the export job.
+  @_s.JsonKey(name: 'Encryption')
+  final ExportServerSideEncryption encryption;
+
   ExportAssetsToS3ResponseDetails({
     @_s.required this.assetDestinations,
     @_s.required this.dataSetId,
     @_s.required this.revisionId,
+    this.encryption,
   });
   factory ExportAssetsToS3ResponseDetails.fromJson(Map<String, dynamic> json) =>
       _$ExportAssetsToS3ResponseDetailsFromJson(json);
+}
+
+/// Encryption configuration of the export job. Includes the encryption type as
+/// well as the AWS KMS key. The KMS key is only necessary if you chose the KMS
+/// encryption type.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ExportServerSideEncryption {
+  /// The type of server side encryption used for encrypting the objects in Amazon
+  /// S3.
+  @_s.JsonKey(name: 'Type')
+  final ServerSideEncryptionTypes type;
+
+  /// The Amazon Resource Name (ARN) of the the AWS KMS key you want to use to
+  /// encrypt the Amazon S3 objects. This parameter is required if you choose
+  /// aws:kms as an encryption type.
+  @_s.JsonKey(name: 'KmsKeyArn')
+  final String kmsKeyArn;
+
+  ExportServerSideEncryption({
+    @_s.required this.type,
+    this.kmsKeyArn,
+  });
+  factory ExportServerSideEncryption.fromJson(Map<String, dynamic> json) =>
+      _$ExportServerSideEncryptionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExportServerSideEncryptionToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -1904,7 +1944,7 @@ class JobError {
   @_s.JsonKey(name: 'LimitValue')
   final double limitValue;
 
-  /// The unqiue identifier for the resource related to the error.
+  /// The unique identifier for the resource related to the error.
   @_s.JsonKey(name: 'ResourceId')
   final String resourceId;
 
@@ -2223,6 +2263,14 @@ class S3SnapshotAsset {
   });
   factory S3SnapshotAsset.fromJson(Map<String, dynamic> json) =>
       _$S3SnapshotAssetFromJson(json);
+}
+
+/// The types of encryption supported in export jobs to Amazon S3.
+enum ServerSideEncryptionTypes {
+  @_s.JsonValue('aws:kms')
+  awsKms,
+  @_s.JsonValue('AES256')
+  aes256,
 }
 
 @_s.JsonSerializable(

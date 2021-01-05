@@ -408,6 +408,18 @@ DescribeGameServerGroupOutput _$DescribeGameServerGroupOutputFromJson(
   );
 }
 
+DescribeGameServerInstancesOutput _$DescribeGameServerInstancesOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeGameServerInstancesOutput(
+    gameServerInstances: (json['GameServerInstances'] as List)
+        ?.map((e) => e == null
+            ? null
+            : GameServerInstance.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
 DescribeGameServerOutput _$DescribeGameServerOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeGameServerOutput(
@@ -633,6 +645,14 @@ const _$EC2InstanceTypeEnumMap = {
   EC2InstanceType.c5_12xlarge: 'c5.12xlarge',
   EC2InstanceType.c5_18xlarge: 'c5.18xlarge',
   EC2InstanceType.c5_24xlarge: 'c5.24xlarge',
+  EC2InstanceType.c5aLarge: 'c5a.large',
+  EC2InstanceType.c5aXlarge: 'c5a.xlarge',
+  EC2InstanceType.c5a_2xlarge: 'c5a.2xlarge',
+  EC2InstanceType.c5a_4xlarge: 'c5a.4xlarge',
+  EC2InstanceType.c5a_8xlarge: 'c5a.8xlarge',
+  EC2InstanceType.c5a_12xlarge: 'c5a.12xlarge',
+  EC2InstanceType.c5a_16xlarge: 'c5a.16xlarge',
+  EC2InstanceType.c5a_24xlarge: 'c5a.24xlarge',
   EC2InstanceType.r3Large: 'r3.large',
   EC2InstanceType.r3Xlarge: 'r3.xlarge',
   EC2InstanceType.r3_2xlarge: 'r3.2xlarge',
@@ -652,6 +672,14 @@ const _$EC2InstanceTypeEnumMap = {
   EC2InstanceType.r5_12xlarge: 'r5.12xlarge',
   EC2InstanceType.r5_16xlarge: 'r5.16xlarge',
   EC2InstanceType.r5_24xlarge: 'r5.24xlarge',
+  EC2InstanceType.r5aLarge: 'r5a.large',
+  EC2InstanceType.r5aXlarge: 'r5a.xlarge',
+  EC2InstanceType.r5a_2xlarge: 'r5a.2xlarge',
+  EC2InstanceType.r5a_4xlarge: 'r5a.4xlarge',
+  EC2InstanceType.r5a_8xlarge: 'r5a.8xlarge',
+  EC2InstanceType.r5a_12xlarge: 'r5a.12xlarge',
+  EC2InstanceType.r5a_16xlarge: 'r5a.16xlarge',
+  EC2InstanceType.r5a_24xlarge: 'r5a.24xlarge',
   EC2InstanceType.m3Medium: 'm3.medium',
   EC2InstanceType.m3Large: 'm3.large',
   EC2InstanceType.m3Xlarge: 'm3.xlarge',
@@ -669,6 +697,14 @@ const _$EC2InstanceTypeEnumMap = {
   EC2InstanceType.m5_12xlarge: 'm5.12xlarge',
   EC2InstanceType.m5_16xlarge: 'm5.16xlarge',
   EC2InstanceType.m5_24xlarge: 'm5.24xlarge',
+  EC2InstanceType.m5aLarge: 'm5a.large',
+  EC2InstanceType.m5aXlarge: 'm5a.xlarge',
+  EC2InstanceType.m5a_2xlarge: 'm5a.2xlarge',
+  EC2InstanceType.m5a_4xlarge: 'm5a.4xlarge',
+  EC2InstanceType.m5a_8xlarge: 'm5a.8xlarge',
+  EC2InstanceType.m5a_12xlarge: 'm5a.12xlarge',
+  EC2InstanceType.m5a_16xlarge: 'm5a.16xlarge',
+  EC2InstanceType.m5a_24xlarge: 'm5a.24xlarge',
 };
 
 Event _$EventFromJson(Map<String, dynamic> json) {
@@ -842,7 +878,6 @@ GameServer _$GameServerFromJson(Map<String, dynamic> json) {
     claimStatus: _$enumDecodeNullable(
         _$GameServerClaimStatusEnumMap, json['ClaimStatus']),
     connectionInfo: json['ConnectionInfo'] as String,
-    customSortKey: json['CustomSortKey'] as String,
     gameServerData: json['GameServerData'] as String,
     gameServerGroupArn: json['GameServerGroupArn'] as String,
     gameServerGroupName: json['GameServerGroupName'] as String,
@@ -899,6 +934,7 @@ GameServerGroup _$GameServerGroupFromJson(Map<String, dynamic> json) {
 const _$BalancingStrategyEnumMap = {
   BalancingStrategy.spotOnly: 'SPOT_ONLY',
   BalancingStrategy.spotPreferred: 'SPOT_PREFERRED',
+  BalancingStrategy.onDemandOnly: 'ON_DEMAND_ONLY',
 };
 
 const _$GameServerProtectionPolicyEnumMap = {
@@ -935,6 +971,22 @@ Map<String, dynamic> _$GameServerGroupAutoScalingPolicyToJson(
   writeNotNull('EstimatedInstanceWarmup', instance.estimatedInstanceWarmup);
   return val;
 }
+
+GameServerInstance _$GameServerInstanceFromJson(Map<String, dynamic> json) {
+  return GameServerInstance(
+    gameServerGroupArn: json['GameServerGroupArn'] as String,
+    gameServerGroupName: json['GameServerGroupName'] as String,
+    instanceId: json['InstanceId'] as String,
+    instanceStatus: _$enumDecodeNullable(
+        _$GameServerInstanceStatusEnumMap, json['InstanceStatus']),
+  );
+}
+
+const _$GameServerInstanceStatusEnumMap = {
+  GameServerInstanceStatus.active: 'ACTIVE',
+  GameServerInstanceStatus.draining: 'DRAINING',
+  GameServerInstanceStatus.spotTerminating: 'SPOT_TERMINATING',
+};
 
 GameSession _$GameSessionFromJson(Map<String, dynamic> json) {
   return GameSession(
@@ -1348,6 +1400,8 @@ MatchmakingConfiguration _$MatchmakingConfigurationFromJson(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     customEventData: json['CustomEventData'] as String,
     description: json['Description'] as String,
+    flexMatchMode:
+        _$enumDecodeNullable(_$FlexMatchModeEnumMap, json['FlexMatchMode']),
     gameProperties: (json['GameProperties'] as List)
         ?.map((e) =>
             e == null ? null : GameProperty.fromJson(e as Map<String, dynamic>))
@@ -1367,6 +1421,11 @@ MatchmakingConfiguration _$MatchmakingConfigurationFromJson(
 const _$BackfillModeEnumMap = {
   BackfillMode.automatic: 'AUTOMATIC',
   BackfillMode.manual: 'MANUAL',
+};
+
+const _$FlexMatchModeEnumMap = {
+  FlexMatchMode.standalone: 'STANDALONE',
+  FlexMatchMode.withQueue: 'WITH_QUEUE',
 };
 
 MatchmakingRuleSet _$MatchmakingRuleSetFromJson(Map<String, dynamic> json) {

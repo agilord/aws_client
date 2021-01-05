@@ -26,11 +26,9 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'sms-2016-10-24.g.dart';
 
-/// This is the <i>AWS Sever Migration Service API Reference</i>. It provides
-/// descriptions, syntax, and usage examples for each of the actions and data
-/// types for the AWS Sever Migration Service (AWS SMS). The topic for each
-/// action shows the Query API request parameters and the XML response. You can
-/// also view the XML request elements in the WSDL.
+/// AWS Server Migration Service (AWS SMS) makes it easier and faster for you to
+/// migrate your on-premises workloads to AWS. To learn more about AWS SMS, see
+/// the following resources:
 class SMS {
   final _s.JsonProtocol _protocol;
   SMS({
@@ -58,23 +56,24 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [clientToken] :
-  /// A unique, case-sensitive identifier you provide to ensure idempotency of
-  /// application creation.
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of application creation.
   ///
   /// Parameter [description] :
-  /// Description of the new application
+  /// The description of the new application
   ///
   /// Parameter [name] :
-  /// Name of the new application.
+  /// The name of the new application.
   ///
   /// Parameter [roleName] :
-  /// Name of service role in customer's account to be used by AWS SMS.
+  /// The name of the service role in the customer's account to be used by AWS
+  /// SMS.
   ///
   /// Parameter [serverGroups] :
-  /// List of server groups to include in the application.
+  /// The server groups to include in the application.
   ///
   /// Parameter [tags] :
-  /// List of tags to be associated with the application.
+  /// The tags to be associated with the application.
   Future<CreateAppResponse> createApp({
     String clientToken,
     String description,
@@ -124,21 +123,20 @@ class SMS {
   /// The seed replication time.
   ///
   /// Parameter [serverId] :
-  /// The identifier of the server.
+  /// The ID of the server.
   ///
   /// Parameter [description] :
   /// The description of the replication job.
   ///
   /// Parameter [encrypted] :
-  /// When <i>true</i>, the replication job produces encrypted AMIs. See also
-  /// <code>KmsKeyId</code> below.
+  /// Indicates whether the replication job produces encrypted AMIs.
   ///
   /// Parameter [frequency] :
   /// The time between consecutive replication runs, in hours.
   ///
   /// Parameter [kmsKeyId] :
-  /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of
-  /// the following:
+  /// The ID of the KMS key for replication jobs that produce encrypted AMIs.
+  /// This value can be any of the following:
   ///
   /// <ul>
   /// <li>
@@ -148,28 +146,28 @@ class SMS {
   /// KMS key alias
   /// </li>
   /// <li>
-  /// ARN referring to KMS key ID
+  /// ARN referring to the KMS key ID
   /// </li>
   /// <li>
-  /// ARN referring to KMS key alias
+  /// ARN referring to the KMS key alias
   /// </li>
   /// </ul>
-  /// If encrypted is <i>true</i> but a KMS key id is not specified, the
-  /// customer's default KMS key for EBS is used.
+  /// If encrypted is <i>true</i> but a KMS key ID is not specified, the
+  /// customer's default KMS key for Amazon EBS is used.
   ///
   /// Parameter [licenseType] :
   /// The license type to be used for the AMI created by a successful
   /// replication run.
   ///
   /// Parameter [numberOfRecentAmisToKeep] :
-  /// The maximum number of SMS-created AMIs to retain. The oldest will be
-  /// deleted once the maximum number is reached and a new AMI is created.
+  /// The maximum number of SMS-created AMIs to retain. The oldest is deleted
+  /// after the maximum number is reached and a new AMI is created.
   ///
   /// Parameter [roleName] :
   /// The name of the IAM role to be used by the AWS SMS.
   ///
   /// Parameter [runOnce] :
-  /// <p/>
+  /// Indicates whether to run the replication job one time.
   Future<CreateReplicationJobResponse> createReplicationJob({
     @_s.required DateTime seedReplicationTime,
     @_s.required String serverId,
@@ -213,7 +211,7 @@ class SMS {
     return CreateReplicationJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes an existing application. Optionally deletes the launched stack
+  /// Deletes the specified application. Optionally deletes the launched stack
   /// associated with the application and all AWS SMS replication jobs for
   /// servers in the application.
   ///
@@ -224,15 +222,15 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application to delete.
+  /// The ID of the application.
   ///
   /// Parameter [forceStopAppReplication] :
-  /// While deleting the application, stop all replication jobs corresponding to
-  /// the servers in the application.
+  /// Indicates whether to stop all replication jobs corresponding to the
+  /// servers in the application while deleting the application.
   ///
   /// Parameter [forceTerminateApp] :
-  /// While deleting the application, terminate the stack corresponding to the
-  /// application.
+  /// Indicates whether to terminate the stack corresponding to the application
+  /// while deleting the application.
   Future<void> deleteApp({
     String appId,
     bool forceStopAppReplication,
@@ -259,7 +257,7 @@ class SMS {
     return DeleteAppResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes existing launch configuration for an application.
+  /// Deletes the launch configuration for the specified application.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -268,7 +266,7 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application associated with the launch configuration.
+  /// The ID of the application.
   Future<void> deleteAppLaunchConfiguration({
     String appId,
   }) async {
@@ -291,7 +289,7 @@ class SMS {
     return DeleteAppLaunchConfigurationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes existing replication configuration for an application.
+  /// Deletes the replication configuration for the specified application.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -300,7 +298,7 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application associated with the replication configuration.
+  /// The ID of the application.
   Future<void> deleteAppReplicationConfiguration({
     String appId,
   }) async {
@@ -324,6 +322,45 @@ class SMS {
         jsonResponse.body);
   }
 
+  /// Deletes the validation configuration for the specified application.
+  ///
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
+  /// May throw [InternalError].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [appId] :
+  /// The ID of the application.
+  Future<void> deleteAppValidationConfiguration({
+    @_s.required String appId,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''^app-[0-9a-f]{17}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSServerMigrationService_V2016_10_24.DeleteAppValidationConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'appId': appId,
+      },
+    );
+
+    return DeleteAppValidationConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes the specified replication job.
   ///
   /// After you delete a replication job, there are no further replication runs.
@@ -337,7 +374,7 @@ class SMS {
   /// May throw [ReplicationJobNotFoundException].
   ///
   /// Parameter [replicationJobId] :
-  /// The identifier of the replication job.
+  /// The ID of the replication job.
   Future<void> deleteReplicationJob({
     @_s.required String replicationJobId,
   }) async {
@@ -395,7 +432,7 @@ class SMS {
   /// May throw [InvalidParameterException].
   ///
   /// Parameter [connectorId] :
-  /// The identifier of the connector.
+  /// The ID of the connector.
   Future<void> disassociateConnector({
     @_s.required String connectorId,
   }) async {
@@ -429,10 +466,10 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application associated with the change set.
+  /// The ID of the application associated with the change set.
   ///
   /// Parameter [changesetFormat] :
-  /// Format for the change set.
+  /// The format for the change set.
   Future<GenerateChangeSetResponse> generateChangeSet({
     String appId,
     OutputFormat changesetFormat,
@@ -457,7 +494,7 @@ class SMS {
     return GenerateChangeSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// Generates an Amazon CloudFormation template based on the current launch
+  /// Generates an AWS CloudFormation template based on the current launch
   /// configuration and writes it to an Amazon S3 object in the customer’s
   /// Amazon S3 bucket.
   ///
@@ -468,10 +505,10 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application associated with the Amazon CloudFormation template.
+  /// The ID of the application associated with the AWS CloudFormation template.
   ///
   /// Parameter [templateFormat] :
-  /// Format for generating the Amazon CloudFormation template.
+  /// The format for generating the AWS CloudFormation template.
   Future<GenerateTemplateResponse> generateTemplate({
     String appId,
     OutputFormat templateFormat,
@@ -495,7 +532,7 @@ class SMS {
     return GenerateTemplateResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieve information about an application.
+  /// Retrieve information about the specified application.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -504,7 +541,7 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application whose information is being retrieved.
+  /// The ID of the application.
   Future<GetAppResponse> getApp({
     String appId,
   }) async {
@@ -526,8 +563,8 @@ class SMS {
     return GetAppResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the application launch configuration associated with an
-  /// application.
+  /// Retrieves the application launch configuration associated with the
+  /// specified application.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -536,7 +573,7 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application launch configuration.
+  /// The ID of the application.
   Future<GetAppLaunchConfigurationResponse> getAppLaunchConfiguration({
     String appId,
   }) async {
@@ -559,8 +596,8 @@ class SMS {
     return GetAppLaunchConfigurationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves an application replication configuration associatd with an
-  /// application.
+  /// Retrieves the application replication configuration associated with the
+  /// specified application.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -569,7 +606,7 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application associated with the replication configuration.
+  /// The ID of the application.
   Future<GetAppReplicationConfigurationResponse>
       getAppReplicationConfiguration({
     String appId,
@@ -591,6 +628,84 @@ class SMS {
     );
 
     return GetAppReplicationConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a configuration for validating an application.
+  ///
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
+  /// May throw [InternalError].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [appId] :
+  /// The ID of the application.
+  Future<GetAppValidationConfigurationResponse> getAppValidationConfiguration({
+    @_s.required String appId,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''^app-[0-9a-f]{17}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSServerMigrationService_V2016_10_24.GetAppValidationConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'appId': appId,
+      },
+    );
+
+    return GetAppValidationConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves output from validating an application.
+  ///
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
+  /// May throw [InternalError].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [appId] :
+  /// The ID of the application.
+  Future<GetAppValidationOutputResponse> getAppValidationOutput({
+    @_s.required String appId,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''^app-[0-9a-f]{17}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSServerMigrationService_V2016_10_24.GetAppValidationOutput'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'appId': appId,
+      },
+    );
+
+    return GetAppValidationOutputResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the connectors registered with the AWS SMS.
@@ -642,7 +757,7 @@ class SMS {
   /// The token for the next set of results.
   ///
   /// Parameter [replicationJobId] :
-  /// The identifier of the replication job.
+  /// The ID of the replication job.
   Future<GetReplicationJobsResponse> getReplicationJobs({
     int maxResults,
     String nextToken,
@@ -675,7 +790,7 @@ class SMS {
   /// May throw [UnauthorizedOperationException].
   ///
   /// Parameter [replicationJobId] :
-  /// The identifier of the replication job.
+  /// The ID of the replication job.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call. The default
@@ -716,6 +831,9 @@ class SMS {
   /// <a>ImportServerCatalog</a>.
   ///
   /// May throw [UnauthorizedOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
+  /// May throw [InternalError].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call. The default
@@ -726,7 +844,7 @@ class SMS {
   /// The token for the next set of results.
   ///
   /// Parameter [vmServerAddressList] :
-  /// List of <code>VmServerAddress</code> objects
+  /// The server addresses.
   Future<GetServersResponse> getServers({
     int maxResults,
     String nextToken,
@@ -753,8 +871,43 @@ class SMS {
     return GetServersResponse.fromJson(jsonResponse.body);
   }
 
+  /// Allows application import from AWS Migration Hub.
+  ///
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
+  /// May throw [InternalError].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [roleName] :
+  /// The name of the service role. If you omit this parameter, we create a
+  /// service-linked role for AWS Migration Hub in your account. Otherwise, the
+  /// role that you provide must have the <a
+  /// href="https://docs.aws.amazon.com/migrationhub/latest/ug/new-customer-setup.html#sms-managed">policy
+  /// and trust policy</a> described in the <i>AWS Migration Hub User Guide</i>.
+  Future<void> importAppCatalog({
+    String roleName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSServerMigrationService_V2016_10_24.ImportAppCatalog'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (roleName != null) 'roleName': roleName,
+      },
+    );
+
+    return ImportAppCatalogResponse.fromJson(jsonResponse.body);
+  }
+
   /// Gathers a complete list of on-premises servers. Connectors must be
-  /// installed and monitoring all servers that you want to import.
+  /// installed and monitoring all servers to import.
   ///
   /// This call returns immediately, but might take additional time to retrieve
   /// all the servers.
@@ -781,7 +934,7 @@ class SMS {
     return ImportServerCatalogResponse.fromJson(jsonResponse.body);
   }
 
-  /// Launches an application stack.
+  /// Launches the specified application as a stack in AWS CloudFormation.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -790,7 +943,7 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application to launch.
+  /// The ID of the application.
   Future<void> launchApp({
     String appId,
   }) async {
@@ -812,7 +965,7 @@ class SMS {
     return LaunchAppResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of summaries for all applications.
+  /// Retrieves summaries for all applications.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -821,12 +974,12 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appIds] :
-  /// <p/>
+  /// The unique application IDs.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call. The default
-  /// value is 50. To retrieve the remaining results, make another call with the
-  /// returned <code>NextToken</code> value.
+  /// value is 100. To retrieve the remaining results, make another call with
+  /// the returned <code>NextToken</code> value.
   ///
   /// Parameter [nextToken] :
   /// The token for the next set of results.
@@ -855,7 +1008,8 @@ class SMS {
     return ListAppsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a launch configuration for an application.
+  /// Provides information to AWS SMS about whether application validation is
+  /// successful.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -864,16 +1018,67 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application associated with the launch configuration.
+  /// The ID of the application.
+  ///
+  /// Parameter [notificationContext] :
+  /// The notification information.
+  Future<void> notifyAppValidationOutput({
+    @_s.required String appId,
+    NotificationContext notificationContext,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''^app-[0-9a-f]{17}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSServerMigrationService_V2016_10_24.NotifyAppValidationOutput'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'appId': appId,
+        if (notificationContext != null)
+          'notificationContext': notificationContext,
+      },
+    );
+
+    return NotifyAppValidationOutputResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates or updates the launch configuration for the specified application.
+  ///
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
+  /// May throw [InternalError].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [appId] :
+  /// The ID of the application.
+  ///
+  /// Parameter [autoLaunch] :
+  /// Indicates whether the application is configured to launch automatically
+  /// after replication is complete.
   ///
   /// Parameter [roleName] :
-  /// Name of service role in the customer's account that Amazon CloudFormation
+  /// The name of service role in the customer's account that AWS CloudFormation
   /// uses to launch the application.
   ///
   /// Parameter [serverGroupLaunchConfigurations] :
-  /// Launch configurations for server groups in the application.
+  /// Information about the launch configurations for server groups in the
+  /// application.
   Future<void> putAppLaunchConfiguration({
     String appId,
+    bool autoLaunch,
     String roleName,
     List<ServerGroupLaunchConfiguration> serverGroupLaunchConfigurations,
   }) async {
@@ -890,6 +1095,7 @@ class SMS {
       headers: headers,
       payload: {
         if (appId != null) 'appId': appId,
+        if (autoLaunch != null) 'autoLaunch': autoLaunch,
         if (roleName != null) 'roleName': roleName,
         if (serverGroupLaunchConfigurations != null)
           'serverGroupLaunchConfigurations': serverGroupLaunchConfigurations,
@@ -899,7 +1105,8 @@ class SMS {
     return PutAppLaunchConfigurationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates or updates a replication configuration for an application.
+  /// Creates or updates the replication configuration for the specified
+  /// application.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -908,10 +1115,11 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application tassociated with the replication configuration.
+  /// The ID of the application.
   ///
   /// Parameter [serverGroupReplicationConfigurations] :
-  /// Replication configurations for server groups in the application.
+  /// Information about the replication configurations for server groups in the
+  /// application.
   Future<void> putAppReplicationConfiguration({
     String appId,
     List<ServerGroupReplicationConfiguration>
@@ -939,7 +1147,8 @@ class SMS {
     return PutAppReplicationConfigurationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Starts replicating an application.
+  /// Creates or updates a validation configuration for the specified
+  /// application.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -948,7 +1157,61 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application to replicate.
+  /// The ID of the application.
+  ///
+  /// Parameter [appValidationConfigurations] :
+  /// The configuration for application validation.
+  ///
+  /// Parameter [serverGroupValidationConfigurations] :
+  /// The configuration for instance validation.
+  Future<void> putAppValidationConfiguration({
+    @_s.required String appId,
+    List<AppValidationConfiguration> appValidationConfigurations,
+    List<ServerGroupValidationConfiguration>
+        serverGroupValidationConfigurations,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''^app-[0-9a-f]{17}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSServerMigrationService_V2016_10_24.PutAppValidationConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'appId': appId,
+        if (appValidationConfigurations != null)
+          'appValidationConfigurations': appValidationConfigurations,
+        if (serverGroupValidationConfigurations != null)
+          'serverGroupValidationConfigurations':
+              serverGroupValidationConfigurations,
+      },
+    );
+
+    return PutAppValidationConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Starts replicating the specified application by creating replication jobs
+  /// for each server in the application.
+  ///
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
+  /// May throw [InternalError].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [appId] :
+  /// The ID of the application.
   Future<void> startAppReplication({
     String appId,
   }) async {
@@ -971,11 +1234,49 @@ class SMS {
     return StartAppReplicationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Starts an on-demand replication run for the specified application.
+  ///
+  /// May throw [UnauthorizedOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
+  /// May throw [InternalError].
+  /// May throw [OperationNotPermittedException].
+  ///
+  /// Parameter [appId] :
+  /// The ID of the application.
+  ///
+  /// Parameter [description] :
+  /// The description of the replication run.
+  Future<void> startOnDemandAppReplication({
+    @_s.required String appId,
+    String description,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSServerMigrationService_V2016_10_24.StartOnDemandAppReplication'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'appId': appId,
+        if (description != null) 'description': description,
+      },
+    );
+
+    return StartOnDemandAppReplicationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts an on-demand replication run for the specified replication job.
   /// This replication run starts immediately. This replication run is in
   /// addition to the ones already scheduled.
   ///
-  /// There is a limit on the number of on-demand replications runs you can
+  /// There is a limit on the number of on-demand replications runs that you can
   /// request in a 24-hour period.
   ///
   /// May throw [InvalidParameterException].
@@ -983,9 +1284,10 @@ class SMS {
   /// May throw [UnauthorizedOperationException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ReplicationRunLimitExceededException].
+  /// May throw [DryRunOperationException].
   ///
   /// Parameter [replicationJobId] :
-  /// The identifier of the replication job.
+  /// The ID of the replication job.
   ///
   /// Parameter [description] :
   /// The description of the replication run.
@@ -1014,7 +1316,8 @@ class SMS {
     return StartOnDemandReplicationRunResponse.fromJson(jsonResponse.body);
   }
 
-  /// Stops replicating an application.
+  /// Stops replicating the specified application by deleting the replication
+  /// job for each server in the application.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -1023,7 +1326,7 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application to stop replicating.
+  /// The ID of the application.
   Future<void> stopAppReplication({
     String appId,
   }) async {
@@ -1045,7 +1348,7 @@ class SMS {
     return StopAppReplicationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Terminates the stack for an application.
+  /// Terminates the stack for the specified application.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -1054,7 +1357,7 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application to terminate.
+  /// The ID of the application.
   Future<void> terminateApp({
     String appId,
   }) async {
@@ -1076,7 +1379,7 @@ class SMS {
     return TerminateAppResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates an application.
+  /// Updates the specified application.
   ///
   /// May throw [UnauthorizedOperationException].
   /// May throw [InvalidParameterException].
@@ -1085,22 +1388,22 @@ class SMS {
   /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [appId] :
-  /// ID of the application to update.
+  /// The ID of the application.
   ///
   /// Parameter [description] :
-  /// New description of the application.
+  /// The new description of the application.
   ///
   /// Parameter [name] :
-  /// New name of the application.
+  /// The new name of the application.
   ///
   /// Parameter [roleName] :
-  /// Name of the service role in the customer's account used by AWS SMS.
+  /// The name of the service role in the customer's account used by AWS SMS.
   ///
   /// Parameter [serverGroups] :
-  /// List of server groups in the application to update.
+  /// The server groups in the application to update.
   ///
   /// Parameter [tags] :
-  /// List of tags to associate with the application.
+  /// The tags to associate with the application.
   Future<UpdateAppResponse> updateApp({
     String appId,
     String description,
@@ -1144,22 +1447,21 @@ class SMS {
   /// May throw [TemporarilyUnavailableException].
   ///
   /// Parameter [replicationJobId] :
-  /// The identifier of the replication job.
+  /// The ID of the replication job.
   ///
   /// Parameter [description] :
   /// The description of the replication job.
   ///
   /// Parameter [encrypted] :
-  /// When true, the replication job produces encrypted AMIs . See also
-  /// <code>KmsKeyId</code> below.
+  /// When true, the replication job produces encrypted AMIs. For more
+  /// information, <code>KmsKeyId</code>.
   ///
   /// Parameter [frequency] :
   /// The time between consecutive replication runs, in hours.
   ///
   /// Parameter [kmsKeyId] :
-  /// <p/>
-  /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of
-  /// the following:
+  /// The ID of the KMS key for replication jobs that produce encrypted AMIs.
+  /// This value can be any of the following:
   ///
   /// <ul>
   /// <li>
@@ -1169,14 +1471,14 @@ class SMS {
   /// KMS key alias
   /// </li>
   /// <li>
-  /// ARN referring to KMS key ID
+  /// ARN referring to the KMS key ID
   /// </li>
   /// <li>
-  /// ARN referring to KMS key alias
+  /// ARN referring to the KMS key alias
   /// </li>
   /// </ul>
-  /// If encrypted is <i>true</i> but a KMS key id is not specified, the
-  /// customer's default KMS key for EBS is used.
+  /// If encrypted is enabled but a KMS key ID is not specified, the customer's
+  /// default KMS key for Amazon EBS is used.
   ///
   /// Parameter [licenseType] :
   /// The license type to be used for the AMI created by a successful
@@ -1186,8 +1488,8 @@ class SMS {
   /// The start time of the next replication run.
   ///
   /// Parameter [numberOfRecentAmisToKeep] :
-  /// The maximum number of SMS-created AMIs to retain. The oldest will be
-  /// deleted once the maximum number is reached and a new AMI is created.
+  /// The maximum number of SMS-created AMIs to retain. The oldest is deleted
+  /// after the maximum number is reached and a new AMI is created.
   ///
   /// Parameter [roleName] :
   /// The name of the IAM role to be used by AWS SMS.
@@ -1234,6 +1536,13 @@ class SMS {
   }
 }
 
+enum AppLaunchConfigurationStatus {
+  @_s.JsonValue('NOT_CONFIGURED')
+  notConfigured,
+  @_s.JsonValue('CONFIGURED')
+  configured,
+}
+
 enum AppLaunchStatus {
   @_s.JsonValue('READY_FOR_CONFIGURATION')
   readyForConfiguration,
@@ -1251,6 +1560,8 @@ enum AppLaunchStatus {
   launchInProgress,
   @_s.JsonValue('LAUNCHED')
   launched,
+  @_s.JsonValue('PARTIALLY_LAUNCHED')
+  partiallyLaunched,
   @_s.JsonValue('DELTA_LAUNCH_IN_PROGRESS')
   deltaLaunchInProgress,
   @_s.JsonValue('DELTA_LAUNCH_FAILED')
@@ -1263,6 +1574,13 @@ enum AppLaunchStatus {
   terminateFailed,
   @_s.JsonValue('TERMINATED')
   terminated,
+}
+
+enum AppReplicationConfigurationStatus {
+  @_s.JsonValue('NOT_CONFIGURED')
+  notConfigured,
+  @_s.JsonValue('CONFIGURED')
+  configured,
 }
 
 enum AppReplicationStatus {
@@ -1282,6 +1600,8 @@ enum AppReplicationStatus {
   replicationInProgress,
   @_s.JsonValue('REPLICATED')
   replicated,
+  @_s.JsonValue('PARTIALLY_REPLICATED')
+  partiallyReplicated,
   @_s.JsonValue('DELTA_REPLICATION_IN_PROGRESS')
   deltaReplicationInProgress,
   @_s.JsonValue('DELTA_REPLICATED')
@@ -1320,34 +1640,42 @@ enum AppStatus {
     createFactory: true,
     createToJson: false)
 class AppSummary {
-  /// Unique ID of the application.
+  /// The unique ID of the application.
   @_s.JsonKey(name: 'appId')
   final String appId;
 
-  /// Time of creation of this application.
+  /// The creation time of the application.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
-  /// Description of the application.
+  /// The description of the application.
   @_s.JsonKey(name: 'description')
   final String description;
 
-  /// Timestamp of the application's creation.
+  /// The ID of the application.
+  @_s.JsonKey(name: 'importedAppId')
+  final String importedAppId;
+
+  /// The last modified time of the application.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'lastModified')
   final DateTime lastModified;
 
-  /// Timestamp of the application's most recent successful replication.
+  /// The timestamp of the application's most recent successful replication.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'latestReplicationTime')
   final DateTime latestReplicationTime;
+
+  /// Status of the launch configuration.
+  @_s.JsonKey(name: 'launchConfigurationStatus')
+  final AppLaunchConfigurationStatus launchConfigurationStatus;
 
   /// Details about the latest launch of the application.
   @_s.JsonKey(name: 'launchDetails')
   final LaunchDetails launchDetails;
 
-  /// Launch status of the application.
+  /// The launch status of the application.
   @_s.JsonKey(name: 'launchStatus')
   final AppLaunchStatus launchStatus;
 
@@ -1355,11 +1683,15 @@ class AppSummary {
   @_s.JsonKey(name: 'launchStatusMessage')
   final String launchStatusMessage;
 
-  /// Name of the application.
+  /// The name of the application.
   @_s.JsonKey(name: 'name')
   final String name;
 
-  /// Replication status of the application.
+  /// Status of the replication configuration.
+  @_s.JsonKey(name: 'replicationConfigurationStatus')
+  final AppReplicationConfigurationStatus replicationConfigurationStatus;
+
+  /// The replication status of the application.
   @_s.JsonKey(name: 'replicationStatus')
   final AppReplicationStatus replicationStatus;
 
@@ -1367,7 +1699,7 @@ class AppSummary {
   @_s.JsonKey(name: 'replicationStatusMessage')
   final String replicationStatusMessage;
 
-  /// Name of the service role in the customer's account used by AWS SMS.
+  /// The name of the service role in the customer's account used by AWS SMS.
   @_s.JsonKey(name: 'roleName')
   final String roleName;
 
@@ -1379,11 +1711,11 @@ class AppSummary {
   @_s.JsonKey(name: 'statusMessage')
   final String statusMessage;
 
-  /// Number of server groups present in the application.
+  /// The number of server groups present in the application.
   @_s.JsonKey(name: 'totalServerGroups')
   final int totalServerGroups;
 
-  /// Number of servers present in the application.
+  /// The number of servers present in the application.
   @_s.JsonKey(name: 'totalServers')
   final int totalServers;
 
@@ -1391,12 +1723,15 @@ class AppSummary {
     this.appId,
     this.creationTime,
     this.description,
+    this.importedAppId,
     this.lastModified,
     this.latestReplicationTime,
+    this.launchConfigurationStatus,
     this.launchDetails,
     this.launchStatus,
     this.launchStatusMessage,
     this.name,
+    this.replicationConfigurationStatus,
     this.replicationStatus,
     this.replicationStatusMessage,
     this.roleName,
@@ -1407,6 +1742,64 @@ class AppSummary {
   });
   factory AppSummary.fromJson(Map<String, dynamic> json) =>
       _$AppSummaryFromJson(json);
+}
+
+/// Configuration for validating an application.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AppValidationConfiguration {
+  /// The validation strategy.
+  @_s.JsonKey(name: 'appValidationStrategy')
+  final AppValidationStrategy appValidationStrategy;
+
+  /// The name of the configuration.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The validation parameters.
+  @_s.JsonKey(name: 'ssmValidationParameters')
+  final SSMValidationParameters ssmValidationParameters;
+
+  /// The ID of the validation.
+  @_s.JsonKey(name: 'validationId')
+  final String validationId;
+
+  AppValidationConfiguration({
+    this.appValidationStrategy,
+    this.name,
+    this.ssmValidationParameters,
+    this.validationId,
+  });
+  factory AppValidationConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$AppValidationConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AppValidationConfigurationToJson(this);
+}
+
+/// Output from validating an application.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AppValidationOutput {
+  /// Output from using SSM to validate the application.
+  @_s.JsonKey(name: 'ssmOutput')
+  final SSMOutput ssmOutput;
+
+  AppValidationOutput({
+    this.ssmOutput,
+  });
+  factory AppValidationOutput.fromJson(Map<String, dynamic> json) =>
+      _$AppValidationOutputFromJson(json);
+}
+
+enum AppValidationStrategy {
+  @_s.JsonValue('SSM')
+  ssm,
 }
 
 /// Represents a connector.
@@ -1425,7 +1818,7 @@ class Connector {
   @_s.JsonKey(name: 'capabilityList')
   final List<ConnectorCapability> capabilityList;
 
-  /// The identifier of the connector.
+  /// The ID of the connector.
   @_s.JsonKey(name: 'connectorId')
   final String connectorId;
 
@@ -1445,7 +1838,7 @@ class Connector {
   @_s.JsonKey(name: 'version')
   final String version;
 
-  /// The identifier of the VM manager.
+  /// The ID of the VM manager.
   @_s.JsonKey(name: 'vmManagerId')
   final String vmManagerId;
 
@@ -1482,6 +1875,8 @@ enum ConnectorCapability {
   hypervManager,
   @_s.JsonValue('SNAPSHOT_BATCHING')
   snapshotBatching,
+  @_s.JsonValue('SMS_OPTIMIZED')
+  smsOptimized,
 }
 
 enum ConnectorStatus {
@@ -1497,15 +1892,15 @@ enum ConnectorStatus {
     createFactory: true,
     createToJson: false)
 class CreateAppResponse {
-  /// Summary description of the application.
+  /// A summary description of the application.
   @_s.JsonKey(name: 'appSummary')
   final AppSummary appSummary;
 
-  /// List of server groups included in the application.
+  /// The server groups included in the application.
   @_s.JsonKey(name: 'serverGroups')
   final List<ServerGroup> serverGroups;
 
-  /// List of taags associated with the application.
+  /// The tags associated with the application.
   @_s.JsonKey(name: 'tags')
   final List<Tag> tags;
 
@@ -1575,6 +1970,18 @@ class DeleteAppResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteAppValidationConfigurationResponse {
+  DeleteAppValidationConfigurationResponse();
+  factory DeleteAppValidationConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteAppValidationConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteReplicationJobResponse {
   DeleteReplicationJobResponse();
   factory DeleteReplicationJobResponse.fromJson(Map<String, dynamic> json) =>
@@ -1609,7 +2016,7 @@ class DisassociateConnectorResponse {
     createFactory: true,
     createToJson: false)
 class GenerateChangeSetResponse {
-  /// Location of the Amazon S3 object.
+  /// The location of the Amazon S3 object.
   @_s.JsonKey(name: 's3Location')
   final S3Location s3Location;
 
@@ -1626,7 +2033,7 @@ class GenerateChangeSetResponse {
     createFactory: true,
     createToJson: false)
 class GenerateTemplateResponse {
-  /// Location of the Amazon S3 object.
+  /// The location of the Amazon S3 object.
   @_s.JsonKey(name: 's3Location')
   final S3Location s3Location;
 
@@ -1643,21 +2050,27 @@ class GenerateTemplateResponse {
     createFactory: true,
     createToJson: false)
 class GetAppLaunchConfigurationResponse {
-  /// ID of the application associated with the launch configuration.
+  /// The ID of the application.
   @_s.JsonKey(name: 'appId')
   final String appId;
 
-  /// Name of the service role in the customer's account that Amazon
+  /// Indicates whether the application is configured to launch automatically
+  /// after replication is complete.
+  @_s.JsonKey(name: 'autoLaunch')
+  final bool autoLaunch;
+
+  /// The name of the service role in the customer's account that AWS
   /// CloudFormation uses to launch the application.
   @_s.JsonKey(name: 'roleName')
   final String roleName;
 
-  /// List of launch configurations for server groups in this application.
+  /// The launch configurations for server groups in this application.
   @_s.JsonKey(name: 'serverGroupLaunchConfigurations')
   final List<ServerGroupLaunchConfiguration> serverGroupLaunchConfigurations;
 
   GetAppLaunchConfigurationResponse({
     this.appId,
+    this.autoLaunch,
     this.roleName,
     this.serverGroupLaunchConfigurations,
   });
@@ -1672,7 +2085,7 @@ class GetAppLaunchConfigurationResponse {
     createFactory: true,
     createToJson: false)
 class GetAppReplicationConfigurationResponse {
-  /// Replication configurations associated with server groups in this
+  /// The replication configurations associated with server groups in this
   /// application.
   @_s.JsonKey(name: 'serverGroupReplicationConfigurations')
   final List<ServerGroupReplicationConfiguration>
@@ -1696,11 +2109,11 @@ class GetAppResponse {
   @_s.JsonKey(name: 'appSummary')
   final AppSummary appSummary;
 
-  /// List of server groups belonging to the application.
+  /// The server groups that belong to the application.
   @_s.JsonKey(name: 'serverGroups')
   final List<ServerGroup> serverGroups;
 
-  /// List of tags associated with the application.
+  /// The tags associated with the application.
   @_s.JsonKey(name: 'tags')
   final List<Tag> tags;
 
@@ -1711,6 +2124,47 @@ class GetAppResponse {
   });
   factory GetAppResponse.fromJson(Map<String, dynamic> json) =>
       _$GetAppResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetAppValidationConfigurationResponse {
+  /// The configuration for application validation.
+  @_s.JsonKey(name: 'appValidationConfigurations')
+  final List<AppValidationConfiguration> appValidationConfigurations;
+
+  /// The configuration for instance validation.
+  @_s.JsonKey(name: 'serverGroupValidationConfigurations')
+  final List<ServerGroupValidationConfiguration>
+      serverGroupValidationConfigurations;
+
+  GetAppValidationConfigurationResponse({
+    this.appValidationConfigurations,
+    this.serverGroupValidationConfigurations,
+  });
+  factory GetAppValidationConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetAppValidationConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetAppValidationOutputResponse {
+  /// The validation output.
+  @_s.JsonKey(name: 'validationOutputList')
+  final List<ValidationOutput> validationOutputList;
+
+  GetAppValidationOutputResponse({
+    this.validationOutputList,
+  });
+  factory GetAppValidationOutputResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetAppValidationOutputResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1826,6 +2280,17 @@ class GetServersResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ImportAppCatalogResponse {
+  ImportAppCatalogResponse();
+  factory ImportAppCatalogResponse.fromJson(Map<String, dynamic> json) =>
+      _$ImportAppCatalogResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ImportServerCatalogResponse {
   ImportServerCatalogResponse();
   factory ImportServerCatalogResponse.fromJson(Map<String, dynamic> json) =>
@@ -1850,16 +2315,16 @@ class LaunchAppResponse {
     createFactory: true,
     createToJson: false)
 class LaunchDetails {
-  /// Latest time this application was launched successfully.
+  /// The latest time that this application was launched successfully.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'latestLaunchTime')
   final DateTime latestLaunchTime;
 
-  /// Identifier of the latest stack launched for this application.
+  /// The ID of the latest stack launched for this application.
   @_s.JsonKey(name: 'stackId')
   final String stackId;
 
-  /// Name of the latest stack launched for this application.
+  /// The name of the latest stack launched for this application.
   @_s.JsonKey(name: 'stackName')
   final String stackName;
 
@@ -1897,7 +2362,7 @@ extension on LicenseType {
     createFactory: true,
     createToJson: false)
 class ListAppsResponse {
-  /// A list of application summaries.
+  /// The application summaries.
   @_s.JsonKey(name: 'apps')
   final List<AppSummary> apps;
 
@@ -1912,6 +2377,45 @@ class ListAppsResponse {
   });
   factory ListAppsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAppsResponseFromJson(json);
+}
+
+/// Contains the status of validating an application.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class NotificationContext {
+  /// The status of the validation.
+  @_s.JsonKey(name: 'status')
+  final ValidationStatus status;
+
+  /// The status message.
+  @_s.JsonKey(name: 'statusMessage')
+  final String statusMessage;
+
+  /// The ID of the validation.
+  @_s.JsonKey(name: 'validationId')
+  final String validationId;
+
+  NotificationContext({
+    this.status,
+    this.statusMessage,
+    this.validationId,
+  });
+  Map<String, dynamic> toJson() => _$NotificationContextToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class NotifyAppValidationOutputResponse {
+  NotifyAppValidationOutputResponse();
+  factory NotifyAppValidationOutputResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$NotifyAppValidationOutputResponseFromJson(json);
 }
 
 enum OutputFormat {
@@ -1957,6 +2461,18 @@ class PutAppReplicationConfigurationResponse {
       _$PutAppReplicationConfigurationResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutAppValidationConfigurationResponse {
+  PutAppValidationConfigurationResponse();
+  factory PutAppValidationConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$PutAppValidationConfigurationResponseFromJson(json);
+}
+
 /// Represents a replication job.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1968,8 +2484,7 @@ class ReplicationJob {
   @_s.JsonKey(name: 'description')
   final String description;
 
-  /// Whether the replication job should produce encrypted AMIs or not. See also
-  /// <code>KmsKeyId</code> below.
+  /// Indicates whether the replication job should produce encrypted AMIs.
   @_s.JsonKey(name: 'encrypted')
   final bool encrypted;
 
@@ -1977,8 +2492,8 @@ class ReplicationJob {
   @_s.JsonKey(name: 'frequency')
   final int frequency;
 
-  /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of
-  /// the following:
+  /// The ID of the KMS key for replication jobs that produce encrypted AMIs. This
+  /// value can be any of the following:
   ///
   /// <ul>
   /// <li>
@@ -1988,14 +2503,14 @@ class ReplicationJob {
   /// KMS key alias
   /// </li>
   /// <li>
-  /// ARN referring to KMS key ID
+  /// ARN referring to the KMS key ID
   /// </li>
   /// <li>
-  /// ARN referring to KMS key alias
+  /// ARN referring to the KMS key alias
   /// </li>
   /// </ul>
-  /// If encrypted is <i>true</i> but a KMS key id is not specified, the
-  /// customer's default KMS key for EBS is used.
+  /// If encrypted is enabled but a KMS key ID is not specified, the customer's
+  /// default KMS key for Amazon EBS is used.
   @_s.JsonKey(name: 'kmsKeyId')
   final String kmsKeyId;
 
@@ -2013,12 +2528,13 @@ class ReplicationJob {
   @_s.JsonKey(name: 'nextReplicationRunStartTime')
   final DateTime nextReplicationRunStartTime;
 
-  /// Number of recent AMIs to keep in the customer's account for a replication
-  /// job. By default the value is set to zero, meaning that all AMIs are kept.
+  /// The number of recent AMIs to keep in the customer's account for a
+  /// replication job. By default, the value is set to zero, meaning that all AMIs
+  /// are kept.
   @_s.JsonKey(name: 'numberOfRecentAmisToKeep')
   final int numberOfRecentAmisToKeep;
 
-  /// The identifier of the replication job.
+  /// The ID of the replication job.
   @_s.JsonKey(name: 'replicationJobId')
   final String replicationJobId;
 
@@ -2026,11 +2542,11 @@ class ReplicationJob {
   @_s.JsonKey(name: 'replicationRunList')
   final List<ReplicationRun> replicationRunList;
 
-  /// The name of the IAM role to be used by the Server Migration Service.
+  /// The name of the IAM role to be used by AWS SMS.
   @_s.JsonKey(name: 'roleName')
   final String roleName;
 
-  /// <p/>
+  /// Indicates whether to run the replication job one time.
   @_s.JsonKey(name: 'runOnce')
   final bool runOnce;
 
@@ -2039,7 +2555,7 @@ class ReplicationJob {
   @_s.JsonKey(name: 'seedReplicationTime')
   final DateTime seedReplicationTime;
 
-  /// The identifier of the server.
+  /// The ID of the server.
   @_s.JsonKey(name: 'serverId')
   final String serverId;
 
@@ -2109,7 +2625,7 @@ enum ReplicationJobState {
     createFactory: true,
     createToJson: false)
 class ReplicationRun {
-  /// The identifier of the Amazon Machine Image (AMI) from the replication run.
+  /// The ID of the Amazon Machine Image (AMI) from the replication run.
   @_s.JsonKey(name: 'amiId')
   final String amiId;
 
@@ -2122,13 +2638,12 @@ class ReplicationRun {
   @_s.JsonKey(name: 'description')
   final String description;
 
-  /// Whether the replication run should produce encrypted AMI or not. See also
-  /// <code>KmsKeyId</code> below.
+  /// Indicates whether the replication run should produce an encrypted AMI.
   @_s.JsonKey(name: 'encrypted')
   final bool encrypted;
 
-  /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of
-  /// the following:
+  /// The ID of the KMS key for replication jobs that produce encrypted AMIs. This
+  /// value can be any of the following:
   ///
   /// <ul>
   /// <li>
@@ -2138,18 +2653,18 @@ class ReplicationRun {
   /// KMS key alias
   /// </li>
   /// <li>
-  /// ARN referring to KMS key ID
+  /// ARN referring to the KMS key ID
   /// </li>
   /// <li>
-  /// ARN referring to KMS key alias
+  /// ARN referring to the KMS key alias
   /// </li>
   /// </ul>
-  /// If encrypted is <i>true</i> but a KMS key id is not specified, the
-  /// customer's default KMS key for EBS is used.
+  /// If encrypted is <i>true</i> but a KMS key ID is not specified, the
+  /// customer's default KMS key for Amazon EBS is used.
   @_s.JsonKey(name: 'kmsKeyId')
   final String kmsKeyId;
 
-  /// The identifier of the replication run.
+  /// The ID of the replication run.
   @_s.JsonKey(name: 'replicationRunId')
   final String replicationRunId;
 
@@ -2158,7 +2673,7 @@ class ReplicationRun {
   @_s.JsonKey(name: 'scheduledStartTime')
   final DateTime scheduledStartTime;
 
-  /// Details of the current stage of the replication run.
+  /// Details about the current stage of the replication run.
   @_s.JsonKey(name: 'stageDetails')
   final ReplicationRunStageDetails stageDetails;
 
@@ -2198,11 +2713,11 @@ class ReplicationRun {
     createFactory: true,
     createToJson: false)
 class ReplicationRunStageDetails {
-  /// String describing the current stage of a replication run.
+  /// The current stage of a replication run.
   @_s.JsonKey(name: 'stage')
   final String stage;
 
-  /// String describing the progress of the current stage of a replication run.
+  /// The progress of the current stage of a replication run.
   @_s.JsonKey(name: 'stageProgress')
   final String stageProgress;
 
@@ -2238,18 +2753,18 @@ enum ReplicationRunType {
   automatic,
 }
 
-/// Location of the Amazon S3 object in the customer's account.
+/// Location of an Amazon S3 object.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class S3Location {
-  /// Amazon S3 bucket name.
+  /// The Amazon S3 bucket name.
   @_s.JsonKey(name: 'bucket')
   final String bucket;
 
-  /// Amazon S3 bucket key.
+  /// The Amazon S3 bucket key.
   @_s.JsonKey(name: 'key')
   final String key;
 
@@ -2263,6 +2778,76 @@ class S3Location {
   Map<String, dynamic> toJson() => _$S3LocationToJson(this);
 }
 
+/// Contains the location of validation output.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SSMOutput {
+  @_s.JsonKey(name: 's3Location')
+  final S3Location s3Location;
+
+  SSMOutput({
+    this.s3Location,
+  });
+  factory SSMOutput.fromJson(Map<String, dynamic> json) =>
+      _$SSMOutputFromJson(json);
+}
+
+/// Contains validation parameters.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SSMValidationParameters {
+  /// The command to run the validation script
+  @_s.JsonKey(name: 'command')
+  final String command;
+
+  /// The timeout interval, in seconds.
+  @_s.JsonKey(name: 'executionTimeoutSeconds')
+  final int executionTimeoutSeconds;
+
+  /// The ID of the instance. The instance must have the following tag:
+  /// UserForSMSApplicationValidation=true.
+  @_s.JsonKey(name: 'instanceId')
+  final String instanceId;
+
+  /// The name of the S3 bucket for output.
+  @_s.JsonKey(name: 'outputS3BucketName')
+  final String outputS3BucketName;
+
+  /// The type of validation script.
+  @_s.JsonKey(name: 'scriptType')
+  final ScriptType scriptType;
+
+  /// The location of the validation script.
+  @_s.JsonKey(name: 'source')
+  final Source source;
+
+  SSMValidationParameters({
+    this.command,
+    this.executionTimeoutSeconds,
+    this.instanceId,
+    this.outputS3BucketName,
+    this.scriptType,
+    this.source,
+  });
+  factory SSMValidationParameters.fromJson(Map<String, dynamic> json) =>
+      _$SSMValidationParametersFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SSMValidationParametersToJson(this);
+}
+
+enum ScriptType {
+  @_s.JsonValue('SHELL_SCRIPT')
+  shellScript,
+  @_s.JsonValue('POWERSHELL_SCRIPT')
+  powershellScript,
+}
+
 /// Represents a server.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2270,7 +2855,7 @@ class S3Location {
     createFactory: true,
     createToJson: true)
 class Server {
-  /// The identifier of the replication job.
+  /// The ID of the replication job.
   @_s.JsonKey(name: 'replicationJobId')
   final String replicationJobId;
 
@@ -2278,7 +2863,7 @@ class Server {
   @_s.JsonKey(name: 'replicationJobTerminated')
   final bool replicationJobTerminated;
 
-  /// The identifier of the server.
+  /// The ID of the server.
   @_s.JsonKey(name: 'serverId')
   final String serverId;
 
@@ -2315,22 +2900,22 @@ enum ServerCatalogStatus {
   expired,
 }
 
-/// A logical grouping of servers.
+/// Logical grouping of servers.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class ServerGroup {
-  /// Name of a server group.
+  /// The name of a server group.
   @_s.JsonKey(name: 'name')
   final String name;
 
-  /// Identifier of a server group.
+  /// The ID of a server group.
   @_s.JsonKey(name: 'serverGroupId')
   final String serverGroupId;
 
-  /// List of servers belonging to a server group.
+  /// The servers that belong to a server group.
   @_s.JsonKey(name: 'serverList')
   final List<Server> serverList;
 
@@ -2352,15 +2937,16 @@ class ServerGroup {
     createFactory: true,
     createToJson: true)
 class ServerGroupLaunchConfiguration {
-  /// Launch order of servers in the server group.
+  /// The launch order of servers in the server group.
   @_s.JsonKey(name: 'launchOrder')
   final int launchOrder;
 
-  /// Identifier of the server group the launch configuration is associated with.
+  /// The ID of the server group with which the launch configuration is
+  /// associated.
   @_s.JsonKey(name: 'serverGroupId')
   final String serverGroupId;
 
-  /// Launch configuration for servers in the server group.
+  /// The launch configuration for servers in the server group.
   @_s.JsonKey(name: 'serverLaunchConfigurations')
   final List<ServerLaunchConfiguration> serverLaunchConfigurations;
 
@@ -2382,12 +2968,12 @@ class ServerGroupLaunchConfiguration {
     createFactory: true,
     createToJson: true)
 class ServerGroupReplicationConfiguration {
-  /// Identifier of the server group this replication configuration is associated
-  /// with.
+  /// The ID of the server group with which this replication configuration is
+  /// associated.
   @_s.JsonKey(name: 'serverGroupId')
   final String serverGroupId;
 
-  /// Replication configuration for servers in the server group.
+  /// The replication configuration for servers in the server group.
   @_s.JsonKey(name: 'serverReplicationConfigurations')
   final List<ServerReplicationConfiguration> serverReplicationConfigurations;
 
@@ -2403,6 +2989,33 @@ class ServerGroupReplicationConfiguration {
       _$ServerGroupReplicationConfigurationToJson(this);
 }
 
+/// Configuration for validating an instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ServerGroupValidationConfiguration {
+  /// The ID of the server group.
+  @_s.JsonKey(name: 'serverGroupId')
+  final String serverGroupId;
+
+  /// The validation configuration.
+  @_s.JsonKey(name: 'serverValidationConfigurations')
+  final List<ServerValidationConfiguration> serverValidationConfigurations;
+
+  ServerGroupValidationConfiguration({
+    this.serverGroupId,
+    this.serverValidationConfigurations,
+  });
+  factory ServerGroupValidationConfiguration.fromJson(
+          Map<String, dynamic> json) =>
+      _$ServerGroupValidationConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$ServerGroupValidationConfigurationToJson(this);
+}
+
 /// Launch configuration for a server.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2410,32 +3023,43 @@ class ServerGroupReplicationConfiguration {
     createFactory: true,
     createToJson: true)
 class ServerLaunchConfiguration {
-  /// If true, a publicly accessible IP address is created when launching the
-  /// server.
+  /// Indicates whether a publicly accessible IP address is created when launching
+  /// the server.
   @_s.JsonKey(name: 'associatePublicIpAddress')
   final bool associatePublicIpAddress;
+  @_s.JsonKey(name: 'configureScript')
+  final S3Location configureScript;
 
-  /// Name of the EC2 SSH Key to be used for connecting to the launched server.
+  /// The type of configuration script.
+  @_s.JsonKey(name: 'configureScriptType')
+  final ScriptType configureScriptType;
+
+  /// The name of the Amazon EC2 SSH key to be used for connecting to the launched
+  /// server.
   @_s.JsonKey(name: 'ec2KeyName')
   final String ec2KeyName;
 
-  /// Instance type to be used for launching the server.
+  /// The name of the IAM instance profile.
+  @_s.JsonKey(name: 'iamInstanceProfileName')
+  final String iamInstanceProfileName;
+
+  /// The instance type to use when launching the server.
   @_s.JsonKey(name: 'instanceType')
   final String instanceType;
 
-  /// Logical ID of the server in the Amazon CloudFormation template.
+  /// The logical ID of the server in the AWS CloudFormation template.
   @_s.JsonKey(name: 'logicalId')
   final String logicalId;
 
-  /// Identifier of the security group that applies to the launched server.
+  /// The ID of the security group that applies to the launched server.
   @_s.JsonKey(name: 'securityGroup')
   final String securityGroup;
 
-  /// Identifier of the server the launch configuration is associated with.
+  /// The ID of the server with which the launch configuration is associated.
   @_s.JsonKey(name: 'server')
   final Server server;
 
-  /// Identifier of the subnet the server should be launched into.
+  /// The ID of the subnet the server should be launched into.
   @_s.JsonKey(name: 'subnet')
   final String subnet;
 
@@ -2443,13 +3067,16 @@ class ServerLaunchConfiguration {
   @_s.JsonKey(name: 'userData')
   final UserData userData;
 
-  /// Identifier of the VPC the server should be launched into.
+  /// The ID of the VPC into which the server should be launched.
   @_s.JsonKey(name: 'vpc')
   final String vpc;
 
   ServerLaunchConfiguration({
     this.associatePublicIpAddress,
+    this.configureScript,
+    this.configureScriptType,
     this.ec2KeyName,
+    this.iamInstanceProfileName,
     this.instanceType,
     this.logicalId,
     this.securityGroup,
@@ -2471,11 +3098,12 @@ class ServerLaunchConfiguration {
     createFactory: true,
     createToJson: true)
 class ServerReplicationConfiguration {
-  /// Identifier of the server this replication configuration is associated with.
+  /// The ID of the server with which this replication configuration is
+  /// associated.
   @_s.JsonKey(name: 'server')
   final Server server;
 
-  /// Parameters for replicating the server.
+  /// The parameters for replicating the server.
   @_s.JsonKey(name: 'serverReplicationParameters')
   final ServerReplicationParameters serverReplicationParameters;
 
@@ -2489,25 +3117,23 @@ class ServerReplicationConfiguration {
   Map<String, dynamic> toJson() => _$ServerReplicationConfigurationToJson(this);
 }
 
-/// Replication parameters for replicating a server.
+/// The replication parameters for replicating a server.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class ServerReplicationParameters {
-  /// When true, the replication job produces encrypted AMIs. See also
-  /// <code>KmsKeyId</code> below.
+  /// Indicates whether the replication job produces encrypted AMIs.
   @_s.JsonKey(name: 'encrypted')
   final bool encrypted;
 
-  /// Frequency of creating replication jobs for the server.
+  /// The frequency of creating replication jobs for the server.
   @_s.JsonKey(name: 'frequency')
   final int frequency;
 
-  /// <p/>
-  /// KMS key ID for replication jobs that produce encrypted AMIs. Can be any of
-  /// the following:
+  /// The ID of the KMS key for replication jobs that produce encrypted AMIs. This
+  /// value can be any of the following:
   ///
   /// <ul>
   /// <li>
@@ -2517,31 +3143,31 @@ class ServerReplicationParameters {
   /// KMS key alias
   /// </li>
   /// <li>
-  /// ARN referring to KMS key ID
+  /// ARN referring to the KMS key ID
   /// </li>
   /// <li>
-  /// ARN referring to KMS key alias
+  /// ARN referring to the KMS key alias
   /// </li>
   /// </ul>
-  /// If encrypted is <i>true</i> but a KMS key id is not specified, the
-  /// customer's default KMS key for EBS is used.
+  /// If encrypted is enabled but a KMS key ID is not specified, the customer's
+  /// default KMS key for Amazon EBS is used.
   @_s.JsonKey(name: 'kmsKeyId')
   final String kmsKeyId;
 
-  /// License type for creating a replication job for the server.
+  /// The license type for creating a replication job for the server.
   @_s.JsonKey(name: 'licenseType')
   final LicenseType licenseType;
 
-  /// Number of recent AMIs to keep when creating a replication job for this
+  /// The number of recent AMIs to keep when creating a replication job for this
   /// server.
   @_s.JsonKey(name: 'numberOfRecentAmisToKeep')
   final int numberOfRecentAmisToKeep;
 
-  /// <p/>
+  /// Indicates whether to run the replication job one time.
   @_s.JsonKey(name: 'runOnce')
   final bool runOnce;
 
-  /// Seed time for creating a replication job for the server.
+  /// The seed time for creating a replication job for the server.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'seedTime')
   final DateTime seedTime;
@@ -2566,6 +3192,84 @@ enum ServerType {
   virtualMachine,
 }
 
+/// Configuration for validating an instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ServerValidationConfiguration {
+  /// The name of the configuration.
+  @_s.JsonKey(name: 'name')
+  final String name;
+  @_s.JsonKey(name: 'server')
+  final Server server;
+
+  /// The validation strategy.
+  @_s.JsonKey(name: 'serverValidationStrategy')
+  final ServerValidationStrategy serverValidationStrategy;
+
+  /// The validation parameters.
+  @_s.JsonKey(name: 'userDataValidationParameters')
+  final UserDataValidationParameters userDataValidationParameters;
+
+  /// The ID of the validation.
+  @_s.JsonKey(name: 'validationId')
+  final String validationId;
+
+  ServerValidationConfiguration({
+    this.name,
+    this.server,
+    this.serverValidationStrategy,
+    this.userDataValidationParameters,
+    this.validationId,
+  });
+  factory ServerValidationConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$ServerValidationConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ServerValidationConfigurationToJson(this);
+}
+
+/// Contains output from validating an instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ServerValidationOutput {
+  @_s.JsonKey(name: 'server')
+  final Server server;
+
+  ServerValidationOutput({
+    this.server,
+  });
+  factory ServerValidationOutput.fromJson(Map<String, dynamic> json) =>
+      _$ServerValidationOutputFromJson(json);
+}
+
+enum ServerValidationStrategy {
+  @_s.JsonValue('USERDATA')
+  userdata,
+}
+
+/// Contains the location of a validation script.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Source {
+  @_s.JsonKey(name: 's3Location')
+  final S3Location s3Location;
+
+  Source({
+    this.s3Location,
+  });
+  factory Source.fromJson(Map<String, dynamic> json) => _$SourceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SourceToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2582,8 +3286,20 @@ class StartAppReplicationResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class StartOnDemandAppReplicationResponse {
+  StartOnDemandAppReplicationResponse();
+  factory StartOnDemandAppReplicationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$StartOnDemandAppReplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class StartOnDemandReplicationRunResponse {
-  /// The identifier of the replication run.
+  /// The ID of the replication run.
   @_s.JsonKey(name: 'replicationRunId')
   final String replicationRunId;
 
@@ -2606,18 +3322,18 @@ class StopAppReplicationResponse {
       _$StopAppReplicationResponseFromJson(json);
 }
 
-/// A label that can be assigned to an application.
+/// Key/value pair that can be assigned to an application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class Tag {
-  /// Tag key.
+  /// The tag key.
   @_s.JsonKey(name: 'key')
   final String key;
 
-  /// Tag value.
+  /// The tag value.
   @_s.JsonKey(name: 'value')
   final String value;
 
@@ -2647,15 +3363,15 @@ class TerminateAppResponse {
     createFactory: true,
     createToJson: false)
 class UpdateAppResponse {
-  /// Summary description of the application.
+  /// A summary description of the application.
   @_s.JsonKey(name: 'appSummary')
   final AppSummary appSummary;
 
-  /// List of updated server groups in the application.
+  /// The updated server groups in the application.
   @_s.JsonKey(name: 'serverGroups')
   final List<ServerGroup> serverGroups;
 
-  /// List of tags associated with the application.
+  /// The tags associated with the application.
   @_s.JsonKey(name: 'tags')
   final List<Tag> tags;
 
@@ -2700,6 +3416,93 @@ class UserData {
   Map<String, dynamic> toJson() => _$UserDataToJson(this);
 }
 
+/// Contains validation parameters.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class UserDataValidationParameters {
+  /// The type of validation script.
+  @_s.JsonKey(name: 'scriptType')
+  final ScriptType scriptType;
+
+  /// The location of the validation script.
+  @_s.JsonKey(name: 'source')
+  final Source source;
+
+  UserDataValidationParameters({
+    this.scriptType,
+    this.source,
+  });
+  factory UserDataValidationParameters.fromJson(Map<String, dynamic> json) =>
+      _$UserDataValidationParametersFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserDataValidationParametersToJson(this);
+}
+
+/// Contains validation output.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ValidationOutput {
+  /// The output from validating an application.
+  @_s.JsonKey(name: 'appValidationOutput')
+  final AppValidationOutput appValidationOutput;
+
+  /// The latest time that the validation was performed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'latestValidationTime')
+  final DateTime latestValidationTime;
+
+  /// The name of the validation.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The output from validation an instance.
+  @_s.JsonKey(name: 'serverValidationOutput')
+  final ServerValidationOutput serverValidationOutput;
+
+  /// The status of the validation.
+  @_s.JsonKey(name: 'status')
+  final ValidationStatus status;
+
+  /// The status message.
+  @_s.JsonKey(name: 'statusMessage')
+  final String statusMessage;
+
+  /// The ID of the validation.
+  @_s.JsonKey(name: 'validationId')
+  final String validationId;
+
+  ValidationOutput({
+    this.appValidationOutput,
+    this.latestValidationTime,
+    this.name,
+    this.serverValidationOutput,
+    this.status,
+    this.statusMessage,
+    this.validationId,
+  });
+  factory ValidationOutput.fromJson(Map<String, dynamic> json) =>
+      _$ValidationOutputFromJson(json);
+}
+
+enum ValidationStatus {
+  @_s.JsonValue('READY_FOR_VALIDATION')
+  readyForValidation,
+  @_s.JsonValue('PENDING')
+  pending,
+  @_s.JsonValue('IN_PROGRESS')
+  inProgress,
+  @_s.JsonValue('SUCCEEDED')
+  succeeded,
+  @_s.JsonValue('FAILED')
+  failed,
+}
+
 enum VmManagerType {
   @_s.JsonValue('VSPHERE')
   vsphere,
@@ -2732,7 +3535,7 @@ class VmServer {
   @_s.JsonKey(name: 'vmPath')
   final String vmPath;
 
-  /// Information about the VM server location.
+  /// The VM server location.
   @_s.JsonKey(name: 'vmServerAddress')
   final VmServerAddress vmServerAddress;
 
@@ -2756,11 +3559,11 @@ class VmServer {
     createFactory: true,
     createToJson: true)
 class VmServerAddress {
-  /// The identifier of the VM.
+  /// The ID of the VM.
   @_s.JsonKey(name: 'vmId')
   final String vmId;
 
-  /// The identifier of the VM manager.
+  /// The ID of the VM manager.
   @_s.JsonKey(name: 'vmManagerId')
   final String vmManagerId;
 
@@ -2772,6 +3575,11 @@ class VmServerAddress {
       _$VmServerAddressFromJson(json);
 
   Map<String, dynamic> toJson() => _$VmServerAddressToJson(this);
+}
+
+class DryRunOperationException extends _s.GenericAwsException {
+  DryRunOperationException({String type, String message})
+      : super(type: type, code: 'DryRunOperationException', message: message);
 }
 
 class InternalError extends _s.GenericAwsException {
@@ -2857,6 +3665,8 @@ class UnauthorizedOperationException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'DryRunOperationException': (type, message) =>
+      DryRunOperationException(type: type, message: message),
   'InternalError': (type, message) =>
       InternalError(type: type, message: message),
   'InvalidParameterException': (type, message) =>

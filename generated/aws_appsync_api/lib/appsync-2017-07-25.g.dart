@@ -111,10 +111,19 @@ const _$ApiCacheTypeEnumMap = {
   ApiCacheType.r4_2xlarge: 'R4_2XLARGE',
   ApiCacheType.r4_4xlarge: 'R4_4XLARGE',
   ApiCacheType.r4_8xlarge: 'R4_8XLARGE',
+  ApiCacheType.small: 'SMALL',
+  ApiCacheType.medium: 'MEDIUM',
+  ApiCacheType.large: 'LARGE',
+  ApiCacheType.xlarge: 'XLARGE',
+  ApiCacheType.large_2x: 'LARGE_2X',
+  ApiCacheType.large_4x: 'LARGE_4X',
+  ApiCacheType.large_8x: 'LARGE_8X',
+  ApiCacheType.large_12x: 'LARGE_12X',
 };
 
 ApiKey _$ApiKeyFromJson(Map<String, dynamic> json) {
   return ApiKey(
+    deletes: json['deletes'] as int,
     description: json['description'] as String,
     expires: json['expires'] as int,
     id: json['id'] as String,
@@ -555,6 +564,7 @@ GraphqlApi _$GraphqlApiFromJson(Map<String, dynamic> json) {
         ? null
         : UserPoolConfig.fromJson(
             json['userPoolConfig'] as Map<String, dynamic>),
+    wafWebAclArn: json['wafWebAclArn'] as String,
     xrayEnabled: json['xrayEnabled'] as bool,
   );
 }

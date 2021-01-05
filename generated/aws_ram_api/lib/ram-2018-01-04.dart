@@ -442,6 +442,7 @@ class RAM {
   /// May throw [MalformedArnException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [ResourceArnNotFoundException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
   ///
@@ -563,6 +564,7 @@ class RAM {
   /// May throw [ResourceShareInvitationArnNotFoundException].
   /// May throw [InvalidMaxResultsException].
   /// May throw [MalformedArnException].
+  /// May throw [UnknownResourceException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
   /// May throw [ServerInternalException].
@@ -805,12 +807,15 @@ class RAM {
   /// Parameter [resourceType] :
   /// The resource type.
   ///
-  /// Valid values: <code>ec2:CapacityReservation</code> |
-  /// <code>ec2:Subnet</code> | <code>ec2:TrafficMirrorTarget</code> |
-  /// <code>ec2:TransitGateway</code> |
-  /// <code>license-manager:LicenseConfiguration</code> |
-  /// <code>rds:Cluster</code> | <code>route53resolver:ResolverRule</code> I
-  /// <code>resource-groups:Group</code>
+  /// Valid values: <code>codebuild:Project</code> |
+  /// <code>codebuild:ReportGroup</code> | <code>ec2:CapacityReservation</code>
+  /// | <code>ec2:DedicatedHost</code> | <code>ec2:Subnet</code> |
+  /// <code>ec2:TrafficMirrorTarget</code> | <code>ec2:TransitGateway</code> |
+  /// <code>imagebuilder:Component</code> | <code>imagebuilder:Image</code> |
+  /// <code>imagebuilder:ImageRecipe</code> |
+  /// <code>license-manager:LicenseConfiguration</code> I
+  /// <code>resource-groups:Group</code> | <code>rds:Cluster</code> |
+  /// <code>route53resolver:ResolverRule</code>
   Future<ListPrincipalsResponse> listPrincipals({
     @_s.required ResourceOwner resourceOwner,
     int maxResults,
@@ -891,6 +896,43 @@ class RAM {
     return ListResourceSharePermissionsResponse.fromJson(response);
   }
 
+  /// Lists the shareable resource types supported by AWS RAM.
+  ///
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ServerInternalException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<ListResourceTypesResponse> listResourceTypes({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/listresourcetypes',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListResourceTypesResponse.fromJson(response);
+  }
+
   /// Lists the resources that you added to a resource shares or the resources
   /// that are shared with you.
   ///
@@ -925,12 +967,15 @@ class RAM {
   /// Parameter [resourceType] :
   /// The resource type.
   ///
-  /// Valid values: <code>ec2:CapacityReservation</code> |
-  /// <code>ec2:Subnet</code> | <code>ec2:TrafficMirrorTarget</code> |
-  /// <code>ec2:TransitGateway</code> |
-  /// <code>license-manager:LicenseConfiguration</code> |
-  /// <code>rds:Cluster</code> | <code>route53resolver:ResolverRule</code> |
-  /// <code>resource-groups:Group</code>
+  /// Valid values: <code>codebuild:Project</code> |
+  /// <code>codebuild:ReportGroup</code> | <code>ec2:CapacityReservation</code>
+  /// | <code>ec2:DedicatedHost</code> | <code>ec2:Subnet</code> |
+  /// <code>ec2:TrafficMirrorTarget</code> | <code>ec2:TransitGateway</code> |
+  /// <code>imagebuilder:Component</code> | <code>imagebuilder:Image</code> |
+  /// <code>imagebuilder:ImageRecipe</code> |
+  /// <code>license-manager:LicenseConfiguration</code> I
+  /// <code>resource-groups:Group</code> | <code>rds:Cluster</code> |
+  /// <code>route53resolver:ResolverRule</code>
   Future<ListResourcesResponse> listResources({
     @_s.required ResourceOwner resourceOwner,
     int maxResults,
@@ -987,6 +1032,7 @@ class RAM {
   /// May throw [MissingRequiredParameterException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [resourceShareArn] :
   /// The ARN of the resource share to promote.
@@ -1545,6 +1591,29 @@ class ListResourceSharePermissionsResponse {
   factory ListResourceSharePermissionsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListResourceSharePermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListResourceTypesResponse {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The shareable resource types supported by AWS RAM.
+  @_s.JsonKey(name: 'resourceTypes')
+  final List<ServiceNameAndResourceType> resourceTypes;
+
+  ListResourceTypesResponse({
+    this.nextToken,
+    this.resourceTypes,
+  });
+  factory ListResourceTypesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListResourceTypesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2160,6 +2229,30 @@ enum ResourceStatus {
   unavailable,
   @_s.JsonValue('PENDING')
   pending,
+}
+
+/// Information about the shareable resource types and the AWS services to which
+/// they belong.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ServiceNameAndResourceType {
+  /// The shareable resource types.
+  @_s.JsonKey(name: 'resourceType')
+  final String resourceType;
+
+  /// The name of the AWS services to which the resources belong.
+  @_s.JsonKey(name: 'serviceName')
+  final String serviceName;
+
+  ServiceNameAndResourceType({
+    this.resourceType,
+    this.serviceName,
+  });
+  factory ServiceNameAndResourceType.fromJson(Map<String, dynamic> json) =>
+      _$ServiceNameAndResourceTypeFromJson(json);
 }
 
 /// Information about a tag.

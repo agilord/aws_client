@@ -19,6 +19,16 @@ CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+DescribeSecurityPolicyResponse _$DescribeSecurityPolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeSecurityPolicyResponse(
+    securityPolicy: json['SecurityPolicy'] == null
+        ? null
+        : DescribedSecurityPolicy.fromJson(
+            json['SecurityPolicy'] as Map<String, dynamic>),
+  );
+}
+
 DescribeServerResponse _$DescribeServerResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeServerResponse(
@@ -37,9 +47,22 @@ DescribeUserResponse _$DescribeUserResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+DescribedSecurityPolicy _$DescribedSecurityPolicyFromJson(
+    Map<String, dynamic> json) {
+  return DescribedSecurityPolicy(
+    securityPolicyName: json['SecurityPolicyName'] as String,
+    fips: json['Fips'] as bool,
+    sshCiphers: (json['SshCiphers'] as List)?.map((e) => e as String)?.toList(),
+    sshKexs: (json['SshKexs'] as List)?.map((e) => e as String)?.toList(),
+    sshMacs: (json['SshMacs'] as List)?.map((e) => e as String)?.toList(),
+    tlsCiphers: (json['TlsCiphers'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
 DescribedServer _$DescribedServerFromJson(Map<String, dynamic> json) {
   return DescribedServer(
     arn: json['Arn'] as String,
+    certificate: json['Certificate'] as String,
     endpointDetails: json['EndpointDetails'] == null
         ? null
         : EndpointDetails.fromJson(
@@ -54,6 +77,10 @@ DescribedServer _$DescribedServerFromJson(Map<String, dynamic> json) {
     identityProviderType: _$enumDecodeNullable(
         _$IdentityProviderTypeEnumMap, json['IdentityProviderType']),
     loggingRole: json['LoggingRole'] as String,
+    protocols: (json['Protocols'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ProtocolEnumMap, e))
+        ?.toList(),
+    securityPolicyName: json['SecurityPolicyName'] as String,
     serverId: json['ServerId'] as String,
     state: _$enumDecodeNullable(_$StateEnumMap, json['State']),
     tags: (json['Tags'] as List)
@@ -106,6 +133,12 @@ const _$IdentityProviderTypeEnumMap = {
   IdentityProviderType.apiGateway: 'API_GATEWAY',
 };
 
+const _$ProtocolEnumMap = {
+  Protocol.sftp: 'SFTP',
+  Protocol.ftp: 'FTP',
+  Protocol.ftps: 'FTPS',
+};
+
 const _$StateEnumMap = {
   State.offline: 'OFFLINE',
   State.online: 'ONLINE',
@@ -149,6 +182,8 @@ EndpointDetails _$EndpointDetailsFromJson(Map<String, dynamic> json) {
     addressAllocationIds: (json['AddressAllocationIds'] as List)
         ?.map((e) => e as String)
         ?.toList(),
+    securityGroupIds:
+        (json['SecurityGroupIds'] as List)?.map((e) => e as String)?.toList(),
     subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
     vpcEndpointId: json['VpcEndpointId'] as String,
     vpcId: json['VpcId'] as String,
@@ -165,6 +200,7 @@ Map<String, dynamic> _$EndpointDetailsToJson(EndpointDetails instance) {
   }
 
   writeNotNull('AddressAllocationIds', instance.addressAllocationIds);
+  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
   writeNotNull('SubnetIds', instance.subnetIds);
   writeNotNull('VpcEndpointId', instance.vpcEndpointId);
   writeNotNull('VpcId', instance.vpcId);
@@ -223,6 +259,16 @@ ImportSshPublicKeyResponse _$ImportSshPublicKeyResponseFromJson(
     serverId: json['ServerId'] as String,
     sshPublicKeyId: json['SshPublicKeyId'] as String,
     userName: json['UserName'] as String,
+  );
+}
+
+ListSecurityPoliciesResponse _$ListSecurityPoliciesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListSecurityPoliciesResponse(
+    securityPolicyNames: (json['SecurityPolicyNames'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
   );
 }
 

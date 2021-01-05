@@ -53,9 +53,9 @@ part 'chime-2018-05-01.g.dart';
 /// Guide</i>. For a list of available Amazon Chime commands, see the <a
 /// href="https://docs.aws.amazon.com/cli/latest/reference/chime/index.html">Amazon
 /// Chime commands</a> in the <i>AWS CLI Command Reference</i>.
-/// </dd> <dt>Using REST API</dt> <dd>
+/// </dd> <dt>Using REST</dt> <dd>
 /// If you use REST to make API calls, you must authenticate your request by
-/// providing a signature. Amazon Chime supports signature version 4. For more
+/// providing a signature. Amazon Chime supports Signature Version 4. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
 /// Version 4 Signing Process</a> in the <i>Amazon Web Services General
@@ -143,11 +143,11 @@ class Chime {
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
-  /// Parameter [voiceConnectorId] :
-  /// The Amazon Chime Voice Connector ID.
-  ///
   /// Parameter [e164PhoneNumbers] :
   /// List of phone numbers, in E.164 format.
+  ///
+  /// Parameter [voiceConnectorId] :
+  /// The Amazon Chime Voice Connector ID.
   ///
   /// Parameter [forceAssociate] :
   /// If true, associates the provided phone numbers with the provided Amazon
@@ -156,10 +156,11 @@ class Chime {
   /// associations.
   Future<AssociatePhoneNumbersWithVoiceConnectorResponse>
       associatePhoneNumbersWithVoiceConnector({
+    @_s.required List<String> e164PhoneNumbers,
     @_s.required String voiceConnectorId,
-    List<String> e164PhoneNumbers,
     bool forceAssociate,
   }) async {
+    ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringPattern(
       'voiceConnectorId',
@@ -168,7 +169,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
+      'E164PhoneNumbers': e164PhoneNumbers,
       if (forceAssociate != null) 'ForceAssociate': forceAssociate,
     };
     final response = await _protocol.send(
@@ -193,11 +194,11 @@ class Chime {
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
-  /// Parameter [voiceConnectorGroupId] :
-  /// The Amazon Chime Voice Connector group ID.
-  ///
   /// Parameter [e164PhoneNumbers] :
   /// List of phone numbers, in E.164 format.
+  ///
+  /// Parameter [voiceConnectorGroupId] :
+  /// The Amazon Chime Voice Connector group ID.
   ///
   /// Parameter [forceAssociate] :
   /// If true, associates the provided phone numbers with the provided Amazon
@@ -206,10 +207,11 @@ class Chime {
   /// previously existing associations.
   Future<AssociatePhoneNumbersWithVoiceConnectorGroupResponse>
       associatePhoneNumbersWithVoiceConnectorGroup({
+    @_s.required List<String> e164PhoneNumbers,
     @_s.required String voiceConnectorGroupId,
-    List<String> e164PhoneNumbers,
     bool forceAssociate,
   }) async {
+    ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
     _s.validateStringPattern(
       'voiceConnectorGroupId',
@@ -218,7 +220,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
+      'E164PhoneNumbers': e164PhoneNumbers,
       if (forceAssociate != null) 'ForceAssociate': forceAssociate,
     };
     final response = await _protocol.send(
@@ -642,6 +644,278 @@ class Chime {
     return CreateAccountResponse.fromJson(response);
   }
 
+  /// Creates an Amazon Chime Messaging SDK <code>AppInstance</code> under an
+  /// AWS Account. Only Messaging SDK customers use this API.
+  /// <code>CreateAppInstance</code> supports <code>idempotency</code> behavior
+  /// as described in the AWS API Standard.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The <code>ClientRequestToken</code> of the app instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the app instance.
+  ///
+  /// Parameter [metadata] :
+  /// The metadata of the app instance. Limited to a 1KB string in UTF-8.
+  Future<CreateAppInstanceResponse> createAppInstance({
+    @_s.required String clientRequestToken,
+    @_s.required String name,
+    String metadata,
+  }) async {
+    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      2,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[-_a-zA-Z0-9]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'metadata',
+      metadata,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'metadata',
+      metadata,
+      r'''.*''',
+    );
+    final $payload = <String, dynamic>{
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      'Name': name,
+      if (metadata != null) 'Metadata': metadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/app-instances',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAppInstanceResponse.fromJson(response);
+  }
+
+  /// Promotes an <code>AppInstanceUser</code> to an
+  /// <code>AppInstanceAdmin</code>. The promoted user can perform the following
+  /// actions.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ChannelModerator</code> actions across all channels in the app
+  /// instance.
+  /// </li>
+  /// <li>
+  /// <code>DeleteChannelMessage</code> actions.
+  /// </li>
+  /// </ul>
+  /// Only an <code>AppInstanceUser</code> can be promoted to an
+  /// <code>AppInstanceAdmin</code> role.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceAdminArn] :
+  /// The ARN of the administrator of the current app instance.
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  Future<CreateAppInstanceAdminResponse> createAppInstanceAdmin({
+    @_s.required String appInstanceAdminArn,
+    @_s.required String appInstanceArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceAdminArn, 'appInstanceAdminArn');
+    _s.validateStringLength(
+      'appInstanceAdminArn',
+      appInstanceAdminArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceAdminArn',
+      appInstanceAdminArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'AppInstanceAdminArn': appInstanceAdminArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/app-instances/${Uri.encodeComponent(appInstanceArn)}/admins',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAppInstanceAdminResponse.fromJson(response);
+  }
+
+  /// Creates a user under an Amazon Chime <code>AppInstance</code>. The request
+  /// consists of a unique <code>appInstanceUserId</code> and <code>Name</code>
+  /// for that user.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance request.
+  ///
+  /// Parameter [appInstanceUserId] :
+  /// The user ID of the app instance.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The token assigned to the user requesting an app instance.
+  ///
+  /// Parameter [name] :
+  /// The user's name.
+  ///
+  /// Parameter [metadata] :
+  /// The request's metadata. Limited to a 1KB string in UTF-8.
+  Future<CreateAppInstanceUserResponse> createAppInstanceUser({
+    @_s.required String appInstanceArn,
+    @_s.required String appInstanceUserId,
+    @_s.required String clientRequestToken,
+    @_s.required String name,
+    String metadata,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(appInstanceUserId, 'appInstanceUserId');
+    _s.validateStringLength(
+      'appInstanceUserId',
+      appInstanceUserId,
+      1,
+      50,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceUserId',
+      appInstanceUserId,
+      r'''[A-Za-z0-9][A-Za-z0-9\:\-\_\.\@]{3,50}[A-Za-z0-9]''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      2,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[-_a-zA-Z0-9]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'metadata',
+      metadata,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'metadata',
+      metadata,
+      r'''.*''',
+    );
+    final $payload = <String, dynamic>{
+      'AppInstanceArn': appInstanceArn,
+      'AppInstanceUserId': appInstanceUserId,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      'Name': name,
+      if (metadata != null) 'Metadata': metadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/app-instance-users',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAppInstanceUserResponse.fromJson(response);
+  }
+
   /// Creates a new attendee for an active Amazon Chime SDK meeting. For more
   /// information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
@@ -657,8 +931,10 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [externalUserId] :
-  /// The Amazon Chime SDK external user ID. Links the attendee to an identity
-  /// managed by a builder application.
+  /// The Amazon Chime SDK external user ID. An idempotency token. Links the
+  /// attendee to an identity managed by a builder application. If you create an
+  /// attendee with the same external user id, the service returns the existing
+  /// record.
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
@@ -748,9 +1024,373 @@ class Chime {
     return CreateBotResponse.fromJson(response);
   }
 
+  /// Creates a channel to which you can add users and send messages.
+  ///
+  /// <b>Restriction</b>: You can't change a channel's privacy.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the channel request.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The client token for the request. An <code>Idempotency</code> token.
+  ///
+  /// Parameter [name] :
+  /// The name of the channel.
+  ///
+  /// Parameter [metadata] :
+  /// The metadata of the creation request. Limited to 1KB and UTF-8.
+  ///
+  /// Parameter [mode] :
+  /// The channel mode: <code>UNRESTRICTED</code> or <code>RESTRICTED</code>.
+  /// Administrators, moderators, and channel members can add themselves and
+  /// other members to unrestricted channels. Only administrators and moderators
+  /// can add members to restricted channels.
+  ///
+  /// Parameter [privacy] :
+  /// The channel's privacy level: <code>PUBLIC</code> or <code>PRIVATE</code>.
+  /// Private channels aren't discoverable by users outside the channel. Public
+  /// channels are discoverable by anyone in the app instance.
+  Future<CreateChannelResponse> createChannel({
+    @_s.required String appInstanceArn,
+    @_s.required String clientRequestToken,
+    @_s.required String name,
+    String metadata,
+    ChannelMode mode,
+    ChannelPrivacy privacy,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      2,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[-_a-zA-Z0-9]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'metadata',
+      metadata,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'metadata',
+      metadata,
+      r'''.*''',
+    );
+    final $payload = <String, dynamic>{
+      'AppInstanceArn': appInstanceArn,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      'Name': name,
+      if (metadata != null) 'Metadata': metadata,
+      if (mode != null) 'Mode': mode.toValue(),
+      if (privacy != null) 'Privacy': privacy.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/channels',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateChannelResponse.fromJson(response);
+  }
+
+  /// Permanently bans a member from a channel. Moderators can't add banned
+  /// members to a channel. To undo a ban, you first have to
+  /// <code>DeleteChannelBan</code>, and then
+  /// <code>CreateChannelMembership</code>. Bans are cleaned up when you delete
+  /// users or channels.
+  ///
+  /// If you ban a user who is already part of a channel, that user is
+  /// automatically kicked from the channel.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the ban request.
+  ///
+  /// Parameter [memberArn] :
+  /// The ARN of the member being banned.
+  Future<CreateChannelBanResponse> createChannelBan({
+    @_s.required String channelArn,
+    @_s.required String memberArn,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(memberArn, 'memberArn');
+    _s.validateStringLength(
+      'memberArn',
+      memberArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'memberArn',
+      memberArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'MemberArn': memberArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/bans',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateChannelBanResponse.fromJson(response);
+  }
+
+  /// Adds a user to a channel. The <code>InvitedBy</code> response field is
+  /// derived from the request header. A channel member can:
+  ///
+  /// <ul>
+  /// <li>
+  /// List messages
+  /// </li>
+  /// <li>
+  /// Send messages
+  /// </li>
+  /// <li>
+  /// Receive messages
+  /// </li>
+  /// <li>
+  /// Edit their own messages
+  /// </li>
+  /// <li>
+  /// Leave the channel
+  /// </li>
+  /// </ul>
+  /// Privacy settings impact this action as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Public Channels: You do not need to be a member to list messages, but you
+  /// must be a member to send messages.
+  /// </li>
+  /// <li>
+  /// Private Channels: You must be a member to list or send messages.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel to which you're adding users.
+  ///
+  /// Parameter [memberArn] :
+  /// The ARN of the member you want to add to the channel.
+  ///
+  /// Parameter [type] :
+  /// The membership type of a user, <code>DEFAULT</code> or
+  /// <code>HIDDEN</code>. Default members are always returned as part of
+  /// <code>ListChannelMemberships</code>. Hidden members are only returned if
+  /// the type filter in <code>ListChannelMemberships</code> equals
+  /// <code>HIDDEN</code>. Otherwise hidden members are not returned. This is
+  /// only supported by moderators.
+  Future<CreateChannelMembershipResponse> createChannelMembership({
+    @_s.required String channelArn,
+    @_s.required String memberArn,
+    @_s.required ChannelMembershipType type,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(memberArn, 'memberArn');
+    _s.validateStringLength(
+      'memberArn',
+      memberArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'memberArn',
+      memberArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(type, 'type');
+    final $payload = <String, dynamic>{
+      'MemberArn': memberArn,
+      'Type': type?.toValue() ?? '',
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/memberships',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateChannelMembershipResponse.fromJson(response);
+  }
+
+  /// Creates a new <code>ChannelModerator</code>. A channel moderator can:
+  ///
+  /// <ul>
+  /// <li>
+  /// Add and remove other members of the channel.
+  /// </li>
+  /// <li>
+  /// Add and remove other moderators of the channel.
+  /// </li>
+  /// <li>
+  /// Add and remove user bans for the channel.
+  /// </li>
+  /// <li>
+  /// Redact messages in the channel.
+  /// </li>
+  /// <li>
+  /// List messages in the channel.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [channelModeratorArn] :
+  /// The ARN of the moderator.
+  Future<CreateChannelModeratorResponse> createChannelModerator({
+    @_s.required String channelArn,
+    @_s.required String channelModeratorArn,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
+    _s.validateStringLength(
+      'channelModeratorArn',
+      channelModeratorArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelModeratorArn',
+      channelModeratorArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'ChannelModeratorArn': channelModeratorArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/moderators',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateChannelModeratorResponse.fromJson(response);
+  }
+
   /// Creates a new Amazon Chime SDK meeting in the specified media Region with
-  /// no initial attendees. For more information about the Amazon Chime SDK, see
-  /// <a
+  /// no initial attendees. For more information about specifying media Regions,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html">Amazon
+  /// Chime SDK Media Regions</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
   ///
@@ -770,13 +1410,17 @@ class Chime {
   /// The external meeting ID.
   ///
   /// Parameter [mediaRegion] :
-  /// The Region in which to create the meeting. Available values:
-  /// <code>ap-northeast-1</code>, <code>ap-southeast-1</code>,
-  /// <code>ap-southeast-2</code>, <code>ca-central-1</code>,
-  /// <code>eu-central-1</code>, <code>eu-north-1</code>,
-  /// <code>eu-west-1</code>, <code>eu-west-2</code>, <code>eu-west-3</code>,
-  /// <code>sa-east-1</code>, <code>us-east-1</code>, <code>us-east-2</code>,
-  /// <code>us-west-1</code>, <code>us-west-2</code>.
+  /// The Region in which to create the meeting. Default:
+  /// <code>us-east-1</code>.
+  ///
+  /// Available values: <code>af-south-1</code>, <code>ap-northeast-1</code>,
+  /// <code>ap-northeast-2</code>, <code>ap-south-1</code>,
+  /// <code>ap-southeast-1</code>, <code>ap-southeast-2</code>,
+  /// <code>ca-central-1</code>, <code>eu-central-1</code>,
+  /// <code>eu-north-1</code>, <code>eu-south-1</code>, <code>eu-west-1</code>,
+  /// <code>eu-west-2</code>, <code>eu-west-3</code>, <code>sa-east-1</code>,
+  /// <code>us-east-1</code>, <code>us-east-2</code>, <code>us-west-1</code>,
+  /// <code>us-west-2</code>.
   ///
   /// Parameter [meetingHostId] :
   /// Reserved.
@@ -837,6 +1481,195 @@ class Chime {
       exceptionFnMap: _exceptionFns,
     );
     return CreateMeetingResponse.fromJson(response);
+  }
+
+  /// Uses the join token and call metadata in a meeting request (From number,
+  /// To number, and so forth) to initiate an outbound call to a public switched
+  /// telephone network (PSTN) and joins them into Chime meeting. Also ensures
+  /// that the From number belongs to the customer.
+  ///
+  /// To play welcome audio or implement an interactive voice response (IVR),
+  /// use the <code>CreateSipMediaApplicationCall</code> API with the
+  /// corresponding SIP media application ID.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [fromPhoneNumber] :
+  /// Phone number used as the caller ID when the remote party receives a call.
+  ///
+  /// Parameter [joinToken] :
+  /// Token used by the Amazon Chime SDK attendee. Call the <a
+  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/chime/latest/APIReference/API_Attendee.html">
+  /// CreateAttendee API</a> to get a join token.
+  ///
+  /// Parameter [meetingId] :
+  /// The Amazon Chime SDK meeting ID.
+  ///
+  /// Type: String
+  ///
+  /// Pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
+  ///
+  /// Required: No
+  ///
+  /// Parameter [toPhoneNumber] :
+  /// Phone number called when inviting someone to a meeting.
+  Future<CreateMeetingDialOutResponse> createMeetingDialOut({
+    @_s.required String fromPhoneNumber,
+    @_s.required String joinToken,
+    @_s.required String meetingId,
+    @_s.required String toPhoneNumber,
+  }) async {
+    ArgumentError.checkNotNull(fromPhoneNumber, 'fromPhoneNumber');
+    _s.validateStringPattern(
+      'fromPhoneNumber',
+      fromPhoneNumber,
+      r'''^\+?[1-9]\d{1,14}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(joinToken, 'joinToken');
+    _s.validateStringLength(
+      'joinToken',
+      joinToken,
+      2,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'joinToken',
+      joinToken,
+      r'''^[a-zA-Z0-9+/]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(meetingId, 'meetingId');
+    _s.validateStringPattern(
+      'meetingId',
+      meetingId,
+      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(toPhoneNumber, 'toPhoneNumber');
+    _s.validateStringPattern(
+      'toPhoneNumber',
+      toPhoneNumber,
+      r'''^\+?[1-9]\d{1,14}$''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'FromPhoneNumber': fromPhoneNumber,
+      'JoinToken': joinToken,
+      'ToPhoneNumber': toPhoneNumber,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/meetings/${Uri.encodeComponent(meetingId)}/dial-outs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateMeetingDialOutResponse.fromJson(response);
+  }
+
+  /// Creates a new Amazon Chime SDK meeting in the specified media Region, with
+  /// attendees. For more information about specifying media Regions, see <a
+  /// href="https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html">Amazon
+  /// Chime SDK Media Regions</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// For more information about the Amazon Chime SDK, see <a
+  /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
+  /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The unique identifier for the client request. Use a different token for
+  /// different meetings.
+  ///
+  /// Parameter [attendees] :
+  /// The request containing the attendees to create.
+  ///
+  /// Parameter [externalMeetingId] :
+  /// The external meeting ID.
+  ///
+  /// Parameter [mediaRegion] :
+  /// The Region in which to create the meeting. Default:
+  /// <code>us-east-1</code>.
+  ///
+  /// Available values: <code>af-south-1</code>, <code>ap-northeast-1</code>,
+  /// <code>ap-northeast-2</code>, <code>ap-south-1</code>,
+  /// <code>ap-southeast-1</code>, <code>ap-southeast-2</code>,
+  /// <code>ca-central-1</code>, <code>eu-central-1</code>,
+  /// <code>eu-north-1</code>, <code>eu-south-1</code>, <code>eu-west-1</code>,
+  /// <code>eu-west-2</code>, <code>eu-west-3</code>, <code>sa-east-1</code>,
+  /// <code>us-east-1</code>, <code>us-east-2</code>, <code>us-west-1</code>,
+  /// <code>us-west-2</code>.
+  ///
+  /// Parameter [meetingHostId] :
+  /// Reserved.
+  ///
+  /// Parameter [tags] :
+  /// The tag key-value pairs.
+  Future<CreateMeetingWithAttendeesResponse> createMeetingWithAttendees({
+    @_s.required String clientRequestToken,
+    List<CreateAttendeeRequestItem> attendees,
+    String externalMeetingId,
+    String mediaRegion,
+    String meetingHostId,
+    MeetingNotificationConfiguration notificationsConfiguration,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      2,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[-_a-zA-Z0-9]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'externalMeetingId',
+      externalMeetingId,
+      2,
+      64,
+    );
+    _s.validateStringLength(
+      'meetingHostId',
+      meetingHostId,
+      2,
+      64,
+    );
+    final $payload = <String, dynamic>{
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (attendees != null) 'Attendees': attendees,
+      if (externalMeetingId != null) 'ExternalMeetingId': externalMeetingId,
+      if (mediaRegion != null) 'MediaRegion': mediaRegion,
+      if (meetingHostId != null) 'MeetingHostId': meetingHostId,
+      if (notificationsConfiguration != null)
+        'NotificationsConfiguration': notificationsConfiguration,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/meetings?operation=create-attendees',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateMeetingWithAttendeesResponse.fromJson(response);
   }
 
   /// Creates an order for phone numbers to be provisioned. Choose from Amazon
@@ -1093,6 +1926,191 @@ class Chime {
     return CreateRoomMembershipResponse.fromJson(response);
   }
 
+  /// Creates a SIP media application.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [awsRegion] :
+  /// AWS Region assigned to the SIP media application.
+  ///
+  /// Parameter [endpoints] :
+  /// List of endpoints (Lambda Amazon Resource Names) specified for the SIP
+  /// media application. Currently, only one endpoint is supported.
+  ///
+  /// Parameter [name] :
+  /// The SIP media application name.
+  Future<CreateSipMediaApplicationResponse> createSipMediaApplication({
+    @_s.required String awsRegion,
+    @_s.required List<SipMediaApplicationEndpoint> endpoints,
+    String name,
+  }) async {
+    ArgumentError.checkNotNull(awsRegion, 'awsRegion');
+    ArgumentError.checkNotNull(endpoints, 'endpoints');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+    );
+    final $payload = <String, dynamic>{
+      'AwsRegion': awsRegion,
+      'Endpoints': endpoints,
+      if (name != null) 'Name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/sip-media-applications',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateSipMediaApplicationResponse.fromJson(response);
+  }
+
+  /// Creates an outbound call to a phone number from the phone number specified
+  /// in the request, and it invokes the endpoint of the specified
+  /// <code>sipMediaApplicationId</code>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sipMediaApplicationId] :
+  /// The ID of the SIP media application.
+  ///
+  /// Parameter [fromPhoneNumber] :
+  /// The phone number that a user calls from.
+  ///
+  /// Parameter [toPhoneNumber] :
+  /// The phone number that the user dials in order to connect to a meeting
+  Future<CreateSipMediaApplicationCallResponse> createSipMediaApplicationCall({
+    @_s.required String sipMediaApplicationId,
+    String fromPhoneNumber,
+    String toPhoneNumber,
+  }) async {
+    ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
+    _s.validateStringPattern(
+      'sipMediaApplicationId',
+      sipMediaApplicationId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fromPhoneNumber',
+      fromPhoneNumber,
+      r'''^\+?[1-9]\d{1,14}$''',
+    );
+    _s.validateStringPattern(
+      'toPhoneNumber',
+      toPhoneNumber,
+      r'''^\+?[1-9]\d{1,14}$''',
+    );
+    final $payload = <String, dynamic>{
+      if (fromPhoneNumber != null) 'FromPhoneNumber': fromPhoneNumber,
+      if (toPhoneNumber != null) 'ToPhoneNumber': toPhoneNumber,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/sip-media-applications/${Uri.encodeComponent(sipMediaApplicationId)}/calls',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateSipMediaApplicationCallResponse.fromJson(response);
+  }
+
+  /// Creates a SIP rule which can be used to run a SIP media application as a
+  /// target for a specific trigger type.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [name] :
+  /// The name of the SIP rule.
+  ///
+  /// Parameter [targetApplications] :
+  /// List of SIP media applications with priority and AWS Region. Only one SIP
+  /// application per AWS Region can be used.
+  ///
+  /// Parameter [triggerType] :
+  /// The type of trigger whose value is assigned to the SIP rule in
+  /// <code>TriggerValue</code>. Allowed trigger values are
+  /// <code>RequestUriHostname</code> and <code>ToPhoneNumber</code>.
+  ///
+  /// Parameter [triggerValue] :
+  /// If <code>TriggerType</code> is <code>RequestUriHostname</code> then the
+  /// value can be the outbound host name of an Amazon Chime Voice Connector. If
+  /// <code>TriggerType</code> is <code>ToPhoneNumber</code> then the value can
+  /// be a customer-owned phone number in E164 format. <code>SipRule</code> is
+  /// triggered if the SIP application requests a host name, or a If
+  /// <code>TriggerType</code> is <code>RequestUriHostname</code>, then the
+  /// value can be the outbound hostname of an Amazon Chime Voice Connector. If
+  /// <code>TriggerType</code> is <code>ToPhoneNumber</code>, then the value can
+  /// be a customer-owned phone number in E164 format. <code>SipRule</code> is
+  /// triggered if the SIP application requests a host name, or a
+  /// <code>ToPhoneNumber</code> value matches the incoming SIP request.
+  ///
+  /// Parameter [disabled] :
+  /// Enables or disables a rule. You must disable rules before you can delete
+  /// them.
+  Future<CreateSipRuleResponse> createSipRule({
+    @_s.required String name,
+    @_s.required List<SipRuleTargetApplication> targetApplications,
+    @_s.required SipRuleTriggerType triggerType,
+    @_s.required String triggerValue,
+    bool disabled,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(targetApplications, 'targetApplications');
+    ArgumentError.checkNotNull(triggerType, 'triggerType');
+    ArgumentError.checkNotNull(triggerValue, 'triggerValue');
+    _s.validateStringPattern(
+      'triggerValue',
+      triggerValue,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'Name': name,
+      'TargetApplications': targetApplications,
+      'TriggerType': triggerType?.toValue() ?? '',
+      'TriggerValue': triggerValue,
+      if (disabled != null) 'Disabled': disabled,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/sip-rules',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateSipRuleResponse.fromJson(response);
+  }
+
   /// Creates a user under the specified Amazon Chime account.
   ///
   /// May throw [UnauthorizedClientException].
@@ -1298,6 +2316,176 @@ class Chime {
     return DeleteAccountResponse.fromJson(response);
   }
 
+  /// Deletes an <code>AppInstance</code> and all associated data
+  /// asynchronously.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  Future<void> deleteAppInstance({
+    @_s.required String appInstanceArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/app-instances/${Uri.encodeComponent(appInstanceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Demotes an <code>AppInstanceAdmin</code> to an
+  /// <code>AppInstanceUser</code>. This action does not delete the user.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceAdminArn] :
+  /// The ARN of the app instance's administrator.
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  Future<void> deleteAppInstanceAdmin({
+    @_s.required String appInstanceAdminArn,
+    @_s.required String appInstanceArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceAdminArn, 'appInstanceAdminArn');
+    _s.validateStringLength(
+      'appInstanceAdminArn',
+      appInstanceAdminArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceAdminArn',
+      appInstanceAdminArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/app-instances/${Uri.encodeComponent(appInstanceArn)}/admins/${Uri.encodeComponent(appInstanceAdminArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the streaming configurations of an app instance.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the streaming configurations being deleted.
+  Future<void> deleteAppInstanceStreamingConfigurations({
+    @_s.required String appInstanceArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/app-instances/${Uri.encodeComponent(appInstanceArn)}/streaming-configurations',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an <code>AppInstanceUser</code>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceUserArn] :
+  /// The ARN of the user request being deleted.
+  Future<void> deleteAppInstanceUser({
+    @_s.required String appInstanceUserArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
+    _s.validateStringLength(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/app-instance-users/${Uri.encodeComponent(appInstanceUserArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes an attendee from the specified Amazon Chime SDK meeting and
   /// deletes their <code>JoinToken</code>. Attendees are automatically deleted
   /// when a Amazon Chime SDK meeting is deleted. For more information about the
@@ -1341,6 +2529,265 @@ class Chime {
       method: 'DELETE',
       requestUri:
           '/meetings/${Uri.encodeComponent(meetingId)}/attendees/${Uri.encodeComponent(attendeeId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Immediately makes a channel and its memberships inaccessible and marks
+  /// them for deletion. This is an irreversible process.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel being deleted.
+  Future<void> deleteChannel({
+    @_s.required String channelArn,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes a user from a channel's ban list.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel from which the app instance user was banned.
+  ///
+  /// Parameter [memberArn] :
+  /// The ARN of the app instance user that you want to reinstate.
+  Future<void> deleteChannelBan({
+    @_s.required String channelArn,
+    @_s.required String memberArn,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(memberArn, 'memberArn');
+    _s.validateStringLength(
+      'memberArn',
+      memberArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'memberArn',
+      memberArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}/bans/${Uri.encodeComponent(memberArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes a member from a channel.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel from which you want to remove the user.
+  ///
+  /// Parameter [memberArn] :
+  /// The ARN of the member that you're removing from the channel.
+  Future<void> deleteChannelMembership({
+    @_s.required String channelArn,
+    @_s.required String memberArn,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(memberArn, 'memberArn');
+    _s.validateStringLength(
+      'memberArn',
+      memberArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'memberArn',
+      memberArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}/memberships/${Uri.encodeComponent(memberArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a channel message. Only admins can perform this action. Deletion
+  /// makes messages inaccessible immediately. A background process deletes any
+  /// revisions created by <code>UpdateChannelMessage</code>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [messageId] :
+  /// The ID of the message being deleted.
+  Future<void> deleteChannelMessage({
+    @_s.required String channelArn,
+    @_s.required String messageId,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(messageId, 'messageId');
+    _s.validateStringLength(
+      'messageId',
+      messageId,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'messageId',
+      messageId,
+      r'''[-_a-zA-Z0-9]*''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}/messages/${Uri.encodeComponent(messageId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a channel moderator.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [channelModeratorArn] :
+  /// The ARN of the moderator being deleted.
+  Future<void> deleteChannelModerator({
+    @_s.required String channelArn,
+    @_s.required String channelModeratorArn,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
+    _s.validateStringLength(
+      'channelModeratorArn',
+      channelModeratorArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelModeratorArn',
+      channelModeratorArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}/moderators/${Uri.encodeComponent(channelModeratorArn)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1602,6 +3049,69 @@ class Chime {
     );
   }
 
+  /// Deletes a SIP media application.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sipMediaApplicationId] :
+  /// The SIP media application ID.
+  Future<void> deleteSipMediaApplication({
+    @_s.required String sipMediaApplicationId,
+  }) async {
+    ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
+    _s.validateStringPattern(
+      'sipMediaApplicationId',
+      sipMediaApplicationId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/sip-media-applications/${Uri.encodeComponent(sipMediaApplicationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a SIP rule. You must disable a SIP rule before you can delete it.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sipRuleId] :
+  /// The SIP rule ID.
+  Future<void> deleteSipRule({
+    @_s.required String sipRuleId,
+  }) async {
+    ArgumentError.checkNotNull(sipRuleId, 'sipRuleId');
+    _s.validateStringPattern(
+      'sipRuleId',
+      sipRuleId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/sip-rules/${Uri.encodeComponent(sipRuleId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes the specified Amazon Chime Voice Connector. Any phone numbers
   /// associated with the Amazon Chime Voice Connector must be disassociated
   /// from it before it can be deleted.
@@ -1631,6 +3141,38 @@ class Chime {
       payload: null,
       method: 'DELETE',
       requestUri: '/voice-connectors/${Uri.encodeComponent(voiceConnectorId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the emergency calling configuration details from the specified
+  /// Amazon Chime Voice Connector.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [voiceConnectorId] :
+  /// The Amazon Chime Voice Connector ID.
+  Future<void> deleteVoiceConnectorEmergencyCallingConfiguration({
+    @_s.required String voiceConnectorId,
+  }) async {
+    ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
+    _s.validateStringPattern(
+      'voiceConnectorId',
+      voiceConnectorId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/voice-connectors/${Uri.encodeComponent(voiceConnectorId)}/emergency-calling-configuration',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1671,6 +3213,10 @@ class Chime {
 
   /// Deletes the origination settings for the specified Amazon Chime Voice
   /// Connector.
+  /// <note>
+  /// If emergency calling is configured for the Amazon Chime Voice Connector,
+  /// it must be deleted prior to deleting the origination settings.
+  /// </note>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -1774,6 +3320,10 @@ class Chime {
 
   /// Deletes the termination settings for the specified Amazon Chime Voice
   /// Connector.
+  /// <note>
+  /// If emergency calling is configured for the Amazon Chime Voice Connector,
+  /// it must be deleted prior to deleting the termination settings.
+  /// </note>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -1815,16 +3365,17 @@ class Chime {
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
-  /// Parameter [voiceConnectorId] :
-  /// The Amazon Chime Voice Connector ID.
-  ///
   /// Parameter [usernames] :
   /// The RFC2617 compliant username associated with the SIP credentials, in
   /// US-ASCII format.
+  ///
+  /// Parameter [voiceConnectorId] :
+  /// The Amazon Chime Voice Connector ID.
   Future<void> deleteVoiceConnectorTerminationCredentials({
+    @_s.required List<String> usernames,
     @_s.required String voiceConnectorId,
-    List<String> usernames,
   }) async {
+    ArgumentError.checkNotNull(usernames, 'usernames');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringPattern(
       'voiceConnectorId',
@@ -1833,7 +3384,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      if (usernames != null) 'Usernames': usernames,
+      'Usernames': usernames,
     };
     await _protocol.send(
       payload: $payload,
@@ -1842,6 +3393,472 @@ class Chime {
           '/voice-connectors/${Uri.encodeComponent(voiceConnectorId)}/termination/credentials?operation=delete',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Returns the full details of an <code>AppInstance</code>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  Future<DescribeAppInstanceResponse> describeAppInstance({
+    @_s.required String appInstanceArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/app-instances/${Uri.encodeComponent(appInstanceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAppInstanceResponse.fromJson(response);
+  }
+
+  /// Returns the full details of an <code>AppInstanceAdmin</code>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceAdminArn] :
+  /// The ARN of the app instance administrator.
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  Future<DescribeAppInstanceAdminResponse> describeAppInstanceAdmin({
+    @_s.required String appInstanceAdminArn,
+    @_s.required String appInstanceArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceAdminArn, 'appInstanceAdminArn');
+    _s.validateStringLength(
+      'appInstanceAdminArn',
+      appInstanceAdminArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceAdminArn',
+      appInstanceAdminArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app-instances/${Uri.encodeComponent(appInstanceArn)}/admins/${Uri.encodeComponent(appInstanceAdminArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAppInstanceAdminResponse.fromJson(response);
+  }
+
+  /// Returns the full details of an <code>AppInstanceUser</code>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceUserArn] :
+  /// The ARN of the app instance user.
+  Future<DescribeAppInstanceUserResponse> describeAppInstanceUser({
+    @_s.required String appInstanceUserArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
+    _s.validateStringLength(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app-instance-users/${Uri.encodeComponent(appInstanceUserArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAppInstanceUserResponse.fromJson(response);
+  }
+
+  /// Returns the full details of a channel in an Amazon Chime app instance.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  Future<DescribeChannelResponse> describeChannel({
+    @_s.required String channelArn,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeChannelResponse.fromJson(response);
+  }
+
+  /// Returns the full details of a channel ban.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel from which the user is banned.
+  ///
+  /// Parameter [memberArn] :
+  /// The ARN of the member being banned.
+  Future<DescribeChannelBanResponse> describeChannelBan({
+    @_s.required String channelArn,
+    @_s.required String memberArn,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(memberArn, 'memberArn');
+    _s.validateStringLength(
+      'memberArn',
+      memberArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'memberArn',
+      memberArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}/bans/${Uri.encodeComponent(memberArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeChannelBanResponse.fromJson(response);
+  }
+
+  /// Returns the full details of a user's channel membership.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [memberArn] :
+  /// The ARN of the member.
+  Future<DescribeChannelMembershipResponse> describeChannelMembership({
+    @_s.required String channelArn,
+    @_s.required String memberArn,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(memberArn, 'memberArn');
+    _s.validateStringLength(
+      'memberArn',
+      memberArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'memberArn',
+      memberArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}/memberships/${Uri.encodeComponent(memberArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeChannelMembershipResponse.fromJson(response);
+  }
+
+  /// Returns the details of a channel based on the membership of the
+  /// <code>AppInstanceUser</code> specified.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceUserArn] :
+  /// The ARN of the user in a channel.
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel to which the user belongs.
+  Future<DescribeChannelMembershipForAppInstanceUserResponse>
+      describeChannelMembershipForAppInstanceUser({
+    @_s.required String appInstanceUserArn,
+    @_s.required String channelArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
+    _s.validateStringLength(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final $query = <String, List<String>>{
+      if (appInstanceUserArn != null)
+        'app-instance-user-arn': [appInstanceUserArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}?scope=app-instance-user-membership',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeChannelMembershipForAppInstanceUserResponse.fromJson(
+        response);
+  }
+
+  /// Returns the full details of a channel moderated by the specified
+  /// <code>AppInstanceUser</code>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceUserArn] :
+  /// The ARN of the app instance user in the moderated channel.
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the moderated channel.
+  Future<DescribeChannelModeratedByAppInstanceUserResponse>
+      describeChannelModeratedByAppInstanceUser({
+    @_s.required String appInstanceUserArn,
+    @_s.required String channelArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
+    _s.validateStringLength(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final $query = <String, List<String>>{
+      if (appInstanceUserArn != null)
+        'app-instance-user-arn': [appInstanceUserArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}?scope=app-instance-user-moderated-channel',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeChannelModeratedByAppInstanceUserResponse.fromJson(response);
+  }
+
+  /// Returns the full details of a single ChannelModerator.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [channelModeratorArn] :
+  /// The ARN of the channel moderator.
+  Future<DescribeChannelModeratorResponse> describeChannelModerator({
+    @_s.required String channelArn,
+    @_s.required String channelModeratorArn,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
+    _s.validateStringLength(
+      'channelModeratorArn',
+      channelModeratorArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelModeratorArn',
+      channelModeratorArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}/moderators/${Uri.encodeComponent(channelModeratorArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeChannelModeratorResponse.fromJson(response);
   }
 
   /// Disassociates the primary provisioned phone number from the specified
@@ -1887,16 +3904,17 @@ class Chime {
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
-  /// Parameter [voiceConnectorId] :
-  /// The Amazon Chime Voice Connector ID.
-  ///
   /// Parameter [e164PhoneNumbers] :
   /// List of phone numbers, in E.164 format.
+  ///
+  /// Parameter [voiceConnectorId] :
+  /// The Amazon Chime Voice Connector ID.
   Future<DisassociatePhoneNumbersFromVoiceConnectorResponse>
       disassociatePhoneNumbersFromVoiceConnector({
+    @_s.required List<String> e164PhoneNumbers,
     @_s.required String voiceConnectorId,
-    List<String> e164PhoneNumbers,
   }) async {
+    ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringPattern(
       'voiceConnectorId',
@@ -1905,7 +3923,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
+      'E164PhoneNumbers': e164PhoneNumbers,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1929,16 +3947,17 @@ class Chime {
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
-  /// Parameter [voiceConnectorGroupId] :
-  /// The Amazon Chime Voice Connector group ID.
-  ///
   /// Parameter [e164PhoneNumbers] :
   /// List of phone numbers, in E.164 format.
+  ///
+  /// Parameter [voiceConnectorGroupId] :
+  /// The Amazon Chime Voice Connector group ID.
   Future<DisassociatePhoneNumbersFromVoiceConnectorGroupResponse>
       disassociatePhoneNumbersFromVoiceConnectorGroup({
+    @_s.required List<String> e164PhoneNumbers,
     @_s.required String voiceConnectorGroupId,
-    List<String> e164PhoneNumbers,
   }) async {
+    ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
     _s.validateStringPattern(
       'voiceConnectorGroupId',
@@ -1947,7 +3966,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
+      'E164PhoneNumbers': e164PhoneNumbers,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2069,6 +4088,86 @@ class Chime {
     return GetAccountSettingsResponse.fromJson(response);
   }
 
+  /// Gets the retention settings for an app instance.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  Future<GetAppInstanceRetentionSettingsResponse>
+      getAppInstanceRetentionSettings({
+    @_s.required String appInstanceArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app-instances/${Uri.encodeComponent(appInstanceArn)}/retention-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAppInstanceRetentionSettingsResponse.fromJson(response);
+  }
+
+  /// Gets the streaming settings for an app instance.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  Future<GetAppInstanceStreamingConfigurationsResponse>
+      getAppInstanceStreamingConfigurations({
+    @_s.required String appInstanceArn,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app-instances/${Uri.encodeComponent(appInstanceArn)}/streaming-configurations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAppInstanceStreamingConfigurationsResponse.fromJson(response);
+  }
+
   /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and
   /// attendee ID. For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
@@ -2157,6 +4256,63 @@ class Chime {
       exceptionFnMap: _exceptionFns,
     );
     return GetBotResponse.fromJson(response);
+  }
+
+  /// Gets the full details of a channel message.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [messageId] :
+  /// The ID of the message.
+  Future<GetChannelMessageResponse> getChannelMessage({
+    @_s.required String channelArn,
+    @_s.required String messageId,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(messageId, 'messageId');
+    _s.validateStringLength(
+      'messageId',
+      messageId,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'messageId',
+      messageId,
+      r'''[-_a-zA-Z0-9]*''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}/messages/${Uri.encodeComponent(messageId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetChannelMessageResponse.fromJson(response);
   }
 
   /// Gets details for an events configuration that allows a bot to receive
@@ -2254,6 +4410,24 @@ class Chime {
       exceptionFnMap: _exceptionFns,
     );
     return GetMeetingResponse.fromJson(response);
+  }
+
+  /// The endpoint for the messaging session.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  Future<GetMessagingSessionEndpointResponse>
+      getMessagingSessionEndpoint() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/endpoints/messaging-session',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMessagingSessionEndpointResponse.fromJson(response);
   }
 
   /// Retrieves details for the specified phone number ID, such as associations,
@@ -2393,6 +4567,42 @@ class Chime {
     return GetProxySessionResponse.fromJson(response);
   }
 
+  /// Gets the retention settings for the specified Amazon Chime Enterprise
+  /// account. For more information about retention settings, see <a
+  /// href="https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html">Managing
+  /// Chat Retention Policies</a> in the <i>Amazon Chime Administration
+  /// Guide</i>.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Chime account ID.
+  Future<GetRetentionSettingsResponse> getRetentionSettings({
+    @_s.required String accountId,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(accountId)}/retention-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetRetentionSettingsResponse.fromJson(response);
+  }
+
   /// Retrieves room details, such as the room name, for a room in an Amazon
   /// Chime Enterprise account.
   ///
@@ -2435,6 +4645,105 @@ class Chime {
       exceptionFnMap: _exceptionFns,
     );
     return GetRoomResponse.fromJson(response);
+  }
+
+  /// Retrieves the information for a SIP media application, including name, AWS
+  /// Region, and endpoints.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sipMediaApplicationId] :
+  /// The SIP media application ID.
+  Future<GetSipMediaApplicationResponse> getSipMediaApplication({
+    @_s.required String sipMediaApplicationId,
+  }) async {
+    ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
+    _s.validateStringPattern(
+      'sipMediaApplicationId',
+      sipMediaApplicationId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/sip-media-applications/${Uri.encodeComponent(sipMediaApplicationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSipMediaApplicationResponse.fromJson(response);
+  }
+
+  /// Returns the logging configuration for the specified SIP media application.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sipMediaApplicationId] :
+  /// The ID of the SIP media application.
+  Future<GetSipMediaApplicationLoggingConfigurationResponse>
+      getSipMediaApplicationLoggingConfiguration({
+    @_s.required String sipMediaApplicationId,
+  }) async {
+    ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
+    _s.validateStringPattern(
+      'sipMediaApplicationId',
+      sipMediaApplicationId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/sip-media-applications/${Uri.encodeComponent(sipMediaApplicationId)}/logging-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSipMediaApplicationLoggingConfigurationResponse.fromJson(
+        response);
+  }
+
+  /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers,
+  /// and target endpoints.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sipRuleId] :
+  /// The SIP rule ID.
+  Future<GetSipRuleResponse> getSipRule({
+    @_s.required String sipRuleId,
+  }) async {
+    ArgumentError.checkNotNull(sipRuleId, 'sipRuleId');
+    _s.validateStringPattern(
+      'sipRuleId',
+      sipRuleId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/sip-rules/${Uri.encodeComponent(sipRuleId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSipRuleResponse.fromJson(response);
   }
 
   /// Retrieves details for the specified user ID, such as primary email
@@ -2548,6 +4857,41 @@ class Chime {
     return GetVoiceConnectorResponse.fromJson(response);
   }
 
+  /// Gets the emergency calling configuration details for the specified Amazon
+  /// Chime Voice Connector.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [voiceConnectorId] :
+  /// The Amazon Chime Voice Connector ID.
+  Future<GetVoiceConnectorEmergencyCallingConfigurationResponse>
+      getVoiceConnectorEmergencyCallingConfiguration({
+    @_s.required String voiceConnectorId,
+  }) async {
+    ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
+    _s.validateStringPattern(
+      'voiceConnectorId',
+      voiceConnectorId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/voice-connectors/${Uri.encodeComponent(voiceConnectorId)}/emergency-calling-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetVoiceConnectorEmergencyCallingConfigurationResponse.fromJson(
+        response);
+  }
+
   /// Retrieves details for the specified Amazon Chime Voice Connector group,
   /// such as timestamps, name, and associated <code>VoiceConnectorItems</code>.
   ///
@@ -2583,7 +4927,7 @@ class Chime {
 
   /// Retrieves the logging configuration details for the specified Amazon Chime
   /// Voice Connector. Shows whether SIP message logs are enabled for sending to
-  /// Amazon CloudWatch Logs.
+  /// Amazon CloudWatch.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -2908,6 +5252,196 @@ class Chime {
     return ListAccountsResponse.fromJson(response);
   }
 
+  /// Returns a list of the administrators in the app instance.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of administrators that you want to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned from previous API requests until the number of
+  /// administrators is reached.
+  Future<ListAppInstanceAdminsResponse> listAppInstanceAdmins({
+    @_s.required String appInstanceArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/app-instances/${Uri.encodeComponent(appInstanceArn)}/admins',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAppInstanceAdminsResponse.fromJson(response);
+  }
+
+  /// List all <code>AppInstanceUsers</code> created under a single app
+  /// instance.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of requests that you want returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token passed by previous API calls until all requested users are
+  /// returned.
+  Future<ListAppInstanceUsersResponse> listAppInstanceUsers({
+    @_s.required String appInstanceArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final $query = <String, List<String>>{
+      if (appInstanceArn != null) 'app-instance-arn': [appInstanceArn],
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/app-instance-users',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAppInstanceUsersResponse.fromJson(response);
+  }
+
+  /// Lists all Amazon Chime app instances created under a single AWS account.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of app instances that you want to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The token passed by previous API requests until you reach the maximum
+  /// number of app instances.
+  Future<ListAppInstancesResponse> listAppInstances({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/app-instances',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAppInstancesResponse.fromJson(response);
+  }
+
   /// Lists the tags applied to an Amazon Chime SDK attendee resource.
   ///
   /// May throw [BadRequestException].
@@ -3054,6 +5588,539 @@ class Chime {
       exceptionFnMap: _exceptionFns,
     );
     return ListBotsResponse.fromJson(response);
+  }
+
+  /// Lists all the users banned from a particular channel.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of bans that you want returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token passed by previous API calls until all requested bans are
+  /// returned.
+  Future<ListChannelBansResponse> listChannelBans({
+    @_s.required String channelArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/bans',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListChannelBansResponse.fromJson(response);
+  }
+
+  /// Lists all channel memberships in a channel.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The maximum number of channel memberships that you want returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of channel memberships that you want returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token passed by previous API calls until all requested channel
+  /// memberships are returned..
+  ///
+  /// Parameter [type] :
+  /// The membership type of a user, <code>DEFAULT</code> or
+  /// <code>HIDDEN</code>. Default members are always returned as part of
+  /// <code>ListChannelMemberships</code>. Hidden members are only returned if
+  /// the type filter in <code>ListChannelMemberships</code> equals
+  /// <code>HIDDEN</code>. Otherwise hidden members are not returned.
+  Future<ListChannelMembershipsResponse> listChannelMemberships({
+    @_s.required String channelArn,
+    int maxResults,
+    String nextToken,
+    ChannelMembershipType type,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+      if (type != null) 'type': [type.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/memberships',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListChannelMembershipsResponse.fromJson(response);
+  }
+
+  /// Lists all channels that a particular <code>AppInstanceUser</code> is a
+  /// part of. Only an <code>AppInstanceAdmin</code> can call the API with a
+  /// user ARN that is not their own.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceUserArn] :
+  /// The ARN of the app instance users
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of users that you want returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned from previous API requests until the number of channel
+  /// memberships is reached.
+  Future<ListChannelMembershipsForAppInstanceUserResponse>
+      listChannelMembershipsForAppInstanceUser({
+    String appInstanceUserArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateStringLength(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      5,
+      1600,
+    );
+    _s.validateStringPattern(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final $query = <String, List<String>>{
+      if (appInstanceUserArn != null)
+        'app-instance-user-arn': [appInstanceUserArn],
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/channels?scope=app-instance-user-memberships',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListChannelMembershipsForAppInstanceUserResponse.fromJson(response);
+  }
+
+  /// List all the messages in a channel. Returns a paginated list of
+  /// <code>ChannelMessages</code>. Sorted in descending order by default, based
+  /// on the creation timestamp.
+  /// <note>
+  /// Redacted messages appear in the results as empty, since they are only
+  /// redacted, not deleted. Deleted messages do not appear in the results. This
+  /// action always returns the latest version of an edited message.
+  /// </note>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of messages that you want returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token passed by previous API calls until all requested messages are
+  /// returned.
+  ///
+  /// Parameter [notAfter] :
+  /// The final or ending time stamp for your requested messages.
+  ///
+  /// Parameter [notBefore] :
+  /// The initial or starting time stamp for your requested messages.
+  ///
+  /// Parameter [sortOrder] :
+  /// The order in which you want messages sorted. Default is Descending, based
+  /// on time created.
+  Future<ListChannelMessagesResponse> listChannelMessages({
+    @_s.required String channelArn,
+    int maxResults,
+    String nextToken,
+    DateTime notAfter,
+    DateTime notBefore,
+    SortOrder sortOrder,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+      if (notAfter != null)
+        'not-after': [_s.iso8601ToJson(notAfter).toString()],
+      if (notBefore != null)
+        'not-before': [_s.iso8601ToJson(notBefore).toString()],
+      if (sortOrder != null) 'sort-order': [sortOrder.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/messages',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListChannelMessagesResponse.fromJson(response);
+  }
+
+  /// Lists all the moderators for a channel.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of moderators that you want returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token passed by previous API calls until all requested moderators are
+  /// returned.
+  Future<ListChannelModeratorsResponse> listChannelModerators({
+    @_s.required String channelArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/moderators',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListChannelModeratorsResponse.fromJson(response);
+  }
+
+  /// Lists all Channels created under a single Chime App as a paginated list.
+  /// You can specify filters to narrow results.
+  /// <p class="title"> <b>Functionality &amp; restrictions</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Use privacy = <code>PUBLIC</code> to retrieve all public channels in the
+  /// account
+  /// </li>
+  /// <li>
+  /// Only an <code>AppInstanceAdmin</code> can set privacy =
+  /// <code>PRIVATE</code> to list the private channels in an account.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of channels that you want to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The token passed by previous API calls until all requested channels are
+  /// returned.
+  ///
+  /// Parameter [privacy] :
+  /// The privacy setting. <code>PUBLIC</code> retrieves all the public
+  /// channels. <code>PRIVATE</code> retrieves private channels. Only an app
+  /// instance administrator can retrieve private channels.
+  Future<ListChannelsResponse> listChannels({
+    @_s.required String appInstanceArn,
+    int maxResults,
+    String nextToken,
+    ChannelPrivacy privacy,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final $query = <String, List<String>>{
+      if (appInstanceArn != null) 'app-instance-arn': [appInstanceArn],
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+      if (privacy != null) 'privacy': [privacy.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/channels',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListChannelsResponse.fromJson(response);
+  }
+
+  /// A list of the channels moderated by an app instance user.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceUserArn] :
+  /// The ARN of the user in the moderated channel.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of channels in the request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned from previous API requests until the number of channels
+  /// moderated by the user is reached.
+  Future<ListChannelsModeratedByAppInstanceUserResponse>
+      listChannelsModeratedByAppInstanceUser({
+    String appInstanceUserArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateStringLength(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      5,
+      1600,
+    );
+    _s.validateStringPattern(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.*''',
+    );
+    final $query = <String, List<String>>{
+      if (appInstanceUserArn != null)
+        'app-instance-user-arn': [appInstanceUserArn],
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/channels?scope=app-instance-user-moderated-channels',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListChannelsModeratedByAppInstanceUserResponse.fromJson(response);
   }
 
   /// Lists the tags applied to an Amazon Chime SDK meeting resource.
@@ -3416,6 +6483,105 @@ class Chime {
     return ListRoomsResponse.fromJson(response);
   }
 
+  /// Lists the SIP media applications under the administrator's AWS account.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. Defaults to 100.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results.
+  Future<ListSipMediaApplicationsResponse> listSipMediaApplications({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      99,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      65535,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/sip-media-applications',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSipMediaApplicationsResponse.fromJson(response);
+  }
+
+  /// Lists the SIP rules under the administrator's AWS account.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. Defaults to 100.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results.
+  ///
+  /// Parameter [sipMediaApplicationId] :
+  /// The SIP media application ID.
+  Future<ListSipRulesResponse> listSipRules({
+    int maxResults,
+    String nextToken,
+    String sipMediaApplicationId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      99,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      65535,
+    );
+    _s.validateStringPattern(
+      'sipMediaApplicationId',
+      sipMediaApplicationId,
+      r'''.*\S.*''',
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+      if (sipMediaApplicationId != null)
+        'sip-media-application': [sipMediaApplicationId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/sip-rules',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSipRulesResponse.fromJson(response);
+  }
+
   /// Lists the tags applied to an Amazon Chime SDK meeting resource.
   ///
   /// May throw [BadRequestException].
@@ -3679,6 +6845,107 @@ class Chime {
     return LogoutUserResponse.fromJson(response);
   }
 
+  /// Sets the amount of time in days that a given app instance retains data.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  ///
+  /// Parameter [appInstanceRetentionSettings] :
+  /// The time in days to retain data. Data type: number.
+  Future<PutAppInstanceRetentionSettingsResponse>
+      putAppInstanceRetentionSettings({
+    @_s.required String appInstanceArn,
+    @_s.required AppInstanceRetentionSettings appInstanceRetentionSettings,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        appInstanceRetentionSettings, 'appInstanceRetentionSettings');
+    final $payload = <String, dynamic>{
+      'AppInstanceRetentionSettings': appInstanceRetentionSettings,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/app-instances/${Uri.encodeComponent(appInstanceArn)}/retention-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutAppInstanceRetentionSettingsResponse.fromJson(response);
+  }
+
+  /// The data streaming configurations of an app instance.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  ///
+  /// Parameter [appInstanceStreamingConfigurations] :
+  /// The streaming configurations set for an app instance.
+  Future<PutAppInstanceStreamingConfigurationsResponse>
+      putAppInstanceStreamingConfigurations({
+    @_s.required String appInstanceArn,
+    @_s.required
+        List<AppInstanceStreamingConfiguration>
+            appInstanceStreamingConfigurations,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(appInstanceStreamingConfigurations,
+        'appInstanceStreamingConfigurations');
+    final $payload = <String, dynamic>{
+      'AppInstanceStreamingConfigurations': appInstanceStreamingConfigurations,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/app-instances/${Uri.encodeComponent(appInstanceArn)}/streaming-configurations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutAppInstanceStreamingConfigurationsResponse.fromJson(response);
+  }
+
   /// Creates an events configuration that allows a bot to receive outgoing
   /// events sent by Amazon Chime. Choose either an HTTPS endpoint or a Lambda
   /// function ARN. For more information, see <a>Bot</a>.
@@ -3737,6 +7004,150 @@ class Chime {
     return PutEventsConfigurationResponse.fromJson(response);
   }
 
+  /// Puts retention settings for the specified Amazon Chime Enterprise account.
+  /// We recommend using AWS CloudTrail to monitor usage of this API for your
+  /// account. For more information, see <a
+  /// href="https://docs.aws.amazon.com/chime/latest/ag/cloudtrail.html">Logging
+  /// Amazon Chime API Calls with AWS CloudTrail</a> in the <i>Amazon Chime
+  /// Administration Guide</i>.
+  ///
+  /// To turn off existing retention settings, remove the number of days from
+  /// the corresponding <b>RetentionDays</b> field in the
+  /// <b>RetentionSettings</b> object. For more information about retention
+  /// settings, see <a
+  /// href="https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html">Managing
+  /// Chat Retention Policies</a> in the <i>Amazon Chime Administration
+  /// Guide</i>.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Chime account ID.
+  ///
+  /// Parameter [retentionSettings] :
+  /// The retention settings.
+  Future<PutRetentionSettingsResponse> putRetentionSettings({
+    @_s.required String accountId,
+    @_s.required RetentionSettings retentionSettings,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(retentionSettings, 'retentionSettings');
+    final $payload = <String, dynamic>{
+      'RetentionSettings': retentionSettings,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(accountId)}/retention-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutRetentionSettingsResponse.fromJson(response);
+  }
+
+  /// Updates the logging configuration for the specified SIP media application.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sipMediaApplicationId] :
+  /// The ID of the specified SIP media application
+  ///
+  /// Parameter [sipMediaApplicationLoggingConfiguration] :
+  /// The actual logging configuration.
+  Future<PutSipMediaApplicationLoggingConfigurationResponse>
+      putSipMediaApplicationLoggingConfiguration({
+    @_s.required String sipMediaApplicationId,
+    SipMediaApplicationLoggingConfiguration
+        sipMediaApplicationLoggingConfiguration,
+  }) async {
+    ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
+    _s.validateStringPattern(
+      'sipMediaApplicationId',
+      sipMediaApplicationId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      if (sipMediaApplicationLoggingConfiguration != null)
+        'SipMediaApplicationLoggingConfiguration':
+            sipMediaApplicationLoggingConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/sip-media-applications/${Uri.encodeComponent(sipMediaApplicationId)}/logging-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutSipMediaApplicationLoggingConfigurationResponse.fromJson(
+        response);
+  }
+
+  /// Puts emergency calling configuration details to the specified Amazon Chime
+  /// Voice Connector, such as emergency phone numbers and calling countries.
+  /// Origination and termination settings must be enabled for the Amazon Chime
+  /// Voice Connector before emergency calling can be configured.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [emergencyCallingConfiguration] :
+  /// The emergency calling configuration details.
+  ///
+  /// Parameter [voiceConnectorId] :
+  /// The Amazon Chime Voice Connector ID.
+  Future<PutVoiceConnectorEmergencyCallingConfigurationResponse>
+      putVoiceConnectorEmergencyCallingConfiguration({
+    @_s.required EmergencyCallingConfiguration emergencyCallingConfiguration,
+    @_s.required String voiceConnectorId,
+  }) async {
+    ArgumentError.checkNotNull(
+        emergencyCallingConfiguration, 'emergencyCallingConfiguration');
+    ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
+    _s.validateStringPattern(
+      'voiceConnectorId',
+      voiceConnectorId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'EmergencyCallingConfiguration': emergencyCallingConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/voice-connectors/${Uri.encodeComponent(voiceConnectorId)}/emergency-calling-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutVoiceConnectorEmergencyCallingConfigurationResponse.fromJson(
+        response);
+  }
+
   /// Adds a logging configuration for the specified Amazon Chime Voice
   /// Connector. The logging configuration specifies whether SIP message logs
   /// are enabled for sending to Amazon CloudWatch Logs.
@@ -3781,6 +7192,10 @@ class Chime {
   }
 
   /// Adds origination settings for the specified Amazon Chime Voice Connector.
+  /// <note>
+  /// If emergency calling is configured for the Amazon Chime Voice Connector,
+  /// it must be deleted prior to turning off origination settings.
+  /// </note>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -3940,6 +7355,10 @@ class Chime {
   }
 
   /// Adds termination settings for the specified Amazon Chime Voice Connector.
+  /// <note>
+  /// If emergency calling is configured for the Amazon Chime Voice Connector,
+  /// it must be deleted prior to turning off termination settings.
+  /// </note>
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -4017,6 +7436,172 @@ class Chime {
           '/voice-connectors/${Uri.encodeComponent(voiceConnectorId)}/termination/credentials?operation=put',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Redacts message content, but not metadata. The message exists in the back
+  /// end, but the action returns null content, and the state shows as redacted.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel containing the messages that you want to redact.
+  ///
+  /// Parameter [messageId] :
+  /// The ID of the message being redacted.
+  Future<RedactChannelMessageResponse> redactChannelMessage({
+    @_s.required String channelArn,
+    @_s.required String messageId,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(messageId, 'messageId');
+    _s.validateStringLength(
+      'messageId',
+      messageId,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'messageId',
+      messageId,
+      r'''[-_a-zA-Z0-9]*''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}/messages/${Uri.encodeComponent(messageId)}?operation=redact',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RedactChannelMessageResponse.fromJson(response);
+  }
+
+  /// Redacts the specified message from the specified Amazon Chime
+  /// conversation.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [BadRequestException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Chime account ID.
+  ///
+  /// Parameter [conversationId] :
+  /// The conversation ID.
+  ///
+  /// Parameter [messageId] :
+  /// The message ID.
+  Future<void> redactConversationMessage({
+    @_s.required String accountId,
+    @_s.required String conversationId,
+    @_s.required String messageId,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(conversationId, 'conversationId');
+    _s.validateStringPattern(
+      'conversationId',
+      conversationId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(messageId, 'messageId');
+    _s.validateStringPattern(
+      'messageId',
+      messageId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(accountId)}/conversations/${Uri.encodeComponent(conversationId)}/messages/${Uri.encodeComponent(messageId)}?operation=redact',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RedactConversationMessageResponse.fromJson(response);
+  }
+
+  /// Redacts the specified message from the specified Amazon Chime channel.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [BadRequestException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [accountId] :
+  /// The Amazon Chime account ID.
+  ///
+  /// Parameter [messageId] :
+  /// The message ID.
+  ///
+  /// Parameter [roomId] :
+  /// The room ID.
+  Future<void> redactRoomMessage({
+    @_s.required String accountId,
+    @_s.required String messageId,
+    @_s.required String roomId,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(messageId, 'messageId');
+    _s.validateStringPattern(
+      'messageId',
+      messageId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(roomId, 'roomId');
+    _s.validateStringPattern(
+      'roomId',
+      roomId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(accountId)}/rooms/${Uri.encodeComponent(roomId)}/messages/${Uri.encodeComponent(messageId)}?operation=redact',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RedactRoomMessageResponse.fromJson(response);
   }
 
   /// Regenerates the security token for a bot.
@@ -4214,6 +7799,118 @@ class Chime {
       exceptionFnMap: _exceptionFns,
     );
     return SearchAvailablePhoneNumbersResponse.fromJson(response);
+  }
+
+  /// Sends a message to a particular channel that the member is a part of.
+  /// <note>
+  /// <code>STANDARD</code> messages can contain 4KB of data and the 1KB of
+  /// metadata. <code>CONTROL</code> messages can contain 30 bytes of data and
+  /// no metadata.
+  /// </note>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The <code>Idempotency</code> token for each client request.
+  ///
+  /// Parameter [content] :
+  /// The content of the message.
+  ///
+  /// Parameter [persistence] :
+  /// Boolean that controls whether the message is persisted on the back end.
+  /// Required.
+  ///
+  /// Parameter [type] :
+  /// The type of message, <code>STANDARD</code> or <code>CONTROL</code>.
+  ///
+  /// Parameter [metadata] :
+  /// The optional metadata for each message.
+  Future<SendChannelMessageResponse> sendChannelMessage({
+    @_s.required String channelArn,
+    @_s.required String clientRequestToken,
+    @_s.required String content,
+    @_s.required ChannelMessagePersistenceType persistence,
+    @_s.required ChannelMessageType type,
+    String metadata,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      2,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[-_a-zA-Z0-9]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(content, 'content');
+    _s.validateStringLength(
+      'content',
+      content,
+      1,
+      4096,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'content',
+      content,
+      r'''[\s\S]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(persistence, 'persistence');
+    ArgumentError.checkNotNull(type, 'type');
+    _s.validateStringLength(
+      'metadata',
+      metadata,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'metadata',
+      metadata,
+      r'''.*''',
+    );
+    final $payload = <String, dynamic>{
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      'Content': content,
+      'Persistence': persistence?.toValue() ?? '',
+      'Type': type?.toValue() ?? '',
+      if (metadata != null) 'Metadata': metadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/messages',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SendChannelMessageResponse.fromJson(response);
   }
 
   /// Applies the specified tags to the specified Amazon Chime SDK attendee.
@@ -4582,6 +8279,158 @@ class Chime {
     return UpdateAccountSettingsResponse.fromJson(response);
   }
 
+  /// Updates <code>AppInstance</code> metadata.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceArn] :
+  /// The ARN of the app instance.
+  ///
+  /// Parameter [name] :
+  /// The name that you want to change.
+  ///
+  /// Parameter [metadata] :
+  /// The metadata that you want to change.
+  Future<UpdateAppInstanceResponse> updateAppInstance({
+    @_s.required String appInstanceArn,
+    @_s.required String name,
+    String metadata,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
+    _s.validateStringLength(
+      'appInstanceArn',
+      appInstanceArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceArn',
+      appInstanceArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'metadata',
+      metadata,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'metadata',
+      metadata,
+      r'''.*''',
+    );
+    final $payload = <String, dynamic>{
+      'Name': name,
+      if (metadata != null) 'Metadata': metadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/app-instances/${Uri.encodeComponent(appInstanceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAppInstanceResponse.fromJson(response);
+  }
+
+  /// Updates the details for an <code>AppInstanceUser</code>. You can update
+  /// names and metadata.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceUserArn] :
+  /// The ARN of the app instance user.
+  ///
+  /// Parameter [name] :
+  /// The name of the app instance user.
+  ///
+  /// Parameter [metadata] :
+  /// The metadata of the app instance user.
+  Future<UpdateAppInstanceUserResponse> updateAppInstanceUser({
+    @_s.required String appInstanceUserArn,
+    @_s.required String name,
+    String metadata,
+  }) async {
+    ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
+    _s.validateStringLength(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'metadata',
+      metadata,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'metadata',
+      metadata,
+      r'''.*''',
+    );
+    final $payload = <String, dynamic>{
+      'Name': name,
+      if (metadata != null) 'Metadata': metadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/app-instance-users/${Uri.encodeComponent(appInstanceUserArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAppInstanceUserResponse.fromJson(response);
+  }
+
   /// Updates the status of the specified bot, such as starting or stopping the
   /// bot from running in your Amazon Chime Enterprise account.
   ///
@@ -4631,6 +8480,219 @@ class Chime {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBotResponse.fromJson(response);
+  }
+
+  /// Update a channel's attributes.
+  ///
+  /// <b>Restriction</b>: You can't change a channel's privacy.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ConflictException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [mode] :
+  /// The mode of the update request.
+  ///
+  /// Parameter [name] :
+  /// The name of the channel.
+  ///
+  /// Parameter [metadata] :
+  /// The metadata of the channel.
+  Future<UpdateChannelResponse> updateChannel({
+    @_s.required String channelArn,
+    @_s.required ChannelMode mode,
+    @_s.required String name,
+    String metadata,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(mode, 'mode');
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'metadata',
+      metadata,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'metadata',
+      metadata,
+      r'''.*''',
+    );
+    final $payload = <String, dynamic>{
+      'Mode': mode?.toValue() ?? '',
+      'Name': name,
+      if (metadata != null) 'Metadata': metadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateChannelResponse.fromJson(response);
+  }
+
+  /// Updates the content of a message.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [messageId] :
+  /// The ID string of the message being updated.
+  ///
+  /// Parameter [content] :
+  /// The content of the message being updated.
+  ///
+  /// Parameter [metadata] :
+  /// The metadata of the message being updated.
+  Future<UpdateChannelMessageResponse> updateChannelMessage({
+    @_s.required String channelArn,
+    @_s.required String messageId,
+    String content,
+    String metadata,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(messageId, 'messageId');
+    _s.validateStringLength(
+      'messageId',
+      messageId,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'messageId',
+      messageId,
+      r'''[-_a-zA-Z0-9]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'content',
+      content,
+      0,
+      4096,
+    );
+    _s.validateStringPattern(
+      'content',
+      content,
+      r'''[\s\S]*''',
+    );
+    _s.validateStringLength(
+      'metadata',
+      metadata,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'metadata',
+      metadata,
+      r'''.*''',
+    );
+    final $payload = <String, dynamic>{
+      if (content != null) 'Content': content,
+      if (metadata != null) 'Metadata': metadata,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}/messages/${Uri.encodeComponent(messageId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateChannelMessageResponse.fromJson(response);
+  }
+
+  /// Sets the timestamp to the point when a user last read messages in a
+  /// channel.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ConflictException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  Future<UpdateChannelReadMarkerResponse> updateChannelReadMarker({
+    @_s.required String channelArn,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'channelArn',
+      channelArn,
+      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'PUT',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/readMarker',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateChannelReadMarkerResponse.fromJson(response);
   }
 
   /// Updates global settings for the administrator's AWS account, such as
@@ -4943,6 +9005,115 @@ class Chime {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRoomMembershipResponse.fromJson(response);
+  }
+
+  /// Updates the details for the specified SIP media application.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sipMediaApplicationId] :
+  /// The SIP media application ID.
+  ///
+  /// Parameter [endpoints] :
+  /// The new set of endpoints for the specified SIP media application.
+  ///
+  /// Parameter [name] :
+  /// The new name for the specified SIP media application.
+  Future<UpdateSipMediaApplicationResponse> updateSipMediaApplication({
+    @_s.required String sipMediaApplicationId,
+    List<SipMediaApplicationEndpoint> endpoints,
+    String name,
+  }) async {
+    ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
+    _s.validateStringPattern(
+      'sipMediaApplicationId',
+      sipMediaApplicationId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+    );
+    final $payload = <String, dynamic>{
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (name != null) 'Name': name,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/sip-media-applications/${Uri.encodeComponent(sipMediaApplicationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateSipMediaApplicationResponse.fromJson(response);
+  }
+
+  /// Updates the details for the specified SIP rule.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [name] :
+  /// The new name for the specified SIP rule.
+  ///
+  /// Parameter [sipRuleId] :
+  /// The SIP rule ID.
+  ///
+  /// Parameter [disabled] :
+  /// The new value specified to indicate whether the rule is disabled.
+  ///
+  /// Parameter [targetApplications] :
+  /// The new value of the list of target applications.
+  Future<UpdateSipRuleResponse> updateSipRule({
+    @_s.required String name,
+    @_s.required String sipRuleId,
+    bool disabled,
+    List<SipRuleTargetApplication> targetApplications,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(sipRuleId, 'sipRuleId');
+    _s.validateStringPattern(
+      'sipRuleId',
+      sipRuleId,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'Name': name,
+      if (disabled != null) 'Disabled': disabled,
+      if (targetApplications != null) 'TargetApplications': targetApplications,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/sip-rules/${Uri.encodeComponent(sipRuleId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateSipRuleResponse.fromJson(response);
   }
 
   /// Updates user details for a specified user ID. Currently, only
@@ -5285,6 +9456,269 @@ class AlexaForBusinessMetadata {
   Map<String, dynamic> toJson() => _$AlexaForBusinessMetadataToJson(this);
 }
 
+/// An instance of a Chime messaging application.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AppInstance {
+  /// The ARN of the messaging instance.
+  @_s.JsonKey(name: 'AppInstanceArn')
+  final String appInstanceArn;
+
+  /// The time at which an app instance was created. In epoch milliseconds.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// The time an app instance was last updated. In epoch milliseconds.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimestamp')
+  final DateTime lastUpdatedTimestamp;
+
+  /// The metadata of an app instance.
+  @_s.JsonKey(name: 'Metadata')
+  final String metadata;
+
+  /// The name of an app instance.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  AppInstance({
+    this.appInstanceArn,
+    this.createdTimestamp,
+    this.lastUpdatedTimestamp,
+    this.metadata,
+    this.name,
+  });
+  factory AppInstance.fromJson(Map<String, dynamic> json) =>
+      _$AppInstanceFromJson(json);
+}
+
+/// Promotes a user to the administrator role for the duration of an app
+/// instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AppInstanceAdmin {
+  /// The name and metadata of the app instance administrator.
+  @_s.JsonKey(name: 'Admin')
+  final Identity admin;
+
+  /// The ARN of the app instance administrator.
+  @_s.JsonKey(name: 'AppInstanceArn')
+  final String appInstanceArn;
+
+  /// The time at which an administrator was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  AppInstanceAdmin({
+    this.admin,
+    this.appInstanceArn,
+    this.createdTimestamp,
+  });
+  factory AppInstanceAdmin.fromJson(Map<String, dynamic> json) =>
+      _$AppInstanceAdminFromJson(json);
+}
+
+/// The identity and metadata of an administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AppInstanceAdminSummary {
+  /// The name and metadata of the app instance administrator.
+  @_s.JsonKey(name: 'Admin')
+  final Identity admin;
+
+  AppInstanceAdminSummary({
+    this.admin,
+  });
+  factory AppInstanceAdminSummary.fromJson(Map<String, dynamic> json) =>
+      _$AppInstanceAdminSummaryFromJson(json);
+}
+
+enum AppInstanceDataType {
+  @_s.JsonValue('Channel')
+  channel,
+  @_s.JsonValue('ChannelMessage')
+  channelMessage,
+}
+
+/// The length of time in days to retain messages.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AppInstanceRetentionSettings {
+  /// The length of time in days to retain a channel.
+  @_s.JsonKey(name: 'ChannelRetentionSettings')
+  final ChannelRetentionSettings channelRetentionSettings;
+
+  AppInstanceRetentionSettings({
+    this.channelRetentionSettings,
+  });
+  factory AppInstanceRetentionSettings.fromJson(Map<String, dynamic> json) =>
+      _$AppInstanceRetentionSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AppInstanceRetentionSettingsToJson(this);
+}
+
+/// The streaming configuration of an app instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AppInstanceStreamingConfiguration {
+  /// The data type of the app instance.
+  @_s.JsonKey(name: 'AppInstanceDataType')
+  final AppInstanceDataType appInstanceDataType;
+
+  /// The resource ARN.
+  @_s.JsonKey(name: 'ResourceArn')
+  final String resourceArn;
+
+  AppInstanceStreamingConfiguration({
+    @_s.required this.appInstanceDataType,
+    @_s.required this.resourceArn,
+  });
+  factory AppInstanceStreamingConfiguration.fromJson(
+          Map<String, dynamic> json) =>
+      _$AppInstanceStreamingConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AppInstanceStreamingConfigurationToJson(this);
+}
+
+/// The summary data for an app instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AppInstanceSummary {
+  /// The app instance ARN.
+  @_s.JsonKey(name: 'AppInstanceArn')
+  final String appInstanceArn;
+
+  /// The metadata of the app instance summary.
+  @_s.JsonKey(name: 'Metadata')
+  final String metadata;
+
+  /// The name of the app instance summary.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  AppInstanceSummary({
+    this.appInstanceArn,
+    this.metadata,
+    this.name,
+  });
+  factory AppInstanceSummary.fromJson(Map<String, dynamic> json) =>
+      _$AppInstanceSummaryFromJson(json);
+}
+
+/// The app instance user.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AppInstanceUser {
+  /// The ARN of the app instance user.
+  @_s.JsonKey(name: 'AppInstanceUserArn')
+  final String appInstanceUserArn;
+
+  /// The time at which the app instance user was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// The time at which the app instance user was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimestamp')
+  final DateTime lastUpdatedTimestamp;
+
+  /// The metadata of the app instance user.
+  @_s.JsonKey(name: 'Metadata')
+  final String metadata;
+
+  /// The name of the app instance user.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  AppInstanceUser({
+    this.appInstanceUserArn,
+    this.createdTimestamp,
+    this.lastUpdatedTimestamp,
+    this.metadata,
+    this.name,
+  });
+  factory AppInstanceUser.fromJson(Map<String, dynamic> json) =>
+      _$AppInstanceUserFromJson(json);
+}
+
+/// Lists the channels to which app instance users belong.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AppInstanceUserMembershipSummary {
+  /// The time at which a summary was last read.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReadMarkerTimestamp')
+  final DateTime readMarkerTimestamp;
+
+  /// The type of channel summary,
+  @_s.JsonKey(name: 'Type')
+  final ChannelMembershipType type;
+
+  AppInstanceUserMembershipSummary({
+    this.readMarkerTimestamp,
+    this.type,
+  });
+  factory AppInstanceUserMembershipSummary.fromJson(
+          Map<String, dynamic> json) =>
+      _$AppInstanceUserMembershipSummaryFromJson(json);
+}
+
+/// The app instance user summary data .
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AppInstanceUserSummary {
+  /// The ARN of the app instance user.
+  @_s.JsonKey(name: 'AppInstanceUserArn')
+  final String appInstanceUserArn;
+
+  /// The metadata in an app instance user summary.
+  @_s.JsonKey(name: 'Metadata')
+  final String metadata;
+
+  /// The name in an app instance user summary.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  AppInstanceUserSummary({
+    this.appInstanceUserArn,
+    this.metadata,
+    this.name,
+  });
+  factory AppInstanceUserSummary.fromJson(Map<String, dynamic> json) =>
+      _$AppInstanceUserSummaryFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5369,8 +9803,10 @@ class Attendee {
   @_s.JsonKey(name: 'AttendeeId')
   final String attendeeId;
 
-  /// The Amazon Chime SDK external user ID. Links the attendee to an identity
-  /// managed by a builder application.
+  /// The Amazon Chime SDK external user ID. An idempotency token. Links the
+  /// attendee to an identity managed by a builder application. If you create an
+  /// attendee with the same external user id, the service returns the existing
+  /// record.
   @_s.JsonKey(name: 'ExternalUserId')
   final String externalUserId;
 
@@ -5642,13 +10078,589 @@ extension on Capability {
   }
 }
 
+/// Creates a channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Channel {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The administrator who created the channel.
+  @_s.JsonKey(name: 'CreatedBy')
+  final Identity createdBy;
+
+  /// The time at which the administrator created the channel.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// The time at which a member sent the last message in a session.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastMessageTimestamp')
+  final DateTime lastMessageTimestamp;
+
+  /// The time at which a channel was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimestamp')
+  final DateTime lastUpdatedTimestamp;
+
+  /// The metadata of the channel.
+  @_s.JsonKey(name: 'Metadata')
+  final String metadata;
+
+  /// The mode of the channel.
+  @_s.JsonKey(name: 'Mode')
+  final ChannelMode mode;
+
+  /// The name of the channel.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The channel's privacy setting, <code>PUBLIC</code> or <code>HIDDEN</code>.
+  @_s.JsonKey(name: 'Privacy')
+  final ChannelPrivacy privacy;
+
+  Channel({
+    this.channelArn,
+    this.createdBy,
+    this.createdTimestamp,
+    this.lastMessageTimestamp,
+    this.lastUpdatedTimestamp,
+    this.metadata,
+    this.mode,
+    this.name,
+    this.privacy,
+  });
+  factory Channel.fromJson(Map<String, dynamic> json) =>
+      _$ChannelFromJson(json);
+}
+
+/// Bans a user from a channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChannelBan {
+  /// The ARN of the channel from which a member is being banned.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The parameter of the action.
+  @_s.JsonKey(name: 'CreatedBy')
+  final Identity createdBy;
+
+  /// The time at which the ban was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// The member being banned from the channel.
+  @_s.JsonKey(name: 'Member')
+  final Identity member;
+
+  ChannelBan({
+    this.channelArn,
+    this.createdBy,
+    this.createdTimestamp,
+    this.member,
+  });
+  factory ChannelBan.fromJson(Map<String, dynamic> json) =>
+      _$ChannelBanFromJson(json);
+}
+
+/// The summary data for the channel ban.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChannelBanSummary {
+  /// The member being banned from a channel.
+  @_s.JsonKey(name: 'Member')
+  final Identity member;
+
+  ChannelBanSummary({
+    this.member,
+  });
+  factory ChannelBanSummary.fromJson(Map<String, dynamic> json) =>
+      _$ChannelBanSummaryFromJson(json);
+}
+
+/// Creates a channel member.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChannelMembership {
+  /// The ARN of the member's channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The time at which the channel membership was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// The identifier of the member who invited another member. Taken from the
+  /// message header.
+  @_s.JsonKey(name: 'InvitedBy')
+  final Identity invitedBy;
+
+  /// The time at which a channel membership was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimestamp')
+  final DateTime lastUpdatedTimestamp;
+
+  /// The data of the channel member.
+  @_s.JsonKey(name: 'Member')
+  final Identity member;
+
+  /// The membership type set for the channel member.
+  @_s.JsonKey(name: 'Type')
+  final ChannelMembershipType type;
+
+  ChannelMembership({
+    this.channelArn,
+    this.createdTimestamp,
+    this.invitedBy,
+    this.lastUpdatedTimestamp,
+    this.member,
+    this.type,
+  });
+  factory ChannelMembership.fromJson(Map<String, dynamic> json) =>
+      _$ChannelMembershipFromJson(json);
+}
+
+/// Returns the channel membership summary data for an app instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChannelMembershipForAppInstanceUserSummary {
+  /// Returns the channel membership data for an app instance.
+  @_s.JsonKey(name: 'AppInstanceUserMembershipSummary')
+  final AppInstanceUserMembershipSummary appInstanceUserMembershipSummary;
+  @_s.JsonKey(name: 'ChannelSummary')
+  final ChannelSummary channelSummary;
+
+  ChannelMembershipForAppInstanceUserSummary({
+    this.appInstanceUserMembershipSummary,
+    this.channelSummary,
+  });
+  factory ChannelMembershipForAppInstanceUserSummary.fromJson(
+          Map<String, dynamic> json) =>
+      _$ChannelMembershipForAppInstanceUserSummaryFromJson(json);
+}
+
+/// The summary data of a channel membership.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChannelMembershipSummary {
+  /// A member's summary data.
+  @_s.JsonKey(name: 'Member')
+  final Identity member;
+
+  ChannelMembershipSummary({
+    this.member,
+  });
+  factory ChannelMembershipSummary.fromJson(Map<String, dynamic> json) =>
+      _$ChannelMembershipSummaryFromJson(json);
+}
+
+enum ChannelMembershipType {
+  @_s.JsonValue('DEFAULT')
+  $default,
+  @_s.JsonValue('HIDDEN')
+  hidden,
+}
+
+extension on ChannelMembershipType {
+  String toValue() {
+    switch (this) {
+      case ChannelMembershipType.$default:
+        return 'DEFAULT';
+      case ChannelMembershipType.hidden:
+        return 'HIDDEN';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Creates a message in a channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChannelMessage {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The message content.
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  /// The time at which the message was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// The time at which a message was edited.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastEditedTimestamp')
+  final DateTime lastEditedTimestamp;
+
+  /// The time at which a message was updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimestamp')
+  final DateTime lastUpdatedTimestamp;
+
+  /// The ID of a message.
+  @_s.JsonKey(name: 'MessageId')
+  final String messageId;
+
+  /// The message metadata.
+  @_s.JsonKey(name: 'Metadata')
+  final String metadata;
+  @_s.JsonKey(name: 'Persistence')
+  final ChannelMessagePersistenceType persistence;
+
+  /// Hides the content of a message. The message still exists on the back end,
+  /// but this action only returns metadata.
+  @_s.JsonKey(name: 'Redacted')
+  final bool redacted;
+
+  /// The message sender.
+  @_s.JsonKey(name: 'Sender')
+  final Identity sender;
+
+  /// The message type.
+  @_s.JsonKey(name: 'Type')
+  final ChannelMessageType type;
+
+  ChannelMessage({
+    this.channelArn,
+    this.content,
+    this.createdTimestamp,
+    this.lastEditedTimestamp,
+    this.lastUpdatedTimestamp,
+    this.messageId,
+    this.metadata,
+    this.persistence,
+    this.redacted,
+    this.sender,
+    this.type,
+  });
+  factory ChannelMessage.fromJson(Map<String, dynamic> json) =>
+      _$ChannelMessageFromJson(json);
+}
+
+enum ChannelMessagePersistenceType {
+  @_s.JsonValue('PERSISTENT')
+  persistent,
+  @_s.JsonValue('NON_PERSISTENT')
+  nonPersistent,
+}
+
+extension on ChannelMessagePersistenceType {
+  String toValue() {
+    switch (this) {
+      case ChannelMessagePersistenceType.persistent:
+        return 'PERSISTENT';
+      case ChannelMessagePersistenceType.nonPersistent:
+        return 'NON_PERSISTENT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// A summary of the messages in a channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChannelMessageSummary {
+  /// The content of the message summary.
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  /// The time at which the message summary was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastEditedTimestamp')
+  final DateTime lastEditedTimestamp;
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimestamp')
+  final DateTime lastUpdatedTimestamp;
+
+  /// The ID of the message summary.
+  @_s.JsonKey(name: 'MessageId')
+  final String messageId;
+
+  /// The metadata of the message summary.
+  @_s.JsonKey(name: 'Metadata')
+  final String metadata;
+
+  /// Redacts the content of a message summary.
+  @_s.JsonKey(name: 'Redacted')
+  final bool redacted;
+
+  /// The sender of the message summary.
+  @_s.JsonKey(name: 'Sender')
+  final Identity sender;
+
+  /// The type of message summary.
+  @_s.JsonKey(name: 'Type')
+  final ChannelMessageType type;
+
+  ChannelMessageSummary({
+    this.content,
+    this.createdTimestamp,
+    this.lastEditedTimestamp,
+    this.lastUpdatedTimestamp,
+    this.messageId,
+    this.metadata,
+    this.redacted,
+    this.sender,
+    this.type,
+  });
+  factory ChannelMessageSummary.fromJson(Map<String, dynamic> json) =>
+      _$ChannelMessageSummaryFromJson(json);
+}
+
+enum ChannelMessageType {
+  @_s.JsonValue('STANDARD')
+  standard,
+  @_s.JsonValue('CONTROL')
+  control,
+}
+
+extension on ChannelMessageType {
+  String toValue() {
+    switch (this) {
+      case ChannelMessageType.standard:
+        return 'STANDARD';
+      case ChannelMessageType.control:
+        return 'CONTROL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum ChannelMode {
+  @_s.JsonValue('UNRESTRICTED')
+  unrestricted,
+  @_s.JsonValue('RESTRICTED')
+  restricted,
+}
+
+extension on ChannelMode {
+  String toValue() {
+    switch (this) {
+      case ChannelMode.unrestricted:
+        return 'UNRESTRICTED';
+      case ChannelMode.restricted:
+        return 'RESTRICTED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Returns the summary data for a moderated channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChannelModeratedByAppInstanceUserSummary {
+  @_s.JsonKey(name: 'ChannelSummary')
+  final ChannelSummary channelSummary;
+
+  ChannelModeratedByAppInstanceUserSummary({
+    this.channelSummary,
+  });
+  factory ChannelModeratedByAppInstanceUserSummary.fromJson(
+          Map<String, dynamic> json) =>
+      _$ChannelModeratedByAppInstanceUserSummaryFromJson(json);
+}
+
+/// Creates a moderator on a channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChannelModerator {
+  /// The ARN of the moderator's channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The member who created the moderator.
+  @_s.JsonKey(name: 'CreatedBy')
+  final Identity createdBy;
+
+  /// The time at which the moderator was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// The moderator's data.
+  @_s.JsonKey(name: 'Moderator')
+  final Identity moderator;
+
+  ChannelModerator({
+    this.channelArn,
+    this.createdBy,
+    this.createdTimestamp,
+    this.moderator,
+  });
+  factory ChannelModerator.fromJson(Map<String, dynamic> json) =>
+      _$ChannelModeratorFromJson(json);
+}
+
+/// Summary data of the moderators in a channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChannelModeratorSummary {
+  /// The data for a moderator.
+  @_s.JsonKey(name: 'Moderator')
+  final Identity moderator;
+
+  ChannelModeratorSummary({
+    this.moderator,
+  });
+  factory ChannelModeratorSummary.fromJson(Map<String, dynamic> json) =>
+      _$ChannelModeratorSummaryFromJson(json);
+}
+
+enum ChannelPrivacy {
+  @_s.JsonValue('PUBLIC')
+  public,
+  @_s.JsonValue('PRIVATE')
+  private,
+}
+
+extension on ChannelPrivacy {
+  String toValue() {
+    switch (this) {
+      case ChannelPrivacy.public:
+        return 'PUBLIC';
+      case ChannelPrivacy.private:
+        return 'PRIVATE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// The retention settings for a channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ChannelRetentionSettings {
+  /// The time in days to retain a channel.
+  @_s.JsonKey(name: 'RetentionDays')
+  final int retentionDays;
+
+  ChannelRetentionSettings({
+    this.retentionDays,
+  });
+  factory ChannelRetentionSettings.fromJson(Map<String, dynamic> json) =>
+      _$ChannelRetentionSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ChannelRetentionSettingsToJson(this);
+}
+
+/// The summary data for a channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChannelSummary {
+  /// The ARN of the channel summary.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The time at which the last message in a channel was sent.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastMessageTimestamp')
+  final DateTime lastMessageTimestamp;
+
+  /// The metadata of the channel summary.
+  @_s.JsonKey(name: 'Metadata')
+  final String metadata;
+
+  /// The summary mode of the channel.
+  @_s.JsonKey(name: 'Mode')
+  final ChannelMode mode;
+
+  /// The parameter of the action.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The privacy setting of the channel being summarized, <code>PUBLIC</code> or
+  /// <code>HIDDEN</code>.
+  @_s.JsonKey(name: 'Privacy')
+  final ChannelPrivacy privacy;
+
+  ChannelSummary({
+    this.channelArn,
+    this.lastMessageTimestamp,
+    this.metadata,
+    this.mode,
+    this.name,
+    this.privacy,
+  });
+  factory ChannelSummary.fromJson(Map<String, dynamic> json) =>
+      _$ChannelSummaryFromJson(json);
+}
+
+/// The retention settings that determine how long to retain chat conversation
+/// messages for an Amazon Chime Enterprise account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ConversationRetentionSettings {
+  /// The number of days for which to retain chat conversation messages.
+  @_s.JsonKey(name: 'RetentionDays')
+  final int retentionDays;
+
+  ConversationRetentionSettings({
+    this.retentionDays,
+  });
+  factory ConversationRetentionSettings.fromJson(Map<String, dynamic> json) =>
+      _$ConversationRetentionSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ConversationRetentionSettingsToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateAccountResponse {
-  /// The Amazon Chime account details.
   @_s.JsonKey(name: 'Account')
   final Account account;
 
@@ -5657,6 +10669,62 @@ class CreateAccountResponse {
   });
   factory CreateAccountResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateAppInstanceAdminResponse {
+  /// The name and ARN of the admin for the app instance.
+  @_s.JsonKey(name: 'AppInstanceAdmin')
+  final Identity appInstanceAdmin;
+
+  /// The ARN of the of the admin for the app instance.
+  @_s.JsonKey(name: 'AppInstanceArn')
+  final String appInstanceArn;
+
+  CreateAppInstanceAdminResponse({
+    this.appInstanceAdmin,
+    this.appInstanceArn,
+  });
+  factory CreateAppInstanceAdminResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateAppInstanceAdminResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateAppInstanceResponse {
+  /// The Amazon Resource Number (ARN) of the app instance.
+  @_s.JsonKey(name: 'AppInstanceArn')
+  final String appInstanceArn;
+
+  CreateAppInstanceResponse({
+    this.appInstanceArn,
+  });
+  factory CreateAppInstanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateAppInstanceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateAppInstanceUserResponse {
+  /// The user's ARN.
+  @_s.JsonKey(name: 'AppInstanceUserArn')
+  final String appInstanceUserArn;
+
+  CreateAppInstanceUserResponse({
+    this.appInstanceUserArn,
+  });
+  factory CreateAppInstanceUserResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateAppInstanceUserResponseFromJson(json);
 }
 
 /// The list of errors returned when errors are encountered during the
@@ -5676,8 +10744,10 @@ class CreateAttendeeError {
   @_s.JsonKey(name: 'ErrorMessage')
   final String errorMessage;
 
-  /// The Amazon Chime SDK external user ID. Links the attendee to an identity
-  /// managed by a builder application.
+  /// The Amazon Chime SDK external user ID. An idempotency token. Links the
+  /// attendee to an identity managed by a builder application. If you create an
+  /// attendee with the same external user id, the service returns the existing
+  /// record.
   @_s.JsonKey(name: 'ExternalUserId')
   final String externalUserId;
 
@@ -5698,6 +10768,11 @@ class CreateAttendeeError {
     createFactory: false,
     createToJson: true)
 class CreateAttendeeRequestItem {
+  /// The Amazon Chime SDK external user ID. An idempotency token. Links the
+  /// attendee to an identity managed by a builder application. If you create an
+  /// attendee with the same external user id, the service returns the existing
+  /// record.
+  ///
   /// The Amazon Chime SDK external user ID. Links the attendee to an identity
   /// managed by a builder application.
   @_s.JsonKey(name: 'ExternalUserId')
@@ -5753,6 +10828,107 @@ class CreateBotResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateChannelBanResponse {
+  /// The ARN of the response to the ban request.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The <code>ChannelArn</code> and <code>BannedIdentity</code> of the member in
+  /// the ban response.
+  @_s.JsonKey(name: 'Member')
+  final Identity member;
+
+  CreateChannelBanResponse({
+    this.channelArn,
+    this.member,
+  });
+  factory CreateChannelBanResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateChannelBanResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateChannelMembershipResponse {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The ARN and metadata of the member being added.
+  @_s.JsonKey(name: 'Member')
+  final Identity member;
+
+  CreateChannelMembershipResponse({
+    this.channelArn,
+    this.member,
+  });
+  factory CreateChannelMembershipResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateChannelMembershipResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateChannelModeratorResponse {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The ARNs of the channel and the moderator.
+  @_s.JsonKey(name: 'ChannelModerator')
+  final Identity channelModerator;
+
+  CreateChannelModeratorResponse({
+    this.channelArn,
+    this.channelModerator,
+  });
+  factory CreateChannelModeratorResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateChannelModeratorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateChannelResponse {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  CreateChannelResponse({
+    this.channelArn,
+  });
+  factory CreateChannelResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateChannelResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateMeetingDialOutResponse {
+  /// Unique ID that tracks API calls.
+  @_s.JsonKey(name: 'TransactionId')
+  final String transactionId;
+
+  CreateMeetingDialOutResponse({
+    this.transactionId,
+  });
+  factory CreateMeetingDialOutResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateMeetingDialOutResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateMeetingResponse {
   /// The meeting information, including the meeting ID and
   /// <code>MediaPlacement</code>.
@@ -5764,6 +10940,33 @@ class CreateMeetingResponse {
   });
   factory CreateMeetingResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateMeetingResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateMeetingWithAttendeesResponse {
+  /// The attendee information, including attendees IDs and join tokens.
+  @_s.JsonKey(name: 'Attendees')
+  final List<Attendee> attendees;
+
+  /// If the action fails for one or more of the attendees in the request, a list
+  /// of the attendees is returned, along with error codes and error messages.
+  @_s.JsonKey(name: 'Errors')
+  final List<CreateAttendeeError> errors;
+  @_s.JsonKey(name: 'Meeting')
+  final Meeting meeting;
+
+  CreateMeetingWithAttendeesResponse({
+    this.attendees,
+    this.errors,
+    this.meeting,
+  });
+  factory CreateMeetingWithAttendeesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateMeetingWithAttendeesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -5832,6 +11035,60 @@ class CreateRoomResponse {
   });
   factory CreateRoomResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateRoomResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateSipMediaApplicationCallResponse {
+  /// The actual call.
+  @_s.JsonKey(name: 'SipMediaApplicationCall')
+  final SipMediaApplicationCall sipMediaApplicationCall;
+
+  CreateSipMediaApplicationCallResponse({
+    this.sipMediaApplicationCall,
+  });
+  factory CreateSipMediaApplicationCallResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateSipMediaApplicationCallResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateSipMediaApplicationResponse {
+  /// The Sip media application details.
+  @_s.JsonKey(name: 'SipMediaApplication')
+  final SipMediaApplication sipMediaApplication;
+
+  CreateSipMediaApplicationResponse({
+    this.sipMediaApplication,
+  });
+  factory CreateSipMediaApplicationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateSipMediaApplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateSipRuleResponse {
+  /// Returns the SIP rule information, including the rule ID, triggers, and
+  /// target applications.
+  @_s.JsonKey(name: 'SipRule')
+  final SipRule sipRule;
+
+  CreateSipRuleResponse({
+    this.sipRule,
+  });
+  factory CreateSipRuleResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateSipRuleResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -5910,6 +11167,41 @@ class Credential {
   Map<String, dynamic> toJson() => _$CredentialToJson(this);
 }
 
+/// The Dialed Number Identification Service (DNIS) emergency calling
+/// configuration details associated with an Amazon Chime Voice Connector's
+/// emergency calling configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DNISEmergencyCallingConfiguration {
+  /// The country from which emergency calls are allowed, in ISO 3166-1 alpha-2
+  /// format.
+  @_s.JsonKey(name: 'CallingCountry')
+  final String callingCountry;
+
+  /// The DNIS phone number to route emergency calls to, in E.164 format.
+  @_s.JsonKey(name: 'EmergencyPhoneNumber')
+  final String emergencyPhoneNumber;
+
+  /// The DNIS phone number to route test emergency calls to, in E.164 format.
+  @_s.JsonKey(name: 'TestPhoneNumber')
+  final String testPhoneNumber;
+
+  DNISEmergencyCallingConfiguration({
+    @_s.required this.callingCountry,
+    @_s.required this.emergencyPhoneNumber,
+    this.testPhoneNumber,
+  });
+  factory DNISEmergencyCallingConfiguration.fromJson(
+          Map<String, dynamic> json) =>
+      _$DNISEmergencyCallingConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$DNISEmergencyCallingConfigurationToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5919,6 +11211,167 @@ class DeleteAccountResponse {
   DeleteAccountResponse();
   factory DeleteAccountResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeAppInstanceAdminResponse {
+  /// The ARN and name of the app instance user, the ARN of the app instance, and
+  /// the created and last-updated timestamps. All timestamps use epoch
+  /// milliseconds.
+  @_s.JsonKey(name: 'AppInstanceAdmin')
+  final AppInstanceAdmin appInstanceAdmin;
+
+  DescribeAppInstanceAdminResponse({
+    this.appInstanceAdmin,
+  });
+  factory DescribeAppInstanceAdminResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeAppInstanceAdminResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeAppInstanceResponse {
+  /// The ARN, metadata, created and last-updated timestamps, and the name of the
+  /// app instance. All timestamps use epoch milliseconds.
+  @_s.JsonKey(name: 'AppInstance')
+  final AppInstance appInstance;
+
+  DescribeAppInstanceResponse({
+    this.appInstance,
+  });
+  factory DescribeAppInstanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeAppInstanceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeAppInstanceUserResponse {
+  /// The name of the app instance user.
+  @_s.JsonKey(name: 'AppInstanceUser')
+  final AppInstanceUser appInstanceUser;
+
+  DescribeAppInstanceUserResponse({
+    this.appInstanceUser,
+  });
+  factory DescribeAppInstanceUserResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeAppInstanceUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeChannelBanResponse {
+  /// The the details of the ban.
+  @_s.JsonKey(name: 'ChannelBan')
+  final ChannelBan channelBan;
+
+  DescribeChannelBanResponse({
+    this.channelBan,
+  });
+  factory DescribeChannelBanResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeChannelBanResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeChannelMembershipForAppInstanceUserResponse {
+  /// The channel to which a user belongs.
+  @_s.JsonKey(name: 'ChannelMembership')
+  final ChannelMembershipForAppInstanceUserSummary channelMembership;
+
+  DescribeChannelMembershipForAppInstanceUserResponse({
+    this.channelMembership,
+  });
+  factory DescribeChannelMembershipForAppInstanceUserResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeChannelMembershipForAppInstanceUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeChannelMembershipResponse {
+  /// The details of the membership.
+  @_s.JsonKey(name: 'ChannelMembership')
+  final ChannelMembership channelMembership;
+
+  DescribeChannelMembershipResponse({
+    this.channelMembership,
+  });
+  factory DescribeChannelMembershipResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeChannelMembershipResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeChannelModeratedByAppInstanceUserResponse {
+  /// The moderated channel.
+  @_s.JsonKey(name: 'Channel')
+  final ChannelModeratedByAppInstanceUserSummary channel;
+
+  DescribeChannelModeratedByAppInstanceUserResponse({
+    this.channel,
+  });
+  factory DescribeChannelModeratedByAppInstanceUserResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeChannelModeratedByAppInstanceUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeChannelModeratorResponse {
+  /// The details of the channel moderator.
+  @_s.JsonKey(name: 'ChannelModerator')
+  final ChannelModerator channelModerator;
+
+  DescribeChannelModeratorResponse({
+    this.channelModerator,
+  });
+  factory DescribeChannelModeratorResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeChannelModeratorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeChannelResponse {
+  /// The channel details.
+  @_s.JsonKey(name: 'Channel')
+  final Channel channel;
+
+  DescribeChannelResponse({
+    this.channel,
+  });
+  factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeChannelResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -5994,6 +11447,28 @@ enum EmailStatus {
   failed,
 }
 
+/// The emergency calling configuration details associated with an Amazon Chime
+/// Voice Connector.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EmergencyCallingConfiguration {
+  /// The Dialed Number Identification Service (DNIS) emergency calling
+  /// configuration details.
+  @_s.JsonKey(name: 'DNIS')
+  final List<DNISEmergencyCallingConfiguration> dnis;
+
+  EmergencyCallingConfiguration({
+    this.dnis,
+  });
+  factory EmergencyCallingConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$EmergencyCallingConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EmergencyCallingConfigurationToJson(this);
+}
+
 enum ErrorCode {
   @_s.JsonValue('BadRequest')
   badRequest,
@@ -6015,6 +11490,8 @@ enum ErrorCode {
   serviceUnavailable,
   @_s.JsonValue('Throttled')
   throttled,
+  @_s.JsonValue('Throttling')
+  throttling,
   @_s.JsonValue('Unauthorized')
   unauthorized,
   @_s.JsonValue('Unprocessable')
@@ -6104,7 +11581,6 @@ class GeoMatchParams {
     createFactory: true,
     createToJson: false)
 class GetAccountResponse {
-  /// The Amazon Chime account details.
   @_s.JsonKey(name: 'Account')
   final Account account;
 
@@ -6130,6 +11606,50 @@ class GetAccountSettingsResponse {
   });
   factory GetAccountSettingsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetAccountSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetAppInstanceRetentionSettingsResponse {
+  /// The retention settings for the app instance.
+  @_s.JsonKey(name: 'AppInstanceRetentionSettings')
+  final AppInstanceRetentionSettings appInstanceRetentionSettings;
+
+  /// The timestamp representing the time at which the specified items are
+  /// retained, in Epoch Seconds.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'InitiateDeletionTimestamp')
+  final DateTime initiateDeletionTimestamp;
+
+  GetAppInstanceRetentionSettingsResponse({
+    this.appInstanceRetentionSettings,
+    this.initiateDeletionTimestamp,
+  });
+  factory GetAppInstanceRetentionSettingsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetAppInstanceRetentionSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetAppInstanceStreamingConfigurationsResponse {
+  /// The streaming settings.
+  @_s.JsonKey(name: 'AppInstanceStreamingConfigurations')
+  final List<AppInstanceStreamingConfiguration>
+      appInstanceStreamingConfigurations;
+
+  GetAppInstanceStreamingConfigurationsResponse({
+    this.appInstanceStreamingConfigurations,
+  });
+  factory GetAppInstanceStreamingConfigurationsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetAppInstanceStreamingConfigurationsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -6164,6 +11684,23 @@ class GetBotResponse {
   });
   factory GetBotResponse.fromJson(Map<String, dynamic> json) =>
       _$GetBotResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetChannelMessageResponse {
+  /// The details of and content in the message.
+  @_s.JsonKey(name: 'ChannelMessage')
+  final ChannelMessage channelMessage;
+
+  GetChannelMessageResponse({
+    this.channelMessage,
+  });
+  factory GetChannelMessageResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetChannelMessageResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -6220,6 +11757,24 @@ class GetMeetingResponse {
   });
   factory GetMeetingResponse.fromJson(Map<String, dynamic> json) =>
       _$GetMeetingResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetMessagingSessionEndpointResponse {
+  /// The endpoint returned in the response.
+  @_s.JsonKey(name: 'Endpoint')
+  final MessagingSessionEndpoint endpoint;
+
+  GetMessagingSessionEndpointResponse({
+    this.endpoint,
+  });
+  factory GetMessagingSessionEndpointResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetMessagingSessionEndpointResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -6301,6 +11856,30 @@ class GetProxySessionResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetRetentionSettingsResponse {
+  /// The timestamp representing the time at which the specified items are
+  /// permanently deleted, in ISO 8601 format.
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'InitiateDeletionTimestamp')
+  final DateTime initiateDeletionTimestamp;
+
+  /// The retention settings.
+  @_s.JsonKey(name: 'RetentionSettings')
+  final RetentionSettings retentionSettings;
+
+  GetRetentionSettingsResponse({
+    this.initiateDeletionTimestamp,
+    this.retentionSettings,
+  });
+  factory GetRetentionSettingsResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetRetentionSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetRoomResponse {
   /// The room details.
   @_s.JsonKey(name: 'Room')
@@ -6311,6 +11890,59 @@ class GetRoomResponse {
   });
   factory GetRoomResponse.fromJson(Map<String, dynamic> json) =>
       _$GetRoomResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetSipMediaApplicationLoggingConfigurationResponse {
+  /// The actual logging configuration.
+  @_s.JsonKey(name: 'SipMediaApplicationLoggingConfiguration')
+  final SipMediaApplicationLoggingConfiguration
+      sipMediaApplicationLoggingConfiguration;
+
+  GetSipMediaApplicationLoggingConfigurationResponse({
+    this.sipMediaApplicationLoggingConfiguration,
+  });
+  factory GetSipMediaApplicationLoggingConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetSipMediaApplicationLoggingConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetSipMediaApplicationResponse {
+  /// The SIP media application details.
+  @_s.JsonKey(name: 'SipMediaApplication')
+  final SipMediaApplication sipMediaApplication;
+
+  GetSipMediaApplicationResponse({
+    this.sipMediaApplication,
+  });
+  factory GetSipMediaApplicationResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetSipMediaApplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetSipRuleResponse {
+  /// The SIP rule details.
+  @_s.JsonKey(name: 'SipRule')
+  final SipRule sipRule;
+
+  GetSipRuleResponse({
+    this.sipRule,
+  });
+  factory GetSipRuleResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetSipRuleResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -6345,6 +11977,24 @@ class GetUserSettingsResponse {
   });
   factory GetUserSettingsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetUserSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetVoiceConnectorEmergencyCallingConfigurationResponse {
+  /// The emergency calling configuration details.
+  @_s.JsonKey(name: 'EmergencyCallingConfiguration')
+  final EmergencyCallingConfiguration emergencyCallingConfiguration;
+
+  GetVoiceConnectorEmergencyCallingConfigurationResponse({
+    this.emergencyCallingConfiguration,
+  });
+  factory GetVoiceConnectorEmergencyCallingConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetVoiceConnectorEmergencyCallingConfigurationResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -6488,6 +12138,29 @@ class GetVoiceConnectorTerminationResponse {
       _$GetVoiceConnectorTerminationResponseFromJson(json);
 }
 
+/// The ARN and name of a user.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Identity {
+  /// The ARN in an Identity.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The name in an Identity.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  Identity({
+    this.arn,
+    this.name,
+  });
+  factory Identity.fromJson(Map<String, dynamic> json) =>
+      _$IdentityFromJson(json);
+}
+
 /// Invitation object returned after emailing users to invite them to join the
 /// Amazon Chime <code>Team</code> account.
 @_s.JsonSerializable(
@@ -6580,11 +12253,11 @@ extension on License {
     createFactory: true,
     createToJson: false)
 class ListAccountsResponse {
-  /// List of Amazon Chime accounts and account details.
+  /// The list of accounts.
   @_s.JsonKey(name: 'Accounts')
   final List<Account> accounts;
 
-  /// The token to use to retrieve the next page of results.
+  /// The account's user token.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -6594,6 +12267,85 @@ class ListAccountsResponse {
   });
   factory ListAccountsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListAccountsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListAppInstanceAdminsResponse {
+  /// The information for each administrator.
+  @_s.JsonKey(name: 'AppInstanceAdmins')
+  final List<AppInstanceAdminSummary> appInstanceAdmins;
+
+  /// The ARN of the app instance.
+  @_s.JsonKey(name: 'AppInstanceArn')
+  final String appInstanceArn;
+
+  /// The token returned from previous API requests until the number of
+  /// administrators is reached.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAppInstanceAdminsResponse({
+    this.appInstanceAdmins,
+    this.appInstanceArn,
+    this.nextToken,
+  });
+  factory ListAppInstanceAdminsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListAppInstanceAdminsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListAppInstanceUsersResponse {
+  /// The ARN of the app instance.
+  @_s.JsonKey(name: 'AppInstanceArn')
+  final String appInstanceArn;
+
+  /// The information for each of the requested app instance users.
+  @_s.JsonKey(name: 'AppInstanceUsers')
+  final List<AppInstanceUserSummary> appInstanceUsers;
+
+  /// The token passed by previous API calls until all requested users are
+  /// returned.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAppInstanceUsersResponse({
+    this.appInstanceArn,
+    this.appInstanceUsers,
+    this.nextToken,
+  });
+  factory ListAppInstanceUsersResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListAppInstanceUsersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListAppInstancesResponse {
+  /// The information for each app instance.
+  @_s.JsonKey(name: 'AppInstances')
+  final List<AppInstanceSummary> appInstances;
+
+  /// The token passed by previous API requests until the maximum number of app
+  /// instances is reached.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListAppInstancesResponse({
+    this.appInstances,
+    this.nextToken,
+  });
+  factory ListAppInstancesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListAppInstancesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -6655,6 +12407,190 @@ class ListBotsResponse {
   });
   factory ListBotsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListBotsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListChannelBansResponse {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The information for each requested ban.
+  @_s.JsonKey(name: 'ChannelBans')
+  final List<ChannelBanSummary> channelBans;
+
+  /// The token passed by previous API calls until all requested bans are
+  /// returned.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListChannelBansResponse({
+    this.channelArn,
+    this.channelBans,
+    this.nextToken,
+  });
+  factory ListChannelBansResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListChannelBansResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListChannelMembershipsForAppInstanceUserResponse {
+  /// The token passed by previous API calls until all requested users are
+  /// returned.
+  @_s.JsonKey(name: 'ChannelMemberships')
+  final List<ChannelMembershipForAppInstanceUserSummary> channelMemberships;
+
+  /// The token passed by previous API calls until all requested users are
+  /// returned.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListChannelMembershipsForAppInstanceUserResponse({
+    this.channelMemberships,
+    this.nextToken,
+  });
+  factory ListChannelMembershipsForAppInstanceUserResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListChannelMembershipsForAppInstanceUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListChannelMembershipsResponse {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The information for the requested channel memberships.
+  @_s.JsonKey(name: 'ChannelMemberships')
+  final List<ChannelMembershipSummary> channelMemberships;
+
+  /// The token passed by previous API calls until all requested channel
+  /// memberships are returned.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListChannelMembershipsResponse({
+    this.channelArn,
+    this.channelMemberships,
+    this.nextToken,
+  });
+  factory ListChannelMembershipsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListChannelMembershipsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListChannelMessagesResponse {
+  /// The ARN of the channel containing the requested messages.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The information about and content of each requested message.
+  @_s.JsonKey(name: 'ChannelMessages')
+  final List<ChannelMessageSummary> channelMessages;
+
+  /// The token passed by previous API calls until all requested messages are
+  /// returned.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListChannelMessagesResponse({
+    this.channelArn,
+    this.channelMessages,
+    this.nextToken,
+  });
+  factory ListChannelMessagesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListChannelMessagesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListChannelModeratorsResponse {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The information about and names of each moderator.
+  @_s.JsonKey(name: 'ChannelModerators')
+  final List<ChannelModeratorSummary> channelModerators;
+
+  /// The token passed by previous API calls until all requested moderators are
+  /// returned.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListChannelModeratorsResponse({
+    this.channelArn,
+    this.channelModerators,
+    this.nextToken,
+  });
+  factory ListChannelModeratorsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListChannelModeratorsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListChannelsModeratedByAppInstanceUserResponse {
+  /// The moderated channels in the request.
+  @_s.JsonKey(name: 'Channels')
+  final List<ChannelModeratedByAppInstanceUserSummary> channels;
+
+  /// The token returned from previous API requests until the number of channels
+  /// moderated by the user is reached.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListChannelsModeratedByAppInstanceUserResponse({
+    this.channels,
+    this.nextToken,
+  });
+  factory ListChannelsModeratedByAppInstanceUserResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListChannelsModeratedByAppInstanceUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListChannelsResponse {
+  /// The information about each channel.
+  @_s.JsonKey(name: 'Channels')
+  final List<ChannelSummary> channels;
+
+  /// The token returned from previous API requests until the number of channels
+  /// is reached.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListChannelsResponse({
+    this.channels,
+    this.nextToken,
+  });
+  factory ListChannelsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListChannelsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -6804,6 +12740,51 @@ class ListRoomsResponse {
   });
   factory ListRoomsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListRoomsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListSipMediaApplicationsResponse {
+  /// The token to use to retrieve the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// List of SIP media applications and application details.
+  @_s.JsonKey(name: 'SipMediaApplications')
+  final List<SipMediaApplication> sipMediaApplications;
+
+  ListSipMediaApplicationsResponse({
+    this.nextToken,
+    this.sipMediaApplications,
+  });
+  factory ListSipMediaApplicationsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListSipMediaApplicationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListSipRulesResponse {
+  /// The token to use to retrieve the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// List of SIP rules and rule details.
+  @_s.JsonKey(name: 'SipRules')
+  final List<SipRule> sipRules;
+
+  ListSipRulesResponse({
+    this.nextToken,
+    this.sipRules,
+  });
+  factory ListSipRulesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListSipRulesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -7006,9 +12987,11 @@ class Meeting {
   final MediaPlacement mediaPlacement;
 
   /// The Region in which to create the meeting. Available values:
-  /// <code>ap-northeast-1</code>, <code>ap-southeast-1</code>,
-  /// <code>ap-southeast-2</code>, <code>ca-central-1</code>,
-  /// <code>eu-central-1</code>, <code>eu-north-1</code>, <code>eu-west-1</code>,
+  /// <code>af-south-1</code>, <code>ap-northeast-1</code>,
+  /// <code>ap-northeast-2</code>, <code>ap-south-1</code>,
+  /// <code>ap-southeast-1</code>, <code>ap-southeast-2</code>,
+  /// <code>ca-central-1</code>, <code>eu-central-1</code>,
+  /// <code>eu-north-1</code>, <code>eu-south-1</code>, <code>eu-west-1</code>,
   /// <code>eu-west-2</code>, <code>eu-west-3</code>, <code>sa-east-1</code>,
   /// <code>us-east-1</code>, <code>us-east-2</code>, <code>us-west-1</code>,
   /// <code>us-west-2</code>.
@@ -7030,7 +13013,9 @@ class Meeting {
 }
 
 /// The configuration for resource targets to receive notifications when Amazon
-/// Chime SDK meeting and attendee events occur.
+/// Chime SDK meeting and attendee events occur. The Amazon Chime SDK supports
+/// resource targets located in the US East (N. Virginia) AWS Region
+/// (<code>us-east-1</code>).
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7147,6 +13132,33 @@ class MembershipItem {
     this.role,
   });
   Map<String, dynamic> toJson() => _$MembershipItemToJson(this);
+}
+
+/// The endpoint of a meeting session.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class MessagingSessionEndpoint {
+  /// The URL of a meeting session endpoint.
+  @_s.JsonKey(name: 'Url')
+  final String url;
+
+  MessagingSessionEndpoint({
+    this.url,
+  });
+  factory MessagingSessionEndpoint.fromJson(Map<String, dynamic> json) =>
+      _$MessagingSessionEndpointFromJson(json);
+}
+
+enum NotificationTarget {
+  @_s.JsonValue('EventBridge')
+  eventBridge,
+  @_s.JsonValue('SNS')
+  sns,
+  @_s.JsonValue('SQS')
+  sqs,
 }
 
 enum NumberSelectionBehavior {
@@ -7422,6 +13434,8 @@ enum PhoneNumberAssociationName {
   voiceConnectorId,
   @_s.JsonValue('VoiceConnectorGroupId')
   voiceConnectorGroupId,
+  @_s.JsonValue('SipRuleId')
+  sipRuleId,
 }
 
 extension on PhoneNumberAssociationName {
@@ -7435,6 +13449,8 @@ extension on PhoneNumberAssociationName {
         return 'VoiceConnectorId';
       case PhoneNumberAssociationName.voiceConnectorGroupId:
         return 'VoiceConnectorGroupId';
+      case PhoneNumberAssociationName.sipRuleId:
+        return 'SipRuleId';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -7784,6 +13800,49 @@ extension on ProxySessionStatus {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class PutAppInstanceRetentionSettingsResponse {
+  /// The time in days to retain data. Data type: number.
+  @_s.JsonKey(name: 'AppInstanceRetentionSettings')
+  final AppInstanceRetentionSettings appInstanceRetentionSettings;
+
+  /// The time at which the API deletes data.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'InitiateDeletionTimestamp')
+  final DateTime initiateDeletionTimestamp;
+
+  PutAppInstanceRetentionSettingsResponse({
+    this.appInstanceRetentionSettings,
+    this.initiateDeletionTimestamp,
+  });
+  factory PutAppInstanceRetentionSettingsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$PutAppInstanceRetentionSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutAppInstanceStreamingConfigurationsResponse {
+  /// The streaming configurations of an app instance.
+  @_s.JsonKey(name: 'AppInstanceStreamingConfigurations')
+  final List<AppInstanceStreamingConfiguration>
+      appInstanceStreamingConfigurations;
+
+  PutAppInstanceStreamingConfigurationsResponse({
+    this.appInstanceStreamingConfigurations,
+  });
+  factory PutAppInstanceStreamingConfigurationsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$PutAppInstanceStreamingConfigurationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class PutEventsConfigurationResponse {
   @_s.JsonKey(name: 'EventsConfiguration')
   final EventsConfiguration eventsConfiguration;
@@ -7793,6 +13852,67 @@ class PutEventsConfigurationResponse {
   });
   factory PutEventsConfigurationResponse.fromJson(Map<String, dynamic> json) =>
       _$PutEventsConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutRetentionSettingsResponse {
+  /// The timestamp representing the time at which the specified items are
+  /// permanently deleted, in ISO 8601 format.
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'InitiateDeletionTimestamp')
+  final DateTime initiateDeletionTimestamp;
+
+  /// The retention settings.
+  @_s.JsonKey(name: 'RetentionSettings')
+  final RetentionSettings retentionSettings;
+
+  PutRetentionSettingsResponse({
+    this.initiateDeletionTimestamp,
+    this.retentionSettings,
+  });
+  factory PutRetentionSettingsResponse.fromJson(Map<String, dynamic> json) =>
+      _$PutRetentionSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutSipMediaApplicationLoggingConfigurationResponse {
+  /// The actual logging configuration.
+  @_s.JsonKey(name: 'SipMediaApplicationLoggingConfiguration')
+  final SipMediaApplicationLoggingConfiguration
+      sipMediaApplicationLoggingConfiguration;
+
+  PutSipMediaApplicationLoggingConfigurationResponse({
+    this.sipMediaApplicationLoggingConfiguration,
+  });
+  factory PutSipMediaApplicationLoggingConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$PutSipMediaApplicationLoggingConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutVoiceConnectorEmergencyCallingConfigurationResponse {
+  /// The emergency calling configuration details.
+  @_s.JsonKey(name: 'EmergencyCallingConfiguration')
+  final EmergencyCallingConfiguration emergencyCallingConfiguration;
+
+  PutVoiceConnectorEmergencyCallingConfigurationResponse({
+    this.emergencyCallingConfiguration,
+  });
+  factory PutVoiceConnectorEmergencyCallingConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$PutVoiceConnectorEmergencyCallingConfigurationResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -7889,6 +14009,51 @@ class PutVoiceConnectorTerminationResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class RedactChannelMessageResponse {
+  /// The ARN of the channel containing the messages that you want to redact.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The ID of the message being redacted.
+  @_s.JsonKey(name: 'MessageId')
+  final String messageId;
+
+  RedactChannelMessageResponse({
+    this.channelArn,
+    this.messageId,
+  });
+  factory RedactChannelMessageResponse.fromJson(Map<String, dynamic> json) =>
+      _$RedactChannelMessageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RedactConversationMessageResponse {
+  RedactConversationMessageResponse();
+  factory RedactConversationMessageResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$RedactConversationMessageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RedactRoomMessageResponse {
+  RedactRoomMessageResponse();
+  factory RedactRoomMessageResponse.fromJson(Map<String, dynamic> json) =>
+      _$RedactRoomMessageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class RegenerateSecurityTokenResponse {
   @_s.JsonKey(name: 'Bot')
   final Bot bot;
@@ -7941,6 +14106,33 @@ class RestorePhoneNumberResponse {
   });
   factory RestorePhoneNumberResponse.fromJson(Map<String, dynamic> json) =>
       _$RestorePhoneNumberResponseFromJson(json);
+}
+
+/// The retention settings for an Amazon Chime Enterprise account that determine
+/// how long to retain items such as chat room messages and chat conversation
+/// messages.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class RetentionSettings {
+  /// The chat conversation retention settings.
+  @_s.JsonKey(name: 'ConversationRetentionSettings')
+  final ConversationRetentionSettings conversationRetentionSettings;
+
+  /// The chat room retention settings.
+  @_s.JsonKey(name: 'RoomRetentionSettings')
+  final RoomRetentionSettings roomRetentionSettings;
+
+  RetentionSettings({
+    this.conversationRetentionSettings,
+    this.roomRetentionSettings,
+  });
+  factory RetentionSettings.fromJson(Map<String, dynamic> json) =>
+      _$RetentionSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RetentionSettingsToJson(this);
 }
 
 /// The Amazon Chime chat room details.
@@ -8043,6 +14235,27 @@ extension on RoomMembershipRole {
   }
 }
 
+/// The retention settings that determine how long to retain chat room messages
+/// for an Amazon Chime Enterprise account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class RoomRetentionSettings {
+  /// The number of days for which to retain chat room messages.
+  @_s.JsonKey(name: 'RetentionDays')
+  final int retentionDays;
+
+  RoomRetentionSettings({
+    this.retentionDays,
+  });
+  factory RoomRetentionSettings.fromJson(Map<String, dynamic> json) =>
+      _$RoomRetentionSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RoomRetentionSettingsToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8059,6 +14272,28 @@ class SearchAvailablePhoneNumbersResponse {
   factory SearchAvailablePhoneNumbersResponse.fromJson(
           Map<String, dynamic> json) =>
       _$SearchAvailablePhoneNumbersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SendChannelMessageResponse {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The ID string assigned to each message.
+  @_s.JsonKey(name: 'MessageId')
+  final String messageId;
+
+  SendChannelMessageResponse({
+    this.channelArn,
+    this.messageId,
+  });
+  factory SendChannelMessageResponse.fromJson(Map<String, dynamic> json) =>
+      _$SendChannelMessageResponseFromJson(json);
 }
 
 /// An Active Directory (AD) group whose members are granted permission to act
@@ -8082,6 +14317,248 @@ class SigninDelegateGroup {
   Map<String, dynamic> toJson() => _$SigninDelegateGroupToJson(this);
 }
 
+/// The SIP media application details, including name and endpoints. An AWS
+/// account can have multiple SIP media applications.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SipMediaApplication {
+  /// The AWS Region in which the SIP media application is created.
+  @_s.JsonKey(name: 'AwsRegion')
+  final String awsRegion;
+
+  /// The SIP media application creation timestamp, in ISO 8601 format.
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// List of endpoints for SIP media application. Currently, only one endpoint
+  /// per SIP media application is permitted.
+  @_s.JsonKey(name: 'Endpoints')
+  final List<SipMediaApplicationEndpoint> endpoints;
+
+  /// The name of the SIP media application.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The SIP media application ID.
+  @_s.JsonKey(name: 'SipMediaApplicationId')
+  final String sipMediaApplicationId;
+
+  /// The SIP media application updated timestamp, in ISO 8601 format.
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedTimestamp')
+  final DateTime updatedTimestamp;
+
+  SipMediaApplication({
+    this.awsRegion,
+    this.createdTimestamp,
+    this.endpoints,
+    this.name,
+    this.sipMediaApplicationId,
+    this.updatedTimestamp,
+  });
+  factory SipMediaApplication.fromJson(Map<String, dynamic> json) =>
+      _$SipMediaApplicationFromJson(json);
+}
+
+/// A <code>Call</code> instance for a SIP media application.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SipMediaApplicationCall {
+  /// The transaction ID of a call.
+  @_s.JsonKey(name: 'TransactionId')
+  final String transactionId;
+
+  SipMediaApplicationCall({
+    this.transactionId,
+  });
+  factory SipMediaApplicationCall.fromJson(Map<String, dynamic> json) =>
+      _$SipMediaApplicationCallFromJson(json);
+}
+
+/// Endpoints to specify as part of a SIP media application.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SipMediaApplicationEndpoint {
+  /// Valid Amazon Resource Name (ARN) of the Lambda function of the same AWS
+  /// Region where the SIP media application is created.
+  @_s.JsonKey(name: 'LambdaArn')
+  final String lambdaArn;
+
+  SipMediaApplicationEndpoint({
+    this.lambdaArn,
+  });
+  factory SipMediaApplicationEndpoint.fromJson(Map<String, dynamic> json) =>
+      _$SipMediaApplicationEndpointFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SipMediaApplicationEndpointToJson(this);
+}
+
+/// Logging configuration of the SIP media application.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SipMediaApplicationLoggingConfiguration {
+  /// Enables application message logs for the SIP media application.
+  @_s.JsonKey(name: 'EnableSipMediaApplicationMessageLogs')
+  final bool enableSipMediaApplicationMessageLogs;
+
+  SipMediaApplicationLoggingConfiguration({
+    this.enableSipMediaApplicationMessageLogs,
+  });
+  factory SipMediaApplicationLoggingConfiguration.fromJson(
+          Map<String, dynamic> json) =>
+      _$SipMediaApplicationLoggingConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$SipMediaApplicationLoggingConfigurationToJson(this);
+}
+
+/// The SIP rule details, including name, triggers, and target applications. An
+/// AWS account can have multiple SIP rules.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SipRule {
+  /// The SIP rule created timestamp, in ISO 8601 format.
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// Indicates if the SIP rule is enabled or disabled. You must disable a rule
+  /// before you can delete it.
+  @_s.JsonKey(name: 'Disabled')
+  final bool disabled;
+
+  /// The name of the SIP rule.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The SIP rule ID.
+  @_s.JsonKey(name: 'SipRuleId')
+  final String sipRuleId;
+
+  /// List of SIP media applications with priority and AWS Region. You can only
+  /// use one SIP application per AWS Region and priority combination.
+  @_s.JsonKey(name: 'TargetApplications')
+  final List<SipRuleTargetApplication> targetApplications;
+
+  /// The type of trigger whose value is assigned to the SIP rule in
+  /// <code>TriggerValue</code>.
+  @_s.JsonKey(name: 'TriggerType')
+  final SipRuleTriggerType triggerType;
+
+  /// If <code>TriggerType</code> is <code>RequestUriHostname</code>, then the
+  /// value can be the outbound host name of the Amazon Chime Voice Connector. If
+  /// <code>TriggerType</code> is <code>ToPhoneNumber</code>, then the value can
+  /// be a customer-owned phone number in E164 format. <code>SipRule</code> is
+  /// triggered when a SIP rule requests host name or <code>ToPhoneNumber</code>
+  /// matches in the incoming SIP request.
+  @_s.JsonKey(name: 'TriggerValue')
+  final String triggerValue;
+
+  /// The SIP rule updated timestamp, in ISO 8601 format.
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedTimestamp')
+  final DateTime updatedTimestamp;
+
+  SipRule({
+    this.createdTimestamp,
+    this.disabled,
+    this.name,
+    this.sipRuleId,
+    this.targetApplications,
+    this.triggerType,
+    this.triggerValue,
+    this.updatedTimestamp,
+  });
+  factory SipRule.fromJson(Map<String, dynamic> json) =>
+      _$SipRuleFromJson(json);
+}
+
+/// Target SIP media application along with other details like priority and AWS
+/// Region to be specified in the SIP rule. Only one SIP rule per AWS Region can
+/// be provided.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SipRuleTargetApplication {
+  /// AWS Region of target application.
+  @_s.JsonKey(name: 'AwsRegion')
+  final String awsRegion;
+
+  /// Priority of the SIP media application in the target list.
+  @_s.JsonKey(name: 'Priority')
+  final int priority;
+
+  /// The SIP media application ID.
+  @_s.JsonKey(name: 'SipMediaApplicationId')
+  final String sipMediaApplicationId;
+
+  SipRuleTargetApplication({
+    this.awsRegion,
+    this.priority,
+    this.sipMediaApplicationId,
+  });
+  factory SipRuleTargetApplication.fromJson(Map<String, dynamic> json) =>
+      _$SipRuleTargetApplicationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SipRuleTargetApplicationToJson(this);
+}
+
+enum SipRuleTriggerType {
+  @_s.JsonValue('ToPhoneNumber')
+  toPhoneNumber,
+  @_s.JsonValue('RequestUriHostname')
+  requestUriHostname,
+}
+
+extension on SipRuleTriggerType {
+  String toValue() {
+    switch (this) {
+      case SipRuleTriggerType.toPhoneNumber:
+        return 'ToPhoneNumber';
+      case SipRuleTriggerType.requestUriHostname:
+        return 'RequestUriHostname';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum SortOrder {
+  @_s.JsonValue('ASCENDING')
+  ascending,
+  @_s.JsonValue('DESCENDING')
+  descending,
+}
+
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.ascending:
+        return 'ASCENDING';
+      case SortOrder.descending:
+        return 'DESCENDING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The streaming configuration associated with an Amazon Chime Voice Connector.
 /// Specifies whether media streaming is enabled for sending to Amazon Kinesis,
 /// and shows the retention period for the Amazon Kinesis data, in hours.
@@ -8099,14 +14576,39 @@ class StreamingConfiguration {
   @_s.JsonKey(name: 'Disabled')
   final bool disabled;
 
+  /// The streaming notification targets.
+  @_s.JsonKey(name: 'StreamingNotificationTargets')
+  final List<StreamingNotificationTarget> streamingNotificationTargets;
+
   StreamingConfiguration({
     @_s.required this.dataRetentionInHours,
     this.disabled,
+    this.streamingNotificationTargets,
   });
   factory StreamingConfiguration.fromJson(Map<String, dynamic> json) =>
       _$StreamingConfigurationFromJson(json);
 
   Map<String, dynamic> toJson() => _$StreamingConfigurationToJson(this);
+}
+
+/// The targeted recipient for a streaming configuration notification.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class StreamingNotificationTarget {
+  /// The streaming notification target.
+  @_s.JsonKey(name: 'NotificationTarget')
+  final NotificationTarget notificationTarget;
+
+  StreamingNotificationTarget({
+    @_s.required this.notificationTarget,
+  });
+  factory StreamingNotificationTarget.fromJson(Map<String, dynamic> json) =>
+      _$StreamingNotificationTargetFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StreamingNotificationTargetToJson(this);
 }
 
 /// Describes a tag applied to a resource.
@@ -8239,7 +14741,6 @@ class TerminationHealth {
     createFactory: true,
     createToJson: false)
 class UpdateAccountResponse {
-  /// The updated Amazon Chime account details.
   @_s.JsonKey(name: 'Account')
   final Account account;
 
@@ -8266,6 +14767,40 @@ class UpdateAccountSettingsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateAppInstanceResponse {
+  /// The ARN of the app instance.
+  @_s.JsonKey(name: 'AppInstanceArn')
+  final String appInstanceArn;
+
+  UpdateAppInstanceResponse({
+    this.appInstanceArn,
+  });
+  factory UpdateAppInstanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateAppInstanceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateAppInstanceUserResponse {
+  /// The ARN of the app instance user.
+  @_s.JsonKey(name: 'AppInstanceUserArn')
+  final String appInstanceUserArn;
+
+  UpdateAppInstanceUserResponse({
+    this.appInstanceUserArn,
+  });
+  factory UpdateAppInstanceUserResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateAppInstanceUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdateBotResponse {
   /// The updated bot details.
   @_s.JsonKey(name: 'Bot')
@@ -8276,6 +14811,62 @@ class UpdateBotResponse {
   });
   factory UpdateBotResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateBotResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateChannelMessageResponse {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  /// The ID string of the message being updated.
+  @_s.JsonKey(name: 'MessageId')
+  final String messageId;
+
+  UpdateChannelMessageResponse({
+    this.channelArn,
+    this.messageId,
+  });
+  factory UpdateChannelMessageResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateChannelMessageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateChannelReadMarkerResponse {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  UpdateChannelReadMarkerResponse({
+    this.channelArn,
+  });
+  factory UpdateChannelReadMarkerResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateChannelReadMarkerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateChannelResponse {
+  /// The ARN of the channel.
+  @_s.JsonKey(name: 'ChannelArn')
+  final String channelArn;
+
+  UpdateChannelResponse({
+    this.channelArn,
+  });
+  factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateChannelResponseFromJson(json);
 }
 
 /// The phone number ID, product type, or calling name fields to update, used
@@ -8372,6 +14963,41 @@ class UpdateRoomResponse {
   });
   factory UpdateRoomResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateRoomResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateSipMediaApplicationResponse {
+  /// The updated SIP media application details.
+  @_s.JsonKey(name: 'SipMediaApplication')
+  final SipMediaApplication sipMediaApplication;
+
+  UpdateSipMediaApplicationResponse({
+    this.sipMediaApplication,
+  });
+  factory UpdateSipMediaApplicationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateSipMediaApplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateSipRuleResponse {
+  /// Updated SIP rule details.
+  @_s.JsonKey(name: 'SipRule')
+  final SipRule sipRule;
+
+  UpdateSipRuleResponse({
+    this.sipRule,
+  });
+  factory UpdateSipRuleResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateSipRuleResponseFromJson(json);
 }
 
 /// The user ID and user fields to update, used with the <a>BatchUpdateUser</a>

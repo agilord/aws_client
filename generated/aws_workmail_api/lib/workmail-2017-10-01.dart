@@ -112,6 +112,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -119,6 +126,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
@@ -186,6 +200,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -210,6 +231,92 @@ class WorkMail {
     );
 
     return AssociateMemberToGroupResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Cancels a mailbox export job.
+  /// <note>
+  /// If the mailbox export job is near completion, it might not be possible to
+  /// cancel it.
+  /// </note>
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  ///
+  /// Parameter [clientToken] :
+  /// The idempotency token for the client request.
+  ///
+  /// Parameter [jobId] :
+  /// The job ID.
+  ///
+  /// Parameter [organizationId] :
+  /// The organization ID.
+  Future<void> cancelMailboxExportJob({
+    @_s.required String clientToken,
+    @_s.required String jobId,
+    @_s.required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(clientToken, 'clientToken');
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientToken',
+      clientToken,
+      r'''[\x21-\x7e]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''[A-Za-z0-9-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'organizationId',
+      organizationId,
+      r'''^m-[0-9a-f]{32}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.CancelMailboxExportJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        'JobId': jobId,
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return CancelMailboxExportJobResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds an alias to the set of a given member (user or group) of Amazon
@@ -249,7 +356,7 @@ class WorkMail {
     _s.validateStringPattern(
       'alias',
       alias,
-      r'''[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}''',
+      r'''[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(entityId, 'entityId');
@@ -261,6 +368,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -323,6 +437,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -346,6 +467,135 @@ class WorkMail {
     );
 
     return CreateGroupResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new Amazon WorkMail organization. Optionally, you can choose to
+  /// associate an existing AWS Directory Service directory with your
+  /// organization. If an AWS Directory Service directory ID is specified, the
+  /// organization alias must match the directory alias. If you choose not to
+  /// associate an existing directory with your organization, then we create a
+  /// new Amazon WorkMail directory for you. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/add_new_organization.html">Adding
+  /// an organization</a> in the <i>Amazon WorkMail Administrator Guide</i>.
+  ///
+  /// You can associate multiple email domains with an organization, then set
+  /// your default email domain from the Amazon WorkMail console. You can also
+  /// associate a domain that is managed in an Amazon Route 53 public hosted
+  /// zone. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html">Adding
+  /// a domain</a> and <a
+  /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/default_domain.html">Choosing
+  /// the default domain</a> in the <i>Amazon WorkMail Administrator Guide</i>.
+  ///
+  /// Optionally, you can use a customer managed master key from AWS Key
+  /// Management Service (AWS KMS) to encrypt email for your organization. If
+  /// you don't associate an AWS KMS key, Amazon WorkMail creates a default AWS
+  /// managed master key for you.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [DirectoryInUseException].
+  /// May throw [DirectoryUnavailableException].
+  /// May throw [LimitExceededException].
+  /// May throw [NameAvailabilityException].
+  ///
+  /// Parameter [alias] :
+  /// The organization alias.
+  ///
+  /// Parameter [clientToken] :
+  /// The idempotency token associated with the request.
+  ///
+  /// Parameter [directoryId] :
+  /// The AWS Directory Service directory ID.
+  ///
+  /// Parameter [domains] :
+  /// The email domains to associate with the organization.
+  ///
+  /// Parameter [enableInteroperability] :
+  /// When <code>true</code>, allows organization interoperability between
+  /// Amazon WorkMail and Microsoft Exchange. Can only be set to
+  /// <code>true</code> if an AD Connector directory ID is included in the
+  /// request.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The Amazon Resource Name (ARN) of a customer managed master key from AWS
+  /// KMS.
+  Future<CreateOrganizationResponse> createOrganization({
+    @_s.required String alias,
+    String clientToken,
+    String directoryId,
+    List<Domain> domains,
+    bool enableInteroperability,
+    String kmsKeyArn,
+  }) async {
+    ArgumentError.checkNotNull(alias, 'alias');
+    _s.validateStringLength(
+      'alias',
+      alias,
+      1,
+      62,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'alias',
+      alias,
+      r'''^(?!d-)([\da-zA-Z]+)([-][\da-zA-Z]+)*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientToken',
+      clientToken,
+      r'''[\x21-\x7e]+''',
+    );
+    _s.validateStringLength(
+      'directoryId',
+      directoryId,
+      12,
+      12,
+    );
+    _s.validateStringPattern(
+      'directoryId',
+      directoryId,
+      r'''^d-[0-9a-f]{10}$''',
+    );
+    _s.validateStringLength(
+      'kmsKeyArn',
+      kmsKeyArn,
+      20,
+      2048,
+    );
+    _s.validateStringPattern(
+      'kmsKeyArn',
+      kmsKeyArn,
+      r'''arn:aws:kms:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.CreateOrganization'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Alias': alias,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (directoryId != null) 'DirectoryId': directoryId,
+        if (domains != null) 'Domains': domains,
+        if (enableInteroperability != null)
+          'EnableInteroperability': enableInteroperability,
+        if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      },
+    );
+
+    return CreateOrganizationResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new Amazon WorkMail resource.
@@ -384,10 +634,17 @@ class WorkMail {
     _s.validateStringPattern(
       'name',
       name,
-      r'''[\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9]{2,})?''',
+      r'''[\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -432,8 +689,8 @@ class WorkMail {
   /// The display name for the new user.
   ///
   /// Parameter [name] :
-  /// The name for the new user. Simple AD or AD Connector user names have a
-  /// maximum length of 20. All others have a maximum length of 64.
+  /// The name for the new user. WorkMail directory user names have a maximum
+  /// length of 64. All others have a maximum length of 20.
   ///
   /// Parameter [organizationId] :
   /// The identifier of the organization for which the user is created.
@@ -465,10 +722,17 @@ class WorkMail {
     _s.validateStringPattern(
       'name',
       name,
-      r'''[\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9]{2,})?''',
+      r'''[\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -522,7 +786,7 @@ class WorkMail {
   /// The identifier for the organization.
   Future<void> deleteAccessControlRule({
     @_s.required String name,
-    String organizationId,
+    @_s.required String organizationId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -538,10 +802,19 @@ class WorkMail {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
       r'''^m-[0-9a-f]{32}$''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -555,7 +828,7 @@ class WorkMail {
       headers: headers,
       payload: {
         'Name': name,
-        if (organizationId != null) 'OrganizationId': organizationId,
+        'OrganizationId': organizationId,
       },
     );
 
@@ -598,7 +871,7 @@ class WorkMail {
     _s.validateStringPattern(
       'alias',
       alias,
-      r'''[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}''',
+      r'''[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(entityId, 'entityId');
@@ -610,6 +883,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -664,6 +944,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -698,7 +985,7 @@ class WorkMail {
   /// May throw [OrganizationStateException].
   ///
   /// Parameter [entityId] :
-  /// The identifier of the member (user or group)that owns the mailbox.
+  /// The identifier of the member (user or group) that owns the mailbox.
   ///
   /// Parameter [granteeId] :
   /// The identifier of the member (user or group) for which to delete granted
@@ -729,6 +1016,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -755,6 +1049,76 @@ class WorkMail {
     return DeleteMailboxPermissionsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes an Amazon WorkMail organization and all underlying AWS resources
+  /// managed by Amazon WorkMail as part of the organization. You can choose
+  /// whether to delete the associated directory. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/remove_organization.html">Removing
+  /// an organization</a> in the <i>Amazon WorkMail Administrator Guide</i>.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [deleteDirectory] :
+  /// If true, deletes the AWS Directory Service directory associated with the
+  /// organization.
+  ///
+  /// Parameter [organizationId] :
+  /// The organization ID.
+  ///
+  /// Parameter [clientToken] :
+  /// The idempotency token associated with the request.
+  Future<DeleteOrganizationResponse> deleteOrganization({
+    @_s.required bool deleteDirectory,
+    @_s.required String organizationId,
+    String clientToken,
+  }) async {
+    ArgumentError.checkNotNull(deleteDirectory, 'deleteDirectory');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'organizationId',
+      organizationId,
+      r'''^m-[0-9a-f]{32}$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientToken',
+      clientToken,
+      r'''[\x21-\x7e]+''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeleteOrganization'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DeleteDirectory': deleteDirectory,
+        'OrganizationId': organizationId,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return DeleteOrganizationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes the specified resource.
   ///
   /// May throw [EntityStateException].
@@ -773,6 +1137,13 @@ class WorkMail {
     @_s.required String resourceId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -780,6 +1151,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
@@ -803,6 +1181,68 @@ class WorkMail {
     );
 
     return DeleteResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the specified retention policy from the specified organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [id] :
+  /// The retention policy ID.
+  ///
+  /// Parameter [organizationId] :
+  /// The organization ID.
+  Future<void> deleteRetentionPolicy({
+    @_s.required String id,
+    @_s.required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    _s.validateStringLength(
+      'id',
+      id,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'id',
+      id,
+      r'''[a-zA-Z0-9_-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'organizationId',
+      organizationId,
+      r'''^m-[0-9a-f]{32}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeleteRetentionPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return DeleteRetentionPolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a user from Amazon WorkMail and all subsequent systems. Before you
@@ -830,6 +1270,13 @@ class WorkMail {
     @_s.required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -893,6 +1340,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -943,6 +1397,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -968,6 +1429,69 @@ class WorkMail {
     return DescribeGroupResponse.fromJson(jsonResponse.body);
   }
 
+  /// Describes the current status of a mailbox export job.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  ///
+  /// Parameter [jobId] :
+  /// The mailbox export job ID.
+  ///
+  /// Parameter [organizationId] :
+  /// The organization ID.
+  Future<DescribeMailboxExportJobResponse> describeMailboxExportJob({
+    @_s.required String jobId,
+    @_s.required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''[A-Za-z0-9-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'organizationId',
+      organizationId,
+      r'''^m-[0-9a-f]{32}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DescribeMailboxExportJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return DescribeMailboxExportJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Provides more information regarding a given organization based on its
   /// identifier.
   ///
@@ -980,6 +1504,13 @@ class WorkMail {
     @_s.required String organizationId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1022,6 +1553,13 @@ class WorkMail {
     @_s.required String resourceId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1029,6 +1567,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
@@ -1071,6 +1616,13 @@ class WorkMail {
     @_s.required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1136,6 +1688,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1143,6 +1702,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
@@ -1210,6 +1776,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1292,6 +1865,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1327,6 +1907,50 @@ class WorkMail {
     return GetAccessControlEffectResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets the default retention policy details for the specified organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  ///
+  /// Parameter [organizationId] :
+  /// The organization ID.
+  Future<GetDefaultRetentionPolicyResponse> getDefaultRetentionPolicy({
+    @_s.required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'organizationId',
+      organizationId,
+      r'''^m-[0-9a-f]{32}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.GetDefaultRetentionPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+      },
+    );
+
+    return GetDefaultRetentionPolicyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Requests a user's mailbox details for a specified organization and user.
   ///
   /// May throw [OrganizationNotFoundException].
@@ -1344,6 +1968,13 @@ class WorkMail {
     @_s.required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1388,6 +2019,13 @@ class WorkMail {
     @_s.required String organizationId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1448,6 +2086,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1465,6 +2110,11 @@ class WorkMail {
       nextToken,
       1,
       1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S\s]*|[a-zA-Z0-9/+=]{1,1024}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1524,6 +2174,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1541,6 +2198,11 @@ class WorkMail {
       nextToken,
       1,
       1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S\s]*|[a-zA-Z0-9/+=]{1,1024}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1585,6 +2247,13 @@ class WorkMail {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1602,6 +2271,11 @@ class WorkMail {
       nextToken,
       1,
       1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S\s]*|[a-zA-Z0-9/+=]{1,1024}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1621,6 +2295,77 @@ class WorkMail {
     );
 
     return ListGroupsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the mailbox export jobs started for the specified organization
+  /// within the last seven days.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The organization ID.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results.
+  Future<ListMailboxExportJobsResponse> listMailboxExportJobs({
+    @_s.required String organizationId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'organizationId',
+      organizationId,
+      r'''^m-[0-9a-f]{32}$''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S\s]*|[a-zA-Z0-9/+=]{1,1024}''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.ListMailboxExportJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListMailboxExportJobsResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists the mailbox permissions associated with a user, group, or resource
@@ -1660,6 +2405,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1677,6 +2429,11 @@ class WorkMail {
       nextToken,
       1,
       1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S\s]*|[a-zA-Z0-9/+=]{1,1024}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1699,7 +2456,7 @@ class WorkMail {
     return ListMailboxPermissionsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns summaries of the customer's non-deleted organizations.
+  /// Returns summaries of the customer's organizations.
   ///
   /// May throw [InvalidParameterException].
   ///
@@ -1724,6 +2481,11 @@ class WorkMail {
       nextToken,
       1,
       1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S\s]*|[a-zA-Z0-9/+=]{1,1024}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1773,6 +2535,13 @@ class WorkMail {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1798,6 +2567,11 @@ class WorkMail {
       nextToken,
       1,
       1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S\s]*|[a-zA-Z0-9/+=]{1,1024}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1841,6 +2615,13 @@ class WorkMail {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1858,6 +2639,11 @@ class WorkMail {
       nextToken,
       1,
       1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S\s]*|[a-zA-Z0-9/+=]{1,1024}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1935,6 +2721,13 @@ class WorkMail {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -1952,6 +2745,11 @@ class WorkMail {
       nextToken,
       1,
       1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[\S\s]*|[a-zA-Z0-9/+=]{1,1024}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2061,6 +2859,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -2146,6 +2951,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -2173,6 +2985,107 @@ class WorkMail {
     );
 
     return PutMailboxPermissionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Puts a retention policy to the specified organization.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [folderConfigurations] :
+  /// The retention policy folder configurations.
+  ///
+  /// Parameter [name] :
+  /// The retention policy name.
+  ///
+  /// Parameter [organizationId] :
+  /// The organization ID.
+  ///
+  /// Parameter [description] :
+  /// The retention policy description.
+  ///
+  /// Parameter [id] :
+  /// The retention policy ID.
+  Future<void> putRetentionPolicy({
+    @_s.required List<FolderConfiguration> folderConfigurations,
+    @_s.required String name,
+    @_s.required String organizationId,
+    String description,
+    String id,
+  }) async {
+    ArgumentError.checkNotNull(folderConfigurations, 'folderConfigurations');
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[a-zA-Z0-9_-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'organizationId',
+      organizationId,
+      r'''^m-[0-9a-f]{32}$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\w\d\s\S\-!?=,.;:'_]+''',
+    );
+    _s.validateStringLength(
+      'id',
+      id,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'id',
+      id,
+      r'''[a-zA-Z0-9_-]+''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.PutRetentionPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FolderConfigurations': folderConfigurations,
+        'Name': name,
+        'OrganizationId': organizationId,
+        if (description != null) 'Description': description,
+        if (id != null) 'Id': id,
+      },
+    );
+
+    return PutRetentionPolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// Registers an existing and disabled user, group, or resource for Amazon
@@ -2224,7 +3137,7 @@ class WorkMail {
     _s.validateStringPattern(
       'email',
       email,
-      r'''[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}''',
+      r'''[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(entityId, 'entityId');
@@ -2236,6 +3149,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -2289,6 +3209,13 @@ class WorkMail {
     @_s.required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -2335,6 +3262,175 @@ class WorkMail {
     );
 
     return ResetPasswordResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Starts a mailbox export job to export MIME-format email messages and
+  /// calendar items from the specified mailbox to the specified Amazon Simple
+  /// Storage Service (Amazon S3) bucket. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/mail-export.html">Exporting
+  /// mailbox content</a> in the <i>Amazon WorkMail Administrator Guide</i>.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [clientToken] :
+  /// The idempotency token for the client request.
+  ///
+  /// Parameter [entityId] :
+  /// The identifier of the user or resource associated with the mailbox.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service
+  /// (AWS KMS) key that encrypts the exported mailbox content.
+  ///
+  /// Parameter [organizationId] :
+  /// The identifier associated with the organization.
+  ///
+  /// Parameter [roleArn] :
+  /// The ARN of the AWS Identity and Access Management (IAM) role that grants
+  /// write permission to the S3 bucket.
+  ///
+  /// Parameter [s3BucketName] :
+  /// The name of the S3 bucket.
+  ///
+  /// Parameter [s3Prefix] :
+  /// The S3 bucket prefix.
+  ///
+  /// Parameter [description] :
+  /// The mailbox export job description.
+  Future<StartMailboxExportJobResponse> startMailboxExportJob({
+    @_s.required String clientToken,
+    @_s.required String entityId,
+    @_s.required String kmsKeyArn,
+    @_s.required String organizationId,
+    @_s.required String roleArn,
+    @_s.required String s3BucketName,
+    @_s.required String s3Prefix,
+    String description,
+  }) async {
+    ArgumentError.checkNotNull(clientToken, 'clientToken');
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientToken',
+      clientToken,
+      r'''[\x21-\x7e]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(entityId, 'entityId');
+    _s.validateStringLength(
+      'entityId',
+      entityId,
+      12,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(kmsKeyArn, 'kmsKeyArn');
+    _s.validateStringLength(
+      'kmsKeyArn',
+      kmsKeyArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'kmsKeyArn',
+      kmsKeyArn,
+      r'''arn:aws:kms:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'organizationId',
+      organizationId,
+      r'''^m-[0-9a-f]{32}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(roleArn, 'roleArn');
+    _s.validateStringLength(
+      'roleArn',
+      roleArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
+    _s.validateStringLength(
+      's3BucketName',
+      s3BucketName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      's3BucketName',
+      s3BucketName,
+      r'''[A-Za-z0-9.-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(s3Prefix, 's3Prefix');
+    _s.validateStringLength(
+      's3Prefix',
+      s3Prefix,
+      1,
+      1023,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      's3Prefix',
+      s3Prefix,
+      r'''[A-Za-z0-9!_.*'()/-]+''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      1023,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\S\s]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.StartMailboxExportJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        'EntityId': entityId,
+        'KmsKeyArn': kmsKeyArn,
+        'OrganizationId': organizationId,
+        'RoleArn': roleArn,
+        'S3BucketName': s3BucketName,
+        'S3Prefix': s3Prefix,
+        if (description != null) 'Description': description,
+      },
+    );
+
+    return StartMailboxExportJobResponse.fromJson(jsonResponse.body);
   }
 
   /// Applies the specified tags to the specified Amazon WorkMail organization
@@ -2455,6 +3551,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -2531,7 +3634,7 @@ class WorkMail {
     _s.validateStringPattern(
       'email',
       email,
-      r'''[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}''',
+      r'''[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z-]{2,}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(entityId, 'entityId');
@@ -2543,6 +3646,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -2604,6 +3714,13 @@ class WorkMail {
     String name,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateStringLength(
+      'organizationId',
+      organizationId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'organizationId',
       organizationId,
@@ -2611,6 +3728,13 @@ class WorkMail {
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      34,
+      34,
+      isRequired: true,
+    );
     _s.validateStringPattern(
       'resourceId',
       resourceId,
@@ -2626,7 +3750,7 @@ class WorkMail {
     _s.validateStringPattern(
       'name',
       name,
-      r'''[\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9]{2,})?''',
+      r'''[\w\-.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z0-9-]{2,})?''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2805,6 +3929,17 @@ class BookingOptions {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CancelMailboxExportJobResponse {
+  CancelMailboxExportJobResponse();
+  factory CancelMailboxExportJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$CancelMailboxExportJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateAliasResponse {
   CreateAliasResponse();
   factory CreateAliasResponse.fromJson(Map<String, dynamic> json) =>
@@ -2826,6 +3961,23 @@ class CreateGroupResponse {
   });
   factory CreateGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateOrganizationResponse {
+  /// The organization ID.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  CreateOrganizationResponse({
+    this.organizationId,
+  });
+  factory CreateOrganizationResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateOrganizationResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2936,10 +4088,43 @@ class DeleteMailboxPermissionsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteOrganizationResponse {
+  /// The organization ID.
+  @_s.JsonKey(name: 'OrganizationId')
+  final String organizationId;
+
+  /// The state of the organization.
+  @_s.JsonKey(name: 'State')
+  final String state;
+
+  DeleteOrganizationResponse({
+    this.organizationId,
+    this.state,
+  });
+  factory DeleteOrganizationResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteOrganizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteResourceResponse {
   DeleteResourceResponse();
   factory DeleteResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteRetentionPolicyResponse {
+  DeleteRetentionPolicyResponse();
+  factory DeleteRetentionPolicyResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteRetentionPolicyResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3009,6 +4194,84 @@ class DescribeGroupResponse {
   });
   factory DescribeGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeMailboxExportJobResponse {
+  /// The mailbox export job description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The mailbox export job end timestamp.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
+  final DateTime endTime;
+
+  /// The identifier of the user or resource associated with the mailbox.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// Error information for failed mailbox export jobs.
+  @_s.JsonKey(name: 'ErrorInfo')
+  final String errorInfo;
+
+  /// The estimated progress of the mailbox export job, in percentage points.
+  @_s.JsonKey(name: 'EstimatedProgress')
+  final int estimatedProgress;
+
+  /// The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service
+  /// (AWS KMS) key that encrypts the exported mailbox content.
+  @_s.JsonKey(name: 'KmsKeyArn')
+  final String kmsKeyArn;
+
+  /// The ARN of the AWS Identity and Access Management (IAM) role that grants
+  /// write permission to the Amazon Simple Storage Service (Amazon S3) bucket.
+  @_s.JsonKey(name: 'RoleArn')
+  final String roleArn;
+
+  /// The name of the S3 bucket.
+  @_s.JsonKey(name: 'S3BucketName')
+  final String s3BucketName;
+
+  /// The path to the S3 bucket and file that the mailbox export job is exporting
+  /// to.
+  @_s.JsonKey(name: 'S3Path')
+  final String s3Path;
+
+  /// The S3 bucket prefix.
+  @_s.JsonKey(name: 'S3Prefix')
+  final String s3Prefix;
+
+  /// The mailbox export job start timestamp.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
+  final DateTime startTime;
+
+  /// The state of the mailbox export job.
+  @_s.JsonKey(name: 'State')
+  final MailboxExportJobState state;
+
+  DescribeMailboxExportJobResponse({
+    this.description,
+    this.endTime,
+    this.entityId,
+    this.errorInfo,
+    this.estimatedProgress,
+    this.kmsKeyArn,
+    this.roleArn,
+    this.s3BucketName,
+    this.s3Path,
+    this.s3Prefix,
+    this.startTime,
+    this.state,
+  });
+  factory DescribeMailboxExportJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeMailboxExportJobResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3215,6 +4478,35 @@ class DisassociateMemberFromGroupResponse {
       _$DisassociateMemberFromGroupResponseFromJson(json);
 }
 
+/// The domain to associate with an Amazon WorkMail organization.
+///
+/// When you configure a domain hosted in Amazon Route 53 (Route 53), all
+/// recommended DNS records are added to the organization when you create it.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html">Adding
+/// a domain</a> in the <i>Amazon WorkMail Administrator Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class Domain {
+  /// The fully qualified domain name.
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+
+  /// The hosted zone ID for a domain hosted in Route 53. Required when
+  /// configuring a domain hosted in Route 53.
+  @_s.JsonKey(name: 'HostedZoneId')
+  final String hostedZoneId;
+
+  Domain({
+    this.domainName,
+    this.hostedZoneId,
+  });
+  Map<String, dynamic> toJson() => _$DomainToJson(this);
+}
+
 enum EntityState {
   @_s.JsonValue('ENABLED')
   enabled,
@@ -3222,6 +4514,51 @@ enum EntityState {
   disabled,
   @_s.JsonValue('DELETED')
   deleted,
+}
+
+/// The configuration applied to an organization's folders by its retention
+/// policy.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class FolderConfiguration {
+  /// The action to take on the folder contents at the end of the folder
+  /// configuration period.
+  @_s.JsonKey(name: 'Action')
+  final RetentionAction action;
+
+  /// The folder name.
+  @_s.JsonKey(name: 'Name')
+  final FolderName name;
+
+  /// The period of time at which the folder configuration action is applied.
+  @_s.JsonKey(name: 'Period')
+  final int period;
+
+  FolderConfiguration({
+    @_s.required this.action,
+    @_s.required this.name,
+    this.period,
+  });
+  factory FolderConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$FolderConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FolderConfigurationToJson(this);
+}
+
+enum FolderName {
+  @_s.JsonValue('INBOX')
+  inbox,
+  @_s.JsonValue('DELETED_ITEMS')
+  deletedItems,
+  @_s.JsonValue('SENT_ITEMS')
+  sentItems,
+  @_s.JsonValue('DRAFTS')
+  drafts,
+  @_s.JsonValue('JUNK_EMAIL')
+  junkEmail,
 }
 
 @_s.JsonSerializable(
@@ -3244,6 +4581,39 @@ class GetAccessControlEffectResponse {
   });
   factory GetAccessControlEffectResponse.fromJson(Map<String, dynamic> json) =>
       _$GetAccessControlEffectResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetDefaultRetentionPolicyResponse {
+  /// The retention policy description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The retention policy folder configurations.
+  @_s.JsonKey(name: 'FolderConfigurations')
+  final List<FolderConfiguration> folderConfigurations;
+
+  /// The retention policy ID.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The retention policy name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  GetDefaultRetentionPolicyResponse({
+    this.description,
+    this.folderConfigurations,
+    this.id,
+    this.name,
+  });
+  factory GetDefaultRetentionPolicyResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetDefaultRetentionPolicyResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3403,6 +4773,28 @@ class ListGroupsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListMailboxExportJobsResponse {
+  /// The mailbox export job details.
+  @_s.JsonKey(name: 'Jobs')
+  final List<MailboxExportJob> jobs;
+
+  /// The token to use to retrieve the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListMailboxExportJobsResponse({
+    this.jobs,
+    this.nextToken,
+  });
+  factory ListMailboxExportJobsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListMailboxExportJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListMailboxPermissionsResponse {
   /// The token to use to retrieve the next page of results. The value is "null"
   /// when there are no more results to return.
@@ -3533,6 +4925,79 @@ class ListUsersResponse {
       _$ListUsersResponseFromJson(json);
 }
 
+/// The details of a mailbox export job, including the user or resource ID
+/// associated with the mailbox and the S3 bucket that the mailbox contents are
+/// exported to.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class MailboxExportJob {
+  /// The mailbox export job description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The mailbox export job end timestamp.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
+  final DateTime endTime;
+
+  /// The identifier of the user or resource associated with the mailbox.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The estimated progress of the mailbox export job, in percentage points.
+  @_s.JsonKey(name: 'EstimatedProgress')
+  final int estimatedProgress;
+
+  /// The identifier of the mailbox export job.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The name of the S3 bucket.
+  @_s.JsonKey(name: 'S3BucketName')
+  final String s3BucketName;
+
+  /// The path to the S3 bucket and file that the mailbox export job exports to.
+  @_s.JsonKey(name: 'S3Path')
+  final String s3Path;
+
+  /// The mailbox export job start timestamp.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
+  final DateTime startTime;
+
+  /// The state of the mailbox export job.
+  @_s.JsonKey(name: 'State')
+  final MailboxExportJobState state;
+
+  MailboxExportJob({
+    this.description,
+    this.endTime,
+    this.entityId,
+    this.estimatedProgress,
+    this.jobId,
+    this.s3BucketName,
+    this.s3Path,
+    this.startTime,
+    this.state,
+  });
+  factory MailboxExportJob.fromJson(Map<String, dynamic> json) =>
+      _$MailboxExportJobFromJson(json);
+}
+
+enum MailboxExportJobState {
+  @_s.JsonValue('RUNNING')
+  running,
+  @_s.JsonValue('COMPLETED')
+  completed,
+  @_s.JsonValue('FAILED')
+  failed,
+  @_s.JsonValue('CANCELLED')
+  cancelled,
+}
+
 /// The representation of a user or group.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3595,6 +5060,10 @@ class OrganizationSummary {
   @_s.JsonKey(name: 'Alias')
   final String alias;
 
+  /// The default email domain associated with the organization.
+  @_s.JsonKey(name: 'DefaultMailDomain')
+  final String defaultMailDomain;
+
   /// The error message associated with the organization. It is only present if
   /// unexpected behavior has occurred with regards to the organization. It
   /// provides insight or solutions regarding unexpected behavior.
@@ -3611,6 +5080,7 @@ class OrganizationSummary {
 
   OrganizationSummary({
     this.alias,
+    this.defaultMailDomain,
     this.errorMessage,
     this.organizationId,
     this.state,
@@ -3704,6 +5174,17 @@ class PutMailboxPermissionsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class PutRetentionPolicyResponse {
+  PutRetentionPolicyResponse();
+  factory PutRetentionPolicyResponse.fromJson(Map<String, dynamic> json) =>
+      _$PutRetentionPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class RegisterToWorkMailResponse {
   RegisterToWorkMailResponse();
   factory RegisterToWorkMailResponse.fromJson(Map<String, dynamic> json) =>
@@ -3788,6 +5269,32 @@ extension on ResourceType {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+enum RetentionAction {
+  @_s.JsonValue('NONE')
+  none,
+  @_s.JsonValue('DELETE')
+  delete,
+  @_s.JsonValue('PERMANENTLY_DELETE')
+  permanentlyDelete,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StartMailboxExportJobResponse {
+  /// The job ID.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StartMailboxExportJobResponse({
+    this.jobId,
+  });
+  factory StartMailboxExportJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$StartMailboxExportJobResponseFromJson(json);
 }
 
 /// Describes a tag applied to a resource.
@@ -3933,6 +5440,11 @@ enum UserRole {
   systemUser,
 }
 
+class DirectoryInUseException extends _s.GenericAwsException {
+  DirectoryInUseException({String type, String message})
+      : super(type: type, code: 'DirectoryInUseException', message: message);
+}
+
 class DirectoryServiceAuthenticationFailedException
     extends _s.GenericAwsException {
   DirectoryServiceAuthenticationFailedException({String type, String message})
@@ -4049,6 +5561,8 @@ class UnsupportedOperationException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'DirectoryInUseException': (type, message) =>
+      DirectoryInUseException(type: type, message: message),
   'DirectoryServiceAuthenticationFailedException': (type, message) =>
       DirectoryServiceAuthenticationFailedException(
           type: type, message: message),

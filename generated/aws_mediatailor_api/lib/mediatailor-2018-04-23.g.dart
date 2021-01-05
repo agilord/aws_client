@@ -6,6 +6,25 @@ part of 'mediatailor-2018-04-23.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AdMarkerPassthrough _$AdMarkerPassthroughFromJson(Map<String, dynamic> json) {
+  return AdMarkerPassthrough(
+    enabled: json['Enabled'] as bool,
+  );
+}
+
+Map<String, dynamic> _$AdMarkerPassthroughToJson(AdMarkerPassthrough instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Enabled', instance.enabled);
+  return val;
+}
+
 AvailSuppression _$AvailSuppressionFromJson(Map<String, dynamic> json) {
   return AvailSuppression(
     mode: _$enumDecodeNullable(_$ModeEnumMap, json['Mode']),
@@ -63,6 +82,27 @@ const _$ModeEnumMap = {
   Mode.off: 'OFF',
   Mode.behindLiveEdge: 'BEHIND_LIVE_EDGE',
 };
+
+Bumper _$BumperFromJson(Map<String, dynamic> json) {
+  return Bumper(
+    endUrl: json['EndUrl'] as String,
+    startUrl: json['StartUrl'] as String,
+  );
+}
+
+Map<String, dynamic> _$BumperToJson(Bumper instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndUrl', instance.endUrl);
+  writeNotNull('StartUrl', instance.startUrl);
+  return val;
+}
 
 CdnConfiguration _$CdnConfigurationFromJson(Map<String, dynamic> json) {
   return CdnConfiguration(
@@ -128,6 +168,9 @@ GetPlaybackConfigurationResponse _$GetPlaybackConfigurationResponseFromJson(
         ? null
         : AvailSuppression.fromJson(
             json['AvailSuppression'] as Map<String, dynamic>),
+    bumper: json['Bumper'] == null
+        ? null
+        : Bumper.fromJson(json['Bumper'] as Map<String, dynamic>),
     cdnConfiguration: json['CdnConfiguration'] == null
         ? null
         : CdnConfiguration.fromJson(
@@ -144,6 +187,10 @@ GetPlaybackConfigurationResponse _$GetPlaybackConfigurationResponseFromJson(
         ? null
         : LivePreRollConfiguration.fromJson(
             json['LivePreRollConfiguration'] as Map<String, dynamic>),
+    manifestProcessingRules: json['ManifestProcessingRules'] == null
+        ? null
+        : ManifestProcessingRules.fromJson(
+            json['ManifestProcessingRules'] as Map<String, dynamic>),
     name: json['Name'] as String,
     personalizationThresholdSeconds:
         json['PersonalizationThresholdSeconds'] as int,
@@ -187,6 +234,30 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
   );
 }
 
+ManifestProcessingRules _$ManifestProcessingRulesFromJson(
+    Map<String, dynamic> json) {
+  return ManifestProcessingRules(
+    adMarkerPassthrough: json['AdMarkerPassthrough'] == null
+        ? null
+        : AdMarkerPassthrough.fromJson(
+            json['AdMarkerPassthrough'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$ManifestProcessingRulesToJson(
+    ManifestProcessingRules instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AdMarkerPassthrough', instance.adMarkerPassthrough?.toJson());
+  return val;
+}
+
 PlaybackConfiguration _$PlaybackConfigurationFromJson(
     Map<String, dynamic> json) {
   return PlaybackConfiguration(
@@ -195,6 +266,9 @@ PlaybackConfiguration _$PlaybackConfigurationFromJson(
         ? null
         : AvailSuppression.fromJson(
             json['AvailSuppression'] as Map<String, dynamic>),
+    bumper: json['Bumper'] == null
+        ? null
+        : Bumper.fromJson(json['Bumper'] as Map<String, dynamic>),
     cdnConfiguration: json['CdnConfiguration'] == null
         ? null
         : CdnConfiguration.fromJson(
@@ -207,6 +281,10 @@ PlaybackConfiguration _$PlaybackConfigurationFromJson(
         ? null
         : HlsConfiguration.fromJson(
             json['HlsConfiguration'] as Map<String, dynamic>),
+    manifestProcessingRules: json['ManifestProcessingRules'] == null
+        ? null
+        : ManifestProcessingRules.fromJson(
+            json['ManifestProcessingRules'] as Map<String, dynamic>),
     name: json['Name'] as String,
     personalizationThresholdSeconds:
         json['PersonalizationThresholdSeconds'] as int,
@@ -254,6 +332,9 @@ PutPlaybackConfigurationResponse _$PutPlaybackConfigurationResponseFromJson(
         ? null
         : AvailSuppression.fromJson(
             json['AvailSuppression'] as Map<String, dynamic>),
+    bumper: json['Bumper'] == null
+        ? null
+        : Bumper.fromJson(json['Bumper'] as Map<String, dynamic>),
     cdnConfiguration: json['CdnConfiguration'] == null
         ? null
         : CdnConfiguration.fromJson(
@@ -270,6 +351,10 @@ PutPlaybackConfigurationResponse _$PutPlaybackConfigurationResponseFromJson(
         ? null
         : LivePreRollConfiguration.fromJson(
             json['LivePreRollConfiguration'] as Map<String, dynamic>),
+    manifestProcessingRules: json['ManifestProcessingRules'] == null
+        ? null
+        : ManifestProcessingRules.fromJson(
+            json['ManifestProcessingRules'] as Map<String, dynamic>),
     name: json['Name'] as String,
     personalizationThresholdSeconds:
         json['PersonalizationThresholdSeconds'] as int,

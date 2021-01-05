@@ -38,6 +38,8 @@ ChangeSetSummaryListItem _$ChangeSetSummaryListItemFromJson(
     endTime: json['EndTime'] as String,
     entityIdList:
         (json['EntityIdList'] as List)?.map((e) => e as String)?.toList(),
+    failureCode:
+        _$enumDecodeNullable(_$FailureCodeEnumMap, json['FailureCode']),
     startTime: json['StartTime'] as String,
     status: _$enumDecodeNullable(_$ChangeStatusEnumMap, json['Status']),
   );
@@ -75,6 +77,11 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
+const _$FailureCodeEnumMap = {
+  FailureCode.clientError: 'CLIENT_ERROR',
+  FailureCode.serverFault: 'SERVER_FAULT',
+};
+
 const _$ChangeStatusEnumMap = {
   ChangeStatus.preparing: 'PREPARING',
   ChangeStatus.applying: 'APPLYING',
@@ -86,6 +93,7 @@ const _$ChangeStatusEnumMap = {
 ChangeSummary _$ChangeSummaryFromJson(Map<String, dynamic> json) {
   return ChangeSummary(
     changeType: json['ChangeType'] as String,
+    details: json['Details'] as String,
     entity: json['Entity'] == null
         ? null
         : Entity.fromJson(json['Entity'] as Map<String, dynamic>),
@@ -108,6 +116,8 @@ DescribeChangeSetResponse _$DescribeChangeSetResponseFromJson(
     changeSetId: json['ChangeSetId'] as String,
     changeSetName: json['ChangeSetName'] as String,
     endTime: json['EndTime'] as String,
+    failureCode:
+        _$enumDecodeNullable(_$FailureCodeEnumMap, json['FailureCode']),
     failureDescription: json['FailureDescription'] as String,
     startTime: json['StartTime'] as String,
     status: _$enumDecodeNullable(_$ChangeStatusEnumMap, json['Status']),

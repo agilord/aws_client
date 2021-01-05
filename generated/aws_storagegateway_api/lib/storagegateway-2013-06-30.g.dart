@@ -53,6 +53,104 @@ AttachVolumeOutput _$AttachVolumeOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+AutomaticTapeCreationPolicyInfo _$AutomaticTapeCreationPolicyInfoFromJson(
+    Map<String, dynamic> json) {
+  return AutomaticTapeCreationPolicyInfo(
+    automaticTapeCreationRules: (json['AutomaticTapeCreationRules'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AutomaticTapeCreationRule.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    gatewayARN: json['GatewayARN'] as String,
+  );
+}
+
+AutomaticTapeCreationRule _$AutomaticTapeCreationRuleFromJson(
+    Map<String, dynamic> json) {
+  return AutomaticTapeCreationRule(
+    minimumNumTapes: json['MinimumNumTapes'] as int,
+    poolId: json['PoolId'] as String,
+    tapeBarcodePrefix: json['TapeBarcodePrefix'] as String,
+    tapeSizeInBytes: json['TapeSizeInBytes'] as int,
+    worm: json['Worm'] as bool,
+  );
+}
+
+Map<String, dynamic> _$AutomaticTapeCreationRuleToJson(
+    AutomaticTapeCreationRule instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MinimumNumTapes', instance.minimumNumTapes);
+  writeNotNull('PoolId', instance.poolId);
+  writeNotNull('TapeBarcodePrefix', instance.tapeBarcodePrefix);
+  writeNotNull('TapeSizeInBytes', instance.tapeSizeInBytes);
+  writeNotNull('Worm', instance.worm);
+  return val;
+}
+
+BandwidthRateLimitInterval _$BandwidthRateLimitIntervalFromJson(
+    Map<String, dynamic> json) {
+  return BandwidthRateLimitInterval(
+    daysOfWeek: (json['DaysOfWeek'] as List)?.map((e) => e as int)?.toList(),
+    endHourOfDay: json['EndHourOfDay'] as int,
+    endMinuteOfHour: json['EndMinuteOfHour'] as int,
+    startHourOfDay: json['StartHourOfDay'] as int,
+    startMinuteOfHour: json['StartMinuteOfHour'] as int,
+    averageDownloadRateLimitInBitsPerSec:
+        json['AverageDownloadRateLimitInBitsPerSec'] as int,
+    averageUploadRateLimitInBitsPerSec:
+        json['AverageUploadRateLimitInBitsPerSec'] as int,
+  );
+}
+
+Map<String, dynamic> _$BandwidthRateLimitIntervalToJson(
+    BandwidthRateLimitInterval instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DaysOfWeek', instance.daysOfWeek);
+  writeNotNull('EndHourOfDay', instance.endHourOfDay);
+  writeNotNull('EndMinuteOfHour', instance.endMinuteOfHour);
+  writeNotNull('StartHourOfDay', instance.startHourOfDay);
+  writeNotNull('StartMinuteOfHour', instance.startMinuteOfHour);
+  writeNotNull('AverageDownloadRateLimitInBitsPerSec',
+      instance.averageDownloadRateLimitInBitsPerSec);
+  writeNotNull('AverageUploadRateLimitInBitsPerSec',
+      instance.averageUploadRateLimitInBitsPerSec);
+  return val;
+}
+
+CacheAttributes _$CacheAttributesFromJson(Map<String, dynamic> json) {
+  return CacheAttributes(
+    cacheStaleTimeoutInSeconds: json['CacheStaleTimeoutInSeconds'] as int,
+  );
+}
+
+Map<String, dynamic> _$CacheAttributesToJson(CacheAttributes instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'CacheStaleTimeoutInSeconds', instance.cacheStaleTimeoutInSeconds);
+  return val;
+}
+
 CachediSCSIVolume _$CachediSCSIVolumeFromJson(Map<String, dynamic> json) {
   return CachediSCSIVolume(
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
@@ -145,6 +243,12 @@ CreateStorediSCSIVolumeOutput _$CreateStorediSCSIVolumeOutputFromJson(
   );
 }
 
+CreateTapePoolOutput _$CreateTapePoolOutputFromJson(Map<String, dynamic> json) {
+  return CreateTapePoolOutput(
+    poolARN: json['PoolARN'] as String,
+  );
+}
+
 CreateTapeWithBarcodeOutput _$CreateTapeWithBarcodeOutputFromJson(
     Map<String, dynamic> json) {
   return CreateTapeWithBarcodeOutput(
@@ -155,6 +259,14 @@ CreateTapeWithBarcodeOutput _$CreateTapeWithBarcodeOutputFromJson(
 CreateTapesOutput _$CreateTapesOutputFromJson(Map<String, dynamic> json) {
   return CreateTapesOutput(
     tapeARNs: (json['TapeARNs'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+DeleteAutomaticTapeCreationPolicyOutput
+    _$DeleteAutomaticTapeCreationPolicyOutputFromJson(
+        Map<String, dynamic> json) {
+  return DeleteAutomaticTapeCreationPolicyOutput(
+    gatewayARN: json['GatewayARN'] as String,
   );
 }
 
@@ -203,6 +315,12 @@ DeleteTapeArchiveOutput _$DeleteTapeArchiveOutputFromJson(
 DeleteTapeOutput _$DeleteTapeOutputFromJson(Map<String, dynamic> json) {
   return DeleteTapeOutput(
     tapeARN: json['TapeARN'] as String,
+  );
+}
+
+DeleteTapePoolOutput _$DeleteTapePoolOutputFromJson(Map<String, dynamic> json) {
+  return DeleteTapePoolOutput(
+    poolARN: json['PoolARN'] as String,
   );
 }
 
@@ -271,6 +389,19 @@ DescribeBandwidthRateLimitOutput _$DescribeBandwidthRateLimitOutputFromJson(
   );
 }
 
+DescribeBandwidthRateLimitScheduleOutput
+    _$DescribeBandwidthRateLimitScheduleOutputFromJson(
+        Map<String, dynamic> json) {
+  return DescribeBandwidthRateLimitScheduleOutput(
+    bandwidthRateLimitIntervals: (json['BandwidthRateLimitIntervals'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BandwidthRateLimitInterval.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    gatewayARN: json['GatewayARN'] as String,
+  );
+}
+
 DescribeCacheOutput _$DescribeCacheOutputFromJson(Map<String, dynamic> json) {
   return DescribeCacheOutput(
     cacheAllocatedInBytes: json['CacheAllocatedInBytes'] as int,
@@ -308,8 +439,10 @@ DescribeGatewayInformationOutput _$DescribeGatewayInformationOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeGatewayInformationOutput(
     cloudWatchLogGroupARN: json['CloudWatchLogGroupARN'] as String,
+    deprecationDate: json['DeprecationDate'] as String,
     ec2InstanceId: json['Ec2InstanceId'] as String,
     ec2InstanceRegion: json['Ec2InstanceRegion'] as String,
+    endpointType: json['EndpointType'] as String,
     gatewayARN: json['GatewayARN'] as String,
     gatewayId: json['GatewayId'] as String,
     gatewayName: json['GatewayName'] as String,
@@ -325,6 +458,7 @@ DescribeGatewayInformationOutput _$DescribeGatewayInformationOutputFromJson(
         _$enumDecodeNullable(_$HostEnvironmentEnumMap, json['HostEnvironment']),
     lastSoftwareUpdate: json['LastSoftwareUpdate'] as String,
     nextUpdateAvailabilityDate: json['NextUpdateAvailabilityDate'] as String,
+    softwareUpdatesEndDate: json['SoftwareUpdatesEndDate'] as String,
     tags: (json['Tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
@@ -380,6 +514,7 @@ DescribeSMBSettingsOutput _$DescribeSMBSettingsOutputFromJson(
     activeDirectoryStatus: _$enumDecodeNullable(
         _$ActiveDirectoryStatusEnumMap, json['ActiveDirectoryStatus']),
     domainName: json['DomainName'] as String,
+    fileSharesVisible: json['FileSharesVisible'] as bool,
     gatewayARN: json['GatewayARN'] as String,
     sMBGuestPasswordSet: json['SMBGuestPasswordSet'] as bool,
     sMBSecurityStrategy: _$enumDecodeNullable(
@@ -567,6 +702,20 @@ JoinDomainOutput _$JoinDomainOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListAutomaticTapeCreationPoliciesOutput
+    _$ListAutomaticTapeCreationPoliciesOutputFromJson(
+        Map<String, dynamic> json) {
+  return ListAutomaticTapeCreationPoliciesOutput(
+    automaticTapeCreationPolicyInfos:
+        (json['AutomaticTapeCreationPolicyInfos'] as List)
+            ?.map((e) => e == null
+                ? null
+                : AutomaticTapeCreationPolicyInfo.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+  );
+}
+
 ListFileSharesOutput _$ListFileSharesOutputFromJson(Map<String, dynamic> json) {
   return ListFileSharesOutput(
     fileShareInfoList: (json['FileShareInfoList'] as List)
@@ -606,6 +755,16 @@ ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
     resourceARN: json['ResourceARN'] as String,
     tags: (json['Tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListTapePoolsOutput _$ListTapePoolsOutputFromJson(Map<String, dynamic> json) {
+  return ListTapePoolsOutput(
+    marker: json['Marker'] as String,
+    poolInfos: (json['PoolInfos'] as List)
+        ?.map((e) =>
+            e == null ? null : PoolInfo.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -678,10 +837,15 @@ Map<String, dynamic> _$NFSFileShareDefaultsToJson(
 
 NFSFileShareInfo _$NFSFileShareInfoFromJson(Map<String, dynamic> json) {
   return NFSFileShareInfo(
+    cacheAttributes: json['CacheAttributes'] == null
+        ? null
+        : CacheAttributes.fromJson(
+            json['CacheAttributes'] as Map<String, dynamic>),
     clientList: (json['ClientList'] as List)?.map((e) => e as String)?.toList(),
     defaultStorageClass: json['DefaultStorageClass'] as String,
     fileShareARN: json['FileShareARN'] as String,
     fileShareId: json['FileShareId'] as String,
+    fileShareName: json['FileShareName'] as String,
     fileShareStatus: json['FileShareStatus'] as String,
     gatewayARN: json['GatewayARN'] as String,
     guessMIMETypeEnabled: json['GuessMIMETypeEnabled'] as bool,
@@ -692,6 +856,7 @@ NFSFileShareInfo _$NFSFileShareInfoFromJson(Map<String, dynamic> json) {
         ? null
         : NFSFileShareDefaults.fromJson(
             json['NFSFileShareDefaults'] as Map<String, dynamic>),
+    notificationPolicy: json['NotificationPolicy'] as String,
     objectACL: _$enumDecodeNullable(_$ObjectACLEnumMap, json['ObjectACL']),
     path: json['Path'] as String,
     readOnly: json['ReadOnly'] as bool,
@@ -730,6 +895,35 @@ NotifyWhenUploadedOutput _$NotifyWhenUploadedOutputFromJson(
   );
 }
 
+PoolInfo _$PoolInfoFromJson(Map<String, dynamic> json) {
+  return PoolInfo(
+    poolARN: json['PoolARN'] as String,
+    poolName: json['PoolName'] as String,
+    poolStatus: _$enumDecodeNullable(_$PoolStatusEnumMap, json['PoolStatus']),
+    retentionLockTimeInDays: json['RetentionLockTimeInDays'] as int,
+    retentionLockType: _$enumDecodeNullable(
+        _$RetentionLockTypeEnumMap, json['RetentionLockType']),
+    storageClass:
+        _$enumDecodeNullable(_$TapeStorageClassEnumMap, json['StorageClass']),
+  );
+}
+
+const _$PoolStatusEnumMap = {
+  PoolStatus.active: 'ACTIVE',
+  PoolStatus.deleted: 'DELETED',
+};
+
+const _$RetentionLockTypeEnumMap = {
+  RetentionLockType.compliance: 'COMPLIANCE',
+  RetentionLockType.governance: 'GOVERNANCE',
+  RetentionLockType.none: 'NONE',
+};
+
+const _$TapeStorageClassEnumMap = {
+  TapeStorageClass.deepArchive: 'DEEP_ARCHIVE',
+  TapeStorageClass.glacier: 'GLACIER',
+};
+
 RefreshCacheOutput _$RefreshCacheOutputFromJson(Map<String, dynamic> json) {
   return RefreshCacheOutput(
     fileShareARN: json['FileShareARN'] as String,
@@ -766,13 +960,21 @@ RetrieveTapeRecoveryPointOutput _$RetrieveTapeRecoveryPointOutputFromJson(
 
 SMBFileShareInfo _$SMBFileShareInfoFromJson(Map<String, dynamic> json) {
   return SMBFileShareInfo(
+    accessBasedEnumeration: json['AccessBasedEnumeration'] as bool,
     adminUserList:
         (json['AdminUserList'] as List)?.map((e) => e as String)?.toList(),
     auditDestinationARN: json['AuditDestinationARN'] as String,
     authentication: json['Authentication'] as String,
+    cacheAttributes: json['CacheAttributes'] == null
+        ? null
+        : CacheAttributes.fromJson(
+            json['CacheAttributes'] as Map<String, dynamic>),
+    caseSensitivity:
+        _$enumDecodeNullable(_$CaseSensitivityEnumMap, json['CaseSensitivity']),
     defaultStorageClass: json['DefaultStorageClass'] as String,
     fileShareARN: json['FileShareARN'] as String,
     fileShareId: json['FileShareId'] as String,
+    fileShareName: json['FileShareName'] as String,
     fileShareStatus: json['FileShareStatus'] as String,
     gatewayARN: json['GatewayARN'] as String,
     guessMIMETypeEnabled: json['GuessMIMETypeEnabled'] as bool,
@@ -781,6 +983,7 @@ SMBFileShareInfo _$SMBFileShareInfoFromJson(Map<String, dynamic> json) {
     kMSEncrypted: json['KMSEncrypted'] as bool,
     kMSKey: json['KMSKey'] as String,
     locationARN: json['LocationARN'] as String,
+    notificationPolicy: json['NotificationPolicy'] as String,
     objectACL: _$enumDecodeNullable(_$ObjectACLEnumMap, json['ObjectACL']),
     path: json['Path'] as String,
     readOnly: json['ReadOnly'] as bool,
@@ -794,6 +997,11 @@ SMBFileShareInfo _$SMBFileShareInfoFromJson(Map<String, dynamic> json) {
         (json['ValidUserList'] as List)?.map((e) => e as String)?.toList(),
   );
 }
+
+const _$CaseSensitivityEnumMap = {
+  CaseSensitivity.clientSpecified: 'ClientSpecified',
+  CaseSensitivity.caseSensitive: 'CaseSensitive',
+};
 
 SetLocalConsolePasswordOutput _$SetLocalConsolePasswordOutputFromJson(
     Map<String, dynamic> json) {
@@ -876,8 +1084,12 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 Tape _$TapeFromJson(Map<String, dynamic> json) {
   return Tape(
     kMSKey: json['KMSKey'] as String,
+    poolEntryDate:
+        const UnixDateTimeConverter().fromJson(json['PoolEntryDate']),
     poolId: json['PoolId'] as String,
     progress: (json['Progress'] as num)?.toDouble(),
+    retentionStartDate:
+        const UnixDateTimeConverter().fromJson(json['RetentionStartDate']),
     tapeARN: json['TapeARN'] as String,
     tapeBarcode: json['TapeBarcode'] as String,
     tapeCreatedDate:
@@ -886,6 +1098,7 @@ Tape _$TapeFromJson(Map<String, dynamic> json) {
     tapeStatus: json['TapeStatus'] as String,
     tapeUsedInBytes: json['TapeUsedInBytes'] as int,
     vTLDevice: json['VTLDevice'] as String,
+    worm: json['Worm'] as bool,
   );
 }
 
@@ -894,7 +1107,11 @@ TapeArchive _$TapeArchiveFromJson(Map<String, dynamic> json) {
     completionTime:
         const UnixDateTimeConverter().fromJson(json['CompletionTime']),
     kMSKey: json['KMSKey'] as String,
+    poolEntryDate:
+        const UnixDateTimeConverter().fromJson(json['PoolEntryDate']),
     poolId: json['PoolId'] as String,
+    retentionStartDate:
+        const UnixDateTimeConverter().fromJson(json['RetentionStartDate']),
     retrievedTo: json['RetrievedTo'] as String,
     tapeARN: json['TapeARN'] as String,
     tapeBarcode: json['TapeBarcode'] as String,
@@ -903,13 +1120,18 @@ TapeArchive _$TapeArchiveFromJson(Map<String, dynamic> json) {
     tapeSizeInBytes: json['TapeSizeInBytes'] as int,
     tapeStatus: json['TapeStatus'] as String,
     tapeUsedInBytes: json['TapeUsedInBytes'] as int,
+    worm: json['Worm'] as bool,
   );
 }
 
 TapeInfo _$TapeInfoFromJson(Map<String, dynamic> json) {
   return TapeInfo(
     gatewayARN: json['GatewayARN'] as String,
+    poolEntryDate:
+        const UnixDateTimeConverter().fromJson(json['PoolEntryDate']),
     poolId: json['PoolId'] as String,
+    retentionStartDate:
+        const UnixDateTimeConverter().fromJson(json['RetentionStartDate']),
     tapeARN: json['TapeARN'] as String,
     tapeBarcode: json['TapeBarcode'] as String,
     tapeSizeInBytes: json['TapeSizeInBytes'] as int,
@@ -928,9 +1150,25 @@ TapeRecoveryPointInfo _$TapeRecoveryPointInfoFromJson(
   );
 }
 
+UpdateAutomaticTapeCreationPolicyOutput
+    _$UpdateAutomaticTapeCreationPolicyOutputFromJson(
+        Map<String, dynamic> json) {
+  return UpdateAutomaticTapeCreationPolicyOutput(
+    gatewayARN: json['GatewayARN'] as String,
+  );
+}
+
 UpdateBandwidthRateLimitOutput _$UpdateBandwidthRateLimitOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateBandwidthRateLimitOutput(
+    gatewayARN: json['GatewayARN'] as String,
+  );
+}
+
+UpdateBandwidthRateLimitScheduleOutput
+    _$UpdateBandwidthRateLimitScheduleOutputFromJson(
+        Map<String, dynamic> json) {
+  return UpdateBandwidthRateLimitScheduleOutput(
     gatewayARN: json['GatewayARN'] as String,
   );
 }
@@ -976,6 +1214,13 @@ UpdateSMBFileShareOutput _$UpdateSMBFileShareOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateSMBFileShareOutput(
     fileShareARN: json['FileShareARN'] as String,
+  );
+}
+
+UpdateSMBFileShareVisibilityOutput _$UpdateSMBFileShareVisibilityOutputFromJson(
+    Map<String, dynamic> json) {
+  return UpdateSMBFileShareVisibilityOutput(
+    gatewayARN: json['GatewayARN'] as String,
   );
 }
 

@@ -6,6 +6,130 @@ part of 'fms-2018-01-01.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+App _$AppFromJson(Map<String, dynamic> json) {
+  return App(
+    appName: json['AppName'] as String,
+    port: json['Port'] as int,
+    protocol: json['Protocol'] as String,
+  );
+}
+
+Map<String, dynamic> _$AppToJson(App instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AppName', instance.appName);
+  writeNotNull('Port', instance.port);
+  writeNotNull('Protocol', instance.protocol);
+  return val;
+}
+
+AppsListData _$AppsListDataFromJson(Map<String, dynamic> json) {
+  return AppsListData(
+    appsList: (json['AppsList'] as List)
+        ?.map((e) => e == null ? null : App.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    listName: json['ListName'] as String,
+    createTime: const UnixDateTimeConverter().fromJson(json['CreateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
+    listId: json['ListId'] as String,
+    listUpdateToken: json['ListUpdateToken'] as String,
+    previousAppsList: (json['PreviousAppsList'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(
+          k,
+          (e as List)
+              ?.map((e) =>
+                  e == null ? null : App.fromJson(e as Map<String, dynamic>))
+              ?.toList()),
+    ),
+  );
+}
+
+Map<String, dynamic> _$AppsListDataToJson(AppsListData instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'AppsList', instance.appsList?.map((e) => e?.toJson())?.toList());
+  writeNotNull('ListName', instance.listName);
+  writeNotNull(
+      'CreateTime', const UnixDateTimeConverter().toJson(instance.createTime));
+  writeNotNull('LastUpdateTime',
+      const UnixDateTimeConverter().toJson(instance.lastUpdateTime));
+  writeNotNull('ListId', instance.listId);
+  writeNotNull('ListUpdateToken', instance.listUpdateToken);
+  writeNotNull(
+      'PreviousAppsList',
+      instance.previousAppsList
+          ?.map((k, e) => MapEntry(k, e?.map((e) => e?.toJson())?.toList())));
+  return val;
+}
+
+AppsListDataSummary _$AppsListDataSummaryFromJson(Map<String, dynamic> json) {
+  return AppsListDataSummary(
+    appsList: (json['AppsList'] as List)
+        ?.map((e) => e == null ? null : App.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    listArn: json['ListArn'] as String,
+    listId: json['ListId'] as String,
+    listName: json['ListName'] as String,
+  );
+}
+
+AwsEc2InstanceViolation _$AwsEc2InstanceViolationFromJson(
+    Map<String, dynamic> json) {
+  return AwsEc2InstanceViolation(
+    awsEc2NetworkInterfaceViolations:
+        (json['AwsEc2NetworkInterfaceViolations'] as List)
+            ?.map((e) => e == null
+                ? null
+                : AwsEc2NetworkInterfaceViolation.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+    violationTarget: json['ViolationTarget'] as String,
+  );
+}
+
+AwsEc2NetworkInterfaceViolation _$AwsEc2NetworkInterfaceViolationFromJson(
+    Map<String, dynamic> json) {
+  return AwsEc2NetworkInterfaceViolation(
+    violatingSecurityGroups: (json['ViolatingSecurityGroups'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
+    violationTarget: json['ViolationTarget'] as String,
+  );
+}
+
+AwsVPCSecurityGroupViolation _$AwsVPCSecurityGroupViolationFromJson(
+    Map<String, dynamic> json) {
+  return AwsVPCSecurityGroupViolation(
+    partialMatches: (json['PartialMatches'] as List)
+        ?.map((e) =>
+            e == null ? null : PartialMatch.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    possibleSecurityGroupRemediationActions:
+        (json['PossibleSecurityGroupRemediationActions'] as List)
+            ?.map((e) => e == null
+                ? null
+                : SecurityGroupRemediationAction.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+    violationTarget: json['ViolationTarget'] as String,
+    violationTargetDescription: json['ViolationTargetDescription'] as String,
+  );
+}
+
 ComplianceViolator _$ComplianceViolatorFromJson(Map<String, dynamic> json) {
   return ComplianceViolator(
     resourceId: json['ResourceId'] as String,
@@ -61,6 +185,11 @@ const _$ViolationReasonEnumMap = {
       'RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP',
   ViolationReason.securityGroupUnused: 'SECURITY_GROUP_UNUSED',
   ViolationReason.securityGroupRedundant: 'SECURITY_GROUP_REDUNDANT',
+  ViolationReason.missingFirewall: 'MISSING_FIREWALL',
+  ViolationReason.missingFirewallSubnetInAz: 'MISSING_FIREWALL_SUBNET_IN_AZ',
+  ViolationReason.missingExpectedRouteTable: 'MISSING_EXPECTED_ROUTE_TABLE',
+  ViolationReason.networkFirewallPolicyModified:
+      'NETWORK_FIREWALL_POLICY_MODIFIED',
 };
 
 EvaluationResult _$EvaluationResultFromJson(Map<String, dynamic> json) {
@@ -93,6 +222,15 @@ const _$AccountRoleStatusEnumMap = {
   AccountRoleStatus.deleting: 'DELETING',
   AccountRoleStatus.deleted: 'DELETED',
 };
+
+GetAppsListResponse _$GetAppsListResponseFromJson(Map<String, dynamic> json) {
+  return GetAppsListResponse(
+    appsList: json['AppsList'] == null
+        ? null
+        : AppsListData.fromJson(json['AppsList'] as Map<String, dynamic>),
+    appsListArn: json['AppsListArn'] as String,
+  );
+}
 
 GetComplianceDetailResponse _$GetComplianceDetailResponseFromJson(
     Map<String, dynamic> json) {
@@ -140,7 +278,41 @@ const _$SecurityServiceTypeEnumMap = {
   SecurityServiceType.securityGroupsContentAudit:
       'SECURITY_GROUPS_CONTENT_AUDIT',
   SecurityServiceType.securityGroupsUsageAudit: 'SECURITY_GROUPS_USAGE_AUDIT',
+  SecurityServiceType.networkFirewall: 'NETWORK_FIREWALL',
 };
+
+GetProtocolsListResponse _$GetProtocolsListResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetProtocolsListResponse(
+    protocolsList: json['ProtocolsList'] == null
+        ? null
+        : ProtocolsListData.fromJson(
+            json['ProtocolsList'] as Map<String, dynamic>),
+    protocolsListArn: json['ProtocolsListArn'] as String,
+  );
+}
+
+GetViolationDetailsResponse _$GetViolationDetailsResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetViolationDetailsResponse(
+    violationDetail: json['ViolationDetail'] == null
+        ? null
+        : ViolationDetail.fromJson(
+            json['ViolationDetail'] as Map<String, dynamic>),
+  );
+}
+
+ListAppsListsResponse _$ListAppsListsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListAppsListsResponse(
+    appsLists: (json['AppsLists'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AppsListDataSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
 
 ListComplianceStatusResponse _$ListComplianceStatusResponseFromJson(
     Map<String, dynamic> json) {
@@ -174,11 +346,107 @@ ListPoliciesResponse _$ListPoliciesResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListProtocolsListsResponse _$ListProtocolsListsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListProtocolsListsResponse(
+    nextToken: json['NextToken'] as String,
+    protocolsLists: (json['ProtocolsLists'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ProtocolsListDataSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
     tagList: (json['TagList'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+NetworkFirewallMissingExpectedRTViolation
+    _$NetworkFirewallMissingExpectedRTViolationFromJson(
+        Map<String, dynamic> json) {
+  return NetworkFirewallMissingExpectedRTViolation(
+    availabilityZone: json['AvailabilityZone'] as String,
+    currentRouteTable: json['CurrentRouteTable'] as String,
+    expectedRouteTable: json['ExpectedRouteTable'] as String,
+    vpc: json['VPC'] as String,
+    violationTarget: json['ViolationTarget'] as String,
+  );
+}
+
+NetworkFirewallMissingFirewallViolation
+    _$NetworkFirewallMissingFirewallViolationFromJson(
+        Map<String, dynamic> json) {
+  return NetworkFirewallMissingFirewallViolation(
+    availabilityZone: json['AvailabilityZone'] as String,
+    targetViolationReason: json['TargetViolationReason'] as String,
+    vpc: json['VPC'] as String,
+    violationTarget: json['ViolationTarget'] as String,
+  );
+}
+
+NetworkFirewallMissingSubnetViolation
+    _$NetworkFirewallMissingSubnetViolationFromJson(Map<String, dynamic> json) {
+  return NetworkFirewallMissingSubnetViolation(
+    availabilityZone: json['AvailabilityZone'] as String,
+    targetViolationReason: json['TargetViolationReason'] as String,
+    vpc: json['VPC'] as String,
+    violationTarget: json['ViolationTarget'] as String,
+  );
+}
+
+NetworkFirewallPolicyDescription _$NetworkFirewallPolicyDescriptionFromJson(
+    Map<String, dynamic> json) {
+  return NetworkFirewallPolicyDescription(
+    statefulRuleGroups: (json['StatefulRuleGroups'] as List)
+        ?.map((e) => e == null
+            ? null
+            : StatefulRuleGroup.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    statelessCustomActions: (json['StatelessCustomActions'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
+    statelessDefaultActions: (json['StatelessDefaultActions'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
+    statelessFragmentDefaultActions:
+        (json['StatelessFragmentDefaultActions'] as List)
+            ?.map((e) => e as String)
+            ?.toList(),
+    statelessRuleGroups: (json['StatelessRuleGroups'] as List)
+        ?.map((e) => e == null
+            ? null
+            : StatelessRuleGroup.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+NetworkFirewallPolicyModifiedViolation
+    _$NetworkFirewallPolicyModifiedViolationFromJson(
+        Map<String, dynamic> json) {
+  return NetworkFirewallPolicyModifiedViolation(
+    currentPolicyDescription: json['CurrentPolicyDescription'] == null
+        ? null
+        : NetworkFirewallPolicyDescription.fromJson(
+            json['CurrentPolicyDescription'] as Map<String, dynamic>),
+    expectedPolicyDescription: json['ExpectedPolicyDescription'] == null
+        ? null
+        : NetworkFirewallPolicyDescription.fromJson(
+            json['ExpectedPolicyDescription'] as Map<String, dynamic>),
+    violationTarget: json['ViolationTarget'] as String,
+  );
+}
+
+PartialMatch _$PartialMatchFromJson(Map<String, dynamic> json) {
+  return PartialMatch(
+    reference: json['Reference'] as String,
+    targetViolationReasons: (json['TargetViolationReasons'] as List)
+        ?.map((e) => e as String)
         ?.toList(),
   );
 }
@@ -247,6 +515,7 @@ Map<String, dynamic> _$PolicyToJson(Policy instance) {
 
 const _$CustomerPolicyScopeIdTypeEnumMap = {
   CustomerPolicyScopeIdType.account: 'ACCOUNT',
+  CustomerPolicyScopeIdType.orgUnit: 'ORG_UNIT',
 };
 
 PolicyComplianceDetail _$PolicyComplianceDetailFromJson(
@@ -308,12 +577,81 @@ PolicySummary _$PolicySummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+ProtocolsListData _$ProtocolsListDataFromJson(Map<String, dynamic> json) {
+  return ProtocolsListData(
+    listName: json['ListName'] as String,
+    protocolsList:
+        (json['ProtocolsList'] as List)?.map((e) => e as String)?.toList(),
+    createTime: const UnixDateTimeConverter().fromJson(json['CreateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
+    listId: json['ListId'] as String,
+    listUpdateToken: json['ListUpdateToken'] as String,
+    previousProtocolsList:
+        (json['PreviousProtocolsList'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    ),
+  );
+}
+
+Map<String, dynamic> _$ProtocolsListDataToJson(ProtocolsListData instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ListName', instance.listName);
+  writeNotNull('ProtocolsList', instance.protocolsList);
+  writeNotNull(
+      'CreateTime', const UnixDateTimeConverter().toJson(instance.createTime));
+  writeNotNull('LastUpdateTime',
+      const UnixDateTimeConverter().toJson(instance.lastUpdateTime));
+  writeNotNull('ListId', instance.listId);
+  writeNotNull('ListUpdateToken', instance.listUpdateToken);
+  writeNotNull('PreviousProtocolsList', instance.previousProtocolsList);
+  return val;
+}
+
+ProtocolsListDataSummary _$ProtocolsListDataSummaryFromJson(
+    Map<String, dynamic> json) {
+  return ProtocolsListDataSummary(
+    listArn: json['ListArn'] as String,
+    listId: json['ListId'] as String,
+    listName: json['ListName'] as String,
+    protocolsList:
+        (json['ProtocolsList'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+PutAppsListResponse _$PutAppsListResponseFromJson(Map<String, dynamic> json) {
+  return PutAppsListResponse(
+    appsList: json['AppsList'] == null
+        ? null
+        : AppsListData.fromJson(json['AppsList'] as Map<String, dynamic>),
+    appsListArn: json['AppsListArn'] as String,
+  );
+}
+
 PutPolicyResponse _$PutPolicyResponseFromJson(Map<String, dynamic> json) {
   return PutPolicyResponse(
     policy: json['Policy'] == null
         ? null
         : Policy.fromJson(json['Policy'] as Map<String, dynamic>),
     policyArn: json['PolicyArn'] as String,
+  );
+}
+
+PutProtocolsListResponse _$PutProtocolsListResponseFromJson(
+    Map<String, dynamic> json) {
+  return PutProtocolsListResponse(
+    protocolsList: json['ProtocolsList'] == null
+        ? null
+        : ProtocolsListData.fromJson(
+            json['ProtocolsList'] as Map<String, dynamic>),
+    protocolsListArn: json['ProtocolsListArn'] as String,
   );
 }
 
@@ -338,6 +676,79 @@ Map<String, dynamic> _$ResourceTagToJson(ResourceTag instance) {
   return val;
 }
 
+ResourceViolation _$ResourceViolationFromJson(Map<String, dynamic> json) {
+  return ResourceViolation(
+    awsEc2InstanceViolation: json['AwsEc2InstanceViolation'] == null
+        ? null
+        : AwsEc2InstanceViolation.fromJson(
+            json['AwsEc2InstanceViolation'] as Map<String, dynamic>),
+    awsEc2NetworkInterfaceViolation: json['AwsEc2NetworkInterfaceViolation'] ==
+            null
+        ? null
+        : AwsEc2NetworkInterfaceViolation.fromJson(
+            json['AwsEc2NetworkInterfaceViolation'] as Map<String, dynamic>),
+    awsVPCSecurityGroupViolation: json['AwsVPCSecurityGroupViolation'] == null
+        ? null
+        : AwsVPCSecurityGroupViolation.fromJson(
+            json['AwsVPCSecurityGroupViolation'] as Map<String, dynamic>),
+    networkFirewallMissingExpectedRTViolation:
+        json['NetworkFirewallMissingExpectedRTViolation'] == null
+            ? null
+            : NetworkFirewallMissingExpectedRTViolation.fromJson(
+                json['NetworkFirewallMissingExpectedRTViolation']
+                    as Map<String, dynamic>),
+    networkFirewallMissingFirewallViolation:
+        json['NetworkFirewallMissingFirewallViolation'] == null
+            ? null
+            : NetworkFirewallMissingFirewallViolation.fromJson(
+                json['NetworkFirewallMissingFirewallViolation']
+                    as Map<String, dynamic>),
+    networkFirewallMissingSubnetViolation:
+        json['NetworkFirewallMissingSubnetViolation'] == null
+            ? null
+            : NetworkFirewallMissingSubnetViolation.fromJson(
+                json['NetworkFirewallMissingSubnetViolation']
+                    as Map<String, dynamic>),
+    networkFirewallPolicyModifiedViolation:
+        json['NetworkFirewallPolicyModifiedViolation'] == null
+            ? null
+            : NetworkFirewallPolicyModifiedViolation.fromJson(
+                json['NetworkFirewallPolicyModifiedViolation']
+                    as Map<String, dynamic>),
+  );
+}
+
+SecurityGroupRemediationAction _$SecurityGroupRemediationActionFromJson(
+    Map<String, dynamic> json) {
+  return SecurityGroupRemediationAction(
+    description: json['Description'] as String,
+    isDefaultAction: json['IsDefaultAction'] as bool,
+    remediationActionType: _$enumDecodeNullable(
+        _$RemediationActionTypeEnumMap, json['RemediationActionType']),
+    remediationResult: json['RemediationResult'] == null
+        ? null
+        : SecurityGroupRuleDescription.fromJson(
+            json['RemediationResult'] as Map<String, dynamic>),
+  );
+}
+
+const _$RemediationActionTypeEnumMap = {
+  RemediationActionType.remove: 'REMOVE',
+  RemediationActionType.modify: 'MODIFY',
+};
+
+SecurityGroupRuleDescription _$SecurityGroupRuleDescriptionFromJson(
+    Map<String, dynamic> json) {
+  return SecurityGroupRuleDescription(
+    fromPort: json['FromPort'] as int,
+    iPV4Range: json['IPV4Range'] as String,
+    iPV6Range: json['IPV6Range'] as String,
+    prefixListId: json['PrefixListId'] as String,
+    protocol: json['Protocol'] as String,
+    toPort: json['ToPort'] as int,
+  );
+}
+
 SecurityServicePolicyData _$SecurityServicePolicyDataFromJson(
     Map<String, dynamic> json) {
   return SecurityServicePolicyData(
@@ -359,6 +770,21 @@ Map<String, dynamic> _$SecurityServicePolicyDataToJson(
   writeNotNull('Type', _$SecurityServiceTypeEnumMap[instance.type]);
   writeNotNull('ManagedServiceData', instance.managedServiceData);
   return val;
+}
+
+StatefulRuleGroup _$StatefulRuleGroupFromJson(Map<String, dynamic> json) {
+  return StatefulRuleGroup(
+    resourceId: json['ResourceId'] as String,
+    ruleGroupName: json['RuleGroupName'] as String,
+  );
+}
+
+StatelessRuleGroup _$StatelessRuleGroupFromJson(Map<String, dynamic> json) {
+  return StatelessRuleGroup(
+    priority: json['Priority'] as int,
+    resourceId: json['ResourceId'] as String,
+    ruleGroupName: json['RuleGroupName'] as String,
+  );
 }
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
@@ -389,4 +815,22 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+ViolationDetail _$ViolationDetailFromJson(Map<String, dynamic> json) {
+  return ViolationDetail(
+    memberAccount: json['MemberAccount'] as String,
+    policyId: json['PolicyId'] as String,
+    resourceId: json['ResourceId'] as String,
+    resourceType: json['ResourceType'] as String,
+    resourceViolations: (json['ResourceViolations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ResourceViolation.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    resourceDescription: json['ResourceDescription'] as String,
+    resourceTags: (json['ResourceTags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
 }

@@ -48,6 +48,36 @@ class DynamoDB {
           endpointUrl: endpointUrl,
         );
 
+  /// This operation allows you to perform batch reads and writes on data stored
+  /// in DynamoDB, using PartiQL.
+  ///
+  /// May throw [RequestLimitExceeded].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [statements] :
+  /// The list of PartiQL statements representing the batch to run.
+  Future<BatchExecuteStatementOutput> batchExecuteStatement({
+    @_s.required List<BatchStatementRequest> statements,
+  }) async {
+    ArgumentError.checkNotNull(statements, 'statements');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.BatchExecuteStatement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Statements': statements,
+      },
+    );
+
+    return BatchExecuteStatementOutput.fromJson(jsonResponse.body);
+  }
+
   /// The <code>BatchGetItem</code> operation returns the attributes of one or
   /// more items from one or more tables. You identify requested items by
   /// primary key.
@@ -517,7 +547,7 @@ class DynamoDB {
   /// replication relationship between two or more DynamoDB tables with the same
   /// table name in the provided Regions.
   /// <note>
-  /// This method only applies to <a
+  /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
   /// 2017.11.29</a> of global tables.
   /// </note>
@@ -548,6 +578,18 @@ class DynamoDB {
   /// </li>
   /// <li>
   /// The global secondary indexes must have the same hash key and sort key (if
+  /// present).
+  /// </li>
+  /// </ul>
+  /// If local secondary indexes are specified, then the following conditions
+  /// must also be met:
+  ///
+  /// <ul>
+  /// <li>
+  /// The local secondary indexes must have the same name.
+  /// </li>
+  /// <li>
+  /// The local secondary indexes must have the same hash key and sort key (if
   /// present).
   /// </li>
   /// </ul> <important>
@@ -828,8 +870,9 @@ class DynamoDB {
   /// cannot specify this property.
   ///
   /// For current minimum and maximum provisioned throughput values, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
-  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer
+  /// Guide</i>.
   ///
   /// Parameter [sSESpecification] :
   /// Represents the settings used to enable server-side encryption.
@@ -1444,11 +1487,52 @@ class DynamoDB {
     return DescribeEndpointsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Describes an existing table export.
+  ///
+  /// May throw [ExportNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [exportArn] :
+  /// The Amazon Resource Name (ARN) associated with the export.
+  Future<DescribeExportOutput> describeExport({
+    @_s.required String exportArn,
+  }) async {
+    ArgumentError.checkNotNull(exportArn, 'exportArn');
+    _s.validateStringLength(
+      'exportArn',
+      exportArn,
+      37,
+      1024,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.DescribeExport'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ExportArn': exportArn,
+      },
+    );
+
+    return DescribeExportOutput.fromJson(jsonResponse.body);
+  }
+
   /// Returns information about the specified global table.
   /// <note>
-  /// This method only applies to <a
+  /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
-  /// 2017.11.29</a> of global tables.
+  /// 2017.11.29</a> of global tables. If you are using global tables <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+  /// 2019.11.21</a> you can use <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_DescribeTable.html">DescribeTable</a>
+  /// instead.
   /// </note>
   ///
   /// May throw [InternalServerError].
@@ -1493,7 +1577,7 @@ class DynamoDB {
 
   /// Describes Region-specific settings for a global table.
   /// <note>
-  /// This method only applies to <a
+  /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
   /// 2017.11.29</a> of global tables.
   /// </note>
@@ -1538,31 +1622,76 @@ class DynamoDB {
     return DescribeGlobalTableSettingsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Returns the current provisioned-capacity limits for your AWS account in a
+  /// Returns information about the status of Kinesis streaming.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [tableName] :
+  /// The name of the table being described.
+  Future<DescribeKinesisStreamingDestinationOutput>
+      describeKinesisStreamingDestination({
+    @_s.required String tableName,
+  }) async {
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      3,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.DescribeKinesisStreamingDestination'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TableName': tableName,
+      },
+    );
+
+    return DescribeKinesisStreamingDestinationOutput.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Returns the current provisioned-capacity quotas for your AWS account in a
   /// Region, both for the Region as a whole and for any one DynamoDB table that
   /// you create there.
   ///
-  /// When you establish an AWS account, the account has initial limits on the
+  /// When you establish an AWS account, the account has initial quotas on the
   /// maximum read capacity units and write capacity units that you can
   /// provision across all of your DynamoDB tables in a given Region. Also,
-  /// there are per-table limits that apply when you create a table there. For
+  /// there are per-table quotas that apply when you create a table there. For
   /// more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
-  /// page in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> page in the <i>Amazon DynamoDB Developer
+  /// Guide</i>.
   ///
-  /// Although you can increase these limits by filing a case at <a
+  /// Although you can increase these quotas by filing a case at <a
   /// href="https://console.aws.amazon.com/support/home#/">AWS Support
   /// Center</a>, obtaining the increase is not instantaneous. The
   /// <code>DescribeLimits</code> action lets you write code to compare the
-  /// capacity you are currently using to those limits imposed by your account
+  /// capacity you are currently using to those quotas imposed by your account
   /// so that you have enough time to apply for an increase before you hit a
-  /// limit.
+  /// quota.
   ///
   /// For example, you could use one of the AWS SDKs to do the following:
   /// <ol>
   /// <li>
   /// Call <code>DescribeLimits</code> for a particular Region to obtain your
-  /// current account limits on provisioned capacity there.
+  /// current account quotas on provisioned capacity there.
   /// </li>
   /// <li>
   /// Create a variable to hold the aggregate read capacity units provisioned
@@ -1591,21 +1720,21 @@ class DynamoDB {
   /// </li>
   /// </ul> </li>
   /// <li>
-  /// Report the account limits for that Region returned by
+  /// Report the account quotas for that Region returned by
   /// <code>DescribeLimits</code>, along with the total current provisioned
   /// capacity levels you have calculated.
   /// </li> </ol>
   /// This will let you see whether you are getting close to your account-level
-  /// limits.
+  /// quotas.
   ///
-  /// The per-table limits apply only when you are creating a new table. They
+  /// The per-table quotas apply only when you are creating a new table. They
   /// restrict the sum of the provisioned capacity of the new table itself and
   /// all its global secondary indexes.
   ///
   /// For existing tables and their GSIs, DynamoDB doesn't let you increase
-  /// provisioned capacity extremely rapidly. But the only upper limit that
-  /// applies is that the aggregate provisioned capacity over all your tables
-  /// and GSIs cannot exceed either of the per-account limits.
+  /// provisioned capacity extremely rapidly, but the only quota that applies is
+  /// that the aggregate provisioned capacity over all your tables and GSIs
+  /// cannot exceed either of the per-account quotas.
   /// <note>
   /// <code>DescribeLimits</code> should only be called periodically. You can
   /// expect throttling errors if you call it more than once in a minute.
@@ -1684,7 +1813,7 @@ class DynamoDB {
   /// Describes auto scaling settings across replicas of the global table at
   /// once.
   /// <note>
-  /// This method only applies to <a
+  /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
   /// 2019.11.21</a> of global tables.
   /// </note>
@@ -1771,6 +1900,348 @@ class DynamoDB {
     );
 
     return DescribeTimeToLiveOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Stops replication from the DynamoDB table to the Kinesis data stream. This
+  /// is done without deleting either of the resources.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [streamArn] :
+  /// The ARN for a Kinesis data stream.
+  ///
+  /// Parameter [tableName] :
+  /// The name of the DynamoDB table.
+  Future<KinesisStreamingDestinationOutput> disableKinesisStreamingDestination({
+    @_s.required String streamArn,
+    @_s.required String tableName,
+  }) async {
+    ArgumentError.checkNotNull(streamArn, 'streamArn');
+    _s.validateStringLength(
+      'streamArn',
+      streamArn,
+      37,
+      1024,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      3,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.DisableKinesisStreamingDestination'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StreamArn': streamArn,
+        'TableName': tableName,
+      },
+    );
+
+    return KinesisStreamingDestinationOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Starts table data replication to the specified Kinesis data stream at a
+  /// timestamp chosen during the enable workflow. If this operation doesn't
+  /// return results immediately, use DescribeKinesisStreamingDestination to
+  /// check if streaming to the Kinesis data stream is ACTIVE.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [streamArn] :
+  /// The ARN for a Kinesis data stream.
+  ///
+  /// Parameter [tableName] :
+  /// The name of the DynamoDB table.
+  Future<KinesisStreamingDestinationOutput> enableKinesisStreamingDestination({
+    @_s.required String streamArn,
+    @_s.required String tableName,
+  }) async {
+    ArgumentError.checkNotNull(streamArn, 'streamArn');
+    _s.validateStringLength(
+      'streamArn',
+      streamArn,
+      37,
+      1024,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      3,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'tableName',
+      tableName,
+      r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.EnableKinesisStreamingDestination'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StreamArn': streamArn,
+        'TableName': tableName,
+      },
+    );
+
+    return KinesisStreamingDestinationOutput.fromJson(jsonResponse.body);
+  }
+
+  /// This operation allows you to perform reads and singleton writes on data
+  /// stored in DynamoDB, using PartiQL.
+  ///
+  /// May throw [ConditionalCheckFailedException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ItemCollectionSizeLimitExceededException].
+  /// May throw [TransactionConflictException].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [InternalServerError].
+  /// May throw [DuplicateItemException].
+  ///
+  /// Parameter [statement] :
+  /// The PartiQL statement representing the operation to run.
+  ///
+  /// Parameter [consistentRead] :
+  /// The consistency of a read operation. If set to <code>true</code>, then a
+  /// strongly consistent read is used; otherwise, an eventually consistent read
+  /// is used.
+  ///
+  /// Parameter [nextToken] :
+  /// Set this value to get remaining results, if <code>NextToken</code> was
+  /// returned in the statement response.
+  ///
+  /// Parameter [parameters] :
+  /// The parameters for the PartiQL statement, if any.
+  Future<ExecuteStatementOutput> executeStatement({
+    @_s.required String statement,
+    bool consistentRead,
+    String nextToken,
+    List<AttributeValue> parameters,
+  }) async {
+    ArgumentError.checkNotNull(statement, 'statement');
+    _s.validateStringLength(
+      'statement',
+      statement,
+      1,
+      8192,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      32768,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.ExecuteStatement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Statement': statement,
+        if (consistentRead != null) 'ConsistentRead': consistentRead,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (parameters != null) 'Parameters': parameters,
+      },
+    );
+
+    return ExecuteStatementOutput.fromJson(jsonResponse.body);
+  }
+
+  /// This operation allows you to perform transactional reads or writes on data
+  /// stored in DynamoDB, using PartiQL.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TransactionCanceledException].
+  /// May throw [TransactionInProgressException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [RequestLimitExceeded].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [transactStatements] :
+  /// The list of PartiQL statements representing the transaction to run.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Set this value to get remaining results, if <code>NextToken</code> was
+  /// returned in the statement response.
+  Future<ExecuteTransactionOutput> executeTransaction({
+    @_s.required List<ParameterizedStatement> transactStatements,
+    String clientRequestToken,
+  }) async {
+    ArgumentError.checkNotNull(transactStatements, 'transactStatements');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      36,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.ExecuteTransaction'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TransactStatements': transactStatements,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return ExecuteTransactionOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Exports table data to an S3 bucket. The table must have point in time
+  /// recovery enabled, and you can export data from any time within the point
+  /// in time recovery window.
+  ///
+  /// May throw [TableNotFoundException].
+  /// May throw [PointInTimeRecoveryUnavailableException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidExportTimeException].
+  /// May throw [ExportConflictException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [s3Bucket] :
+  /// The name of the Amazon S3 bucket to export the snapshot to.
+  ///
+  /// Parameter [tableArn] :
+  /// The Amazon Resource Name (ARN) associated with the table to export.
+  ///
+  /// Parameter [clientToken] :
+  /// Providing a <code>ClientToken</code> makes the call to
+  /// <code>ExportTableToPointInTimeInput</code> idempotent, meaning that
+  /// multiple identical calls have the same effect as one single call.
+  ///
+  /// A client token is valid for 8 hours after the first request that uses it
+  /// is completed. After 8 hours, any request with the same client token is
+  /// treated as a new request. Do not resubmit the same request with the same
+  /// client token for more than 8 hours, or the result might not be idempotent.
+  ///
+  /// If you submit a request with the same client token but a change in other
+  /// parameters within the 8-hour idempotency window, DynamoDB returns an
+  /// <code>IdempotentParameterMismatch</code> exception.
+  ///
+  /// Parameter [exportFormat] :
+  /// The format for the exported data. Valid values for
+  /// <code>ExportFormat</code> are <code>DYNAMODB_JSON</code> or
+  /// <code>ION</code>.
+  ///
+  /// Parameter [exportTime] :
+  /// Time in the past from which to export table data. The table export will be
+  /// a snapshot of the table's state at this point in time.
+  ///
+  /// Parameter [s3BucketOwner] :
+  /// The ID of the AWS account that owns the bucket the export will be stored
+  /// in.
+  ///
+  /// Parameter [s3Prefix] :
+  /// The Amazon S3 bucket prefix to use as the file name and path of the
+  /// exported snapshot.
+  ///
+  /// Parameter [s3SseAlgorithm] :
+  /// Type of encryption used on the bucket where export data will be stored.
+  /// Valid values for <code>S3SseAlgorithm</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AES256</code> - server-side encryption with Amazon S3 managed keys
+  /// </li>
+  /// <li>
+  /// <code>KMS</code> - server-side encryption with AWS KMS managed keys
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [s3SseKmsKeyId] :
+  /// The ID of the AWS KMS managed key used to encrypt the S3 bucket where
+  /// export data will be stored (if applicable).
+  Future<ExportTableToPointInTimeOutput> exportTableToPointInTime({
+    @_s.required String s3Bucket,
+    @_s.required String tableArn,
+    String clientToken,
+    ExportFormat exportFormat,
+    DateTime exportTime,
+    String s3BucketOwner,
+    String s3Prefix,
+    S3SseAlgorithm s3SseAlgorithm,
+    String s3SseKmsKeyId,
+  }) async {
+    ArgumentError.checkNotNull(s3Bucket, 's3Bucket');
+    ArgumentError.checkNotNull(tableArn, 'tableArn');
+    _s.validateStringLength(
+      's3SseKmsKeyId',
+      s3SseKmsKeyId,
+      1,
+      2048,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.ExportTableToPointInTime'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'S3Bucket': s3Bucket,
+        'TableArn': tableArn,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (exportFormat != null) 'ExportFormat': exportFormat.toValue(),
+        if (exportTime != null) 'ExportTime': unixTimestampToJson(exportTime),
+        if (s3BucketOwner != null) 'S3BucketOwner': s3BucketOwner,
+        if (s3Prefix != null) 'S3Prefix': s3Prefix,
+        if (s3SseAlgorithm != null) 'S3SseAlgorithm': s3SseAlgorithm.toValue(),
+        if (s3SseKmsKeyId != null) 'S3SseKmsKeyId': s3SseKmsKeyId,
+      },
+    );
+
+    return ExportTableToPointInTimeOutput.fromJson(jsonResponse.body);
   }
 
   /// The <code>GetItem</code> operation returns a set of attributes for the
@@ -1931,11 +2402,10 @@ class DynamoDB {
   /// List backups associated with an AWS account. To list backups for a given
   /// table, specify <code>TableName</code>. <code>ListBackups</code> returns a
   /// paginated list of results with at most 1 MB worth of items in a page. You
-  /// can also specify a limit for the maximum number of entries to be returned
-  /// in a page.
+  /// can also specify a maximum number of entries to be returned in a page.
   ///
   /// In the request, start time is inclusive, but end time is exclusive. Note
-  /// that these limits are for the time at which the original backup was
+  /// that these boundaries are for the time at which the original backup was
   /// requested.
   ///
   /// You can call <code>ListBackups</code> a maximum of five times per second.
@@ -2093,9 +2563,55 @@ class DynamoDB {
     return ListContributorInsightsOutput.fromJson(jsonResponse.body);
   }
 
+  /// Lists completed exports within the past 90 days.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// An optional string that, if supplied, must be copied from the output of a
+  /// previous call to <code>ListExports</code>. When provided in this manner,
+  /// the API fetches the next page of results.
+  ///
+  /// Parameter [tableArn] :
+  /// The Amazon Resource Name (ARN) associated with the exported table.
+  Future<ListExportsOutput> listExports({
+    int maxResults,
+    String nextToken,
+    String tableArn,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'DynamoDB_20120810.ListExports'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (tableArn != null) 'TableArn': tableArn,
+      },
+    );
+
+    return ListExportsOutput.fromJson(jsonResponse.body);
+  }
+
   /// Lists all global tables that have a replica in the specified Region.
   /// <note>
-  /// This method only applies to <a
+  /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
   /// 2017.11.29</a> of global tables.
   /// </note>
@@ -2326,9 +2842,14 @@ class DynamoDB {
   /// </li>
   /// </ul> </important>
   /// When you add an item, the primary key attributes are the only required
-  /// attributes. Attribute values cannot be null. String and Binary type
-  /// attributes must have lengths greater than zero. Set type attributes cannot
-  /// be empty. Requests with empty values will be rejected with a
+  /// attributes. Attribute values cannot be null.
+  ///
+  /// Empty String and Binary attribute values are allowed. Attribute values of
+  /// type String and Binary must have a length greater than zero if the
+  /// attribute is used as a key attribute for a table or index. Set type
+  /// attributes cannot be empty.
+  ///
+  /// Invalid Requests with empty values will be rejected with a
   /// <code>ValidationException</code> exception.
   /// <note>
   /// To prevent a new item from replacing an existing item, use a conditional
@@ -2363,6 +2884,10 @@ class DynamoDB {
   /// If you specify any attributes that are part of an index key, then the data
   /// types for those attributes must match those of the schema in the table's
   /// attribute definition.
+  ///
+  /// Empty String and Binary attribute values are allowed. Attribute values of
+  /// type String and Binary must have a length greater than zero if the
+  /// attribute is used as a key attribute for a table or index.
   ///
   /// For more information about primary keys, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html#HowItWorks.CoreComponents.PrimaryKey">Primary
@@ -4940,7 +5465,7 @@ class DynamoDB {
 
   /// Updates auto scaling settings on your global tables at once.
   /// <note>
-  /// This method only applies to <a
+  /// This operation only applies to <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
   /// 2019.11.21</a> of global tables.
   /// </note>
@@ -5859,6 +6384,23 @@ extension on BackupTypeFilter {
   }
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchExecuteStatementOutput {
+  /// The response to each PartiQL statement in the batch.
+  @_s.JsonKey(name: 'Responses')
+  final List<BatchStatementResponse> responses;
+
+  BatchExecuteStatementOutput({
+    this.responses,
+  });
+  factory BatchExecuteStatementOutput.fromJson(Map<String, dynamic> json) =>
+      _$BatchExecuteStatementOutputFromJson(json);
+}
+
 /// Represents the output of a <code>BatchGetItem</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5924,6 +6466,109 @@ class BatchGetItemOutput {
   });
   factory BatchGetItemOutput.fromJson(Map<String, dynamic> json) =>
       _$BatchGetItemOutputFromJson(json);
+}
+
+/// An error associated with a statement in a PartiQL batch that was run.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchStatementError {
+  /// The error code associated with the failed PartiQL batch statement.
+  @_s.JsonKey(name: 'Code')
+  final BatchStatementErrorCodeEnum code;
+
+  /// The error message associated with the PartiQL batch resposne.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  BatchStatementError({
+    this.code,
+    this.message,
+  });
+  factory BatchStatementError.fromJson(Map<String, dynamic> json) =>
+      _$BatchStatementErrorFromJson(json);
+}
+
+enum BatchStatementErrorCodeEnum {
+  @_s.JsonValue('ConditionalCheckFailed')
+  conditionalCheckFailed,
+  @_s.JsonValue('ItemCollectionSizeLimitExceeded')
+  itemCollectionSizeLimitExceeded,
+  @_s.JsonValue('RequestLimitExceeded')
+  requestLimitExceeded,
+  @_s.JsonValue('ValidationError')
+  validationError,
+  @_s.JsonValue('ProvisionedThroughputExceeded')
+  provisionedThroughputExceeded,
+  @_s.JsonValue('TransactionConflict')
+  transactionConflict,
+  @_s.JsonValue('ThrottlingError')
+  throttlingError,
+  @_s.JsonValue('InternalServerError')
+  internalServerError,
+  @_s.JsonValue('ResourceNotFound')
+  resourceNotFound,
+  @_s.JsonValue('AccessDenied')
+  accessDenied,
+  @_s.JsonValue('DuplicateItem')
+  duplicateItem,
+}
+
+/// A PartiQL batch statement request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BatchStatementRequest {
+  /// A valid PartiQL statement.
+  @_s.JsonKey(name: 'Statement')
+  final String statement;
+
+  /// The read consistency of the PartiQL batch request.
+  @_s.JsonKey(name: 'ConsistentRead')
+  final bool consistentRead;
+
+  /// The parameters associated with a PartiQL statement in the batch request.
+  @_s.JsonKey(name: 'Parameters')
+  final List<AttributeValue> parameters;
+
+  BatchStatementRequest({
+    @_s.required this.statement,
+    this.consistentRead,
+    this.parameters,
+  });
+  Map<String, dynamic> toJson() => _$BatchStatementRequestToJson(this);
+}
+
+/// A PartiQL batch statement response..
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchStatementResponse {
+  /// The error associated with a failed PartiQL batch statement.
+  @_s.JsonKey(name: 'Error')
+  final BatchStatementError error;
+
+  /// A DynamoDB item associated with a BatchStatementResponse
+  @_s.JsonKey(name: 'Item')
+  final Map<String, AttributeValue> item;
+
+  /// The table name associated with a failed PartiQL batch statement.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  BatchStatementResponse({
+    this.error,
+    this.item,
+    this.tableName,
+  });
+  factory BatchStatementResponse.fromJson(Map<String, dynamic> json) =>
+      _$BatchStatementResponseFromJson(json);
 }
 
 /// Represents the output of a <code>BatchWriteItem</code> operation.
@@ -6558,7 +7203,7 @@ enum ContributorInsightsStatus {
   failed,
 }
 
-/// Represents a Contributor Insights summary entry..
+/// Represents a Contributor Insights summary entry.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6629,8 +7274,8 @@ class CreateGlobalSecondaryIndexAction {
   /// secondary index.
   ///
   /// For current minimum and maximum provisioned throughput values, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
-  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   @_s.JsonKey(name: 'ProvisionedThroughput')
   final ProvisionedThroughput provisionedThroughput;
 
@@ -7078,6 +7723,23 @@ class DescribeEndpointsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeExportOutput {
+  /// Represents the properties of the export.
+  @_s.JsonKey(name: 'ExportDescription')
+  final ExportDescription exportDescription;
+
+  DescribeExportOutput({
+    this.exportDescription,
+  });
+  factory DescribeExportOutput.fromJson(Map<String, dynamic> json) =>
+      _$DescribeExportOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeGlobalTableOutput {
   /// Contains the details of the global table.
   @_s.JsonKey(name: 'GlobalTableDescription')
@@ -7111,6 +7773,29 @@ class DescribeGlobalTableSettingsOutput {
   factory DescribeGlobalTableSettingsOutput.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeGlobalTableSettingsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeKinesisStreamingDestinationOutput {
+  /// The list of replica structures for the table being described.
+  @_s.JsonKey(name: 'KinesisDataStreamDestinations')
+  final List<KinesisDataStreamDestination> kinesisDataStreamDestinations;
+
+  /// The name of the table being described.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  DescribeKinesisStreamingDestinationOutput({
+    this.kinesisDataStreamDestinations,
+    this.tableName,
+  });
+  factory DescribeKinesisStreamingDestinationOutput.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeKinesisStreamingDestinationOutputFromJson(json);
 }
 
 /// Represents the output of a <code>DescribeLimits</code> operation.
@@ -7205,6 +7890,19 @@ class DescribeTimeToLiveOutput {
       _$DescribeTimeToLiveOutputFromJson(json);
 }
 
+enum DestinationStatus {
+  @_s.JsonValue('ENABLING')
+  enabling,
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('DISABLING')
+  disabling,
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('ENABLE_FAILED')
+  enableFailed,
+}
+
 /// An endpoint information details.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7226,6 +7924,49 @@ class Endpoint {
   });
   factory Endpoint.fromJson(Map<String, dynamic> json) =>
       _$EndpointFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ExecuteStatementOutput {
+  /// If a read operation was used, this property will contain the result of the
+  /// reade operation; a map of attribute names and their values. For the write
+  /// operations this value will be empty.
+  @_s.JsonKey(name: 'Items')
+  final List<Map<String, AttributeValue>> items;
+
+  /// If the response of a read request exceeds the response payload limit
+  /// DynamoDB will set this value in the response. If set, you can use that this
+  /// value in the subsequent request to get the remaining results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ExecuteStatementOutput({
+    this.items,
+    this.nextToken,
+  });
+  factory ExecuteStatementOutput.fromJson(Map<String, dynamic> json) =>
+      _$ExecuteStatementOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ExecuteTransactionOutput {
+  /// The response to a PartiQL transaction.
+  @_s.JsonKey(name: 'Responses')
+  final List<ItemResponse> responses;
+
+  ExecuteTransactionOutput({
+    this.responses,
+  });
+  factory ExecuteTransactionOutput.fromJson(Map<String, dynamic> json) =>
+      _$ExecuteTransactionOutputFromJson(json);
 }
 
 /// Represents a condition to be compared with an attribute value. This
@@ -7511,6 +8252,202 @@ class ExpectedAttributeValue {
   Map<String, dynamic> toJson() => _$ExpectedAttributeValueToJson(this);
 }
 
+/// Represents the properties of the exported table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ExportDescription {
+  /// The billable size of the table export.
+  @_s.JsonKey(name: 'BilledSizeBytes')
+  final int billedSizeBytes;
+
+  /// The client token that was provided for the export task. A client token makes
+  /// calls to <code>ExportTableToPointInTimeInput</code> idempotent, meaning that
+  /// multiple identical calls have the same effect as one single call.
+  @_s.JsonKey(name: 'ClientToken')
+  final String clientToken;
+
+  /// The time at which the export task completed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
+  final DateTime endTime;
+
+  /// The Amazon Resource Name (ARN) of the table export.
+  @_s.JsonKey(name: 'ExportArn')
+  final String exportArn;
+
+  /// The format of the exported data. Valid values for <code>ExportFormat</code>
+  /// are <code>DYNAMODB_JSON</code> or <code>ION</code>.
+  @_s.JsonKey(name: 'ExportFormat')
+  final ExportFormat exportFormat;
+
+  /// The name of the manifest file for the export task.
+  @_s.JsonKey(name: 'ExportManifest')
+  final String exportManifest;
+
+  /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or
+  /// FAILED.
+  @_s.JsonKey(name: 'ExportStatus')
+  final ExportStatus exportStatus;
+
+  /// Point in time from which table data was exported.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExportTime')
+  final DateTime exportTime;
+
+  /// Status code for the result of the failed export.
+  @_s.JsonKey(name: 'FailureCode')
+  final String failureCode;
+
+  /// Export failure reason description.
+  @_s.JsonKey(name: 'FailureMessage')
+  final String failureMessage;
+
+  /// The number of items exported.
+  @_s.JsonKey(name: 'ItemCount')
+  final int itemCount;
+
+  /// The name of the Amazon S3 bucket containing the export.
+  @_s.JsonKey(name: 'S3Bucket')
+  final String s3Bucket;
+
+  /// The ID of the AWS account that owns the bucket containing the export.
+  @_s.JsonKey(name: 'S3BucketOwner')
+  final String s3BucketOwner;
+
+  /// The Amazon S3 bucket prefix used as the file name and path of the exported
+  /// snapshot.
+  @_s.JsonKey(name: 'S3Prefix')
+  final String s3Prefix;
+
+  /// Type of encryption used on the bucket where export data is stored. Valid
+  /// values for <code>S3SseAlgorithm</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AES256</code> - server-side encryption with Amazon S3 managed keys
+  /// </li>
+  /// <li>
+  /// <code>KMS</code> - server-side encryption with AWS KMS managed keys
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'S3SseAlgorithm')
+  final S3SseAlgorithm s3SseAlgorithm;
+
+  /// The ID of the AWS KMS managed key used to encrypt the S3 bucket where export
+  /// data is stored (if applicable).
+  @_s.JsonKey(name: 'S3SseKmsKeyId')
+  final String s3SseKmsKeyId;
+
+  /// The time at which the export task began.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
+  final DateTime startTime;
+
+  /// The Amazon Resource Name (ARN) of the table that was exported.
+  @_s.JsonKey(name: 'TableArn')
+  final String tableArn;
+
+  /// Unique ID of the table that was exported.
+  @_s.JsonKey(name: 'TableId')
+  final String tableId;
+
+  ExportDescription({
+    this.billedSizeBytes,
+    this.clientToken,
+    this.endTime,
+    this.exportArn,
+    this.exportFormat,
+    this.exportManifest,
+    this.exportStatus,
+    this.exportTime,
+    this.failureCode,
+    this.failureMessage,
+    this.itemCount,
+    this.s3Bucket,
+    this.s3BucketOwner,
+    this.s3Prefix,
+    this.s3SseAlgorithm,
+    this.s3SseKmsKeyId,
+    this.startTime,
+    this.tableArn,
+    this.tableId,
+  });
+  factory ExportDescription.fromJson(Map<String, dynamic> json) =>
+      _$ExportDescriptionFromJson(json);
+}
+
+enum ExportFormat {
+  @_s.JsonValue('DYNAMODB_JSON')
+  dynamodbJson,
+  @_s.JsonValue('ION')
+  ion,
+}
+
+extension on ExportFormat {
+  String toValue() {
+    switch (this) {
+      case ExportFormat.dynamodbJson:
+        return 'DYNAMODB_JSON';
+      case ExportFormat.ion:
+        return 'ION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum ExportStatus {
+  @_s.JsonValue('IN_PROGRESS')
+  inProgress,
+  @_s.JsonValue('COMPLETED')
+  completed,
+  @_s.JsonValue('FAILED')
+  failed,
+}
+
+/// Summary information about an export task.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ExportSummary {
+  /// The Amazon Resource Name (ARN) of the export.
+  @_s.JsonKey(name: 'ExportArn')
+  final String exportArn;
+
+  /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or
+  /// FAILED.
+  @_s.JsonKey(name: 'ExportStatus')
+  final ExportStatus exportStatus;
+
+  ExportSummary({
+    this.exportArn,
+    this.exportStatus,
+  });
+  factory ExportSummary.fromJson(Map<String, dynamic> json) =>
+      _$ExportSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ExportTableToPointInTimeOutput {
+  /// Contains a description of the table export.
+  @_s.JsonKey(name: 'ExportDescription')
+  final ExportDescription exportDescription;
+
+  ExportTableToPointInTimeOutput({
+    this.exportDescription,
+  });
+  factory ExportTableToPointInTimeOutput.fromJson(Map<String, dynamic> json) =>
+      _$ExportTableToPointInTimeOutputFromJson(json);
+}
+
 /// Represents a failure a contributor insights operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -7650,8 +8587,8 @@ class GlobalSecondaryIndex {
   /// secondary index.
   ///
   /// For current minimum and maximum provisioned throughput values, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
-  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   @_s.JsonKey(name: 'ProvisionedThroughput')
   final ProvisionedThroughput provisionedThroughput;
 
@@ -7786,8 +8723,8 @@ class GlobalSecondaryIndexDescription {
   /// secondary index.
   ///
   /// For current minimum and maximum provisioned throughput values, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
-  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   @_s.JsonKey(name: 'ProvisionedThroughput')
   final ProvisionedThroughputDescription provisionedThroughput;
 
@@ -8284,6 +9221,62 @@ class KeysAndAttributes {
   Map<String, dynamic> toJson() => _$KeysAndAttributesToJson(this);
 }
 
+/// Describes a Kinesis data stream destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class KinesisDataStreamDestination {
+  /// The current status of replication.
+  @_s.JsonKey(name: 'DestinationStatus')
+  final DestinationStatus destinationStatus;
+
+  /// The human-readable string that corresponds to the replica status.
+  @_s.JsonKey(name: 'DestinationStatusDescription')
+  final String destinationStatusDescription;
+
+  /// The ARN for a specific Kinesis data stream.
+  @_s.JsonKey(name: 'StreamArn')
+  final String streamArn;
+
+  KinesisDataStreamDestination({
+    this.destinationStatus,
+    this.destinationStatusDescription,
+    this.streamArn,
+  });
+  factory KinesisDataStreamDestination.fromJson(Map<String, dynamic> json) =>
+      _$KinesisDataStreamDestinationFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class KinesisStreamingDestinationOutput {
+  /// The current status of the replication.
+  @_s.JsonKey(name: 'DestinationStatus')
+  final DestinationStatus destinationStatus;
+
+  /// The ARN for the specific Kinesis data stream.
+  @_s.JsonKey(name: 'StreamArn')
+  final String streamArn;
+
+  /// The name of the table being modified.
+  @_s.JsonKey(name: 'TableName')
+  final String tableName;
+
+  KinesisStreamingDestinationOutput({
+    this.destinationStatus,
+    this.streamArn,
+    this.tableName,
+  });
+  factory KinesisStreamingDestinationOutput.fromJson(
+          Map<String, dynamic> json) =>
+      _$KinesisStreamingDestinationOutputFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8338,6 +9331,30 @@ class ListContributorInsightsOutput {
   });
   factory ListContributorInsightsOutput.fromJson(Map<String, dynamic> json) =>
       _$ListContributorInsightsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListExportsOutput {
+  /// A list of <code>ExportSummary</code> objects.
+  @_s.JsonKey(name: 'ExportSummaries')
+  final List<ExportSummary> exportSummaries;
+
+  /// If this value is returned, there are additional results to be displayed. To
+  /// retrieve them, call <code>ListExports</code> again, with
+  /// <code>NextToken</code> set to this value.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListExportsOutput({
+    this.exportSummaries,
+    this.nextToken,
+  });
+  factory ListExportsOutput.fromJson(Map<String, dynamic> json) =>
+      _$ListExportsOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -8590,6 +9607,28 @@ class LocalSecondaryIndexInfo {
       _$LocalSecondaryIndexInfoFromJson(json);
 }
 
+/// Represents a PartiQL statment that uses parameters.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ParameterizedStatement {
+  /// A PartiQL statment that uses parameters.
+  @_s.JsonKey(name: 'Statement')
+  final String statement;
+
+  /// The parameter values.
+  @_s.JsonKey(name: 'Parameters')
+  final List<AttributeValue> parameters;
+
+  ParameterizedStatement({
+    @_s.required this.statement,
+    this.parameters,
+  });
+  Map<String, dynamic> toJson() => _$ParameterizedStatementToJson(this);
+}
+
 /// The description of the point in time settings applied to the table.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8688,9 +9727,9 @@ class Projection {
   /// the index.
   /// </li>
   /// <li>
-  /// <code>INCLUDE</code> - Only the specified table attributes are projected
-  /// into the index. The list of projected attributes is in
-  /// <code>NonKeyAttributes</code>.
+  /// <code>INCLUDE</code> - In addition to the attributes described in
+  /// <code>KEYS_ONLY</code>, the secondary index will include other non-key
+  /// attributes that you specify.
   /// </li>
   /// <li>
   /// <code>ALL</code> - All of the table attributes are projected into the index.
@@ -8723,8 +9762,8 @@ enum ProjectionType {
 /// operation.
 ///
 /// For current minimum and maximum provisioned throughput values, see <a
-/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
-/// in the <i>Amazon DynamoDB Developer Guide</i>.
+/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+/// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8788,8 +9827,8 @@ class ProvisionedThroughputDescription {
   /// The number of provisioned throughput decreases for this table during this
   /// UTC calendar day. For current maximums on provisioned throughput decreases,
   /// see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
-  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   @_s.JsonKey(name: 'NumberOfDecreasesToday')
   final int numberOfDecreasesToday;
 
@@ -9175,6 +10214,13 @@ class ReplicaDescription {
   @_s.JsonKey(name: 'RegionName')
   final String regionName;
 
+  /// The time at which the replica was first detected as inaccessible. To
+  /// determine cause of inaccessibility check the <code>ReplicaStatus</code>
+  /// property.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReplicaInaccessibleDateTime')
+  final DateTime replicaInaccessibleDateTime;
+
   /// The current state of the replica:
   ///
   /// <ul>
@@ -9190,6 +10236,22 @@ class ReplicaDescription {
   /// <li>
   /// <code>ACTIVE</code> - The replica is ready for use.
   /// </li>
+  /// <li>
+  /// <code>REGION_DISABLED</code> - The replica is inaccessible because the AWS
+  /// Region has been disabled.
+  /// <note>
+  /// If the AWS Region remains inaccessible for more than 20 hours, DynamoDB will
+  /// remove this replica from the replication group. The replica will not be
+  /// deleted and replication will stop from and to this region.
+  /// </note> </li>
+  /// <li>
+  /// <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS </code> - The AWS KMS key used to
+  /// encrypt the table is inaccessible.
+  /// <note>
+  /// If the AWS KMS key remains inaccessible for more than 20 hours, DynamoDB
+  /// will remove this replica from the replication group. The replica will not be
+  /// deleted and replication will stop from and to this region.
+  /// </note> </li>
   /// </ul>
   @_s.JsonKey(name: 'ReplicaStatus')
   final ReplicaStatus replicaStatus;
@@ -9208,6 +10270,7 @@ class ReplicaDescription {
     this.kMSMasterKeyId,
     this.provisionedThroughputOverride,
     this.regionName,
+    this.replicaInaccessibleDateTime,
     this.replicaStatus,
     this.replicaStatusDescription,
     this.replicaStatusPercentProgress,
@@ -9565,6 +10628,10 @@ enum ReplicaStatus {
   deleting,
   @_s.JsonValue('ACTIVE')
   active,
+  @_s.JsonValue('REGION_DISABLED')
+  regionDisabled,
+  @_s.JsonValue('INACCESSIBLE_ENCRYPTION_CREDENTIALS')
+  inaccessibleEncryptionCredentials,
 }
 
 /// Represents one of the following:
@@ -9816,6 +10883,25 @@ enum ReturnValuesOnConditionCheckFailure {
   allOld,
   @_s.JsonValue('NONE')
   none,
+}
+
+enum S3SseAlgorithm {
+  @_s.JsonValue('AES256')
+  aes256,
+  @_s.JsonValue('KMS')
+  kms,
+}
+
+extension on S3SseAlgorithm {
+  String toValue() {
+    switch (this) {
+      case S3SseAlgorithm.aes256:
+        return 'AES256';
+      case S3SseAlgorithm.kms:
+        return 'KMS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The description of the server-side encryption status on the specified table.
@@ -10370,9 +11456,9 @@ class TableDescription {
   /// the index.
   /// </li>
   /// <li>
-  /// <code>INCLUDE</code> - Only the specified table attributes are projected
-  /// into the index. The list of projected attributes is in
-  /// <code>NonKeyAttributes</code>.
+  /// <code>INCLUDE</code> - In addition to the attributes described in
+  /// <code>KEYS_ONLY</code>, the secondary index will include other non-key
+  /// attributes that you specify.
   /// </li>
   /// <li>
   /// <code>ALL</code> - All of the table attributes are projected into the index.
@@ -10980,8 +12066,8 @@ class UpdateGlobalSecondaryIndexAction {
   /// secondary index.
   ///
   /// For current minimum and maximum provisioned throughput values, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
-  /// in the <i>Amazon DynamoDB Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
+  /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   @_s.JsonKey(name: 'ProvisionedThroughput')
   final ProvisionedThroughput provisionedThroughput;
 
@@ -11244,6 +12330,21 @@ class ContinuousBackupsUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+class DuplicateItemException extends _s.GenericAwsException {
+  DuplicateItemException({String type, String message})
+      : super(type: type, code: 'DuplicateItemException', message: message);
+}
+
+class ExportConflictException extends _s.GenericAwsException {
+  ExportConflictException({String type, String message})
+      : super(type: type, code: 'ExportConflictException', message: message);
+}
+
+class ExportNotFoundException extends _s.GenericAwsException {
+  ExportNotFoundException({String type, String message})
+      : super(type: type, code: 'ExportNotFoundException', message: message);
+}
+
 class GlobalTableAlreadyExistsException extends _s.GenericAwsException {
   GlobalTableAlreadyExistsException({String type, String message})
       : super(
@@ -11274,6 +12375,11 @@ class IndexNotFoundException extends _s.GenericAwsException {
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String type, String message})
       : super(type: type, code: 'InternalServerError', message: message);
+}
+
+class InvalidExportTimeException extends _s.GenericAwsException {
+  InvalidExportTimeException({String type, String message})
+      : super(type: type, code: 'InvalidExportTimeException', message: message);
 }
 
 class InvalidRestoreTimeException extends _s.GenericAwsException {
@@ -11384,6 +12490,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConditionalCheckFailedException(type: type, message: message),
   'ContinuousBackupsUnavailableException': (type, message) =>
       ContinuousBackupsUnavailableException(type: type, message: message),
+  'DuplicateItemException': (type, message) =>
+      DuplicateItemException(type: type, message: message),
+  'ExportConflictException': (type, message) =>
+      ExportConflictException(type: type, message: message),
+  'ExportNotFoundException': (type, message) =>
+      ExportNotFoundException(type: type, message: message),
   'GlobalTableAlreadyExistsException': (type, message) =>
       GlobalTableAlreadyExistsException(type: type, message: message),
   'GlobalTableNotFoundException': (type, message) =>
@@ -11394,6 +12506,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       IndexNotFoundException(type: type, message: message),
   'InternalServerError': (type, message) =>
       InternalServerError(type: type, message: message),
+  'InvalidExportTimeException': (type, message) =>
+      InvalidExportTimeException(type: type, message: message),
   'InvalidRestoreTimeException': (type, message) =>
       InvalidRestoreTimeException(type: type, message: message),
   'ItemCollectionSizeLimitExceededException': (type, message) =>

@@ -467,8 +467,12 @@ class ConfigService {
   }
 
   /// Deletes the specified organization config rule and all of its evaluation
-  /// results from all member accounts in that organization. Only a master
-  /// account can delete an organization config rule.
+  /// results from all member accounts in that organization.
+  ///
+  /// Only a master account and a delegated administrator account can delete an
+  /// organization config rule. When calling this API with a delegated
+  /// administrator, you must ensure AWS Organizations
+  /// <code>ListDelegatedAdministrator</code> permissions are added.
   ///
   /// AWS Config sets the state of a rule to DELETE_IN_PROGRESS until the
   /// deletion is complete. You cannot update a rule while it is in this state.
@@ -515,8 +519,12 @@ class ConfigService {
 
   /// Deletes the specified organization conformance pack and all of the config
   /// rules and remediation actions from all member accounts in that
-  /// organization. Only a master account can delete an organization conformance
-  /// pack.
+  /// organization.
+  ///
+  /// Only a master account or a delegated administrator account can delete an
+  /// organization conformance pack. When calling this API with a delegated
+  /// administrator, you must ensure AWS Organizations
+  /// <code>ListDelegatedAdministrator</code> permissions are added.
   ///
   /// AWS Config sets the state of a conformance pack to DELETE_IN_PROGRESS
   /// until the deletion is complete. You cannot update a conformance pack while
@@ -658,6 +666,11 @@ class ConfigService {
   }
 
   /// Deletes one or more remediation exceptions mentioned in the resource keys.
+  /// <note>
+  /// AWS Config generates a remediation exception when a problem occurs
+  /// executing a remediation action to a specific resource. Remediation
+  /// exceptions blocks auto-remediation until the exception is cleared.
+  /// </note>
   ///
   /// May throw [NoSuchRemediationExceptionException].
   ///
@@ -796,6 +809,48 @@ class ConfigService {
         'RetentionConfigurationName': retentionConfigurationName,
       },
     );
+  }
+
+  /// Deletes the stored query for an AWS account in an AWS Region.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [queryName] :
+  /// The name of the query that you want to delete.
+  Future<void> deleteStoredQuery({
+    @_s.required String queryName,
+  }) async {
+    ArgumentError.checkNotNull(queryName, 'queryName');
+    _s.validateStringLength(
+      'queryName',
+      queryName,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'queryName',
+      queryName,
+      r'''^[a-zA-Z0-9-_]+$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.DeleteStoredQuery'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueryName': queryName,
+      },
+    );
+
+    return DeleteStoredQueryResponse.fromJson(jsonResponse.body);
   }
 
   /// Schedules delivery of a configuration snapshot to the Amazon S3 bucket in
@@ -1545,6 +1600,7 @@ class ConfigService {
   ///
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [conformancePackNames] :
   /// Comma-separated list of conformance pack names.
@@ -1592,6 +1648,7 @@ class ConfigService {
   /// May throw [NoSuchConformancePackException].
   /// May throw [InvalidLimitException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [conformancePackNames] :
   /// Comma-separated list of conformance pack names for which you want details.
@@ -1714,8 +1771,6 @@ class ConfigService {
   /// response. Limit and next token are not applicable if you specify
   /// organization config rule names. It is only applicable, when you request
   /// all the organization config rules.
-  ///
-  /// Only a master account can call this API.
   /// </note>
   ///
   /// May throw [NoSuchOrganizationConfigRuleException].
@@ -1777,8 +1832,6 @@ class ConfigService {
   /// response. Limit and next token are not applicable if you specify
   /// organization config rule names. It is only applicable, when you request
   /// all the organization config rules.
-  ///
-  /// Only a master account can call this API.
   /// </note>
   ///
   /// May throw [NoSuchOrganizationConfigRuleException].
@@ -1843,8 +1896,6 @@ class ConfigService {
   /// response. Limit and next token are not applicable if you specify
   /// organization conformance pack names. They are only applicable, when you
   /// request all the organization conformance packs.
-  ///
-  /// Only a master account can call this API.
   /// </note>
   ///
   /// May throw [NoSuchOrganizationConformancePackException].
@@ -1908,8 +1959,6 @@ class ConfigService {
   /// Limit and next token are not applicable if you specify organization
   /// conformance packs names. They are only applicable, when you request all
   /// the organization conformance packs.
-  ///
-  /// Only a master account can call this API.
   /// </note>
   ///
   /// May throw [NoSuchOrganizationConformancePackException].
@@ -2041,6 +2090,10 @@ class ConfigService {
   /// deleted. When you specify the limit and the next token, you receive a
   /// paginated response.
   /// <note>
+  /// AWS Config generates a remediation exception when a problem occurs
+  /// executing a remediation action to a specific resource. Remediation
+  /// exceptions blocks auto-remediation until the exception is cleared.
+  ///
   /// When you specify the limit and the next token, you receive a paginated
   /// response.
   ///
@@ -3004,9 +3057,6 @@ class ConfigService {
 
   /// Returns detailed status for each member account within an organization for
   /// a given organization config rule.
-  /// <note>
-  /// Only a master account can call this API.
-  /// </note>
   ///
   /// May throw [NoSuchOrganizationConfigRuleException].
   /// May throw [InvalidLimitException].
@@ -3081,8 +3131,6 @@ class ConfigService {
 
   /// Returns detailed status for each member account within an organization for
   /// a given organization conformance pack.
-  ///
-  /// Only a master account can call this API.
   ///
   /// May throw [NoSuchOrganizationConformancePackException].
   /// May throw [InvalidLimitException].
@@ -3260,6 +3308,48 @@ class ConfigService {
     return GetResourceConfigHistoryResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns the details of a specific stored query.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [queryName] :
+  /// The name of the query.
+  Future<GetStoredQueryResponse> getStoredQuery({
+    @_s.required String queryName,
+  }) async {
+    ArgumentError.checkNotNull(queryName, 'queryName');
+    _s.validateStringLength(
+      'queryName',
+      queryName,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'queryName',
+      queryName,
+      r'''^[a-zA-Z0-9-_]+$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.GetStoredQuery'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'QueryName': queryName,
+      },
+    );
+
+    return GetStoredQueryResponse.fromJson(jsonResponse.body);
+  }
+
   /// Accepts a resource type and returns a list of resource identifiers that
   /// are aggregated for a specific resource type across accounts and regions. A
   /// resource identifier includes the resource type, ID, (if available) the
@@ -3430,6 +3520,47 @@ class ConfigService {
     );
 
     return ListDiscoveredResourcesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// List the stored queries for an AWS account in an AWS Region. The default
+  /// is 100.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned with a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The nextToken string returned in a previous request that you use to
+  /// request the next page of results in a paginated response.
+  Future<ListStoredQueriesResponse> listStoredQueries({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.ListStoredQueries'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListStoredQueriesResponse.fromJson(jsonResponse.body);
   }
 
   /// List the tags for AWS Config resource.
@@ -3747,8 +3878,6 @@ class ConfigService {
   /// This API creates a service linked role
   /// <code>AWSServiceRoleForConfigConforms</code> in your account. The service
   /// linked role is created only when the role does not exist in your account.
-  /// AWS Config verifies the existence of role with <code>GetRole</code>
-  /// action.
   /// <note>
   /// You must specify either the <code>TemplateS3Uri</code> or the
   /// <code>TemplateBody</code> parameter, but not both. If you provide both AWS
@@ -3765,12 +3894,12 @@ class ConfigService {
   /// Parameter [conformancePackName] :
   /// Name of the conformance pack you want to create.
   ///
+  /// Parameter [conformancePackInputParameters] :
+  /// A list of <code>ConformancePackInputParameter</code> objects.
+  ///
   /// Parameter [deliveryS3Bucket] :
   /// AWS Config stores intermediate files while processing conformance pack
   /// template.
-  ///
-  /// Parameter [conformancePackInputParameters] :
-  /// A list of <code>ConformancePackInputParameter</code> objects.
   ///
   /// Parameter [deliveryS3KeyPrefix] :
   /// The prefix for the Amazon S3 bucket.
@@ -3794,8 +3923,8 @@ class ConfigService {
   /// </note>
   Future<PutConformancePackResponse> putConformancePack({
     @_s.required String conformancePackName,
-    @_s.required String deliveryS3Bucket,
     List<ConformancePackInputParameter> conformancePackInputParameters,
+    String deliveryS3Bucket,
     String deliveryS3KeyPrefix,
     String templateBody,
     String templateS3Uri,
@@ -3814,18 +3943,16 @@ class ConfigService {
       r'''[a-zA-Z][-a-zA-Z0-9]*''',
       isRequired: true,
     );
-    ArgumentError.checkNotNull(deliveryS3Bucket, 'deliveryS3Bucket');
     _s.validateStringLength(
       'deliveryS3Bucket',
       deliveryS3Bucket,
-      3,
+      0,
       63,
-      isRequired: true,
     );
     _s.validateStringLength(
       'deliveryS3KeyPrefix',
       deliveryS3KeyPrefix,
-      1,
+      0,
       1024,
     );
     _s.validateStringLength(
@@ -3857,9 +3984,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConformancePackName': conformancePackName,
-        'DeliveryS3Bucket': deliveryS3Bucket,
         if (conformancePackInputParameters != null)
           'ConformancePackInputParameters': conformancePackInputParameters,
+        if (deliveryS3Bucket != null) 'DeliveryS3Bucket': deliveryS3Bucket,
         if (deliveryS3KeyPrefix != null)
           'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
         if (templateBody != null) 'TemplateBody': templateBody,
@@ -3970,30 +4097,85 @@ class ConfigService {
     return PutEvaluationsResponse.fromJson(jsonResponse.body);
   }
 
+  ///
+  /// May throw [NoSuchConfigRuleException].
+  /// May throw [InvalidParameterValueException].
+  Future<void> putExternalEvaluation({
+    @_s.required String configRuleName,
+    @_s.required ExternalEvaluation externalEvaluation,
+  }) async {
+    ArgumentError.checkNotNull(configRuleName, 'configRuleName');
+    _s.validateStringLength(
+      'configRuleName',
+      configRuleName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'configRuleName',
+      configRuleName,
+      r'''.*\S.*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(externalEvaluation, 'externalEvaluation');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.PutExternalEvaluation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConfigRuleName': configRuleName,
+        'ExternalEvaluation': externalEvaluation,
+      },
+    );
+
+    return PutExternalEvaluationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Adds or updates organization config rule for your entire organization
   /// evaluating whether your AWS resources comply with your desired
-  /// configurations. Only a master account can create or update an organization
-  /// config rule.
+  /// configurations.
+  ///
+  /// Only a master account and a delegated administrator can create or update
+  /// an organization config rule. When calling this API with a delegated
+  /// administrator, you must ensure AWS Organizations
+  /// <code>ListDelegatedAdministrator</code> permissions are added.
   ///
   /// This API enables organization service access through the
   /// <code>EnableAWSServiceAccess</code> action and creates a service linked
   /// role <code>AWSServiceRoleForConfigMultiAccountSetup</code> in the master
-  /// account of your organization. The service linked role is created only when
-  /// the role does not exist in the master account. AWS Config verifies the
-  /// existence of role with <code>GetRole</code> action.
+  /// or delegated administrator account of your organization. The service
+  /// linked role is created only when the role does not exist in the caller
+  /// account. AWS Config verifies the existence of role with
+  /// <code>GetRole</code> action.
+  ///
+  /// To use this API with delegated administrator, register a delegated
+  /// administrator by calling AWS Organization
+  /// <code>register-delegated-administrator</code> for
+  /// <code>config-multiaccountsetup.amazonaws.com</code>.
   ///
   /// You can use this action to create both custom AWS Config rules and AWS
   /// managed Config rules. If you are adding a new custom AWS Config rule, you
-  /// must first create AWS Lambda function in the master account that the rule
-  /// invokes to evaluate your resources. When you use the
-  /// <code>PutOrganizationConfigRule</code> action to add the rule to AWS
-  /// Config, you must specify the Amazon Resource Name (ARN) that AWS Lambda
-  /// assigns to the function. If you are adding an AWS managed Config rule,
-  /// specify the rule's identifier for the <code>RuleIdentifier</code> key.
+  /// must first create AWS Lambda function in the master account or a delegated
+  /// administrator that the rule invokes to evaluate your resources. When you
+  /// use the <code>PutOrganizationConfigRule</code> action to add the rule to
+  /// AWS Config, you must specify the Amazon Resource Name (ARN) that AWS
+  /// Lambda assigns to the function. If you are adding an AWS managed Config
+  /// rule, specify the rule's identifier for the <code>RuleIdentifier</code>
+  /// key.
   ///
   /// The maximum number of organization config rules that AWS Config supports
-  /// is 150.
+  /// is 150 and 3 delegated administrator per organization.
   /// <note>
+  /// Prerequisite: Ensure you call <code>EnableAllFeatures</code> API to enable
+  /// all features in an organization.
+  ///
   /// Specify either <code>OrganizationCustomRuleMetadata</code> or
   /// <code>OrganizationManagedRuleMetadata</code>.
   /// </note>
@@ -4065,24 +4247,36 @@ class ConfigService {
 
   /// Deploys conformance packs across member accounts in an AWS Organization.
   ///
+  /// Only a master account and a delegated administrator can call this API.
+  /// When calling this API with a delegated administrator, you must ensure AWS
+  /// Organizations <code>ListDelegatedAdministrator</code> permissions are
+  /// added.
+  ///
   /// This API enables organization service access for
   /// <code>config-multiaccountsetup.amazonaws.com</code> through the
   /// <code>EnableAWSServiceAccess</code> action and creates a service linked
   /// role <code>AWSServiceRoleForConfigMultiAccountSetup</code> in the master
-  /// account of your organization. The service linked role is created only when
-  /// the role does not exist in the master account. AWS Config verifies the
-  /// existence of role with GetRole action.
+  /// or delegated administrator account of your organization. The service
+  /// linked role is created only when the role does not exist in the caller
+  /// account. To use this API with delegated administrator, register a
+  /// delegated administrator by calling AWS Organization
+  /// <code>register-delegate-admin</code> for
+  /// <code>config-multiaccountsetup.amazonaws.com</code>.
   /// <note>
+  /// Prerequisite: Ensure you call <code>EnableAllFeatures</code> API to enable
+  /// all features in an organization.
+  ///
   /// You must specify either the <code>TemplateS3Uri</code> or the
   /// <code>TemplateBody</code> parameter, but not both. If you provide both AWS
   /// Config uses the <code>TemplateS3Uri</code> parameter and ignores the
   /// <code>TemplateBody</code> parameter.
   ///
   /// AWS Config sets the state of a conformance pack to CREATE_IN_PROGRESS and
-  /// UPDATE_IN_PROGRESS until the confomance pack is created or updated. You
+  /// UPDATE_IN_PROGRESS until the conformance pack is created or updated. You
   /// cannot update a conformance pack while it is in this state.
   ///
-  /// You can create 6 conformance packs with 25 AWS Config rules in each pack.
+  /// You can create 6 conformance packs with 25 AWS Config rules in each pack
+  /// and 3 delegated administrator per organization.
   /// </note>
   ///
   /// May throw [MaxNumberOfOrganizationConformancePacksExceededException].
@@ -4094,6 +4288,12 @@ class ConfigService {
   /// May throw [OrganizationAllFeaturesNotEnabledException].
   /// May throw [NoAvailableOrganizationException].
   ///
+  /// Parameter [organizationConformancePackName] :
+  /// Name of the organization conformance pack you want to create.
+  ///
+  /// Parameter [conformancePackInputParameters] :
+  /// A list of <code>ConformancePackInputParameter</code> objects.
+  ///
   /// Parameter [deliveryS3Bucket] :
   /// Location of an Amazon S3 bucket where AWS Config can deliver evaluation
   /// results. AWS Config stores intermediate files while processing conformance
@@ -4104,12 +4304,6 @@ class ConfigService {
   /// <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/conformance-pack-organization-apis.html">Permissions
   /// for cross account bucket access</a>.
-  ///
-  /// Parameter [organizationConformancePackName] :
-  /// Name of the organization conformance pack you want to create.
-  ///
-  /// Parameter [conformancePackInputParameters] :
-  /// A list of <code>ConformancePackInputParameter</code> objects.
   ///
   /// Parameter [deliveryS3KeyPrefix] :
   /// The prefix for the Amazon S3 bucket.
@@ -4131,22 +4325,14 @@ class ConfigService {
   /// </note>
   Future<PutOrganizationConformancePackResponse>
       putOrganizationConformancePack({
-    @_s.required String deliveryS3Bucket,
     @_s.required String organizationConformancePackName,
     List<ConformancePackInputParameter> conformancePackInputParameters,
+    String deliveryS3Bucket,
     String deliveryS3KeyPrefix,
     List<String> excludedAccounts,
     String templateBody,
     String templateS3Uri,
   }) async {
-    ArgumentError.checkNotNull(deliveryS3Bucket, 'deliveryS3Bucket');
-    _s.validateStringLength(
-      'deliveryS3Bucket',
-      deliveryS3Bucket,
-      3,
-      63,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         organizationConformancePackName, 'organizationConformancePackName');
     _s.validateStringLength(
@@ -4163,9 +4349,15 @@ class ConfigService {
       isRequired: true,
     );
     _s.validateStringLength(
+      'deliveryS3Bucket',
+      deliveryS3Bucket,
+      0,
+      63,
+    );
+    _s.validateStringLength(
       'deliveryS3KeyPrefix',
       deliveryS3KeyPrefix,
-      1,
+      0,
       1024,
     );
     _s.validateStringLength(
@@ -4196,10 +4388,10 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'DeliveryS3Bucket': deliveryS3Bucket,
         'OrganizationConformancePackName': organizationConformancePackName,
         if (conformancePackInputParameters != null)
           'ConformancePackInputParameters': conformancePackInputParameters,
+        if (deliveryS3Bucket != null) 'DeliveryS3Bucket': deliveryS3Bucket,
         if (deliveryS3KeyPrefix != null)
           'DeliveryS3KeyPrefix': deliveryS3KeyPrefix,
         if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
@@ -4217,6 +4409,15 @@ class ConfigService {
   /// AWS Config rule must already exist for you to add a remediation
   /// configuration. The target (SSM document) must exist and have permissions
   /// to use the target.
+  /// <note>
+  /// If you make backward incompatible changes to the SSM document, you must
+  /// call this again to ensure the remediations can run.
+  ///
+  /// This API does not support adding remediation configurations for
+  /// service-linked AWS Config Rules such as Organization Config rules, the
+  /// rules deployed by conformance packs, and rules deployed by AWS Security
+  /// Hub.
+  /// </note>
   ///
   /// May throw [InsufficientPermissionsException].
   /// May throw [InvalidParameterValueException].
@@ -4250,8 +4451,14 @@ class ConfigService {
   /// considered for auto-remediation. This API adds a new exception or updates
   /// an exisiting exception for a specific resource with a specific AWS Config
   /// rule.
+  /// <note>
+  /// AWS Config generates a remediation exception when a problem occurs
+  /// executing a remediation action to a specific resource. Remediation
+  /// exceptions blocks auto-remediation until the exception is cleared.
+  /// </note>
   ///
   /// May throw [InvalidParameterValueException].
+  /// May throw [InsufficientPermissionsException].
   ///
   /// Parameter [configRuleName] :
   /// The name of the AWS Config rule for which you want to create remediation
@@ -4328,6 +4535,9 @@ class ConfigService {
   /// When you call this API, AWS Config only stores configuration state of the
   /// resource provided in the request. This API does not change or remediate
   /// the configuration of the resource.
+  ///
+  /// Write-only schema properites are not recorded as part of the published
+  /// configuration item.
   /// </note>
   ///
   /// May throw [ValidationException].
@@ -4471,6 +4681,44 @@ class ConfigService {
     return PutRetentionConfigurationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Saves a new query or updates an existing saved query. The
+  /// <code>QueryName</code> must be unique for an AWS account in an AWS Region.
+  /// You can create upto 300 queries in an AWS account in an AWS Region.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [TooManyTagsException].
+  /// May throw [ResourceConcurrentModificationException].
+  ///
+  /// Parameter [storedQuery] :
+  /// A list of <code>StoredQuery</code> objects. The mandatory fields are
+  /// <code>QueryName</code> and <code>Expression</code>.
+  ///
+  /// Parameter [tags] :
+  /// A list of <code>Tags</code> object.
+  Future<PutStoredQueryResponse> putStoredQuery({
+    @_s.required StoredQuery storedQuery,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(storedQuery, 'storedQuery');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.PutStoredQuery'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StoredQuery': storedQuery,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return PutStoredQueryResponse.fromJson(jsonResponse.body);
+  }
+
   /// Accepts a structured query language (SQL) SELECT command and an aggregator
   /// to query configuration state of AWS resources across multiple accounts and
   /// regions, performs the corresponding search, and returns resource
@@ -4493,6 +4741,10 @@ class ConfigService {
   ///
   /// Parameter [limit] :
   /// The maximum number of query results returned on each page.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of query results returned on each page. AWS Config also
+  /// allows the Limit request parameter.
   ///
   /// Parameter [nextToken] :
   /// The nextToken string returned in a previous request that you use to
@@ -5266,7 +5518,31 @@ class BaseConfigurationItem {
   @_s.JsonKey(name: 'configurationItemCaptureTime')
   final DateTime configurationItemCaptureTime;
 
-  /// The configuration item status.
+  /// The configuration item status. The valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// OK – The resource configuration has been updated
+  /// </li>
+  /// <li>
+  /// ResourceDiscovered – The resource was newly discovered
+  /// </li>
+  /// <li>
+  /// ResourceNotRecorded – The resource was discovered but its configuration was
+  /// not recorded since the recorder excludes the recording of resources of this
+  /// type
+  /// </li>
+  /// <li>
+  /// ResourceDeleted – The resource was deleted
+  /// </li>
+  /// <li>
+  /// ResourceDeletedNotRecorded – The resource was deleted but its configuration
+  /// was not recorded since the recorder excludes the recording of resources of
+  /// this type
+  /// </li>
+  /// </ul> <note>
+  /// The CIs do not incur any cost.
+  /// </note>
   @_s.JsonKey(name: 'configurationItemStatus')
   final ConfigurationItemStatus configurationItemStatus;
 
@@ -5745,6 +6021,9 @@ class ConfigRule {
   /// scope to constrain the resources that can trigger an evaluation for the
   /// rule. If you do not specify a scope, evaluations are triggered when any
   /// resource in the recording group changes.
+  /// <note>
+  /// The scope can be empty.
+  /// </note>
   @_s.JsonKey(name: 'Scope')
   final Scope scope;
 
@@ -5890,6 +6169,8 @@ class ConfigRuleEvaluationStatus {
   /// </ul>
   @_s.JsonKey(name: 'FirstEvaluationStarted')
   final bool firstEvaluationStarted;
+
+  /// The time that you last turned off the AWS Config rule.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'LastDeactivatedTime')
   final DateTime lastDeactivatedTime;
@@ -6085,6 +6366,10 @@ class ConfigurationAggregator {
   @_s.JsonKey(name: 'ConfigurationAggregatorName')
   final String configurationAggregatorName;
 
+  /// AWS service that created the configuration aggregator.
+  @_s.JsonKey(name: 'CreatedBy')
+  final String createdBy;
+
   /// The time stamp when the configuration aggregator was created.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CreationTime')
@@ -6103,6 +6388,7 @@ class ConfigurationAggregator {
     this.accountAggregationSources,
     this.configurationAggregatorArn,
     this.configurationAggregatorName,
+    this.createdBy,
     this.creationTime,
     this.lastUpdatedTime,
     this.organizationAggregationSource,
@@ -6150,7 +6436,31 @@ class ConfigurationItem {
   @_s.JsonKey(name: 'configurationItemMD5Hash')
   final String configurationItemMD5Hash;
 
-  /// The configuration item status.
+  /// The configuration item status. The valid values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// OK – The resource configuration has been updated
+  /// </li>
+  /// <li>
+  /// ResourceDiscovered – The resource was newly discovered
+  /// </li>
+  /// <li>
+  /// ResourceNotRecorded – The resource was discovered but its configuration was
+  /// not recorded since the recorder excludes the recording of resources of this
+  /// type
+  /// </li>
+  /// <li>
+  /// ResourceDeleted – The resource was deleted
+  /// </li>
+  /// <li>
+  /// ResourceDeletedNotRecorded – The resource was deleted but its configuration
+  /// was not recorded since the recorder excludes the recording of resources of
+  /// this type
+  /// </li>
+  /// </ul> <note>
+  /// The CIs do not incur any cost.
+  /// </note>
   @_s.JsonKey(name: 'configurationItemStatus')
   final ConfigurationItemStatus configurationItemStatus;
 
@@ -6418,12 +6728,6 @@ class ConformancePackDetail {
   @_s.JsonKey(name: 'ConformancePackName')
   final String conformancePackName;
 
-  /// Conformance pack template that is used to create a pack. The delivery bucket
-  /// name should start with awsconfigconforms. For example: "Resource":
-  /// "arn:aws:s3:::your_bucket_name/*".
-  @_s.JsonKey(name: 'DeliveryS3Bucket')
-  final String deliveryS3Bucket;
-
   /// A list of <code>ConformancePackInputParameter</code> objects.
   @_s.JsonKey(name: 'ConformancePackInputParameters')
   final List<ConformancePackInputParameter> conformancePackInputParameters;
@@ -6431,6 +6735,12 @@ class ConformancePackDetail {
   /// AWS service that created the conformance pack.
   @_s.JsonKey(name: 'CreatedBy')
   final String createdBy;
+
+  /// Conformance pack template that is used to create a pack. The delivery bucket
+  /// name should start with awsconfigconforms. For example: "Resource":
+  /// "arn:aws:s3:::your_bucket_name/*".
+  @_s.JsonKey(name: 'DeliveryS3Bucket')
+  final String deliveryS3Bucket;
 
   /// The prefix for the Amazon S3 bucket.
   @_s.JsonKey(name: 'DeliveryS3KeyPrefix')
@@ -6445,9 +6755,9 @@ class ConformancePackDetail {
     @_s.required this.conformancePackArn,
     @_s.required this.conformancePackId,
     @_s.required this.conformancePackName,
-    @_s.required this.deliveryS3Bucket,
     this.conformancePackInputParameters,
     this.createdBy,
+    this.deliveryS3Bucket,
     this.deliveryS3KeyPrefix,
     this.lastUpdateRequestedTime,
   });
@@ -6540,8 +6850,8 @@ class ConformancePackEvaluationResult {
 }
 
 /// Input parameters in the form of key-value pairs for the conformance pack,
-/// both of which you define. Keys can have a maximum character length of 128
-/// characters, and values can have a maximum length of 256 characters.
+/// both of which you define. Keys can have a maximum character length of 255
+/// characters, and values can have a maximum length of 4096 characters.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6725,6 +7035,17 @@ class DeleteRemediationExceptionsResponse {
   factory DeleteRemediationExceptionsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteRemediationExceptionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteStoredQueryResponse {
+  DeleteStoredQueryResponse();
+  factory DeleteStoredQueryResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteStoredQueryResponseFromJson(json);
 }
 
 /// The output for the <a>DeliverConfigSnapshot</a> action, in JSON format.
@@ -7611,6 +7932,34 @@ class ExecutionControls {
   Map<String, dynamic> toJson() => _$ExecutionControlsToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ExternalEvaluation {
+  @_s.JsonKey(name: 'ComplianceResourceId')
+  final String complianceResourceId;
+  @_s.JsonKey(name: 'ComplianceResourceType')
+  final String complianceResourceType;
+  @_s.JsonKey(name: 'ComplianceType')
+  final ComplianceType complianceType;
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'OrderingTimestamp')
+  final DateTime orderingTimestamp;
+  @_s.JsonKey(name: 'Annotation')
+  final String annotation;
+
+  ExternalEvaluation({
+    @_s.required this.complianceResourceId,
+    @_s.required this.complianceResourceType,
+    @_s.required this.complianceType,
+    @_s.required this.orderingTimestamp,
+    this.annotation,
+  });
+  Map<String, dynamic> toJson() => _$ExternalEvaluationToJson(this);
+}
+
 /// List of each of the failed delete remediation exceptions with specific
 /// reasons.
 @_s.JsonSerializable(
@@ -8077,6 +8426,23 @@ class GetResourceConfigHistoryResponse {
       _$GetResourceConfigHistoryResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetStoredQueryResponse {
+  /// Returns a <code>StoredQuery</code> object.
+  @_s.JsonKey(name: 'StoredQuery')
+  final StoredQuery storedQuery;
+
+  GetStoredQueryResponse({
+    this.storedQuery,
+  });
+  factory GetStoredQueryResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetStoredQueryResponseFromJson(json);
+}
+
 /// The count of resources that are grouped by the group name.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8150,6 +8516,33 @@ class ListDiscoveredResourcesResponse {
   });
   factory ListDiscoveredResourcesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListDiscoveredResourcesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListStoredQueriesResponse {
+  /// If the previous paginated request didn't return all of the remaining
+  /// results, the response object's <code>NextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call this action again and
+  /// assign that token to the request object's <code>NextToken</code> parameter.
+  /// If there are no remaining results, the previous response object's
+  /// <code>NextToken</code> parameter is set to <code>null</code>.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of <code>StoredQueryMetadata</code> objects.
+  @_s.JsonKey(name: 'StoredQueryMetadata')
+  final List<StoredQueryMetadata> storedQueryMetadata;
+
+  ListStoredQueriesResponse({
+    this.nextToken,
+    this.storedQueryMetadata,
+  });
+  factory ListStoredQueriesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListStoredQueriesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -8500,11 +8893,6 @@ enum OrganizationConfigRuleTriggerType {
     createFactory: true,
     createToJson: false)
 class OrganizationConformancePack {
-  /// Location of an Amazon S3 bucket where AWS Config can deliver evaluation
-  /// results and conformance pack template that is used to create a pack.
-  @_s.JsonKey(name: 'DeliveryS3Bucket')
-  final String deliveryS3Bucket;
-
   /// Last time when organization conformation pack was updated.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'LastUpdateTime')
@@ -8522,6 +8910,11 @@ class OrganizationConformancePack {
   @_s.JsonKey(name: 'ConformancePackInputParameters')
   final List<ConformancePackInputParameter> conformancePackInputParameters;
 
+  /// Location of an Amazon S3 bucket where AWS Config can deliver evaluation
+  /// results and conformance pack template that is used to create a pack.
+  @_s.JsonKey(name: 'DeliveryS3Bucket')
+  final String deliveryS3Bucket;
+
   /// Any folder structure you want to add to an Amazon S3 bucket.
   @_s.JsonKey(name: 'DeliveryS3KeyPrefix')
   final String deliveryS3KeyPrefix;
@@ -8532,11 +8925,11 @@ class OrganizationConformancePack {
   final List<String> excludedAccounts;
 
   OrganizationConformancePack({
-    @_s.required this.deliveryS3Bucket,
     @_s.required this.lastUpdateTime,
     @_s.required this.organizationConformancePackArn,
     @_s.required this.organizationConformancePackName,
     this.conformancePackInputParameters,
+    this.deliveryS3Bucket,
     this.deliveryS3KeyPrefix,
     this.excludedAccounts,
   });
@@ -9141,6 +9534,17 @@ class PutEvaluationsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class PutExternalEvaluationResponse {
+  PutExternalEvaluationResponse();
+  factory PutExternalEvaluationResponse.fromJson(Map<String, dynamic> json) =>
+      _$PutExternalEvaluationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class PutOrganizationConfigRuleResponse {
   /// The Amazon Resource Name (ARN) of an organization config rule.
   @_s.JsonKey(name: 'OrganizationConfigRuleArn')
@@ -9225,6 +9629,24 @@ class PutRetentionConfigurationResponse {
   factory PutRetentionConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutRetentionConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutStoredQueryResponse {
+  /// Amazon Resource Name (ARN) of the query. For example,
+  /// arn:partition:service:region:account-id:resource-type/resource-id.
+  @_s.JsonKey(name: 'QueryArn')
+  final String queryArn;
+
+  PutStoredQueryResponse({
+    this.queryArn,
+  });
+  factory PutStoredQueryResponse.fromJson(Map<String, dynamic> json) =>
+      _$PutStoredQueryResponseFromJson(json);
 }
 
 /// Details about the query.
@@ -9428,8 +9850,9 @@ class RemediationConfiguration {
   /// select a number, the default is 5.
   ///
   /// For example, if you specify MaximumAutomaticAttempts as 5 with
-  /// RetryAttemptsSeconds as 50 seconds, AWS Config throws an exception after the
-  /// 5th failed attempt within 50 seconds.
+  /// RetryAttemptSeconds as 50 seconds, AWS Config will put a
+  /// RemediationException on your behalf for the failing resource after the 5th
+  /// failed attempt within 50 seconds.
   @_s.JsonKey(name: 'MaximumAutomaticAttempts')
   final int maximumAutomaticAttempts;
 
@@ -9444,13 +9867,17 @@ class RemediationConfiguration {
   /// Maximum time in seconds that AWS Config runs auto-remediation. If you do not
   /// select a number, the default is 60 seconds.
   ///
-  /// For example, if you specify RetryAttemptsSeconds as 50 seconds and
+  /// For example, if you specify RetryAttemptSeconds as 50 seconds and
   /// MaximumAutomaticAttempts as 5, AWS Config will run auto-remediations 5 times
   /// within 50 seconds before throwing an exception.
   @_s.JsonKey(name: 'RetryAttemptSeconds')
   final int retryAttemptSeconds;
 
   /// Version of the target. For example, version of the SSM document.
+  /// <note>
+  /// If you make backward incompatible changes to the SSM document, you must call
+  /// PutRemediationConfiguration API again to ensure the remediations can run.
+  /// </note>
   @_s.JsonKey(name: 'TargetVersion')
   final String targetVersion;
 
@@ -9971,6 +10398,12 @@ enum ResourceType {
   awsCloudFrontStreamingDistribution,
   @_s.JsonValue('AWS::Lambda::Function')
   awsLambdaFunction,
+  @_s.JsonValue('AWS::NetworkFirewall::Firewall')
+  awsNetworkFirewallFirewall,
+  @_s.JsonValue('AWS::NetworkFirewall::FirewallPolicy')
+  awsNetworkFirewallFirewallPolicy,
+  @_s.JsonValue('AWS::NetworkFirewall::RuleGroup')
+  awsNetworkFirewallRuleGroup,
   @_s.JsonValue('AWS::ElasticBeanstalk::Application')
   awsElasticBeanstalkApplication,
   @_s.JsonValue('AWS::ElasticBeanstalk::ApplicationVersion')
@@ -10021,6 +10454,12 @@ enum ResourceType {
   awsKmsKey,
   @_s.JsonValue('AWS::QLDB::Ledger')
   awsQldbLedger,
+  @_s.JsonValue('AWS::SecretsManager::Secret')
+  awsSecretsManagerSecret,
+  @_s.JsonValue('AWS::SNS::Topic')
+  awsSnsTopic,
+  @_s.JsonValue('AWS::SSM::FileData')
+  awsSsmFileData,
 }
 
 extension on ResourceType {
@@ -10156,6 +10595,12 @@ extension on ResourceType {
         return 'AWS::CloudFront::StreamingDistribution';
       case ResourceType.awsLambdaFunction:
         return 'AWS::Lambda::Function';
+      case ResourceType.awsNetworkFirewallFirewall:
+        return 'AWS::NetworkFirewall::Firewall';
+      case ResourceType.awsNetworkFirewallFirewallPolicy:
+        return 'AWS::NetworkFirewall::FirewallPolicy';
+      case ResourceType.awsNetworkFirewallRuleGroup:
+        return 'AWS::NetworkFirewall::RuleGroup';
       case ResourceType.awsElasticBeanstalkApplication:
         return 'AWS::ElasticBeanstalk::Application';
       case ResourceType.awsElasticBeanstalkApplicationVersion:
@@ -10206,6 +10651,12 @@ extension on ResourceType {
         return 'AWS::KMS::Key';
       case ResourceType.awsQldbLedger:
         return 'AWS::QLDB::Ledger';
+      case ResourceType.awsSecretsManagerSecret:
+        return 'AWS::SecretsManager::Secret';
+      case ResourceType.awsSnsTopic:
+        return 'AWS::SNS::Topic';
+      case ResourceType.awsSsmFileData:
+        return 'AWS::SSM::FileData';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -10640,6 +11091,86 @@ class StatusDetailFilters {
   Map<String, dynamic> toJson() => _$StatusDetailFiltersToJson(this);
 }
 
+/// Provides the details of a stored query.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class StoredQuery {
+  /// The name of the query.
+  @_s.JsonKey(name: 'QueryName')
+  final String queryName;
+
+  /// A unique description for the query.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The expression of the query. For example, <code>SELECT resourceId,
+  /// resourceType,
+  /// supplementaryConfiguration.BucketVersioningConfiguration.status WHERE
+  /// resourceType = 'AWS::S3::Bucket' AND
+  /// supplementaryConfiguration.BucketVersioningConfiguration.status =
+  /// 'Off'.</code>
+  @_s.JsonKey(name: 'Expression')
+  final String expression;
+
+  /// Amazon Resource Name (ARN) of the query. For example,
+  /// arn:partition:service:region:account-id:resource-type/resource-id.
+  @_s.JsonKey(name: 'QueryArn')
+  final String queryArn;
+
+  /// The ID of the query.
+  @_s.JsonKey(name: 'QueryId')
+  final String queryId;
+
+  StoredQuery({
+    @_s.required this.queryName,
+    this.description,
+    this.expression,
+    this.queryArn,
+    this.queryId,
+  });
+  factory StoredQuery.fromJson(Map<String, dynamic> json) =>
+      _$StoredQueryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StoredQueryToJson(this);
+}
+
+/// Returns details of a specific query.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StoredQueryMetadata {
+  /// Amazon Resource Name (ARN) of the query. For example,
+  /// arn:partition:service:region:account-id:resource-type/resource-id.
+  @_s.JsonKey(name: 'QueryArn')
+  final String queryArn;
+
+  /// The ID of the query.
+  @_s.JsonKey(name: 'QueryId')
+  final String queryId;
+
+  /// The name of the query.
+  @_s.JsonKey(name: 'QueryName')
+  final String queryName;
+
+  /// A unique description for the query.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  StoredQueryMetadata({
+    @_s.required this.queryArn,
+    @_s.required this.queryId,
+    @_s.required this.queryName,
+    this.description,
+  });
+  factory StoredQueryMetadata.fromJson(Map<String, dynamic> json) =>
+      _$StoredQueryMetadataFromJson(json);
+}
+
 /// The tags for the resource. The metadata that you apply to a resource to help
 /// you categorize and organize them. Each tag consists of a key and an optional
 /// value, both of which you define. Tag keys can have a maximum character
@@ -11024,6 +11555,14 @@ class RemediationInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+class ResourceConcurrentModificationException extends _s.GenericAwsException {
+  ResourceConcurrentModificationException({String type, String message})
+      : super(
+            type: type,
+            code: 'ResourceConcurrentModificationException',
+            message: message);
+}
+
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String type, String message})
       : super(type: type, code: 'ResourceInUseException', message: message);
@@ -11152,6 +11691,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       OversizedConfigurationItemException(type: type, message: message),
   'RemediationInProgressException': (type, message) =>
       RemediationInProgressException(type: type, message: message),
+  'ResourceConcurrentModificationException': (type, message) =>
+      ResourceConcurrentModificationException(type: type, message: message),
   'ResourceInUseException': (type, message) =>
       ResourceInUseException(type: type, message: message),
   'ResourceNotDiscoveredException': (type, message) =>

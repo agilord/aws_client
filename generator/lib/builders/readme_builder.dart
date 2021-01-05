@@ -9,7 +9,7 @@ String buildReadmeMd(Api api) {
 **Warning: This is a generated library, some operations may not work.**
 
 *About the service:*
-${markdownText(api.documentation)}
+${_prepareDocumentation(api)}
 
 ## Links
 
@@ -23,4 +23,10 @@ ${markdownText(api.documentation)}
 - [Istvan Soós](https://github.com/isoos)
 
 ''';
+}
+
+String _prepareDocumentation(Api api) {
+  var doc = markdownText(api.documentation);
+  doc = doc.replaceAll('http://', 'https://');
+  return doc;
 }

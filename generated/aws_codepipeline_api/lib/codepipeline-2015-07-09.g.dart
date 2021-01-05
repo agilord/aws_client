@@ -176,6 +176,7 @@ Map<String, dynamic> _$ActionDeclarationToJson(ActionDeclaration instance) {
 
 ActionExecution _$ActionExecutionFromJson(Map<String, dynamic> json) {
   return ActionExecution(
+    actionExecutionId: json['actionExecutionId'] as String,
     errorDetails: json['errorDetails'] == null
         ? null
         : ErrorDetails.fromJson(json['errorDetails'] as Map<String, dynamic>),
@@ -1177,6 +1178,10 @@ StageState _$StageStateFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : ActionState.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    inboundExecution: json['inboundExecution'] == null
+        ? null
+        : StageExecution.fromJson(
+            json['inboundExecution'] as Map<String, dynamic>),
     inboundTransitionState: json['inboundTransitionState'] == null
         ? null
         : TransitionState.fromJson(

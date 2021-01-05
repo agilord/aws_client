@@ -57,6 +57,114 @@ class EKS {
           endpointUrl: endpointUrl,
         );
 
+  /// Creates an Amazon EKS add-on.
+  ///
+  /// Amazon EKS add-ons help to automate the provisioning and lifecycle
+  /// management of common operational software for Amazon EKS clusters. Amazon
+  /// EKS add-ons can only be used with Amazon EKS clusters running version 1.18
+  /// with platform version <code>eks.3</code> or later because add-ons rely on
+  /// the Server-side Apply Kubernetes feature, which is only available in
+  /// Kubernetes 1.18 and later.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ClientException].
+  /// May throw [ServerException].
+  ///
+  /// Parameter [addonName] :
+  /// The name of the add-on. The name must match one of the names returned by
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html">
+  /// <code>ListAddons</code> </a>.
+  ///
+  /// Parameter [clusterName] :
+  /// The name of the cluster to create the add-on for.
+  ///
+  /// Parameter [addonVersion] :
+  /// The version of the add-on. The version must match one of the versions
+  /// returned by <a
+  /// href="https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html">
+  /// <code>DescribeAddonVersions</code> </a>.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [resolveConflicts] :
+  /// How to resolve parameter value conflicts when migrating an existing add-on
+  /// to an Amazon EKS add-on.
+  ///
+  /// Parameter [serviceAccountRoleArn] :
+  /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the
+  /// add-on's service account. The role must be assigned the IAM permissions
+  /// required by the add-on. If you don't specify an existing IAM role, then
+  /// the add-on uses the permissions assigned to the node IAM role. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html">Amazon
+  /// EKS node IAM role</a> in the <i>Amazon EKS User Guide</i>.
+  /// <note>
+  /// To specify an existing IAM role, you must have an IAM OpenID Connect
+  /// (OIDC) provider created for your cluster. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html">Enabling
+  /// IAM roles for service accounts on your cluster</a> in the <i>Amazon EKS
+  /// User Guide</i>.
+  /// </note>
+  ///
+  /// Parameter [tags] :
+  /// The metadata to apply to the cluster to assist with categorization and
+  /// organization. Each tag consists of a key and an optional value, both of
+  /// which you define.
+  Future<CreateAddonResponse> createAddon({
+    @_s.required String addonName,
+    @_s.required String clusterName,
+    String addonVersion,
+    String clientRequestToken,
+    ResolveConflicts resolveConflicts,
+    String serviceAccountRoleArn,
+    Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(addonName, 'addonName');
+    ArgumentError.checkNotNull(clusterName, 'clusterName');
+    _s.validateStringLength(
+      'clusterName',
+      clusterName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clusterName',
+      clusterName,
+      r'''^[0-9A-Za-z][A-Za-z0-9\-_]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'serviceAccountRoleArn',
+      serviceAccountRoleArn,
+      1,
+      255,
+    );
+    final $payload = <String, dynamic>{
+      'addonName': addonName,
+      if (addonVersion != null) 'addonVersion': addonVersion,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (resolveConflicts != null)
+        'resolveConflicts': resolveConflicts.toValue(),
+      if (serviceAccountRoleArn != null)
+        'serviceAccountRoleArn': serviceAccountRoleArn,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/clusters/${Uri.encodeComponent(clusterName)}/addons',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAddonResponse.fromJson(response);
+  }
+
   /// Creates an Amazon EKS control plane.
   ///
   /// The Amazon EKS control plane consists of control plane instances that run
@@ -133,8 +241,8 @@ class EKS {
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role that provides permissions
-  /// for Amazon EKS to make calls to other AWS API operations on your behalf.
-  /// For more information, see <a
+  /// for the Kubernetes control plane to make calls to AWS API operations on
+  /// your behalf. For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html">Amazon
   /// EKS Service IAM Role</a> in the <i> <i>Amazon EKS User Guide</i> </i>.
   ///
@@ -144,6 +252,9 @@ class EKS {
   ///
   /// Parameter [encryptionConfig] :
   /// The encryption configuration for the cluster.
+  ///
+  /// Parameter [kubernetesNetworkConfig] :
+  /// The Kubernetes network configuration for the cluster.
   ///
   /// Parameter [logging] :
   /// Enable or disable exporting the Kubernetes control plane logs for your
@@ -173,6 +284,7 @@ class EKS {
     @_s.required String roleArn,
     String clientRequestToken,
     List<EncryptionConfig> encryptionConfig,
+    KubernetesNetworkConfigRequest kubernetesNetworkConfig,
     Logging logging,
     Map<String, String> tags,
     String version,
@@ -199,6 +311,8 @@ class EKS {
       'roleArn': roleArn,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (encryptionConfig != null) 'encryptionConfig': encryptionConfig,
+      if (kubernetesNetworkConfig != null)
+        'kubernetesNetworkConfig': kubernetesNetworkConfig,
       if (logging != null) 'logging': logging,
       if (tags != null) 'tags': tags,
       if (version != null) 'version': version,
@@ -328,11 +442,14 @@ class EKS {
   /// only create a node group for your cluster that is equal to the current
   /// Kubernetes version for the cluster. All node groups are created with the
   /// latest AMI release version for the respective minor Kubernetes version of
-  /// the cluster.
+  /// the cluster, unless you deploy a custom AMI using a launch template. For
+  /// more information about using launch templates, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+  /// template support</a>.
   ///
   /// An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and
   /// associated Amazon EC2 instances that are managed by AWS for an Amazon EKS
-  /// cluster. Each node group uses a version of the Amazon EKS-optimized Amazon
+  /// cluster. Each node group uses a version of the Amazon EKS optimized Amazon
   /// Linux 2 AMI. For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html">Managed
   /// Node Groups</a> in the <i>Amazon EKS User Guide</i>.
@@ -358,6 +475,13 @@ class EKS {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html">Amazon
   /// EKS Worker Node IAM Role</a> in the <i> <i>Amazon EKS User Guide</i> </i>.
+  /// If you specify <code>launchTemplate</code>, then don't specify <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html">
+  /// <code>IamInstanceProfile</code> </a> in your launch template, or the node
+  /// group deployment will fail. For more information about using launch
+  /// templates with Amazon EKS, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the Amazon EKS User Guide.
   ///
   /// Parameter [nodegroupName] :
   /// The unique name to give your node group.
@@ -367,14 +491,29 @@ class EKS {
   /// node group. These subnets must have the tag key
   /// <code>kubernetes.io/cluster/CLUSTER_NAME</code> with a value of
   /// <code>shared</code>, where <code>CLUSTER_NAME</code> is replaced with the
-  /// name of your cluster.
+  /// name of your cluster. If you specify <code>launchTemplate</code>, then
+  /// don't specify <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html">
+  /// <code>SubnetId</code> </a> in your launch template, or the node group
+  /// deployment will fail. For more information about using launch templates
+  /// with Amazon EKS, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the Amazon EKS User Guide.
   ///
   /// Parameter [amiType] :
   /// The AMI type for your node group. GPU instance types should use the
-  /// <code>AL2_x86_64_GPU</code> AMI type, which uses the Amazon EKS-optimized
-  /// Linux AMI with GPU support. Non-GPU instances should use the
-  /// <code>AL2_x86_64</code> AMI type, which uses the Amazon EKS-optimized
-  /// Linux AMI.
+  /// <code>AL2_x86_64_GPU</code> AMI type. Non-GPU instances should use the
+  /// <code>AL2_x86_64</code> AMI type. Arm instances should use the
+  /// <code>AL2_ARM_64</code> AMI type. All types use the Amazon EKS optimized
+  /// Amazon Linux 2 AMI. If you specify <code>launchTemplate</code>, and your
+  /// launch template uses a custom AMI, then don't specify
+  /// <code>amiType</code>, or the node group deployment will fail. For more
+  /// information about using launch templates with Amazon EKS, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the Amazon EKS User Guide.
+  ///
+  /// Parameter [capacityType] :
+  /// The capacity type for your node group.
   ///
   /// Parameter [clientRequestToken] :
   /// Unique, case-sensitive identifier that you provide to ensure the
@@ -382,28 +521,63 @@ class EKS {
   ///
   /// Parameter [diskSize] :
   /// The root device disk size (in GiB) for your node group instances. The
-  /// default disk size is 20 GiB.
+  /// default disk size is 20 GiB. If you specify <code>launchTemplate</code>,
+  /// then don't specify <code>diskSize</code>, or the node group deployment
+  /// will fail. For more information about using launch templates with Amazon
+  /// EKS, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the Amazon EKS User Guide.
   ///
   /// Parameter [instanceTypes] :
-  /// The instance type to use for your node group. Currently, you can specify a
-  /// single instance type for a node group. The default value for this
-  /// parameter is <code>t3.medium</code>. If you choose a GPU instance type, be
-  /// sure to specify the <code>AL2_x86_64_GPU</code> with the
-  /// <code>amiType</code> parameter.
+  /// Specify the instance types for a node group. If you specify a GPU instance
+  /// type, be sure to specify <code>AL2_x86_64_GPU</code> with the
+  /// <code>amiType</code> parameter. If you specify
+  /// <code>launchTemplate</code>, then you can specify zero or one instance
+  /// type in your launch template <i>or</i> you can specify 0-20 instance types
+  /// for <code>instanceTypes</code>. If however, you specify an instance type
+  /// in your launch template <i>and</i> specify any <code>instanceTypes</code>,
+  /// the node group deployment will fail. If you don't specify an instance type
+  /// in a launch template or for <code>instanceTypes</code>, then
+  /// <code>t3.medium</code> is used, by default. If you specify
+  /// <code>Spot</code> for <code>capacityType</code>, then we recommend
+  /// specifying multiple values for <code>instanceTypes</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/managed-node-groups.html#managed-node-group-capacity-types">Managed
+  /// node group capacity types</a> and <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the <i>Amazon EKS User Guide</i>.
   ///
   /// Parameter [labels] :
   /// The Kubernetes labels to be applied to the nodes in the node group when
   /// they are created.
   ///
+  /// Parameter [launchTemplate] :
+  /// An object representing a node group's launch template specification. If
+  /// specified, then do not specify <code>instanceTypes</code>,
+  /// <code>diskSize</code>, or <code>remoteAccess</code> and make sure that the
+  /// launch template meets the requirements in
+  /// <code>launchTemplateSpecification</code>.
+  ///
   /// Parameter [releaseVersion] :
-  /// The AMI version of the Amazon EKS-optimized AMI to use with your node
+  /// The AMI version of the Amazon EKS optimized AMI to use with your node
   /// group. By default, the latest available AMI version for the node group's
   /// current Kubernetes version is used. For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html">Amazon
-  /// EKS-Optimized Linux AMI Versions</a> in the <i>Amazon EKS User Guide</i>.
+  /// EKS optimized Amazon Linux 2 AMI versions</a> in the <i>Amazon EKS User
+  /// Guide</i>. If you specify <code>launchTemplate</code>, and your launch
+  /// template uses a custom AMI, then don't specify
+  /// <code>releaseVersion</code>, or the node group deployment will fail. For
+  /// more information about using launch templates with Amazon EKS, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the Amazon EKS User Guide.
   ///
   /// Parameter [remoteAccess] :
-  /// The remote access (SSH) configuration to use with your node group.
+  /// The remote access (SSH) configuration to use with your node group. If you
+  /// specify <code>launchTemplate</code>, then don't specify
+  /// <code>remoteAccess</code>, or the node group deployment will fail. For
+  /// more information about using launch templates with Amazon EKS, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the Amazon EKS User Guide.
   ///
   /// Parameter [scalingConfig] :
   /// The scaling configuration details for the Auto Scaling group that is
@@ -419,17 +593,24 @@ class EKS {
   /// Parameter [version] :
   /// The Kubernetes version to use for your managed nodes. By default, the
   /// Kubernetes version of the cluster is used, and this is the only accepted
-  /// specified value.
+  /// specified value. If you specify <code>launchTemplate</code>, and your
+  /// launch template uses a custom AMI, then don't specify
+  /// <code>version</code>, or the node group deployment will fail. For more
+  /// information about using launch templates with Amazon EKS, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the Amazon EKS User Guide.
   Future<CreateNodegroupResponse> createNodegroup({
     @_s.required String clusterName,
     @_s.required String nodeRole,
     @_s.required String nodegroupName,
     @_s.required List<String> subnets,
     AMITypes amiType,
+    CapacityTypes capacityType,
     String clientRequestToken,
     int diskSize,
     List<String> instanceTypes,
     Map<String, String> labels,
+    LaunchTemplateSpecification launchTemplate,
     String releaseVersion,
     RemoteAccessConfig remoteAccess,
     NodegroupScalingConfig scalingConfig,
@@ -445,10 +626,12 @@ class EKS {
       'nodegroupName': nodegroupName,
       'subnets': subnets,
       if (amiType != null) 'amiType': amiType.toValue(),
+      if (capacityType != null) 'capacityType': capacityType.toValue(),
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (diskSize != null) 'diskSize': diskSize,
       if (instanceTypes != null) 'instanceTypes': instanceTypes,
       if (labels != null) 'labels': labels,
+      if (launchTemplate != null) 'launchTemplate': launchTemplate,
       if (releaseVersion != null) 'releaseVersion': releaseVersion,
       if (remoteAccess != null) 'remoteAccess': remoteAccess,
       if (scalingConfig != null) 'scalingConfig': scalingConfig,
@@ -462,6 +645,55 @@ class EKS {
       exceptionFnMap: _exceptionFns,
     );
     return CreateNodegroupResponse.fromJson(response);
+  }
+
+  /// Delete an Amazon EKS add-on.
+  ///
+  /// When you remove the add-on, it will also be deleted from the cluster. You
+  /// can always manually start an add-on on the cluster using the Kubernetes
+  /// API.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ClientException].
+  /// May throw [ServerException].
+  ///
+  /// Parameter [addonName] :
+  /// The name of the add-on. The name must match one of the names returned by
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html">
+  /// <code>ListAddons</code> </a>.
+  ///
+  /// Parameter [clusterName] :
+  /// The name of the cluster to delete the add-on from.
+  Future<DeleteAddonResponse> deleteAddon({
+    @_s.required String addonName,
+    @_s.required String clusterName,
+  }) async {
+    ArgumentError.checkNotNull(addonName, 'addonName');
+    ArgumentError.checkNotNull(clusterName, 'clusterName');
+    _s.validateStringLength(
+      'clusterName',
+      clusterName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clusterName',
+      clusterName,
+      r'''^[0-9A-Za-z][A-Za-z0-9\-_]*''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/clusters/${Uri.encodeComponent(clusterName)}/addons/${Uri.encodeComponent(addonName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteAddonResponse.fromJson(response);
   }
 
   /// Deletes the Amazon EKS cluster control plane.
@@ -567,6 +799,107 @@ class EKS {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteNodegroupResponse.fromJson(response);
+  }
+
+  /// Describes an Amazon EKS add-on.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ClientException].
+  /// May throw [ServerException].
+  ///
+  /// Parameter [addonName] :
+  /// The name of the add-on. The name must match one of the names returned by
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html">
+  /// <code>ListAddons</code> </a>.
+  ///
+  /// Parameter [clusterName] :
+  /// The name of the cluster.
+  Future<DescribeAddonResponse> describeAddon({
+    @_s.required String addonName,
+    @_s.required String clusterName,
+  }) async {
+    ArgumentError.checkNotNull(addonName, 'addonName');
+    ArgumentError.checkNotNull(clusterName, 'clusterName');
+    _s.validateStringLength(
+      'clusterName',
+      clusterName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clusterName',
+      clusterName,
+      r'''^[0-9A-Za-z][A-Za-z0-9\-_]*''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/clusters/${Uri.encodeComponent(clusterName)}/addons/${Uri.encodeComponent(addonName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAddonResponse.fromJson(response);
+  }
+
+  /// Describes the Kubernetes versions that the add-on can be used with.
+  ///
+  /// May throw [ServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [addonName] :
+  /// The name of the add-on. The name must match one of the names returned by
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html">
+  /// <code>ListAddons</code> </a>.
+  ///
+  /// Parameter [kubernetesVersion] :
+  /// The Kubernetes versions that the add-on can be used with.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribeAddonVersionsRequest</code> where <code>maxResults</code>
+  /// was used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is used only to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  Future<DescribeAddonVersionsResponse> describeAddonVersions({
+    String addonName,
+    String kubernetesVersion,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (addonName != null) 'addonName': [addonName],
+      if (kubernetesVersion != null) 'kubernetesVersion': [kubernetesVersion],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/addons/supported-versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAddonVersionsResponse.fromJson(response);
   }
 
   /// Returns descriptive information about an Amazon EKS cluster.
@@ -677,16 +1010,24 @@ class EKS {
   /// Parameter [updateId] :
   /// The ID of the update to describe.
   ///
+  /// Parameter [addonName] :
+  /// The name of the add-on. The name must match one of the names returned by
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html">
+  /// <code>ListAddons</code> </a>.
+  ///
   /// Parameter [nodegroupName] :
   /// The name of the Amazon EKS node group associated with the update.
   Future<DescribeUpdateResponse> describeUpdate({
     @_s.required String name,
     @_s.required String updateId,
+    String addonName,
     String nodegroupName,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(updateId, 'updateId');
     final $query = <String, List<String>>{
+      if (addonName != null) 'addonName': [addonName],
       if (nodegroupName != null) 'nodegroupName': [nodegroupName],
     };
     final response = await _protocol.send(
@@ -698,6 +1039,78 @@ class EKS {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeUpdateResponse.fromJson(response);
+  }
+
+  /// Lists the available add-ons.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ClientException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServerException].
+  ///
+  /// Parameter [clusterName] :
+  /// The name of the cluster.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of add-on results returned by
+  /// <code>ListAddonsRequest</code> in paginated output. When you use this
+  /// parameter, <code>ListAddonsRequest</code> returns only
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. You can see the remaining results
+  /// of the initial request by sending another <code>ListAddonsRequest</code>
+  /// request with the returned <code>nextToken</code> value. This value can be
+  /// between 1 and 100. If you don't use this parameter,
+  /// <code>ListAddonsRequest</code> returns up to 100 results and a
+  /// <code>nextToken</code> value, if applicable.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListAddonsRequest</code> where <code>maxResults</code> was used and
+  /// the results exceeded the value of that parameter. Pagination continues
+  /// from the end of the previous results that returned the
+  /// <code>nextToken</code> value.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is used only to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  Future<ListAddonsResponse> listAddons({
+    @_s.required String clusterName,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(clusterName, 'clusterName');
+    _s.validateStringLength(
+      'clusterName',
+      clusterName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clusterName',
+      clusterName,
+      r'''^[0-9A-Za-z][A-Za-z0-9\-_]*''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/clusters/${Uri.encodeComponent(clusterName)}/addons',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAddonsResponse.fromJson(response);
   }
 
   /// Lists the Amazon EKS clusters in your AWS account in the specified Region.
@@ -900,6 +1313,9 @@ class EKS {
   /// Parameter [name] :
   /// The name of the Amazon EKS cluster to list updates for.
   ///
+  /// Parameter [addonName] :
+  /// The names of the installed add-ons that have available updates.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of update results returned by <code>ListUpdates</code>
   /// in paginated output. When you use this parameter, <code>ListUpdates</code>
@@ -922,6 +1338,7 @@ class EKS {
   /// The name of the Amazon EKS managed node group to list updates for.
   Future<ListUpdatesResponse> listUpdates({
     @_s.required String name,
+    String addonName,
     int maxResults,
     String nextToken,
     String nodegroupName,
@@ -934,6 +1351,7 @@ class EKS {
       100,
     );
     final $query = <String, List<String>>{
+      if (addonName != null) 'addonName': [addonName],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (nodegroupName != null) 'nodegroupName': [nodegroupName],
@@ -1014,6 +1432,100 @@ class EKS {
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
+  }
+
+  /// Updates an Amazon EKS add-on.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ClientException].
+  /// May throw [ServerException].
+  ///
+  /// Parameter [addonName] :
+  /// The name of the add-on. The name must match one of the names returned by
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html">
+  /// <code>ListAddons</code> </a>.
+  ///
+  /// Parameter [clusterName] :
+  /// The name of the cluster.
+  ///
+  /// Parameter [addonVersion] :
+  /// The version of the add-on. The version must match one of the versions
+  /// returned by <a
+  /// href="https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html">
+  /// <code>DescribeAddonVersions</code> </a>.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [resolveConflicts] :
+  /// How to resolve parameter value conflicts when applying the new version of
+  /// the add-on to the cluster.
+  ///
+  /// Parameter [serviceAccountRoleArn] :
+  /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the
+  /// add-on's service account. The role must be assigned the IAM permissions
+  /// required by the add-on. If you don't specify an existing IAM role, then
+  /// the add-on uses the permissions assigned to the node IAM role. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html">Amazon
+  /// EKS node IAM role</a> in the <i>Amazon EKS User Guide</i>.
+  /// <note>
+  /// To specify an existing IAM role, you must have an IAM OpenID Connect
+  /// (OIDC) provider created for your cluster. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html">Enabling
+  /// IAM roles for service accounts on your cluster</a> in the <i>Amazon EKS
+  /// User Guide</i>.
+  /// </note>
+  Future<UpdateAddonResponse> updateAddon({
+    @_s.required String addonName,
+    @_s.required String clusterName,
+    String addonVersion,
+    String clientRequestToken,
+    ResolveConflicts resolveConflicts,
+    String serviceAccountRoleArn,
+  }) async {
+    ArgumentError.checkNotNull(addonName, 'addonName');
+    ArgumentError.checkNotNull(clusterName, 'clusterName');
+    _s.validateStringLength(
+      'clusterName',
+      clusterName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clusterName',
+      clusterName,
+      r'''^[0-9A-Za-z][A-Za-z0-9\-_]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'serviceAccountRoleArn',
+      serviceAccountRoleArn,
+      1,
+      255,
+    );
+    final $payload = <String, dynamic>{
+      if (addonVersion != null) 'addonVersion': addonVersion,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (resolveConflicts != null)
+        'resolveConflicts': resolveConflicts.toValue(),
+      if (serviceAccountRoleArn != null)
+        'serviceAccountRoleArn': serviceAccountRoleArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/clusters/${Uri.encodeComponent(clusterName)}/addons/${Uri.encodeComponent(addonName)}/update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAddonResponse.fromJson(response);
   }
 
   /// Updates an Amazon EKS cluster configuration. Your cluster continues to
@@ -1207,13 +1719,22 @@ class EKS {
   /// Updates the Kubernetes version or AMI version of an Amazon EKS managed
   /// node group.
   ///
-  /// You can update to the latest available AMI version of a node group's
-  /// current Kubernetes version by not specifying a Kubernetes version in the
-  /// request. You can update to the latest AMI version of your cluster's
-  /// current Kubernetes version by specifying your cluster's Kubernetes version
-  /// in the request. For more information, see <a
+  /// You can update a node group using a launch template only if the node group
+  /// was originally deployed with a launch template. If you need to update a
+  /// custom AMI in a node group that was deployed with a launch template, then
+  /// update your custom AMI, specify the new ID in a new version of the launch
+  /// template, and then update the node group to the new version of the launch
+  /// template.
+  ///
+  /// If you update without a launch template, then you can update to the latest
+  /// available AMI version of a node group's current Kubernetes version by not
+  /// specifying a Kubernetes version in the request. You can update to the
+  /// latest AMI version of your cluster's current Kubernetes version by
+  /// specifying your cluster's Kubernetes version in the request. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html">Amazon
-  /// EKS-Optimized Linux AMI Versions</a> in the <i>Amazon EKS User Guide</i>.
+  /// EKS optimized Amazon Linux 2 AMI versions</a> in the <i>Amazon EKS User
+  /// Guide</i>.
   ///
   /// You cannot roll back a node group to an earlier Kubernetes version or AMI
   /// version.
@@ -1248,23 +1769,41 @@ class EKS {
   /// pods could not be drained, you can force the update after it fails to
   /// terminate the old node whether or not any pods are running on the node.
   ///
+  /// Parameter [launchTemplate] :
+  /// An object representing a node group's launch template specification. You
+  /// can only update a node group using a launch template if the node group was
+  /// originally deployed with a launch template.
+  ///
   /// Parameter [releaseVersion] :
-  /// The AMI version of the Amazon EKS-optimized AMI to use for the update. By
+  /// The AMI version of the Amazon EKS optimized AMI to use for the update. By
   /// default, the latest available AMI version for the node group's Kubernetes
   /// version is used. For more information, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html">Amazon
-  /// EKS-Optimized Linux AMI Versions </a> in the <i>Amazon EKS User Guide</i>.
+  /// EKS optimized Amazon Linux 2 AMI versions </a> in the <i>Amazon EKS User
+  /// Guide</i>. If you specify <code>launchTemplate</code>, and your launch
+  /// template uses a custom AMI, then don't specify
+  /// <code>releaseVersion</code>, or the node group update will fail. For more
+  /// information about using launch templates with Amazon EKS, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the Amazon EKS User Guide.
   ///
   /// Parameter [version] :
   /// The Kubernetes version to update to. If no version is specified, then the
   /// Kubernetes version of the node group does not change. You can specify the
   /// Kubernetes version of the cluster to update the node group to the latest
-  /// AMI version of the cluster's Kubernetes version.
+  /// AMI version of the cluster's Kubernetes version. If you specify
+  /// <code>launchTemplate</code>, and your launch template uses a custom AMI,
+  /// then don't specify <code>version</code>, or the node group update will
+  /// fail. For more information about using launch templates with Amazon EKS,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the Amazon EKS User Guide.
   Future<UpdateNodegroupVersionResponse> updateNodegroupVersion({
     @_s.required String clusterName,
     @_s.required String nodegroupName,
     String clientRequestToken,
     bool force,
+    LaunchTemplateSpecification launchTemplate,
     String releaseVersion,
     String version,
   }) async {
@@ -1273,6 +1812,7 @@ class EKS {
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (force != null) 'force': force,
+      if (launchTemplate != null) 'launchTemplate': launchTemplate,
       if (releaseVersion != null) 'releaseVersion': releaseVersion,
       if (version != null) 'version': version,
     };
@@ -1292,6 +1832,8 @@ enum AMITypes {
   al2X86_64,
   @_s.JsonValue('AL2_x86_64_GPU')
   al2X86_64Gpu,
+  @_s.JsonValue('AL2_ARM_64')
+  al2Arm_64,
 }
 
 extension on AMITypes {
@@ -1301,9 +1843,212 @@ extension on AMITypes {
         return 'AL2_x86_64';
       case AMITypes.al2X86_64Gpu:
         return 'AL2_x86_64_GPU';
+      case AMITypes.al2Arm_64:
+        return 'AL2_ARM_64';
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+/// An Amazon EKS add-on.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Addon {
+  /// The Amazon Resource Name (ARN) of the add-on.
+  @_s.JsonKey(name: 'addonArn')
+  final String addonArn;
+
+  /// The name of the add-on.
+  @_s.JsonKey(name: 'addonName')
+  final String addonName;
+
+  /// The version of the add-on.
+  @_s.JsonKey(name: 'addonVersion')
+  final String addonVersion;
+
+  /// The name of the cluster.
+  @_s.JsonKey(name: 'clusterName')
+  final String clusterName;
+
+  /// The date and time that the add-on was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// An object that represents the health of the add-on.
+  @_s.JsonKey(name: 'health')
+  final AddonHealth health;
+
+  /// The date and time that the add-on was last modified.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'modifiedAt')
+  final DateTime modifiedAt;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that is bound to the
+  /// Kubernetes service account used by the add-on.
+  @_s.JsonKey(name: 'serviceAccountRoleArn')
+  final String serviceAccountRoleArn;
+
+  /// The status of the add-on.
+  @_s.JsonKey(name: 'status')
+  final AddonStatus status;
+
+  /// The metadata that you apply to the cluster to assist with categorization and
+  /// organization. Each tag consists of a key and an optional value, both of
+  /// which you define. Cluster tags do not propagate to any other resources
+  /// associated with the cluster.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  Addon({
+    this.addonArn,
+    this.addonName,
+    this.addonVersion,
+    this.clusterName,
+    this.createdAt,
+    this.health,
+    this.modifiedAt,
+    this.serviceAccountRoleArn,
+    this.status,
+    this.tags,
+  });
+  factory Addon.fromJson(Map<String, dynamic> json) => _$AddonFromJson(json);
+}
+
+/// The health of the add-on.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AddonHealth {
+  /// An object that represents the add-on's health issues.
+  @_s.JsonKey(name: 'issues')
+  final List<AddonIssue> issues;
+
+  AddonHealth({
+    this.issues,
+  });
+  factory AddonHealth.fromJson(Map<String, dynamic> json) =>
+      _$AddonHealthFromJson(json);
+}
+
+/// Information about an add-on.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AddonInfo {
+  /// The name of the add-on.
+  @_s.JsonKey(name: 'addonName')
+  final String addonName;
+
+  /// An object that represents information about available add-on versions and
+  /// compatible Kubernetes versions.
+  @_s.JsonKey(name: 'addonVersions')
+  final List<AddonVersionInfo> addonVersions;
+
+  /// The type of the add-on.
+  @_s.JsonKey(name: 'type')
+  final String type;
+
+  AddonInfo({
+    this.addonName,
+    this.addonVersions,
+    this.type,
+  });
+  factory AddonInfo.fromJson(Map<String, dynamic> json) =>
+      _$AddonInfoFromJson(json);
+}
+
+/// An issue related to an add-on.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AddonIssue {
+  /// A code that describes the type of issue.
+  @_s.JsonKey(name: 'code')
+  final AddonIssueCode code;
+
+  /// A message that provides details about the issue and what might cause it.
+  @_s.JsonKey(name: 'message')
+  final String message;
+
+  /// The resource IDs of the issue.
+  @_s.JsonKey(name: 'resourceIds')
+  final List<String> resourceIds;
+
+  AddonIssue({
+    this.code,
+    this.message,
+    this.resourceIds,
+  });
+  factory AddonIssue.fromJson(Map<String, dynamic> json) =>
+      _$AddonIssueFromJson(json);
+}
+
+enum AddonIssueCode {
+  @_s.JsonValue('AccessDenied')
+  accessDenied,
+  @_s.JsonValue('InternalFailure')
+  internalFailure,
+  @_s.JsonValue('ClusterUnreachable')
+  clusterUnreachable,
+  @_s.JsonValue('InsufficientNumberOfReplicas')
+  insufficientNumberOfReplicas,
+  @_s.JsonValue('ConfigurationConflict')
+  configurationConflict,
+}
+
+enum AddonStatus {
+  @_s.JsonValue('CREATING')
+  creating,
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('CREATE_FAILED')
+  createFailed,
+  @_s.JsonValue('UPDATING')
+  updating,
+  @_s.JsonValue('DELETING')
+  deleting,
+  @_s.JsonValue('DELETE_FAILED')
+  deleteFailed,
+  @_s.JsonValue('DEGRADED')
+  degraded,
+}
+
+/// Information about an add-on version.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AddonVersionInfo {
+  /// The version of the add-on.
+  @_s.JsonKey(name: 'addonVersion')
+  final String addonVersion;
+
+  /// The architectures that the version supports.
+  @_s.JsonKey(name: 'architecture')
+  final List<String> architecture;
+
+  /// An object that represents the compatibilities of a version.
+  @_s.JsonKey(name: 'compatibilities')
+  final List<Compatibility> compatibilities;
+
+  AddonVersionInfo({
+    this.addonVersion,
+    this.architecture,
+    this.compatibilities,
+  });
+  factory AddonVersionInfo.fromJson(Map<String, dynamic> json) =>
+      _$AddonVersionInfoFromJson(json);
 }
 
 /// An Auto Scaling group that is associated with an Amazon EKS managed node
@@ -1324,6 +2069,25 @@ class AutoScalingGroup {
   });
   factory AutoScalingGroup.fromJson(Map<String, dynamic> json) =>
       _$AutoScalingGroupFromJson(json);
+}
+
+enum CapacityTypes {
+  @_s.JsonValue('ON_DEMAND')
+  onDemand,
+  @_s.JsonValue('SPOT')
+  spot,
+}
+
+extension on CapacityTypes {
+  String toValue() {
+    switch (this) {
+      case CapacityTypes.onDemand:
+        return 'ON_DEMAND';
+      case CapacityTypes.spot:
+        return 'SPOT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// An object representing the <code>certificate-authority-data</code> for your
@@ -1384,6 +2148,10 @@ class Cluster {
   @_s.JsonKey(name: 'identity')
   final Identity identity;
 
+  /// The Kubernetes network configuration for the cluster.
+  @_s.JsonKey(name: 'kubernetesNetworkConfig')
+  final KubernetesNetworkConfigResponse kubernetesNetworkConfig;
+
   /// The logging configuration for your cluster.
   @_s.JsonKey(name: 'logging')
   final Logging logging;
@@ -1438,6 +2206,7 @@ class Cluster {
     this.encryptionConfig,
     this.endpoint,
     this.identity,
+    this.kubernetesNetworkConfig,
     this.logging,
     this.name,
     this.platformVersion,
@@ -1462,6 +2231,50 @@ enum ClusterStatus {
   failed,
   @_s.JsonValue('UPDATING')
   updating,
+}
+
+/// Compatibility information.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Compatibility {
+  /// The supported Kubernetes version of the cluster.
+  @_s.JsonKey(name: 'clusterVersion')
+  final String clusterVersion;
+
+  /// The supported default version.
+  @_s.JsonKey(name: 'defaultVersion')
+  final bool defaultVersion;
+
+  /// The supported compute platform.
+  @_s.JsonKey(name: 'platformVersions')
+  final List<String> platformVersions;
+
+  Compatibility({
+    this.clusterVersion,
+    this.defaultVersion,
+    this.platformVersions,
+  });
+  factory Compatibility.fromJson(Map<String, dynamic> json) =>
+      _$CompatibilityFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateAddonResponse {
+  @_s.JsonKey(name: 'addon')
+  final Addon addon;
+
+  CreateAddonResponse({
+    this.addon,
+  });
+  factory CreateAddonResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateAddonResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1520,6 +2333,22 @@ class CreateNodegroupResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteAddonResponse {
+  @_s.JsonKey(name: 'addon')
+  final Addon addon;
+
+  DeleteAddonResponse({
+    this.addon,
+  });
+  factory DeleteAddonResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteAddonResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteClusterResponse {
   /// The full description of the cluster to delete.
   @_s.JsonKey(name: 'cluster')
@@ -1564,6 +2393,52 @@ class DeleteNodegroupResponse {
   });
   factory DeleteNodegroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteNodegroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeAddonResponse {
+  @_s.JsonKey(name: 'addon')
+  final Addon addon;
+
+  DescribeAddonResponse({
+    this.addon,
+  });
+  factory DescribeAddonResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeAddonResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeAddonVersionsResponse {
+  /// The list of available versions with Kubernetes version compatibility.
+  @_s.JsonKey(name: 'addons')
+  final List<AddonInfo> addons;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>DescribeAddonVersionsResponse</code> where <code>maxResults</code> was
+  /// used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is used only to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  DescribeAddonVersionsResponse({
+    this.addons,
+    this.nextToken,
+  });
+  factory DescribeAddonVersionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeAddonVersionsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1684,6 +2559,12 @@ enum ErrorCode {
   podEvictionFailure,
   @_s.JsonValue('InsufficientFreeAddresses')
   insufficientFreeAddresses,
+  @_s.JsonValue('ClusterUnreachable')
+  clusterUnreachable,
+  @_s.JsonValue('InsufficientNumberOfReplicas')
+  insufficientNumberOfReplicas,
+  @_s.JsonValue('ConfigurationConflict')
+  configurationConflict,
 }
 
 /// An object representing an error when an asynchronous operation fails.
@@ -1882,18 +2763,24 @@ class Issue {
   ///
   /// <ul>
   /// <li>
+  /// <b>AccessDenied</b>: Amazon EKS or one or more of your managed nodes is
+  /// failing to authenticate or authorize with your Kubernetes cluster API
+  /// server.
+  /// </li>
+  /// <li>
+  /// <b>AsgInstanceLaunchFailures</b>: Your Auto Scaling group is experiencing
+  /// failures while attempting to launch instances.
+  /// </li>
+  /// <li>
   /// <b>AutoScalingGroupNotFound</b>: We couldn't find the Auto Scaling group
   /// associated with the managed node group. You may be able to recreate an Auto
   /// Scaling group with the same settings to recover.
   /// </li>
   /// <li>
-  /// <b>Ec2SecurityGroupNotFound</b>: We couldn't find the cluster security group
-  /// for the cluster. You must recreate your cluster.
-  /// </li>
-  /// <li>
-  /// <b>Ec2SecurityGroupDeletionFailure</b>: We could not delete the remote
-  /// access security group for your managed node group. Remove any dependencies
-  /// from the security group.
+  /// <b>ClusterUnreachable</b>: Amazon EKS or one or more of your managed nodes
+  /// is unable to to communicate with your Kubernetes cluster API server. This
+  /// can happen if there are network disruptions or if API servers are timing out
+  /// processing requests.
   /// </li>
   /// <li>
   /// <b>Ec2LaunchTemplateNotFound</b>: We couldn't find the Amazon EC2 launch
@@ -1907,6 +2794,25 @@ class Issue {
   /// created to recover.
   /// </li>
   /// <li>
+  /// <b>Ec2SecurityGroupDeletionFailure</b>: We could not delete the remote
+  /// access security group for your managed node group. Remove any dependencies
+  /// from the security group.
+  /// </li>
+  /// <li>
+  /// <b>Ec2SecurityGroupNotFound</b>: We couldn't find the cluster security group
+  /// for the cluster. You must recreate your cluster.
+  /// </li>
+  /// <li>
+  /// <b>Ec2SubnetInvalidConfiguration</b>: One or more Amazon EC2 subnets
+  /// specified for a node group do not automatically assign public IP addresses
+  /// to instances launched into it. If you want your instances to be assigned a
+  /// public IP address, then you need to enable the <code>auto-assign public IP
+  /// address</code> setting for the subnet. See <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip">Modifying
+  /// the public IPv4 addressing attribute for your subnet</a> in the Amazon VPC
+  /// User Guide.
+  /// </li>
+  /// <li>
   /// <b>IamInstanceProfileNotFound</b>: We couldn't find the IAM instance profile
   /// for your managed node group. You may be able to recreate an instance profile
   /// with the same settings to recover.
@@ -1915,18 +2821,6 @@ class Issue {
   /// <b>IamNodeRoleNotFound</b>: We couldn't find the IAM role for your managed
   /// node group. You may be able to recreate an IAM role with the same settings
   /// to recover.
-  /// </li>
-  /// <li>
-  /// <b>AsgInstanceLaunchFailures</b>: Your Auto Scaling group is experiencing
-  /// failures while attempting to launch instances.
-  /// </li>
-  /// <li>
-  /// <b>NodeCreationFailure</b>: Your launched instances are unable to register
-  /// with your Amazon EKS cluster. Common causes of this failure are insufficient
-  /// <a
-  /// href="https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html">worker
-  /// node IAM role</a> permissions or lack of outbound internet access for the
-  /// nodes.
   /// </li>
   /// <li>
   /// <b>InstanceLimitExceeded</b>: Your AWS account is unable to launch any more
@@ -1939,12 +2833,16 @@ class Issue {
   /// nodes.
   /// </li>
   /// <li>
-  /// <b>AccessDenied</b>: Amazon EKS or one or more of your managed nodes is
-  /// unable to communicate with your cluster API server.
-  /// </li>
-  /// <li>
   /// <b>InternalFailure</b>: These errors are usually caused by an Amazon EKS
   /// server-side issue.
+  /// </li>
+  /// <li>
+  /// <b>NodeCreationFailure</b>: Your launched instances are unable to register
+  /// with your Amazon EKS cluster. Common causes of this failure are insufficient
+  /// <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html">worker
+  /// node IAM role</a> permissions or lack of outbound internet access for the
+  /// nodes.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'code')
@@ -1964,6 +2862,146 @@ class Issue {
     this.resourceIds,
   });
   factory Issue.fromJson(Map<String, dynamic> json) => _$IssueFromJson(json);
+}
+
+/// The Kubernetes network configuration for the cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class KubernetesNetworkConfigRequest {
+  /// The CIDR block to assign Kubernetes service IP addresses from. If you don't
+  /// specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16
+  /// or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that
+  /// does not overlap with resources in other networks that are peered or
+  /// connected to your VPC. The block must meet the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Within one of the following private IP address blocks: 10.0.0.0/8,
+  /// 172.16.0.0.0/12, or 192.168.0.0/16.
+  /// </li>
+  /// <li>
+  /// Doesn't overlap with any CIDR block assigned to the VPC that you selected
+  /// for VPC.
+  /// </li>
+  /// <li>
+  /// Between /24 and /12.
+  /// </li>
+  /// </ul> <important>
+  /// You can only specify a custom CIDR block when you create a cluster and can't
+  /// change this value once the cluster is created.
+  /// </important>
+  @_s.JsonKey(name: 'serviceIpv4Cidr')
+  final String serviceIpv4Cidr;
+
+  KubernetesNetworkConfigRequest({
+    this.serviceIpv4Cidr,
+  });
+  Map<String, dynamic> toJson() => _$KubernetesNetworkConfigRequestToJson(this);
+}
+
+/// The Kubernetes network configuration for the cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class KubernetesNetworkConfigResponse {
+  /// The CIDR block that Kubernetes service IP addresses are assigned from. If
+  /// you didn't specify a CIDR block when you created the cluster, then
+  /// Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16
+  /// CIDR blocks. If this was specified, then it was specified when the cluster
+  /// was created and it cannot be changed.
+  @_s.JsonKey(name: 'serviceIpv4Cidr')
+  final String serviceIpv4Cidr;
+
+  KubernetesNetworkConfigResponse({
+    this.serviceIpv4Cidr,
+  });
+  factory KubernetesNetworkConfigResponse.fromJson(Map<String, dynamic> json) =>
+      _$KubernetesNetworkConfigResponseFromJson(json);
+}
+
+/// An object representing a node group launch template specification. The
+/// launch template cannot include <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html">
+/// <code>SubnetId</code> </a>, <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html">
+/// <code>IamInstanceProfile</code> </a>, <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotInstances.html">
+/// <code>RequestSpotInstances</code> </a>, <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_HibernationOptionsRequest.html">
+/// <code>HibernationOptions</code> </a>, or <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TerminateInstances.html">
+/// <code>TerminateInstances</code> </a>, or the node group deployment or update
+/// will fail. For more information about launch templates, see <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html">
+/// <code>CreateLaunchTemplate</code> </a> in the Amazon EC2 API Reference. For
+/// more information about using launch templates with Amazon EKS, see <a
+/// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
+/// template support</a> in the Amazon EKS User Guide.
+///
+/// Specify either <code>name</code> or <code>id</code>, but not both.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class LaunchTemplateSpecification {
+  /// The ID of the launch template.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The name of the launch template.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The version of the launch template to use. If no version is specified, then
+  /// the template's default version is used.
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  LaunchTemplateSpecification({
+    this.id,
+    this.name,
+    this.version,
+  });
+  factory LaunchTemplateSpecification.fromJson(Map<String, dynamic> json) =>
+      _$LaunchTemplateSpecificationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LaunchTemplateSpecificationToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListAddonsResponse {
+  /// A list of available add-ons.
+  @_s.JsonKey(name: 'addons')
+  final List<String> addons;
+
+  /// The <code>nextToken</code> value returned from a previous paginated
+  /// <code>ListAddonsResponse</code> where <code>maxResults</code> was used and
+  /// the results exceeded the value of that parameter. Pagination continues from
+  /// the end of the previous results that returned the <code>nextToken</code>
+  /// value.
+  /// <note>
+  /// This token should be treated as an opaque identifier that is used only to
+  /// retrieve the next items in a list and not for other programmatic purposes.
+  /// </note>
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListAddonsResponse({
+    this.addons,
+    this.nextToken,
+  });
+  factory ListAddonsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListAddonsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2157,13 +3195,16 @@ class Logging {
     createFactory: true,
     createToJson: false)
 class Nodegroup {
-  /// The AMI type associated with your node group. GPU instance types should use
-  /// the <code>AL2_x86_64_GPU</code> AMI type, which uses the Amazon
-  /// EKS-optimized Linux AMI with GPU support. Non-GPU instances should use the
-  /// <code>AL2_x86_64</code> AMI type, which uses the Amazon EKS-optimized Linux
-  /// AMI.
+  /// If the node group was deployed using a launch template with a custom AMI,
+  /// then this is <code>CUSTOM</code>. For node groups that weren't deployed
+  /// using a launch template, this is the AMI type that was specified in the node
+  /// group configuration.
   @_s.JsonKey(name: 'amiType')
   final AMITypes amiType;
+
+  /// The capacity type of your managed node group.
+  @_s.JsonKey(name: 'capacityType')
+  final CapacityTypes capacityType;
 
   /// The name of the cluster that the managed node group resides in.
   @_s.JsonKey(name: 'clusterName')
@@ -2175,8 +3216,9 @@ class Nodegroup {
   @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
-  /// The root device disk size (in GiB) for your node group instances. The
-  /// default disk size is 20 GiB.
+  /// If the node group wasn't deployed with a launch template, then this is the
+  /// disk size in the node group configuration. If the node group was deployed
+  /// with a launch template, then this is <code>null</code>.
   @_s.JsonKey(name: 'diskSize')
   final int diskSize;
 
@@ -2185,7 +3227,9 @@ class Nodegroup {
   @_s.JsonKey(name: 'health')
   final NodegroupHealth health;
 
-  /// The instance types associated with your node group.
+  /// If the node group wasn't deployed with a launch template, then this is the
+  /// instance type that is associated with the node group. If the node group was
+  /// deployed with a launch template, then this is <code>null</code>.
   @_s.JsonKey(name: 'instanceTypes')
   final List<String> instanceTypes;
 
@@ -2197,6 +3241,11 @@ class Nodegroup {
   @_s.JsonKey(name: 'labels')
   final Map<String, String> labels;
 
+  /// If a launch template was used to create the node group, then this is the
+  /// launch template that was used.
+  @_s.JsonKey(name: 'launchTemplate')
+  final LaunchTemplateSpecification launchTemplate;
+
   /// The Unix epoch timestamp in seconds for when the managed node group was last
   /// modified.
   @UnixDateTimeConverter()
@@ -2206,11 +3255,7 @@ class Nodegroup {
   /// The IAM role associated with your node group. The Amazon EKS worker node
   /// <code>kubelet</code> daemon makes calls to AWS APIs on your behalf. Worker
   /// nodes receive permissions for these API calls through an IAM instance
-  /// profile and associated policies. Before you can launch worker nodes and
-  /// register them into a cluster, you must create an IAM role for those worker
-  /// nodes to use when they are launched. For more information, see <a
-  /// href="https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html">Amazon
-  /// EKS Worker Node IAM Role</a> in the <i> <i>Amazon EKS User Guide</i> </i>.
+  /// profile and associated policies.
   @_s.JsonKey(name: 'nodeRole')
   final String nodeRole;
 
@@ -2222,14 +3267,17 @@ class Nodegroup {
   @_s.JsonKey(name: 'nodegroupName')
   final String nodegroupName;
 
-  /// The AMI version of the managed node group. For more information, see <a
-  /// href="https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html">Amazon
-  /// EKS-Optimized Linux AMI Versions </a> in the <i>Amazon EKS User Guide</i>.
+  /// If the node group was deployed using a launch template with a custom AMI,
+  /// then this is the AMI ID that was specified in the launch template. For node
+  /// groups that weren't deployed using a launch template, this is the version of
+  /// the Amazon EKS optimized AMI that the node group was deployed with.
   @_s.JsonKey(name: 'releaseVersion')
   final String releaseVersion;
 
-  /// The remote access (SSH) configuration that is associated with the node
-  /// group.
+  /// If the node group wasn't deployed with a launch template, then this is the
+  /// remote access configuration that is associated with the node group. If the
+  /// node group was deployed with a launch template, then this is
+  /// <code>null</code>.
   @_s.JsonKey(name: 'remoteAccess')
   final RemoteAccessConfig remoteAccess;
 
@@ -2247,10 +3295,8 @@ class Nodegroup {
   @_s.JsonKey(name: 'status')
   final NodegroupStatus status;
 
-  /// The subnets allowed for the Auto Scaling group that is associated with your
-  /// node group. These subnets must have the following tag:
-  /// <code>kubernetes.io/cluster/CLUSTER_NAME</code>, where
-  /// <code>CLUSTER_NAME</code> is replaced with the name of your cluster.
+  /// The subnets that were specified for the Auto Scaling group that is
+  /// associated with your node group.
   @_s.JsonKey(name: 'subnets')
   final List<String> subnets;
 
@@ -2267,12 +3313,14 @@ class Nodegroup {
 
   Nodegroup({
     this.amiType,
+    this.capacityType,
     this.clusterName,
     this.createdAt,
     this.diskSize,
     this.health,
     this.instanceTypes,
     this.labels,
+    this.launchTemplate,
     this.modifiedAt,
     this.nodeRole,
     this.nodegroupArn,
@@ -2343,6 +3391,8 @@ enum NodegroupIssueCode {
   accessDenied,
   @_s.JsonValue('InternalFailure')
   internalFailure,
+  @_s.JsonValue('ClusterUnreachable')
+  clusterUnreachable,
 }
 
 /// An object representing the resources associated with the node group, such as
@@ -2371,7 +3421,9 @@ class NodegroupResources {
 }
 
 /// An object representing the scaling configuration details for the Auto
-/// Scaling group that is associated with your node group.
+/// Scaling group that is associated with your node group. If you specify a
+/// value for any property, then you must specify values for all of the
+/// properties.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2503,6 +3555,25 @@ class RemoteAccessConfig {
   Map<String, dynamic> toJson() => _$RemoteAccessConfigToJson(this);
 }
 
+enum ResolveConflicts {
+  @_s.JsonValue('OVERWRITE')
+  overwrite,
+  @_s.JsonValue('NONE')
+  none,
+}
+
+extension on ResolveConflicts {
+  String toValue() {
+    switch (this) {
+      case ResolveConflicts.overwrite:
+        return 'OVERWRITE';
+      case ResolveConflicts.none:
+        return 'NONE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2566,6 +3637,22 @@ class Update {
     this.type,
   });
   factory Update.fromJson(Map<String, dynamic> json) => _$UpdateFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateAddonResponse {
+  @_s.JsonKey(name: 'update')
+  final Update update;
+
+  UpdateAddonResponse({
+    this.update,
+  });
+  factory UpdateAddonResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateAddonResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2703,6 +3790,12 @@ enum UpdateParamType {
   releaseVersion,
   @_s.JsonValue('PublicAccessCidrs')
   publicAccessCidrs,
+  @_s.JsonValue('AddonVersion')
+  addonVersion,
+  @_s.JsonValue('ServiceAccountRoleArn')
+  serviceAccountRoleArn,
+  @_s.JsonValue('ResolveConflicts')
+  resolveConflicts,
 }
 
 enum UpdateStatus {
@@ -2725,6 +3818,8 @@ enum UpdateType {
   loggingUpdate,
   @_s.JsonValue('ConfigUpdate')
   configUpdate,
+  @_s.JsonValue('AddonUpdate')
+  addonUpdate,
 }
 
 /// An object representing the VPC configuration to use for an Amazon EKS
@@ -2776,8 +3871,22 @@ class VpcConfigRequest {
 
   /// Specify one or more security groups for the cross-account elastic network
   /// interfaces that Amazon EKS creates to use to allow communication between
-  /// your worker nodes and the Kubernetes control plane. If you don't specify a
-  /// security group, the default security group for your VPC is used.
+  /// your worker nodes and the Kubernetes control plane. If you don't specify any
+  /// security groups, then familiarize yourself with the difference between
+  /// Amazon EKS defaults for clusters deployed with Kubernetes:
+  ///
+  /// <ul>
+  /// <li>
+  /// 1.14 Amazon EKS platform version <code>eks.2</code> and earlier
+  /// </li>
+  /// <li>
+  /// 1.14 Amazon EKS platform version <code>eks.3</code> and later
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html">Amazon
+  /// EKS security group considerations</a> in the <i> <i>Amazon EKS User
+  /// Guide</i> </i>.
   @_s.JsonKey(name: 'securityGroupIds')
   final List<String> securityGroupIds;
 

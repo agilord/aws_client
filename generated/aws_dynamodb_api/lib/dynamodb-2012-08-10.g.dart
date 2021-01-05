@@ -296,6 +296,17 @@ BackupSummary _$BackupSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+BatchExecuteStatementOutput _$BatchExecuteStatementOutputFromJson(
+    Map<String, dynamic> json) {
+  return BatchExecuteStatementOutput(
+    responses: (json['Responses'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BatchStatementResponse.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 BatchGetItemOutput _$BatchGetItemOutputFromJson(Map<String, dynamic> json) {
   return BatchGetItemOutput(
     consumedCapacity: (json['ConsumedCapacity'] as List)
@@ -324,6 +335,64 @@ BatchGetItemOutput _$BatchGetItemOutputFromJson(Map<String, dynamic> json) {
               ? null
               : KeysAndAttributes.fromJson(e as Map<String, dynamic>)),
     ),
+  );
+}
+
+BatchStatementError _$BatchStatementErrorFromJson(Map<String, dynamic> json) {
+  return BatchStatementError(
+    code: _$enumDecodeNullable(
+        _$BatchStatementErrorCodeEnumEnumMap, json['Code']),
+    message: json['Message'] as String,
+  );
+}
+
+const _$BatchStatementErrorCodeEnumEnumMap = {
+  BatchStatementErrorCodeEnum.conditionalCheckFailed: 'ConditionalCheckFailed',
+  BatchStatementErrorCodeEnum.itemCollectionSizeLimitExceeded:
+      'ItemCollectionSizeLimitExceeded',
+  BatchStatementErrorCodeEnum.requestLimitExceeded: 'RequestLimitExceeded',
+  BatchStatementErrorCodeEnum.validationError: 'ValidationError',
+  BatchStatementErrorCodeEnum.provisionedThroughputExceeded:
+      'ProvisionedThroughputExceeded',
+  BatchStatementErrorCodeEnum.transactionConflict: 'TransactionConflict',
+  BatchStatementErrorCodeEnum.throttlingError: 'ThrottlingError',
+  BatchStatementErrorCodeEnum.internalServerError: 'InternalServerError',
+  BatchStatementErrorCodeEnum.resourceNotFound: 'ResourceNotFound',
+  BatchStatementErrorCodeEnum.accessDenied: 'AccessDenied',
+  BatchStatementErrorCodeEnum.duplicateItem: 'DuplicateItem',
+};
+
+Map<String, dynamic> _$BatchStatementRequestToJson(
+    BatchStatementRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Statement', instance.statement);
+  writeNotNull('ConsistentRead', instance.consistentRead);
+  writeNotNull(
+      'Parameters', instance.parameters?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+BatchStatementResponse _$BatchStatementResponseFromJson(
+    Map<String, dynamic> json) {
+  return BatchStatementResponse(
+    error: json['Error'] == null
+        ? null
+        : BatchStatementError.fromJson(json['Error'] as Map<String, dynamic>),
+    item: (json['Item'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(
+          k,
+          e == null
+              ? null
+              : AttributeValue.fromJson(e as Map<String, dynamic>)),
+    ),
+    tableName: json['TableName'] as String,
   );
 }
 
@@ -751,6 +820,15 @@ DescribeEndpointsResponse _$DescribeEndpointsResponseFromJson(
   );
 }
 
+DescribeExportOutput _$DescribeExportOutputFromJson(Map<String, dynamic> json) {
+  return DescribeExportOutput(
+    exportDescription: json['ExportDescription'] == null
+        ? null
+        : ExportDescription.fromJson(
+            json['ExportDescription'] as Map<String, dynamic>),
+  );
+}
+
 DescribeGlobalTableOutput _$DescribeGlobalTableOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeGlobalTableOutput(
@@ -770,6 +848,20 @@ DescribeGlobalTableSettingsOutput _$DescribeGlobalTableSettingsOutputFromJson(
             ? null
             : ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+DescribeKinesisStreamingDestinationOutput
+    _$DescribeKinesisStreamingDestinationOutputFromJson(
+        Map<String, dynamic> json) {
+  return DescribeKinesisStreamingDestinationOutput(
+    kinesisDataStreamDestinations: (json['KinesisDataStreamDestinations']
+            as List)
+        ?.map((e) => e == null
+            ? null
+            : KinesisDataStreamDestination.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    tableName: json['TableName'] as String,
   );
 }
 
@@ -817,6 +909,32 @@ Endpoint _$EndpointFromJson(Map<String, dynamic> json) {
   );
 }
 
+ExecuteStatementOutput _$ExecuteStatementOutputFromJson(
+    Map<String, dynamic> json) {
+  return ExecuteStatementOutput(
+    items: (json['Items'] as List)
+        ?.map((e) => (e as Map<String, dynamic>)?.map(
+              (k, e) => MapEntry(
+                  k,
+                  e == null
+                      ? null
+                      : AttributeValue.fromJson(e as Map<String, dynamic>)),
+            ))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ExecuteTransactionOutput _$ExecuteTransactionOutputFromJson(
+    Map<String, dynamic> json) {
+  return ExecuteTransactionOutput(
+    responses: (json['Responses'] as List)
+        ?.map((e) =>
+            e == null ? null : ItemResponse.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 Map<String, dynamic> _$ExpectedAttributeValueToJson(
     ExpectedAttributeValue instance) {
   final val = <String, dynamic>{};
@@ -834,6 +952,67 @@ Map<String, dynamic> _$ExpectedAttributeValueToJson(
   writeNotNull('Exists', instance.exists);
   writeNotNull('Value', instance.value?.toJson());
   return val;
+}
+
+ExportDescription _$ExportDescriptionFromJson(Map<String, dynamic> json) {
+  return ExportDescription(
+    billedSizeBytes: json['BilledSizeBytes'] as int,
+    clientToken: json['ClientToken'] as String,
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    exportArn: json['ExportArn'] as String,
+    exportFormat:
+        _$enumDecodeNullable(_$ExportFormatEnumMap, json['ExportFormat']),
+    exportManifest: json['ExportManifest'] as String,
+    exportStatus:
+        _$enumDecodeNullable(_$ExportStatusEnumMap, json['ExportStatus']),
+    exportTime: const UnixDateTimeConverter().fromJson(json['ExportTime']),
+    failureCode: json['FailureCode'] as String,
+    failureMessage: json['FailureMessage'] as String,
+    itemCount: json['ItemCount'] as int,
+    s3Bucket: json['S3Bucket'] as String,
+    s3BucketOwner: json['S3BucketOwner'] as String,
+    s3Prefix: json['S3Prefix'] as String,
+    s3SseAlgorithm:
+        _$enumDecodeNullable(_$S3SseAlgorithmEnumMap, json['S3SseAlgorithm']),
+    s3SseKmsKeyId: json['S3SseKmsKeyId'] as String,
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+    tableArn: json['TableArn'] as String,
+    tableId: json['TableId'] as String,
+  );
+}
+
+const _$ExportFormatEnumMap = {
+  ExportFormat.dynamodbJson: 'DYNAMODB_JSON',
+  ExportFormat.ion: 'ION',
+};
+
+const _$ExportStatusEnumMap = {
+  ExportStatus.inProgress: 'IN_PROGRESS',
+  ExportStatus.completed: 'COMPLETED',
+  ExportStatus.failed: 'FAILED',
+};
+
+const _$S3SseAlgorithmEnumMap = {
+  S3SseAlgorithm.aes256: 'AES256',
+  S3SseAlgorithm.kms: 'KMS',
+};
+
+ExportSummary _$ExportSummaryFromJson(Map<String, dynamic> json) {
+  return ExportSummary(
+    exportArn: json['ExportArn'] as String,
+    exportStatus:
+        _$enumDecodeNullable(_$ExportStatusEnumMap, json['ExportStatus']),
+  );
+}
+
+ExportTableToPointInTimeOutput _$ExportTableToPointInTimeOutputFromJson(
+    Map<String, dynamic> json) {
+  return ExportTableToPointInTimeOutput(
+    exportDescription: json['ExportDescription'] == null
+        ? null
+        : ExportDescription.fromJson(
+            json['ExportDescription'] as Map<String, dynamic>),
+  );
 }
 
 FailureException _$FailureExceptionFromJson(Map<String, dynamic> json) {
@@ -1126,6 +1305,35 @@ Map<String, dynamic> _$KeysAndAttributesToJson(KeysAndAttributes instance) {
   return val;
 }
 
+KinesisDataStreamDestination _$KinesisDataStreamDestinationFromJson(
+    Map<String, dynamic> json) {
+  return KinesisDataStreamDestination(
+    destinationStatus: _$enumDecodeNullable(
+        _$DestinationStatusEnumMap, json['DestinationStatus']),
+    destinationStatusDescription:
+        json['DestinationStatusDescription'] as String,
+    streamArn: json['StreamArn'] as String,
+  );
+}
+
+const _$DestinationStatusEnumMap = {
+  DestinationStatus.enabling: 'ENABLING',
+  DestinationStatus.active: 'ACTIVE',
+  DestinationStatus.disabling: 'DISABLING',
+  DestinationStatus.disabled: 'DISABLED',
+  DestinationStatus.enableFailed: 'ENABLE_FAILED',
+};
+
+KinesisStreamingDestinationOutput _$KinesisStreamingDestinationOutputFromJson(
+    Map<String, dynamic> json) {
+  return KinesisStreamingDestinationOutput(
+    destinationStatus: _$enumDecodeNullable(
+        _$DestinationStatusEnumMap, json['DestinationStatus']),
+    streamArn: json['StreamArn'] as String,
+    tableName: json['TableName'] as String,
+  );
+}
+
 ListBackupsOutput _$ListBackupsOutputFromJson(Map<String, dynamic> json) {
   return ListBackupsOutput(
     backupSummaries: (json['BackupSummaries'] as List)
@@ -1144,6 +1352,17 @@ ListContributorInsightsOutput _$ListContributorInsightsOutputFromJson(
         ?.map((e) => e == null
             ? null
             : ContributorInsightsSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListExportsOutput _$ListExportsOutputFromJson(Map<String, dynamic> json) {
+  return ListExportsOutput(
+    exportSummaries: (json['ExportSummaries'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ExportSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
@@ -1225,6 +1444,22 @@ LocalSecondaryIndexInfo _$LocalSecondaryIndexInfoFromJson(
         ? null
         : Projection.fromJson(json['Projection'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$ParameterizedStatementToJson(
+    ParameterizedStatement instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Statement', instance.statement);
+  writeNotNull(
+      'Parameters', instance.parameters?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 PointInTimeRecoveryDescription _$PointInTimeRecoveryDescriptionFromJson(
@@ -1494,6 +1729,9 @@ const _$ReplicaStatusEnumMap = {
   ReplicaStatus.updating: 'UPDATING',
   ReplicaStatus.deleting: 'DELETING',
   ReplicaStatus.active: 'ACTIVE',
+  ReplicaStatus.regionDisabled: 'REGION_DISABLED',
+  ReplicaStatus.inaccessibleEncryptionCredentials:
+      'INACCESSIBLE_ENCRYPTION_CREDENTIALS',
 };
 
 Map<String, dynamic> _$ReplicaAutoScalingUpdateToJson(
@@ -1531,6 +1769,8 @@ ReplicaDescription _$ReplicaDescriptionFromJson(Map<String, dynamic> json) {
         : ProvisionedThroughputOverride.fromJson(
             json['ProvisionedThroughputOverride'] as Map<String, dynamic>),
     regionName: json['RegionName'] as String,
+    replicaInaccessibleDateTime: const UnixDateTimeConverter()
+        .fromJson(json['ReplicaInaccessibleDateTime']),
     replicaStatus:
         _$enumDecodeNullable(_$ReplicaStatusEnumMap, json['ReplicaStatus']),
     replicaStatusDescription: json['ReplicaStatusDescription'] as String,

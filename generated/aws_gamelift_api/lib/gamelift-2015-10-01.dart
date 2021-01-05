@@ -26,8 +26,11 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'gamelift-2015-10-01.g.dart';
 
-/// Amazon GameLift provides a range of multiplayer game hosting solutions. As a
-/// fully managed service, GameLift helps you:
+/// GameLift provides solutions for hosting session-based multiplayer game
+/// servers in the cloud, including tools for deploying, operating, and scaling
+/// game servers. Built on AWS global computing infrastructure, GameLift helps
+/// you deliver high-performance, high-reliability, low-cost game servers while
+/// dynamically scaling your resource usage to meet player demand.
 class GameLift {
   final _s.JsonProtocol _protocol;
   GameLift({
@@ -73,11 +76,11 @@ class GameLift {
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-client.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-client.html">
   /// Add FlexMatch to a Game Client</a>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-events.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-events.html">
   /// FlexMatch Events Reference</a>
   ///
   /// <b>Related operations</b>
@@ -156,48 +159,53 @@ class GameLift {
     return AcceptMatchOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
   /// Locates an available game server and temporarily reserves it to host
-  /// gameplay and players. This action is called by a game client or client
-  /// service (such as a matchmaker) to request hosting resources for a new game
-  /// session. In response, GameLift FleetIQ searches for an available game
-  /// server in the specified game server group, places the game server in
-  /// "claimed" status for 60 seconds, and returns connection information back
-  /// to the requester so that players can connect to the game server.
+  /// gameplay and players. This operation is called from a game client or
+  /// client service (such as a matchmaker) to request hosting resources for a
+  /// new game session. In response, GameLift FleetIQ locates an available game
+  /// server, places it in <code>CLAIMED</code> status for 60 seconds, and
+  /// returns connection information that players can use to connect to the game
+  /// server.
   ///
-  /// There are two ways you can claim a game server. For the first option, you
-  /// provide a game server group ID only, which prompts GameLift FleetIQ to
-  /// search for an available game server in the specified group and claim it.
-  /// With this option, GameLift FleetIQ attempts to consolidate gameplay on as
-  /// few instances as possible to minimize hosting costs. For the second
-  /// option, you request a specific game server by its ID. This option results
-  /// in a less efficient claiming process because it does not take advantage of
-  /// consolidation and may fail if the requested game server is unavailable.
-  ///
-  /// To claim a game server, identify a game server group and (optionally) a
-  /// game server ID. If your game requires that game data be provided to the
-  /// game server at the start of a game, such as a game map or player
-  /// information, you can provide it in your claim request.
+  /// To claim a game server, identify a game server group. You can also specify
+  /// a game server ID, although this approach bypasses GameLift FleetIQ
+  /// placement optimization. Optionally, include game data to pass to the game
+  /// server at the start of a game session, such as a game map or player
+  /// information.
   ///
   /// When a game server is successfully claimed, connection information is
-  /// returned. A claimed game server's utilization status remains AVAILABLE,
-  /// while the claim status is set to CLAIMED for up to 60 seconds. This time
-  /// period allows the game server to be prompted to update its status to
-  /// UTILIZED (using <a>UpdateGameServer</a>). If the game server's status is
+  /// returned. A claimed game server's utilization status remains
+  /// <code>AVAILABLE</code> while the claim status is set to
+  /// <code>CLAIMED</code> for up to 60 seconds. This time period gives the game
+  /// server time to update its status to <code>UTILIZED</code> (using
+  /// <a>UpdateGameServer</a>) once players join. If the game server's status is
   /// not updated within 60 seconds, the game server reverts to unclaimed status
-  /// and is available to be claimed by another request.
+  /// and is available to be claimed by another request. The claim time period
+  /// is a fixed value and is not configurable.
   ///
   /// If you try to claim a specific game server, this request will fail in the
-  /// following cases: (1) if the game server utilization status is UTILIZED,
-  /// (2) if the game server claim status is CLAIMED, or (3) if the instance
-  /// that the game server is running on is flagged as draining.
+  /// following cases:
   ///
+  /// <ul>
+  /// <li>
+  /// If the game server utilization status is <code>UTILIZED</code>.
+  /// </li>
+  /// <li>
+  /// If the game server claim status is <code>CLAIMED</code>.
+  /// </li>
+  /// </ul> <note>
+  /// When claiming a specific game server, this request will succeed even if
+  /// the game server is running on an instance in <code>DRAINING</code> status.
+  /// To avoid this, first check the instance status by calling
+  /// <a>DescribeGameServerInstances</a>.
+  /// </note>
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
   ///
   /// <b>Related operations</b>
@@ -231,15 +239,16 @@ class GameLift {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [gameServerGroupName] :
-  /// An identifier for the game server group. When claiming a specific game
-  /// server, this is the game server group whether the game server is located.
-  /// When requesting that GameLift FleetIQ locate an available game server,
-  /// this is the game server group to search on. You can use either the
-  /// <a>GameServerGroup</a> name or ARN value.
+  /// A unique identifier for the game server group where the game server is
+  /// running. Use either the <a>GameServerGroup</a> name or ARN value.. If you
+  /// are not specifying a game server to claim, this value identifies where you
+  /// want GameLift FleetIQ to look for an available game server to claim.
   ///
   /// Parameter [gameServerData] :
   /// A set of custom game server properties, formatted as a single string
-  /// value, to be passed to the claimed game server.
+  /// value. This data is passed to a game client or service when it requests
+  /// information on game servers using <a>ListGameServers</a> or
+  /// <a>ClaimGameServer</a>.
   ///
   /// Parameter [gameServerId] :
   /// A custom string that uniquely identifies the game server to claim. If this
@@ -447,7 +456,7 @@ class GameLift {
   /// <li>
   /// To directly upload your build files to a GameLift S3 location. To use this
   /// option, first call <code>CreateBuild</code> and specify a build name and
-  /// operating system. This action creates a new build resource and also
+  /// operating system. This operation creates a new build resource and also
   /// returns an S3 location with temporary access credentials. Use the
   /// credentials to manually upload your build files to the specified S3
   /// location. For more information, see <a
@@ -510,12 +519,16 @@ class GameLift {
   /// (WINDOWS_2012). This value cannot be changed later.
   ///
   /// Parameter [storageLocation] :
-  /// Information indicating where your game build files are stored. Use this
-  /// parameter only when creating a build with files stored in an S3 bucket
-  /// that you own. The storage location must specify an S3 bucket name and key.
-  /// The location must also specify a role ARN that you set up to allow Amazon
-  /// GameLift to access your S3 bucket. The S3 bucket and your new build must
-  /// be in the same Region.
+  /// The location where your game build files are stored. Use this parameter
+  /// only when creating a build using files that are stored in an S3 bucket
+  /// that you own. Identify an S3 bucket name and key, which must in the same
+  /// Region where you're creating a build. This parameter must also specify the
+  /// ARN for an IAM role that you've set up to give Amazon GameLift access your
+  /// S3 bucket. To call this operation with a storage location, you must have
+  /// IAM PassRole permission. For more details on IAM roles and PassRole
+  /// permissions, see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/setting-up-role.html">
+  /// Set up a role for GameLift access</a>.
   ///
   /// Parameter [tags] :
   /// A list of labels to assign to the new build resource. Tags are
@@ -729,15 +742,14 @@ class GameLift {
   ///
   /// Parameter [instanceRoleArn] :
   /// A unique identifier for an AWS IAM role that manages access to your AWS
-  /// services. With an instance role ARN set, any application that runs on an
-  /// instance in this fleet can assume the role, including install scripts,
-  /// server processes, and daemons (background processes). Create a role or
-  /// look up a role's ARN from the <a
-  /// href="https://console.aws.amazon.com/iam/">IAM dashboard</a> in the AWS
-  /// Management Console. Learn more about using on-box credentials for your
-  /// game servers at <a
+  /// services. Fleets with an instance role ARN allow applications that are
+  /// running on the fleet's instances to assume the role. Learn more about
+  /// using on-box credentials for your game servers at <a
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html">
-  /// Access external resources from a game server</a>.
+  /// Access external resources from a game server</a>. To call this operation
+  /// with instance role ARN, you must have IAM PassRole permissions. See <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-iam-policy-examples.html">IAM
+  /// policy examples for GameLift</a>.
   ///
   /// Parameter [logPaths] :
   /// This parameter is no longer used. Instead, to specify where Amazon
@@ -956,63 +968,55 @@ class GameLift {
     return CreateFleetOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
-  /// Creates a GameLift FleetIQ game server group to manage a collection of EC2
-  /// instances for game hosting. In addition to creating the game server group,
-  /// this action also creates an Auto Scaling group in your AWS account and
-  /// establishes a link between the two groups. You have full control over
-  /// configuration of the Auto Scaling group, but GameLift FleetIQ routinely
-  /// certain Auto Scaling group properties in order to optimize the group's
-  /// instances for low-cost game hosting. You can view the status of your game
-  /// server groups in the GameLift Console. Game server group metrics and
-  /// events are emitted to Amazon CloudWatch.
+  /// Creates a GameLift FleetIQ game server group for managing game hosting on
+  /// a collection of Amazon EC2 instances for game hosting. This operation
+  /// creates the game server group, creates an Auto Scaling group in your AWS
+  /// account, and establishes a link between the two groups. You can view the
+  /// status of your game server groups in the GameLift console. Game server
+  /// group metrics and events are emitted to Amazon CloudWatch.
   ///
-  /// Prior creating a new game server group, you must set up the following:
+  /// Before creating a new game server group, you must have the following:
   ///
   /// <ul>
   /// <li>
-  /// An EC2 launch template. The template provides configuration settings for a
-  /// set of EC2 instances and includes the game server build that you want to
-  /// deploy and run on each instance. For more information on creating a launch
-  /// template, see <a
+  /// An Amazon EC2 launch template that specifies how to launch Amazon EC2
+  /// instances with your game server build. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">
   /// Launching an Instance from a Launch Template</a> in the <i>Amazon EC2 User
   /// Guide</i>.
   /// </li>
   /// <li>
-  /// An IAM role. The role sets up limited access to your AWS account, allowing
-  /// GameLift FleetIQ to create and manage the EC2 Auto Scaling group, get
-  /// instance data, and emit metrics and events to CloudWatch. For more
-  /// information on setting up an IAM permissions policy with principal access
-  /// for GameLift, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-bucket-user-policy-specifying-principal-intro.html">
-  /// Specifying a Principal in a Policy</a> in the <i>Amazon S3 Developer
-  /// Guide</i>.
+  /// An IAM role that extends limited access to your AWS account to allow
+  /// GameLift FleetIQ to create and interact with the Auto Scaling group. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-iam-permissions-roles.html">Create
+  /// IAM roles for cross-service interaction</a> in the <i>GameLift FleetIQ
+  /// Developer Guide</i>.
   /// </li>
   /// </ul>
-  /// To create a new game server group, provide a name and specify the IAM role
-  /// and EC2 launch template. You also need to provide a list of instance types
-  /// to be used in the group and set initial maximum and minimum limits on the
-  /// group's instance count. You can optionally set an autoscaling policy with
-  /// target tracking based on a GameLift FleetIQ metric.
+  /// To create a new game server group, specify a unique group name, IAM role
+  /// and Amazon EC2 launch template, and provide a list of instance types that
+  /// can be used in the group. You must also set initial maximum and minimum
+  /// limits on the group's instance count. You can optionally set an Auto
+  /// Scaling policy with target tracking based on a GameLift FleetIQ metric.
   ///
   /// Once the game server group and corresponding Auto Scaling group are
   /// created, you have full access to change the Auto Scaling group's
-  /// configuration as needed. Keep in mind, however, that some properties are
-  /// periodically updated by GameLift FleetIQ as it balances the group's
-  /// instances based on availability and cost.
+  /// configuration as needed. Several properties that are set when creating a
+  /// game server group, including maximum/minimum size and auto-scaling policy
+  /// settings, must be updated directly in the Auto Scaling group. Keep in mind
+  /// that some Auto Scaling group properties are periodically updated by
+  /// GameLift FleetIQ as part of its balancing activities to optimize for
+  /// availability and cost.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
-  ///
-  /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-asgroups.html">Updating
-  /// a GameLift FleetIQ-Linked Auto Scaling Group</a>
   ///
   /// <b>Related operations</b>
   ///
@@ -1038,6 +1042,9 @@ class GameLift {
   /// <li>
   /// <a>SuspendGameServerGroup</a>
   /// </li>
+  /// <li>
+  /// <a>DescribeGameServerInstances</a>
+  /// </li>
   /// </ul>
   ///
   /// May throw [InvalidRequestException].
@@ -1053,12 +1060,18 @@ class GameLift {
   /// AWS account.
   ///
   /// Parameter [instanceDefinitions] :
-  /// A set of EC2 instance types to use when creating instances in the group.
-  /// The instance definitions must specify at least two different instance
-  /// types that are supported by GameLift FleetIQ. For more information on
-  /// instance types, see <a
+  /// The EC2 instance types and sizes to use in the Auto Scaling group. The
+  /// instance definitions must specify at least two different instance types
+  /// that are supported by GameLift FleetIQ. For more information on instance
+  /// types, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">EC2
-  /// Instance Types</a> in the <i>Amazon EC2 User Guide</i>.
+  /// Instance Types</a> in the <i>Amazon EC2 User Guide</i>. You can optionally
+  /// specify capacity weighting for each instance type. If no weight value is
+  /// specified for an instance type, it is set to the default value "1". For
+  /// more information about capacity weighting, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html">
+  /// Instance Weighting for Amazon EC2 Auto Scaling</a> in the Amazon EC2 Auto
+  /// Scaling User Guide.
   ///
   /// Parameter [launchTemplate] :
   /// The EC2 launch template that contains configuration settings and game
@@ -1067,81 +1080,98 @@ class GameLift {
   /// with creating a launch template, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html">Creating
   /// a Launch Template for an Auto Scaling Group</a> in the <i>Amazon EC2 Auto
-  /// Scaling User Guide</i>.
+  /// Scaling User Guide</i>. After the Auto Scaling group is created, update
+  /// this value directly in the Auto Scaling group using the AWS console or
+  /// APIs.
   ///
   /// Parameter [maxSize] :
   /// The maximum number of instances allowed in the EC2 Auto Scaling group.
-  /// During autoscaling events, GameLift FleetIQ and EC2 do not scale up the
-  /// group above this maximum.
+  /// During automatic scaling events, GameLift FleetIQ and EC2 do not scale up
+  /// the group above this maximum. After the Auto Scaling group is created,
+  /// update this value directly in the Auto Scaling group using the AWS console
+  /// or APIs.
   ///
   /// Parameter [minSize] :
   /// The minimum number of instances allowed in the EC2 Auto Scaling group.
-  /// During autoscaling events, GameLift FleetIQ and EC2 do not scale down the
-  /// group below this minimum. In production, this value should be set to at
-  /// least 1.
+  /// During automatic scaling events, GameLift FleetIQ and EC2 do not scale
+  /// down the group below this minimum. In production, this value should be set
+  /// to at least 1. After the Auto Scaling group is created, update this value
+  /// directly in the Auto Scaling group using the AWS console or APIs.
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
   /// for an IAM role that allows Amazon GameLift to access your EC2 Auto
-  /// Scaling groups. The submitted role is validated to ensure that it contains
-  /// the necessary permissions for game server groups.
+  /// Scaling groups.
   ///
   /// Parameter [autoScalingPolicy] :
   /// Configuration settings to define a scaling policy for the Auto Scaling
   /// group that is optimized for game hosting. The scaling policy uses the
-  /// metric "PercentUtilizedGameServers" to maintain a buffer of idle game
-  /// servers that can immediately accommodate new games and players. Once the
-  /// game server and Auto Scaling groups are created, you can update the
-  /// scaling policy settings directly in Auto Scaling Groups.
+  /// metric <code>"PercentUtilizedGameServers"</code> to maintain a buffer of
+  /// idle game servers that can immediately accommodate new games and players.
+  /// After the Auto Scaling group is created, update this value directly in the
+  /// Auto Scaling group using the AWS console or APIs.
   ///
   /// Parameter [balancingStrategy] :
-  /// The fallback balancing method to use for the game server group when Spot
-  /// instances in a Region become unavailable or are not viable for game
-  /// hosting. Once triggered, this method remains active until Spot instances
-  /// can once again be used. Method options include:
+  /// Indicates how GameLift FleetIQ balances the use of Spot Instances and
+  /// On-Demand Instances in the game server group. Method options include the
+  /// following:
   ///
   /// <ul>
   /// <li>
-  /// SPOT_ONLY -- If Spot instances are unavailable, the game server group
-  /// provides no hosting capacity. No new instances are started, and the
-  /// existing nonviable Spot instances are terminated (once current gameplay
-  /// ends) and not replaced.
+  /// <code>SPOT_ONLY</code> - Only Spot Instances are used in the game server
+  /// group. If Spot Instances are unavailable or not viable for game hosting,
+  /// the game server group provides no hosting capacity until Spot Instances
+  /// can again be used. Until then, no new instances are started, and the
+  /// existing nonviable Spot Instances are terminated (after current gameplay
+  /// ends) and are not replaced.
   /// </li>
   /// <li>
-  /// SPOT_PREFERRED -- If Spot instances are unavailable, the game server group
-  /// continues to provide hosting capacity by using On-Demand instances.
-  /// Existing nonviable Spot instances are terminated (once current gameplay
-  /// ends) and replaced with new On-Demand instances.
+  /// <code>SPOT_PREFERRED</code> - (default value) Spot Instances are used
+  /// whenever available in the game server group. If Spot Instances are
+  /// unavailable, the game server group continues to provide hosting capacity
+  /// by falling back to On-Demand Instances. Existing nonviable Spot Instances
+  /// are terminated (after current gameplay ends) and are replaced with new
+  /// On-Demand Instances.
+  /// </li>
+  /// <li>
+  /// <code>ON_DEMAND_ONLY</code> - Only On-Demand Instances are used in the
+  /// game server group. No Spot Instances are used, even when available, while
+  /// this balancing strategy is in force.
   /// </li>
   /// </ul>
   ///
   /// Parameter [gameServerProtectionPolicy] :
   /// A flag that indicates whether instances in the game server group are
   /// protected from early termination. Unprotected instances that have active
-  /// game servers running may by terminated during a scale-down event, causing
-  /// players to be dropped from the game. Protected instances cannot be
-  /// terminated while there are active game servers running. An exception to
-  /// this is Spot Instances, which may be terminated by AWS regardless of
-  /// protection status. This property is set to NO_PROTECTION by default.
+  /// game servers running might be terminated during a scale-down event,
+  /// causing players to be dropped from the game. Protected instances cannot be
+  /// terminated while there are active game servers running except in the event
+  /// of a forced game server group deletion (see ). An exception to this is
+  /// with Spot Instances, which can be terminated by AWS regardless of
+  /// protection status. This property is set to <code>NO_PROTECTION</code> by
+  /// default.
   ///
   /// Parameter [tags] :
   /// A list of labels to assign to the new game server group resource. Tags are
-  /// developer-defined key-value pairs. Tagging AWS resources are useful for
+  /// developer-defined key-value pairs. Tagging AWS resources is useful for
   /// resource management, access management, and cost allocation. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
   /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the
   /// resource is created, you can use <a>TagResource</a>, <a>UntagResource</a>,
-  /// and <a>ListTagsForResource</a> to add, remove, and view tags. The maximum
-  /// tag limit may be lower than stated. See the AWS General Reference for
-  /// actual tagging limits.
+  /// and <a>ListTagsForResource</a> to add, remove, and view tags,
+  /// respectively. The maximum tag limit may be lower than stated. See the AWS
+  /// General Reference for actual tagging limits.
   ///
   /// Parameter [vpcSubnets] :
   /// A list of virtual private cloud (VPC) subnets to use with instances in the
-  /// game server group. By default, all GameLift FleetIQ-supported availability
-  /// zones are used; this parameter allows you to specify VPCs that you've set
-  /// up.
+  /// game server group. By default, all GameLift FleetIQ-supported Availability
+  /// Zones are used. You can use this parameter to specify VPCs that you've set
+  /// up. This property cannot be updated after the game server group is
+  /// created, and the corresponding Auto Scaling group will always use the
+  /// property value that is set with this request, even if the Auto Scaling
+  /// group is updated directly.
   Future<CreateGameServerGroupOutput> createGameServerGroup({
     @_s.required String gameServerGroupName,
     @_s.required List<InstanceDefinition> instanceDefinitions,
@@ -1231,10 +1261,10 @@ class GameLift {
     return CreateGameServerGroupOutput.fromJson(jsonResponse.body);
   }
 
-  /// Creates a multiplayer game session for players. This action creates a game
-  /// session record and assigns an available server process in the specified
-  /// fleet to host the game session. A fleet must have an <code>ACTIVE</code>
-  /// status before a game session can be created in it.
+  /// Creates a multiplayer game session for players. This operation creates a
+  /// game session record and assigns an available server process in the
+  /// specified fleet to host the game session. A fleet must have an
+  /// <code>ACTIVE</code> status before a game session can be created in it.
   ///
   /// To create a game session, specify either fleet ID or alias ID and indicate
   /// a maximum number of players to allow in the game session. You can also
@@ -1617,38 +1647,43 @@ class GameLift {
     return CreateGameSessionQueueOutput.fromJson(jsonResponse.body);
   }
 
-  /// Defines a new matchmaking configuration for use with FlexMatch. A
-  /// matchmaking configuration sets out guidelines for matching players and
-  /// getting the matches into games. You can set up multiple matchmaking
-  /// configurations to handle the scenarios needed for your game. Each
-  /// matchmaking ticket (<a>StartMatchmaking</a> or <a>StartMatchBackfill</a>)
-  /// specifies a configuration for the match and provides player attributes to
-  /// support the configuration being used.
+  /// Defines a new matchmaking configuration for use with FlexMatch. Whether
+  /// your are using FlexMatch with GameLift hosting or as a standalone
+  /// matchmaking service, the matchmaking configuration sets out rules for
+  /// matching players and forming teams. If you're also using GameLift hosting,
+  /// it defines how to start game sessions for each match. Your matchmaking
+  /// system can use multiple configurations to handle different game scenarios.
+  /// All matchmaking requests (<a>StartMatchmaking</a> or
+  /// <a>StartMatchBackfill</a>) identify the matchmaking configuration to use
+  /// and provide player attributes consistent with that configuration.
   ///
-  /// To create a matchmaking configuration, at a minimum you must specify the
-  /// following: configuration name; a rule set that governs how to evaluate
-  /// players and find acceptable matches; a game session queue to use when
-  /// placing a new game session for the match; and the maximum time allowed for
-  /// a matchmaking attempt.
+  /// To create a matchmaking configuration, you must provide the following:
+  /// configuration name and FlexMatch mode (with or without GameLift hosting);
+  /// a rule set that specifies how to evaluate players and find acceptable
+  /// matches; whether player acceptance is required; and the maximum time
+  /// allowed for a matchmaking attempt. When using FlexMatch with GameLift
+  /// hosting, you also need to identify the game session queue to use when
+  /// starting a game session for the match.
   ///
-  /// There are two ways to track the progress of matchmaking tickets: (1)
-  /// polling ticket status with <a>DescribeMatchmaking</a>; or (2) receiving
-  /// notifications with Amazon Simple Notification Service (SNS). To use
-  /// notifications, you first need to set up an SNS topic to receive the
-  /// notifications, and provide the topic ARN in the matchmaking configuration.
-  /// Since notifications promise only "best effort" delivery, we recommend
-  /// calling <code>DescribeMatchmaking</code> if no notifications are received
-  /// within 30 seconds.
+  /// In addition, you must set up an Amazon Simple Notification Service (SNS)
+  /// to receive matchmaking notifications, and provide the topic ARN in the
+  /// matchmaking configuration. An alternative method, continuously polling
+  /// ticket status with <a>DescribeMatchmaking</a>, is only suitable for games
+  /// in development with low matchmaking usage.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-configuration.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/gamelift-match.html">
+  /// FlexMatch Developer Guide</a>
+  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-configuration.html">
   /// Design a FlexMatch Matchmaker</a>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-notification.html">
-  /// Setting up Notifications for Matchmaking</a>
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-notification.html">
+  /// Set Up FlexMatch Event Notification</a>
   ///
   /// <b>Related operations</b>
   ///
@@ -1689,15 +1724,10 @@ class GameLift {
   /// Parameter [acceptanceRequired] :
   /// A flag that determines whether a match that was created with this
   /// configuration must be accepted by the matched players. To require
-  /// acceptance, set to <code>TRUE</code>.
-  ///
-  /// Parameter [gameSessionQueueArns] :
-  /// Amazon Resource Name (<a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
-  /// that is assigned to a GameLift game session queue resource and uniquely
-  /// identifies it. ARNs are unique across all Regions. These queues are used
-  /// when placing game sessions for matches that are created with this
-  /// matchmaking configuration. Queues can be located in any Region.
+  /// acceptance, set to <code>TRUE</code>. With this option enabled,
+  /// matchmaking tickets use the status <code>REQUIRES_ACCEPTANCE</code> to
+  /// indicate when a completed potential match is waiting for player
+  /// acceptance.
   ///
   /// Parameter [name] :
   /// A unique identifier for a matchmaking configuration. This name is used to
@@ -1717,14 +1747,16 @@ class GameLift {
   ///
   /// Parameter [acceptanceTimeoutSeconds] :
   /// The length of time (in seconds) to wait for players to accept a proposed
-  /// match. If any player rejects the match or fails to accept before the
-  /// timeout, the ticket continues to look for an acceptable match.
+  /// match, if acceptance is required. If any player rejects the match or fails
+  /// to accept before the timeout, the tickets are returned to the ticket pool
+  /// and continue to be evaluated for an acceptable match.
   ///
   /// Parameter [additionalPlayerCount] :
   /// The number of player slots in a match to keep open for future players. For
   /// example, assume that the configuration's rule set specifies a match for a
   /// single 12-person team. If the additional player count is set to 2, only 10
-  /// players are initially selected for the match.
+  /// players are initially selected for the match. This parameter is not used
+  /// if <code>FlexMatchMode</code> is set to <code>STANDALONE</code>.
   ///
   /// Parameter [backfillMode] :
   /// The method used to backfill game sessions that are created with this
@@ -1733,8 +1765,10 @@ class GameLift {
   /// feature. Specify <code>AUTOMATIC</code> to have GameLift create a
   /// <a>StartMatchBackfill</a> request whenever a game session has one or more
   /// open slots. Learn more about manual and automatic backfill in <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-backfill.html">
-  /// Backfill Existing Games with FlexMatch</a>.
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html">
+  /// Backfill Existing Games with FlexMatch</a>. Automatic backfill is not
+  /// available when <code>FlexMatchMode</code> is set to
+  /// <code>STANDALONE</code>.
   ///
   /// Parameter [customEventData] :
   /// Information to be added to all events related to this matchmaking
@@ -1743,6 +1777,23 @@ class GameLift {
   /// Parameter [description] :
   /// A human-readable description of the matchmaking configuration.
   ///
+  /// Parameter [flexMatchMode] :
+  /// Indicates whether this matchmaking configuration is being used with
+  /// GameLift hosting or as a standalone matchmaking solution.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>STANDALONE</b> - FlexMatch forms matches and returns match information,
+  /// including players and team assignments, in a <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-events.html#match-events-matchmakingsucceeded">
+  /// MatchmakingSucceeded</a> event.
+  /// </li>
+  /// <li>
+  /// <b>WITH_QUEUE</b> - FlexMatch forms matches and uses the specified
+  /// GameLift queue to start a game session for the match.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [gameProperties] :
   /// A set of custom properties for a game session, formatted as key-value
   /// pairs. These properties are passed to a game server process in the
@@ -1750,7 +1801,9 @@ class GameLift {
   /// <a
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
   /// a Game Session</a>). This information is added to the new
-  /// <a>GameSession</a> object that is created for a successful match.
+  /// <a>GameSession</a> object that is created for a successful match. This
+  /// parameter is not used if <code>FlexMatchMode</code> is set to
+  /// <code>STANDALONE</code>.
   ///
   /// Parameter [gameSessionData] :
   /// A set of custom game session properties, formatted as a single string
@@ -1759,7 +1812,19 @@ class GameLift {
   /// <a
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
   /// a Game Session</a>). This information is added to the new
-  /// <a>GameSession</a> object that is created for a successful match.
+  /// <a>GameSession</a> object that is created for a successful match. This
+  /// parameter is not used if <code>FlexMatchMode</code> is set to
+  /// <code>STANDALONE</code>.
+  ///
+  /// Parameter [gameSessionQueueArns] :
+  /// Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
+  /// that is assigned to a GameLift game session queue resource and uniquely
+  /// identifies it. ARNs are unique across all Regions. Queues can be located
+  /// in any Region. Queues are used to start new GameLift-hosted game sessions
+  /// for matches that are created with this matchmaking configuration. If
+  /// <code>FlexMatchMode</code> is set to <code>STANDALONE</code>, do not set
+  /// this parameter.
   ///
   /// Parameter [notificationTarget] :
   /// An SNS topic ARN that is set up to receive matchmaking notifications.
@@ -1777,7 +1842,6 @@ class GameLift {
   /// actual tagging limits.
   Future<CreateMatchmakingConfigurationOutput> createMatchmakingConfiguration({
     @_s.required bool acceptanceRequired,
-    @_s.required List<String> gameSessionQueueArns,
     @_s.required String name,
     @_s.required int requestTimeoutSeconds,
     @_s.required String ruleSetName,
@@ -1786,13 +1850,14 @@ class GameLift {
     BackfillMode backfillMode,
     String customEventData,
     String description,
+    FlexMatchMode flexMatchMode,
     List<GameProperty> gameProperties,
     String gameSessionData,
+    List<String> gameSessionQueueArns,
     String notificationTarget,
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(acceptanceRequired, 'acceptanceRequired');
-    ArgumentError.checkNotNull(gameSessionQueueArns, 'gameSessionQueueArns');
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -1882,7 +1947,6 @@ class GameLift {
       headers: headers,
       payload: {
         'AcceptanceRequired': acceptanceRequired,
-        'GameSessionQueueArns': gameSessionQueueArns,
         'Name': name,
         'RequestTimeoutSeconds': requestTimeoutSeconds,
         'RuleSetName': ruleSetName,
@@ -1893,8 +1957,11 @@ class GameLift {
         if (backfillMode != null) 'BackfillMode': backfillMode.toValue(),
         if (customEventData != null) 'CustomEventData': customEventData,
         if (description != null) 'Description': description,
+        if (flexMatchMode != null) 'FlexMatchMode': flexMatchMode.toValue(),
         if (gameProperties != null) 'GameProperties': gameProperties,
         if (gameSessionData != null) 'GameSessionData': gameSessionData,
+        if (gameSessionQueueArns != null)
+          'GameSessionQueueArns': gameSessionQueueArns,
         if (notificationTarget != null)
           'NotificationTarget': notificationTarget,
         if (tags != null) 'Tags': tags,
@@ -1923,17 +1990,17 @@ class GameLift {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-rulesets.html">Build
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-rulesets.html">Build
   /// a Rule Set</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-configuration.html">Design
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-configuration.html">Design
   /// a Matchmaker</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-intro.html">Matchmaking
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-intro.html">Matchmaking
   /// with FlexMatch</a>
   /// </li>
   /// </ul>
@@ -2323,14 +2390,17 @@ class GameLift {
   /// later.
   ///
   /// Parameter [storageLocation] :
-  /// The location of the Amazon S3 bucket where a zipped file containing your
-  /// Realtime scripts is stored. The storage location must specify the Amazon
-  /// S3 bucket name, the zip file name (the "key"), and a role ARN that allows
-  /// Amazon GameLift to access the Amazon S3 storage location. The S3 bucket
-  /// must be in the same Region where you want to create a new script. By
+  /// The Amazon S3 location of your Realtime scripts. The storage location must
+  /// specify the S3 bucket name, the zip file name (the "key"), and an IAM role
+  /// ARN that allows Amazon GameLift to access the S3 storage location. The S3
+  /// bucket must be in the same Region where you are creating a new script. By
   /// default, Amazon GameLift uploads the latest version of the zip file; if
   /// you have S3 object versioning turned on, you can use the
-  /// <code>ObjectVersion</code> parameter to specify an earlier version.
+  /// <code>ObjectVersion</code> parameter to specify an earlier version. To
+  /// call this operation with a storage location, you must have IAM PassRole
+  /// permission. For more details on IAM roles and PassRole permissions, see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/setting-up-role.html">
+  /// Set up a role for GameLift access</a>.
   ///
   /// Parameter [tags] :
   /// A list of labels to assign to the new script resource. Tags are
@@ -2626,7 +2696,7 @@ class GameLift {
     return CreateVpcPeeringConnectionOutput.fromJson(jsonResponse.body);
   }
 
-  /// Deletes an alias. This action removes all record of the alias. Game
+  /// Deletes an alias. This operation removes all record of the alias. Game
   /// clients attempting to access a server process using the deleted alias
   /// receive an error. To delete an alias, specify the alias ID to be deleted.
   ///
@@ -2686,7 +2756,7 @@ class GameLift {
     );
   }
 
-  /// Deletes a build. This action permanently deletes the build resource and
+  /// Deletes a build. This operation permanently deletes the build resource and
   /// any uploaded build files. Deleting a build does not affect the status of
   /// any active fleets using the build, but you can no longer create new fleets
   /// with the deleted build.
@@ -2763,8 +2833,8 @@ class GameLift {
   /// the VPC peering connection--this is done as part of the delete fleet
   /// process.
   ///
-  /// This action removes the fleet and its resources. Once a fleet is deleted,
-  /// you can no longer use any of the resource in that fleet.
+  /// This operation removes the fleet and its resources. Once a fleet is
+  /// deleted, you can no longer use any of the resource in that fleet.
   ///
   /// <b>Learn more</b>
   ///
@@ -2831,33 +2901,44 @@ class GameLift {
     );
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
   /// Terminates a game server group and permanently deletes the game server
   /// group record. You have several options for how these resources are
   /// impacted when deleting the game server group. Depending on the type of
-  /// delete action selected, this action may affect three types of resources:
-  /// the game server group, the corresponding Auto Scaling group, and all game
-  /// servers currently running in the group.
+  /// delete operation selected, this operation might affect these resources:
   ///
+  /// <ul>
+  /// <li>
+  /// The game server group
+  /// </li>
+  /// <li>
+  /// The corresponding Auto Scaling group
+  /// </li>
+  /// <li>
+  /// All game servers that are currently running in the group
+  /// </li>
+  /// </ul>
   /// To delete a game server group, identify the game server group to delete
-  /// and specify the type of delete action to initiate. Game server groups can
-  /// only be deleted if they are in ACTIVE or ERROR status.
+  /// and specify the type of delete operation to initiate. Game server groups
+  /// can only be deleted if they are in <code>ACTIVE</code> or
+  /// <code>ERROR</code> status.
   ///
-  /// If the delete request is successful, a series of actions are kicked off.
-  /// The game server group status is changed to DELETE_SCHEDULED, which
-  /// prevents new game servers from being registered and stops autoscaling
-  /// activity. Once all game servers in the game server group are
-  /// de-registered, GameLift FleetIQ can begin deleting resources. If any of
-  /// the delete actions fail, the game server group is placed in ERROR status.
+  /// If the delete request is successful, a series of operations are kicked
+  /// off. The game server group status is changed to
+  /// <code>DELETE_SCHEDULED</code>, which prevents new game servers from being
+  /// registered and stops automatic scaling activity. Once all game servers in
+  /// the game server group are deregistered, GameLift FleetIQ can begin
+  /// deleting resources. If any of the delete operations fail, the game server
+  /// group is placed in <code>ERROR</code> status.
   ///
   /// GameLift FleetIQ emits delete events to Amazon CloudWatch.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
   ///
   /// <b>Related operations</b>
@@ -2884,6 +2965,9 @@ class GameLift {
   /// <li>
   /// <a>SuspendGameServerGroup</a>
   /// </li>
+  /// <li>
+  /// <a>DescribeGameServerInstances</a>
+  /// </li>
   /// </ul>
   ///
   /// May throw [InvalidRequestException].
@@ -2892,25 +2976,26 @@ class GameLift {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [gameServerGroupName] :
-  /// The unique identifier of the game server group to delete. Use either the
+  /// A unique identifier for the game server group. Use either the
   /// <a>GameServerGroup</a> name or ARN value.
   ///
   /// Parameter [deleteOption] :
-  /// The type of delete to perform. Options include:
+  /// The type of delete to perform. Options include the following:
   ///
   /// <ul>
   /// <li>
-  /// SAFE_DELETE – Terminates the game server group and EC2 Auto Scaling group
-  /// only when it has no game servers that are in IN_USE status.
+  /// <code>SAFE_DELETE</code> – (default) Terminates the game server group and
+  /// EC2 Auto Scaling group only when it has no game servers that are in
+  /// <code>UTILIZED</code> status.
   /// </li>
   /// <li>
-  /// FORCE_DELETE – Terminates the game server group, including all active game
-  /// servers regardless of their utilization status, and the EC2 Auto Scaling
-  /// group.
+  /// <code>FORCE_DELETE</code> – Terminates the game server group, including
+  /// all active game servers regardless of their utilization status, and the
+  /// EC2 Auto Scaling group.
   /// </li>
   /// <li>
-  /// RETAIN – Does a safe delete of the game server group but retains the EC2
-  /// Auto Scaling group as is.
+  /// <code>RETAIN</code> – Does a safe delete of the game server group but
+  /// retains the EC2 Auto Scaling group as is.
   /// </li>
   /// </ul>
   Future<DeleteGameServerGroupOutput> deleteGameServerGroup({
@@ -2950,9 +3035,9 @@ class GameLift {
     return DeleteGameServerGroupOutput.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a game session queue. This action means that any
-  /// <a>StartGameSessionPlacement</a> requests that reference this queue will
-  /// fail. To delete a queue, specify the queue name.
+  /// Deletes a game session queue. Once a queue is successfully deleted,
+  /// unfulfilled <a>StartGameSessionPlacement</a> requests that reference the
+  /// queue will fail. To delete a queue, specify the queue name.
   ///
   /// <b>Learn more</b>
   ///
@@ -3108,7 +3193,7 @@ class GameLift {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-rulesets.html">Build
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-rulesets.html">Build
   /// a Rule Set</a>
   /// </li>
   /// </ul>
@@ -3186,8 +3271,8 @@ class GameLift {
     return DeleteMatchmakingRuleSetOutput.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a fleet scaling policy. This action means that the policy is no
-  /// longer in force and removes all record of it. To delete a scaling policy,
+  /// Deletes a fleet scaling policy. Once deleted, the policy is no longer in
+  /// force and GameLift removes all record of it. To delete a scaling policy,
   /// specify both the scaling policy name and the fleet ID it is associated
   /// with.
   ///
@@ -3279,7 +3364,7 @@ class GameLift {
     );
   }
 
-  /// Deletes a Realtime script. This action permanently deletes the script
+  /// Deletes a Realtime script. This operation permanently deletes the script
   /// record. If script files were uploaded, they are also deleted (files stored
   /// in an S3 bucket are not deleted).
   ///
@@ -3517,21 +3602,21 @@ class GameLift {
     return DeleteVpcPeeringConnectionOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
-  /// Removes the game server resource from the game server group. As a result
-  /// of this action, the de-registered game server can no longer be claimed and
-  /// will not returned in a list of active game servers.
+  /// Removes the game server from a game server group. As a result of this
+  /// operation, the deregistered game server can no longer be claimed and will
+  /// not be returned in a list of active game servers.
   ///
-  /// To de-register a game server, specify the game server group and game
-  /// server ID. If successful, this action emits a CloudWatch event with
-  /// termination time stamp and reason.
+  /// To deregister a game server, specify the game server group and game server
+  /// ID. If successful, this operation emits a CloudWatch event with
+  /// termination timestamp and reason.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
   ///
   /// <b>Related operations</b>
@@ -3563,12 +3648,11 @@ class GameLift {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [gameServerGroupName] :
-  /// An identifier for the game server group where the game server to be
-  /// de-registered is running. Use either the <a>GameServerGroup</a> name or
-  /// ARN value.
+  /// A unique identifier for the game server group where the game server is
+  /// running. Use either the <a>GameServerGroup</a> name or ARN value.
   ///
   /// Parameter [gameServerId] :
-  /// The identifier for the game server to be de-registered.
+  /// A custom string that uniquely identifies the game server to deregister.
   Future<void> deregisterGameServer({
     @_s.required String gameServerGroupName,
     @_s.required String gameServerId,
@@ -3836,9 +3920,9 @@ class GameLift {
   /// successful, a <a>FleetAttributes</a> object is returned for each fleet
   /// requested, unless the fleet identifier is not found.
   /// <note>
-  /// Some API actions may limit the number of fleet IDs allowed in one request.
-  /// If a request exceeds this limit, the request fails and the error message
-  /// includes the maximum allowed number.
+  /// Some API operations may limit the number of fleet IDs allowed in one
+  /// request. If a request exceeds this limit, the request fails and the error
+  /// message includes the maximum allowed number.
   /// </note>
   /// <b>Learn more</b>
   ///
@@ -3912,9 +3996,10 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value. This parameter
-  /// is ignored when the request specifies one or a list of fleet IDs.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value. This
+  /// parameter is ignored when the request specifies one or a list of fleet
+  /// IDs.
   Future<DescribeFleetAttributesOutput> describeFleetAttributes({
     List<String> fleetIds,
     int limit,
@@ -3964,9 +4049,9 @@ class GameLift {
   /// fleet ID. When a list of fleet IDs is provided, attribute objects are
   /// returned only for fleets that currently exist.
   /// <note>
-  /// Some API actions may limit the number of fleet IDs allowed in one request.
-  /// If a request exceeds this limit, the request fails and the error message
-  /// includes the maximum allowed.
+  /// Some API operations may limit the number of fleet IDs allowed in one
+  /// request. If a request exceeds this limit, the request fails and the error
+  /// message includes the maximum allowed.
   /// </note>
   /// <b>Learn more</b>
   ///
@@ -4041,9 +4126,10 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value. This parameter
-  /// is ignored when the request specifies one or a list of fleet IDs.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value. This
+  /// parameter is ignored when the request specifies one or a list of fleet
+  /// IDs.
   Future<DescribeFleetCapacityOutput> describeFleetCapacity({
     List<String> fleetIds,
     int limit,
@@ -4159,8 +4245,8 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value.
   ///
   /// Parameter [startTime] :
   /// Earliest date to retrieve event logs for. If no start time is specified,
@@ -4324,9 +4410,9 @@ class GameLift {
   /// successful, a <a>FleetUtilization</a> object is returned for each
   /// requested fleet ID, unless the fleet identifier is not found.
   /// <note>
-  /// Some API actions may limit the number of fleet IDs allowed in one request.
-  /// If a request exceeds this limit, the request fails and the error message
-  /// includes the maximum allowed.
+  /// Some API operations may limit the number of fleet IDs allowed in one
+  /// request. If a request exceeds this limit, the request fails and the error
+  /// message includes the maximum allowed.
   /// </note>
   /// <b>Learn more</b>
   ///
@@ -4404,9 +4490,10 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value. This parameter
-  /// is ignored when the request specifies one or a list of fleet IDs.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value. This
+  /// parameter is ignored when the request specifies one or a list of fleet
+  /// IDs.
   Future<DescribeFleetUtilizationOutput> describeFleetUtilization({
     List<String> fleetIds,
     int limit,
@@ -4444,12 +4531,12 @@ class GameLift {
     return DescribeFleetUtilizationOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
-  /// Retrieves information for a game server resource. Information includes the
-  /// game server statuses, health check info, and the instance the game server
-  /// is running on.
+  /// Retrieves information for a registered game server. Information includes
+  /// game server status, health check info, and the instance that the game
+  /// server is running on.
   ///
   /// To retrieve game server information, specify the game server ID. If
   /// successful, the requested game server object is returned.
@@ -4457,7 +4544,7 @@ class GameLift {
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
   ///
   /// <b>Related operations</b>
@@ -4489,11 +4576,12 @@ class GameLift {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [gameServerGroupName] :
-  /// An identifier for the game server group where the game server is running.
-  /// Use either the <a>GameServerGroup</a> name or ARN value.
+  /// A unique identifier for the game server group where the game server is
+  /// running. Use either the <a>GameServerGroup</a> name or ARN value.
   ///
   /// Parameter [gameServerId] :
-  /// The identifier for the game server to be retrieved.
+  /// A custom string that uniquely identifies the game server information to be
+  /// retrieved.
   Future<DescribeGameServerOutput> describeGameServer({
     @_s.required String gameServerGroupName,
     @_s.required String gameServerId,
@@ -4545,10 +4633,14 @@ class GameLift {
     return DescribeGameServerOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
-  /// Retrieves information on a game server group.
+  /// Retrieves information on a game server group. This operation returns only
+  /// properties related to GameLift FleetIQ. To view or update properties for
+  /// the corresponding Auto Scaling group, such as launch template, auto
+  /// scaling policies, and maximum/minimum group size, access the Auto Scaling
+  /// group directly.
   ///
   /// To get attributes for a game server group, provide a group name or ARN
   /// value. If successful, a <a>GameServerGroup</a> object is returned.
@@ -4556,7 +4648,7 @@ class GameLift {
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
   ///
   /// <b>Related operations</b>
@@ -4583,6 +4675,9 @@ class GameLift {
   /// <li>
   /// <a>SuspendGameServerGroup</a>
   /// </li>
+  /// <li>
+  /// <a>DescribeGameServerInstances</a>
+  /// </li>
   /// </ul>
   ///
   /// May throw [InvalidRequestException].
@@ -4591,8 +4686,8 @@ class GameLift {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [gameServerGroupName] :
-  /// The unique identifier for the game server group being requested. Use
-  /// either the <a>GameServerGroup</a> name or ARN value.
+  /// A unique identifier for the game server group. Use either the
+  /// <a>GameServerGroup</a> name or ARN value.
   Future<DescribeGameServerGroupOutput> describeGameServerGroup({
     @_s.required String gameServerGroupName,
   }) async {
@@ -4628,10 +4723,143 @@ class GameLift {
     return DescribeGameServerGroupOutput.fromJson(jsonResponse.body);
   }
 
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
+  ///
+  /// Retrieves status information about the Amazon EC2 instances associated
+  /// with a GameLift FleetIQ game server group. Use this operation to detect
+  /// when instances are active or not available to host new game servers. If
+  /// you are looking for instance configuration information, call
+  /// <a>DescribeGameServerGroup</a> or access the corresponding Auto Scaling
+  /// group properties.
+  ///
+  /// To request status for all instances in the game server group, provide a
+  /// game server group ID only. To request status for specific instances,
+  /// provide the game server group ID and one or more instance IDs. Use the
+  /// pagination parameters to retrieve results in sequential segments. If
+  /// successful, a collection of <code>GameServerInstance</code> objects is
+  /// returned.
+  ///
+  /// This operation is not designed to be called with every game server claim
+  /// request; this practice can cause you to exceed your API limit, which
+  /// results in errors. Instead, as a best practice, cache the results and
+  /// refresh your cache no more than once every 10 seconds.
+  ///
+  /// <b>Learn more</b>
+  ///
+  /// <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
+  /// FleetIQ Guide</a>
+  ///
+  /// <b>Related operations</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>CreateGameServerGroup</a>
+  /// </li>
+  /// <li>
+  /// <a>ListGameServerGroups</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeGameServerGroup</a>
+  /// </li>
+  /// <li>
+  /// <a>UpdateGameServerGroup</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteGameServerGroup</a>
+  /// </li>
+  /// <li>
+  /// <a>ResumeGameServerGroup</a>
+  /// </li>
+  /// <li>
+  /// <a>SuspendGameServerGroup</a>
+  /// </li>
+  /// <li>
+  /// <a>DescribeGameServerInstances</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [gameServerGroupName] :
+  /// A unique identifier for the game server group. Use either the
+  /// <a>GameServerGroup</a> name or ARN value.
+  ///
+  /// Parameter [instanceIds] :
+  /// The EC2 instance IDs that you want to retrieve status on. EC2 instance IDs
+  /// use a 17-character format, for example: <code>i-1234567890abcdef0</code>.
+  /// To retrieve all instances in the game server group, leave this parameter
+  /// empty.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of results to return. Use this parameter with
+  /// <code>NextToken</code> to get results as a set of sequential segments.
+  ///
+  /// Parameter [nextToken] :
+  /// A token that indicates the start of the next sequential segment of
+  /// results. Use the token returned with the previous call to this operation.
+  /// To start at the beginning of the result set, do not specify a value.
+  Future<DescribeGameServerInstancesOutput> describeGameServerInstances({
+    @_s.required String gameServerGroupName,
+    List<String> instanceIds,
+    int limit,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(gameServerGroupName, 'gameServerGroupName');
+    _s.validateStringLength(
+      'gameServerGroupName',
+      gameServerGroupName,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'gameServerGroupName',
+      gameServerGroupName,
+      r'''[a-zA-Z0-9-\.]+|^arn:.*:gameservergroup\/[a-zA-Z0-9-\.]+''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'GameLift.DescribeGameServerInstances'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GameServerGroupName': gameServerGroupName,
+        if (instanceIds != null) 'InstanceIds': instanceIds,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeGameServerInstancesOutput.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves properties, including the protection policy in force, for one or
-  /// more game sessions. This action can be used in several ways: (1) provide a
-  /// <code>GameSessionId</code> or <code>GameSessionArn</code> to request
-  /// details for a specific game session; (2) provide either a
+  /// more game sessions. This operation can be used in several ways: (1)
+  /// provide a <code>GameSessionId</code> or <code>GameSessionArn</code> to
+  /// request details for a specific game session; (2) provide either a
   /// <code>FleetId</code> or an <code>AliasId</code> to request properties for
   /// all game sessions running on a fleet.
   ///
@@ -4699,8 +4927,8 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value.
   ///
   /// Parameter [statusFilter] :
   /// Game session status to filter results on. Possible game session statuses
@@ -4895,7 +5123,8 @@ class GameLift {
   ///
   /// Parameter [limit] :
   /// The maximum number of results to return. Use this parameter with
-  /// <code>NextToken</code> to get results as a set of sequential pages.
+  /// <code>NextToken</code> to get results as a set of sequential pages. You
+  /// can request up to 50 results.
   ///
   /// Parameter [names] :
   /// A list of queue names to retrieve information for. You can use either the
@@ -4904,7 +5133,7 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates the start of the next sequential page of results.
-  /// Use the token that is returned with a previous call to this action. To
+  /// Use the token that is returned with a previous call to this operation. To
   /// start at the beginning of the result set, do not specify a value.
   Future<DescribeGameSessionQueuesOutput> describeGameSessionQueues({
     int limit,
@@ -5015,8 +5244,8 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value.
   ///
   /// Parameter [statusFilter] :
   /// Game session status to filter results on. Possible game session statuses
@@ -5094,7 +5323,7 @@ class GameLift {
   }
 
   /// Retrieves information about a fleet's instances, including instance IDs.
-  /// Use this action to get details on all instances in the fleet or get
+  /// Use this operation to get details on all instances in the fleet or get
   /// details on one specific instance.
   ///
   /// To get a specific instance, specify fleet ID and instance ID. To get all
@@ -5142,8 +5371,8 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value.
   Future<DescribeInstancesOutput> describeInstances({
     @_s.required String fleetId,
     String instanceId,
@@ -5196,26 +5425,29 @@ class GameLift {
   }
 
   /// Retrieves one or more matchmaking tickets. Use this operation to retrieve
-  /// ticket information, including status and--once a successful match is
-  /// made--acquire connection information for the resulting new game session.
-  ///
-  /// You can use this operation to track the progress of matchmaking requests
-  /// (through polling) as an alternative to using event notifications. See more
-  /// details on tracking matchmaking requests through polling or notifications
-  /// in <a>StartMatchmaking</a>.
+  /// ticket information, including--after a successful match is
+  /// made--connection information for the resulting new game session.
   ///
   /// To request matchmaking tickets, provide a list of up to 10 ticket IDs. If
   /// the request is successful, a ticket object is returned for each requested
   /// ID that currently exists.
   ///
+  /// This operation is not designed to be continually called to track
+  /// matchmaking ticket status. This practice can cause you to exceed your API
+  /// limit, which results in errors. Instead, as a best practice, set up an
+  /// Amazon Simple Notification Service (SNS) to receive notifications, and
+  /// provide the topic ARN in the matchmaking configuration. Continuously
+  /// poling ticket status with <a>DescribeMatchmaking</a> should only be used
+  /// for games in development with low matchmaking usage.
+  /// <p/>
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-client.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-client.html">
   /// Add FlexMatch to a Game Client</a>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-notification.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-notification.html">
   /// Set Up FlexMatch Event Notification</a>
   ///
   /// <b>Related operations</b>
@@ -5267,19 +5499,22 @@ class GameLift {
     return DescribeMatchmakingOutput.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the details of FlexMatch matchmaking configurations. With this
-  /// operation, you have the following options: (1) retrieve all existing
-  /// configurations, (2) provide the names of one or more configurations to
-  /// retrieve, or (3) retrieve all configurations that use a specified rule set
-  /// name. When requesting multiple items, use the pagination parameters to
-  /// retrieve results as a set of sequential pages. If successful, a
-  /// configuration is returned for each requested name. When specifying a list
-  /// of names, only configurations that currently exist are returned.
+  /// Retrieves the details of FlexMatch matchmaking configurations.
+  ///
+  /// This operation offers the following options: (1) retrieve all matchmaking
+  /// configurations, (2) retrieve configurations for a specified list, or (3)
+  /// retrieve all configurations that use a specified rule set name. When
+  /// requesting multiple items, use the pagination parameters to retrieve
+  /// results as a set of sequential pages.
+  ///
+  /// If successful, a configuration is returned for each requested name. When
+  /// specifying a list of names, only configurations that currently exist are
+  /// returned.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/matchmaker-build.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/matchmaker-build.html">
   /// Setting Up FlexMatch Matchmakers</a>
   ///
   /// <b>Related operations</b>
@@ -5327,7 +5562,7 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates the start of the next sequential page of results.
-  /// Use the token that is returned with a previous call to this action. To
+  /// Use the token that is returned with a previous call to this operation. To
   /// start at the beginning of the result set, do not specify a value.
   ///
   /// Parameter [ruleSetName] :
@@ -5396,7 +5631,7 @@ class GameLift {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-rulesets.html">Build
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-rulesets.html">Build
   /// a Rule Set</a>
   /// </li>
   /// </ul>
@@ -5445,7 +5680,7 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates the start of the next sequential page of results.
-  /// Use the token that is returned with a previous call to this action. To
+  /// Use the token that is returned with a previous call to this operation. To
   /// start at the beginning of the result set, do not specify a value.
   Future<DescribeMatchmakingRuleSetsOutput> describeMatchmakingRuleSets({
     int limit,
@@ -5484,8 +5719,8 @@ class GameLift {
     return DescribeMatchmakingRuleSetsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves properties for one or more player sessions. This action can be
-  /// used in several ways: (1) provide a <code>PlayerSessionId</code> to
+  /// Retrieves properties for one or more player sessions. This operation can
+  /// be used in several ways: (1) provide a <code>PlayerSessionId</code> to
   /// request properties for a specific player session; (2) provide a
   /// <code>GameSessionId</code> to request properties for all player sessions
   /// in the specified game session; (3) provide a <code>PlayerId</code> to
@@ -5541,9 +5776,9 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value. If a player
-  /// session ID is specified, this parameter is ignored.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value. If a
+  /// player session ID is specified, this parameter is ignored.
   ///
   /// Parameter [playerId] :
   /// A unique identifier for a player to retrieve player sessions for.
@@ -5756,10 +5991,10 @@ class GameLift {
   /// returned for the fleet.
   ///
   /// A fleet may have all of its scaling policies suspended
-  /// (<a>StopFleetActions</a>). This action does not affect the status of the
-  /// scaling policies, which remains ACTIVE. To see whether a fleet's scaling
-  /// policies are in force or suspended, call <a>DescribeFleetAttributes</a>
-  /// and check the stopped actions.
+  /// (<a>StopFleetActions</a>). This operation does not affect the status of
+  /// the scaling policies, which remains ACTIVE. To see whether a fleet's
+  /// scaling policies are in force or suspended, call
+  /// <a>DescribeFleetAttributes</a> and check the stopped actions.
   ///
   /// <ul>
   /// <li>
@@ -5813,8 +6048,8 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value.
   ///
   /// Parameter [statusFilter] :
   /// Scaling policy status to filter results on. A scaling policy is only in
@@ -6169,7 +6404,7 @@ class GameLift {
   /// private key must be saved in the proper format to a <code>.pem</code> file
   /// before using. If you're making this request using the AWS CLI, saving the
   /// secret can be handled as part of the GetInstanceAccess request, as shown
-  /// in one of the examples for this action.
+  /// in one of the examples for this operation.
   ///
   /// To request access to a specific instance, specify the IDs of both the
   /// instance and the fleet it belongs to. You can retrieve a fleet's instance
@@ -6291,7 +6526,7 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates the start of the next sequential page of results.
-  /// Use the token that is returned with a previous call to this action. To
+  /// Use the token that is returned with a previous call to this operation. To
   /// start at the beginning of the result set, do not specify a value.
   ///
   /// Parameter [routingStrategyType] :
@@ -6402,8 +6637,8 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value.
   ///
   /// Parameter [status] :
   /// Build status to filter results by. To retrieve all builds, leave this
@@ -6517,8 +6752,8 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value.
   ///
   /// Parameter [scriptId] :
   /// A unique identifier for a Realtime script to return fleets for. Use this
@@ -6574,17 +6809,17 @@ class GameLift {
     return ListFleetsOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
   /// Retrieves information on all game servers groups that exist in the current
-  /// AWS account for the selected region. Use the pagination parameters to
-  /// retrieve results in a set of sequential pages.
+  /// AWS account for the selected Region. Use the pagination parameters to
+  /// retrieve results in a set of sequential segments.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
   ///
   /// <b>Related operations</b>
@@ -6611,6 +6846,9 @@ class GameLift {
   /// <li>
   /// <a>SuspendGameServerGroup</a>
   /// </li>
+  /// <li>
+  /// <a>DescribeGameServerInstances</a>
+  /// </li>
   /// </ul>
   ///
   /// May throw [InvalidRequestException].
@@ -6619,12 +6857,12 @@ class GameLift {
   ///
   /// Parameter [limit] :
   /// The maximum number of results to return. Use this parameter with
-  /// <code>NextToken</code> to get results as a set of sequential pages.
+  /// <code>NextToken</code> to get results as a set of sequential segments.
   ///
   /// Parameter [nextToken] :
-  /// A token that indicates the start of the next sequential page of results.
-  /// Use the token that is returned with a previous call to this action. To
-  /// start at the beginning of the result set, do not specify a value.
+  /// A token that indicates the start of the next sequential segment of
+  /// results. Use the token returned with the previous call to this operation.
+  /// To start at the beginning of the result set, do not specify a value.
   Future<ListGameServerGroupsOutput> listGameServerGroups({
     int limit,
     String nextToken,
@@ -6660,19 +6898,18 @@ class GameLift {
     return ListGameServerGroupsOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
-  /// Retrieves information on all game servers that are currently running in a
-  /// specified game server group. If there are custom key sort values for your
-  /// game servers, you can opt to have the returned list sorted based on these
-  /// values. Use the pagination parameters to retrieve results in a set of
-  /// sequential pages.
+  /// Retrieves information on all game servers that are currently active in a
+  /// specified game server group. You can opt to sort the list by game server
+  /// age. Use the pagination parameters to retrieve results in a set of
+  /// sequential segments.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
   ///
   /// <b>Related operations</b>
@@ -6703,22 +6940,23 @@ class GameLift {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [gameServerGroupName] :
-  /// An identifier for the game server group for the game server you want to
-  /// list. Use either the <a>GameServerGroup</a> name or ARN value.
+  /// An identifier for the game server group to retrieve a list of game servers
+  /// from. Use either the <a>GameServerGroup</a> name or ARN value.
   ///
   /// Parameter [limit] :
   /// The maximum number of results to return. Use this parameter with
-  /// <code>NextToken</code> to get results as a set of sequential pages.
+  /// <code>NextToken</code> to get results as a set of sequential segments.
   ///
   /// Parameter [nextToken] :
-  /// A token that indicates the start of the next sequential page of results.
-  /// Use the token that is returned with a previous call to this action. To
-  /// start at the beginning of the result set, do not specify a value.
+  /// A token that indicates the start of the next sequential segment of
+  /// results. Use the token returned with the previous call to this operation.
+  /// To start at the beginning of the result set, do not specify a value.
   ///
   /// Parameter [sortOrder] :
-  /// Indicates how to sort the returned data based on the game servers' custom
-  /// key sort value. If this parameter is left empty, the list of game servers
-  /// is returned in no particular order.
+  /// Indicates how to sort the returned data based on game server registration
+  /// timestamp. Use ASCENDING to retrieve oldest game servers first, or use
+  /// DESCENDING to retrieve newest game servers first. If this parameter is
+  /// left empty, game servers are returned in no particular order.
   Future<ListGameServersOutput> listGameServers({
     @_s.required String gameServerGroupName,
     int limit,
@@ -6811,7 +7049,7 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// A token that indicates the start of the next sequential page of results.
-  /// Use the token that is returned with a previous call to this action. To
+  /// Use the token that is returned with a previous call to this operation. To
   /// start at the beginning of the result set, do not specify a value.
   Future<ListScriptsOutput> listScripts({
     int limit,
@@ -6849,7 +7087,7 @@ class GameLift {
   }
 
   /// Retrieves all tags that are assigned to a GameLift resource. Resource tags
-  /// are used to organize AWS resources for a range of purposes. This action
+  /// are used to organize AWS resources for a range of purposes. This operation
   /// handles the permissions necessary to manage tags for the following
   /// GameLift resource types:
   ///
@@ -6914,7 +7152,7 @@ class GameLift {
   /// that is assigned to and uniquely identifies the GameLift resource that you
   /// want to retrieve tags for. GameLift resource ARNs are included in the data
   /// object for the resource, which can be retrieved by calling a List or
-  /// Describe action for the resource type.
+  /// Describe operation for the resource type.
   Future<ListTagsForResourceResponse> listTagsForResource({
     @_s.required String resourceARN,
   }) async {
@@ -7245,31 +7483,31 @@ class GameLift {
     return PutScalingPolicyOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
   /// Creates a new game server resource and notifies GameLift FleetIQ that the
-  /// game server is ready to host gameplay and players. This action is called
-  /// by a game server process that is running on an instance in a game server
-  /// group. Registering game servers enables GameLift FleetIQ to track
+  /// game server is ready to host gameplay and players. This operation is
+  /// called by a game server process that is running on an instance in a game
+  /// server group. Registering game servers enables GameLift FleetIQ to track
   /// available game servers and enables game clients and services to claim a
   /// game server for a new game session.
   ///
   /// To register a game server, identify the game server group and instance
   /// where the game server is running, and provide a unique identifier for the
-  /// game server. You can also include connection and game server data; when a
+  /// game server. You can also include connection and game server data. When a
   /// game client or service requests a game server by calling
-  /// <a>ClaimGameServer</a>, this information is returned in response.
+  /// <a>ClaimGameServer</a>, this information is returned in the response.
   ///
   /// Once a game server is successfully registered, it is put in status
-  /// AVAILABLE. A request to register a game server may fail if the instance it
-  /// is in the process of shutting down as part of instance rebalancing or
-  /// scale-down activity.
+  /// <code>AVAILABLE</code>. A request to register a game server may fail if
+  /// the instance it is running on is in the process of shutting down as part
+  /// of instance balancing or scale-down activity.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
   ///
   /// <b>Related operations</b>
@@ -7302,52 +7540,35 @@ class GameLift {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [gameServerGroupName] :
-  /// An identifier for the game server group where the game server is running.
-  /// You can use either the <a>GameServerGroup</a> name or ARN value.
+  /// A unique identifier for the game server group where the game server is
+  /// running. Use either the <a>GameServerGroup</a> name or ARN value.
   ///
   /// Parameter [gameServerId] :
-  /// A custom string that uniquely identifies the new game server. Game server
-  /// IDs are developer-defined and must be unique across all game server groups
-  /// in your AWS account.
+  /// A custom string that uniquely identifies the game server to register. Game
+  /// server IDs are developer-defined and must be unique across all game server
+  /// groups in your AWS account.
   ///
   /// Parameter [instanceId] :
   /// The unique identifier for the instance where the game server is running.
-  /// This ID is available in the instance metadata.
+  /// This ID is available in the instance metadata. EC2 instance IDs use a
+  /// 17-character format, for example: <code>i-1234567890abcdef0</code>.
   ///
   /// Parameter [connectionInfo] :
-  /// Information needed to make inbound client connections to the game server.
-  /// This might include IP address and port, DNS name, etc.
-  ///
-  /// Parameter [customSortKey] :
-  /// A game server tag that can be used to request sorted lists of game servers
-  /// using <a>ListGameServers</a>. Custom sort keys are developer-defined based
-  /// on how you want to organize the retrieved game server information.
+  /// Information that is needed to make inbound client connections to the game
+  /// server. This might include the IP address and port, DNS name, and other
+  /// information.
   ///
   /// Parameter [gameServerData] :
   /// A set of custom game server properties, formatted as a single string
   /// value. This data is passed to a game client or service when it requests
-  /// information on a game servers using <a>ListGameServers</a> or
+  /// information on game servers using <a>ListGameServers</a> or
   /// <a>ClaimGameServer</a>.
-  ///
-  /// Parameter [tags] :
-  /// A list of labels to assign to the new game server resource. Tags are
-  /// developer-defined key-value pairs. Tagging AWS resources are useful for
-  /// resource management, access management, and cost allocation. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
-  /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the
-  /// resource is created, you can use <a>TagResource</a>, <a>UntagResource</a>,
-  /// and <a>ListTagsForResource</a> to add, remove, and view tags. The maximum
-  /// tag limit may be lower than stated. See the AWS General Reference for
-  /// actual tagging limits.
   Future<RegisterGameServerOutput> registerGameServer({
     @_s.required String gameServerGroupName,
     @_s.required String gameServerId,
     @_s.required String instanceId,
     String connectionInfo,
-    String customSortKey,
     String gameServerData,
-    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(gameServerGroupName, 'gameServerGroupName');
     _s.validateStringLength(
@@ -7403,17 +7624,6 @@ class GameLift {
       r'''.*\S.*''',
     );
     _s.validateStringLength(
-      'customSortKey',
-      customSortKey,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'customSortKey',
-      customSortKey,
-      r'''[a-zA-Z0-9-\.]+''',
-    );
-    _s.validateStringLength(
       'gameServerData',
       gameServerData,
       1,
@@ -7439,9 +7649,7 @@ class GameLift {
         'GameServerId': gameServerId,
         'InstanceId': instanceId,
         if (connectionInfo != null) 'ConnectionInfo': connectionInfo,
-        if (customSortKey != null) 'CustomSortKey': customSortKey,
         if (gameServerData != null) 'GameServerData': gameServerData,
-        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -7579,24 +7787,26 @@ class GameLift {
     return ResolveAliasOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
   /// Reinstates activity on a game server group after it has been suspended. A
-  /// game server group may be suspended by calling
-  /// <a>SuspendGameServerGroup</a>, or it may have been involuntarily suspended
-  /// due to a configuration problem. You can manually resume activity on the
-  /// group once the configuration problem has been resolved. Refer to the game
-  /// server group status and status reason for more information on why group
-  /// activity is suspended.
+  /// game server group might be suspended by the<a>SuspendGameServerGroup</a>
+  /// operation, or it might be suspended involuntarily due to a configuration
+  /// problem. In the second case, you can manually resume activity on the group
+  /// once the configuration problem has been resolved. Refer to the game server
+  /// group status and status reason for more information on why group activity
+  /// is suspended.
   ///
   /// To resume activity, specify a game server group ARN and the type of
-  /// activity to be resumed.
+  /// activity to be resumed. If successful, a <a>GameServerGroup</a> object is
+  /// returned showing that the resumed activity is no longer listed in
+  /// <code>SuspendedActions</code>.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
   ///
   /// <b>Related operations</b>
@@ -7623,6 +7833,9 @@ class GameLift {
   /// <li>
   /// <a>SuspendGameServerGroup</a>
   /// </li>
+  /// <li>
+  /// <a>DescribeGameServerInstances</a>
+  /// </li>
   /// </ul>
   ///
   /// May throw [InvalidRequestException].
@@ -7631,11 +7844,11 @@ class GameLift {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [gameServerGroupName] :
-  /// The unique identifier of the game server group to resume activity on. Use
-  /// either the <a>GameServerGroup</a> name or ARN value.
+  /// A unique identifier for the game server group. Use either the
+  /// <a>GameServerGroup</a> name or ARN value.
   ///
   /// Parameter [resumeActions] :
-  /// The action to resume for this game server group.
+  /// The activity to resume for this game server group.
   Future<ResumeGameServerGroupOutput> resumeGameServerGroup({
     @_s.required String gameServerGroupName,
     @_s.required List<GameServerGroupAction> resumeActions,
@@ -7859,8 +8072,8 @@ class GameLift {
   ///
   /// Parameter [nextToken] :
   /// Token that indicates the start of the next sequential page of results. Use
-  /// the token that is returned with a previous call to this action. To start
-  /// at the beginning of the result set, do not specify a value.
+  /// the token that is returned with a previous call to this operation. To
+  /// start at the beginning of the result set, do not specify a value.
   ///
   /// Parameter [sortExpression] :
   /// Instructions on how to sort the search results. If no sort expression is
@@ -8273,17 +8486,17 @@ class GameLift {
   /// <a>GameSession</a> object is updated to include matchmaker data on the new
   /// players. For more detail on how match backfill requests are processed, see
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-match.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/gamelift-match.html">
   /// How Amazon GameLift FlexMatch Works</a>.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-backfill.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html">
   /// Backfill Existing Games with FlexMatch</a>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-match.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/gamelift-match.html">
   /// How GameLift FlexMatch Works</a>
   ///
   /// <b>Related operations</b>
@@ -8317,12 +8530,6 @@ class GameLift {
   /// with the original game session is listed in the <a>GameSession</a> object,
   /// <code>MatchmakerData</code> property.
   ///
-  /// Parameter [gameSessionArn] :
-  /// Amazon Resource Name (<a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
-  /// that is assigned to a game session and uniquely identifies it. This is the
-  /// same as the game session ID.
-  ///
   /// Parameter [players] :
   /// Match information on all players that are currently assigned to the game
   /// session. This information is used by the matchmaker to find new players
@@ -8334,7 +8541,7 @@ class GameLift {
   /// the <a>GameSession</a> object, <code>MatchmakerData</code> property, for
   /// all players who are currently assigned to the game session. The matchmaker
   /// data is in JSON syntax, formatted as a string. For more details, see <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-server.html#match-server-data">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data">
   /// Match Data</a>.
   /// </li>
   /// <li>
@@ -8344,6 +8551,12 @@ class GameLift {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [gameSessionArn] :
+  /// Amazon Resource Name (<a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
+  /// that is assigned to a game session and uniquely identifies it. This is the
+  /// same as the game session ID.
+  ///
   /// Parameter [ticketId] :
   /// A unique identifier for a matchmaking ticket. If no ticket ID is specified
   /// here, Amazon GameLift will generate one in the form of a UUID. Use this
@@ -8351,8 +8564,8 @@ class GameLift {
   /// results.
   Future<StartMatchBackfillOutput> startMatchBackfill({
     @_s.required String configurationName,
-    @_s.required String gameSessionArn,
     @_s.required List<Player> players,
+    String gameSessionArn,
     String ticketId,
   }) async {
     ArgumentError.checkNotNull(configurationName, 'configurationName');
@@ -8369,21 +8582,18 @@ class GameLift {
       r'''[a-zA-Z0-9-\.]*|^arn:.*:matchmakingconfiguration\/[a-zA-Z0-9-\.]*''',
       isRequired: true,
     );
-    ArgumentError.checkNotNull(gameSessionArn, 'gameSessionArn');
+    ArgumentError.checkNotNull(players, 'players');
     _s.validateStringLength(
       'gameSessionArn',
       gameSessionArn,
       1,
       256,
-      isRequired: true,
     );
     _s.validateStringPattern(
       'gameSessionArn',
       gameSessionArn,
       r'''[a-zA-Z0-9:/-]+''',
-      isRequired: true,
     );
-    ArgumentError.checkNotNull(players, 'players');
     _s.validateStringLength(
       'ticketId',
       ticketId,
@@ -8407,8 +8617,8 @@ class GameLift {
       headers: headers,
       payload: {
         'ConfigurationName': configurationName,
-        'GameSessionArn': gameSessionArn,
         'Players': players,
+        if (gameSessionArn != null) 'GameSessionArn': gameSessionArn,
         if (ticketId != null) 'TicketId': ticketId,
       },
     );
@@ -8417,93 +8627,43 @@ class GameLift {
   }
 
   /// Uses FlexMatch to create a game match for a group of players based on
-  /// custom matchmaking rules, and starts a new game for the matched players.
-  /// Each matchmaking request specifies the type of match to build (team
-  /// configuration, rules for an acceptable match, etc.). The request also
-  /// specifies the players to find a match for and where to host the new game
-  /// session for optimal performance. A matchmaking request might start with a
-  /// single player or a group of players who want to play together. FlexMatch
-  /// finds additional players as needed to fill the match. Match type, rules,
-  /// and the queue used to place a new game session are defined in a
+  /// custom matchmaking rules. If you're also using GameLift hosting, a new
+  /// game session is started for the matched players. Each matchmaking request
+  /// identifies one or more players to find a match for, and specifies the type
+  /// of match to build, including the team configuration and the rules for an
+  /// acceptable match. When a matchmaking request identifies a group of players
+  /// who want to play together, FlexMatch finds additional players to fill the
+  /// match. Match type, rules, and other features are defined in a
   /// <code>MatchmakingConfiguration</code>.
   ///
   /// To start matchmaking, provide a unique ticket ID, specify a matchmaking
-  /// configuration, and include the players to be matched. You must also
-  /// include a set of player attributes relevant for the matchmaking
-  /// configuration. If successful, a matchmaking ticket is returned with status
-  /// set to <code>QUEUED</code>. Track the status of the ticket to respond as
-  /// needed and acquire game session connection information for successfully
-  /// completed matches.
+  /// configuration, and include the players to be matched. For each player, you
+  /// must also include the player attribute values that are required by the
+  /// matchmaking configuration (in the rule set). If successful, a matchmaking
+  /// ticket is returned with status set to <code>QUEUED</code>.
   ///
-  /// <b>Tracking ticket status</b> -- A couple of options are available for
-  /// tracking the status of matchmaking requests:
+  /// Track the status of the ticket to respond as needed. If you're also using
+  /// GameLift hosting, a successfully completed ticket contains game session
+  /// connection information. Ticket status updates are tracked using event
+  /// notification through Amazon Simple Notification Service (SNS), which is
+  /// defined in the matchmaking configuration.
   ///
-  /// <ul>
-  /// <li>
-  /// Polling -- Call <code>DescribeMatchmaking</code>. This operation returns
-  /// the full ticket object, including current status and (for completed
-  /// tickets) game session connection info. We recommend polling no more than
-  /// once every 10 seconds.
-  /// </li>
-  /// <li>
-  /// Notifications -- Get event notifications for changes in ticket status
-  /// using Amazon Simple Notification Service (SNS). Notifications are easy to
-  /// set up (see <a>CreateMatchmakingConfiguration</a>) and typically deliver
-  /// match status changes faster and more efficiently than polling. We
-  /// recommend that you use polling to back up to notifications (since delivery
-  /// is not guaranteed) and call <code>DescribeMatchmaking</code> only when
-  /// notifications are not received within 30 seconds.
-  /// </li>
-  /// </ul>
-  /// <b>Processing a matchmaking request</b> -- FlexMatch handles a matchmaking
-  /// request as follows:
-  /// <ol>
-  /// <li>
-  /// Your client code submits a <code>StartMatchmaking</code> request for one
-  /// or more players and tracks the status of the request ticket.
-  /// </li>
-  /// <li>
-  /// FlexMatch uses this ticket and others in process to build an acceptable
-  /// match. When a potential match is identified, all tickets in the proposed
-  /// match are advanced to the next status.
-  /// </li>
-  /// <li>
-  /// If the match requires player acceptance (set in the matchmaking
-  /// configuration), the tickets move into status
-  /// <code>REQUIRES_ACCEPTANCE</code>. This status triggers your client code to
-  /// solicit acceptance from all players in every ticket involved in the match,
-  /// and then call <a>AcceptMatch</a> for each player. If any player rejects or
-  /// fails to accept the match before a specified timeout, the proposed match
-  /// is dropped (see <code>AcceptMatch</code> for more details).
-  /// </li>
-  /// <li>
-  /// Once a match is proposed and accepted, the matchmaking tickets move into
-  /// status <code>PLACING</code>. FlexMatch locates resources for a new game
-  /// session using the game session queue (set in the matchmaking
-  /// configuration) and creates the game session based on the match data.
-  /// </li>
-  /// <li>
-  /// When the match is successfully placed, the matchmaking tickets move into
-  /// <code>COMPLETED</code> status. Connection information (including game
-  /// session endpoint and player session) is added to the matchmaking tickets.
-  /// Matched players can use the connection information to join the game.
-  /// </li> </ol>
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-client.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-client.html">
   /// Add FlexMatch to a Game Client</a>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-notification.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-notification.html">
   /// Set Up FlexMatch Event Notification</a>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-tasks.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-tasks.html">
   /// FlexMatch Integration Roadmap</a>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-match.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/gamelift-match.html">
   /// How GameLift FlexMatch Works</a>
   ///
   /// <b>Related operations</b>
@@ -8772,13 +8932,13 @@ class GameLift {
   /// ID is included in the <code>MatchmakerData</code> of an updated game
   /// session object, which is provided to the game server.
   /// <note>
-  /// If the action is successful, the service sends back an empty JSON struct
-  /// with the HTTP 200 response (not an empty HTTP body).
+  /// If the operation is successful, the service sends back an empty JSON
+  /// struct with the HTTP 200 response (not an empty HTTP body).
   /// </note>
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-client.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-client.html">
   /// Add FlexMatch to a Game Client</a>
   ///
   /// <b>Related operations</b>
@@ -8843,32 +9003,35 @@ class GameLift {
     return StopMatchmakingOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
   /// Temporarily stops activity on a game server group without terminating
-  /// instances or the game server group. Activity can be restarted by calling
-  /// <a>ResumeGameServerGroup</a>. Activities that can suspended are:
+  /// instances or the game server group. You can restart activity by calling
+  /// <a>ResumeGameServerGroup</a>. You can suspend the following activity:
   ///
   /// <ul>
   /// <li>
-  /// Instance type replacement. This activity evaluates the current Spot
-  /// viability of all instance types that are defined for the game server
-  /// group. It updates the Auto Scaling group to remove nonviable Spot instance
-  /// types (which have a higher chance of game server interruptions) and
-  /// rebalances capacity across the remaining viable Spot instance types. When
-  /// this activity is suspended, the Auto Scaling group continues with its
-  /// current balance, regardless of viability. Instance protection, utilization
-  /// metrics, and capacity autoscaling activities continue to be active.
+  /// <b>Instance type replacement</b> - This activity evaluates the current
+  /// game hosting viability of all Spot instance types that are defined for the
+  /// game server group. It updates the Auto Scaling group to remove nonviable
+  /// Spot Instance types, which have a higher chance of game server
+  /// interruptions. It then balances capacity across the remaining viable Spot
+  /// Instance types. When this activity is suspended, the Auto Scaling group
+  /// continues with its current balance, regardless of viability. Instance
+  /// protection, utilization metrics, and capacity scaling activities continue
+  /// to be active.
   /// </li>
   /// </ul>
   /// To suspend activity, specify a game server group ARN and the type of
-  /// activity to be suspended.
+  /// activity to be suspended. If successful, a <a>GameServerGroup</a> object
+  /// is returned showing that the activity is listed in
+  /// <code>SuspendedActions</code>.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
   ///
   /// <b>Related operations</b>
@@ -8895,6 +9058,9 @@ class GameLift {
   /// <li>
   /// <a>SuspendGameServerGroup</a>
   /// </li>
+  /// <li>
+  /// <a>DescribeGameServerInstances</a>
+  /// </li>
   /// </ul>
   ///
   /// May throw [InvalidRequestException].
@@ -8903,11 +9069,11 @@ class GameLift {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [gameServerGroupName] :
-  /// The unique identifier of the game server group to stop activity on. Use
-  /// either the <a>GameServerGroup</a> name or ARN value.
+  /// A unique identifier for the game server group. Use either the
+  /// <a>GameServerGroup</a> name or ARN value.
   ///
   /// Parameter [suspendActions] :
-  /// The action to suspend for this game server group.
+  /// The activity to suspend for this game server group.
   Future<SuspendGameServerGroupOutput> suspendGameServerGroup({
     @_s.required String gameServerGroupName,
     @_s.required List<GameServerGroupAction> suspendActions,
@@ -8950,7 +9116,7 @@ class GameLift {
   /// Assigns a tag to a GameLift resource. AWS resource tags provide an
   /// additional management tool set. You can use tags to organize resources,
   /// create IAM permissions policies to manage access to groups of resources,
-  /// customize AWS cost breakdowns, etc. This action handles the permissions
+  /// customize AWS cost breakdowns, etc. This operation handles the permissions
   /// necessary to manage tags for the following GameLift resource types:
   ///
   /// <ul>
@@ -9016,7 +9182,7 @@ class GameLift {
   /// that is assigned to and uniquely identifies the GameLift resource that you
   /// want to assign tags to. GameLift resource ARNs are included in the data
   /// object for the resource, which can be retrieved by calling a List or
-  /// Describe action for the resource type.
+  /// Describe operation for the resource type.
   ///
   /// Parameter [tags] :
   /// A list of one or more tags to assign to the specified GameLift resource.
@@ -9057,7 +9223,7 @@ class GameLift {
   }
 
   /// Removes a tag that is assigned to a GameLift resource. Resource tags are
-  /// used to organize AWS resources for a range of purposes. This action
+  /// used to organize AWS resources for a range of purposes. This operation
   /// handles the permissions necessary to manage tags for the following
   /// GameLift resource types:
   ///
@@ -9086,8 +9252,8 @@ class GameLift {
   /// </ul>
   /// To remove a tag from a resource, specify the unique ARN value for the
   /// resource and provide a string list containing one or more tags to be
-  /// removed. This action succeeds even if the list includes tags that are not
-  /// currently assigned to the specified resource.
+  /// removed. This operation succeeds even if the list includes tags that are
+  /// not currently assigned to the specified resource.
   ///
   /// <b>Learn more</b>
   ///
@@ -9124,7 +9290,7 @@ class GameLift {
   /// that is assigned to and uniquely identifies the GameLift resource that you
   /// want to remove tags from. GameLift resource ARNs are included in the data
   /// object for the resource, which can be retrieved by calling a List or
-  /// Describe action for the resource type.
+  /// Describe operation for the resource type.
   ///
   /// Parameter [tagKeys] :
   /// A list of one or more tag keys to remove from the specified GameLift
@@ -9495,9 +9661,9 @@ class GameLift {
     return UpdateFleetAttributesOutput.fromJson(jsonResponse.body);
   }
 
-  /// Updates capacity settings for a fleet. Use this action to specify the
+  /// Updates capacity settings for a fleet. Use this operation to specify the
   /// number of EC2 instances (hosts) that you want this fleet to contain.
-  /// Before calling this action, you may want to call
+  /// Before calling this operation, you may want to call
   /// <a>DescribeEC2InstanceLimits</a> to get the maximum capacity based on the
   /// fleet's EC2 instance type.
   ///
@@ -9734,18 +9900,15 @@ class GameLift {
     return UpdateFleetPortSettingsOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
-  /// Updates information about a registered game server. This action is called
-  /// by a game server process that is running on an instance in a game server
-  /// group. There are three reasons to update game server information: (1) to
-  /// change the utilization status of the game server, (2) to report game
-  /// server health status, and (3) to change game server metadata. A registered
-  /// game server should regularly report health and should update utilization
-  /// status when it is supporting gameplay so that GameLift FleetIQ can
-  /// accurately track game server availability. You can make all three types of
-  /// updates in the same request.
+  /// Updates information about a registered game server to help GameLift
+  /// FleetIQ to track game server availability. This operation is called by a
+  /// game server process that is running on an instance in a game server group.
+  ///
+  /// Use this operation to update the following types of game server
+  /// information. You can make all three types of updates in the same request:
   ///
   /// <ul>
   /// <li>
@@ -9756,15 +9919,14 @@ class GameLift {
   /// </li>
   /// <li>
   /// To report health status, identify the game server and game server group
-  /// and set health check to HEALTHY. If a game server does not report health
-  /// status for a certain length of time, the game server is no longer
-  /// considered healthy and will be eventually de-registered from the game
-  /// server group to avoid affecting utilization metrics. The best practice is
-  /// to report health every 60 seconds.
+  /// and set health check to <code>HEALTHY</code>. If a game server does not
+  /// report health status for a certain length of time, the game server is no
+  /// longer considered healthy. As a result, it will be eventually deregistered
+  /// from the game server group to avoid affecting utilization metrics. The
+  /// best practice is to report health every 60 seconds.
   /// </li>
   /// <li>
-  /// To change game server metadata, provide updated game server data and
-  /// custom sort key values.
+  /// To change game server metadata, provide updated game server data.
   /// </li>
   /// </ul>
   /// Once a game server is successfully updated, the relevant statuses and
@@ -9773,7 +9935,7 @@ class GameLift {
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
   ///
   /// <b>Related operations</b>
@@ -9805,27 +9967,21 @@ class GameLift {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [gameServerGroupName] :
-  /// An identifier for the game server group where the game server is running.
-  /// Use either the <a>GameServerGroup</a> name or ARN value.
+  /// A unique identifier for the game server group where the game server is
+  /// running. Use either the <a>GameServerGroup</a> name or ARN value.
   ///
   /// Parameter [gameServerId] :
-  /// The identifier for the game server to be updated.
-  ///
-  /// Parameter [customSortKey] :
-  /// A game server tag that can be used to request sorted lists of game servers
-  /// using <a>ListGameServers</a>. Custom sort keys are developer-defined based
-  /// on how you want to organize the retrieved game server information.
+  /// A custom string that uniquely identifies the game server to update.
   ///
   /// Parameter [gameServerData] :
   /// A set of custom game server properties, formatted as a single string
   /// value. This data is passed to a game client or service when it requests
-  /// information on a game servers using <a>DescribeGameServer</a> or
+  /// information on game servers using <a>ListGameServers</a> or
   /// <a>ClaimGameServer</a>.
   ///
   /// Parameter [healthCheck] :
-  /// Indicates health status of the game server. An update that explicitly
-  /// includes this parameter updates the game server's
-  /// <i>LastHealthCheckTime</i> time stamp.
+  /// Indicates health status of the game server. A request that includes this
+  /// parameter updates the game server's <i>LastHealthCheckTime</i> timestamp.
   ///
   /// Parameter [utilizationStatus] :
   /// Indicates whether the game server is available or is currently hosting
@@ -9833,7 +9989,6 @@ class GameLift {
   Future<UpdateGameServerOutput> updateGameServer({
     @_s.required String gameServerGroupName,
     @_s.required String gameServerId,
-    String customSortKey,
     String gameServerData,
     GameServerHealthCheck healthCheck,
     GameServerUtilizationStatus utilizationStatus,
@@ -9867,17 +10022,6 @@ class GameLift {
       isRequired: true,
     );
     _s.validateStringLength(
-      'customSortKey',
-      customSortKey,
-      1,
-      64,
-    );
-    _s.validateStringPattern(
-      'customSortKey',
-      customSortKey,
-      r'''[a-zA-Z0-9-\.]+''',
-    );
-    _s.validateStringLength(
       'gameServerData',
       gameServerData,
       1,
@@ -9901,7 +10045,6 @@ class GameLift {
       payload: {
         'GameServerGroupName': gameServerGroupName,
         'GameServerId': gameServerId,
-        if (customSortKey != null) 'CustomSortKey': customSortKey,
         if (gameServerData != null) 'GameServerData': gameServerData,
         if (healthCheck != null) 'HealthCheck': healthCheck.toValue(),
         if (utilizationStatus != null)
@@ -9912,32 +10055,25 @@ class GameLift {
     return UpdateGameServerOutput.fromJson(jsonResponse.body);
   }
 
-  /// <b>This action is part of Amazon GameLift FleetIQ with game server groups,
-  /// which is in preview release and is subject to change.</b>
+  /// <b>This operation is used with the Amazon GameLift FleetIQ solution and
+  /// game server groups.</b>
   ///
-  /// Updates GameLift FleetIQ-specific properties for a game server group.
-  /// These properties include instance rebalancing and game server protection.
-  /// Many Auto Scaling group properties are updated directly. These include
-  /// autoscaling policies, minimum/maximum/desired instance counts, and launch
-  /// template.
+  /// Updates GameLift FleetIQ-specific properties for a game server group. Many
+  /// Auto Scaling group properties are updated on the Auto Scaling group
+  /// directly, including the launch template, Auto Scaling policies, and
+  /// maximum/minimum/desired instance counts.
   ///
   /// To update the game server group, specify the game server group ID and
-  /// provide the updated values.
-  ///
-  /// Updated properties are validated to ensure that GameLift FleetIQ can
-  /// continue to perform its core instance rebalancing activity. When you
-  /// change Auto Scaling group properties directly and the changes cause errors
-  /// with GameLift FleetIQ activities, an alert is sent.
+  /// provide the updated values. Before applying the updates, the new values
+  /// are validated to ensure that GameLift FleetIQ can continue to perform
+  /// instance balancing activity. If successful, a <a>GameServerGroup</a>
+  /// object is returned.
   ///
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-intro.html">GameLift
+  /// href="https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html">GameLift
   /// FleetIQ Guide</a>
-  ///
-  /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gsg-asgroups.html">Updating
-  /// a GameLift FleetIQ-Linked Auto Scaling Group</a>
   ///
   /// <b>Related operations</b>
   ///
@@ -9963,6 +10099,9 @@ class GameLift {
   /// <li>
   /// <a>SuspendGameServerGroup</a>
   /// </li>
+  /// <li>
+  /// <a>DescribeGameServerInstances</a>
+  /// </li>
   /// </ul>
   ///
   /// May throw [InvalidRequestException].
@@ -9971,55 +10110,69 @@ class GameLift {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [gameServerGroupName] :
-  /// The unique identifier of the game server group to update. Use either the
+  /// A unique identifier for the game server group. Use either the
   /// <a>GameServerGroup</a> name or ARN value.
   ///
   /// Parameter [balancingStrategy] :
-  /// The fallback balancing method to use for the game server group when Spot
-  /// instances in a Region become unavailable or are not viable for game
-  /// hosting. Once triggered, this method remains active until Spot instances
-  /// can once again be used. Method options include:
+  /// Indicates how GameLift FleetIQ balances the use of Spot Instances and
+  /// On-Demand Instances in the game server group. Method options include the
+  /// following:
   ///
   /// <ul>
   /// <li>
-  /// SPOT_ONLY -- If Spot instances are unavailable, the game server group
-  /// provides no hosting capacity. No new instances are started, and the
-  /// existing nonviable Spot instances are terminated (once current gameplay
-  /// ends) and not replaced.
+  /// <code>SPOT_ONLY</code> - Only Spot Instances are used in the game server
+  /// group. If Spot Instances are unavailable or not viable for game hosting,
+  /// the game server group provides no hosting capacity until Spot Instances
+  /// can again be used. Until then, no new instances are started, and the
+  /// existing nonviable Spot Instances are terminated (after current gameplay
+  /// ends) and are not replaced.
   /// </li>
   /// <li>
-  /// SPOT_PREFERRED -- If Spot instances are unavailable, the game server group
-  /// continues to provide hosting capacity by using On-Demand instances.
-  /// Existing nonviable Spot instances are terminated (once current gameplay
-  /// ends) and replaced with new On-Demand instances.
+  /// <code>SPOT_PREFERRED</code> - (default value) Spot Instances are used
+  /// whenever available in the game server group. If Spot Instances are
+  /// unavailable, the game server group continues to provide hosting capacity
+  /// by falling back to On-Demand Instances. Existing nonviable Spot Instances
+  /// are terminated (after current gameplay ends) and are replaced with new
+  /// On-Demand Instances.
+  /// </li>
+  /// <li>
+  /// <code>ON_DEMAND_ONLY</code> - Only On-Demand Instances are used in the
+  /// game server group. No Spot Instances are used, even when available, while
+  /// this balancing strategy is in force.
   /// </li>
   /// </ul>
   ///
   /// Parameter [gameServerProtectionPolicy] :
   /// A flag that indicates whether instances in the game server group are
   /// protected from early termination. Unprotected instances that have active
-  /// game servers running may by terminated during a scale-down event, causing
-  /// players to be dropped from the game. Protected instances cannot be
-  /// terminated while there are active game servers running. An exception to
-  /// this is Spot Instances, which may be terminated by AWS regardless of
-  /// protection status. This property is set to NO_PROTECTION by default.
+  /// game servers running might be terminated during a scale-down event,
+  /// causing players to be dropped from the game. Protected instances cannot be
+  /// terminated while there are active game servers running except in the event
+  /// of a forced game server group deletion (see ). An exception to this is
+  /// with Spot Instances, which can be terminated by AWS regardless of
+  /// protection status. This property is set to <code>NO_PROTECTION</code> by
+  /// default.
   ///
   /// Parameter [instanceDefinitions] :
-  /// An updated list of EC2 instance types to use when creating instances in
-  /// the group. The instance definition must specify instance types that are
-  /// supported by GameLift FleetIQ, and must include at least two instance
-  /// types. This updated list replaces the entire current list of instance
-  /// definitions for the game server group. For more information on instance
-  /// types, see <a
+  /// An updated list of EC2 instance types to use in the Auto Scaling group.
+  /// The instance definitions must specify at least two different instance
+  /// types that are supported by GameLift FleetIQ. This updated list replaces
+  /// the entire current list of instance definitions for the game server group.
+  /// For more information on instance types, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">EC2
-  /// Instance Types</a> in the <i>Amazon EC2 User Guide</i>..
+  /// Instance Types</a> in the <i>Amazon EC2 User Guide</i>. You can optionally
+  /// specify capacity weighting for each instance type. If no weight value is
+  /// specified for an instance type, it is set to the default value "1". For
+  /// more information about capacity weighting, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html">
+  /// Instance Weighting for Amazon EC2 Auto Scaling</a> in the Amazon EC2 Auto
+  /// Scaling User Guide.
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
   /// for an IAM role that allows Amazon GameLift to access your EC2 Auto
-  /// Scaling groups. The submitted role is validated to ensure that it contains
-  /// the necessary permissions for game server groups.
+  /// Scaling groups.
   Future<UpdateGameServerGroupOutput> updateGameServerGroup({
     @_s.required String gameServerGroupName,
     BalancingStrategy balancingStrategy,
@@ -10327,7 +10480,7 @@ class GameLift {
   /// <b>Learn more</b>
   ///
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-configuration.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-configuration.html">
   /// Design a FlexMatch Matchmaker</a>
   ///
   /// <b>Related operations</b>
@@ -10371,18 +10524,22 @@ class GameLift {
   /// Parameter [acceptanceRequired] :
   /// A flag that indicates whether a match that was created with this
   /// configuration must be accepted by the matched players. To require
-  /// acceptance, set to TRUE.
+  /// acceptance, set to TRUE. With this option enabled, matchmaking tickets use
+  /// the status <code>REQUIRES_ACCEPTANCE</code> to indicate when a completed
+  /// potential match is waiting for player acceptance.
   ///
   /// Parameter [acceptanceTimeoutSeconds] :
   /// The length of time (in seconds) to wait for players to accept a proposed
-  /// match. If any player rejects the match or fails to accept before the
-  /// timeout, the ticket continues to look for an acceptable match.
+  /// match, if acceptance is required. If any player rejects the match or fails
+  /// to accept before the timeout, the tickets are returned to the ticket pool
+  /// and continue to be evaluated for an acceptable match.
   ///
   /// Parameter [additionalPlayerCount] :
   /// The number of player slots in a match to keep open for future players. For
   /// example, assume that the configuration's rule set specifies a match for a
   /// single 12-person team. If the additional player count is set to 2, only 10
-  /// players are initially selected for the match.
+  /// players are initially selected for the match. This parameter is not used
+  /// if <code>FlexMatchMode</code> is set to <code>STANDALONE</code>.
   ///
   /// Parameter [backfillMode] :
   /// The method that is used to backfill game sessions created with this
@@ -10391,14 +10548,32 @@ class GameLift {
   /// AUTOMATIC to have GameLift create a <a>StartMatchBackfill</a> request
   /// whenever a game session has one or more open slots. Learn more about
   /// manual and automatic backfill in <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-backfill.html">Backfill
-  /// Existing Games with FlexMatch</a>.
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html">Backfill
+  /// Existing Games with FlexMatch</a>. Automatic backfill is not available
+  /// when <code>FlexMatchMode</code> is set to <code>STANDALONE</code>.
   ///
   /// Parameter [customEventData] :
   /// Information to add to all events related to the matchmaking configuration.
   ///
   /// Parameter [description] :
   /// A descriptive label that is associated with matchmaking configuration.
+  ///
+  /// Parameter [flexMatchMode] :
+  /// Indicates whether this matchmaking configuration is being used with
+  /// GameLift hosting or as a standalone matchmaking solution.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>STANDALONE</b> - FlexMatch forms matches and returns match information,
+  /// including players and team assignments, in a <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-events.html#match-events-matchmakingsucceeded">
+  /// MatchmakingSucceeded</a> event.
+  /// </li>
+  /// <li>
+  /// <b>WITH_QUEUE</b> - FlexMatch forms matches and uses the specified
+  /// GameLift queue to start a game session for the match.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [gameProperties] :
   /// A set of custom properties for a game session, formatted as key-value
@@ -10407,7 +10582,9 @@ class GameLift {
   /// <a
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
   /// a Game Session</a>). This information is added to the new
-  /// <a>GameSession</a> object that is created for a successful match.
+  /// <a>GameSession</a> object that is created for a successful match. This
+  /// parameter is not used if <code>FlexMatchMode</code> is set to
+  /// <code>STANDALONE</code>.
   ///
   /// Parameter [gameSessionData] :
   /// A set of custom game session properties, formatted as a single string
@@ -10416,20 +10593,24 @@ class GameLift {
   /// <a
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
   /// a Game Session</a>). This information is added to the new
-  /// <a>GameSession</a> object that is created for a successful match.
+  /// <a>GameSession</a> object that is created for a successful match. This
+  /// parameter is not used if <code>FlexMatchMode</code> is set to
+  /// <code>STANDALONE</code>.
   ///
   /// Parameter [gameSessionQueueArns] :
   /// Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
   /// that is assigned to a GameLift game session queue resource and uniquely
-  /// identifies it. ARNs are unique across all Regions. These queues are used
-  /// when placing game sessions for matches that are created with this
-  /// matchmaking configuration. Queues can be located in any Region.
+  /// identifies it. ARNs are unique across all Regions. Queues can be located
+  /// in any Region. Queues are used to start new GameLift-hosted game sessions
+  /// for matches that are created with this matchmaking configuration. If
+  /// <code>FlexMatchMode</code> is set to <code>STANDALONE</code>, do not set
+  /// this parameter.
   ///
   /// Parameter [notificationTarget] :
   /// An SNS topic ARN that is set up to receive matchmaking notifications. See
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-notification.html">
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-notification.html">
   /// Setting up Notifications for Matchmaking</a> for more information.
   ///
   /// Parameter [requestTimeoutSeconds] :
@@ -10450,6 +10631,7 @@ class GameLift {
     BackfillMode backfillMode,
     String customEventData,
     String description,
+    FlexMatchMode flexMatchMode,
     List<GameProperty> gameProperties,
     String gameSessionData,
     List<String> gameSessionQueueArns,
@@ -10550,6 +10732,7 @@ class GameLift {
         if (backfillMode != null) 'BackfillMode': backfillMode.toValue(),
         if (customEventData != null) 'CustomEventData': customEventData,
         if (description != null) 'Description': description,
+        if (flexMatchMode != null) 'FlexMatchMode': flexMatchMode.toValue(),
         if (gameProperties != null) 'GameProperties': gameProperties,
         if (gameSessionData != null) 'GameSessionData': gameSessionData,
         if (gameSessionQueueArns != null)
@@ -10730,14 +10913,17 @@ class GameLift {
   /// need to be unique.
   ///
   /// Parameter [storageLocation] :
-  /// The location of the Amazon S3 bucket where a zipped file containing your
-  /// Realtime scripts is stored. The storage location must specify the Amazon
-  /// S3 bucket name, the zip file name (the "key"), and a role ARN that allows
-  /// Amazon GameLift to access the Amazon S3 storage location. The S3 bucket
-  /// must be in the same Region where you want to create a new script. By
+  /// The Amazon S3 location of your Realtime scripts. The storage location must
+  /// specify the S3 bucket name, the zip file name (the "key"), and an IAM role
+  /// ARN that allows Amazon GameLift to access the S3 storage location. The S3
+  /// bucket must be in the same Region as the script you're updating. By
   /// default, Amazon GameLift uploads the latest version of the zip file; if
   /// you have S3 object versioning turned on, you can use the
-  /// <code>ObjectVersion</code> parameter to specify an earlier version.
+  /// <code>ObjectVersion</code> parameter to specify an earlier version. To
+  /// call this operation with a storage location, you must have IAM PassRole
+  /// permission. For more details on IAM roles and PassRole permissions, see <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/setting-up-role.html">
+  /// Set up a role for GameLift access</a>.
   ///
   /// Parameter [version] :
   /// The version that is associated with a build or script. Version strings do
@@ -10810,7 +10996,7 @@ class GameLift {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-rulesets.html">Build
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-rulesets.html">Build
   /// a Rule Set</a>
   /// </li>
   /// </ul>
@@ -11085,6 +11271,8 @@ enum BalancingStrategy {
   spotOnly,
   @_s.JsonValue('SPOT_PREFERRED')
   spotPreferred,
+  @_s.JsonValue('ON_DEMAND_ONLY')
+  onDemandOnly,
 }
 
 extension on BalancingStrategy {
@@ -11094,6 +11282,8 @@ extension on BalancingStrategy {
         return 'SPOT_ONLY';
       case BalancingStrategy.spotPreferred:
         return 'SPOT_PREFERRED';
+      case BalancingStrategy.onDemandOnly:
+        return 'ON_DEMAND_ONLY';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -11267,7 +11457,7 @@ enum CertificateType {
     createFactory: true,
     createToJson: false)
 class ClaimGameServerOutput {
-  /// Object that describes the newly claimed game server resource.
+  /// Object that describes the newly claimed game server.
   @_s.JsonKey(name: 'GameServer')
   final GameServer gameServer;
 
@@ -11305,7 +11495,7 @@ extension on ComparisonOperatorType {
   }
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11323,7 +11513,7 @@ class CreateAliasOutput {
       _$CreateAliasOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11355,7 +11545,7 @@ class CreateBuildOutput {
       _$CreateBuildOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11383,7 +11573,7 @@ class CreateGameServerGroupOutput {
   /// the GameLift FleetIQ game server group and the object's status. The EC2 Auto
   /// Scaling group ARN is initially null, since the group has not yet been
   /// created. This value is added once the game server group status reaches
-  /// ACTIVE.
+  /// <code>ACTIVE</code>.
   @_s.JsonKey(name: 'GameServerGroup')
   final GameServerGroup gameServerGroup;
 
@@ -11394,7 +11584,7 @@ class CreateGameServerGroupOutput {
       _$CreateGameServerGroupOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11412,7 +11602,7 @@ class CreateGameSessionOutput {
       _$CreateGameSessionOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11430,7 +11620,7 @@ class CreateGameSessionQueueOutput {
       _$CreateGameSessionQueueOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11449,7 +11639,7 @@ class CreateMatchmakingConfigurationOutput {
       _$CreateMatchmakingConfigurationOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11467,7 +11657,7 @@ class CreateMatchmakingRuleSetOutput {
       _$CreateMatchmakingRuleSetOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11485,7 +11675,7 @@ class CreatePlayerSessionOutput {
       _$CreatePlayerSessionOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11526,7 +11716,7 @@ class CreateScriptOutput {
       _$CreateScriptOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11564,7 +11754,7 @@ class CreateVpcPeeringConnectionOutput {
     createToJson: false)
 class DeleteGameServerGroupOutput {
   /// An object that describes the deleted game server group resource, with status
-  /// updated to DELETE_SCHEDULED.
+  /// updated to <code>DELETE_SCHEDULED</code>.
   @_s.JsonKey(name: 'GameServerGroup')
   final GameServerGroup gameServerGroup;
 
@@ -11598,7 +11788,7 @@ class DeleteMatchmakingConfigurationOutput {
       _$DeleteMatchmakingConfigurationOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11634,7 +11824,7 @@ class DeleteVpcPeeringConnectionOutput {
       _$DeleteVpcPeeringConnectionOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11652,7 +11842,7 @@ class DescribeAliasOutput {
       _$DescribeAliasOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11670,7 +11860,7 @@ class DescribeBuildOutput {
       _$DescribeBuildOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11688,7 +11878,7 @@ class DescribeEC2InstanceLimitsOutput {
       _$DescribeEC2InstanceLimitsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11702,8 +11892,8 @@ class DescribeFleetAttributesOutput {
   final List<FleetAttributes> fleetAttributes;
 
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -11715,7 +11905,7 @@ class DescribeFleetAttributesOutput {
       _$DescribeFleetAttributesOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11729,8 +11919,8 @@ class DescribeFleetCapacityOutput {
   final List<FleetCapacity> fleetCapacity;
 
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -11742,7 +11932,7 @@ class DescribeFleetCapacityOutput {
       _$DescribeFleetCapacityOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11755,8 +11945,8 @@ class DescribeFleetEventsOutput {
   final List<Event> events;
 
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -11768,7 +11958,7 @@ class DescribeFleetEventsOutput {
       _$DescribeFleetEventsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11786,7 +11976,7 @@ class DescribeFleetPortSettingsOutput {
       _$DescribeFleetPortSettingsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11799,8 +11989,8 @@ class DescribeFleetUtilizationOutput {
   final List<FleetUtilization> fleetUtilization;
 
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -11818,7 +12008,8 @@ class DescribeFleetUtilizationOutput {
     createFactory: true,
     createToJson: false)
 class DescribeGameServerGroupOutput {
-  /// An object that describes the requested game server group resource.
+  /// An object with the property settings for the requested game server group
+  /// resource.
   @_s.JsonKey(name: 'GameServerGroup')
   final GameServerGroup gameServerGroup;
 
@@ -11834,8 +12025,33 @@ class DescribeGameServerGroupOutput {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeGameServerInstancesOutput {
+  /// The collection of requested game server instances.
+  @_s.JsonKey(name: 'GameServerInstances')
+  final List<GameServerInstance> gameServerInstances;
+
+  /// A token that indicates where to resume retrieving results on the next call
+  /// to this operation. If no token is returned, these results represent the end
+  /// of the list.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeGameServerInstancesOutput({
+    this.gameServerInstances,
+    this.nextToken,
+  });
+  factory DescribeGameServerInstancesOutput.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeGameServerInstancesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeGameServerOutput {
-  /// Object that describes the requested game server resource.
+  /// Object that describes the requested game server.
   @_s.JsonKey(name: 'GameServer')
   final GameServer gameServer;
 
@@ -11846,7 +12062,7 @@ class DescribeGameServerOutput {
       _$DescribeGameServerOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11859,8 +12075,8 @@ class DescribeGameSessionDetailsOutput {
   final List<GameSessionDetail> gameSessionDetails;
 
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -11873,7 +12089,7 @@ class DescribeGameSessionDetailsOutput {
       _$DescribeGameSessionDetailsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11892,7 +12108,7 @@ class DescribeGameSessionPlacementOutput {
       _$DescribeGameSessionPlacementOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11904,8 +12120,8 @@ class DescribeGameSessionQueuesOutput {
   final List<GameSessionQueue> gameSessionQueues;
 
   /// A token that indicates where to resume retrieving results on the next call
-  /// to this action. If no token is returned, these results represent the end of
-  /// the list.
+  /// to this operation. If no token is returned, these results represent the end
+  /// of the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -11917,7 +12133,7 @@ class DescribeGameSessionQueuesOutput {
       _$DescribeGameSessionQueuesOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11930,8 +12146,8 @@ class DescribeGameSessionsOutput {
   final List<GameSession> gameSessions;
 
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -11943,7 +12159,7 @@ class DescribeGameSessionsOutput {
       _$DescribeGameSessionsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11955,8 +12171,8 @@ class DescribeInstancesOutput {
   final List<Instance> instances;
 
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -11968,7 +12184,7 @@ class DescribeInstancesOutput {
       _$DescribeInstancesOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11980,8 +12196,8 @@ class DescribeMatchmakingConfigurationsOutput {
   final List<MatchmakingConfiguration> configurations;
 
   /// A token that indicates where to resume retrieving results on the next call
-  /// to this action. If no token is returned, these results represent the end of
-  /// the list.
+  /// to this operation. If no token is returned, these results represent the end
+  /// of the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -11994,7 +12210,7 @@ class DescribeMatchmakingConfigurationsOutput {
       _$DescribeMatchmakingConfigurationsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -12012,7 +12228,7 @@ class DescribeMatchmakingOutput {
       _$DescribeMatchmakingOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -12024,8 +12240,8 @@ class DescribeMatchmakingRuleSetsOutput {
   final List<MatchmakingRuleSet> ruleSets;
 
   /// A token that indicates where to resume retrieving results on the next call
-  /// to this action. If no token is returned, these results represent the end of
-  /// the list.
+  /// to this operation. If no token is returned, these results represent the end
+  /// of the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -12038,7 +12254,7 @@ class DescribeMatchmakingRuleSetsOutput {
       _$DescribeMatchmakingRuleSetsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -12046,8 +12262,8 @@ class DescribeMatchmakingRuleSetsOutput {
     createToJson: false)
 class DescribePlayerSessionsOutput {
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -12064,7 +12280,7 @@ class DescribePlayerSessionsOutput {
       _$DescribePlayerSessionsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -12084,7 +12300,7 @@ class DescribeRuntimeConfigurationOutput {
       _$DescribeRuntimeConfigurationOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -12092,8 +12308,8 @@ class DescribeRuntimeConfigurationOutput {
     createToJson: false)
 class DescribeScalingPoliciesOutput {
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -12146,7 +12362,7 @@ class DescribeVpcPeeringAuthorizationsOutput {
       _$DescribeVpcPeeringAuthorizationsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -12345,6 +12561,22 @@ enum EC2InstanceType {
   c5_18xlarge,
   @_s.JsonValue('c5.24xlarge')
   c5_24xlarge,
+  @_s.JsonValue('c5a.large')
+  c5aLarge,
+  @_s.JsonValue('c5a.xlarge')
+  c5aXlarge,
+  @_s.JsonValue('c5a.2xlarge')
+  c5a_2xlarge,
+  @_s.JsonValue('c5a.4xlarge')
+  c5a_4xlarge,
+  @_s.JsonValue('c5a.8xlarge')
+  c5a_8xlarge,
+  @_s.JsonValue('c5a.12xlarge')
+  c5a_12xlarge,
+  @_s.JsonValue('c5a.16xlarge')
+  c5a_16xlarge,
+  @_s.JsonValue('c5a.24xlarge')
+  c5a_24xlarge,
   @_s.JsonValue('r3.large')
   r3Large,
   @_s.JsonValue('r3.xlarge')
@@ -12383,6 +12615,22 @@ enum EC2InstanceType {
   r5_16xlarge,
   @_s.JsonValue('r5.24xlarge')
   r5_24xlarge,
+  @_s.JsonValue('r5a.large')
+  r5aLarge,
+  @_s.JsonValue('r5a.xlarge')
+  r5aXlarge,
+  @_s.JsonValue('r5a.2xlarge')
+  r5a_2xlarge,
+  @_s.JsonValue('r5a.4xlarge')
+  r5a_4xlarge,
+  @_s.JsonValue('r5a.8xlarge')
+  r5a_8xlarge,
+  @_s.JsonValue('r5a.12xlarge')
+  r5a_12xlarge,
+  @_s.JsonValue('r5a.16xlarge')
+  r5a_16xlarge,
+  @_s.JsonValue('r5a.24xlarge')
+  r5a_24xlarge,
   @_s.JsonValue('m3.medium')
   m3Medium,
   @_s.JsonValue('m3.large')
@@ -12417,6 +12665,22 @@ enum EC2InstanceType {
   m5_16xlarge,
   @_s.JsonValue('m5.24xlarge')
   m5_24xlarge,
+  @_s.JsonValue('m5a.large')
+  m5aLarge,
+  @_s.JsonValue('m5a.xlarge')
+  m5aXlarge,
+  @_s.JsonValue('m5a.2xlarge')
+  m5a_2xlarge,
+  @_s.JsonValue('m5a.4xlarge')
+  m5a_4xlarge,
+  @_s.JsonValue('m5a.8xlarge')
+  m5a_8xlarge,
+  @_s.JsonValue('m5a.12xlarge')
+  m5a_12xlarge,
+  @_s.JsonValue('m5a.16xlarge')
+  m5a_16xlarge,
+  @_s.JsonValue('m5a.24xlarge')
+  m5a_24xlarge,
 }
 
 extension on EC2InstanceType {
@@ -12466,6 +12730,22 @@ extension on EC2InstanceType {
         return 'c5.18xlarge';
       case EC2InstanceType.c5_24xlarge:
         return 'c5.24xlarge';
+      case EC2InstanceType.c5aLarge:
+        return 'c5a.large';
+      case EC2InstanceType.c5aXlarge:
+        return 'c5a.xlarge';
+      case EC2InstanceType.c5a_2xlarge:
+        return 'c5a.2xlarge';
+      case EC2InstanceType.c5a_4xlarge:
+        return 'c5a.4xlarge';
+      case EC2InstanceType.c5a_8xlarge:
+        return 'c5a.8xlarge';
+      case EC2InstanceType.c5a_12xlarge:
+        return 'c5a.12xlarge';
+      case EC2InstanceType.c5a_16xlarge:
+        return 'c5a.16xlarge';
+      case EC2InstanceType.c5a_24xlarge:
+        return 'c5a.24xlarge';
       case EC2InstanceType.r3Large:
         return 'r3.large';
       case EC2InstanceType.r3Xlarge:
@@ -12504,6 +12784,22 @@ extension on EC2InstanceType {
         return 'r5.16xlarge';
       case EC2InstanceType.r5_24xlarge:
         return 'r5.24xlarge';
+      case EC2InstanceType.r5aLarge:
+        return 'r5a.large';
+      case EC2InstanceType.r5aXlarge:
+        return 'r5a.xlarge';
+      case EC2InstanceType.r5a_2xlarge:
+        return 'r5a.2xlarge';
+      case EC2InstanceType.r5a_4xlarge:
+        return 'r5a.4xlarge';
+      case EC2InstanceType.r5a_8xlarge:
+        return 'r5a.8xlarge';
+      case EC2InstanceType.r5a_12xlarge:
+        return 'r5a.12xlarge';
+      case EC2InstanceType.r5a_16xlarge:
+        return 'r5a.16xlarge';
+      case EC2InstanceType.r5a_24xlarge:
+        return 'r5a.24xlarge';
       case EC2InstanceType.m3Medium:
         return 'm3.medium';
       case EC2InstanceType.m3Large:
@@ -12538,6 +12834,22 @@ extension on EC2InstanceType {
         return 'm5.16xlarge';
       case EC2InstanceType.m5_24xlarge:
         return 'm5.24xlarge';
+      case EC2InstanceType.m5aLarge:
+        return 'm5a.large';
+      case EC2InstanceType.m5aXlarge:
+        return 'm5a.xlarge';
+      case EC2InstanceType.m5a_2xlarge:
+        return 'm5a.2xlarge';
+      case EC2InstanceType.m5a_4xlarge:
+        return 'm5a.4xlarge';
+      case EC2InstanceType.m5a_8xlarge:
+        return 'm5a.8xlarge';
+      case EC2InstanceType.m5a_12xlarge:
+        return 'm5a.12xlarge';
+      case EC2InstanceType.m5a_16xlarge:
+        return 'm5a.16xlarge';
+      case EC2InstanceType.m5a_24xlarge:
+        return 'm5a.24xlarge';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -12876,14 +13188,7 @@ class FleetAttributes {
   final FleetType fleetType;
 
   /// A unique identifier for an AWS IAM role that manages access to your AWS
-  /// services. With an instance role ARN set, any application that runs on an
-  /// instance in this fleet can assume the role, including install scripts,
-  /// server processes, and daemons (background processes). Create a role or look
-  /// up a role's ARN from the <a href="https://console.aws.amazon.com/iam/">IAM
-  /// dashboard</a> in the AWS Management Console. Learn more about using on-box
-  /// credentials for your game servers at <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html">
-  /// Access external resources from a game server</a>.
+  /// services.
   @_s.JsonKey(name: 'InstanceRoleArn')
   final String instanceRoleArn;
 
@@ -13001,7 +13306,7 @@ class FleetAttributes {
   @_s.JsonKey(name: 'Status')
   final FleetStatus status;
 
-  /// List of fleet actions that have been suspended using
+  /// List of fleet activity that have been suspended using
   /// <a>StopFleetActions</a>. This includes auto-scaling.
   @_s.JsonKey(name: 'StoppedActions')
   final List<FleetAction> stoppedActions;
@@ -13203,6 +13508,25 @@ class FleetUtilization {
       _$FleetUtilizationFromJson(json);
 }
 
+enum FlexMatchMode {
+  @_s.JsonValue('STANDALONE')
+  standalone,
+  @_s.JsonValue('WITH_QUEUE')
+  withQueue,
+}
+
+extension on FlexMatchMode {
+  String toValue() {
+    switch (this) {
+      case FlexMatchMode.standalone:
+        return 'STANDALONE';
+      case FlexMatchMode.withQueue:
+        return 'WITH_QUEUE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Set of key-value pairs that contain information about a game session. When
 /// included in a game session request, these properties communicate details to
 /// be used when setting up the new game session. For example, a game property
@@ -13235,26 +13559,49 @@ class GameProperty {
   Map<String, dynamic> toJson() => _$GamePropertyToJson(this);
 }
 
-/// <b>This data type is part of Amazon GameLift FleetIQ with game server
-/// groups, which is in preview release and is subject to change.</b>
+/// <b>This data type is used with the Amazon GameLift FleetIQ and game server
+/// groups.</b>
 ///
-/// Properties describing a game server resource.
+/// Properties describing a game server that is running on an instance in a
+/// <a>GameServerGroup</a>.
 ///
-/// A game server resource is created by a successful call to
-/// <a>RegisterGameServer</a> and deleted by calling
-/// <a>DeregisterGameServer</a>.
+/// A game server is created by a successful call to
+/// <code>RegisterGameServer</code> and deleted by calling
+/// <code>DeregisterGameServer</code>. A game server is claimed to host a game
+/// session by calling <code>ClaimGameServer</code>.
+///
+/// <ul>
+/// <li>
+/// <a>RegisterGameServer</a>
+/// </li>
+/// <li>
+/// <a>ListGameServers</a>
+/// </li>
+/// <li>
+/// <a>ClaimGameServer</a>
+/// </li>
+/// <li>
+/// <a>DescribeGameServer</a>
+/// </li>
+/// <li>
+/// <a>UpdateGameServer</a>
+/// </li>
+/// <li>
+/// <a>DeregisterGameServer</a>
+/// </li>
+/// </ul>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GameServer {
-  /// Indicates when an available game server has been reserved but has not yet
-  /// started hosting a game. Once it is claimed, game server remains in CLAIMED
-  /// status for a maximum of one minute. During this time, game clients must
-  /// connect to the game server and start the game, which triggers the game
-  /// server to update its utilization status. After one minute, the game server
-  /// claim status reverts to null.
+  /// Indicates when an available game server has been reserved for gameplay but
+  /// has not yet started hosting a game. Once it is claimed, the game server
+  /// remains in <code>CLAIMED</code> status for a maximum of one minute. During
+  /// this time, game clients connect to the game server to start the game and
+  /// trigger the game server to update its utilization status. After one minute,
+  /// the game server claim status reverts to null.
   @_s.JsonKey(name: 'ClaimStatus')
   final GameServerClaimStatus claimStatus;
 
@@ -13263,16 +13610,9 @@ class GameServer {
   @_s.JsonKey(name: 'ConnectionInfo')
   final String connectionInfo;
 
-  /// A game server tag that can be used to request sorted lists of game servers
-  /// when calling <a>ListGameServers</a>. Custom sort keys are developer-defined.
-  /// This property can be updated using <a>UpdateGameServer</a>.
-  @_s.JsonKey(name: 'CustomSortKey')
-  final String customSortKey;
-
   /// A set of custom game server properties, formatted as a single string value.
-  /// This data is passed to a game client or service in response to requests
-  /// <a>ListGameServers</a> or <a>ClaimGameServer</a>. This property can be
-  /// updated using <a>UpdateGameServer</a>.
+  /// This data is passed to a game client or service when it requests information
+  /// on game servers using <a>ListGameServers</a> or <a>ClaimGameServer</a>.
   @_s.JsonKey(name: 'GameServerData')
   final String gameServerData;
 
@@ -13281,8 +13621,8 @@ class GameServer {
   @_s.JsonKey(name: 'GameServerGroupArn')
   final String gameServerGroupArn;
 
-  /// The name identifier for the game server group where the game server is
-  /// located.
+  /// A unique identifier for the game server group where the game server is
+  /// running. Use either the <a>GameServerGroup</a> name or ARN value.
   @_s.JsonKey(name: 'GameServerGroupName')
   final String gameServerGroupName;
 
@@ -13292,30 +13632,34 @@ class GameServer {
   @_s.JsonKey(name: 'GameServerId')
   final String gameServerId;
 
-  /// The unique identifier for the instance where the game server is located.
+  /// The unique identifier for the instance where the game server is running.
+  /// This ID is available in the instance metadata. EC2 instance IDs use a
+  /// 17-character format, for example: <code>i-1234567890abcdef0</code>.
   @_s.JsonKey(name: 'InstanceId')
   final String instanceId;
 
-  /// Time stamp indicating the last time the game server was claimed with a
-  /// <a>ClaimGameServer</a> request. Format is a number expressed in Unix time as
-  /// milliseconds (for example "1469498468.057"). This value is used to calculate
-  /// when the game server's claim status.
+  /// Timestamp that indicates the last time the game server was claimed with a
+  /// <a>ClaimGameServer</a> request. The format is a number expressed in Unix
+  /// time as milliseconds (for example <code>"1469498468.057"</code>). This value
+  /// is used to calculate when a claimed game server's status should revert to
+  /// null.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'LastClaimTime')
   final DateTime lastClaimTime;
 
-  /// Time stamp indicating the last time the game server was updated with health
-  /// status using an <a>UpdateGameServer</a> request. Format is a number
-  /// expressed in Unix time as milliseconds (for example "1469498468.057"). After
-  /// game server registration, this property is only changed when a game server
-  /// update specifies a health check value.
+  /// Timestamp that indicates the last time the game server was updated with
+  /// health status using an <a>UpdateGameServer</a> request. The format is a
+  /// number expressed in Unix time as milliseconds (for example
+  /// <code>"1469498468.057"</code>). After game server registration, this
+  /// property is only changed when a game server update specifies a health check
+  /// value.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'LastHealthCheckTime')
   final DateTime lastHealthCheckTime;
 
-  /// Time stamp indicating when the game server resource was created with a
-  /// <a>RegisterGameServer</a> request. Format is a number expressed in Unix time
-  /// as milliseconds (for example "1469498468.057").
+  /// Timestamp that indicates when the game server was created with a
+  /// <a>RegisterGameServer</a> request. The format is a number expressed in Unix
+  /// time as milliseconds (for example <code>"1469498468.057"</code>).
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'RegistrationTime')
   final DateTime registrationTime;
@@ -13325,12 +13669,13 @@ class GameServer {
   ///
   /// <ul>
   /// <li>
-  /// AVAILABLE - The game server is available to be claimed. A game server that
-  /// has been claimed remains in this status until it reports game hosting
-  /// activity.
+  /// <code>AVAILABLE</code> - The game server is available to be claimed. A game
+  /// server that has been claimed remains in this status until it reports game
+  /// hosting activity.
   /// </li>
   /// <li>
-  /// IN_USE - The game server is currently hosting a game session with players.
+  /// <code>UTILIZED</code> - The game server is currently hosting a game session
+  /// with players.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'UtilizationStatus')
@@ -13339,7 +13684,6 @@ class GameServer {
   GameServer({
     this.claimStatus,
     this.connectionInfo,
-    this.customSortKey,
     this.gameServerData,
     this.gameServerGroupArn,
     this.gameServerGroupName,
@@ -13359,53 +13703,90 @@ enum GameServerClaimStatus {
   claimed,
 }
 
-/// <b>This data type is part of Amazon GameLift FleetIQ with game server
-/// groups, which is in preview release and is subject to change.</b>
+/// <b>This data type is used with the Amazon GameLift FleetIQ and game server
+/// groups.</b>
 ///
-/// Properties describing a game server group resource. A game server group
-/// manages certain properties of a corresponding EC2 Auto Scaling group.
+/// Properties that describe a game server group resource. A game server group
+/// manages certain properties related to a corresponding EC2 Auto Scaling
+/// group.
 ///
 /// A game server group is created by a successful call to
-/// <a>CreateGameServerGroup</a> and deleted by calling
-/// <a>DeleteGameServerGroup</a>. Game server group activity can be temporarily
-/// suspended and resumed by calling <a>SuspendGameServerGroup</a> and
-/// <a>ResumeGameServerGroup</a>.
+/// <code>CreateGameServerGroup</code> and deleted by calling
+/// <code>DeleteGameServerGroup</code>. Game server group activity can be
+/// temporarily suspended and resumed by calling
+/// <code>SuspendGameServerGroup</code> and <code>ResumeGameServerGroup</code>,
+/// respectively.
+///
+/// <ul>
+/// <li>
+/// <a>CreateGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>ListGameServerGroups</a>
+/// </li>
+/// <li>
+/// <a>DescribeGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>UpdateGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>DeleteGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>ResumeGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>SuspendGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>DescribeGameServerInstances</a>
+/// </li>
+/// </ul>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GameServerGroup {
-  /// A generated unique ID for the EC2 Auto Scaling group with is associated with
+  /// A generated unique ID for the EC2 Auto Scaling group that is associated with
   /// this game server group.
   @_s.JsonKey(name: 'AutoScalingGroupArn')
   final String autoScalingGroupArn;
 
-  /// The fallback balancing method to use for the game server group when Spot
-  /// instances in a Region become unavailable or are not viable for game hosting.
-  /// Once triggered, this method remains active until Spot instances can once
-  /// again be used. Method options include:
+  /// Indicates how GameLift FleetIQ balances the use of Spot Instances and
+  /// On-Demand Instances in the game server group. Method options include the
+  /// following:
   ///
   /// <ul>
   /// <li>
-  /// SPOT_ONLY -- If Spot instances are unavailable, the game server group
-  /// provides no hosting capacity. No new instances are started, and the existing
-  /// nonviable Spot instances are terminated (once current gameplay ends) and not
-  /// replaced.
+  /// <code>SPOT_ONLY</code> - Only Spot Instances are used in the game server
+  /// group. If Spot Instances are unavailable or not viable for game hosting, the
+  /// game server group provides no hosting capacity until Spot Instances can
+  /// again be used. Until then, no new instances are started, and the existing
+  /// nonviable Spot Instances are terminated (after current gameplay ends) and
+  /// are not replaced.
   /// </li>
   /// <li>
-  /// SPOT_PREFERRED -- If Spot instances are unavailable, the game server group
-  /// continues to provide hosting capacity by using On-Demand instances. Existing
-  /// nonviable Spot instances are terminated (once current gameplay ends) and
-  /// replaced with new On-Demand instances.
+  /// <code>SPOT_PREFERRED</code> - (default value) Spot Instances are used
+  /// whenever available in the game server group. If Spot Instances are
+  /// unavailable, the game server group continues to provide hosting capacity by
+  /// falling back to On-Demand Instances. Existing nonviable Spot Instances are
+  /// terminated (after current gameplay ends) and are replaced with new On-Demand
+  /// Instances.
+  /// </li>
+  /// <li>
+  /// <code>ON_DEMAND_ONLY</code> - Only On-Demand Instances are used in the game
+  /// server group. No Spot Instances are used, even when available, while this
+  /// balancing strategy is in force.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'BalancingStrategy')
   final BalancingStrategy balancingStrategy;
 
-  /// A time stamp indicating when this data object was created. Format is a
+  /// A timestamp that indicates when this data object was created. Format is a
   /// number expressed in Unix time as milliseconds (for example
-  /// "1469498468.057").
+  /// <code>"1469498468.057"</code>).
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
@@ -13415,27 +13796,27 @@ class GameServerGroup {
   final String gameServerGroupArn;
 
   /// A developer-defined identifier for the game server group. The name is unique
-  /// per Region per AWS account.
+  /// for each Region in each AWS account.
   @_s.JsonKey(name: 'GameServerGroupName')
   final String gameServerGroupName;
 
   /// A flag that indicates whether instances in the game server group are
   /// protected from early termination. Unprotected instances that have active
-  /// game servers running may be terminated during a scale-down event, causing
+  /// game servers running might be terminated during a scale-down event, causing
   /// players to be dropped from the game. Protected instances cannot be
   /// terminated while there are active game servers running except in the event
-  /// of a forced game server group deletion (see <a>DeleteGameServerGroup</a>).
-  /// An exception to this is Spot Instances, which may be terminated by AWS
-  /// regardless of protection status.
+  /// of a forced game server group deletion (see ). An exception to this is with
+  /// Spot Instances, which can be terminated by AWS regardless of protection
+  /// status.
   @_s.JsonKey(name: 'GameServerProtectionPolicy')
   final GameServerProtectionPolicy gameServerProtectionPolicy;
 
-  /// The set of EC2 instance types that GameLift FleetIQ can use when rebalancing
-  /// and autoscaling instances in the group.
+  /// The set of EC2 instance types that GameLift FleetIQ can use when balancing
+  /// and automatically scaling instances in the corresponding Auto Scaling group.
   @_s.JsonKey(name: 'InstanceDefinitions')
   final List<InstanceDefinition> instanceDefinitions;
 
-  /// A time stamp indicating when this game server group was last updated.
+  /// A timestamp that indicates when this game server group was last updated.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
@@ -13443,8 +13824,7 @@ class GameServerGroup {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
   /// for an IAM role that allows Amazon GameLift to access your EC2 Auto Scaling
-  /// groups. The submitted role is validated to ensure that it contains the
-  /// necessary permissions for game server groups.
+  /// groups.
   @_s.JsonKey(name: 'RoleArn')
   final String roleArn;
 
@@ -13452,39 +13832,40 @@ class GameServerGroup {
   ///
   /// <ul>
   /// <li>
-  /// NEW - GameLift FleetIQ has validated the
+  /// <code>NEW</code> - GameLift FleetIQ has validated the
   /// <code>CreateGameServerGroup()</code> request.
   /// </li>
   /// <li>
-  /// ACTIVATING - GameLift FleetIQ is setting up a game server group, which
-  /// includes creating an autoscaling group in your AWS account.
+  /// <code>ACTIVATING</code> - GameLift FleetIQ is setting up a game server
+  /// group, which includes creating an Auto Scaling group in your AWS account.
   /// </li>
   /// <li>
-  /// ACTIVE - The game server group has been successfully created.
+  /// <code>ACTIVE</code> - The game server group has been successfully created.
   /// </li>
   /// <li>
-  /// DELETE_SCHEDULED - A request to delete the game server group has been
-  /// received.
+  /// <code>DELETE_SCHEDULED</code> - A request to delete the game server group
+  /// has been received.
   /// </li>
   /// <li>
-  /// DELETING - GameLift FleetIQ has received a valid
+  /// <code>DELETING</code> - GameLift FleetIQ has received a valid
   /// <code>DeleteGameServerGroup()</code> request and is processing it. GameLift
-  /// FleetIQ must first complete and release hosts before it deletes the
-  /// autoscaling group and the game server group.
+  /// FleetIQ must first complete and release hosts before it deletes the Auto
+  /// Scaling group and the game server group.
   /// </li>
   /// <li>
-  /// DELETED - The game server group has been successfully deleted.
+  /// <code>DELETED</code> - The game server group has been successfully deleted.
   /// </li>
   /// <li>
-  /// ERROR - The asynchronous processes of activating or deleting a game server
-  /// group has failed, resulting in an error state.
+  /// <code>ERROR</code> - The asynchronous processes of activating or deleting a
+  /// game server group has failed, resulting in an error state.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'Status')
   final GameServerGroupStatus status;
 
   /// Additional information about the current game server group status. This
-  /// information may provide additional insight on groups that in ERROR status.
+  /// information might provide additional insight on groups that are in
+  /// <code>ERROR</code> status.
   @_s.JsonKey(name: 'StatusReason')
   final String statusReason;
 
@@ -13526,15 +13907,15 @@ extension on GameServerGroupAction {
   }
 }
 
-/// <b>This data type is part of Amazon GameLift FleetIQ with game server
-/// groups, which is in preview release and is subject to change.</b>
+/// <b>This data type is used with the Amazon GameLift FleetIQ and game server
+/// groups.</b>
 ///
-/// Configuration settings for intelligent autoscaling that uses target
-/// tracking. An autoscaling policy can be specified when a new game server
-/// group is created with <a>CreateGameServerGroup</a>. If a group has an
-/// autoscaling policy, the Auto Scaling group takes action based on this
-/// policy, in addition to (and potentially in conflict with) any other
-/// autoscaling policies that are separately applied to the Auto Scaling group.
+/// Configuration settings for intelligent automatic scaling that uses target
+/// tracking. These settings are used to add an Auto Scaling policy when
+/// creating the corresponding Auto Scaling group with
+/// <a>CreateGameServerGroup</a>. After the Auto Scaling group is created, all
+/// updates to Auto Scaling policies, including changing this policy and adding
+/// or removing other policies, is done directly on the Auto Scaling group.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -13543,17 +13924,17 @@ extension on GameServerGroupAction {
 class GameServerGroupAutoScalingPolicy {
   /// Settings for a target-based scaling policy applied to Auto Scaling group.
   /// These settings are used to create a target-based policy that tracks the
-  /// GameLift FleetIQ metric "PercentUtilizedGameServers" and specifies a target
-  /// value for the metric. As player usage changes, the policy triggers to adjust
-  /// the game server group capacity so that the metric returns to the target
-  /// value.
+  /// GameLift FleetIQ metric <code>"PercentUtilizedGameServers"</code> and
+  /// specifies a target value for the metric. As player usage changes, the policy
+  /// triggers to adjust the game server group capacity so that the metric returns
+  /// to the target value.
   @_s.JsonKey(name: 'TargetTrackingConfiguration')
   final TargetTrackingConfiguration targetTrackingConfiguration;
 
   /// Length of time, in seconds, it takes for a new instance to start new game
   /// server processes and register with GameLift FleetIQ. Specifying a warm-up
   /// time can be useful, particularly with game servers that take a long time to
-  /// start up, because it avoids prematurely starting new instances
+  /// start up, because it avoids prematurely starting new instances.
   @_s.JsonKey(name: 'EstimatedInstanceWarmup')
   final int estimatedInstanceWarmup;
 
@@ -13701,6 +14082,108 @@ extension on GameServerHealthCheck {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+/// <b>This data type is used with the Amazon GameLift FleetIQ and game server
+/// groups.</b>
+///
+/// Additional properties, including status, that describe an EC2 instance in a
+/// game server group. Instance configurations are set with game server group
+/// properties (see <code>DescribeGameServerGroup</code> and with the EC2 launch
+/// template that was used when creating the game server group.
+///
+/// Retrieve game server instances for a game server group by calling
+/// <code>DescribeGameServerInstances</code>.
+///
+/// <ul>
+/// <li>
+/// <a>CreateGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>ListGameServerGroups</a>
+/// </li>
+/// <li>
+/// <a>DescribeGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>UpdateGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>DeleteGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>ResumeGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>SuspendGameServerGroup</a>
+/// </li>
+/// <li>
+/// <a>DescribeGameServerInstances</a>
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GameServerInstance {
+  /// A generated unique identifier for the game server group that includes the
+  /// game server instance.
+  @_s.JsonKey(name: 'GameServerGroupArn')
+  final String gameServerGroupArn;
+
+  /// A developer-defined identifier for the game server group that includes the
+  /// game server instance. The name is unique for each Region in each AWS
+  /// account.
+  @_s.JsonKey(name: 'GameServerGroupName')
+  final String gameServerGroupName;
+
+  /// The unique identifier for the instance where the game server is running.
+  /// This ID is available in the instance metadata. EC2 instance IDs use a
+  /// 17-character format, for example: <code>i-1234567890abcdef0</code>.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// Current status of the game server instance.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ACTIVE</b> -- The instance is viable for hosting game servers.
+  /// </li>
+  /// <li>
+  /// <b>DRAINING</b> -- The instance is not viable for hosting game servers.
+  /// Existing game servers are in the process of ending, and new game servers are
+  /// not started on this instance unless no other resources are available. When
+  /// the instance is put in DRAINING, a new instance is started up to replace it.
+  /// Once the instance has no UTILIZED game servers, it will be terminated in
+  /// favor of the new instance.
+  /// </li>
+  /// <li>
+  /// <b>SPOT_TERMINATING</b> -- The instance is in the process of shutting down
+  /// due to a Spot instance interruption. No new game servers are started on this
+  /// instance.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'InstanceStatus')
+  final GameServerInstanceStatus instanceStatus;
+
+  GameServerInstance({
+    this.gameServerGroupArn,
+    this.gameServerGroupName,
+    this.instanceId,
+    this.instanceStatus,
+  });
+  factory GameServerInstance.fromJson(Map<String, dynamic> json) =>
+      _$GameServerInstanceFromJson(json);
+}
+
+enum GameServerInstanceStatus {
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('DRAINING')
+  draining,
+  @_s.JsonValue('SPOT_TERMINATING')
+  spotTerminating,
 }
 
 enum GameServerProtectionPolicy {
@@ -13871,7 +14354,7 @@ class GameSession {
   /// matchmaking configuration used, it contains data on all players assigned to
   /// the match, including player attributes and team assignments. For more
   /// details on matchmaker data, see <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-server.html#match-server-data">Match
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data">Match
   /// Data</a>. Matchmaker data is useful when requesting match backfills, and is
   /// updated whenever new players are added during a successful backfill (see
   /// <a>StartMatchBackfill</a>).
@@ -13940,13 +14423,12 @@ class GameSession {
       _$GameSessionFromJson(json);
 }
 
-/// Connection information for the new game session that is created with
-/// matchmaking. (with <a>StartMatchmaking</a>). Once a match is set, the
-/// FlexMatch engine places the match and creates a new game session for it.
-/// This information, including the game session endpoint and player sessions
-/// for each player in the original matchmaking request, is added to the
-/// <a>MatchmakingTicket</a>, which can be retrieved by calling
-/// <a>DescribeMatchmaking</a>.
+/// Connection information for a new game session that is created in response to
+/// a <a>StartMatchmaking</a> request. Once a match is made, the FlexMatch
+/// engine creates a new game session for it. This information, including the
+/// game session endpoint and player sessions for each player in the original
+/// matchmaking request, is added to the <a>MatchmakingTicket</a>, which can be
+/// retrieved by calling <a>DescribeMatchmaking</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -14145,7 +14627,7 @@ class GameSessionPlacement {
   /// used to create the match, and contains data on all players assigned to the
   /// match, including player attributes and team assignments. For more details on
   /// matchmaker data, see <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-server.html#match-server-data">Match
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data">Match
   /// Data</a>.
   @_s.JsonKey(name: 'MatchmakerData')
   final String matchmakerData;
@@ -14399,7 +14881,7 @@ enum GameSessionStatusReason {
   interrupted,
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -14420,7 +14902,7 @@ class GetGameSessionLogUrlOutput {
       _$GetGameSessionLogUrlOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -14595,12 +15077,13 @@ class InstanceCredentials {
       _$InstanceCredentialsFromJson(json);
 }
 
-/// <b>This data type is part of Amazon GameLift FleetIQ with game server
-/// groups, which is in preview release and is subject to change.</b>
+/// <b>This data type is used with the Amazon GameLift FleetIQ and game server
+/// groups.</b>
 ///
-/// An allowed instance type for your game server group. GameLift FleetIQ
-/// periodically evaluates each defined instance type for viability. It then
-/// updates the Auto Scaling group with the list of viable instance types.
+/// An allowed instance type for a <a>GameServerGroup</a>. All game server
+/// groups must have at least two instance types defined for it. GameLift
+/// FleetIQ periodically evaluates each defined instance type for viability. It
+/// then updates the Auto Scaling group with the list of viable instance types.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -14693,11 +15176,13 @@ enum IpProtocol {
   udp,
 }
 
-/// <b>This data type is part of Amazon GameLift FleetIQ with game server
-/// groups, which is in preview release and is subject to change.</b>
+/// <b>This data type is used with the Amazon GameLift FleetIQ and game server
+/// groups.</b>
 ///
 /// An EC2 launch template that contains configuration settings and game server
-/// code to be deployed to all instances in a game server group.
+/// code to be deployed to all instances in a game server group. The launch
+/// template is specified when creating a new game server group with
+/// <a>CreateGameServerGroup</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -14713,8 +15198,8 @@ class LaunchTemplateSpecification {
   final String launchTemplateName;
 
   /// The version of the EC2 launch template to use. If no version is specified,
-  /// the default version will be used. EC2 allows you to specify a default
-  /// version for a launch template, if none is set, the default is the first
+  /// the default version will be used. With Amazon EC2, you can specify a default
+  /// version for a launch template. If none is set, the default is the first
   /// version created.
   @_s.JsonKey(name: 'Version')
   final String version;
@@ -14727,7 +15212,7 @@ class LaunchTemplateSpecification {
   Map<String, dynamic> toJson() => _$LaunchTemplateSpecificationToJson(this);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -14739,8 +15224,8 @@ class ListAliasesOutput {
   final List<Alias> aliases;
 
   /// A token that indicates where to resume retrieving results on the next call
-  /// to this action. If no token is returned, these results represent the end of
-  /// the list.
+  /// to this operation. If no token is returned, these results represent the end
+  /// of the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -14752,7 +15237,7 @@ class ListAliasesOutput {
       _$ListAliasesOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -14764,8 +15249,8 @@ class ListBuildsOutput {
   final List<Build> builds;
 
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -14777,7 +15262,7 @@ class ListBuildsOutput {
       _$ListBuildsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -14792,8 +15277,8 @@ class ListFleetsOutput {
   final List<String> fleetIds;
 
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -14816,8 +15301,8 @@ class ListGameServerGroupsOutput {
   final List<GameServerGroup> gameServerGroups;
 
   /// A token that indicates where to resume retrieving results on the next call
-  /// to this action. If no token is returned, these results represent the end of
-  /// the list.
+  /// to this operation. If no token is returned, these results represent the end
+  /// of the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -14840,8 +15325,8 @@ class ListGameServersOutput {
   final List<GameServer> gameServers;
 
   /// A token that indicates where to resume retrieving results on the next call
-  /// to this action. If no token is returned, these results represent the end of
-  /// the list.
+  /// to this operation. If no token is returned, these results represent the end
+  /// of the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -14860,8 +15345,8 @@ class ListGameServersOutput {
     createToJson: false)
 class ListScriptsOutput {
   /// A token that indicates where to resume retrieving results on the next call
-  /// to this action. If no token is returned, these results represent the end of
-  /// the list.
+  /// to this operation. If no token is returned, these results represent the end
+  /// of the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -14933,20 +15418,24 @@ class MatchedPlayerSession {
 class MatchmakingConfiguration {
   /// A flag that indicates whether a match that was created with this
   /// configuration must be accepted by the matched players. To require
-  /// acceptance, set to TRUE.
+  /// acceptance, set to TRUE. When this option is enabled, matchmaking tickets
+  /// use the status <code>REQUIRES_ACCEPTANCE</code> to indicate when a completed
+  /// potential match is waiting for player acceptance.
   @_s.JsonKey(name: 'AcceptanceRequired')
   final bool acceptanceRequired;
 
   /// The length of time (in seconds) to wait for players to accept a proposed
-  /// match. If any player rejects the match or fails to accept before the
-  /// timeout, the ticket continues to look for an acceptable match.
+  /// match, if acceptance is required. If any player rejects the match or fails
+  /// to accept before the timeout, the tickets are returned to the ticket pool
+  /// and continue to be evaluated for an acceptable match.
   @_s.JsonKey(name: 'AcceptanceTimeoutSeconds')
   final int acceptanceTimeoutSeconds;
 
   /// The number of player slots in a match to keep open for future players. For
   /// example, assume that the configuration's rule set specifies a match for a
   /// single 12-person team. If the additional player count is set to 2, only 10
-  /// players are initially selected for the match.
+  /// players are initially selected for the match. This parameter is not used
+  /// when <code>FlexMatchMode</code> is set to <code>STANDALONE</code>.
   @_s.JsonKey(name: 'AdditionalPlayerCount')
   final int additionalPlayerCount;
 
@@ -14955,8 +15444,9 @@ class MatchmakingConfiguration {
   /// does not use the match backfill feature. AUTOMATIC indicates that GameLift
   /// creates <a>StartMatchBackfill</a> requests whenever a game session has one
   /// or more open slots. Learn more about manual and automatic backfill in <a
-  /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-backfill.html">Backfill
-  /// Existing Games with FlexMatch</a>.
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html">Backfill
+  /// Existing Games with FlexMatch</a>. Automatic backfill is not available when
+  /// <code>FlexMatchMode</code> is set to <code>STANDALONE</code>.
   @_s.JsonKey(name: 'BackfillMode')
   final BackfillMode backfillMode;
 
@@ -14984,12 +15474,31 @@ class MatchmakingConfiguration {
   @_s.JsonKey(name: 'Description')
   final String description;
 
+  /// Indicates whether this matchmaking configuration is being used with GameLift
+  /// hosting or as a standalone matchmaking solution.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>STANDALONE</b> - FlexMatch forms matches and returns match information,
+  /// including players and team assignments, in a <a
+  /// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-events.html#match-events-matchmakingsucceeded">
+  /// MatchmakingSucceeded</a> event.
+  /// </li>
+  /// <li>
+  /// <b>WITH_QUEUE</b> - FlexMatch forms matches and uses the specified GameLift
+  /// queue to start a game session for the match.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'FlexMatchMode')
+  final FlexMatchMode flexMatchMode;
+
   /// A set of custom properties for a game session, formatted as key-value pairs.
   /// These properties are passed to a game server process in the
   /// <a>GameSession</a> object with a request to start a new game session (see <a
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
   /// a Game Session</a>). This information is added to the new <a>GameSession</a>
-  /// object that is created for a successful match.
+  /// object that is created for a successful match. This parameter is not used
+  /// when <code>FlexMatchMode</code> is set to <code>STANDALONE</code>.
   @_s.JsonKey(name: 'GameProperties')
   final List<GameProperty> gameProperties;
 
@@ -14998,16 +15507,19 @@ class MatchmakingConfiguration {
   /// object with a request to start a new game session (see <a
   /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
   /// a Game Session</a>). This information is added to the new <a>GameSession</a>
-  /// object that is created for a successful match.
+  /// object that is created for a successful match. This parameter is not used
+  /// when <code>FlexMatchMode</code> is set to <code>STANDALONE</code>.
   @_s.JsonKey(name: 'GameSessionData')
   final String gameSessionData;
 
   /// Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
   /// that is assigned to a GameLift game session queue resource and uniquely
-  /// identifies it. ARNs are unique across all Regions. GameLift uses the listed
-  /// queues when placing game sessions for matches that are created with this
-  /// matchmaking configuration. Queues can be located in any Region.
+  /// identifies it. ARNs are unique across all Regions. Queues can be located in
+  /// any Region. Queues are used to start new GameLift-hosted game sessions for
+  /// matches that are created with this matchmaking configuration. Thais property
+  /// is not set when <code>FlexMatchMode</code> is set to
+  /// <code>STANDALONE</code>.
   @_s.JsonKey(name: 'GameSessionQueueArns')
   final List<String> gameSessionQueueArns;
 
@@ -15048,6 +15560,7 @@ class MatchmakingConfiguration {
     this.creationTime,
     this.customEventData,
     this.description,
+    this.flexMatchMode,
     this.gameProperties,
     this.gameSessionData,
     this.gameSessionQueueArns,
@@ -15087,7 +15600,7 @@ enum MatchmakingConfigurationStatus {
 ///
 /// A rule set may define the following elements for a match. For detailed
 /// information and examples showing how to construct a rule set, see <a
-/// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-rulesets.html">Build
+/// href="https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-rulesets.html">Build
 /// a FlexMatch Rule Set</a>.
 ///
 /// <ul>
@@ -15198,7 +15711,8 @@ class MatchmakingTicket {
 
   /// Identifier and connection information of the game session created for the
   /// match. This information is added to the ticket only after the matchmaking
-  /// request has been successfully completed.
+  /// request has been successfully completed. This parameter is not set when
+  /// FlexMatch is being used without GameLift hosting.
   @_s.JsonKey(name: 'GameSessionConnectionInfo')
   final GameSessionConnectionInfo gameSessionConnectionInfo;
 
@@ -15783,7 +16297,7 @@ extension on ProtectionPolicy {
   }
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -15808,7 +16322,7 @@ class PutScalingPolicyOutput {
     createFactory: true,
     createToJson: false)
 class RegisterGameServerOutput {
-  /// Object that describes the newly created game server resource.
+  /// Object that describes the newly registered game server.
   @_s.JsonKey(name: 'GameServer')
   final GameServer gameServer;
 
@@ -15819,7 +16333,7 @@ class RegisterGameServerOutput {
       _$RegisterGameServerOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -15844,7 +16358,7 @@ class RequestUploadCredentialsOutput {
       _$RequestUploadCredentialsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -15913,7 +16427,8 @@ class ResourceCreationLimitPolicy {
     createToJson: false)
 class ResumeGameServerGroupOutput {
   /// An object that describes the game server group resource, with the
-  /// <i>SuspendedActions</i> property updated to reflect the resumed activity.
+  /// <code>SuspendedActions</code> property updated to reflect the resumed
+  /// activity.
   @_s.JsonKey(name: 'GameServerGroup')
   final GameServerGroup gameServerGroup;
 
@@ -16093,6 +16608,10 @@ class RuntimeConfiguration {
     createToJson: true)
 class S3Location {
   /// An S3 bucket identifier. This is the name of the S3 bucket.
+  /// <note>
+  /// GameLift currently does not support uploading from S3 buckets with names
+  /// that contain a dot (.).
+  /// </note>
   @_s.JsonKey(name: 'Bucket')
   final String bucket;
 
@@ -16477,7 +16996,7 @@ class Script {
   factory Script.fromJson(Map<String, dynamic> json) => _$ScriptFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16490,8 +17009,8 @@ class SearchGameSessionsOutput {
   final List<GameSession> gameSessions;
 
   /// Token that indicates where to resume retrieving results on the next call to
-  /// this action. If no token is returned, these results represent the end of the
-  /// list.
+  /// this operation. If no token is returned, these results represent the end of
+  /// the list.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -16585,7 +17104,7 @@ class StartFleetActionsOutput {
       _$StartFleetActionsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16605,7 +17124,7 @@ class StartGameSessionPlacementOutput {
       _$StartGameSessionPlacementOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16625,7 +17144,7 @@ class StartMatchBackfillOutput {
       _$StartMatchBackfillOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16656,7 +17175,7 @@ class StopFleetActionsOutput {
       _$StopFleetActionsOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16693,7 +17212,8 @@ class StopMatchmakingOutput {
     createToJson: false)
 class SuspendGameServerGroupOutput {
   /// An object that describes the game server group resource, with the
-  /// <i>SuspendedActions</i> property updated to reflect the suspended activity.
+  /// <code>SuspendedActions</code> property updated to reflect the suspended
+  /// activity.
   @_s.JsonKey(name: 'GameServerGroup')
   final GameServerGroup gameServerGroup;
 
@@ -16830,15 +17350,15 @@ class TargetConfiguration {
   Map<String, dynamic> toJson() => _$TargetConfigurationToJson(this);
 }
 
-/// <b>This data type is part of Amazon GameLift FleetIQ with game server
-/// groups, which is in preview release and is subject to change.</b>
+/// <b>This data type is used with the Amazon GameLift FleetIQ and game server
+/// groups.</b>
 ///
-/// Settings for a target-based scaling policy applied to Auto Scaling group.
-/// These settings are used to create a target-based policy that tracks the
-/// GameLift FleetIQ metric "PercentUtilizedGameServers" and specifies a target
-/// value for the metric. As player usage changes, the policy triggers to adjust
-/// the game server group capacity so that the metric returns to the target
-/// value.
+/// Settings for a target-based scaling policy as part of a
+/// <a>GameServerGroupAutoScalingPolicy</a>. These settings are used to create a
+/// target-based policy that tracks the GameLift FleetIQ metric
+/// <code>"PercentUtilizedGameServers"</code> and specifies a target value for
+/// the metric. As player usage changes, the policy triggers to adjust the game
+/// server group capacity so that the metric returns to the target value.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16866,7 +17386,7 @@ class UntagResourceResponse {
       _$UntagResourceResponseFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16884,7 +17404,7 @@ class UpdateAliasOutput {
       _$UpdateAliasOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16902,7 +17422,7 @@ class UpdateBuildOutput {
       _$UpdateBuildOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16921,7 +17441,7 @@ class UpdateFleetAttributesOutput {
       _$UpdateFleetAttributesOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16939,7 +17459,7 @@ class UpdateFleetCapacityOutput {
       _$UpdateFleetCapacityOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -16981,7 +17501,7 @@ class UpdateGameServerGroupOutput {
     createFactory: true,
     createToJson: false)
 class UpdateGameServerOutput {
-  /// Object that describes the newly updated game server resource.
+  /// Object that describes the newly updated game server.
   @_s.JsonKey(name: 'GameServer')
   final GameServer gameServer;
 
@@ -16992,7 +17512,7 @@ class UpdateGameServerOutput {
       _$UpdateGameServerOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -17010,7 +17530,7 @@ class UpdateGameSessionOutput {
       _$UpdateGameSessionOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -17028,7 +17548,7 @@ class UpdateGameSessionQueueOutput {
       _$UpdateGameSessionQueueOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -17047,7 +17567,7 @@ class UpdateMatchmakingConfigurationOutput {
       _$UpdateMatchmakingConfigurationOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -17089,7 +17609,7 @@ class UpdateScriptOutput {
       _$UpdateScriptOutputFromJson(json);
 }
 
-/// Represents the returned data in response to a request action.
+/// Represents the returned data in response to a request operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,

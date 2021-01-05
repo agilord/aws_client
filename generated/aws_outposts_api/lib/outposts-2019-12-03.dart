@@ -26,9 +26,9 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'outposts-2019-12-03.g.dart';
 
-/// AWS Outposts is a fully-managed service that extends AWS infrastructure,
-/// APIs, and tools to customer premises. By providing local access to
-/// AWS-managed infrastructure, AWS Outposts enables customers to build and run
+/// AWS Outposts is a fully managed service that extends AWS infrastructure,
+/// APIs, and tools to customer premises. By providing local access to AWS
+/// managed infrastructure, AWS Outposts enables customers to build and run
 /// applications on premises using the same programming interfaces as in AWS
 /// Regions, while using local compute and storage resources for lower latency
 /// and local data processing needs.
@@ -57,13 +57,31 @@ class Outposts {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [tags] :
+  /// The tags to apply to the Outpost.
   Future<CreateOutpostOutput> createOutpost({
+    @_s.required String name,
     @_s.required String siteId,
     String availabilityZone,
     String availabilityZoneId,
     String description,
-    String name,
+    Map<String, String> tags,
   }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[\S ]+$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(siteId, 'siteId');
     _s.validateStringLength(
       'siteId',
@@ -111,23 +129,13 @@ class Outposts {
       description,
       r'''^[\S ]+$''',
     );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[\S ]+$''',
-    );
     final $payload = <String, dynamic>{
+      'Name': name,
       'SiteId': siteId,
       if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
       if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -369,6 +377,125 @@ class Outposts {
     );
     return ListSitesOutput.fromJson(response);
   }
+
+  /// Lists the tags for the specified resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    @_s.required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      0,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:([a-z\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Adds tags to the specified resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the resource.
+  Future<void> tagResource({
+    @_s.required String resourceArn,
+    @_s.required Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      0,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:([a-z\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $payload = <String, dynamic>{
+      'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return TagResourceResponse.fromJson(response);
+  }
+
+  /// Removes tags from the specified resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource.
+  ///
+  /// Parameter [tagKeys] :
+  /// The tag keys.
+  Future<void> untagResource({
+    @_s.required String resourceArn,
+    @_s.required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      0,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceArn',
+      resourceArn,
+      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:([a-z\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return UntagResourceResponse.fromJson(response);
+  }
 }
 
 @_s.JsonSerializable(
@@ -505,6 +632,23 @@ class ListSitesOutput {
       _$ListSitesOutputFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListTagsForResourceResponse {
+  /// The resource tags.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListTagsForResourceResponseFromJson(json);
+}
+
 /// Information about an Outpost.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -531,6 +675,10 @@ class Outpost {
   @_s.JsonKey(name: 'SiteId')
   final String siteId;
 
+  /// The Outpost tags.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
   Outpost({
     this.availabilityZone,
     this.availabilityZoneId,
@@ -541,6 +689,7 @@ class Outpost {
     this.outpostId,
     this.ownerId,
     this.siteId,
+    this.tags,
   });
   factory Outpost.fromJson(Map<String, dynamic> json) =>
       _$OutpostFromJson(json);
@@ -562,13 +711,40 @@ class Site {
   @_s.JsonKey(name: 'SiteId')
   final String siteId;
 
+  /// The site tags.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
   Site({
     this.accountId,
     this.description,
     this.name,
     this.siteId,
+    this.tags,
   });
   factory Site.fromJson(Map<String, dynamic> json) => _$SiteFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TagResourceResponse {
+  TagResourceResponse();
+  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UntagResourceResponse {
+  UntagResourceResponse();
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$UntagResourceResponseFromJson(json);
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

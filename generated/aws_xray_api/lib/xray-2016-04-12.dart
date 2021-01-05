@@ -86,9 +86,57 @@ class XRay {
   ///
   /// Parameter [filterExpression] :
   /// The filter expression defining criteria by which to group traces.
+  ///
+  /// Parameter [insightsConfiguration] :
+  /// The structure containing configurations related to insights.
+  ///
+  /// <ul>
+  /// <li>
+  /// The InsightsEnabled boolean can be set to true to enable insights for the
+  /// new group or false to disable insights for the new group.
+  /// </li>
+  /// <li>
+  /// The NotifcationsEnabled boolean can be set to true to enable insights
+  /// notifications for the new group. Notifications may only be enabled on a
+  /// group with InsightsEnabled set to true.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [tags] :
+  /// A map that contains one or more tag keys and tag values to attach to an
+  /// X-Ray group. For more information about ways to use tags, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// AWS resources</a> in the <i>AWS General Reference</i>.
+  ///
+  /// The following restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of user-applied tags per resource: 50
+  /// </li>
+  /// <li>
+  /// Maximum tag key length: 128 Unicode characters
+  /// </li>
+  /// <li>
+  /// Maximum tag value length: 256 Unicode characters
+  /// </li>
+  /// <li>
+  /// Valid values for key and value: a-z, A-Z, 0-9, space, and the following
+  /// characters: _ . : / = + - and @
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// Don't use <code>aws:</code> as a prefix for keys; it's reserved for AWS
+  /// use.
+  /// </li>
+  /// </ul>
   Future<CreateGroupResult> createGroup({
     @_s.required String groupName,
     String filterExpression,
+    InsightsConfiguration insightsConfiguration,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -101,6 +149,9 @@ class XRay {
     final $payload = <String, dynamic>{
       'GroupName': groupName,
       if (filterExpression != null) 'FilterExpression': filterExpression,
+      if (insightsConfiguration != null)
+        'InsightsConfiguration': insightsConfiguration,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -126,12 +177,45 @@ class XRay {
   ///
   /// Parameter [samplingRule] :
   /// The rule definition.
+  ///
+  /// Parameter [tags] :
+  /// A map that contains one or more tag keys and tag values to attach to an
+  /// X-Ray sampling rule. For more information about ways to use tags, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// AWS resources</a> in the <i>AWS General Reference</i>.
+  ///
+  /// The following restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of user-applied tags per resource: 50
+  /// </li>
+  /// <li>
+  /// Maximum tag key length: 128 Unicode characters
+  /// </li>
+  /// <li>
+  /// Maximum tag value length: 256 Unicode characters
+  /// </li>
+  /// <li>
+  /// Valid values for key and value: a-z, A-Z, 0-9, space, and the following
+  /// characters: _ . : / = + - and @
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// Don't use <code>aws:</code> as a prefix for keys; it's reserved for AWS
+  /// use.
+  /// </li>
+  /// </ul>
   Future<CreateSamplingRuleResult> createSamplingRule({
     @_s.required SamplingRule samplingRule,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(samplingRule, 'samplingRule');
     final $payload = <String, dynamic>{
       'SamplingRule': samplingRule,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -291,6 +375,236 @@ class XRay {
     return GetGroupsResult.fromJson(response);
   }
 
+  /// Retrieves the summary information of an insight. This includes impact to
+  /// clients and root cause services, the top anomalous services, the category,
+  /// the state of the insight, and the start and end time of the insight.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottledException].
+  ///
+  /// Parameter [insightId] :
+  /// The insight's unique identifier. Use the GetInsightSummaries action to
+  /// retrieve an InsightId.
+  Future<GetInsightResult> getInsight({
+    @_s.required String insightId,
+  }) async {
+    ArgumentError.checkNotNull(insightId, 'insightId');
+    _s.validateStringPattern(
+      'insightId',
+      insightId,
+      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'InsightId': insightId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/Insight',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetInsightResult.fromJson(response);
+  }
+
+  /// X-Ray reevaluates insights periodically until they're resolved, and
+  /// records each intermediate state as an event. You can review an insight's
+  /// events in the Impact Timeline on the Inspect page in the X-Ray console.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottledException].
+  ///
+  /// Parameter [insightId] :
+  /// The insight's unique identifier. Use the GetInsightSummaries action to
+  /// retrieve an InsightId.
+  ///
+  /// Parameter [maxResults] :
+  /// Used to retrieve at most the specified value of events.
+  ///
+  /// Parameter [nextToken] :
+  /// Specify the pagination token returned by a previous request to retrieve
+  /// the next page of events.
+  Future<GetInsightEventsResult> getInsightEvents({
+    @_s.required String insightId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(insightId, 'insightId');
+    _s.validateStringPattern(
+      'insightId',
+      insightId,
+      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2000,
+    );
+    final $payload = <String, dynamic>{
+      'InsightId': insightId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/InsightEvents',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetInsightEventsResult.fromJson(response);
+  }
+
+  /// Retrieves a service graph structure filtered by the specified insight. The
+  /// service graph is limited to only structural information. For a complete
+  /// service graph, use this API with the GetServiceGraph API.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottledException].
+  ///
+  /// Parameter [endTime] :
+  /// The estimated end time of the insight, in Unix time seconds. The EndTime
+  /// is exclusive of the value provided. The time range between the start time
+  /// and end time can't be more than six hours.
+  ///
+  /// Parameter [insightId] :
+  /// The insight's unique identifier. Use the GetInsightSummaries action to
+  /// retrieve an InsightId.
+  ///
+  /// Parameter [startTime] :
+  /// The estimated start time of the insight, in Unix time seconds. The
+  /// StartTime is inclusive of the value provided and can't be more than 30
+  /// days old.
+  ///
+  /// Parameter [nextToken] :
+  /// Specify the pagination token returned by a previous request to retrieve
+  /// the next page of results.
+  Future<GetInsightImpactGraphResult> getInsightImpactGraph({
+    @_s.required DateTime endTime,
+    @_s.required String insightId,
+    @_s.required DateTime startTime,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(endTime, 'endTime');
+    ArgumentError.checkNotNull(insightId, 'insightId');
+    _s.validateStringPattern(
+      'insightId',
+      insightId,
+      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(startTime, 'startTime');
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2000,
+    );
+    final $payload = <String, dynamic>{
+      'EndTime': unixTimestampToJson(endTime),
+      'InsightId': insightId,
+      'StartTime': unixTimestampToJson(startTime),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/InsightImpactGraph',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetInsightImpactGraphResult.fromJson(response);
+  }
+
+  /// Retrieves the summaries of all insights in the specified group matching
+  /// the provided filter values.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottledException].
+  ///
+  /// Parameter [endTime] :
+  /// The end of the time frame in which the insights ended. The end time can't
+  /// be more than 30 days old.
+  ///
+  /// Parameter [startTime] :
+  /// The beginning of the time frame in which the insights started. The start
+  /// time can't be more than 30 days old.
+  ///
+  /// Parameter [groupARN] :
+  /// The Amazon Resource Name (ARN) of the group. Required if the GroupName
+  /// isn't provided.
+  ///
+  /// Parameter [groupName] :
+  /// The name of the group. Required if the GroupARN isn't provided.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to display.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token.
+  ///
+  /// Parameter [states] :
+  /// The list of insight states.
+  Future<GetInsightSummariesResult> getInsightSummaries({
+    @_s.required DateTime endTime,
+    @_s.required DateTime startTime,
+    String groupARN,
+    String groupName,
+    int maxResults,
+    String nextToken,
+    List<InsightState> states,
+  }) async {
+    ArgumentError.checkNotNull(endTime, 'endTime');
+    ArgumentError.checkNotNull(startTime, 'startTime');
+    _s.validateStringLength(
+      'groupARN',
+      groupARN,
+      1,
+      400,
+    );
+    _s.validateStringLength(
+      'groupName',
+      groupName,
+      1,
+      32,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2000,
+    );
+    final $payload = <String, dynamic>{
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
+      if (groupARN != null) 'GroupARN': groupARN,
+      if (groupName != null) 'GroupName': groupName,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (states != null)
+        'States': states.map((e) => e?.toValue() ?? '').toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/InsightSummaries',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetInsightSummariesResult.fromJson(response);
+  }
+
   /// Retrieves all sampling rules.
   ///
   /// May throw [InvalidRequestException].
@@ -379,10 +693,11 @@ class XRay {
   /// The start of the time frame for which to generate a graph.
   ///
   /// Parameter [groupARN] :
-  /// The ARN of a group to generate a graph based on.
+  /// The Amazon Resource Name (ARN) of a group based on which you want to
+  /// generate a graph.
   ///
   /// Parameter [groupName] :
-  /// The name of a group to generate a graph based on.
+  /// The name of a group based on which you want to generate a graph.
   ///
   /// Parameter [nextToken] :
   /// Pagination token.
@@ -439,8 +754,13 @@ class XRay {
   /// statistics. Supports ID, service, and edge functions. If no selector
   /// expression is specified, edge statistics are returned.
   ///
+  /// Parameter [forecastStatistics] :
+  /// The forecasted high and low fault count values. Forecast enabled requests
+  /// require the EntitySelectorExpression ID be provided.
+  ///
   /// Parameter [groupARN] :
-  /// The ARN of the group for which to pull statistics from.
+  /// The Amazon Resource Name (ARN) of the group for which to pull statistics
+  /// from.
   ///
   /// Parameter [groupName] :
   /// The case-sensitive name of the group for which to pull statistics from.
@@ -454,6 +774,7 @@ class XRay {
     @_s.required DateTime endTime,
     @_s.required DateTime startTime,
     String entitySelectorExpression,
+    bool forecastStatistics,
     String groupARN,
     String groupName,
     String nextToken,
@@ -484,6 +805,7 @@ class XRay {
       'StartTime': unixTimestampToJson(startTime),
       if (entitySelectorExpression != null)
         'EntitySelectorExpression': entitySelectorExpression,
+      if (forecastStatistics != null) 'ForecastStatistics': forecastStatistics,
       if (groupARN != null) 'GroupARN': groupARN,
       if (groupName != null) 'GroupName': groupName,
       if (nextToken != null) 'NextToken': nextToken,
@@ -569,7 +891,7 @@ class XRay {
   /// traces.
   ///
   /// Parameter [samplingStrategy] :
-  /// A paramater to indicate whether to enable sampling on trace summaries.
+  /// A parameter to indicate whether to enable sampling on trace summaries.
   /// Input parameters are Name and Value.
   ///
   /// Parameter [timeRangeType] :
@@ -602,6 +924,45 @@ class XRay {
       exceptionFnMap: _exceptionFns,
     );
     return GetTraceSummariesResult.fromJson(response);
+  }
+
+  /// Returns a list of tags that are applied to the specified AWS X-Ray group
+  /// or sampling rule.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottledException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token. If multiple pages of results are returned, use the
+  /// <code>NextToken</code> value returned with the current page of results as
+  /// the value of this parameter to get the next page of results.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    @_s.required String resourceARN,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      1011,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'ResourceARN': resourceARN,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListTagsForResource',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
   }
 
   /// Updates the encryption configuration for X-Ray data.
@@ -723,7 +1084,7 @@ class XRay {
   /// schema, see <a
   /// href="https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html">AWS
   /// X-Ray Segment Documents</a> in the <i>AWS X-Ray Developer Guide</i>.
-  /// <p class="title"> <b>Required Segment Document Fields</b>
+  /// <p class="title"> <b>Required segment document fields</b>
   ///
   /// <ul>
   /// <li>
@@ -750,10 +1111,10 @@ class XRay {
   /// <li>
   /// <code>in_progress</code> - Set to <code>true</code> instead of specifying
   /// an <code>end_time</code> to record that a segment has been started, but is
-  /// not complete. Send an in progress segment when your application receives a
-  /// request that will take a long time to serve, to trace the fact that the
-  /// request was received. When the response is sent, send the complete segment
-  /// to overwrite the in-progress segment.
+  /// not complete. Send an in-progress segment when your application receives a
+  /// request that will take a long time to serve, to trace that the request was
+  /// received. When the response is sent, send the complete segment to
+  /// overwrite the in-progress segment.
   /// </li>
   /// </ul>
   /// A <code>trace_id</code> consists of three numbers separated by hyphens.
@@ -762,7 +1123,7 @@ class XRay {
   ///
   /// <ul>
   /// <li>
-  /// The version number, i.e. <code>1</code>.
+  /// The version number, for instance, <code>1</code>.
   /// </li>
   /// <li>
   /// The time of the original request, in Unix epoch time, in 8 hexadecimal
@@ -797,6 +1158,112 @@ class XRay {
     return PutTraceSegmentsResult.fromJson(response);
   }
 
+  /// Applies tags to an existing AWS X-Ray group or sampling rule.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottledException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyTagsException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
+  ///
+  /// Parameter [tags] :
+  /// A map that contains one or more tag keys and tag values to attach to an
+  /// X-Ray group or sampling rule. For more information about ways to use tags,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// AWS resources</a> in the <i>AWS General Reference</i>.
+  ///
+  /// The following restrictions apply to tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Maximum number of user-applied tags per resource: 50
+  /// </li>
+  /// <li>
+  /// Maximum tag key length: 128 Unicode characters
+  /// </li>
+  /// <li>
+  /// Maximum tag value length: 256 Unicode characters
+  /// </li>
+  /// <li>
+  /// Valid values for key and value: a-z, A-Z, 0-9, space, and the following
+  /// characters: _ . : / = + - and @
+  /// </li>
+  /// <li>
+  /// Tag keys and values are case sensitive.
+  /// </li>
+  /// <li>
+  /// Don't use <code>aws:</code> as a prefix for keys; it's reserved for AWS
+  /// use. You cannot edit or delete system tags.
+  /// </li>
+  /// </ul>
+  Future<void> tagResource({
+    @_s.required String resourceARN,
+    @_s.required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      1011,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $payload = <String, dynamic>{
+      'ResourceARN': resourceARN,
+      'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/TagResource',
+      exceptionFnMap: _exceptionFns,
+    );
+    return TagResourceResponse.fromJson(response);
+  }
+
+  /// Removes tags from an AWS X-Ray group or sampling rule. You cannot edit or
+  /// delete system tags (those with an <code>aws:</code> prefix).
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottledException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
+  ///
+  /// Parameter [tagKeys] :
+  /// Keys for one or more tags that you want to remove from an X-Ray group or
+  /// sampling rule.
+  Future<void> untagResource({
+    @_s.required String resourceARN,
+    @_s.required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      1011,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $payload = <String, dynamic>{
+      'ResourceARN': resourceARN,
+      'TagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/UntagResource',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UntagResourceResponse.fromJson(response);
+  }
+
   /// Updates a group resource.
   ///
   /// May throw [InvalidRequestException].
@@ -810,10 +1277,26 @@ class XRay {
   ///
   /// Parameter [groupName] :
   /// The case-sensitive name of the group.
+  ///
+  /// Parameter [insightsConfiguration] :
+  /// The structure containing configurations related to insights.
+  ///
+  /// <ul>
+  /// <li>
+  /// The InsightsEnabled boolean can be set to true to enable insights for the
+  /// group or false to disable insights for the group.
+  /// </li>
+  /// <li>
+  /// The NotifcationsEnabled boolean can be set to true to enable insights
+  /// notifications for the group. Notifications can only be enabled on a group
+  /// with InsightsEnabled set to true.
+  /// </li>
+  /// </ul>
   Future<UpdateGroupResult> updateGroup({
     String filterExpression,
     String groupARN,
     String groupName,
+    InsightsConfiguration insightsConfiguration,
   }) async {
     _s.validateStringLength(
       'groupARN',
@@ -831,6 +1314,8 @@ class XRay {
       if (filterExpression != null) 'FilterExpression': filterExpression,
       if (groupARN != null) 'GroupARN': groupARN,
       if (groupName != null) 'GroupName': groupName,
+      if (insightsConfiguration != null)
+        'InsightsConfiguration': insightsConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -892,8 +1377,8 @@ class Alias {
   factory Alias.fromJson(Map<String, dynamic> json) => _$AliasFromJson(json);
 }
 
-/// Value of a segment annotation. Has one of three value types: Number, Boolean
-/// or String.
+/// Value of a segment annotation. Has one of three value types: Number,
+/// Boolean, or String.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -921,14 +1406,31 @@ class AnnotationValue {
       _$AnnotationValueFromJson(json);
 }
 
-/// A list of availability zones corresponding to the segments in a trace.
+/// The service within the service graph that has anomalously high fault rates.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AnomalousService {
+  @_s.JsonKey(name: 'ServiceId')
+  final ServiceId serviceId;
+
+  AnomalousService({
+    this.serviceId,
+  });
+  factory AnomalousService.fromJson(Map<String, dynamic> json) =>
+      _$AnomalousServiceFromJson(json);
+}
+
+/// A list of Availability Zones corresponding to the segments in a trace.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AvailabilityZoneDetail {
-  /// The name of a corresponding availability zone.
+  /// The name of a corresponding Availability Zone.
   @_s.JsonKey(name: 'Name')
   final String name;
 
@@ -1015,8 +1517,9 @@ class BatchGetTracesResult {
     createToJson: false)
 class CreateGroupResult {
   /// The group that was created. Contains the name of the group that was created,
-  /// the ARN of the group that was generated based on the group name, and the
-  /// filter expression that was assigned to the group.
+  /// the Amazon Resource Name (ARN) of the group that was generated based on the
+  /// group name, the filter expression, and the insight configuration that was
+  /// assigned to the group.
   @_s.JsonKey(name: 'Group')
   final Group group;
 
@@ -1457,6 +1960,30 @@ class FaultStatistics {
       _$FaultStatisticsFromJson(json);
 }
 
+/// The predicted high and low fault count. This is used to determine if a
+/// service has become anomalous and if an insight should be created.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ForecastStatistics {
+  /// The upper limit of fault counts for a service.
+  @_s.JsonKey(name: 'FaultCountHigh')
+  final int faultCountHigh;
+
+  /// The lower limit of fault counts for a service.
+  @_s.JsonKey(name: 'FaultCountLow')
+  final int faultCountLow;
+
+  ForecastStatistics({
+    this.faultCountHigh,
+    this.faultCountLow,
+  });
+  factory ForecastStatistics.fromJson(Map<String, dynamic> json) =>
+      _$ForecastStatisticsFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1481,7 +2008,8 @@ class GetEncryptionConfigResult {
     createToJson: false)
 class GetGroupResult {
   /// The group that was requested. Contains the name of the group, the ARN of the
-  /// group, and the filter expression that assigned to the group.
+  /// group, the filter expression, and the insight configuration assigned to the
+  /// group.
   @_s.JsonKey(name: 'Group')
   final Group group;
 
@@ -1512,6 +2040,123 @@ class GetGroupsResult {
   });
   factory GetGroupsResult.fromJson(Map<String, dynamic> json) =>
       _$GetGroupsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetInsightEventsResult {
+  /// A detailed description of the event. This includes the time of the event,
+  /// client and root cause impact statistics, and the top anomalous service at
+  /// the time of the event.
+  @_s.JsonKey(name: 'InsightEvents')
+  final List<InsightEvent> insightEvents;
+
+  /// Use this token to retrieve the next page of insight events.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetInsightEventsResult({
+    this.insightEvents,
+    this.nextToken,
+  });
+  factory GetInsightEventsResult.fromJson(Map<String, dynamic> json) =>
+      _$GetInsightEventsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetInsightImpactGraphResult {
+  /// The provided end time.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
+  final DateTime endTime;
+
+  /// The insight's unique identifier.
+  @_s.JsonKey(name: 'InsightId')
+  final String insightId;
+
+  /// Pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The time, in Unix seconds, at which the service graph ended.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ServiceGraphEndTime')
+  final DateTime serviceGraphEndTime;
+
+  /// The time, in Unix seconds, at which the service graph started.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ServiceGraphStartTime')
+  final DateTime serviceGraphStartTime;
+
+  /// The AWS instrumented services related to the insight.
+  @_s.JsonKey(name: 'Services')
+  final List<InsightImpactGraphService> services;
+
+  /// The provided start time.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
+  final DateTime startTime;
+
+  GetInsightImpactGraphResult({
+    this.endTime,
+    this.insightId,
+    this.nextToken,
+    this.serviceGraphEndTime,
+    this.serviceGraphStartTime,
+    this.services,
+    this.startTime,
+  });
+  factory GetInsightImpactGraphResult.fromJson(Map<String, dynamic> json) =>
+      _$GetInsightImpactGraphResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetInsightResult {
+  /// The summary information of an insight.
+  @_s.JsonKey(name: 'Insight')
+  final Insight insight;
+
+  GetInsightResult({
+    this.insight,
+  });
+  factory GetInsightResult.fromJson(Map<String, dynamic> json) =>
+      _$GetInsightResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetInsightSummariesResult {
+  /// The summary of each insight within the group matching the provided filters.
+  /// The summary contains the InsightID, start and end time, the root cause
+  /// service, the root cause and client impact statistics, the top anomalous
+  /// services, and the status of the insight.
+  @_s.JsonKey(name: 'InsightSummaries')
+  final List<InsightSummary> insightSummaries;
+
+  /// Pagination token.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  GetInsightSummariesResult({
+    this.insightSummaries,
+    this.nextToken,
+  });
+  factory GetInsightSummariesResult.fromJson(Map<String, dynamic> json) =>
+      _$GetInsightSummariesResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1640,7 +2285,7 @@ class GetServiceGraphResult {
     createToJson: false)
 class GetTimeSeriesServiceStatisticsResult {
   /// A flag indicating whether or not a group's filter expression has been
-  /// consistent, or if a returned aggregation may show statistics from an older
+  /// consistent, or if a returned aggregation might show statistics from an older
   /// version of the group's filter expression.
   @_s.JsonKey(name: 'ContainsOldGroupVersions')
   final bool containsOldGroupVersions;
@@ -1698,7 +2343,7 @@ class GetTraceSummariesResult {
 
   /// If the requested time frame contained more than one page of results, you can
   /// use this token to retrieve the next page. The first page contains the most
-  /// most recent results, closest to the end of the time frame.
+  /// recent results, closest to the end of the time frame.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -1733,7 +2378,8 @@ class Group {
   @_s.JsonKey(name: 'FilterExpression')
   final String filterExpression;
 
-  /// The ARN of the group generated based on the GroupName.
+  /// The Amazon Resource Name (ARN) of the group generated based on the
+  /// GroupName.
   @_s.JsonKey(name: 'GroupARN')
   final String groupARN;
 
@@ -1741,10 +2387,26 @@ class Group {
   @_s.JsonKey(name: 'GroupName')
   final String groupName;
 
+  /// The structure containing configurations related to insights.
+  ///
+  /// <ul>
+  /// <li>
+  /// The InsightsEnabled boolean can be set to true to enable insights for the
+  /// group or false to disable insights for the group.
+  /// </li>
+  /// <li>
+  /// The NotifcationsEnabled boolean can be set to true to enable insights
+  /// notifications through Amazon EventBridge for the group.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'InsightsConfiguration')
+  final InsightsConfiguration insightsConfiguration;
+
   Group({
     this.filterExpression,
     this.groupARN,
     this.groupName,
+    this.insightsConfiguration,
   });
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
 }
@@ -1768,10 +2430,27 @@ class GroupSummary {
   @_s.JsonKey(name: 'GroupName')
   final String groupName;
 
+  /// The structure containing configurations related to insights.
+  ///
+  /// <ul>
+  /// <li>
+  /// The InsightsEnabled boolean can be set to true to enable insights for the
+  /// group or false to disable insights for the group.
+  /// </li>
+  /// <li>
+  /// The NotificationsEnabled boolean can be set to true to enable insights
+  /// notifications. Notifications can only be enabled on a group with
+  /// InsightsEnabled set to true.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'InsightsConfiguration')
+  final InsightsConfiguration insightsConfiguration;
+
   GroupSummary({
     this.filterExpression,
     this.groupARN,
     this.groupName,
+    this.insightsConfiguration,
   });
   factory GroupSummary.fromJson(Map<String, dynamic> json) =>
       _$GroupSummaryFromJson(json);
@@ -1839,6 +2518,343 @@ class Http {
   factory Http.fromJson(Map<String, dynamic> json) => _$HttpFromJson(json);
 }
 
+/// When fault rates go outside of the expected range, X-Ray creates an insight.
+/// Insights tracks emergent issues within your applications.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Insight {
+  /// The categories that label and describe the type of insight.
+  @_s.JsonKey(name: 'Categories')
+  final List<InsightCategory> categories;
+
+  /// The impact statistics of the client side service. This includes the number
+  /// of requests to the client service and whether the requests were faults or
+  /// okay.
+  @_s.JsonKey(name: 'ClientRequestImpactStatistics')
+  final RequestImpactStatistics clientRequestImpactStatistics;
+
+  /// The time, in Unix seconds, at which the insight ended.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
+  final DateTime endTime;
+
+  /// The Amazon Resource Name (ARN) of the group that the insight belongs to.
+  @_s.JsonKey(name: 'GroupARN')
+  final String groupARN;
+
+  /// The name of the group that the insight belongs to.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The insights unique identifier.
+  @_s.JsonKey(name: 'InsightId')
+  final String insightId;
+  @_s.JsonKey(name: 'RootCauseServiceId')
+  final ServiceId rootCauseServiceId;
+
+  /// The impact statistics of the root cause service. This includes the number of
+  /// requests to the client service and whether the requests were faults or okay.
+  @_s.JsonKey(name: 'RootCauseServiceRequestImpactStatistics')
+  final RequestImpactStatistics rootCauseServiceRequestImpactStatistics;
+
+  /// The time, in Unix seconds, at which the insight began.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
+  final DateTime startTime;
+
+  /// The current state of the insight.
+  @_s.JsonKey(name: 'State')
+  final InsightState state;
+
+  /// A brief description of the insight.
+  @_s.JsonKey(name: 'Summary')
+  final String summary;
+
+  /// The service within the insight that is most impacted by the incident.
+  @_s.JsonKey(name: 'TopAnomalousServices')
+  final List<AnomalousService> topAnomalousServices;
+
+  Insight({
+    this.categories,
+    this.clientRequestImpactStatistics,
+    this.endTime,
+    this.groupARN,
+    this.groupName,
+    this.insightId,
+    this.rootCauseServiceId,
+    this.rootCauseServiceRequestImpactStatistics,
+    this.startTime,
+    this.state,
+    this.summary,
+    this.topAnomalousServices,
+  });
+  factory Insight.fromJson(Map<String, dynamic> json) =>
+      _$InsightFromJson(json);
+}
+
+enum InsightCategory {
+  @_s.JsonValue('FAULT')
+  fault,
+}
+
+/// X-Ray reevaluates insights periodically until they are resolved, and records
+/// each intermediate state in an event. You can review incident events in the
+/// Impact Timeline on the Inspect page in the X-Ray console.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InsightEvent {
+  /// The impact statistics of the client side service. This includes the number
+  /// of requests to the client service and whether the requests were faults or
+  /// okay.
+  @_s.JsonKey(name: 'ClientRequestImpactStatistics')
+  final RequestImpactStatistics clientRequestImpactStatistics;
+
+  /// The time, in Unix seconds, at which the event was recorded.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EventTime')
+  final DateTime eventTime;
+
+  /// The impact statistics of the root cause service. This includes the number of
+  /// requests to the client service and whether the requests were faults or okay.
+  @_s.JsonKey(name: 'RootCauseServiceRequestImpactStatistics')
+  final RequestImpactStatistics rootCauseServiceRequestImpactStatistics;
+
+  /// A brief description of the event.
+  @_s.JsonKey(name: 'Summary')
+  final String summary;
+
+  /// The service during the event that is most impacted by the incident.
+  @_s.JsonKey(name: 'TopAnomalousServices')
+  final List<AnomalousService> topAnomalousServices;
+
+  InsightEvent({
+    this.clientRequestImpactStatistics,
+    this.eventTime,
+    this.rootCauseServiceRequestImpactStatistics,
+    this.summary,
+    this.topAnomalousServices,
+  });
+  factory InsightEvent.fromJson(Map<String, dynamic> json) =>
+      _$InsightEventFromJson(json);
+}
+
+/// The connection between two service in an insight impact graph.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InsightImpactGraphEdge {
+  /// Identifier of the edge. Unique within a service map.
+  @_s.JsonKey(name: 'ReferenceId')
+  final int referenceId;
+
+  InsightImpactGraphEdge({
+    this.referenceId,
+  });
+  factory InsightImpactGraphEdge.fromJson(Map<String, dynamic> json) =>
+      _$InsightImpactGraphEdgeFromJson(json);
+}
+
+/// Information about an application that processed requests, users that made
+/// requests, or downstream services, resources, and applications that an
+/// application used.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InsightImpactGraphService {
+  /// Identifier of the AWS account in which the service runs.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// Connections to downstream services.
+  @_s.JsonKey(name: 'Edges')
+  final List<InsightImpactGraphEdge> edges;
+
+  /// The canonical name of the service.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A list of names for the service, including the canonical name.
+  @_s.JsonKey(name: 'Names')
+  final List<String> names;
+
+  /// Identifier for the service. Unique within the service map.
+  @_s.JsonKey(name: 'ReferenceId')
+  final int referenceId;
+
+  /// Identifier for the service. Unique within the service map.
+  ///
+  /// <ul>
+  /// <li>
+  /// AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance
+  /// for an application running on Amazon EC2 or AWS::DynamoDB::Table for an
+  /// Amazon DynamoDB table that the application used.
+  /// </li>
+  /// <li>
+  /// AWS Service - The type of an AWS service. For example, AWS::DynamoDB for
+  /// downstream calls to Amazon DynamoDB that didn't target a specific table.
+  /// </li>
+  /// <li>
+  /// AWS Service - The type of an AWS service. For example, AWS::DynamoDB for
+  /// downstream calls to Amazon DynamoDB that didn't target a specific table.
+  /// </li>
+  /// <li>
+  /// remote - A downstream service of indeterminate type.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  InsightImpactGraphService({
+    this.accountId,
+    this.edges,
+    this.name,
+    this.names,
+    this.referenceId,
+    this.type,
+  });
+  factory InsightImpactGraphService.fromJson(Map<String, dynamic> json) =>
+      _$InsightImpactGraphServiceFromJson(json);
+}
+
+enum InsightState {
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('CLOSED')
+  closed,
+}
+
+extension on InsightState {
+  String toValue() {
+    switch (this) {
+      case InsightState.active:
+        return 'ACTIVE';
+      case InsightState.closed:
+        return 'CLOSED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Information that describes an insight.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InsightSummary {
+  /// Categories The categories that label and describe the type of insight.
+  @_s.JsonKey(name: 'Categories')
+  final List<InsightCategory> categories;
+
+  /// The impact statistics of the client side service. This includes the number
+  /// of requests to the client service and whether the requests were faults or
+  /// okay.
+  @_s.JsonKey(name: 'ClientRequestImpactStatistics')
+  final RequestImpactStatistics clientRequestImpactStatistics;
+
+  /// The time, in Unix seconds, at which the insight ended.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
+  final DateTime endTime;
+
+  /// The Amazon Resource Name (ARN) of the group that the insight belongs to.
+  @_s.JsonKey(name: 'GroupARN')
+  final String groupARN;
+
+  /// The name of the group that the insight belongs to.
+  @_s.JsonKey(name: 'GroupName')
+  final String groupName;
+
+  /// The insights unique identifier.
+  @_s.JsonKey(name: 'InsightId')
+  final String insightId;
+
+  /// The time, in Unix seconds, that the insight was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTime')
+  final DateTime lastUpdateTime;
+  @_s.JsonKey(name: 'RootCauseServiceId')
+  final ServiceId rootCauseServiceId;
+
+  /// The impact statistics of the root cause service. This includes the number of
+  /// requests to the client service and whether the requests were faults or okay.
+  @_s.JsonKey(name: 'RootCauseServiceRequestImpactStatistics')
+  final RequestImpactStatistics rootCauseServiceRequestImpactStatistics;
+
+  /// The time, in Unix seconds, at which the insight began.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
+  final DateTime startTime;
+
+  /// The current state of the insight.
+  @_s.JsonKey(name: 'State')
+  final InsightState state;
+
+  /// A brief description of the insight.
+  @_s.JsonKey(name: 'Summary')
+  final String summary;
+
+  /// The service within the insight that is most impacted by the incident.
+  @_s.JsonKey(name: 'TopAnomalousServices')
+  final List<AnomalousService> topAnomalousServices;
+
+  InsightSummary({
+    this.categories,
+    this.clientRequestImpactStatistics,
+    this.endTime,
+    this.groupARN,
+    this.groupName,
+    this.insightId,
+    this.lastUpdateTime,
+    this.rootCauseServiceId,
+    this.rootCauseServiceRequestImpactStatistics,
+    this.startTime,
+    this.state,
+    this.summary,
+    this.topAnomalousServices,
+  });
+  factory InsightSummary.fromJson(Map<String, dynamic> json) =>
+      _$InsightSummaryFromJson(json);
+}
+
+/// The structure containing configurations related to insights.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class InsightsConfiguration {
+  /// Set the InsightsEnabled value to true to enable insights or false to disable
+  /// insights.
+  @_s.JsonKey(name: 'InsightsEnabled')
+  final bool insightsEnabled;
+
+  /// Set the NotificationsEnabled value to true to enable insights notifications.
+  /// Notifications can only be enabled on a group with InsightsEnabled set to
+  /// true.
+  @_s.JsonKey(name: 'NotificationsEnabled')
+  final bool notificationsEnabled;
+
+  InsightsConfiguration({
+    this.insightsEnabled,
+    this.notificationsEnabled,
+  });
+  factory InsightsConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$InsightsConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InsightsConfigurationToJson(this);
+}
+
 /// A list of EC2 instance IDs corresponding to the segments in a trace.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1855,6 +2871,31 @@ class InstanceIdDetail {
   });
   factory InstanceIdDetail.fromJson(Map<String, dynamic> json) =>
       _$InstanceIdDetailFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListTagsForResourceResponse {
+  /// A pagination token. If multiple pages of results are returned, use the
+  /// <code>NextToken</code> value returned with the current page of results to
+  /// get the next page of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of tags, as key and value pairs, that is associated with the
+  /// specified X-Ray group or sampling rule.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  ListTagsForResourceResponse({
+    this.nextToken,
+    this.tags,
+  });
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListTagsForResourceResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1900,6 +2941,34 @@ class PutTraceSegmentsResult {
   });
   factory PutTraceSegmentsResult.fromJson(Map<String, dynamic> json) =>
       _$PutTraceSegmentsResultFromJson(json);
+}
+
+/// Statistics that describe how the incident has impacted a service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RequestImpactStatistics {
+  /// The number of requests that have resulted in a fault,
+  @_s.JsonKey(name: 'FaultCount')
+  final int faultCount;
+
+  /// The number of successful requests.
+  @_s.JsonKey(name: 'OkCount')
+  final int okCount;
+
+  /// The total number of requests to the service.
+  @_s.JsonKey(name: 'TotalCount')
+  final int totalCount;
+
+  RequestImpactStatistics({
+    this.faultCount,
+    this.okCount,
+    this.totalCount,
+  });
+  factory RequestImpactStatistics.fromJson(Map<String, dynamic> json) =>
+      _$RequestImpactStatisticsFromJson(json);
 }
 
 /// A list of resources ARNs corresponding to the segments in a trace.
@@ -1952,7 +3021,7 @@ class ResponseTimeRootCause {
     createFactory: true,
     createToJson: false)
 class ResponseTimeRootCauseEntity {
-  /// The types and messages of the exceptions.
+  /// The type and messages of the exceptions.
   @_s.JsonKey(name: 'Coverage')
   final double coverage;
 
@@ -2238,7 +3307,7 @@ class SamplingRuleUpdate {
 }
 
 /// Aggregated request sampling data for a sampling rule across all services for
-/// a 10 second window.
+/// a 10-second window.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2371,7 +3440,7 @@ class SamplingTargetDocument {
   @_s.JsonKey(name: 'Interval')
   final int interval;
 
-  /// The number of requests per second that X-Ray allocated this service.
+  /// The number of requests per second that X-Ray allocated for this service.
   @_s.JsonKey(name: 'ReservoirQuota')
   final int reservoirQuota;
 
@@ -2427,7 +3496,7 @@ class Segment {
 }
 
 /// Information about an application that processed requests, users that made
-/// requests, or downstream services, resources and applications that an
+/// requests, or downstream services, resources, and applications that an
 /// application used.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2490,7 +3559,7 @@ class Service {
   /// <ul>
   /// <li>
   /// AWS Resource - The type of an AWS resource. For example,
-  /// <code>AWS::EC2::Instance</code> for a application running on Amazon EC2 or
+  /// <code>AWS::EC2::Instance</code> for an application running on Amazon EC2 or
   /// <code>AWS::DynamoDB::Table</code> for an Amazon DynamoDB table that the
   /// application used.
   /// </li>
@@ -2600,6 +3669,65 @@ class ServiceStatistics {
       _$ServiceStatisticsFromJson(json);
 }
 
+/// A map that contains tag keys and tag values to attach to an AWS X-Ray group
+/// or sampling rule. For more information about ways to use tags, see <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+/// AWS resources</a> in the <i>AWS General Reference</i>.
+///
+/// The following restrictions apply to tags:
+///
+/// <ul>
+/// <li>
+/// Maximum number of user-applied tags per resource: 50
+/// </li>
+/// <li>
+/// Tag keys and values are case sensitive.
+/// </li>
+/// <li>
+/// Don't use <code>aws:</code> as a prefix for keys; it's reserved for AWS use.
+/// You cannot edit or delete system tags.
+/// </li>
+/// </ul>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Tag {
+  /// A tag key, such as <code>Stage</code> or <code>Name</code>. A tag key cannot
+  /// be empty. The key can be a maximum of 128 characters, and can contain only
+  /// Unicode letters, numbers, or separators, or the following special
+  /// characters: <code>+ - = . _ : /</code>
+  @_s.JsonKey(name: 'Key')
+  final String key;
+
+  /// An optional tag value, such as <code>Production</code> or
+  /// <code>test-only</code>. The value can be a maximum of 255 characters, and
+  /// contain only Unicode letters, numbers, or separators, or the following
+  /// special characters: <code>+ - = . _ : /</code>
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  Tag({
+    @_s.required this.key,
+    @_s.required this.value,
+  });
+  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TagResourceResponse {
+  TagResourceResponse();
+  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$TagResourceResponseFromJson(json);
+}
+
 /// <p/>
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2675,6 +3803,10 @@ class TimeSeriesServiceStatistics {
   /// The response time histogram for the selected entities.
   @_s.JsonKey(name: 'ResponseTimeHistogram')
   final List<HistogramEntry> responseTimeHistogram;
+
+  /// The forecasted high and low fault count values.
+  @_s.JsonKey(name: 'ServiceForecastStatistics')
+  final ForecastStatistics serviceForecastStatistics;
   @_s.JsonKey(name: 'ServiceSummaryStatistics')
   final ServiceStatistics serviceSummaryStatistics;
 
@@ -2686,6 +3818,7 @@ class TimeSeriesServiceStatistics {
   TimeSeriesServiceStatistics({
     this.edgeSummaryStatistics,
     this.responseTimeHistogram,
+    this.serviceForecastStatistics,
     this.serviceSummaryStatistics,
     this.timestamp,
   });
@@ -2710,6 +3843,13 @@ class Trace {
   @_s.JsonKey(name: 'Id')
   final String id;
 
+  /// LimitExceeded is set to true when the trace has exceeded one of the defined
+  /// quotas. For more information about quotas, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/xray.html">AWS X-Ray
+  /// endpoints and quotas</a>.
+  @_s.JsonKey(name: 'LimitExceeded')
+  final bool limitExceeded;
+
   /// Segment documents for the segments and subsegments that comprise the trace.
   @_s.JsonKey(name: 'Segments')
   final List<Segment> segments;
@@ -2717,6 +3857,7 @@ class Trace {
   Trace({
     this.duration,
     this.id,
+    this.limitExceeded,
     this.segments,
   });
   factory Trace.fromJson(Map<String, dynamic> json) => _$TraceFromJson(json);
@@ -2733,7 +3874,7 @@ class TraceSummary {
   @_s.JsonKey(name: 'Annotations')
   final Map<String, List<ValueWithServiceIds>> annotations;
 
-  /// A list of availability zones for any zone corresponding to the trace
+  /// A list of Availability Zones for any zone corresponding to the trace
   /// segments.
   @_s.JsonKey(name: 'AvailabilityZones')
   final List<AvailabilityZoneDetail> availabilityZones;
@@ -2752,7 +3893,7 @@ class TraceSummary {
   @_s.JsonKey(name: 'ErrorRootCauses')
   final List<ErrorRootCause> errorRootCauses;
 
-  /// A collection of FaultRootCause structures corresponding to the the trace
+  /// A collection of FaultRootCause structures corresponding to the trace
   /// segments.
   @_s.JsonKey(name: 'FaultRootCauses')
   final List<FaultRootCause> faultRootCauses;
@@ -2933,10 +4074,21 @@ class UnprocessedTraceSegment {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UntagResourceResponse {
+  UntagResourceResponse();
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdateGroupResult {
   /// The group that was updated. Contains the name of the group that was updated,
-  /// the ARN of the group that was updated, and the updated filter expression
-  /// assigned to the group.
+  /// the ARN of the group that was updated, the updated filter expression, and
+  /// the updated insight configuration assigned to the group.
   @_s.JsonKey(name: 'Group')
   final Group group;
 
@@ -2992,6 +4144,11 @@ class InvalidRequestException extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String type, String message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
 class RuleLimitExceededException extends _s.GenericAwsException {
   RuleLimitExceededException({String type, String message})
       : super(type: type, code: 'RuleLimitExceededException', message: message);
@@ -3002,11 +4159,20 @@ class ThrottledException extends _s.GenericAwsException {
       : super(type: type, code: 'ThrottledException', message: message);
 }
 
+class TooManyTagsException extends _s.GenericAwsException {
+  TooManyTagsException({String type, String message})
+      : super(type: type, code: 'TooManyTagsException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'InvalidRequestException': (type, message) =>
       InvalidRequestException(type: type, message: message),
+  'ResourceNotFoundException': (type, message) =>
+      ResourceNotFoundException(type: type, message: message),
   'RuleLimitExceededException': (type, message) =>
       RuleLimitExceededException(type: type, message: message),
   'ThrottledException': (type, message) =>
       ThrottledException(type: type, message: message),
+  'TooManyTagsException': (type, message) =>
+      TooManyTagsException(type: type, message: message),
 };

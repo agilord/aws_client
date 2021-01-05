@@ -308,6 +308,33 @@ const _$InstanceActionEnumMap = {
   InstanceAction.keepAlive: 'KEEP_ALIVE',
 };
 
+CloudFormationTarget _$CloudFormationTargetFromJson(Map<String, dynamic> json) {
+  return CloudFormationTarget(
+    deploymentId: json['deploymentId'] as String,
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    lifecycleEvents: (json['lifecycleEvents'] as List)
+        ?.map((e) => e == null
+            ? null
+            : LifecycleEvent.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    resourceType: json['resourceType'] as String,
+    status: _$enumDecodeNullable(_$TargetStatusEnumMap, json['status']),
+    targetId: json['targetId'] as String,
+    targetVersionWeight: (json['targetVersionWeight'] as num)?.toDouble(),
+  );
+}
+
+const _$TargetStatusEnumMap = {
+  TargetStatus.pending: 'Pending',
+  TargetStatus.inProgress: 'InProgress',
+  TargetStatus.succeeded: 'Succeeded',
+  TargetStatus.failed: 'Failed',
+  TargetStatus.skipped: 'Skipped',
+  TargetStatus.unknown: 'Unknown',
+  TargetStatus.ready: 'Ready',
+};
+
 CreateApplicationOutput _$CreateApplicationOutputFromJson(
     Map<String, dynamic> json) {
   return CreateApplicationOutput(
@@ -352,6 +379,11 @@ DeleteGitHubAccountTokenOutput _$DeleteGitHubAccountTokenOutputFromJson(
   return DeleteGitHubAccountTokenOutput(
     tokenName: json['tokenName'] as String,
   );
+}
+
+DeleteResourcesByExternalIdOutput _$DeleteResourcesByExternalIdOutputFromJson(
+    Map<String, dynamic> json) {
+  return DeleteResourcesByExternalIdOutput();
 }
 
 DeploymentConfigInfo _$DeploymentConfigInfoFromJson(Map<String, dynamic> json) {
@@ -486,6 +518,7 @@ DeploymentInfo _$DeploymentInfoFromJson(Map<String, dynamic> json) {
         ? null
         : ErrorInformation.fromJson(
             json['errorInformation'] as Map<String, dynamic>),
+    externalId: json['externalId'] as String,
     fileExistsBehavior: _$enumDecodeNullable(
         _$FileExistsBehaviorEnumMap, json['fileExistsBehavior']),
     ignoreApplicationStopFailures:
@@ -520,6 +553,9 @@ const _$DeploymentCreatorEnumMap = {
   DeploymentCreator.user: 'user',
   DeploymentCreator.autoscaling: 'autoscaling',
   DeploymentCreator.codeDeployRollback: 'codeDeployRollback',
+  DeploymentCreator.codeDeploy: 'CodeDeploy',
+  DeploymentCreator.cloudFormation: 'CloudFormation',
+  DeploymentCreator.cloudFormationRollback: 'CloudFormationRollback',
 };
 
 const _$FileExistsBehaviorEnumMap = {
@@ -532,6 +568,7 @@ const _$DeploymentStatusEnumMap = {
   DeploymentStatus.created: 'Created',
   DeploymentStatus.queued: 'Queued',
   DeploymentStatus.inProgress: 'InProgress',
+  DeploymentStatus.baking: 'Baking',
   DeploymentStatus.succeeded: 'Succeeded',
   DeploymentStatus.failed: 'Failed',
   DeploymentStatus.stopped: 'Stopped',
@@ -616,6 +653,10 @@ const _$DeploymentTypeEnumMap = {
 
 DeploymentTarget _$DeploymentTargetFromJson(Map<String, dynamic> json) {
   return DeploymentTarget(
+    cloudFormationTarget: json['cloudFormationTarget'] == null
+        ? null
+        : CloudFormationTarget.fromJson(
+            json['cloudFormationTarget'] as Map<String, dynamic>),
     deploymentTargetType: _$enumDecodeNullable(
         _$DeploymentTargetTypeEnumMap, json['deploymentTargetType']),
     ecsTarget: json['ecsTarget'] == null
@@ -635,6 +676,7 @@ const _$DeploymentTargetTypeEnumMap = {
   DeploymentTargetType.instanceTarget: 'InstanceTarget',
   DeploymentTargetType.lambdaTarget: 'LambdaTarget',
   DeploymentTargetType.eCSTarget: 'ECSTarget',
+  DeploymentTargetType.cloudFormationTarget: 'CloudFormationTarget',
 };
 
 Diagnostics _$DiagnosticsFromJson(Map<String, dynamic> json) {
@@ -755,16 +797,6 @@ ECSTarget _$ECSTargetFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$TargetStatusEnumMap = {
-  TargetStatus.pending: 'Pending',
-  TargetStatus.inProgress: 'InProgress',
-  TargetStatus.succeeded: 'Succeeded',
-  TargetStatus.failed: 'Failed',
-  TargetStatus.skipped: 'Skipped',
-  TargetStatus.unknown: 'Unknown',
-  TargetStatus.ready: 'Ready',
-};
-
 ECSTaskSet _$ECSTaskSetFromJson(Map<String, dynamic> json) {
   return ECSTaskSet(
     desiredCount: json['desiredCount'] as int,
@@ -848,6 +880,7 @@ const _$ErrorCodeEnumMap = {
   ErrorCode.revisionMissing: 'REVISION_MISSING',
   ErrorCode.throttled: 'THROTTLED',
   ErrorCode.timeout: 'TIMEOUT',
+  ErrorCode.cloudformationStackFailure: 'CLOUDFORMATION_STACK_FAILURE',
 };
 
 GenericRevisionInfo _$GenericRevisionInfoFromJson(Map<String, dynamic> json) {

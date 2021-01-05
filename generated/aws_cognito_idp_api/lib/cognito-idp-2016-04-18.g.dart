@@ -401,6 +401,7 @@ AdminUserGlobalSignOutResponse _$AdminUserGlobalSignOutResponseFromJson(
 AnalyticsConfigurationType _$AnalyticsConfigurationTypeFromJson(
     Map<String, dynamic> json) {
   return AnalyticsConfigurationType(
+    applicationArn: json['ApplicationArn'] as String,
     applicationId: json['ApplicationId'] as String,
     externalId: json['ExternalId'] as String,
     roleArn: json['RoleArn'] as String,
@@ -418,6 +419,7 @@ Map<String, dynamic> _$AnalyticsConfigurationTypeToJson(
     }
   }
 
+  writeNotNull('ApplicationArn', instance.applicationArn);
   writeNotNull('ApplicationId', instance.applicationId);
   writeNotNull('ExternalId', instance.externalId);
   writeNotNull('RoleArn', instance.roleArn);
@@ -743,6 +745,64 @@ Map<String, dynamic> _$CustomDomainConfigTypeToJson(
   writeNotNull('CertificateArn', instance.certificateArn);
   return val;
 }
+
+CustomEmailLambdaVersionConfigType _$CustomEmailLambdaVersionConfigTypeFromJson(
+    Map<String, dynamic> json) {
+  return CustomEmailLambdaVersionConfigType(
+    lambdaArn: json['LambdaArn'] as String,
+    lambdaVersion: _$enumDecodeNullable(
+        _$CustomEmailSenderLambdaVersionTypeEnumMap, json['LambdaVersion']),
+  );
+}
+
+Map<String, dynamic> _$CustomEmailLambdaVersionConfigTypeToJson(
+    CustomEmailLambdaVersionConfigType instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LambdaArn', instance.lambdaArn);
+  writeNotNull('LambdaVersion',
+      _$CustomEmailSenderLambdaVersionTypeEnumMap[instance.lambdaVersion]);
+  return val;
+}
+
+const _$CustomEmailSenderLambdaVersionTypeEnumMap = {
+  CustomEmailSenderLambdaVersionType.v1_0: 'V1_0',
+};
+
+CustomSMSLambdaVersionConfigType _$CustomSMSLambdaVersionConfigTypeFromJson(
+    Map<String, dynamic> json) {
+  return CustomSMSLambdaVersionConfigType(
+    lambdaArn: json['LambdaArn'] as String,
+    lambdaVersion: _$enumDecodeNullable(
+        _$CustomSMSSenderLambdaVersionTypeEnumMap, json['LambdaVersion']),
+  );
+}
+
+Map<String, dynamic> _$CustomSMSLambdaVersionConfigTypeToJson(
+    CustomSMSLambdaVersionConfigType instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LambdaArn', instance.lambdaArn);
+  writeNotNull('LambdaVersion',
+      _$CustomSMSSenderLambdaVersionTypeEnumMap[instance.lambdaVersion]);
+  return val;
+}
+
+const _$CustomSMSSenderLambdaVersionTypeEnumMap = {
+  CustomSMSSenderLambdaVersionType.v1_0: 'V1_0',
+};
 
 DeleteUserAttributesResponse _$DeleteUserAttributesResponseFromJson(
     Map<String, dynamic> json) {
@@ -1181,8 +1241,17 @@ InitiateAuthResponse _$InitiateAuthResponseFromJson(Map<String, dynamic> json) {
 LambdaConfigType _$LambdaConfigTypeFromJson(Map<String, dynamic> json) {
   return LambdaConfigType(
     createAuthChallenge: json['CreateAuthChallenge'] as String,
+    customEmailSender: json['CustomEmailSender'] == null
+        ? null
+        : CustomEmailLambdaVersionConfigType.fromJson(
+            json['CustomEmailSender'] as Map<String, dynamic>),
     customMessage: json['CustomMessage'] as String,
+    customSMSSender: json['CustomSMSSender'] == null
+        ? null
+        : CustomSMSLambdaVersionConfigType.fromJson(
+            json['CustomSMSSender'] as Map<String, dynamic>),
     defineAuthChallenge: json['DefineAuthChallenge'] as String,
+    kMSKeyID: json['KMSKeyID'] as String,
     postAuthentication: json['PostAuthentication'] as String,
     postConfirmation: json['PostConfirmation'] as String,
     preAuthentication: json['PreAuthentication'] as String,
@@ -1203,8 +1272,11 @@ Map<String, dynamic> _$LambdaConfigTypeToJson(LambdaConfigType instance) {
   }
 
   writeNotNull('CreateAuthChallenge', instance.createAuthChallenge);
+  writeNotNull('CustomEmailSender', instance.customEmailSender?.toJson());
   writeNotNull('CustomMessage', instance.customMessage);
+  writeNotNull('CustomSMSSender', instance.customSMSSender?.toJson());
   writeNotNull('DefineAuthChallenge', instance.defineAuthChallenge);
+  writeNotNull('KMSKeyID', instance.kMSKeyID);
   writeNotNull('PostAuthentication', instance.postAuthentication);
   writeNotNull('PostConfirmation', instance.postConfirmation);
   writeNotNull('PreAuthentication', instance.preAuthentication);
@@ -1910,6 +1982,40 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
 
+TokenValidityUnitsType _$TokenValidityUnitsTypeFromJson(
+    Map<String, dynamic> json) {
+  return TokenValidityUnitsType(
+    accessToken:
+        _$enumDecodeNullable(_$TimeUnitsTypeEnumMap, json['AccessToken']),
+    idToken: _$enumDecodeNullable(_$TimeUnitsTypeEnumMap, json['IdToken']),
+    refreshToken:
+        _$enumDecodeNullable(_$TimeUnitsTypeEnumMap, json['RefreshToken']),
+  );
+}
+
+Map<String, dynamic> _$TokenValidityUnitsTypeToJson(
+    TokenValidityUnitsType instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AccessToken', _$TimeUnitsTypeEnumMap[instance.accessToken]);
+  writeNotNull('IdToken', _$TimeUnitsTypeEnumMap[instance.idToken]);
+  writeNotNull('RefreshToken', _$TimeUnitsTypeEnumMap[instance.refreshToken]);
+  return val;
+}
+
+const _$TimeUnitsTypeEnumMap = {
+  TimeUnitsType.seconds: 'seconds',
+  TimeUnitsType.minutes: 'minutes',
+  TimeUnitsType.hours: 'hours',
+  TimeUnitsType.days: 'days',
+};
+
 UICustomizationType _$UICustomizationTypeFromJson(Map<String, dynamic> json) {
   return UICustomizationType(
     css: json['CSS'] as String,
@@ -2081,6 +2187,7 @@ UserPoolClientDescription _$UserPoolClientDescriptionFromJson(
 
 UserPoolClientType _$UserPoolClientTypeFromJson(Map<String, dynamic> json) {
   return UserPoolClientType(
+    accessTokenValidity: json['AccessTokenValidity'] as int,
     allowedOAuthFlows: (json['AllowedOAuthFlows'] as List)
         ?.map((e) => _$enumDecodeNullable(_$OAuthFlowTypeEnumMap, e))
         ?.toList(),
@@ -2102,6 +2209,7 @@ UserPoolClientType _$UserPoolClientTypeFromJson(Map<String, dynamic> json) {
     explicitAuthFlows: (json['ExplicitAuthFlows'] as List)
         ?.map((e) => _$enumDecodeNullable(_$ExplicitAuthFlowsTypeEnumMap, e))
         ?.toList(),
+    idTokenValidity: json['IdTokenValidity'] as int,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
     logoutURLs: (json['LogoutURLs'] as List)?.map((e) => e as String)?.toList(),
@@ -2114,6 +2222,10 @@ UserPoolClientType _$UserPoolClientTypeFromJson(Map<String, dynamic> json) {
     supportedIdentityProviders: (json['SupportedIdentityProviders'] as List)
         ?.map((e) => e as String)
         ?.toList(),
+    tokenValidityUnits: json['TokenValidityUnits'] == null
+        ? null
+        : TokenValidityUnitsType.fromJson(
+            json['TokenValidityUnits'] as Map<String, dynamic>),
     userPoolId: json['UserPoolId'] as String,
     writeAttributes:
         (json['WriteAttributes'] as List)?.map((e) => e as String)?.toList(),

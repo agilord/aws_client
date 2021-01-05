@@ -62,7 +62,7 @@ class OpsWorksCM {
   /// On a Puppet server, this command is an alternative to the <code>puppet
   /// cert sign</code> command that signs a Puppet node CSR.
   ///
-  /// Example (Chef): <code>aws opsworks-cm associate-node --server-name
+  /// Example (Puppet): <code>aws opsworks-cm associate-node --server-name
   /// <i>MyServer</i> --node-name <i>MyManagedNode</i> --engine-attributes
   /// "Name=<i>PUPPET_NODE_CSR</i>,Value=<i>csr-pem</i>"</code>
   ///
@@ -309,6 +309,10 @@ class OpsWorksCM {
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
+  /// Parameter [engine] :
+  /// The configuration management engine to use. Valid values include
+  /// <code>ChefAutomate</code> and <code>Puppet</code>.
+  ///
   /// Parameter [instanceProfileArn] :
   /// The ARN of the instance profile that your Amazon EC2 instances use.
   /// Although the AWS OpsWorks console typically creates the instance profile
@@ -404,10 +408,6 @@ class OpsWorksCM {
   /// Enable or disable scheduled backups. Valid values are <code>true</code> or
   /// <code>false</code>. The default value is <code>true</code>.
   ///
-  /// Parameter [engine] :
-  /// The configuration management engine to use. Valid values include
-  /// <code>ChefAutomate</code> and <code>Puppet</code>.
-  ///
   /// Parameter [engineAttributes] :
   /// Optional engine attributes on a specified server.
   /// <p class="title"> <b>Attributes accepted in a Chef createServer
@@ -457,8 +457,8 @@ class OpsWorksCM {
   ///
   /// Parameter [engineVersion] :
   /// The major release version of the engine that you want to use. For a Chef
-  /// server, the valid value for EngineVersion is currently <code>12</code>.
-  /// For a Puppet server, the valid value is <code>2017</code>.
+  /// server, the valid value for EngineVersion is currently <code>2</code>. For
+  /// a Puppet server, the valid value is <code>2017</code>.
   ///
   /// Parameter [keyPair] :
   /// The Amazon EC2 key pair to set for the instance. This parameter is
@@ -478,8 +478,9 @@ class OpsWorksCM {
   /// <code>DDD:HH:MM</code> for weekly backups
   /// </li>
   /// </ul>
-  /// The specified time is in coordinated universal time (UTC). The default
-  /// value is a random, daily start time.
+  /// <code>MM</code> must be specified as <code>00</code>. The specified time
+  /// is in coordinated universal time (UTC). The default value is a random,
+  /// daily start time.
   ///
   /// <b>Example:</b> <code>08:00</code>, which represents a daily start time of
   /// 08:00 UTC.
@@ -490,10 +491,11 @@ class OpsWorksCM {
   /// Parameter [preferredMaintenanceWindow] :
   /// The start time for a one-hour period each week during which AWS OpsWorks
   /// CM performs maintenance on the instance. Valid values must be specified in
-  /// the following format: <code>DDD:HH:MM</code>. The specified time is in
-  /// coordinated universal time (UTC). The default value is a random one-hour
-  /// period on Tuesday, Wednesday, or Friday. See
-  /// <code>TimeWindowDefinition</code> for more information.
+  /// the following format: <code>DDD:HH:MM</code>. <code>MM</code> must be
+  /// specified as <code>00</code>. The specified time is in coordinated
+  /// universal time (UTC). The default value is a random one-hour period on
+  /// Tuesday, Wednesday, or Friday. See <code>TimeWindowDefinition</code> for
+  /// more information.
   ///
   /// <b>Example:</b> <code>Mon:08:00</code>, which represents a start time of
   /// every Monday at 08:00 UTC. (8:00 a.m.)
@@ -549,6 +551,7 @@ class OpsWorksCM {
   /// </li>
   /// </ul>
   Future<CreateServerResponse> createServer({
+    @_s.required String engine,
     @_s.required String instanceProfileArn,
     @_s.required String instanceType,
     @_s.required String serverName,
@@ -560,7 +563,6 @@ class OpsWorksCM {
     String customDomain,
     String customPrivateKey,
     bool disableAutomatedBackup,
-    String engine,
     List<EngineAttribute> engineAttributes,
     String engineModel,
     String engineVersion,
@@ -571,6 +573,20 @@ class OpsWorksCM {
     List<String> subnetIds,
     List<Tag> tags,
   }) async {
+    ArgumentError.checkNotNull(engine, 'engine');
+    _s.validateStringLength(
+      'engine',
+      engine,
+      0,
+      10000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'engine',
+      engine,
+      r'''(?s).*''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(instanceProfileArn, 'instanceProfileArn');
     _s.validateStringLength(
       'instanceProfileArn',
@@ -678,17 +694,6 @@ class OpsWorksCM {
       r'''(?ms)\s*^-----BEGIN (?-s:.*)PRIVATE KEY-----$.*?^-----END (?-s:.*)PRIVATE KEY-----$\s*''',
     );
     _s.validateStringLength(
-      'engine',
-      engine,
-      0,
-      10000,
-    );
-    _s.validateStringPattern(
-      'engine',
-      engine,
-      r'''(?s).*''',
-    );
-    _s.validateStringLength(
       'engineModel',
       engineModel,
       0,
@@ -754,6 +759,7 @@ class OpsWorksCM {
       // TODO queryParams
       headers: headers,
       payload: {
+        'Engine': engine,
         'InstanceProfileArn': instanceProfileArn,
         'InstanceType': instanceType,
         'ServerName': serverName,
@@ -768,7 +774,6 @@ class OpsWorksCM {
         if (customPrivateKey != null) 'CustomPrivateKey': customPrivateKey,
         if (disableAutomatedBackup != null)
           'DisableAutomatedBackup': disableAutomatedBackup,
-        if (engine != null) 'Engine': engine,
         if (engineAttributes != null) 'EngineAttributes': engineAttributes,
         if (engineModel != null) 'EngineModel': engineModel,
         if (engineVersion != null) 'EngineVersion': engineVersion,
@@ -2645,7 +2650,7 @@ class Server {
   final String engineModel;
 
   /// The engine version of the server. For a Chef server, the valid value for
-  /// EngineVersion is currently <code>12</code>. For a Puppet server, the valid
+  /// EngineVersion is currently <code>2</code>. For a Puppet server, the valid
   /// value is <code>2017</code>.
   @_s.JsonKey(name: 'EngineVersion')
   final String engineVersion;

@@ -26,21 +26,26 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'lightsail-2016-11-28.g.dart';
 
-/// Amazon Lightsail is the easiest way to get started with AWS for developers
-/// who just need virtual private servers. Lightsail includes everything you
-/// need to launch your project quickly - a virtual machine, a managed database,
-/// SSD-based storage, data transfer, DNS management, and a static IP - for a
-/// low, predictable price. You manage those Lightsail servers through the
-/// Lightsail console or by using the API or command-line interface (CLI).
+/// Amazon Lightsail is the easiest way to get started with Amazon Web Services
+/// (AWS) for developers who need to build websites or web applications. It
+/// includes everything you need to launch your project quickly - instances
+/// (virtual private servers), container services, managed databases, SSD-based
+/// block storage, static IP addresses, load balancers, content delivery network
+/// (CDN) distributions, DNS management of registered domains, and resource
+/// snapshots (backups) - for a low, predictable monthly price.
 ///
-/// For more information about Lightsail concepts and tasks, see the <a
-/// href="https://lightsail.aws.amazon.com/ls/docs/all">Lightsail Dev Guide</a>.
-///
-/// To use the Lightsail API or the CLI, you will need to use AWS Identity and
-/// Access Management (IAM) to generate access keys. For details about how to
-/// set this up, see the <a
+/// You can manage your Lightsail resources using the Lightsail console,
+/// Lightsail API, AWS Command Line Interface (AWS CLI), or SDKs. For more
+/// information about Lightsail concepts and tasks, see the <a
 /// href="http://lightsail.aws.amazon.com/ls/docs/how-to/article/lightsail-how-to-set-up-access-keys-to-use-sdk-api-cli">Lightsail
 /// Dev Guide</a>.
+///
+/// This API Reference provides detailed information about the actions, data
+/// types, parameters, and errors of the Lightsail service. For more information
+/// about the supported AWS Regions, endpoints, and service quotas of the
+/// Lightsail service, see <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/lightsail.html">Amazon
+/// Lightsail Endpoints and Quotas</a> in the <i>AWS General Reference</i>.
 class Lightsail {
   final _s.JsonProtocol _protocol;
   Lightsail({
@@ -96,6 +101,88 @@ class Lightsail {
     );
 
     return AllocateStaticIpResult.fromJson(jsonResponse.body);
+  }
+
+  /// Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery
+  /// network (CDN) distribution.
+  ///
+  /// After the certificate is attached, your distribution accepts HTTPS traffic
+  /// for all of the domains that are associated with the certificate.
+  ///
+  /// Use the <code>CreateCertificate</code> action to create a certificate that
+  /// you can attach to your distribution.
+  /// <important>
+  /// Only certificates created in the <code>us-east-1</code> AWS Region can be
+  /// attached to Lightsail distributions. Lightsail distributions are global
+  /// resources that can reference an origin in any AWS Region, and distribute
+  /// its content globally. However, all distributions are located in the
+  /// <code>us-east-1</code> Region.
+  /// </important>
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [OperationFailureException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [certificateName] :
+  /// The name of the certificate to attach to a distribution.
+  ///
+  /// Only certificates with a status of <code>ISSUED</code> can be attached to
+  /// a distribution.
+  ///
+  /// Use the <code>GetCertificates</code> action to get a list of certificate
+  /// names that you can specify.
+  /// <note>
+  /// This is the name of the certificate resource type and is used only to
+  /// reference the certificate in other API actions. It can be different than
+  /// the domain name of the certificate. For example, your certificate name
+  /// might be <code>WordPress-Blog-Certificate</code> and the domain name of
+  /// the certificate might be <code>example.com</code>.
+  /// </note>
+  ///
+  /// Parameter [distributionName] :
+  /// The name of the distribution that the certificate will be attached to.
+  ///
+  /// Use the <code>GetDistributions</code> action to get a list of distribution
+  /// names that you can specify.
+  Future<AttachCertificateToDistributionResult>
+      attachCertificateToDistribution({
+    @_s.required String certificateName,
+    @_s.required String distributionName,
+  }) async {
+    ArgumentError.checkNotNull(certificateName, 'certificateName');
+    _s.validateStringPattern(
+      'certificateName',
+      certificateName,
+      r'''\w[\w\-]*\w''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(distributionName, 'distributionName');
+    _s.validateStringPattern(
+      'distributionName',
+      distributionName,
+      r'''\w[\w\-]*\w''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.AttachCertificateToDistribution'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'certificateName': certificateName,
+        'distributionName': distributionName,
+      },
+    );
+
+    return AttachCertificateToDistributionResult.fromJson(jsonResponse.body);
   }
 
   /// Attaches a block storage disk to a running or stopped Lightsail instance
@@ -355,11 +442,11 @@ class Lightsail {
     return AttachStaticIpResult.fromJson(jsonResponse.body);
   }
 
-  /// Closes the public ports on a specific Amazon Lightsail instance.
+  /// Closes ports for a specific Amazon Lightsail instance.
   ///
-  /// The <code>close instance public ports</code> operation supports tag-based
-  /// access control via resource tags applied to the resource identified by
-  /// <code>instance name</code>. For more information, see the <a
+  /// The <code>CloseInstancePublicPorts</code> action supports tag-based access
+  /// control via resource tags applied to the resource identified by
+  /// <code>instanceName</code>. For more information, see the <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
   /// Dev Guide</a>.
   ///
@@ -372,11 +459,10 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [instanceName] :
-  /// The name of the instance on which you're attempting to close the public
-  /// ports.
+  /// The name of the instance for which to close ports.
   ///
   /// Parameter [portInfo] :
-  /// Information about the public port you are trying to close.
+  /// An object to describe the ports to close for the specified instance.
   Future<CloseInstancePublicPortsResult> closeInstancePublicPorts({
     @_s.required String instanceName,
     @_s.required PortInfo portInfo,
@@ -557,6 +643,78 @@ class Lightsail {
     return CopySnapshotResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates an SSL/TLS certificate for a Amazon Lightsail content delivery
+  /// network (CDN) distribution.
+  ///
+  /// After the certificate is created, use the
+  /// <code>AttachCertificateToDistribution</code> action to attach the
+  /// certificate to your distribution.
+  /// <important>
+  /// Only certificates created in the <code>us-east-1</code> AWS Region can be
+  /// attached to Lightsail distributions. Lightsail distributions are global
+  /// resources that can reference an origin in any AWS Region, and distribute
+  /// its content globally. However, all distributions are located in the
+  /// <code>us-east-1</code> Region.
+  /// </important>
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [certificateName] :
+  /// The name for the certificate.
+  ///
+  /// Parameter [domainName] :
+  /// The domain name (e.g., <code>example.com</code>) for the certificate.
+  ///
+  /// Parameter [subjectAlternativeNames] :
+  /// An array of strings that specify the alternate domains (e.g.,
+  /// <code>example2.com</code>) and subdomains (e.g.,
+  /// <code>blog.example.com</code>) for the certificate.
+  ///
+  /// You can specify a maximum of nine alternate domains (in addition to the
+  /// primary domain name).
+  ///
+  /// Wildcard domain entries (e.g., <code>*.example.com</code>) are not
+  /// supported.
+  ///
+  /// Parameter [tags] :
+  /// The tag keys and optional values to add to the certificate during create.
+  ///
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
+  Future<CreateCertificateResult> createCertificate({
+    @_s.required String certificateName,
+    @_s.required String domainName,
+    List<String> subjectAlternativeNames,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(certificateName, 'certificateName');
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.CreateCertificate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'certificateName': certificateName,
+        'domainName': domainName,
+        if (subjectAlternativeNames != null)
+          'subjectAlternativeNames': subjectAlternativeNames,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateCertificateResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates an AWS CloudFormation stack, which creates a new Amazon EC2
   /// instance from an exported Amazon Lightsail snapshot. This operation
   /// results in a CloudFormation stack record that can be used to track the AWS
@@ -631,7 +789,7 @@ class Lightsail {
   /// maximum of 15 digits, and they are prefixed with the plus character (+)
   /// and the country code. For example, a U.S. phone number in E.164 format
   /// would be specified as +1XXX5550100. For more information, see <a
-  /// href="https://en.wikipedia.org/wiki/E.164">E.164</a> in Wikipedia.
+  /// href="https://en.wikipedia.org/wiki/E.164">E.164</a> on <i>Wikipedia</i>.
   ///
   /// Parameter [protocol] :
   /// The protocol of the contact method, such as <code>Email</code> or
@@ -700,6 +858,282 @@ class Lightsail {
     return CreateContactMethodResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates an Amazon Lightsail container service.
+  ///
+  /// A Lightsail container service is a compute resource to which you can
+  /// deploy containers. For more information, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-containers">Container
+  /// services in Amazon Lightsail</a> in the <i>Lightsail Dev Guide</i>.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [power] :
+  /// The power specification for the container service.
+  ///
+  /// The power specifies the amount of memory, vCPUs, and base monthly cost of
+  /// each node of the container service. The <code>power</code> and
+  /// <code>scale</code> of a container service makes up its configured
+  /// capacity. To determine the monthly price of your container service,
+  /// multiply the base price of the <code>power</code> with the
+  /// <code>scale</code> (the number of nodes) of the service.
+  ///
+  /// Use the <code>GetContainerServicePowers</code> action to get a list of
+  /// power options that you can specify using this parameter, and their base
+  /// monthly cost.
+  ///
+  /// Parameter [scale] :
+  /// The scale specification for the container service.
+  ///
+  /// The scale specifies the allocated compute nodes of the container service.
+  /// The <code>power</code> and <code>scale</code> of a container service makes
+  /// up its configured capacity. To determine the monthly price of your
+  /// container service, multiply the base price of the <code>power</code> with
+  /// the <code>scale</code> (the number of nodes) of the service.
+  ///
+  /// Parameter [serviceName] :
+  /// The name for the container service.
+  ///
+  /// The name that you specify for your container service will make up part of
+  /// its default domain. The default domain of a container service is typically
+  /// <code>https://&lt;ServiceName&gt;.&lt;RandomGUID&gt;.&lt;AWSRegion&gt;.cs.amazonlightsail.com</code>.
+  /// If the name of your container service is <code>container-service-1</code>,
+  /// and it's located in the US East (Ohio) AWS region
+  /// (<code>us-east-2</code>), then the domain for your container service will
+  /// be like the following example:
+  /// <code>https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com</code>
+  ///
+  /// The following are the requirements for container service names:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must be unique within each AWS Region in your Lightsail account.
+  /// </li>
+  /// <li>
+  /// Must contain 1 to 63 characters.
+  /// </li>
+  /// <li>
+  /// Must contain only alphanumeric characters and hyphens.
+  /// </li>
+  /// <li>
+  /// A hyphen (-) can separate words but cannot be at the start or end of the
+  /// name.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [deployment] :
+  /// An object that describes a deployment for the container service.
+  ///
+  /// A deployment specifies the containers that will be launched on the
+  /// container service and their settings, such as the ports to open, the
+  /// environment variables to apply, and the launch command to run. It also
+  /// specifies the container that will serve as the public endpoint of the
+  /// deployment and its settings, such as the HTTP or HTTPS port to use, and
+  /// the health check configuration.
+  ///
+  /// Parameter [publicDomainNames] :
+  /// The public domain names to use with the container service, such as
+  /// <code>example.com</code> and <code>www.example.com</code>.
+  ///
+  /// You can specify up to four public domain names for a container service.
+  /// The domain names that you specify are used when you create a deployment
+  /// with a container configured as the public endpoint of your container
+  /// service.
+  ///
+  /// If you don't specify public domain names, then you can use the default
+  /// domain of the container service.
+  /// <important>
+  /// You must create and validate an SSL/TLS certificate before you can use
+  /// public domain names with your container service. Use the
+  /// <code>CreateCertificate</code> action to create a certificate for the
+  /// public domain names you want to use with your container service.
+  /// </important>
+  /// You can specify public domain names using a string to array map as shown
+  /// in the example later on this page.
+  ///
+  /// Parameter [tags] :
+  /// The tag keys and optional values for the container service.
+  ///
+  /// For more information about tags in Lightsail, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags">Lightsail
+  /// Dev Guide</a>.
+  Future<CreateContainerServiceResult> createContainerService({
+    @_s.required ContainerServicePowerName power,
+    @_s.required int scale,
+    @_s.required String serviceName,
+    ContainerServiceDeploymentRequest deployment,
+    Map<String, List<String>> publicDomainNames,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(power, 'power');
+    ArgumentError.checkNotNull(scale, 'scale');
+    _s.validateNumRange(
+      'scale',
+      scale,
+      1,
+      20,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    _s.validateStringLength(
+      'serviceName',
+      serviceName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'serviceName',
+      serviceName,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.CreateContainerService'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'power': power?.toValue() ?? '',
+        'scale': scale,
+        'serviceName': serviceName,
+        if (deployment != null) 'deployment': deployment,
+        if (publicDomainNames != null) 'publicDomainNames': publicDomainNames,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateContainerServiceResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a deployment for your Amazon Lightsail container service.
+  ///
+  /// A deployment specifies the containers that will be launched on the
+  /// container service and their settings, such as the ports to open, the
+  /// environment variables to apply, and the launch command to run. It also
+  /// specifies the container that will serve as the public endpoint of the
+  /// deployment and its settings, such as the HTTP or HTTPS port to use, and
+  /// the health check configuration.
+  ///
+  /// You can deploy containers to your container service using container images
+  /// from a public registry like Docker Hub, or from your local machine. For
+  /// more information, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-container-images">Creating
+  /// container images for your Amazon Lightsail container services</a> in the
+  /// <i>Lightsail Dev Guide</i>.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the container service for which to create the deployment.
+  ///
+  /// Parameter [containers] :
+  /// An object that describes the settings of the containers that will be
+  /// launched on the container service.
+  ///
+  /// Parameter [publicEndpoint] :
+  /// An object that describes the settings of the public endpoint for the
+  /// container service.
+  Future<CreateContainerServiceDeploymentResult>
+      createContainerServiceDeployment({
+    @_s.required String serviceName,
+    Map<String, Container> containers,
+    EndpointRequest publicEndpoint,
+  }) async {
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    _s.validateStringLength(
+      'serviceName',
+      serviceName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'serviceName',
+      serviceName,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.CreateContainerServiceDeployment'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'serviceName': serviceName,
+        if (containers != null) 'containers': containers,
+        if (publicEndpoint != null) 'publicEndpoint': publicEndpoint,
+      },
+    );
+
+    return CreateContainerServiceDeploymentResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a temporary set of log in credentials that you can use to log in
+  /// to the Docker process on your local machine. After you're logged in, you
+  /// can use the native Docker commands to push your local container images to
+  /// the container image registry of your Amazon Lightsail account so that you
+  /// can use them with your Lightsail container service. The log in credentials
+  /// expire 12 hours after they are created, at which point you will need to
+  /// create a new set of log in credentials.
+  /// <note>
+  /// You can only push container images to the container service registry of
+  /// your Lightsail account. You cannot pull container images perform any other
+  /// container image management actions on the container service registry of
+  /// your Lightsail account.
+  /// </note>
+  /// After you push your container images to the container image registry of
+  /// your Lightsail account, use the <code>RegisterContainerImage</code> action
+  /// to register the pushed images to a specific Lightsail container service.
+  /// <note>
+  /// This action is not required if you install and use the Lightsail Control
+  /// (lightsailctl) plugin to push container images to your Lightsail container
+  /// service. For more information, see <a
+  /// href="amazon-lightsail-pushing-container-images">Pushing and managing
+  /// container images on your Amazon Lightsail container services</a> in the
+  /// <i>Lightsail Dev Guide</i>.
+  /// </note>
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  Future<CreateContainerServiceRegistryLoginResult>
+      createContainerServiceRegistryLogin() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.CreateContainerServiceRegistryLogin'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return CreateContainerServiceRegistryLoginResult.fromJson(
+        jsonResponse.body);
+  }
+
   /// Creates a block storage disk that can be attached to an Amazon Lightsail
   /// instance in the same Availability Zone (e.g., <code>us-east-2a</code>).
   ///
@@ -736,8 +1170,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   Future<CreateDiskResult> createDisk({
     @_s.required String availabilityZone,
     @_s.required String diskName,
@@ -880,8 +1314,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   ///
   /// Parameter [useLatestRestorableAutoSnapshot] :
   /// A Boolean value to indicate whether to use the latest available automatic
@@ -1024,8 +1458,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   Future<CreateDiskSnapshotResult> createDiskSnapshot({
     @_s.required String diskSnapshotName,
     String diskName,
@@ -1070,6 +1504,98 @@ class Lightsail {
     return CreateDiskSnapshotResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates an Amazon Lightsail content delivery network (CDN) distribution.
+  ///
+  /// A distribution is a globally distributed network of caching servers that
+  /// improve the performance of your website or web application hosted on a
+  /// Lightsail instance. For more information, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-content-delivery-network-distributions">Content
+  /// delivery networks in Amazon Lightsail</a>.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [OperationFailureException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [bundleId] :
+  /// The bundle ID to use for the distribution.
+  ///
+  /// A distribution bundle describes the specifications of your distribution,
+  /// such as the monthly cost and monthly network transfer quota.
+  ///
+  /// Use the <code>GetDistributionBundles</code> action to get a list of
+  /// distribution bundle IDs that you can specify.
+  ///
+  /// Parameter [defaultCacheBehavior] :
+  /// An object that describes the default cache behavior for the distribution.
+  ///
+  /// Parameter [distributionName] :
+  /// The name for the distribution.
+  ///
+  /// Parameter [origin] :
+  /// An object that describes the origin resource for the distribution, such as
+  /// a Lightsail instance or load balancer.
+  ///
+  /// The distribution pulls, caches, and serves content from the origin.
+  ///
+  /// Parameter [cacheBehaviorSettings] :
+  /// An object that describes the cache behavior settings for the distribution.
+  ///
+  /// Parameter [cacheBehaviors] :
+  /// An array of objects that describe the per-path cache behavior for the
+  /// distribution.
+  ///
+  /// Parameter [tags] :
+  /// The tag keys and optional values to add to the distribution during create.
+  ///
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
+  Future<CreateDistributionResult> createDistribution({
+    @_s.required String bundleId,
+    @_s.required CacheBehavior defaultCacheBehavior,
+    @_s.required String distributionName,
+    @_s.required InputOrigin origin,
+    CacheSettings cacheBehaviorSettings,
+    List<CacheBehaviorPerPath> cacheBehaviors,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(bundleId, 'bundleId');
+    ArgumentError.checkNotNull(defaultCacheBehavior, 'defaultCacheBehavior');
+    ArgumentError.checkNotNull(distributionName, 'distributionName');
+    _s.validateStringPattern(
+      'distributionName',
+      distributionName,
+      r'''\w[\w\-]*\w''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(origin, 'origin');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.CreateDistribution'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'bundleId': bundleId,
+        'defaultCacheBehavior': defaultCacheBehavior,
+        'distributionName': distributionName,
+        'origin': origin,
+        if (cacheBehaviorSettings != null)
+          'cacheBehaviorSettings': cacheBehaviorSettings,
+        if (cacheBehaviors != null) 'cacheBehaviors': cacheBehaviors,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateDistributionResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates a domain resource for the specified domain (e.g., example.com).
   ///
   /// The <code>create domain</code> operation supports tag-based access control
@@ -1097,8 +1623,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   Future<CreateDomainResult> createDomain({
     @_s.required String domainName,
     List<Tag> tags,
@@ -1123,9 +1649,10 @@ class Lightsail {
     return CreateDomainResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates one of the following entry records associated with the domain:
-  /// Address (A), canonical name (CNAME), mail exchanger (MX), name server
-  /// (NS), start of authority (SOA), service locator (SRV), or text (TXT).
+  /// Creates one of the following domain name system (DNS) records in a domain
+  /// DNS zone: Address (A), canonical name (CNAME), mail exchanger (MX), name
+  /// server (NS), start of authority (SOA), service locator (SRV), or text
+  /// (TXT).
   ///
   /// The <code>create domain entry</code> operation supports tag-based access
   /// control via resource tags applied to the resource identified by
@@ -1199,8 +1726,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   Future<CreateInstanceSnapshotResult> createInstanceSnapshot({
     @_s.required String instanceName,
     @_s.required String instanceSnapshotName,
@@ -1303,8 +1830,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   ///
   /// Parameter [userData] :
   /// A launch script you can create that configures a server with additional
@@ -1488,8 +2015,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   ///
   /// Parameter [useLatestRestorableAutoSnapshot] :
   /// A Boolean value to indicate whether to use the latest available automatic
@@ -1610,8 +2137,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   Future<CreateKeyPairResult> createKeyPair({
     @_s.required String keyPairName,
     List<Tag> tags,
@@ -1701,8 +2228,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   Future<CreateLoadBalancerResult> createLoadBalancer({
     @_s.required int instancePort,
     @_s.required String loadBalancerName,
@@ -1716,7 +2243,7 @@ class Lightsail {
     _s.validateNumRange(
       'instancePort',
       instancePort,
-      0,
+      -1,
       65535,
       isRequired: true,
     );
@@ -1802,8 +2329,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   Future<CreateLoadBalancerTlsCertificateResult>
       createLoadBalancerTlsCertificate({
     @_s.required String certificateDomainName,
@@ -2015,8 +2542,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   Future<CreateRelationalDatabaseResult> createRelationalDatabase({
     @_s.required String masterDatabaseName,
     @_s.required String masterUsername,
@@ -2170,8 +2697,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   ///
   /// Parameter [useLatestRestorableTime] :
   /// Specifies whether your database is restored from the latest backup time. A
@@ -2282,8 +2809,8 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the resource during create.
   ///
-  /// To tag a resource after it has been created, see the <code>tag
-  /// resource</code> operation.
+  /// Use the <code>TagResource</code> action to tag a resource after it's
+  /// created.
   Future<CreateRelationalDatabaseSnapshotResult>
       createRelationalDatabaseSnapshot({
     @_s.required String relationalDatabaseName,
@@ -2429,6 +2956,46 @@ class Lightsail {
     return DeleteAutoSnapshotResult.fromJson(jsonResponse.body);
   }
 
+  /// Deletes an SSL/TLS certificate for your Amazon Lightsail content delivery
+  /// network (CDN) distribution.
+  ///
+  /// Certificates that are currently attached to a distribution cannot be
+  /// deleted. Use the <code>DetachCertificateFromDistribution</code> action to
+  /// detach a certificate from a distribution.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [AccessDeniedException].
+  /// May throw [NotFoundException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [certificateName] :
+  /// The name of the certificate to delete.
+  ///
+  /// Use the <code>GetCertificates</code> action to get a list of certificate
+  /// names that you can specify.
+  Future<DeleteCertificateResult> deleteCertificate({
+    @_s.required String certificateName,
+  }) async {
+    ArgumentError.checkNotNull(certificateName, 'certificateName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.DeleteCertificate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'certificateName': certificateName,
+      },
+    );
+
+    return DeleteCertificateResult.fromJson(jsonResponse.body);
+  }
+
   /// Deletes a contact method.
   ///
   /// A contact method is used to send you notifications about your Amazon
@@ -2474,6 +3041,115 @@ class Lightsail {
     );
 
     return DeleteContactMethodResult.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a container image that is registered to your Amazon Lightsail
+  /// container service.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [image] :
+  /// The name of the container image to delete from the container service.
+  ///
+  /// Use the <code>GetContainerImages</code> action to get the name of the
+  /// container images that are registered to a container service.
+  /// <note>
+  /// Container images sourced from your Lightsail container service, that are
+  /// registered and stored on your service, start with a colon
+  /// (<code>:</code>). For example,
+  /// <code>:container-service-1.mystaticwebsite.1</code>. Container images
+  /// sourced from a public registry like Docker Hub don't start with a colon.
+  /// For example, <code>nginx:latest</code> or <code>nginx</code>.
+  /// </note>
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the container service for which to delete a registered
+  /// container image.
+  Future<void> deleteContainerImage({
+    @_s.required String image,
+    @_s.required String serviceName,
+  }) async {
+    ArgumentError.checkNotNull(image, 'image');
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    _s.validateStringLength(
+      'serviceName',
+      serviceName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'serviceName',
+      serviceName,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.DeleteContainerImage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'image': image,
+        'serviceName': serviceName,
+      },
+    );
+
+    return DeleteContainerImageResult.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes your Amazon Lightsail container service.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the container service to delete.
+  Future<void> deleteContainerService({
+    @_s.required String serviceName,
+  }) async {
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    _s.validateStringLength(
+      'serviceName',
+      serviceName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'serviceName',
+      serviceName,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.DeleteContainerService'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'serviceName': serviceName,
+      },
+    );
+
+    return DeleteContainerServiceResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified block storage disk. The disk must be in the
@@ -2585,6 +3261,46 @@ class Lightsail {
     );
 
     return DeleteDiskSnapshotResult.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes your Amazon Lightsail content delivery network (CDN) distribution.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [OperationFailureException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [distributionName] :
+  /// The name of the distribution to delete.
+  ///
+  /// Use the <code>GetDistributions</code> action to get a list of distribution
+  /// names that you can specify.
+  Future<DeleteDistributionResult> deleteDistribution({
+    String distributionName,
+  }) async {
+    _s.validateStringPattern(
+      'distributionName',
+      distributionName,
+      r'''\w[\w\-]*\w''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.DeleteDistribution'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (distributionName != null) 'distributionName': distributionName,
+      },
+    );
+
+    return DeleteDistributionResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified domain recordset and all of its domain records.
@@ -3125,6 +3841,53 @@ class Lightsail {
     );
 
     return DeleteRelationalDatabaseSnapshotResult.fromJson(jsonResponse.body);
+  }
+
+  /// Detaches an SSL/TLS certificate from your Amazon Lightsail content
+  /// delivery network (CDN) distribution.
+  ///
+  /// After the certificate is detached, your distribution stops accepting
+  /// traffic for all of the domains that are associated with the certificate.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [OperationFailureException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [distributionName] :
+  /// The name of the distribution from which to detach the certificate.
+  ///
+  /// Use the <code>GetDistributions</code> action to get a list of distribution
+  /// names that you can specify.
+  Future<DetachCertificateFromDistributionResult>
+      detachCertificateFromDistribution({
+    @_s.required String distributionName,
+  }) async {
+    ArgumentError.checkNotNull(distributionName, 'distributionName');
+    _s.validateStringPattern(
+      'distributionName',
+      distributionName,
+      r'''\w[\w\-]*\w''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.DetachCertificateFromDistribution'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'distributionName': distributionName,
+      },
+    );
+
+    return DetachCertificateFromDistributionResult.fromJson(jsonResponse.body);
   }
 
   /// Detaches a stopped block storage disk from a Lightsail instance. Make sure
@@ -3706,6 +4469,70 @@ class Lightsail {
     return GetBundlesResult.fromJson(jsonResponse.body);
   }
 
+  /// Returns information about one or more Amazon Lightsail SSL/TLS
+  /// certificates.
+  /// <note>
+  /// To get a summary of a certificate, ommit
+  /// <code>includeCertificateDetails</code> from your request. The response
+  /// will include only the certificate Amazon Resource Name (ARN), certificate
+  /// name, domain name, and tags.
+  /// </note>
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [certificateName] :
+  /// The name for the certificate for which to return information.
+  ///
+  /// When omitted, the response includes all of your certificates in the AWS
+  /// Region where the request is made.
+  ///
+  /// Parameter [certificateStatuses] :
+  /// The status of the certificates for which to return information.
+  ///
+  /// For example, specify <code>ISSUED</code> to return only certificates with
+  /// an <code>ISSUED</code> status.
+  ///
+  /// When omitted, the response includes all of your certificates in the AWS
+  /// Region where the request is made, regardless of their current status.
+  ///
+  /// Parameter [includeCertificateDetails] :
+  /// Indicates whether to include detailed information about the certificates
+  /// in the response.
+  ///
+  /// When omitted, the response includes only the certificate names, Amazon
+  /// Resource Names (ARNs), domain names, and tags.
+  Future<GetCertificatesResult> getCertificates({
+    String certificateName,
+    List<CertificateStatus> certificateStatuses,
+    bool includeCertificateDetails,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetCertificates'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (certificateName != null) 'certificateName': certificateName,
+        if (certificateStatuses != null)
+          'certificateStatuses':
+              certificateStatuses.map((e) => e?.toValue() ?? '').toList(),
+        if (includeCertificateDetails != null)
+          'includeCertificateDetails': includeCertificateDetails,
+      },
+    );
+
+    return GetCertificatesResult.fromJson(jsonResponse.body);
+  }
+
   /// Returns the CloudFormation stack record created as a result of the
   /// <code>create cloud formation stack</code> operation.
   ///
@@ -3793,6 +4620,509 @@ class Lightsail {
     );
 
     return GetContactMethodsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about Amazon Lightsail containers, such as the current
+  /// version of the Lightsail Control (lightsailctl) plugin.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  Future<GetContainerAPIMetadataResult> getContainerAPIMetadata() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetContainerAPIMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetContainerAPIMetadataResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the container images that are registered to your Amazon Lightsail
+  /// container service.
+  /// <note>
+  /// If you created a deployment on your Lightsail container service that uses
+  /// container images from a public registry like Docker Hub, those images are
+  /// not returned as part of this action. Those images are not registered to
+  /// your Lightsail container service.
+  /// </note>
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the container service for which to return registered container
+  /// images.
+  Future<GetContainerImagesResult> getContainerImages({
+    @_s.required String serviceName,
+  }) async {
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    _s.validateStringLength(
+      'serviceName',
+      serviceName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'serviceName',
+      serviceName,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetContainerImages'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'serviceName': serviceName,
+      },
+    );
+
+    return GetContainerImagesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the log events of a container of your Amazon Lightsail container
+  /// service.
+  ///
+  /// If your container service has more than one node (i.e., a scale greater
+  /// than 1), then the log events that are returned for the specified container
+  /// are merged from all nodes on your container service.
+  /// <note>
+  /// Container logs are retained for a certain amount of time. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/lightsail.html">Amazon
+  /// Lightsail endpoints and quotas</a> in the <i>AWS General Reference</i>.
+  /// </note>
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [containerName] :
+  /// The name of the container that is either running or previously ran on the
+  /// container service for which to return a log.
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the container service for which to get a container log.
+  ///
+  /// Parameter [endTime] :
+  /// The end of the time interval for which to get log data.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Specified in the Unix time format.
+  ///
+  /// For example, if you wish to use an end time of October 1, 2018, at 9 PM
+  /// UTC, specify <code>1538427600</code> as the end time.
+  /// </li>
+  /// </ul>
+  /// You can convert a human-friendly time to Unix time format using a
+  /// converter like <a href="https://www.epochconverter.com/">Epoch
+  /// converter</a>.
+  ///
+  /// Parameter [filterPattern] :
+  /// The pattern to use to filter the returned log events to a specific term.
+  ///
+  /// The following are a few examples of filter patterns that you can specify:
+  ///
+  /// <ul>
+  /// <li>
+  /// To return all log events, specify a filter pattern of <code>""</code>.
+  /// </li>
+  /// <li>
+  /// To exclude log events that contain the <code>ERROR</code> term, and return
+  /// all other log events, specify a filter pattern of <code>"-ERROR"</code>.
+  /// </li>
+  /// <li>
+  /// To return log events that contain the <code>ERROR</code> term, specify a
+  /// filter pattern of <code>"ERROR"</code>.
+  /// </li>
+  /// <li>
+  /// To return log events that contain both the <code>ERROR</code> and
+  /// <code>Exception</code> terms, specify a filter pattern of <code>"ERROR
+  /// Exception"</code>.
+  /// </li>
+  /// <li>
+  /// To return log events that contain the <code>ERROR</code> <i>or</i> the
+  /// <code>Exception</code> term, specify a filter pattern of <code>"?ERROR
+  /// ?Exception"</code>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [pageToken] :
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetContainerLog</code>
+  /// request. If your results are paginated, the response will return a next
+  /// page token that you can specify as the page token in a subsequent request.
+  ///
+  /// Parameter [startTime] :
+  /// The start of the time interval for which to get log data.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Specified in the Unix time format.
+  ///
+  /// For example, if you wish to use a start time of October 1, 2018, at 8 PM
+  /// UTC, specify <code>1538424000</code> as the start time.
+  /// </li>
+  /// </ul>
+  /// You can convert a human-friendly time to Unix time format using a
+  /// converter like <a href="https://www.epochconverter.com/">Epoch
+  /// converter</a>.
+  Future<GetContainerLogResult> getContainerLog({
+    @_s.required String containerName,
+    @_s.required String serviceName,
+    DateTime endTime,
+    String filterPattern,
+    String pageToken,
+    DateTime startTime,
+  }) async {
+    ArgumentError.checkNotNull(containerName, 'containerName');
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    _s.validateStringLength(
+      'serviceName',
+      serviceName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'serviceName',
+      serviceName,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetContainerLog'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'containerName': containerName,
+        'serviceName': serviceName,
+        if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+        if (filterPattern != null) 'filterPattern': filterPattern,
+        if (pageToken != null) 'pageToken': pageToken,
+        if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      },
+    );
+
+    return GetContainerLogResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the deployments for your Amazon Lightsail container service
+  ///
+  /// A deployment specifies the settings, such as the ports and launch command,
+  /// of containers that are deployed to your container service.
+  ///
+  /// The deployments are ordered by version in ascending order. The newest
+  /// version is listed at the top of the response.
+  /// <note>
+  /// A set number of deployments are kept before the oldest one is replaced
+  /// with the newest one. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/lightsail.html">Amazon
+  /// Lightsail endpoints and quotas</a> in the <i>AWS General Reference</i>.
+  /// </note>
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the container service for which to return deployments.
+  Future<GetContainerServiceDeploymentsResult> getContainerServiceDeployments({
+    @_s.required String serviceName,
+  }) async {
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    _s.validateStringLength(
+      'serviceName',
+      serviceName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'serviceName',
+      serviceName,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetContainerServiceDeployments'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'serviceName': serviceName,
+      },
+    );
+
+    return GetContainerServiceDeploymentsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the data points of a specific metric of your Amazon Lightsail
+  /// container service.
+  ///
+  /// Metrics report the utilization of your resources. Monitor and collect
+  /// metric data regularly to maintain the reliability, availability, and
+  /// performance of your resources.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [endTime] :
+  /// The end time of the time period.
+  ///
+  /// Parameter [metricName] :
+  /// The metric for which you want to return information.
+  ///
+  /// Valid container service metric names are listed below, along with the most
+  /// useful statistics to include in your request, and the published unit
+  /// value.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CPUUtilization</code> - The average percentage of compute units that
+  /// are currently in use across all nodes of the container service. This
+  /// metric identifies the processing power required to run containers on each
+  /// node of the container service.
+  ///
+  /// Statistics: The most useful statistics are <code>Maximum</code> and
+  /// <code>Average</code>.
+  ///
+  /// Unit: The published unit is <code>Percent</code>.
+  /// </li>
+  /// <li>
+  /// <code>MemoryUtilization</code> - The average percentage of available
+  /// memory that is currently in use across all nodes of the container service.
+  /// This metric identifies the memory required to run containers on each node
+  /// of the container service.
+  ///
+  /// Statistics: The most useful statistics are <code>Maximum</code> and
+  /// <code>Average</code>.
+  ///
+  /// Unit: The published unit is <code>Percent</code>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [period] :
+  /// The granularity, in seconds, of the returned data points.
+  ///
+  /// All container service metric data is available in 5-minute (300 seconds)
+  /// granularity.
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the container service for which to get metric data.
+  ///
+  /// Parameter [startTime] :
+  /// The start time of the time period.
+  ///
+  /// Parameter [statistics] :
+  /// The statistic for the metric.
+  ///
+  /// The following statistics are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Minimum</code> - The lowest value observed during the specified
+  /// period. Use this value to determine low volumes of activity for your
+  /// application.
+  /// </li>
+  /// <li>
+  /// <code>Maximum</code> - The highest value observed during the specified
+  /// period. Use this value to determine high volumes of activity for your
+  /// application.
+  /// </li>
+  /// <li>
+  /// <code>Sum</code> - All values submitted for the matching metric added
+  /// together. You can use this statistic to determine the total volume of a
+  /// metric.
+  /// </li>
+  /// <li>
+  /// <code>Average</code> - The value of <code>Sum</code> /
+  /// <code>SampleCount</code> during the specified period. By comparing this
+  /// statistic with the <code>Minimum</code> and <code>Maximum</code> values,
+  /// you can determine the full scope of a metric and how close the average use
+  /// is to the <code>Minimum</code> and <code>Maximum</code> values. This
+  /// comparison helps you to know when to increase or decrease your resources.
+  /// </li>
+  /// <li>
+  /// <code>SampleCount</code> - The count, or number, of data points used for
+  /// the statistical calculation.
+  /// </li>
+  /// </ul>
+  Future<GetContainerServiceMetricDataResult> getContainerServiceMetricData({
+    @_s.required DateTime endTime,
+    @_s.required ContainerServiceMetricName metricName,
+    @_s.required int period,
+    @_s.required String serviceName,
+    @_s.required DateTime startTime,
+    @_s.required List<MetricStatistic> statistics,
+  }) async {
+    ArgumentError.checkNotNull(endTime, 'endTime');
+    ArgumentError.checkNotNull(metricName, 'metricName');
+    ArgumentError.checkNotNull(period, 'period');
+    _s.validateNumRange(
+      'period',
+      period,
+      60,
+      86400,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    _s.validateStringLength(
+      'serviceName',
+      serviceName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'serviceName',
+      serviceName,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(startTime, 'startTime');
+    ArgumentError.checkNotNull(statistics, 'statistics');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetContainerServiceMetricData'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'endTime': unixTimestampToJson(endTime),
+        'metricName': metricName?.toValue() ?? '',
+        'period': period,
+        'serviceName': serviceName,
+        'startTime': unixTimestampToJson(startTime),
+        'statistics': statistics?.map((e) => e?.toValue() ?? '')?.toList(),
+      },
+    );
+
+    return GetContainerServiceMetricDataResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the list of powers that can be specified for your Amazon Lightsail
+  /// container services.
+  ///
+  /// The power specifies the amount of memory, the number of vCPUs, and the
+  /// base price of the container service.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  Future<GetContainerServicePowersResult> getContainerServicePowers() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetContainerServicePowers'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetContainerServicePowersResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about one or more of your Amazon Lightsail container
+  /// services.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the container service for which to return information.
+  ///
+  /// When omitted, the response includes all of your container services in the
+  /// AWS Region where the request is made.
+  Future<ContainerServicesListResult> getContainerServices({
+    String serviceName,
+  }) async {
+    _s.validateStringLength(
+      'serviceName',
+      serviceName,
+      1,
+      63,
+    );
+    _s.validateStringPattern(
+      'serviceName',
+      serviceName,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetContainerServices'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (serviceName != null) 'serviceName': serviceName,
+      },
+    );
+
+    return ContainerServicesListResult.fromJson(jsonResponse.body);
   }
 
   /// Returns information about a specific block storage disk.
@@ -3949,6 +5279,357 @@ class Lightsail {
     );
 
     return GetDisksResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the list bundles that can be applied to you Amazon Lightsail
+  /// content delivery network (CDN) distributions.
+  ///
+  /// A distribution bundle specifies the monthly network transfer quota and
+  /// monthly cost of your dsitribution.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [OperationFailureException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  Future<GetDistributionBundlesResult> getDistributionBundles() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetDistributionBundles'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetDistributionBundlesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the timestamp and status of the last cache reset of a specific
+  /// Amazon Lightsail content delivery network (CDN) distribution.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [OperationFailureException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [distributionName] :
+  /// The name of the distribution for which to return the timestamp of the last
+  /// cache reset.
+  ///
+  /// Use the <code>GetDistributions</code> action to get a list of distribution
+  /// names that you can specify.
+  ///
+  /// When omitted, the response includes the latest cache reset timestamp of
+  /// all your distributions.
+  Future<GetDistributionLatestCacheResetResult>
+      getDistributionLatestCacheReset({
+    String distributionName,
+  }) async {
+    _s.validateStringPattern(
+      'distributionName',
+      distributionName,
+      r'''\w[\w\-]*\w''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetDistributionLatestCacheReset'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (distributionName != null) 'distributionName': distributionName,
+      },
+    );
+
+    return GetDistributionLatestCacheResetResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the data points of a specific metric for an Amazon Lightsail
+  /// content delivery network (CDN) distribution.
+  ///
+  /// Metrics report the utilization of your resources, and the error counts
+  /// generated by them. Monitor and collect metric data regularly to maintain
+  /// the reliability, availability, and performance of your resources.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [OperationFailureException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [distributionName] :
+  /// The name of the distribution for which to get metric data.
+  ///
+  /// Use the <code>GetDistributions</code> action to get a list of distribution
+  /// names that you can specify.
+  ///
+  /// Parameter [endTime] :
+  /// The end of the time interval for which to get metric data.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Specified in the Unix time format.
+  ///
+  /// For example, if you wish to use an end time of October 1, 2018, at 9 PM
+  /// UTC, specify <code>1538427600</code> as the end time.
+  /// </li>
+  /// </ul>
+  /// You can convert a human-friendly time to Unix time format using a
+  /// converter like <a href="https://www.epochconverter.com/">Epoch
+  /// converter</a>.
+  ///
+  /// Parameter [metricName] :
+  /// The metric for which you want to return information.
+  ///
+  /// Valid distribution metric names are listed below, along with the most
+  /// useful <code>statistics</code> to include in your request, and the
+  /// published <code>unit</code> value.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>Requests</code> </b> - The total number of viewer requests
+  /// received by your Lightsail distribution, for all HTTP methods, and for
+  /// both HTTP and HTTPS requests.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>None</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>BytesDownloaded</code> </b> - The number of bytes downloaded by
+  /// viewers for GET, HEAD, and OPTIONS requests.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>None</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>BytesUploaded </code> </b> - The number of bytes uploaded to
+  /// your origin by your Lightsail distribution, using POST and PUT requests.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>None</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>TotalErrorRate</code> </b> - The percentage of all viewer
+  /// requests for which the response's HTTP status code was 4xx or 5xx.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is
+  /// <code>Average</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Percent</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>4xxErrorRate</code> </b> - The percentage of all viewer requests
+  /// for which the response's HTTP status cod was 4xx. In these cases, the
+  /// client or client viewer may have made an error. For example, a status code
+  /// of 404 (Not Found) means that the client requested an object that could
+  /// not be found.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is
+  /// <code>Average</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Percent</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>5xxErrorRate</code> </b> - The percentage of all viewer requests
+  /// for which the response's HTTP status code was 5xx. In these cases, the
+  /// origin server did not satisfy the requests. For example, a status code of
+  /// 503 (Service Unavailable) means that the origin server is currently
+  /// unavailable.
+  ///
+  /// <code>Statistics</code>: The most useful statistic is
+  /// <code>Average</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Percent</code>.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [period] :
+  /// The granularity, in seconds, for the metric data points that will be
+  /// returned.
+  ///
+  /// Parameter [startTime] :
+  /// The start of the time interval for which to get metric data.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specified in Coordinated Universal Time (UTC).
+  /// </li>
+  /// <li>
+  /// Specified in the Unix time format.
+  ///
+  /// For example, if you wish to use a start time of October 1, 2018, at 8 PM
+  /// UTC, specify <code>1538424000</code> as the start time.
+  /// </li>
+  /// </ul>
+  /// You can convert a human-friendly time to Unix time format using a
+  /// converter like <a href="https://www.epochconverter.com/">Epoch
+  /// converter</a>.
+  ///
+  /// Parameter [statistics] :
+  /// The statistic for the metric.
+  ///
+  /// The following statistics are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Minimum</code> - The lowest value observed during the specified
+  /// period. Use this value to determine low volumes of activity for your
+  /// application.
+  /// </li>
+  /// <li>
+  /// <code>Maximum</code> - The highest value observed during the specified
+  /// period. Use this value to determine high volumes of activity for your
+  /// application.
+  /// </li>
+  /// <li>
+  /// <code>Sum</code> - All values submitted for the matching metric added
+  /// together. You can use this statistic to determine the total volume of a
+  /// metric.
+  /// </li>
+  /// <li>
+  /// <code>Average</code> - The value of Sum / SampleCount during the specified
+  /// period. By comparing this statistic with the Minimum and Maximum values,
+  /// you can determine the full scope of a metric and how close the average use
+  /// is to the Minimum and Maximum values. This comparison helps you to know
+  /// when to increase or decrease your resources.
+  /// </li>
+  /// <li>
+  /// <code>SampleCount</code> - The count, or number, of data points used for
+  /// the statistical calculation.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [unit] :
+  /// The unit for the metric data request.
+  ///
+  /// Valid units depend on the metric data being requested. For the valid units
+  /// with each available metric, see the <code>metricName</code> parameter.
+  Future<GetDistributionMetricDataResult> getDistributionMetricData({
+    @_s.required String distributionName,
+    @_s.required DateTime endTime,
+    @_s.required DistributionMetricName metricName,
+    @_s.required int period,
+    @_s.required DateTime startTime,
+    @_s.required List<MetricStatistic> statistics,
+    @_s.required MetricUnit unit,
+  }) async {
+    ArgumentError.checkNotNull(distributionName, 'distributionName');
+    _s.validateStringPattern(
+      'distributionName',
+      distributionName,
+      r'''\w[\w\-]*\w''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(endTime, 'endTime');
+    ArgumentError.checkNotNull(metricName, 'metricName');
+    ArgumentError.checkNotNull(period, 'period');
+    _s.validateNumRange(
+      'period',
+      period,
+      60,
+      86400,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(startTime, 'startTime');
+    ArgumentError.checkNotNull(statistics, 'statistics');
+    ArgumentError.checkNotNull(unit, 'unit');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetDistributionMetricData'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'distributionName': distributionName,
+        'endTime': unixTimestampToJson(endTime),
+        'metricName': metricName?.toValue() ?? '',
+        'period': period,
+        'startTime': unixTimestampToJson(startTime),
+        'statistics': statistics?.map((e) => e?.toValue() ?? '')?.toList(),
+        'unit': unit?.toValue() ?? '',
+      },
+    );
+
+    return GetDistributionMetricDataResult.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about one or more of your Amazon Lightsail content
+  /// delivery network (CDN) distributions.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [OperationFailureException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [distributionName] :
+  /// The name of the distribution for which to return information.
+  ///
+  /// Use the <code>GetDistributions</code> action to get a list of distribution
+  /// names that you can specify.
+  ///
+  /// When omitted, the response includes all of your distributions in the AWS
+  /// Region where the request is made.
+  ///
+  /// Parameter [pageToken] :
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial <code>GetDistributions</code>
+  /// request. If your results are paginated, the response will return a next
+  /// page token that you can specify as the page token in a subsequent request.
+  Future<GetDistributionsResult> getDistributions({
+    String distributionName,
+    String pageToken,
+  }) async {
+    _s.validateStringPattern(
+      'distributionName',
+      distributionName,
+      r'''\w[\w\-]*\w''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetDistributions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (distributionName != null) 'distributionName': distributionName,
+        if (pageToken != null) 'pageToken': pageToken,
+      },
+    );
+
+    return GetDistributionsResult.fromJson(jsonResponse.body);
   }
 
   /// Returns information about a specific domain recordset.
@@ -4162,6 +5843,10 @@ class Lightsail {
   /// Returns the data points for the specified Amazon Lightsail instance
   /// metric, given an instance name.
   ///
+  /// Metrics report the utilization of your resources, and the error counts
+  /// generated by them. Monitor and collect metric data regularly to maintain
+  /// the reliability, availability, and performance of your resources.
+  ///
   /// May throw [ServiceException].
   /// May throw [InvalidInputException].
   /// May throw [NotFoundException].
@@ -4185,7 +5870,42 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>CPUUtilization</code> </b> — The percentage of allocated compute
+  /// <b> <code>BurstCapacityPercentage</code> </b> - The percentage of CPU
+  /// performance available for your instance to burst above its baseline. Your
+  /// instance continuously accrues and consumes burst capacity. Burst capacity
+  /// stops accruing when your instance's <code>BurstCapacityPercentage</code>
+  /// reaches 100%. For more information, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity">Viewing
+  /// instance burst capacity in Amazon Lightsail</a>.
+  ///
+  /// <code>Statistics</code>: The most useful statistics are
+  /// <code>Maximum</code> and <code>Average</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Percent</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>BurstCapacityTime</code> </b> - The available amount of time for
+  /// your instance to burst at 100% CPU utilization. Your instance continuously
+  /// accrues and consumes burst capacity. Burst capacity time stops accruing
+  /// when your instance's <code>BurstCapacityPercentage</code> metric reaches
+  /// 100%.
+  ///
+  /// Burst capacity time is consumed at the full rate only when your instance
+  /// operates at 100% CPU utilization. For example, if your instance operates
+  /// at 50% CPU utilization in the burstable zone for a 5-minute period, then
+  /// it consumes CPU burst capacity minutes at a 50% rate in that period. Your
+  /// instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes
+  /// in the 5-minute period. For more information, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity">Viewing
+  /// instance burst capacity in Amazon Lightsail</a>.
+  ///
+  /// <code>Statistics</code>: The most useful statistics are
+  /// <code>Maximum</code> and <code>Average</code>.
+  ///
+  /// <code>Unit</code>: The published unit is <code>Seconds</code>.
+  /// </li>
+  /// <li>
+  /// <b> <code>CPUUtilization</code> </b> - The percentage of allocated compute
   /// units that are currently in use on the instance. This metric identifies
   /// the processing power to run the applications on the instance. Tools in
   /// your operating system can show a lower percentage than Lightsail when the
@@ -4197,7 +5917,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Percent</code>.
   /// </li>
   /// <li>
-  /// <b> <code>NetworkIn</code> </b> — The number of bytes received on all
+  /// <b> <code>NetworkIn</code> </b> - The number of bytes received on all
   /// network interfaces by the instance. This metric identifies the volume of
   /// incoming network traffic to the instance. The number reported is the
   /// number of bytes received during the period. Because this metric is
@@ -4209,7 +5929,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Bytes</code>.
   /// </li>
   /// <li>
-  /// <b> <code>NetworkOut</code> </b> — The number of bytes sent out on all
+  /// <b> <code>NetworkOut</code> </b> - The number of bytes sent out on all
   /// network interfaces by the instance. This metric identifies the volume of
   /// outgoing network traffic from the instance. The number reported is the
   /// number of bytes sent during the period. Because this metric is reported in
@@ -4221,7 +5941,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Bytes</code>.
   /// </li>
   /// <li>
-  /// <b> <code>StatusCheckFailed</code> </b> — Reports whether the instance
+  /// <b> <code>StatusCheckFailed</code> </b> - Reports whether the instance
   /// passed or failed both the instance status check and the system status
   /// check. This metric can be either 0 (passed) or 1 (failed). This metric
   /// data is available in 1-minute (60 seconds) granularity.
@@ -4231,7 +5951,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>StatusCheckFailed_Instance</code> </b> — Reports whether the
+  /// <b> <code>StatusCheckFailed_Instance</code> </b> - Reports whether the
   /// instance passed or failed the instance status check. This metric can be
   /// either 0 (passed) or 1 (failed). This metric data is available in 1-minute
   /// (60 seconds) granularity.
@@ -4241,7 +5961,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>StatusCheckFailed_System</code> </b> — Reports whether the
+  /// <b> <code>StatusCheckFailed_System</code> </b> - Reports whether the
   /// instance passed or failed the system status check. This metric can be
   /// either 0 (passed) or 1 (failed). This metric data is available in 1-minute
   /// (60 seconds) granularity.
@@ -4271,37 +5991,37 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>Minimum</code> — The lowest value observed during the specified
+  /// <code>Minimum</code> - The lowest value observed during the specified
   /// period. Use this value to determine low volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Maximum</code> — The highest value observed during the specified
+  /// <code>Maximum</code> - The highest value observed during the specified
   /// period. Use this value to determine high volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Sum</code> — All values submitted for the matching metric added
+  /// <code>Sum</code> - All values submitted for the matching metric added
   /// together. You can use this statistic to determine the total volume of a
   /// metric.
   /// </li>
   /// <li>
-  /// <code>Average</code> — The value of Sum / SampleCount during the specified
+  /// <code>Average</code> - The value of Sum / SampleCount during the specified
   /// period. By comparing this statistic with the Minimum and Maximum values,
   /// you can determine the full scope of a metric and how close the average use
   /// is to the Minimum and Maximum values. This comparison helps you to know
   /// when to increase or decrease your resources.
   /// </li>
   /// <li>
-  /// <code>SampleCount</code> — The count, or number, of data points used for
+  /// <code>SampleCount</code> - The count, or number, of data points used for
   /// the statistical calculation.
   /// </li>
   /// </ul>
   ///
   /// Parameter [unit] :
   /// The unit for the metric data request. Valid units depend on the metric
-  /// data being required. For the valid units with each available metric, see
-  /// the <code>metricName</code> parameter.
+  /// data being requested. For the valid units to specify with each available
+  /// metric, see the <code>metricName</code> parameter.
   Future<GetInstanceMetricDataResult> getInstanceMetricData({
     @_s.required DateTime endTime,
     @_s.required String instanceName,
@@ -4355,8 +6075,9 @@ class Lightsail {
     return GetInstanceMetricDataResult.fromJson(jsonResponse.body);
   }
 
-  /// Returns the port states for a specific virtual private server, or
-  /// <i>instance</i>.
+  /// Returns the firewall port states for a specific Amazon Lightsail instance,
+  /// the IP addresses allowed to connect to the instance through the ports, and
+  /// the protocol.
   ///
   /// May throw [ServiceException].
   /// May throw [InvalidInputException].
@@ -4367,7 +6088,7 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [instanceName] :
-  /// The name of the instance.
+  /// The name of the instance for which to return firewall port states.
   Future<GetInstancePortStatesResult> getInstancePortStates({
     @_s.required String instanceName,
   }) async {
@@ -4670,6 +6391,10 @@ class Lightsail {
 
   /// Returns information about health metrics for your Lightsail load balancer.
   ///
+  /// Metrics report the utilization of your resources, and the error counts
+  /// generated by them. Monitor and collect metric data regularly to maintain
+  /// the reliability, availability, and performance of your resources.
+  ///
   /// May throw [ServiceException].
   /// May throw [InvalidInputException].
   /// May throw [NotFoundException].
@@ -4693,7 +6418,7 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>ClientTLSNegotiationErrorCount</code> </b> — The number of TLS
+  /// <b> <code>ClientTLSNegotiationErrorCount</code> </b> - The number of TLS
   /// connections initiated by the client that did not establish a session with
   /// the load balancer due to a TLS error generated by the load balancer.
   /// Possible causes include a mismatch of ciphers or protocols.
@@ -4703,7 +6428,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HealthyHostCount</code> </b> — The number of target instances
+  /// <b> <code>HealthyHostCount</code> </b> - The number of target instances
   /// that are considered healthy.
   ///
   /// <code>Statistics</code>: The most useful statistic are
@@ -4712,7 +6437,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_Instance_2XX_Count</code> </b> — The number of HTTP 2XX
+  /// <b> <code>HTTPCode_Instance_2XX_Count</code> </b> - The number of HTTP 2XX
   /// response codes generated by the target instances. This does not include
   /// any response codes generated by the load balancer.
   ///
@@ -4723,7 +6448,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_Instance_3XX_Count</code> </b> — The number of HTTP 3XX
+  /// <b> <code>HTTPCode_Instance_3XX_Count</code> </b> - The number of HTTP 3XX
   /// response codes generated by the target instances. This does not include
   /// any response codes generated by the load balancer.
   ///
@@ -4734,7 +6459,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_Instance_4XX_Count</code> </b> — The number of HTTP 4XX
+  /// <b> <code>HTTPCode_Instance_4XX_Count</code> </b> - The number of HTTP 4XX
   /// response codes generated by the target instances. This does not include
   /// any response codes generated by the load balancer.
   ///
@@ -4745,7 +6470,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_Instance_5XX_Count</code> </b> — The number of HTTP 5XX
+  /// <b> <code>HTTPCode_Instance_5XX_Count</code> </b> - The number of HTTP 5XX
   /// response codes generated by the target instances. This does not include
   /// any response codes generated by the load balancer.
   ///
@@ -4756,7 +6481,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_LB_4XX_Count</code> </b> — The number of HTTP 4XX
+  /// <b> <code>HTTPCode_LB_4XX_Count</code> </b> - The number of HTTP 4XX
   /// client error codes that originated from the load balancer. Client errors
   /// are generated when requests are malformed or incomplete. These requests
   /// were not received by the target instance. This count does not include
@@ -4769,7 +6494,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>HTTPCode_LB_5XX_Count</code> </b> — The number of HTTP 5XX
+  /// <b> <code>HTTPCode_LB_5XX_Count</code> </b> - The number of HTTP 5XX
   /// server error codes that originated from the load balancer. This does not
   /// include any response codes generated by the target instance. This metric
   /// is reported if there are no healthy instances attached to the load
@@ -4783,7 +6508,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>InstanceResponseTime</code> </b> — The time elapsed, in seconds,
+  /// <b> <code>InstanceResponseTime</code> </b> - The time elapsed, in seconds,
   /// after the request leaves the load balancer until a response from the
   /// target instance is received.
   ///
@@ -4793,7 +6518,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Seconds</code>.
   /// </li>
   /// <li>
-  /// <b> <code>RejectedConnectionCount</code> </b> — The number of connections
+  /// <b> <code>RejectedConnectionCount</code> </b> - The number of connections
   /// that were rejected because the load balancer had reached its maximum
   /// number of connections.
   ///
@@ -4802,7 +6527,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>RequestCount</code> </b> — The number of requests processed over
+  /// <b> <code>RequestCount</code> </b> - The number of requests processed over
   /// IPv4. This count includes only the requests with a response generated by a
   /// target instance of the load balancer.
   ///
@@ -4813,7 +6538,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>UnhealthyHostCount</code> </b> — The number of target instances
+  /// <b> <code>UnhealthyHostCount</code> </b> - The number of target instances
   /// that are considered unhealthy.
   ///
   /// <code>Statistics</code>: The most useful statistic are
@@ -4836,36 +6561,36 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>Minimum</code> — The lowest value observed during the specified
+  /// <code>Minimum</code> - The lowest value observed during the specified
   /// period. Use this value to determine low volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Maximum</code> — The highest value observed during the specified
+  /// <code>Maximum</code> - The highest value observed during the specified
   /// period. Use this value to determine high volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Sum</code> — All values submitted for the matching metric added
+  /// <code>Sum</code> - All values submitted for the matching metric added
   /// together. You can use this statistic to determine the total volume of a
   /// metric.
   /// </li>
   /// <li>
-  /// <code>Average</code> — The value of Sum / SampleCount during the specified
+  /// <code>Average</code> - The value of Sum / SampleCount during the specified
   /// period. By comparing this statistic with the Minimum and Maximum values,
   /// you can determine the full scope of a metric and how close the average use
   /// is to the Minimum and Maximum values. This comparison helps you to know
   /// when to increase or decrease your resources.
   /// </li>
   /// <li>
-  /// <code>SampleCount</code> — The count, or number, of data points used for
+  /// <code>SampleCount</code> - The count, or number, of data points used for
   /// the statistical calculation.
   /// </li>
   /// </ul>
   ///
   /// Parameter [unit] :
   /// The unit for the metric data request. Valid units depend on the metric
-  /// data being required. For the valid units with each available metric, see
+  /// data being requested. For the valid units with each available metric, see
   /// the <code>metricName</code> parameter.
   Future<GetLoadBalancerMetricDataResult> getLoadBalancerMetricData({
     @_s.required DateTime endTime,
@@ -5157,9 +6882,9 @@ class Lightsail {
   /// e.g., <code>us-east-2a</code>.
   ///
   /// Parameter [includeRelationalDatabaseAvailabilityZones] :
-  /// &gt;A Boolean value indicating whether to also include Availability Zones
-  /// for databases in your get regions request. Availability Zones are
-  /// indicated with a letter (e.g., <code>us-east-2a</code>).
+  /// A Boolean value indicating whether to also include Availability Zones for
+  /// databases in your get regions request. Availability Zones are indicated
+  /// with a letter (e.g., <code>us-east-2a</code>).
   Future<GetRegionsResult> getRegions({
     bool includeAvailabilityZones,
     bool includeRelationalDatabaseAvailabilityZones,
@@ -5595,6 +7320,10 @@ class Lightsail {
   /// Returns the data points of the specified metric for a database in Amazon
   /// Lightsail.
   ///
+  /// Metrics report the utilization of your resources, and the error counts
+  /// generated by them. Monitor and collect metric data regularly to maintain
+  /// the reliability, availability, and performance of your resources.
+  ///
   /// May throw [ServiceException].
   /// May throw [InvalidInputException].
   /// May throw [NotFoundException].
@@ -5630,7 +7359,7 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>CPUUtilization</code> </b> — The percentage of CPU utilization
+  /// <b> <code>CPUUtilization</code> </b> - The percentage of CPU utilization
   /// currently in use on the database.
   ///
   /// <code>Statistics</code>: The most useful statistics are
@@ -5639,7 +7368,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Percent</code>.
   /// </li>
   /// <li>
-  /// <b> <code>DatabaseConnections</code> </b> — The number of database
+  /// <b> <code>DatabaseConnections</code> </b> - The number of database
   /// connections in use.
   ///
   /// <code>Statistics</code>: The most useful statistics are
@@ -5648,7 +7377,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>DiskQueueDepth</code> </b> — The number of outstanding IOs
+  /// <b> <code>DiskQueueDepth</code> </b> - The number of outstanding IOs
   /// (read/write requests) that are waiting to access the disk.
   ///
   /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
@@ -5656,7 +7385,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Count</code>.
   /// </li>
   /// <li>
-  /// <b> <code>FreeStorageSpace</code> </b> — The amount of available storage
+  /// <b> <code>FreeStorageSpace</code> </b> - The amount of available storage
   /// space.
   ///
   /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
@@ -5664,7 +7393,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Bytes</code>.
   /// </li>
   /// <li>
-  /// <b> <code>NetworkReceiveThroughput</code> </b> — The incoming (Receive)
+  /// <b> <code>NetworkReceiveThroughput</code> </b> - The incoming (Receive)
   /// network traffic on the database, including both customer database traffic
   /// and AWS traffic used for monitoring and replication.
   ///
@@ -5674,7 +7403,7 @@ class Lightsail {
   /// <code>Unit</code>: The published unit is <code>Bytes/Second</code>.
   /// </li>
   /// <li>
-  /// <b> <code>NetworkTransmitThroughput</code> </b> — The outgoing (Transmit)
+  /// <b> <code>NetworkTransmitThroughput</code> </b> - The outgoing (Transmit)
   /// network traffic on the database, including both customer database traffic
   /// and AWS traffic used for monitoring and replication.
   ///
@@ -5718,36 +7447,36 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>Minimum</code> — The lowest value observed during the specified
+  /// <code>Minimum</code> - The lowest value observed during the specified
   /// period. Use this value to determine low volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Maximum</code> — The highest value observed during the specified
+  /// <code>Maximum</code> - The highest value observed during the specified
   /// period. Use this value to determine high volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Sum</code> — All values submitted for the matching metric added
+  /// <code>Sum</code> - All values submitted for the matching metric added
   /// together. You can use this statistic to determine the total volume of a
   /// metric.
   /// </li>
   /// <li>
-  /// <code>Average</code> — The value of Sum / SampleCount during the specified
+  /// <code>Average</code> - The value of Sum / SampleCount during the specified
   /// period. By comparing this statistic with the Minimum and Maximum values,
   /// you can determine the full scope of a metric and how close the average use
   /// is to the Minimum and Maximum values. This comparison helps you to know
   /// when to increase or decrease your resources.
   /// </li>
   /// <li>
-  /// <code>SampleCount</code> — The count, or number, of data points used for
+  /// <code>SampleCount</code> - The count, or number, of data points used for
   /// the statistical calculation.
   /// </li>
   /// </ul>
   ///
   /// Parameter [unit] :
   /// The unit for the metric data request. Valid units depend on the metric
-  /// data being required. For the valid units with each available metric, see
+  /// data being requested. For the valid units with each available metric, see
   /// the <code>metricName</code> parameter.
   Future<GetRelationalDatabaseMetricDataResult>
       getRelationalDatabaseMetricData({
@@ -6129,11 +7858,13 @@ class Lightsail {
     return IsVpcPeeredResult.fromJson(jsonResponse.body);
   }
 
-  /// Adds public ports to an Amazon Lightsail instance.
+  /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP
+  /// addresses allowed to connect to the instance through the ports, and the
+  /// protocol.
   ///
-  /// The <code>open instance public ports</code> operation supports tag-based
-  /// access control via resource tags applied to the resource identified by
-  /// <code>instance name</code>. For more information, see the <a
+  /// The <code>OpenInstancePublicPorts</code> action supports tag-based access
+  /// control via resource tags applied to the resource identified by
+  /// <code>instanceName</code>. For more information, see the <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
   /// Dev Guide</a>.
   ///
@@ -6146,11 +7877,10 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [instanceName] :
-  /// The name of the instance for which you want to open the public ports.
+  /// The name of the instance for which to open ports.
   ///
   /// Parameter [portInfo] :
-  /// An array of key-value pairs containing information about the port
-  /// mappings.
+  /// An object to describe the ports to open for the specified instance.
   Future<OpenInstancePublicPortsResult> openInstancePublicPorts({
     @_s.required String instanceName,
     @_s.required PortInfo portInfo,
@@ -6265,10 +7995,11 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <b>Instances</b>: <code>CPUUtilization</code>, <code>NetworkIn</code>,
-  /// <code>NetworkOut</code>, <code>StatusCheckFailed</code>,
-  /// <code>StatusCheckFailed_Instance</code>, and
-  /// <code>StatusCheckFailed_System</code>.
+  /// <b>Instances</b>: <code>BurstCapacityPercentage</code>,
+  /// <code>BurstCapacityTime</code>, <code>CPUUtilization</code>,
+  /// <code>NetworkIn</code>, <code>NetworkOut</code>,
+  /// <code>StatusCheckFailed</code>, <code>StatusCheckFailed_Instance</code>,
+  /// and <code>StatusCheckFailed_System</code>.
   /// </li>
   /// <li>
   /// <b>Load balancers</b>: <code>ClientTLSNegotiationErrorCount</code>,
@@ -6288,6 +8019,9 @@ class Lightsail {
   /// <code>NetworkTransmitThroughput</code>.
   /// </li>
   /// </ul>
+  /// For more information about these metrics, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-resource-health-metrics#available-metrics">Metrics
+  /// available in Lightsail</a>.
   ///
   /// Parameter [monitoredResourceName] :
   /// The name of the Lightsail resource that will be monitored.
@@ -6330,15 +8064,15 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>ALARM</code> — The metric is outside of the defined threshold.
+  /// <code>ALARM</code> - The metric is outside of the defined threshold.
   /// </li>
   /// <li>
-  /// <code>INSUFFICIENT_DATA</code> — The alarm has just started, the metric is
+  /// <code>INSUFFICIENT_DATA</code> - The alarm has just started, the metric is
   /// not available, or not enough data is available for the metric to determine
   /// the alarm state.
   /// </li>
   /// <li>
-  /// <code>OK</code> — The metric is within the defined threshold.
+  /// <code>OK</code> - The metric is within the defined threshold.
   /// </li>
   /// </ul>
   /// When you specify a notification trigger, the <code>ALARM</code> state must
@@ -6368,21 +8102,21 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>breaching</code> — Assume the missing data is not within the
+  /// <code>breaching</code> - Assume the missing data is not within the
   /// threshold. Missing data counts towards the number of times the metric is
   /// not within the threshold.
   /// </li>
   /// <li>
-  /// <code>notBreaching</code> — Assume the missing data is within the
+  /// <code>notBreaching</code> - Assume the missing data is within the
   /// threshold. Missing data does not count towards the number of times the
   /// metric is not within the threshold.
   /// </li>
   /// <li>
-  /// <code>ignore</code> — Ignore the missing data. Maintains the current alarm
+  /// <code>ignore</code> - Ignore the missing data. Maintains the current alarm
   /// state.
   /// </li>
   /// <li>
-  /// <code>missing</code> — Missing data is treated as missing.
+  /// <code>missing</code> - Missing data is treated as missing.
   /// </li>
   /// </ul>
   /// If <code>treatMissingData</code> is not specified, the default behavior of
@@ -6452,12 +8186,17 @@ class Lightsail {
     return PutAlarmResult.fromJson(jsonResponse.body);
   }
 
-  /// Sets the specified open ports for an Amazon Lightsail instance, and closes
-  /// all ports for every protocol not included in the current request.
+  /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP
+  /// addresses allowed to connect to the instance through the ports, and the
+  /// protocol. This action also closes all currently open ports that are not
+  /// included in the request. Include all of the ports and the protocols you
+  /// want to open in your <code>PutInstancePublicPorts</code>request. Or use
+  /// the <code>OpenInstancePublicPorts</code> action to open ports without
+  /// closing currently open ports.
   ///
-  /// The <code>put instance public ports</code> operation supports tag-based
-  /// access control via resource tags applied to the resource identified by
-  /// <code>instance name</code>. For more information, see the <a
+  /// The <code>PutInstancePublicPorts</code> action supports tag-based access
+  /// control via resource tags applied to the resource identified by
+  /// <code>instanceName</code>. For more information, see the <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
   /// Dev Guide</a>.
   ///
@@ -6470,10 +8209,11 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [instanceName] :
-  /// The Lightsail instance name of the public port(s) you are setting.
+  /// The name of the instance for which to open ports.
   ///
   /// Parameter [portInfos] :
-  /// Specifies information about the public port(s).
+  /// An array of objects to describe the ports to open for the specified
+  /// instance.
   Future<PutInstancePublicPortsResult> putInstancePublicPorts({
     @_s.required String instanceName,
     @_s.required List<PortInfo> portInfos,
@@ -6598,6 +8338,110 @@ class Lightsail {
     return RebootRelationalDatabaseResult.fromJson(jsonResponse.body);
   }
 
+  /// Registers a container image to your Amazon Lightsail container service.
+  /// <note>
+  /// This action is not required if you install and use the Lightsail Control
+  /// (lightsailctl) plugin to push container images to your Lightsail container
+  /// service. For more information, see <a
+  /// href="amazon-lightsail-pushing-container-images">Pushing and managing
+  /// container images on your Amazon Lightsail container services</a> in the
+  /// <i>Lightsail Dev Guide</i>.
+  /// </note>
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [digest] :
+  /// The digest of the container image to be registered.
+  ///
+  /// Parameter [label] :
+  /// The label for the container image when it's registered to the container
+  /// service.
+  ///
+  /// Use a descriptive label that you can use to track the different versions
+  /// of your registered container images.
+  ///
+  /// Use the <code>GetContainerImages</code> action to return the container
+  /// images registered to a Lightsail container service. The label is the
+  /// <code>&lt;imagelabel&gt;</code> portion of the following image name
+  /// example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>:container-service-1.&lt;imagelabel&gt;.1</code>
+  /// </li>
+  /// </ul>
+  /// If the name of your container service is <code>mycontainerservice</code>,
+  /// and the label that you specify is <code>mystaticwebsite</code>, then the
+  /// name of the registered container image will be
+  /// <code>:mycontainerservice.mystaticwebsite.1</code>.
+  ///
+  /// The number at the end of these image name examples represents the version
+  /// of the registered container image. If you push and register another
+  /// container image to the same Lightsail container service, with the same
+  /// label, then the version number for the new registered container image will
+  /// be <code>2</code>. If you push and register another container image, the
+  /// version number will be <code>3</code>, and so on.
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the container service for which to register a container image.
+  Future<RegisterContainerImageResult> registerContainerImage({
+    @_s.required String digest,
+    @_s.required String label,
+    @_s.required String serviceName,
+  }) async {
+    ArgumentError.checkNotNull(digest, 'digest');
+    ArgumentError.checkNotNull(label, 'label');
+    _s.validateStringLength(
+      'label',
+      label,
+      1,
+      53,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'label',
+      label,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    _s.validateStringLength(
+      'serviceName',
+      serviceName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'serviceName',
+      serviceName,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.RegisterContainerImage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'digest': digest,
+        'label': label,
+        'serviceName': serviceName,
+      },
+    );
+
+    return RegisterContainerImageResult.fromJson(jsonResponse.body);
+  }
+
   /// Deletes a specific static IP from your account.
   ///
   /// May throw [ServiceException].
@@ -6638,8 +8482,52 @@ class Lightsail {
     return ReleaseStaticIpResult.fromJson(jsonResponse.body);
   }
 
-  /// Sends a verification request to an email contact method to ensure it’s
-  /// owned by the requester. SMS contact methods don’t need to be verified.
+  /// Deletes currently cached content from your Amazon Lightsail content
+  /// delivery network (CDN) distribution.
+  ///
+  /// After resetting the cache, the next time a content request is made, your
+  /// distribution pulls, serves, and caches it from the origin.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [OperationFailureException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [distributionName] :
+  /// The name of the distribution for which to reset cache.
+  ///
+  /// Use the <code>GetDistributions</code> action to get a list of distribution
+  /// names that you can specify.
+  Future<ResetDistributionCacheResult> resetDistributionCache({
+    String distributionName,
+  }) async {
+    _s.validateStringPattern(
+      'distributionName',
+      distributionName,
+      r'''\w[\w\-]*\w''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.ResetDistributionCache'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (distributionName != null) 'distributionName': distributionName,
+      },
+    );
+
+    return ResetDistributionCacheResult.fromJson(jsonResponse.body);
+  }
+
+  /// Sends a verification request to an email contact method to ensure it's
+  /// owned by the requester. SMS contact methods don't need to be verified.
   ///
   /// A contact method is used to send you notifications about your Amazon
   /// Lightsail resources. You can add one email address and one mobile phone
@@ -7012,15 +8900,15 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// <code>ALARM</code> — The metric is outside of the defined threshold.
+  /// <code>ALARM</code> - The metric is outside of the defined threshold.
   /// </li>
   /// <li>
-  /// <code>INSUFFICIENT_DATA</code> — The alarm has just started, the metric is
+  /// <code>INSUFFICIENT_DATA</code> - The alarm has just started, the metric is
   /// not available, or not enough data is available for the metric to determine
   /// the alarm state.
   /// </li>
   /// <li>
-  /// <code>OK</code> — The metric is within the defined threshold.
+  /// <code>OK</code> - The metric is within the defined threshold.
   /// </li>
   /// </ul>
   Future<TestAlarmResult> testAlarm({
@@ -7141,6 +9029,253 @@ class Lightsail {
     );
 
     return UntagResourceResult.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the configuration of your Amazon Lightsail container service, such
+  /// as its power, scale, and public domain names.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [serviceName] :
+  /// The name of the container service to update.
+  ///
+  /// Parameter [isDisabled] :
+  /// A Boolean value to indicate whether the container service is disabled.
+  ///
+  /// Parameter [power] :
+  /// The power for the container service.
+  ///
+  /// The power specifies the amount of memory, vCPUs, and base monthly cost of
+  /// each node of the container service. The <code>power</code> and
+  /// <code>scale</code> of a container service makes up its configured
+  /// capacity. To determine the monthly price of your container service,
+  /// multiply the base price of the <code>power</code> with the
+  /// <code>scale</code> (the number of nodes) of the service.
+  ///
+  /// Use the <code>GetContainerServicePowers</code> action to view the
+  /// specifications of each power option.
+  ///
+  /// Parameter [publicDomainNames] :
+  /// The public domain names to use with the container service, such as
+  /// <code>example.com</code> and <code>www.example.com</code>.
+  ///
+  /// You can specify up to four public domain names for a container service.
+  /// The domain names that you specify are used when you create a deployment
+  /// with a container configured as the public endpoint of your container
+  /// service.
+  ///
+  /// If you don't specify public domain names, then you can use the default
+  /// domain of the container service.
+  /// <important>
+  /// You must create and validate an SSL/TLS certificate before you can use
+  /// public domain names with your container service. Use the
+  /// <code>CreateCertificate</code> action to create a certificate for the
+  /// public domain names you want to use with your container service.
+  /// </important>
+  /// You can specify public domain names using a string to array map as shown
+  /// in the example later on this page.
+  ///
+  /// Parameter [scale] :
+  /// The scale for the container service.
+  ///
+  /// The scale specifies the allocated compute nodes of the container service.
+  /// The <code>power</code> and <code>scale</code> of a container service makes
+  /// up its configured capacity. To determine the monthly price of your
+  /// container service, multiply the base price of the <code>power</code> with
+  /// the <code>scale</code> (the number of nodes) of the service.
+  Future<UpdateContainerServiceResult> updateContainerService({
+    @_s.required String serviceName,
+    bool isDisabled,
+    ContainerServicePowerName power,
+    Map<String, List<String>> publicDomainNames,
+    int scale,
+  }) async {
+    ArgumentError.checkNotNull(serviceName, 'serviceName');
+    _s.validateStringLength(
+      'serviceName',
+      serviceName,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'serviceName',
+      serviceName,
+      r'''^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'scale',
+      scale,
+      1,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.UpdateContainerService'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'serviceName': serviceName,
+        if (isDisabled != null) 'isDisabled': isDisabled,
+        if (power != null) 'power': power.toValue(),
+        if (publicDomainNames != null) 'publicDomainNames': publicDomainNames,
+        if (scale != null) 'scale': scale,
+      },
+    );
+
+    return UpdateContainerServiceResult.fromJson(jsonResponse.body);
+  }
+
+  /// Updates an existing Amazon Lightsail content delivery network (CDN)
+  /// distribution.
+  ///
+  /// Use this action to update the configuration of your existing distribution
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [OperationFailureException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [distributionName] :
+  /// The name of the distribution to update.
+  ///
+  /// Use the <code>GetDistributions</code> action to get a list of distribution
+  /// names that you can specify.
+  ///
+  /// Parameter [cacheBehaviorSettings] :
+  /// An object that describes the cache behavior settings for the distribution.
+  /// <note>
+  /// The <code>cacheBehaviorSettings</code> specified in your
+  /// <code>UpdateDistributionRequest</code> will replace your distribution's
+  /// existing settings.
+  /// </note>
+  ///
+  /// Parameter [cacheBehaviors] :
+  /// An array of objects that describe the per-path cache behavior for the
+  /// distribution.
+  ///
+  /// Parameter [defaultCacheBehavior] :
+  /// An object that describes the default cache behavior for the distribution.
+  ///
+  /// Parameter [isEnabled] :
+  /// Indicates whether to enable the distribution.
+  ///
+  /// Parameter [origin] :
+  /// An object that describes the origin resource for the distribution, such as
+  /// a Lightsail instance or load balancer.
+  ///
+  /// The distribution pulls, caches, and serves content from the origin.
+  Future<UpdateDistributionResult> updateDistribution({
+    @_s.required String distributionName,
+    CacheSettings cacheBehaviorSettings,
+    List<CacheBehaviorPerPath> cacheBehaviors,
+    CacheBehavior defaultCacheBehavior,
+    bool isEnabled,
+    InputOrigin origin,
+  }) async {
+    ArgumentError.checkNotNull(distributionName, 'distributionName');
+    _s.validateStringPattern(
+      'distributionName',
+      distributionName,
+      r'''\w[\w\-]*\w''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.UpdateDistribution'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'distributionName': distributionName,
+        if (cacheBehaviorSettings != null)
+          'cacheBehaviorSettings': cacheBehaviorSettings,
+        if (cacheBehaviors != null) 'cacheBehaviors': cacheBehaviors,
+        if (defaultCacheBehavior != null)
+          'defaultCacheBehavior': defaultCacheBehavior,
+        if (isEnabled != null) 'isEnabled': isEnabled,
+        if (origin != null) 'origin': origin,
+      },
+    );
+
+    return UpdateDistributionResult.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the bundle of your Amazon Lightsail content delivery network (CDN)
+  /// distribution.
+  ///
+  /// A distribution bundle specifies the monthly network transfer quota and
+  /// monthly cost of your dsitribution.
+  ///
+  /// Update your distribution's bundle if your distribution is going over its
+  /// monthly network transfer quota and is incurring an overage fee.
+  ///
+  /// You can update your distribution's bundle only one time within your
+  /// monthly AWS billing cycle. To determine if you can update your
+  /// distribution's bundle, use the <code>GetDistributions</code> action. The
+  /// <code>ableToUpdateBundle</code> parameter in the result will indicate
+  /// whether you can currently update your distribution's bundle.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [NotFoundException].
+  /// May throw [OperationFailureException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthenticatedException].
+  ///
+  /// Parameter [bundleId] :
+  /// The bundle ID of the new bundle to apply to your distribution.
+  ///
+  /// Use the <code>GetDistributionBundles</code> action to get a list of
+  /// distribution bundle IDs that you can specify.
+  ///
+  /// Parameter [distributionName] :
+  /// The name of the distribution for which to update the bundle.
+  ///
+  /// Use the <code>GetDistributions</code> action to get a list of distribution
+  /// names that you can specify.
+  Future<UpdateDistributionBundleResult> updateDistributionBundle({
+    String bundleId,
+    String distributionName,
+  }) async {
+    _s.validateStringPattern(
+      'distributionName',
+      distributionName,
+      r'''\w[\w\-]*\w''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.UpdateDistributionBundle'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (bundleId != null) 'bundleId': bundleId,
+        if (distributionName != null) 'distributionName': distributionName,
+      },
+    );
+
+    return UpdateDistributionBundleResult.fromJson(jsonResponse.body);
   }
 
   /// Updates a domain recordset after it is created.
@@ -7671,15 +9806,15 @@ class Alarm {
   ///
   /// <ul>
   /// <li>
-  /// <code>ALARM</code> — The metric is outside of the defined threshold.
+  /// <code>ALARM</code> - The metric is outside of the defined threshold.
   /// </li>
   /// <li>
-  /// <code>INSUFFICIENT_DATA</code> — The alarm has just started, the metric is
+  /// <code>INSUFFICIENT_DATA</code> - The alarm has just started, the metric is
   /// not available, or not enough data is available for the metric to determine
   /// the alarm state.
   /// </li>
   /// <li>
-  /// <code>OK</code> — The metric is within the defined threshold.
+  /// <code>OK</code> - The metric is within the defined threshold.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'state')
@@ -7691,29 +9826,29 @@ class Alarm {
   ///
   /// <ul>
   /// <li>
-  /// <code>Minimum</code> — The lowest value observed during the specified
+  /// <code>Minimum</code> - The lowest value observed during the specified
   /// period. Use this value to determine low volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Maximum</code> — The highest value observed during the specified
+  /// <code>Maximum</code> - The highest value observed during the specified
   /// period. Use this value to determine high volumes of activity for your
   /// application.
   /// </li>
   /// <li>
-  /// <code>Sum</code> — All values submitted for the matching metric added
+  /// <code>Sum</code> - All values submitted for the matching metric added
   /// together. You can use this statistic to determine the total volume of a
   /// metric.
   /// </li>
   /// <li>
-  /// <code>Average</code> — The value of Sum / SampleCount during the specified
+  /// <code>Average</code> - The value of Sum / SampleCount during the specified
   /// period. By comparing this statistic with the Minimum and Maximum values, you
   /// can determine the full scope of a metric and how close the average use is to
   /// the Minimum and Maximum values. This comparison helps you to know when to
   /// increase or decrease your resources.
   /// </li>
   /// <li>
-  /// <code>SampleCount</code> — The count, or number, of data points used for the
+  /// <code>SampleCount</code> - The count, or number, of data points used for the
   /// statistical calculation.
   /// </li>
   /// </ul>
@@ -7736,21 +9871,21 @@ class Alarm {
   ///
   /// <ul>
   /// <li>
-  /// <code>breaching</code> — Assume the missing data is not within the
+  /// <code>breaching</code> - Assume the missing data is not within the
   /// threshold. Missing data counts towards the number of times the metric is not
   /// within the threshold.
   /// </li>
   /// <li>
-  /// <code>notBreaching</code> — Assume the missing data is within the threshold.
+  /// <code>notBreaching</code> - Assume the missing data is within the threshold.
   /// Missing data does not count towards the number of times the metric is not
   /// within the threshold.
   /// </li>
   /// <li>
-  /// <code>ignore</code> — Ignore the missing data. Maintains the current alarm
+  /// <code>ignore</code> - Ignore the missing data. Maintains the current alarm
   /// state.
   /// </li>
   /// <li>
-  /// <code>missing</code> — Missing data is treated as missing.
+  /// <code>missing</code> - Missing data is treated as missing.
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'treatMissingData')
@@ -7815,7 +9950,7 @@ extension on AlarmState {
     createToJson: false)
 class AllocateStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -7832,9 +9967,29 @@ class AllocateStaticIpResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class AttachCertificateToDistributionResult {
+  /// An object that describes the result of the action, such as the status of the
+  /// request, the timestamp of the request, and the resources affected by the
+  /// request.
+  @_s.JsonKey(name: 'operation')
+  final Operation operation;
+
+  AttachCertificateToDistributionResult({
+    this.operation,
+  });
+  factory AttachCertificateToDistributionResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$AttachCertificateToDistributionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class AttachDiskResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -7853,7 +10008,7 @@ class AttachDiskResult {
     createToJson: false)
 class AttachInstancesToLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -7873,7 +10028,7 @@ class AttachInstancesToLoadBalancerResult {
     createToJson: false)
 class AttachLoadBalancerTlsCertificateResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   ///
   /// These SSL/TLS certificates are only usable by Lightsail load balancers. You
@@ -7896,7 +10051,7 @@ class AttachLoadBalancerTlsCertificateResult {
     createToJson: false)
 class AttachStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8071,6 +10226,13 @@ class AvailabilityZone {
       _$AvailabilityZoneFromJson(json);
 }
 
+enum BehaviorEnum {
+  @_s.JsonValue('dont-cache')
+  dontCache,
+  @_s.JsonValue('cache')
+  cache,
+}
+
 /// Describes a blueprint (a virtual private server image).
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8202,7 +10364,7 @@ class Bundle {
   @_s.JsonKey(name: 'power')
   final int power;
 
-  /// The price in US dollars (e.g., <code>5.0</code>).
+  /// The price in US dollars (e.g., <code>5.0</code>) of the bundle.
   @_s.JsonKey(name: 'price')
   final double price;
 
@@ -8237,15 +10399,541 @@ class Bundle {
   factory Bundle.fromJson(Map<String, dynamic> json) => _$BundleFromJson(json);
 }
 
+/// Describes the default cache behavior of an Amazon Lightsail content delivery
+/// network (CDN) distribution.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CacheBehavior {
+  /// The cache behavior of the distribution.
+  ///
+  /// The following cache behaviors can be specified:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>cache</code> </b> - This option is best for static sites. When
+  /// specified, your distribution caches and serves your entire website as static
+  /// content. This behavior is ideal for websites with static content that
+  /// doesn't change depending on who views it, or for websites that don't use
+  /// cookies, headers, or query strings to personalize content.
+  /// </li>
+  /// <li>
+  /// <b> <code>dont-cache</code> </b> - This option is best for sites that serve
+  /// a mix of static and dynamic content. When specified, your distribution
+  /// caches and serve only the content that is specified in the distribution's
+  /// <code>CacheBehaviorPerPath</code> parameter. This behavior is ideal for
+  /// websites or web applications that use cookies, headers, and query strings to
+  /// personalize content for individual users.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'behavior')
+  final BehaviorEnum behavior;
+
+  CacheBehavior({
+    this.behavior,
+  });
+  factory CacheBehavior.fromJson(Map<String, dynamic> json) =>
+      _$CacheBehaviorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CacheBehaviorToJson(this);
+}
+
+/// Describes the per-path cache behavior of an Amazon Lightsail content
+/// delivery network (CDN) distribution.
+///
+/// A per-path cache behavior is used to override, or add an exception to, the
+/// default cache behavior of a distribution. For example, if the
+/// <code>cacheBehavior</code> is set to <code>cache</code>, then a per-path
+/// cache behavior can be used to specify a directory, file, or file type that
+/// your distribution will cache. Alternately, if the distribution's
+/// <code>cacheBehavior</code> is <code>dont-cache</code>, then a per-path cache
+/// behavior can be used to specify a directory, file, or file type that your
+/// distribution will not cache.
+///
+/// if the cacheBehavior's behavior is set to 'cache', then
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CacheBehaviorPerPath {
+  /// The cache behavior for the specified path.
+  ///
+  /// You can specify one of the following per-path cache behaviors:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>cache</code> </b> - This behavior caches the specified path.
+  /// </li>
+  /// <li>
+  /// <b> <code>dont-cache</code> </b> - This behavior doesn't cache the specified
+  /// path.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'behavior')
+  final BehaviorEnum behavior;
+
+  /// The path to a directory or file to cached, or not cache. Use an asterisk
+  /// symbol to specify wildcard directories (<code>path/to/assets/*</code>), and
+  /// file types (<code>*.html, *jpg, *js</code>). Directories and file paths are
+  /// case-sensitive.
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// Specify the following to cache all files in the document root of an Apache
+  /// web server running on a Lightsail instance.
+  ///
+  /// <code>var/www/html/</code>
+  /// </li>
+  /// <li>
+  /// Specify the following file to cache only the index page in the document root
+  /// of an Apache web server.
+  ///
+  /// <code>var/www/html/index.html</code>
+  /// </li>
+  /// <li>
+  /// Specify the following to cache only the .html files in the document root of
+  /// an Apache web server.
+  ///
+  /// <code>var/www/html/*.html</code>
+  /// </li>
+  /// <li>
+  /// Specify the following to cache only the .jpg, .png, and .gif files in the
+  /// images sub-directory of the document root of an Apache web server.
+  ///
+  /// <code>var/www/html/images/*.jpg</code>
+  ///
+  /// <code>var/www/html/images/*.png</code>
+  ///
+  /// <code>var/www/html/images/*.gif</code>
+  ///
+  /// Specify the following to cache all files in the images sub-directory of the
+  /// document root of an Apache web server.
+  ///
+  /// <code>var/www/html/images/</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'path')
+  final String path;
+
+  CacheBehaviorPerPath({
+    this.behavior,
+    this.path,
+  });
+  factory CacheBehaviorPerPath.fromJson(Map<String, dynamic> json) =>
+      _$CacheBehaviorPerPathFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CacheBehaviorPerPathToJson(this);
+}
+
+/// Describes the cache settings of an Amazon Lightsail content delivery network
+/// (CDN) distribution.
+///
+/// These settings apply only to your distribution's <code>cacheBehaviors</code>
+/// (including the <code>defaultCacheBehavior</code>) that have a
+/// <code>behavior</code> of <code>cache</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CacheSettings {
+  /// The HTTP methods that are processed and forwarded to the distribution's
+  /// origin.
+  ///
+  /// You can specify the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>GET,HEAD</code> - The distribution forwards the <code>GET</code> and
+  /// <code>HEAD</code> methods.
+  /// </li>
+  /// <li>
+  /// <code>GET,HEAD,OPTIONS</code> - The distribution forwards the
+  /// <code>GET</code>, <code>HEAD</code>, and <code>OPTIONS</code> methods.
+  /// </li>
+  /// <li>
+  /// <code>GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE</code> - The distribution
+  /// forwards the <code>GET</code>, <code>HEAD</code>, <code>OPTIONS</code>,
+  /// <code>PUT</code>, <code>PATCH</code>, <code>POST</code>, and
+  /// <code>DELETE</code> methods.
+  /// </li>
+  /// </ul>
+  /// If you specify the third option, you might need to restrict access to your
+  /// distribution's origin so users can't perform operations that you don't want
+  /// them to. For example, you might not want users to have permission to delete
+  /// objects from your origin.
+  @_s.JsonKey(name: 'allowedHTTPMethods')
+  final String allowedHTTPMethods;
+
+  /// The HTTP method responses that are cached by your distribution.
+  ///
+  /// You can specify the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>GET,HEAD</code> - The distribution caches responses to the
+  /// <code>GET</code> and <code>HEAD</code> methods.
+  /// </li>
+  /// <li>
+  /// <code>GET,HEAD,OPTIONS</code> - The distribution caches responses to the
+  /// <code>GET</code>, <code>HEAD</code>, and <code>OPTIONS</code> methods.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'cachedHTTPMethods')
+  final String cachedHTTPMethods;
+
+  /// The default amount of time that objects stay in the distribution's cache
+  /// before the distribution forwards another request to the origin to determine
+  /// whether the content has been updated.
+  /// <note>
+  /// The value specified applies only when the origin does not add HTTP headers
+  /// such as <code>Cache-Control max-age</code>, <code>Cache-Control
+  /// s-maxage</code>, and <code>Expires</code> to objects.
+  /// </note>
+  @_s.JsonKey(name: 'defaultTTL')
+  final int defaultTTL;
+
+  /// An object that describes the cookies that are forwarded to the origin. Your
+  /// content is cached based on the cookies that are forwarded.
+  @_s.JsonKey(name: 'forwardedCookies')
+  final CookieObject forwardedCookies;
+
+  /// An object that describes the headers that are forwarded to the origin. Your
+  /// content is cached based on the headers that are forwarded.
+  @_s.JsonKey(name: 'forwardedHeaders')
+  final HeaderObject forwardedHeaders;
+
+  /// An object that describes the query strings that are forwarded to the origin.
+  /// Your content is cached based on the query strings that are forwarded.
+  @_s.JsonKey(name: 'forwardedQueryStrings')
+  final QueryStringObject forwardedQueryStrings;
+
+  /// The maximum amount of time that objects stay in the distribution's cache
+  /// before the distribution forwards another request to the origin to determine
+  /// whether the object has been updated.
+  ///
+  /// The value specified applies only when the origin adds HTTP headers such as
+  /// <code>Cache-Control max-age</code>, <code>Cache-Control s-maxage</code>, and
+  /// <code>Expires</code> to objects.
+  @_s.JsonKey(name: 'maximumTTL')
+  final int maximumTTL;
+
+  /// The minimum amount of time that objects stay in the distribution's cache
+  /// before the distribution forwards another request to the origin to determine
+  /// whether the object has been updated.
+  ///
+  /// A value of <code>0</code> must be specified for <code>minimumTTL</code> if
+  /// the distribution is configured to forward all headers to the origin.
+  @_s.JsonKey(name: 'minimumTTL')
+  final int minimumTTL;
+
+  CacheSettings({
+    this.allowedHTTPMethods,
+    this.cachedHTTPMethods,
+    this.defaultTTL,
+    this.forwardedCookies,
+    this.forwardedHeaders,
+    this.forwardedQueryStrings,
+    this.maximumTTL,
+    this.minimumTTL,
+  });
+  factory CacheSettings.fromJson(Map<String, dynamic> json) =>
+      _$CacheSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CacheSettingsToJson(this);
+}
+
+/// Describes the full details of an Amazon Lightsail SSL/TLS certificate.
+/// <note>
+/// To get a summary of a certificate, use the <code>GetCertificates</code>
+/// action and ommit <code>includeCertificateDetails</code> from your request.
+/// The response will include only the certificate Amazon Resource Name (ARN),
+/// certificate name, domain name, and tags.
+/// </note>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Certificate {
+  /// The Amazon Resource Name (ARN) of the certificate.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The timestamp when the certificate was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The domain name of the certificate.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  /// An array of objects that describe the domain validation records of the
+  /// certificate.
+  @_s.JsonKey(name: 'domainValidationRecords')
+  final List<DomainValidationRecord> domainValidationRecords;
+
+  /// The renewal eligibility of the certificate.
+  @_s.JsonKey(name: 'eligibleToRenew')
+  final String eligibleToRenew;
+
+  /// The number of Lightsail resources that the certificate is attached to.
+  @_s.JsonKey(name: 'inUseResourceCount')
+  final int inUseResourceCount;
+
+  /// The timestamp when the certificate was issued.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'issuedAt')
+  final DateTime issuedAt;
+
+  /// The certificate authority that issued the certificate.
+  @_s.JsonKey(name: 'issuerCA')
+  final String issuerCA;
+
+  /// The algorithm used to generate the key pair (the public and private key) of
+  /// the certificate.
+  @_s.JsonKey(name: 'keyAlgorithm')
+  final String keyAlgorithm;
+
+  /// The name of the certificate (e.g., <code>my-certificate</code>).
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The timestamp when the certificate expires.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'notAfter')
+  final DateTime notAfter;
+
+  /// The timestamp when the certificate is first valid.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'notBefore')
+  final DateTime notBefore;
+
+  /// An object that describes the status of the certificate renewal managed by
+  /// Lightsail.
+  @_s.JsonKey(name: 'renewalSummary')
+  final RenewalSummary renewalSummary;
+
+  /// The validation failure reason, if any, of the certificate.
+  ///
+  /// The following failure reasons are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>NO_AVAILABLE_CONTACTS</code> </b> - This failure applies to email
+  /// validation, which is not available for Lightsail certificates.
+  /// </li>
+  /// <li>
+  /// <b> <code>ADDITIONAL_VERIFICATION_REQUIRED</code> </b> - Lightsail requires
+  /// additional information to process this certificate request. This can happen
+  /// as a fraud-protection measure, such as when the domain ranks within the
+  /// Alexa top 1000 websites. To provide the required information, use the <a
+  /// href="https://console.aws.amazon.com/support/home">AWS Support Center</a> to
+  /// contact AWS Support.
+  /// <note>
+  /// You cannot request a certificate for Amazon-owned domain names such as those
+  /// ending in amazonaws.com, cloudfront.net, or elasticbeanstalk.com.
+  /// </note> </li>
+  /// <li>
+  /// <b> <code>DOMAIN_NOT_ALLOWED</code> </b> - One or more of the domain names
+  /// in the certificate request was reported as an unsafe domain by <a
+  /// href="https://www.virustotal.com/gui/home/url">VirusTotal</a>. To correct
+  /// the problem, search for your domain name on the <a
+  /// href="https://www.virustotal.com/gui/home/url">VirusTotal</a> website. If
+  /// your domain is reported as suspicious, see <a
+  /// href="https://www.google.com/webmasters/hacked/?hl=en">Google Help for
+  /// Hacked Websites</a> to learn what you can do.
+  ///
+  /// If you believe that the result is a false positive, notify the organization
+  /// that is reporting the domain. VirusTotal is an aggregate of several
+  /// antivirus and URL scanners and cannot remove your domain from a block list
+  /// itself. After you correct the problem and the VirusTotal registry has been
+  /// updated, request a new certificate.
+  ///
+  /// If you see this error and your domain is not included in the VirusTotal
+  /// list, visit the <a href="https://console.aws.amazon.com/support/home">AWS
+  /// Support Center</a> and create a case.
+  /// </li>
+  /// <li>
+  /// <b> <code>INVALID_PUBLIC_DOMAIN</code> </b> - One or more of the domain
+  /// names in the certificate request is not valid. Typically, this is because a
+  /// domain name in the request is not a valid top-level domain. Try to request a
+  /// certificate again, correcting any spelling errors or typos that were in the
+  /// failed request, and ensure that all domain names in the request are for
+  /// valid top-level domains. For example, you cannot request a certificate for
+  /// <code>example.invalidpublicdomain</code> because
+  /// <code>invalidpublicdomain</code> is not a valid top-level domain.
+  /// </li>
+  /// <li>
+  /// <b> <code>OTHER</code> </b> - Typically, this failure occurs when there is a
+  /// typographical error in one or more of the domain names in the certificate
+  /// request. Try to request a certificate again, correcting any spelling errors
+  /// or typos that were in the failed request.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'requestFailureReason')
+  final String requestFailureReason;
+
+  /// The reason the certificate was revoked. This value is present only when the
+  /// certificate status is <code>REVOKED</code>.
+  @_s.JsonKey(name: 'revocationReason')
+  final String revocationReason;
+
+  /// The timestamp when the certificate was revoked. This value is present only
+  /// when the certificate status is <code>REVOKED</code>.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'revokedAt')
+  final DateTime revokedAt;
+
+  /// The serial number of the certificate.
+  @_s.JsonKey(name: 'serialNumber')
+  final String serialNumber;
+
+  /// The validation status of the certificate.
+  @_s.JsonKey(name: 'status')
+  final CertificateStatus status;
+
+  /// An array of strings that specify the alternate domains (e.g.,
+  /// <code>example2.com</code>) and subdomains (e.g.,
+  /// <code>blog.example.com</code>) of the certificate.
+  @_s.JsonKey(name: 'subjectAlternativeNames')
+  final List<String> subjectAlternativeNames;
+
+  /// The support code. Include this code in your email to support when you have
+  /// questions about your Lightsail certificate. This code enables our support
+  /// team to look up your Lightsail information more easily.
+  @_s.JsonKey(name: 'supportCode')
+  final String supportCode;
+
+  /// The tag keys and optional values for the resource. For more information
+  /// about tags in Lightsail, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags">Lightsail
+  /// Dev Guide</a>.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  Certificate({
+    this.arn,
+    this.createdAt,
+    this.domainName,
+    this.domainValidationRecords,
+    this.eligibleToRenew,
+    this.inUseResourceCount,
+    this.issuedAt,
+    this.issuerCA,
+    this.keyAlgorithm,
+    this.name,
+    this.notAfter,
+    this.notBefore,
+    this.renewalSummary,
+    this.requestFailureReason,
+    this.revocationReason,
+    this.revokedAt,
+    this.serialNumber,
+    this.status,
+    this.subjectAlternativeNames,
+    this.supportCode,
+    this.tags,
+  });
+  factory Certificate.fromJson(Map<String, dynamic> json) =>
+      _$CertificateFromJson(json);
+}
+
+enum CertificateStatus {
+  @_s.JsonValue('PENDING_VALIDATION')
+  pendingValidation,
+  @_s.JsonValue('ISSUED')
+  issued,
+  @_s.JsonValue('INACTIVE')
+  inactive,
+  @_s.JsonValue('EXPIRED')
+  expired,
+  @_s.JsonValue('VALIDATION_TIMED_OUT')
+  validationTimedOut,
+  @_s.JsonValue('REVOKED')
+  revoked,
+  @_s.JsonValue('FAILED')
+  failed,
+}
+
+extension on CertificateStatus {
+  String toValue() {
+    switch (this) {
+      case CertificateStatus.pendingValidation:
+        return 'PENDING_VALIDATION';
+      case CertificateStatus.issued:
+        return 'ISSUED';
+      case CertificateStatus.inactive:
+        return 'INACTIVE';
+      case CertificateStatus.expired:
+        return 'EXPIRED';
+      case CertificateStatus.validationTimedOut:
+        return 'VALIDATION_TIMED_OUT';
+      case CertificateStatus.revoked:
+        return 'REVOKED';
+      case CertificateStatus.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Describes an Amazon Lightsail SSL/TLS certificate.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CertificateSummary {
+  /// The Amazon Resource Name (ARN) of the certificate.
+  @_s.JsonKey(name: 'certificateArn')
+  final String certificateArn;
+
+  /// An object that describes a certificate in detail.
+  @_s.JsonKey(name: 'certificateDetail')
+  final Certificate certificateDetail;
+
+  /// The name of the certificate.
+  @_s.JsonKey(name: 'certificateName')
+  final String certificateName;
+
+  /// The domain name of the certificate.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  /// The tag keys and optional values for the resource. For more information
+  /// about tags in Lightsail, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags">Lightsail
+  /// Dev Guide</a>.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  CertificateSummary({
+    this.certificateArn,
+    this.certificateDetail,
+    this.certificateName,
+    this.domainName,
+    this.tags,
+  });
+  factory CertificateSummary.fromJson(Map<String, dynamic> json) =>
+      _$CertificateSummaryFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CloseInstancePublicPortsResult {
-  /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
-  /// affected by the request.
+  /// An object that describes the result of the action, such as the status of the
+  /// request, the timestamp of the request, and the resources affected by the
+  /// request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
 
@@ -8427,14 +11115,14 @@ class ContactMethod {
   ///
   /// <ul>
   /// <li>
-  /// <code>PendingVerification</code> — The contact method has not yet been
+  /// <code>PendingVerification</code> - The contact method has not yet been
   /// verified, and the verification has not yet expired.
   /// </li>
   /// <li>
-  /// <code>Valid</code> — The contact method has been verified.
+  /// <code>Valid</code> - The contact method has been verified.
   /// </li>
   /// <li>
-  /// <code>InValid</code> — An attempt was made to verify the contact method, but
+  /// <code>InValid</code> - An attempt was made to verify the contact method, but
   /// the verification has expired.
   /// </li>
   /// </ul>
@@ -8505,6 +11193,679 @@ extension on ContactProtocol {
   }
 }
 
+/// Describes the settings of a container that will be launched, or that is
+/// launched, to an Amazon Lightsail container service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Container {
+  /// The launch command for the container.
+  @_s.JsonKey(name: 'command')
+  final List<String> command;
+
+  /// The environment variables of the container.
+  @_s.JsonKey(name: 'environment')
+  final Map<String, String> environment;
+
+  /// The name of the image used for the container.
+  ///
+  /// Container images sourced from your Lightsail container service, that are
+  /// registered and stored on your service, start with a colon (<code>:</code>).
+  /// For example, <code>:container-service-1.mystaticwebsite.1</code>. Container
+  /// images sourced from a public registry like Docker Hub don't start with a
+  /// colon. For example, <code>nginx:latest</code> or <code>nginx</code>.
+  @_s.JsonKey(name: 'image')
+  final String image;
+
+  /// The open firewall ports of the container.
+  @_s.JsonKey(name: 'ports')
+  final Map<String, ContainerServiceProtocol> ports;
+
+  Container({
+    this.command,
+    this.environment,
+    this.image,
+    this.ports,
+  });
+  factory Container.fromJson(Map<String, dynamic> json) =>
+      _$ContainerFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ContainerToJson(this);
+}
+
+/// Describes a container image that is registered to an Amazon Lightsail
+/// container service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContainerImage {
+  /// The timestamp when the container image was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The digest of the container image.
+  @_s.JsonKey(name: 'digest')
+  final String digest;
+
+  /// The name of the container image.
+  @_s.JsonKey(name: 'image')
+  final String image;
+
+  ContainerImage({
+    this.createdAt,
+    this.digest,
+    this.image,
+  });
+  factory ContainerImage.fromJson(Map<String, dynamic> json) =>
+      _$ContainerImageFromJson(json);
+}
+
+/// Describes an Amazon Lightsail container service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContainerService {
+  /// The Amazon Resource Name (ARN) of the container service.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The name of the container service.
+  @_s.JsonKey(name: 'containerServiceName')
+  final String containerServiceName;
+
+  /// The timestamp when the container service was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// An object that describes the current container deployment of the container
+  /// service.
+  @_s.JsonKey(name: 'currentDeployment')
+  final ContainerServiceDeployment currentDeployment;
+
+  /// A Boolean value indicating whether the container service is disabled.
+  @_s.JsonKey(name: 'isDisabled')
+  final bool isDisabled;
+
+  /// An object that describes the location of the container service, such as the
+  /// AWS Region and Availability Zone.
+  @_s.JsonKey(name: 'location')
+  final ResourceLocation location;
+
+  /// An object that describes the next deployment of the container service.
+  ///
+  /// This value is <code>null</code> when there is no deployment in a
+  /// <code>pending</code> state.
+  @_s.JsonKey(name: 'nextDeployment')
+  final ContainerServiceDeployment nextDeployment;
+
+  /// The power specification of the container service.
+  ///
+  /// The power specifies the amount of RAM, the number of vCPUs, and the base
+  /// price of the container service.
+  @_s.JsonKey(name: 'power')
+  final ContainerServicePowerName power;
+
+  /// The ID of the power of the container service.
+  @_s.JsonKey(name: 'powerId')
+  final String powerId;
+
+  /// The principal ARN of the container service.
+  ///
+  /// The principal ARN can be used to create a trust relationship between your
+  /// standard AWS account and your Lightsail container service. This allows you
+  /// to give your service permission to access resources in your standard AWS
+  /// account.
+  @_s.JsonKey(name: 'principalArn')
+  final String principalArn;
+
+  /// The private domain name of the container service.
+  ///
+  /// The private domain name is accessible only by other resources within the
+  /// default virtual private cloud (VPC) of your Lightsail account.
+  @_s.JsonKey(name: 'privateDomainName')
+  final String privateDomainName;
+
+  /// The public domain name of the container service, such as
+  /// <code>example.com</code> and <code>www.example.com</code>.
+  ///
+  /// You can specify up to four public domain names for a container service. The
+  /// domain names that you specify are used when you create a deployment with a
+  /// container configured as the public endpoint of your container service.
+  ///
+  /// If you don't specify public domain names, then you can use the default
+  /// domain of the container service.
+  /// <important>
+  /// You must create and validate an SSL/TLS certificate before you can use
+  /// public domain names with your container service. Use the
+  /// <code>CreateCertificate</code> action to create a certificate for the public
+  /// domain names you want to use with your container service.
+  /// </important>
+  /// See <code>CreateContainerService</code> or
+  /// <code>UpdateContainerService</code> for information about how to specify
+  /// public domain names for your Lightsail container service.
+  @_s.JsonKey(name: 'publicDomainNames')
+  final Map<String, List<String>> publicDomainNames;
+
+  /// The Lightsail resource type of the container service (i.e.,
+  /// <code>ContainerService</code>).
+  @_s.JsonKey(name: 'resourceType')
+  final ResourceType resourceType;
+
+  /// The scale specification of the container service.
+  ///
+  /// The scale specifies the allocated compute nodes of the container service.
+  @_s.JsonKey(name: 'scale')
+  final int scale;
+
+  /// The current state of the container service.
+  ///
+  /// The state can be:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Pending</code> - The container service is being created.
+  /// </li>
+  /// <li>
+  /// <code>Ready</code> - The container service is created but does not have a
+  /// container deployment.
+  /// </li>
+  /// <li>
+  /// <code>Disabled</code> - The container service is disabled.
+  /// </li>
+  /// <li>
+  /// <code>Updating</code> - The container service capacity or other setting is
+  /// being updated.
+  /// </li>
+  /// <li>
+  /// <code>Deploying</code> - The container service is launching a container
+  /// deployment.
+  /// </li>
+  /// <li>
+  /// <code>Running</code> - The container service is created and it has a
+  /// container deployment.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'state')
+  final ContainerServiceState state;
+
+  /// The tag keys and optional values for the resource. For more information
+  /// about tags in Lightsail, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags">Lightsail
+  /// Dev Guide</a>.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// The publicly accessible URL of the container service.
+  ///
+  /// If no public endpoint is specified in the <code>currentDeployment</code>,
+  /// this URL returns a 404 response.
+  @_s.JsonKey(name: 'url')
+  final String url;
+
+  ContainerService({
+    this.arn,
+    this.containerServiceName,
+    this.createdAt,
+    this.currentDeployment,
+    this.isDisabled,
+    this.location,
+    this.nextDeployment,
+    this.power,
+    this.powerId,
+    this.principalArn,
+    this.privateDomainName,
+    this.publicDomainNames,
+    this.resourceType,
+    this.scale,
+    this.state,
+    this.tags,
+    this.url,
+  });
+  factory ContainerService.fromJson(Map<String, dynamic> json) =>
+      _$ContainerServiceFromJson(json);
+}
+
+/// Describes a container deployment configuration of an Amazon Lightsail
+/// container service.
+///
+/// A deployment specifies the settings, such as the ports and launch command,
+/// of containers that are deployed to your container service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContainerServiceDeployment {
+  /// An object that describes the configuration for the containers of the
+  /// deployment.
+  @_s.JsonKey(name: 'containers')
+  final Map<String, Container> containers;
+
+  /// The timestamp when the deployment was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// An object that describes the endpoint of the deployment.
+  @_s.JsonKey(name: 'publicEndpoint')
+  final ContainerServiceEndpoint publicEndpoint;
+
+  /// The state of the deployment.
+  ///
+  /// A deployment can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Activating</code> - The deployment is being created.
+  /// </li>
+  /// <li>
+  /// <code>Active</code> - The deployment was successfully created, and it's
+  /// currently running on the container service. The container service can have
+  /// only one deployment in an active state at a time.
+  /// </li>
+  /// <li>
+  /// <code>Inactive</code> - The deployment was previously successfully created,
+  /// but it is not currently running on the container service.
+  /// </li>
+  /// <li>
+  /// <code>Failed</code> - The deployment failed. Use the
+  /// <code>GetContainerLog</code> action to view the log events for the
+  /// containers in the deployment to try to determine the reason for the failure.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'state')
+  final ContainerServiceDeploymentState state;
+
+  /// The version number of the deployment.
+  @_s.JsonKey(name: 'version')
+  final int version;
+
+  ContainerServiceDeployment({
+    this.containers,
+    this.createdAt,
+    this.publicEndpoint,
+    this.state,
+    this.version,
+  });
+  factory ContainerServiceDeployment.fromJson(Map<String, dynamic> json) =>
+      _$ContainerServiceDeploymentFromJson(json);
+}
+
+/// Describes a container deployment configuration of an Amazon Lightsail
+/// container service.
+///
+/// A deployment specifies the settings, such as the ports and launch command,
+/// of containers that are deployed to your container service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ContainerServiceDeploymentRequest {
+  /// An object that describes the configuration for the containers of the
+  /// deployment.
+  @_s.JsonKey(name: 'containers')
+  final Map<String, Container> containers;
+
+  /// An object that describes the endpoint of the deployment.
+  @_s.JsonKey(name: 'publicEndpoint')
+  final EndpointRequest publicEndpoint;
+
+  ContainerServiceDeploymentRequest({
+    this.containers,
+    this.publicEndpoint,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ContainerServiceDeploymentRequestToJson(this);
+}
+
+enum ContainerServiceDeploymentState {
+  @_s.JsonValue('ACTIVATING')
+  activating,
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('INACTIVE')
+  inactive,
+  @_s.JsonValue('FAILED')
+  failed,
+}
+
+/// Describes the public endpoint configuration of a deployment of an Amazon
+/// Lightsail container service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContainerServiceEndpoint {
+  /// The name of the container entry of the deployment that the endpoint
+  /// configuration applies to.
+  @_s.JsonKey(name: 'containerName')
+  final String containerName;
+
+  /// The port of the specified container to which traffic is forwarded to.
+  @_s.JsonKey(name: 'containerPort')
+  final int containerPort;
+
+  /// An object that describes the health check configuration of the container.
+  @_s.JsonKey(name: 'healthCheck')
+  final ContainerServiceHealthCheckConfig healthCheck;
+
+  ContainerServiceEndpoint({
+    this.containerName,
+    this.containerPort,
+    this.healthCheck,
+  });
+  factory ContainerServiceEndpoint.fromJson(Map<String, dynamic> json) =>
+      _$ContainerServiceEndpointFromJson(json);
+}
+
+/// Describes the health check configuration of an Amazon Lightsail container
+/// service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ContainerServiceHealthCheckConfig {
+  /// The number of consecutive health checks successes required before moving the
+  /// container to the <code>Healthy</code> state.
+  @_s.JsonKey(name: 'healthyThreshold')
+  final int healthyThreshold;
+
+  /// The approximate interval, in seconds, between health checks of an individual
+  /// container. You may specify between 5 and 300 seconds.
+  @_s.JsonKey(name: 'intervalSeconds')
+  final int intervalSeconds;
+
+  /// The path on the container on which to perform the health check.
+  @_s.JsonKey(name: 'path')
+  final String path;
+
+  /// The HTTP codes to use when checking for a successful response from a
+  /// container. You can specify values between 200 and 499.
+  @_s.JsonKey(name: 'successCodes')
+  final String successCodes;
+
+  /// The amount of time, in seconds, during which no response means a failed
+  /// health check. You may specify between 2 and 60 seconds.
+  @_s.JsonKey(name: 'timeoutSeconds')
+  final int timeoutSeconds;
+
+  /// The number of consecutive health check failures required before moving the
+  /// container to the <code>Unhealthy</code> state.
+  @_s.JsonKey(name: 'unhealthyThreshold')
+  final int unhealthyThreshold;
+
+  ContainerServiceHealthCheckConfig({
+    this.healthyThreshold,
+    this.intervalSeconds,
+    this.path,
+    this.successCodes,
+    this.timeoutSeconds,
+    this.unhealthyThreshold,
+  });
+  factory ContainerServiceHealthCheckConfig.fromJson(
+          Map<String, dynamic> json) =>
+      _$ContainerServiceHealthCheckConfigFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$ContainerServiceHealthCheckConfigToJson(this);
+}
+
+/// Describes the log events of a container of an Amazon Lightsail container
+/// service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContainerServiceLogEvent {
+  /// The timestamp when the container service log event was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The message of the container service log event.
+  @_s.JsonKey(name: 'message')
+  final String message;
+
+  ContainerServiceLogEvent({
+    this.createdAt,
+    this.message,
+  });
+  factory ContainerServiceLogEvent.fromJson(Map<String, dynamic> json) =>
+      _$ContainerServiceLogEventFromJson(json);
+}
+
+enum ContainerServiceMetricName {
+  @_s.JsonValue('CPUUtilization')
+  cPUUtilization,
+  @_s.JsonValue('MemoryUtilization')
+  memoryUtilization,
+}
+
+extension on ContainerServiceMetricName {
+  String toValue() {
+    switch (this) {
+      case ContainerServiceMetricName.cPUUtilization:
+        return 'CPUUtilization';
+      case ContainerServiceMetricName.memoryUtilization:
+        return 'MemoryUtilization';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Describes the powers that can be specified for an Amazon Lightsail container
+/// service.
+///
+/// The power specifies the amount of RAM, the number of vCPUs, and the base
+/// price of the container service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContainerServicePower {
+  /// The number of vCPUs included in the power.
+  @_s.JsonKey(name: 'cpuCount')
+  final double cpuCount;
+
+  /// A Boolean value indicating whether the power is active and can be specified
+  /// for container services.
+  @_s.JsonKey(name: 'isActive')
+  final bool isActive;
+
+  /// The friendly name of the power (e.g., <code>nano</code>).
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The ID of the power (e.g., <code>nano-1</code>).
+  @_s.JsonKey(name: 'powerId')
+  final String powerId;
+
+  /// The monthly price of the power in USD.
+  @_s.JsonKey(name: 'price')
+  final double price;
+
+  /// The amount of RAM (in GB) of the power.
+  @_s.JsonKey(name: 'ramSizeInGb')
+  final double ramSizeInGb;
+
+  ContainerServicePower({
+    this.cpuCount,
+    this.isActive,
+    this.name,
+    this.powerId,
+    this.price,
+    this.ramSizeInGb,
+  });
+  factory ContainerServicePower.fromJson(Map<String, dynamic> json) =>
+      _$ContainerServicePowerFromJson(json);
+}
+
+enum ContainerServicePowerName {
+  @_s.JsonValue('nano')
+  nano,
+  @_s.JsonValue('micro')
+  micro,
+  @_s.JsonValue('small')
+  small,
+  @_s.JsonValue('medium')
+  medium,
+  @_s.JsonValue('large')
+  large,
+  @_s.JsonValue('xlarge')
+  xlarge,
+}
+
+extension on ContainerServicePowerName {
+  String toValue() {
+    switch (this) {
+      case ContainerServicePowerName.nano:
+        return 'nano';
+      case ContainerServicePowerName.micro:
+        return 'micro';
+      case ContainerServicePowerName.small:
+        return 'small';
+      case ContainerServicePowerName.medium:
+        return 'medium';
+      case ContainerServicePowerName.large:
+        return 'large';
+      case ContainerServicePowerName.xlarge:
+        return 'xlarge';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum ContainerServiceProtocol {
+  @_s.JsonValue('HTTP')
+  http,
+  @_s.JsonValue('HTTPS')
+  https,
+  @_s.JsonValue('TCP')
+  tcp,
+  @_s.JsonValue('UDP')
+  udp,
+}
+
+/// Describes the login information for the container image registry of an
+/// Amazon Lightsail account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContainerServiceRegistryLogin {
+  /// The timestamp of when the container image registry username and password
+  /// expire.
+  ///
+  /// The log in credentials expire 12 hours after they are created, at which
+  /// point you will need to create a new set of log in credentials using the
+  /// <code>CreateContainerServiceRegistryLogin</code> action.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'expiresAt')
+  final DateTime expiresAt;
+
+  /// The container service registry password to use to push container images to
+  /// the container image registry of a Lightsail account
+  @_s.JsonKey(name: 'password')
+  final String password;
+
+  /// The address to use to push container images to the container image registry
+  /// of a Lightsail account.
+  @_s.JsonKey(name: 'registry')
+  final String registry;
+
+  /// The container service registry username to use to push container images to
+  /// the container image registry of a Lightsail account.
+  @_s.JsonKey(name: 'username')
+  final String username;
+
+  ContainerServiceRegistryLogin({
+    this.expiresAt,
+    this.password,
+    this.registry,
+    this.username,
+  });
+  factory ContainerServiceRegistryLogin.fromJson(Map<String, dynamic> json) =>
+      _$ContainerServiceRegistryLoginFromJson(json);
+}
+
+enum ContainerServiceState {
+  @_s.JsonValue('PENDING')
+  pending,
+  @_s.JsonValue('READY')
+  ready,
+  @_s.JsonValue('RUNNING')
+  running,
+  @_s.JsonValue('UPDATING')
+  updating,
+  @_s.JsonValue('DELETING')
+  deleting,
+  @_s.JsonValue('DISABLED')
+  disabled,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContainerServicesListResult {
+  /// An array of objects that describe one or more container services.
+  @_s.JsonKey(name: 'containerServices')
+  final List<ContainerService> containerServices;
+
+  ContainerServicesListResult({
+    this.containerServices,
+  });
+  factory ContainerServicesListResult.fromJson(Map<String, dynamic> json) =>
+      _$ContainerServicesListResultFromJson(json);
+}
+
+/// Describes whether an Amazon Lightsail content delivery network (CDN)
+/// distribution forwards cookies to the origin and, if so, which ones.
+///
+/// For the cookies that you specify, your distribution caches separate versions
+/// of the specified content based on the cookie values in viewer requests.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CookieObject {
+  /// The specific cookies to forward to your distribution's origin.
+  @_s.JsonKey(name: 'cookiesAllowList')
+  final List<String> cookiesAllowList;
+
+  /// Specifies which cookies to forward to the distribution's origin for a cache
+  /// behavior: <code>all</code>, <code>none</code>, or <code>allow-list</code> to
+  /// forward only the cookies specified in the <code>cookiesAllowList</code>
+  /// parameter.
+  @_s.JsonKey(name: 'option')
+  final ForwardValues option;
+
+  CookieObject({
+    this.cookiesAllowList,
+    this.option,
+  });
+  factory CookieObject.fromJson(Map<String, dynamic> json) =>
+      _$CookieObjectFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CookieObjectToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8512,7 +11873,7 @@ extension on ContactProtocol {
     createToJson: false)
 class CopySnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8529,9 +11890,33 @@ class CopySnapshotResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateCertificateResult {
+  /// An object that describes the certificate created.
+  @_s.JsonKey(name: 'certificate')
+  final CertificateSummary certificate;
+
+  /// An array of objects that describe the result of the action, such as the
+  /// status of the request, the timestamp of the request, and the resources
+  /// affected by the request.
+  @_s.JsonKey(name: 'operations')
+  final List<Operation> operations;
+
+  CreateCertificateResult({
+    this.certificate,
+    this.operations,
+  });
+  factory CreateCertificateResult.fromJson(Map<String, dynamic> json) =>
+      _$CreateCertificateResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateCloudFormationStackResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8550,7 +11935,7 @@ class CreateCloudFormationStackResult {
     createToJson: false)
 class CreateContactMethodResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8567,9 +11952,63 @@ class CreateContactMethodResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateContainerServiceDeploymentResult {
+  /// An object that describes a container service.
+  @_s.JsonKey(name: 'containerService')
+  final ContainerService containerService;
+
+  CreateContainerServiceDeploymentResult({
+    this.containerService,
+  });
+  factory CreateContainerServiceDeploymentResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateContainerServiceDeploymentResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateContainerServiceRegistryLoginResult {
+  /// An object that describes the log in information for the container service
+  /// registry of your Lightsail account.
+  @_s.JsonKey(name: 'registryLogin')
+  final ContainerServiceRegistryLogin registryLogin;
+
+  CreateContainerServiceRegistryLoginResult({
+    this.registryLogin,
+  });
+  factory CreateContainerServiceRegistryLoginResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateContainerServiceRegistryLoginResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateContainerServiceResult {
+  /// An object that describes a container service.
+  @_s.JsonKey(name: 'containerService')
+  final ContainerService containerService;
+
+  CreateContainerServiceResult({
+    this.containerService,
+  });
+  factory CreateContainerServiceResult.fromJson(Map<String, dynamic> json) =>
+      _$CreateContainerServiceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateDiskFromSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8588,7 +12027,7 @@ class CreateDiskFromSnapshotResult {
     createToJson: false)
 class CreateDiskResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8607,7 +12046,7 @@ class CreateDiskResult {
     createToJson: false)
 class CreateDiskSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8624,9 +12063,33 @@ class CreateDiskSnapshotResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateDistributionResult {
+  /// An object that describes the distribution created.
+  @_s.JsonKey(name: 'distribution')
+  final LightsailDistribution distribution;
+
+  /// An array of objects that describe the result of the action, such as the
+  /// status of the request, the timestamp of the request, and the resources
+  /// affected by the request.
+  @_s.JsonKey(name: 'operation')
+  final Operation operation;
+
+  CreateDistributionResult({
+    this.distribution,
+    this.operation,
+  });
+  factory CreateDistributionResult.fromJson(Map<String, dynamic> json) =>
+      _$CreateDistributionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateDomainEntryResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -8645,7 +12108,7 @@ class CreateDomainEntryResult {
     createToJson: false)
 class CreateDomainResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -8664,7 +12127,7 @@ class CreateDomainResult {
     createToJson: false)
 class CreateInstanceSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8683,7 +12146,7 @@ class CreateInstanceSnapshotResult {
     createToJson: false)
 class CreateInstancesFromSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8703,7 +12166,7 @@ class CreateInstancesFromSnapshotResult {
     createToJson: false)
 class CreateInstancesResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8727,7 +12190,7 @@ class CreateKeyPairResult {
   final KeyPair keyPair;
 
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -8757,7 +12220,7 @@ class CreateKeyPairResult {
     createToJson: false)
 class CreateLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8776,7 +12239,7 @@ class CreateLoadBalancerResult {
     createToJson: false)
 class CreateLoadBalancerTlsCertificateResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8796,7 +12259,7 @@ class CreateLoadBalancerTlsCertificateResult {
     createToJson: false)
 class CreateRelationalDatabaseFromSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8816,7 +12279,7 @@ class CreateRelationalDatabaseFromSnapshotResult {
     createToJson: false)
 class CreateRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8835,7 +12298,7 @@ class CreateRelationalDatabaseResult {
     createToJson: false)
 class CreateRelationalDatabaseSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8855,7 +12318,7 @@ class CreateRelationalDatabaseSnapshotResult {
     createToJson: false)
 class DeleteAlarmResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8874,7 +12337,7 @@ class DeleteAlarmResult {
     createToJson: false)
 class DeleteAutoSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8891,9 +12354,28 @@ class DeleteAutoSnapshotResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteCertificateResult {
+  /// An array of objects that describe the result of the action, such as the
+  /// status of the request, the timestamp of the request, and the resources
+  /// affected by the request.
+  @_s.JsonKey(name: 'operations')
+  final List<Operation> operations;
+
+  DeleteCertificateResult({
+    this.operations,
+  });
+  factory DeleteCertificateResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteCertificateResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteContactMethodResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8910,9 +12392,31 @@ class DeleteContactMethodResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteContainerImageResult {
+  DeleteContainerImageResult();
+  factory DeleteContainerImageResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteContainerImageResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteContainerServiceResult {
+  DeleteContainerServiceResult();
+  factory DeleteContainerServiceResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteContainerServiceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteDiskResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8931,7 +12435,7 @@ class DeleteDiskResult {
     createToJson: false)
 class DeleteDiskSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -8948,9 +12452,28 @@ class DeleteDiskSnapshotResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteDistributionResult {
+  /// An object that describes the result of the action, such as the status of the
+  /// request, the timestamp of the request, and the resources affected by the
+  /// request.
+  @_s.JsonKey(name: 'operation')
+  final Operation operation;
+
+  DeleteDistributionResult({
+    this.operation,
+  });
+  factory DeleteDistributionResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteDistributionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteDomainEntryResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -8969,7 +12492,7 @@ class DeleteDomainEntryResult {
     createToJson: false)
 class DeleteDomainResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -8988,7 +12511,7 @@ class DeleteDomainResult {
     createToJson: false)
 class DeleteInstanceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9007,7 +12530,7 @@ class DeleteInstanceResult {
     createToJson: false)
 class DeleteInstanceSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9026,7 +12549,7 @@ class DeleteInstanceSnapshotResult {
     createToJson: false)
 class DeleteKeyPairResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -9045,7 +12568,7 @@ class DeleteKeyPairResult {
     createToJson: false)
 class DeleteKnownHostKeysResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9064,7 +12587,7 @@ class DeleteKnownHostKeysResult {
     createToJson: false)
 class DeleteLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9083,7 +12606,7 @@ class DeleteLoadBalancerResult {
     createToJson: false)
 class DeleteLoadBalancerTlsCertificateResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9103,7 +12626,7 @@ class DeleteLoadBalancerTlsCertificateResult {
     createToJson: false)
 class DeleteRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9122,7 +12645,7 @@ class DeleteRelationalDatabaseResult {
     createToJson: false)
 class DeleteRelationalDatabaseSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9163,9 +12686,29 @@ class DestinationInfo {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DetachCertificateFromDistributionResult {
+  /// An object that describes the result of the action, such as the status of the
+  /// request, the timestamp of the request, and the resources affected by the
+  /// request.
+  @_s.JsonKey(name: 'operation')
+  final Operation operation;
+
+  DetachCertificateFromDistributionResult({
+    this.operation,
+  });
+  factory DetachCertificateFromDistributionResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$DetachCertificateFromDistributionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DetachDiskResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9184,7 +12727,7 @@ class DetachDiskResult {
     createToJson: false)
 class DetachInstancesFromLoadBalancerResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9204,7 +12747,7 @@ class DetachInstancesFromLoadBalancerResult {
     createToJson: false)
 class DetachStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9223,7 +12766,7 @@ class DetachStaticIpResult {
     createToJson: false)
 class DisableAddOnResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9546,6 +13089,80 @@ enum DiskState {
   unknown,
 }
 
+/// Describes the specifications of a distribution bundle.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DistributionBundle {
+  /// The ID of the bundle.
+  @_s.JsonKey(name: 'bundleId')
+  final String bundleId;
+
+  /// Indicates whether the bundle is active, and can be specified for a new
+  /// distribution.
+  @_s.JsonKey(name: 'isActive')
+  final bool isActive;
+
+  /// The name of the distribution bundle.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The monthly price, in US dollars, of the bundle.
+  @_s.JsonKey(name: 'price')
+  final double price;
+
+  /// The monthly network transfer quota of the bundle.
+  @_s.JsonKey(name: 'transferPerMonthInGb')
+  final int transferPerMonthInGb;
+
+  DistributionBundle({
+    this.bundleId,
+    this.isActive,
+    this.name,
+    this.price,
+    this.transferPerMonthInGb,
+  });
+  factory DistributionBundle.fromJson(Map<String, dynamic> json) =>
+      _$DistributionBundleFromJson(json);
+}
+
+enum DistributionMetricName {
+  @_s.JsonValue('Requests')
+  requests,
+  @_s.JsonValue('BytesDownloaded')
+  bytesDownloaded,
+  @_s.JsonValue('BytesUploaded')
+  bytesUploaded,
+  @_s.JsonValue('TotalErrorRate')
+  totalErrorRate,
+  @_s.JsonValue('Http4xxErrorRate')
+  http4xxErrorRate,
+  @_s.JsonValue('Http5xxErrorRate')
+  http5xxErrorRate,
+}
+
+extension on DistributionMetricName {
+  String toValue() {
+    switch (this) {
+      case DistributionMetricName.requests:
+        return 'Requests';
+      case DistributionMetricName.bytesDownloaded:
+        return 'BytesDownloaded';
+      case DistributionMetricName.bytesUploaded:
+        return 'BytesUploaded';
+      case DistributionMetricName.totalErrorRate:
+        return 'TotalErrorRate';
+      case DistributionMetricName.http4xxErrorRate:
+        return 'Http4xxErrorRate';
+      case DistributionMetricName.http5xxErrorRate:
+        return 'Http5xxErrorRate';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes a domain where you are storing recordsets in Lightsail.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9620,7 +13237,7 @@ class DomainEntry {
   /// When <code>true</code>, specifies whether the domain entry is an alias used
   /// by the Lightsail load balancer. You can include an alias (A type) record in
   /// your request, which points to a load balancer DNS name and routes traffic to
-  /// your load balancer
+  /// your load balancer.
   @_s.JsonKey(name: 'isAlias')
   final bool isAlias;
 
@@ -9691,6 +13308,32 @@ class DomainEntry {
   Map<String, dynamic> toJson() => _$DomainEntryToJson(this);
 }
 
+/// Describes the domain validation records of an Amazon Lightsail SSL/TLS
+/// certificate.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DomainValidationRecord {
+  /// The domain name of the certificate validation record. For example,
+  /// <code>example.com</code> or <code>www.example.com</code>.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  /// An object that describes the DNS records to add to your domain's DNS to
+  /// validate it for the certificate.
+  @_s.JsonKey(name: 'resourceRecord')
+  final ResourceRecord resourceRecord;
+
+  DomainValidationRecord({
+    this.domainName,
+    this.resourceRecord,
+  });
+  factory DomainValidationRecord.fromJson(Map<String, dynamic> json) =>
+      _$DomainValidationRecordFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -9720,7 +13363,7 @@ class DownloadDefaultKeyPairResult {
     createToJson: false)
 class EnableAddOnResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9730,6 +13373,34 @@ class EnableAddOnResult {
   });
   factory EnableAddOnResult.fromJson(Map<String, dynamic> json) =>
       _$EnableAddOnResultFromJson(json);
+}
+
+/// Describes the settings of a public endpoint for an Amazon Lightsail
+/// container service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EndpointRequest {
+  /// The name of the container for the endpoint.
+  @_s.JsonKey(name: 'containerName')
+  final String containerName;
+
+  /// The port of the container to which traffic is forwarded to.
+  @_s.JsonKey(name: 'containerPort')
+  final int containerPort;
+
+  /// An object that describes the health check configuration of the container.
+  @_s.JsonKey(name: 'healthCheck')
+  final ContainerServiceHealthCheckConfig healthCheck;
+
+  EndpointRequest({
+    @_s.required this.containerName,
+    @_s.required this.containerPort,
+    this.healthCheck,
+  });
+  Map<String, dynamic> toJson() => _$EndpointRequestToJson(this);
 }
 
 /// Describes an export snapshot record.
@@ -9856,7 +13527,7 @@ enum ExportSnapshotRecordSourceType {
     createToJson: false)
 class ExportSnapshotResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -9866,6 +13537,15 @@ class ExportSnapshotResult {
   });
   factory ExportSnapshotResult.fromJson(Map<String, dynamic> json) =>
       _$ExportSnapshotResultFromJson(json);
+}
+
+enum ForwardValues {
+  @_s.JsonValue('none')
+  none,
+  @_s.JsonValue('allow-list')
+  allowList,
+  @_s.JsonValue('all')
+  all,
 }
 
 @_s.JsonSerializable(
@@ -9878,7 +13558,7 @@ class GetActiveNamesResult {
   @_s.JsonKey(name: 'activeNames')
   final List<String> activeNames;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -9906,7 +13586,7 @@ class GetAlarmsResult {
   @_s.JsonKey(name: 'alarms')
   final List<Alarm> alarms;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -9963,7 +13643,7 @@ class GetBlueprintsResult {
   @_s.JsonKey(name: 'blueprints')
   final List<Blueprint> blueprints;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -9992,7 +13672,7 @@ class GetBundlesResult {
   @_s.JsonKey(name: 'bundles')
   final List<Bundle> bundles;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10015,12 +13695,29 @@ class GetBundlesResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetCertificatesResult {
+  /// An object that describes certificates.
+  @_s.JsonKey(name: 'certificates')
+  final List<CertificateSummary> certificates;
+
+  GetCertificatesResult({
+    this.certificates,
+  });
+  factory GetCertificatesResult.fromJson(Map<String, dynamic> json) =>
+      _$GetCertificatesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetCloudFormationStackRecordsResult {
   /// A list of objects describing the CloudFormation stack records.
   @_s.JsonKey(name: 'cloudFormationStackRecords')
   final List<CloudFormationStackRecord> cloudFormationStackRecords;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10054,6 +13751,129 @@ class GetContactMethodsResult {
   });
   factory GetContactMethodsResult.fromJson(Map<String, dynamic> json) =>
       _$GetContactMethodsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetContainerAPIMetadataResult {
+  /// Metadata about Lightsail containers, such as the current version of the
+  /// Lightsail Control (lightsailctl) plugin.
+  @_s.JsonKey(name: 'metadata')
+  final List<Map<String, String>> metadata;
+
+  GetContainerAPIMetadataResult({
+    this.metadata,
+  });
+  factory GetContainerAPIMetadataResult.fromJson(Map<String, dynamic> json) =>
+      _$GetContainerAPIMetadataResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetContainerImagesResult {
+  /// An array of objects that describe container images that are registered to
+  /// the container service.
+  @_s.JsonKey(name: 'containerImages')
+  final List<ContainerImage> containerImages;
+
+  GetContainerImagesResult({
+    this.containerImages,
+  });
+  factory GetContainerImagesResult.fromJson(Map<String, dynamic> json) =>
+      _$GetContainerImagesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetContainerLogResult {
+  /// An array of objects that describe the log events of a container.
+  @_s.JsonKey(name: 'logEvents')
+  final List<ContainerServiceLogEvent> logEvents;
+
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// A next page token is not returned if there are no more results to display.
+  ///
+  /// To get the next page of results, perform another
+  /// <code>GetContainerLog</code> request and specify the next page token using
+  /// the <code>pageToken</code> parameter.
+  @_s.JsonKey(name: 'nextPageToken')
+  final String nextPageToken;
+
+  GetContainerLogResult({
+    this.logEvents,
+    this.nextPageToken,
+  });
+  factory GetContainerLogResult.fromJson(Map<String, dynamic> json) =>
+      _$GetContainerLogResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetContainerServiceDeploymentsResult {
+  /// An array of objects that describe deployments for a container service.
+  @_s.JsonKey(name: 'deployments')
+  final List<ContainerServiceDeployment> deployments;
+
+  GetContainerServiceDeploymentsResult({
+    this.deployments,
+  });
+  factory GetContainerServiceDeploymentsResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetContainerServiceDeploymentsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetContainerServiceMetricDataResult {
+  /// An array of objects that describe the metric data returned.
+  @_s.JsonKey(name: 'metricData')
+  final List<MetricDatapoint> metricData;
+
+  /// The name of the metric returned.
+  @_s.JsonKey(name: 'metricName')
+  final ContainerServiceMetricName metricName;
+
+  GetContainerServiceMetricDataResult({
+    this.metricData,
+    this.metricName,
+  });
+  factory GetContainerServiceMetricDataResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetContainerServiceMetricDataResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetContainerServicePowersResult {
+  /// An array of objects that describe the powers that can be specified for a
+  /// container service.
+  @_s.JsonKey(name: 'powers')
+  final List<ContainerServicePower> powers;
+
+  GetContainerServicePowersResult({
+    this.powers,
+  });
+  factory GetContainerServicePowersResult.fromJson(Map<String, dynamic> json) =>
+      _$GetContainerServicePowersResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -10101,7 +13921,7 @@ class GetDiskSnapshotsResult {
   @_s.JsonKey(name: 'diskSnapshots')
   final List<DiskSnapshot> diskSnapshots;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10129,7 +13949,7 @@ class GetDisksResult {
   @_s.JsonKey(name: 'disks')
   final List<Disk> disks;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10145,6 +13965,98 @@ class GetDisksResult {
   });
   factory GetDisksResult.fromJson(Map<String, dynamic> json) =>
       _$GetDisksResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetDistributionBundlesResult {
+  /// An object that describes a distribution bundle.
+  @_s.JsonKey(name: 'bundles')
+  final List<DistributionBundle> bundles;
+
+  GetDistributionBundlesResult({
+    this.bundles,
+  });
+  factory GetDistributionBundlesResult.fromJson(Map<String, dynamic> json) =>
+      _$GetDistributionBundlesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetDistributionLatestCacheResetResult {
+  /// The timestamp of the last cache reset (e.g., <code>1479734909.17</code>) in
+  /// Unix time format.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createTime')
+  final DateTime createTime;
+
+  /// The status of the last cache reset.
+  @_s.JsonKey(name: 'status')
+  final String status;
+
+  GetDistributionLatestCacheResetResult({
+    this.createTime,
+    this.status,
+  });
+  factory GetDistributionLatestCacheResetResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetDistributionLatestCacheResetResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetDistributionMetricDataResult {
+  /// An array of objects that describe the metric data returned.
+  @_s.JsonKey(name: 'metricData')
+  final List<MetricDatapoint> metricData;
+
+  /// The name of the metric returned.
+  @_s.JsonKey(name: 'metricName')
+  final DistributionMetricName metricName;
+
+  GetDistributionMetricDataResult({
+    this.metricData,
+    this.metricName,
+  });
+  factory GetDistributionMetricDataResult.fromJson(Map<String, dynamic> json) =>
+      _$GetDistributionMetricDataResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetDistributionsResult {
+  /// An array of objects that describe your distributions.
+  @_s.JsonKey(name: 'distributions')
+  final List<LightsailDistribution> distributions;
+
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// A next page token is not returned if there are no more results to display.
+  ///
+  /// To get the next page of results, perform another
+  /// <code>GetDistributions</code> request and specify the next page token using
+  /// the <code>pageToken</code> parameter.
+  @_s.JsonKey(name: 'nextPageToken')
+  final String nextPageToken;
+
+  GetDistributionsResult({
+    this.distributions,
+    this.nextPageToken,
+  });
+  factory GetDistributionsResult.fromJson(Map<String, dynamic> json) =>
+      _$GetDistributionsResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -10176,7 +14088,7 @@ class GetDomainsResult {
   @_s.JsonKey(name: 'domains')
   final List<Domain> domains;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10204,7 +14116,7 @@ class GetExportSnapshotRecordsResult {
   @_s.JsonKey(name: 'exportSnapshotRecords')
   final List<ExportSnapshotRecord> exportSnapshotRecords;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10246,12 +14158,11 @@ class GetInstanceAccessDetailsResult {
     createFactory: true,
     createToJson: false)
 class GetInstanceMetricDataResult {
-  /// An array of key-value pairs containing information about the results of your
-  /// get instance metric data request.
+  /// An array of objects that describe the metric data returned.
   @_s.JsonKey(name: 'metricData')
   final List<MetricDatapoint> metricData;
 
-  /// The metric name to return data for.
+  /// The name of the metric returned.
   @_s.JsonKey(name: 'metricName')
   final InstanceMetricName metricName;
 
@@ -10269,7 +14180,8 @@ class GetInstanceMetricDataResult {
     createFactory: true,
     createToJson: false)
 class GetInstancePortStatesResult {
-  /// Information about the port states resulting from your request.
+  /// An array of objects that describe the firewall port states for the specified
+  /// instance.
   @_s.JsonKey(name: 'portStates')
   final List<InstancePortState> portStates;
 
@@ -10327,7 +14239,7 @@ class GetInstanceSnapshotsResult {
   @_s.JsonKey(name: 'instanceSnapshots')
   final List<InstanceSnapshot> instanceSnapshots;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10372,7 +14284,7 @@ class GetInstancesResult {
   @_s.JsonKey(name: 'instances')
   final List<Instance> instances;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10417,7 +14329,7 @@ class GetKeyPairsResult {
   @_s.JsonKey(name: 'keyPairs')
   final List<KeyPair> keyPairs;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10441,118 +14353,11 @@ class GetKeyPairsResult {
     createFactory: true,
     createToJson: false)
 class GetLoadBalancerMetricDataResult {
-  /// An array of metric datapoint objects.
+  /// An array of objects that describe the metric data returned.
   @_s.JsonKey(name: 'metricData')
   final List<MetricDatapoint> metricData;
 
-  /// The metric about which you are receiving information. Valid values are
-  /// listed below, along with the most useful <code>statistics</code> to include
-  /// in your request.
-  ///
-  /// <ul>
-  /// <li>
-  /// <b> <code>ClientTLSNegotiationErrorCount</code> </b> - The number of TLS
-  /// connections initiated by the client that did not establish a session with
-  /// the load balancer. Possible causes include a mismatch of ciphers or
-  /// protocols.
-  ///
-  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
-  /// </li>
-  /// <li>
-  /// <b> <code>HealthyHostCount</code> </b> - The number of target instances that
-  /// are considered healthy.
-  ///
-  /// <code>Statistics</code>: The most useful statistic are <code>Average</code>,
-  /// <code>Minimum</code>, and <code>Maximum</code>.
-  /// </li>
-  /// <li>
-  /// <b> <code>UnhealthyHostCount</code> </b> - The number of target instances
-  /// that are considered unhealthy.
-  ///
-  /// <code>Statistics</code>: The most useful statistic are <code>Average</code>,
-  /// <code>Minimum</code>, and <code>Maximum</code>.
-  /// </li>
-  /// <li>
-  /// <b> <code>HTTPCode_LB_4XX_Count</code> </b> - The number of HTTP 4XX client
-  /// error codes that originate from the load balancer. Client errors are
-  /// generated when requests are malformed or incomplete. These requests have not
-  /// been received by the target instance. This count does not include any
-  /// response codes generated by the target instances.
-  ///
-  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
-  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
-  /// all return <code>1</code>.
-  /// </li>
-  /// <li>
-  /// <b> <code>HTTPCode_LB_5XX_Count</code> </b> - The number of HTTP 5XX server
-  /// error codes that originate from the load balancer. This count does not
-  /// include any response codes generated by the target instances.
-  ///
-  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
-  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
-  /// all return <code>1</code>. Note that <code>Minimum</code>,
-  /// <code>Maximum</code>, and <code>Average</code> all return <code>1</code>.
-  /// </li>
-  /// <li>
-  /// <b> <code>HTTPCode_Instance_2XX_Count</code> </b> - The number of HTTP
-  /// response codes generated by the target instances. This does not include any
-  /// response codes generated by the load balancer.
-  ///
-  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
-  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
-  /// all return <code>1</code>.
-  /// </li>
-  /// <li>
-  /// <b> <code>HTTPCode_Instance_3XX_Count</code> </b> - The number of HTTP
-  /// response codes generated by the target instances. This does not include any
-  /// response codes generated by the load balancer.
-  ///
-  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
-  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
-  /// all return <code>1</code>.
-  /// </li>
-  /// <li>
-  /// <b> <code>HTTPCode_Instance_4XX_Count</code> </b> - The number of HTTP
-  /// response codes generated by the target instances. This does not include any
-  /// response codes generated by the load balancer.
-  ///
-  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
-  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
-  /// all return <code>1</code>.
-  /// </li>
-  /// <li>
-  /// <b> <code>HTTPCode_Instance_5XX_Count</code> </b> - The number of HTTP
-  /// response codes generated by the target instances. This does not include any
-  /// response codes generated by the load balancer.
-  ///
-  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
-  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
-  /// all return <code>1</code>.
-  /// </li>
-  /// <li>
-  /// <b> <code>InstanceResponseTime</code> </b> - The time elapsed, in seconds,
-  /// after the request leaves the load balancer until a response from the target
-  /// instance is received.
-  ///
-  /// <code>Statistics</code>: The most useful statistic is <code>Average</code>.
-  /// </li>
-  /// <li>
-  /// <b> <code>RejectedConnectionCount</code> </b> - The number of connections
-  /// that were rejected because the load balancer had reached its maximum number
-  /// of connections.
-  ///
-  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>.
-  /// </li>
-  /// <li>
-  /// <b> <code>RequestCount</code> </b> - The number of requests processed over
-  /// IPv4. This count includes only the requests with a response generated by a
-  /// target instance of the load balancer.
-  ///
-  /// <code>Statistics</code>: The most useful statistic is <code>Sum</code>. Note
-  /// that <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>
-  /// all return <code>1</code>.
-  /// </li>
-  /// </ul>
+  /// The name of the metric returned.
   @_s.JsonKey(name: 'metricName')
   final LoadBalancerMetricName metricName;
 
@@ -10610,7 +14415,7 @@ class GetLoadBalancersResult {
   @_s.JsonKey(name: 'loadBalancers')
   final List<LoadBalancer> loadBalancers;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10635,7 +14440,7 @@ class GetLoadBalancersResult {
     createToJson: false)
 class GetOperationResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -10662,7 +14467,7 @@ class GetOperationsForResourceResult {
   @_s.JsonKey(name: 'nextPageCount')
   final String nextPageCount;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10673,7 +14478,7 @@ class GetOperationsForResourceResult {
   final String nextPageToken;
 
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -10693,7 +14498,7 @@ class GetOperationsForResourceResult {
     createFactory: true,
     createToJson: false)
 class GetOperationsResult {
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10704,7 +14509,7 @@ class GetOperationsResult {
   final String nextPageToken;
 
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -10746,7 +14551,7 @@ class GetRelationalDatabaseBlueprintsResult {
   @_s.JsonKey(name: 'blueprints')
   final List<RelationalDatabaseBlueprint> blueprints;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10776,7 +14581,7 @@ class GetRelationalDatabaseBundlesResult {
   @_s.JsonKey(name: 'bundles')
   final List<RelationalDatabaseBundle> bundles;
 
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10801,7 +14606,7 @@ class GetRelationalDatabaseBundlesResult {
     createFactory: true,
     createToJson: false)
 class GetRelationalDatabaseEventsResult {
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10906,12 +14711,11 @@ class GetRelationalDatabaseMasterUserPasswordResult {
     createFactory: true,
     createToJson: false)
 class GetRelationalDatabaseMetricDataResult {
-  /// An object describing the result of your get relational database metric data
-  /// request.
+  /// An array of objects that describe the metric data returned.
   @_s.JsonKey(name: 'metricData')
   final List<MetricDatapoint> metricData;
 
-  /// The name of the metric.
+  /// The name of the metric returned.
   @_s.JsonKey(name: 'metricName')
   final RelationalDatabaseMetricName metricName;
 
@@ -10930,7 +14734,7 @@ class GetRelationalDatabaseMetricDataResult {
     createFactory: true,
     createToJson: false)
 class GetRelationalDatabaseParametersResult {
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -10995,7 +14799,7 @@ class GetRelationalDatabaseSnapshotResult {
     createFactory: true,
     createToJson: false)
 class GetRelationalDatabaseSnapshotsResult {
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -11025,7 +14829,7 @@ class GetRelationalDatabaseSnapshotsResult {
     createFactory: true,
     createToJson: false)
 class GetRelationalDatabasesResult {
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -11071,7 +14875,7 @@ class GetStaticIpResult {
     createFactory: true,
     createToJson: false)
 class GetStaticIpsResult {
-  /// The token to advance to the next page of resutls from your request.
+  /// The token to advance to the next page of results from your request.
   ///
   /// A next page token is not returned if there are no more results to display.
   ///
@@ -11092,6 +14896,90 @@ class GetStaticIpsResult {
   });
   factory GetStaticIpsResult.fromJson(Map<String, dynamic> json) =>
       _$GetStaticIpsResultFromJson(json);
+}
+
+enum HeaderEnum {
+  @_s.JsonValue('Accept')
+  accept,
+  @_s.JsonValue('Accept-Charset')
+  acceptCharset,
+  @_s.JsonValue('Accept-Datetime')
+  acceptDatetime,
+  @_s.JsonValue('Accept-Encoding')
+  acceptEncoding,
+  @_s.JsonValue('Accept-Language')
+  acceptLanguage,
+  @_s.JsonValue('Authorization')
+  authorization,
+  @_s.JsonValue('CloudFront-Forwarded-Proto')
+  cloudFrontForwardedProto,
+  @_s.JsonValue('CloudFront-Is-Desktop-Viewer')
+  cloudFrontIsDesktopViewer,
+  @_s.JsonValue('CloudFront-Is-Mobile-Viewer')
+  cloudFrontIsMobileViewer,
+  @_s.JsonValue('CloudFront-Is-SmartTV-Viewer')
+  cloudFrontIsSmartTVViewer,
+  @_s.JsonValue('CloudFront-Is-Tablet-Viewer')
+  cloudFrontIsTabletViewer,
+  @_s.JsonValue('CloudFront-Viewer-Country')
+  cloudFrontViewerCountry,
+  @_s.JsonValue('Host')
+  host,
+  @_s.JsonValue('Origin')
+  origin,
+  @_s.JsonValue('Referer')
+  referer,
+}
+
+/// Describes the request headers that a Lightsail distribution bases caching
+/// on.
+///
+/// For the headers that you specify, your distribution caches separate versions
+/// of the specified content based on the header values in viewer requests. For
+/// example, suppose viewer requests for <code>logo.jpg</code> contain a custom
+/// <code>product</code> header that has a value of either <code>acme</code> or
+/// <code>apex</code>, and you configure your distribution to cache your content
+/// based on values in the <code>product</code> header. Your distribution
+/// forwards the <code>product</code> header to the origin and caches the
+/// response from the origin once for each header value.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class HeaderObject {
+  /// The specific headers to forward to your distribution's origin.
+  @_s.JsonKey(name: 'headersAllowList')
+  final List<HeaderEnum> headersAllowList;
+
+  /// The headers that you want your distribution to forward to your origin and
+  /// base caching on.
+  ///
+  /// You can configure your distribution to do one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>all</code> </b> - Forward all headers to your origin.
+  /// </li>
+  /// <li>
+  /// <b> <code>none</code> </b> - Forward only the default headers.
+  /// </li>
+  /// <li>
+  /// <b> <code>allow-list</code> </b> - Forward only the headers you specify
+  /// using the <code>headersAllowList</code> parameter.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'option')
+  final ForwardValues option;
+
+  HeaderObject({
+    this.headersAllowList,
+    this.option,
+  });
+  factory HeaderObject.fromJson(Map<String, dynamic> json) =>
+      _$HeaderObjectFromJson(json);
+
+  Map<String, dynamic> toJson() => _$HeaderObjectToJson(this);
 }
 
 /// Describes the public SSH host keys or the RDP certificate.
@@ -11186,7 +15074,7 @@ class HostKeyAttributes {
     createToJson: false)
 class ImportKeyPairResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -11196,6 +15084,39 @@ class ImportKeyPairResult {
   });
   factory ImportKeyPairResult.fromJson(Map<String, dynamic> json) =>
       _$ImportKeyPairResultFromJson(json);
+}
+
+/// Describes the origin resource of an Amazon Lightsail content delivery
+/// network (CDN) distribution.
+///
+/// An origin can be a Lightsail instance or load balancer. A distribution pulls
+/// content from an origin, caches it, and serves it to viewers via a worldwide
+/// network of edge servers.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputOrigin {
+  /// The name of the origin resource.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The protocol that your Amazon Lightsail distribution uses when establishing
+  /// a connection with your origin to pull content.
+  @_s.JsonKey(name: 'protocolPolicy')
+  final OriginProtocolPolicyEnum protocolPolicy;
+
+  /// The AWS Region name of the origin resource.
+  @_s.JsonKey(name: 'regionName')
+  final RegionName regionName;
+
+  InputOrigin({
+    this.name,
+    this.protocolPolicy,
+    this.regionName,
+  });
+  Map<String, dynamic> toJson() => _$InputOriginToJson(this);
 }
 
 /// Describes an instance (a virtual private server).
@@ -11227,7 +15148,7 @@ class Instance {
   final String bundleId;
 
   /// The timestamp when the instance was created (e.g.,
-  /// <code>1479734909.17</code>).
+  /// <code>1479734909.17</code>) in Unix time format.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
@@ -11450,18 +15371,25 @@ class InstanceEntry {
   ///
   /// <ul>
   /// <li>
-  /// DEFAULT — Use the default firewall settings from the image.
+  /// <code>DEFAULT</code> - Use the default firewall settings from the Lightsail
+  /// instance blueprint.
   /// </li>
   /// <li>
-  /// INSTANCE — Use the firewall settings from the source Lightsail instance.
+  /// <code>INSTANCE</code> - Use the configured firewall settings from the source
+  /// Lightsail instance.
   /// </li>
   /// <li>
-  /// NONE — Default to Amazon EC2.
+  /// <code>NONE</code> - Use the default Amazon EC2 security group.
   /// </li>
   /// <li>
-  /// CLOSED — All ports closed.
+  /// <code>CLOSED</code> - All ports closed.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// If you configured <code>lightsail-connect</code> as a
+  /// <code>cidrListAliases</code> on your instance, or if you chose to allow the
+  /// Lightsail browser-based SSH or RDP clients to connect to your instance, that
+  /// configuration is not carried over to your new Amazon EC2 instance.
+  /// </note>
   @_s.JsonKey(name: 'portInfoSource')
   final PortInfoSourceType portInfoSource;
 
@@ -11676,6 +15604,10 @@ enum InstanceMetricName {
   statusCheckFailedInstance,
   @_s.JsonValue('StatusCheckFailed_System')
   statusCheckFailedSystem,
+  @_s.JsonValue('BurstCapacityTime')
+  burstCapacityTime,
+  @_s.JsonValue('BurstCapacityPercentage')
+  burstCapacityPercentage,
 }
 
 extension on InstanceMetricName {
@@ -11693,6 +15625,10 @@ extension on InstanceMetricName {
         return 'StatusCheckFailed_Instance';
       case InstanceMetricName.statusCheckFailedSystem:
         return 'StatusCheckFailed_System';
+      case InstanceMetricName.burstCapacityTime:
+        return 'BurstCapacityTime';
+      case InstanceMetricName.burstCapacityPercentage:
+        return 'BurstCapacityPercentage';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -11729,7 +15665,7 @@ enum InstancePlatform {
   windows,
 }
 
-/// Describes information about the instance ports.
+/// Describes information about ports for an Amazon Lightsail instance.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11737,11 +15673,15 @@ enum InstancePlatform {
     createToJson: false)
 class InstancePortInfo {
   /// The access direction (<code>inbound</code> or <code>outbound</code>).
+  /// <note>
+  /// Lightsail currently supports only <code>inbound</code> access direction.
+  /// </note>
   @_s.JsonKey(name: 'accessDirection')
   final AccessDirection accessDirection;
 
-  /// The location from which access is allowed (e.g., <code>Anywhere
-  /// (0.0.0.0/0)</code>).
+  /// The location from which access is allowed. For example, <code>Anywhere
+  /// (0.0.0.0/0)</code>, or <code>Custom</code> if a specific IP address or range
+  /// of IP addresses is allowed.
   @_s.JsonKey(name: 'accessFrom')
   final String accessFrom;
 
@@ -11749,15 +15689,51 @@ class InstancePortInfo {
   @_s.JsonKey(name: 'accessType')
   final PortAccessType accessType;
 
-  /// The common name.
+  /// An alias that defines access for a preconfigured range of IP addresses.
+  ///
+  /// The only alias currently supported is <code>lightsail-connect</code>, which
+  /// allows IP addresses of the browser-based RDP/SSH client in the Lightsail
+  /// console to connect to your instance.
+  @_s.JsonKey(name: 'cidrListAliases')
+  final List<String> cidrListAliases;
+
+  /// The IP address, or range of IP addresses in CIDR notation, that are allowed
+  /// to connect to an instance through the ports, and the protocol. Lightsail
+  /// supports IPv4 addresses.
+  ///
+  /// For more information about CIDR block notation, see <a
+  /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">Classless
+  /// Inter-Domain Routing</a> on <i>Wikipedia</i>.
+  @_s.JsonKey(name: 'cidrs')
+  final List<String> cidrs;
+
+  /// The common name of the port information.
   @_s.JsonKey(name: 'commonName')
   final String commonName;
 
-  /// The first port in the range.
+  /// The first port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - The ICMP type. For example, specify <code>8</code> as the
+  /// <code>fromPort</code> (ICMP type), and <code>-1</code> as the
+  /// <code>toPort</code> (ICMP code), to enable ICMP Ping. For more information,
+  /// see <a
+  /// href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Control_messages">Control
+  /// Messages</a> on <i>Wikipedia</i>.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'fromPort')
   final int fromPort;
 
-  /// The protocol being used. Can be one of the following.
+  /// The IP protocol name.
+  ///
+  /// The name can be one of the following:
   ///
   /// <ul>
   /// <li>
@@ -11770,7 +15746,7 @@ class InstancePortInfo {
   /// <code>all</code> - All transport layer protocol types. For more general
   /// information, see <a
   /// href="https://en.wikipedia.org/wiki/Transport_layer">Transport layer</a> on
-  /// Wikipedia.
+  /// <i>Wikipedia</i>.
   /// </li>
   /// <li>
   /// <code>udp</code> - With User Datagram Protocol (UDP), computer applications
@@ -11781,11 +15757,36 @@ class InstancePortInfo {
   /// emphasizes reduced latency over reliability. If you do require reliable data
   /// stream service, use TCP instead.
   /// </li>
+  /// <li>
+  /// <code>icmp</code> - Internet Control Message Protocol (ICMP) is used to send
+  /// error messages and operational information indicating success or failure
+  /// when communicating with an instance. For example, an error is indicated when
+  /// an instance could not be reached. When you specify <code>icmp</code> as the
+  /// <code>protocol</code>, you must specify the ICMP type using the
+  /// <code>fromPort</code> parameter, and ICMP code using the <code>toPort</code>
+  /// parameter.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'protocol')
   final NetworkProtocol protocol;
 
-  /// The last port in the range.
+  /// The last port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - The ICMP code. For example, specify <code>8</code> as the
+  /// <code>fromPort</code> (ICMP type), and <code>-1</code> as the
+  /// <code>toPort</code> (ICMP code), to enable ICMP Ping. For more information,
+  /// see <a
+  /// href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Control_messages">Control
+  /// Messages</a> on <i>Wikipedia</i>.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'toPort')
   final int toPort;
 
@@ -11793,6 +15794,8 @@ class InstancePortInfo {
     this.accessDirection,
     this.accessFrom,
     this.accessType,
+    this.cidrListAliases,
+    this.cidrs,
     this.commonName,
     this.fromPort,
     this.protocol,
@@ -11802,18 +15805,55 @@ class InstancePortInfo {
       _$InstancePortInfoFromJson(json);
 }
 
-/// Describes the port state.
+/// Describes open ports on an instance, the IP addresses allowed to connect to
+/// the instance through the ports, and the protocol.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class InstancePortState {
-  /// The first port in the range.
+  /// An alias that defines access for a preconfigured range of IP addresses.
+  ///
+  /// The only alias currently supported is <code>lightsail-connect</code>, which
+  /// allows IP addresses of the browser-based RDP/SSH client in the Lightsail
+  /// console to connect to your instance.
+  @_s.JsonKey(name: 'cidrListAliases')
+  final List<String> cidrListAliases;
+
+  /// The IP address, or range of IP addresses in CIDR notation, that are allowed
+  /// to connect to an instance through the ports, and the protocol. Lightsail
+  /// supports IPv4 addresses.
+  ///
+  /// For more information about CIDR block notation, see <a
+  /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">Classless
+  /// Inter-Domain Routing</a> on <i>Wikipedia</i>.
+  @_s.JsonKey(name: 'cidrs')
+  final List<String> cidrs;
+
+  /// The first port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - The ICMP type. For example, specify <code>8</code> as the
+  /// <code>fromPort</code> (ICMP type), and <code>-1</code> as the
+  /// <code>toPort</code> (ICMP code), to enable ICMP Ping. For more information,
+  /// see <a
+  /// href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Control_messages">Control
+  /// Messages</a> on <i>Wikipedia</i>.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'fromPort')
   final int fromPort;
 
-  /// The protocol being used. Can be one of the following.
+  /// The IP protocol name.
+  ///
+  /// The name can be one of the following:
   ///
   /// <ul>
   /// <li>
@@ -11826,7 +15866,7 @@ class InstancePortState {
   /// <code>all</code> - All transport layer protocol types. For more general
   /// information, see <a
   /// href="https://en.wikipedia.org/wiki/Transport_layer">Transport layer</a> on
-  /// Wikipedia.
+  /// <i>Wikipedia</i>.
   /// </li>
   /// <li>
   /// <code>udp</code> - With User Datagram Protocol (UDP), computer applications
@@ -11837,20 +15877,50 @@ class InstancePortState {
   /// emphasizes reduced latency over reliability. If you do require reliable data
   /// stream service, use TCP instead.
   /// </li>
+  /// <li>
+  /// <code>icmp</code> - Internet Control Message Protocol (ICMP) is used to send
+  /// error messages and operational information indicating success or failure
+  /// when communicating with an instance. For example, an error is indicated when
+  /// an instance could not be reached. When you specify <code>icmp</code> as the
+  /// <code>protocol</code>, you must specify the ICMP type using the
+  /// <code>fromPort</code> parameter, and ICMP code using the <code>toPort</code>
+  /// parameter.
+  /// </li>
   /// </ul>
   @_s.JsonKey(name: 'protocol')
   final NetworkProtocol protocol;
 
   /// Specifies whether the instance port is <code>open</code> or
   /// <code>closed</code>.
+  /// <note>
+  /// The port state for Lightsail instances is always <code>open</code>.
+  /// </note>
   @_s.JsonKey(name: 'state')
   final PortState state;
 
-  /// The last port in the range.
+  /// The last port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - The ICMP code. For example, specify <code>8</code> as the
+  /// <code>fromPort</code> (ICMP type), and <code>-1</code> as the
+  /// <code>toPort</code> (ICMP code), to enable ICMP Ping. For more information,
+  /// see <a
+  /// href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Control_messages">Control
+  /// Messages</a> on <i>Wikipedia</i>.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'toPort')
   final int toPort;
 
   InstancePortState({
+    this.cidrListAliases,
+    this.cidrs,
     this.fromPort,
     this.protocol,
     this.state,
@@ -12111,6 +16181,135 @@ class KeyPair {
       _$KeyPairFromJson(json);
 }
 
+/// Describes an Amazon Lightsail content delivery network (CDN) distribution.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class LightsailDistribution {
+  /// Indicates whether the bundle that is currently applied to your distribution,
+  /// specified using the <code>distributionName</code> parameter, can be changed
+  /// to another bundle.
+  ///
+  /// Use the <code>UpdateDistributionBundle</code> action to change your
+  /// distribution's bundle.
+  @_s.JsonKey(name: 'ableToUpdateBundle')
+  final bool ableToUpdateBundle;
+
+  /// The alternate domain names of the distribution.
+  @_s.JsonKey(name: 'alternativeDomainNames')
+  final List<String> alternativeDomainNames;
+
+  /// The Amazon Resource Name (ARN) of the distribution.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The ID of the bundle currently applied to the distribution.
+  @_s.JsonKey(name: 'bundleId')
+  final String bundleId;
+
+  /// An object that describes the cache behavior settings of the distribution.
+  @_s.JsonKey(name: 'cacheBehaviorSettings')
+  final CacheSettings cacheBehaviorSettings;
+
+  /// An array of objects that describe the per-path cache behavior of the
+  /// distribution.
+  @_s.JsonKey(name: 'cacheBehaviors')
+  final List<CacheBehaviorPerPath> cacheBehaviors;
+
+  /// The name of the SSL/TLS certificate attached to the distribution, if any.
+  @_s.JsonKey(name: 'certificateName')
+  final String certificateName;
+
+  /// The timestamp when the distribution was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// An object that describes the default cache behavior of the distribution.
+  @_s.JsonKey(name: 'defaultCacheBehavior')
+  final CacheBehavior defaultCacheBehavior;
+
+  /// The domain name of the distribution.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  /// Indicates whether the distribution is enabled.
+  @_s.JsonKey(name: 'isEnabled')
+  final bool isEnabled;
+
+  /// An object that describes the location of the distribution, such as the AWS
+  /// Region and Availability Zone.
+  /// <note>
+  /// Lightsail distributions are global resources that can reference an origin in
+  /// any AWS Region, and distribute its content globally. However, all
+  /// distributions are located in the <code>us-east-1</code> Region.
+  /// </note>
+  @_s.JsonKey(name: 'location')
+  final ResourceLocation location;
+
+  /// The name of the distribution.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// An object that describes the origin resource of the distribution, such as a
+  /// Lightsail instance or load balancer.
+  ///
+  /// The distribution pulls, caches, and serves content from the origin.
+  @_s.JsonKey(name: 'origin')
+  final Origin origin;
+
+  /// The public DNS of the origin.
+  @_s.JsonKey(name: 'originPublicDNS')
+  final String originPublicDNS;
+
+  /// The Lightsail resource type (e.g., <code>Distribution</code>).
+  @_s.JsonKey(name: 'resourceType')
+  final ResourceType resourceType;
+
+  /// The status of the distribution.
+  @_s.JsonKey(name: 'status')
+  final String status;
+
+  /// The support code. Include this code in your email to support when you have
+  /// questions about your Lightsail distribution. This code enables our support
+  /// team to look up your Lightsail information more easily.
+  @_s.JsonKey(name: 'supportCode')
+  final String supportCode;
+
+  /// The tag keys and optional values for the resource. For more information
+  /// about tags in Lightsail, see the <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags">Lightsail
+  /// Dev Guide</a>.
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  LightsailDistribution({
+    this.ableToUpdateBundle,
+    this.alternativeDomainNames,
+    this.arn,
+    this.bundleId,
+    this.cacheBehaviorSettings,
+    this.cacheBehaviors,
+    this.certificateName,
+    this.createdAt,
+    this.defaultCacheBehavior,
+    this.domainName,
+    this.isEnabled,
+    this.location,
+    this.name,
+    this.origin,
+    this.originPublicDNS,
+    this.resourceType,
+    this.status,
+    this.supportCode,
+    this.tags,
+  });
+  factory LightsailDistribution.fromJson(Map<String, dynamic> json) =>
+      _$LightsailDistributionFromJson(json);
+}
+
 /// Describes the Lightsail load balancer.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12354,7 +16553,63 @@ class LoadBalancerTlsCertificate {
   final List<LoadBalancerTlsCertificateDomainValidationRecord>
       domainValidationRecords;
 
-  /// The reason for the SSL/TLS certificate validation failure.
+  /// The validation failure reason, if any, of the certificate.
+  ///
+  /// The following failure reasons are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>NO_AVAILABLE_CONTACTS</code> </b> - This failure applies to email
+  /// validation, which is not available for Lightsail certificates.
+  /// </li>
+  /// <li>
+  /// <b> <code>ADDITIONAL_VERIFICATION_REQUIRED</code> </b> - Lightsail requires
+  /// additional information to process this certificate request. This can happen
+  /// as a fraud-protection measure, such as when the domain ranks within the
+  /// Alexa top 1000 websites. To provide the required information, use the <a
+  /// href="https://console.aws.amazon.com/support/home">AWS Support Center</a> to
+  /// contact AWS Support.
+  /// <note>
+  /// You cannot request a certificate for Amazon-owned domain names such as those
+  /// ending in amazonaws.com, cloudfront.net, or elasticbeanstalk.com.
+  /// </note> </li>
+  /// <li>
+  /// <b> <code>DOMAIN_NOT_ALLOWED</code> </b> - One or more of the domain names
+  /// in the certificate request was reported as an unsafe domain by <a
+  /// href="https://www.virustotal.com/gui/home/url">VirusTotal</a>. To correct
+  /// the problem, search for your domain name on the <a
+  /// href="https://www.virustotal.com/gui/home/url">VirusTotal</a> website. If
+  /// your domain is reported as suspicious, see <a
+  /// href="https://www.google.com/webmasters/hacked/?hl=en">Google Help for
+  /// Hacked Websites</a> to learn what you can do.
+  ///
+  /// If you believe that the result is a false positive, notify the organization
+  /// that is reporting the domain. VirusTotal is an aggregate of several
+  /// antivirus and URL scanners and cannot remove your domain from a block list
+  /// itself. After you correct the problem and the VirusTotal registry has been
+  /// updated, request a new certificate.
+  ///
+  /// If you see this error and your domain is not included in the VirusTotal
+  /// list, visit the <a href="https://console.aws.amazon.com/support/home">AWS
+  /// Support Center</a> and create a case.
+  /// </li>
+  /// <li>
+  /// <b> <code>INVALID_PUBLIC_DOMAIN</code> </b> - One or more of the domain
+  /// names in the certificate request is not valid. Typically, this is because a
+  /// domain name in the request is not a valid top-level domain. Try to request a
+  /// certificate again, correcting any spelling errors or typos that were in the
+  /// failed request, and ensure that all domain names in the request are for
+  /// valid top-level domains. For example, you cannot request a certificate for
+  /// <code>example.invalidpublicdomain</code> because
+  /// <code>invalidpublicdomain</code> is not a valid top-level domain.
+  /// </li>
+  /// <li>
+  /// <b> <code>OTHER</code> </b> - Typically, this failure occurs when there is a
+  /// typographical error in one or more of the domain names in the certificate
+  /// request. Try to request a certificate again, correcting any spelling errors
+  /// or typos that were in the failed request.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'failureReason')
   final LoadBalancerTlsCertificateFailureReason failureReason;
 
@@ -12372,8 +16627,7 @@ class LoadBalancerTlsCertificate {
   @_s.JsonKey(name: 'issuer')
   final String issuer;
 
-  /// The algorithm that was used to generate the key pair (the public and private
-  /// key).
+  /// The algorithm used to generate the key pair (the public and private key).
   @_s.JsonKey(name: 'keyAlgorithm')
   final String keyAlgorithm;
 
@@ -12399,8 +16653,8 @@ class LoadBalancerTlsCertificate {
   @_s.JsonKey(name: 'notBefore')
   final DateTime notBefore;
 
-  /// An object containing information about the status of Lightsail's managed
-  /// renewal for the certificate.
+  /// An object that describes the status of the certificate renewal managed by
+  /// Lightsail.
   @_s.JsonKey(name: 'renewalSummary')
   final LoadBalancerTlsCertificateRenewalSummary renewalSummary;
 
@@ -12444,11 +16698,13 @@ class LoadBalancerTlsCertificate {
   @_s.JsonKey(name: 'resourceType')
   final ResourceType resourceType;
 
-  /// The reason the certificate was revoked. Valid values are below.
+  /// The reason the certificate was revoked. This value is present only when the
+  /// certificate status is <code>REVOKED</code>.
   @_s.JsonKey(name: 'revocationReason')
   final LoadBalancerTlsCertificateRevocationReason revocationReason;
 
-  /// The timestamp when the SSL/TLS certificate was revoked.
+  /// The timestamp when the certificate was revoked. This value is present only
+  /// when the certificate status is <code>REVOKED</code>.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'revokedAt')
   final DateTime revokedAt;
@@ -12461,7 +16717,7 @@ class LoadBalancerTlsCertificate {
   @_s.JsonKey(name: 'signatureAlgorithm')
   final String signatureAlgorithm;
 
-  /// The status of the SSL/TLS certificate. Valid values are below.
+  /// The validation status of the SSL/TLS certificate. Valid values are below.
   @_s.JsonKey(name: 'status')
   final LoadBalancerTlsCertificateStatus status;
 
@@ -12470,12 +16726,9 @@ class LoadBalancerTlsCertificate {
   @_s.JsonKey(name: 'subject')
   final String subject;
 
-  /// One or more domains or subdomains included in the certificate. This list
-  /// contains the domain names that are bound to the public key that is contained
-  /// in the certificate. The subject alternative names include the canonical
-  /// domain name (CNAME) of the certificate and additional domain names that can
-  /// be used to connect to the website, such as <code>example.com</code>,
-  /// <code>www.example.com</code>, or <code>m.example.com</code>.
+  /// An array of strings that specify the alternate domains (e.g.,
+  /// <code>example2.com</code>) and subdomains (e.g.,
+  /// <code>blog.example.com</code>) for the certificate.
   @_s.JsonKey(name: 'subjectAlternativeNames')
   final List<String> subjectAlternativeNames;
 
@@ -12626,6 +16879,37 @@ enum LoadBalancerTlsCertificateRenewalStatus {
 
 /// Contains information about the status of Lightsail's managed renewal for the
 /// certificate.
+///
+/// The renewal status of the certificate.
+///
+/// The following renewal status are possible:
+///
+/// <ul>
+/// <li>
+/// <b> <code>PendingAutoRenewal</code> </b> - Lightsail is attempting to
+/// automatically validate the domain names in the certificate. No further
+/// action is required.
+/// </li>
+/// <li>
+/// <b> <code>PendingValidation</code> </b> - Lightsail couldn't automatically
+/// validate one or more domain names in the certificate. You must take action
+/// to validate these domain names or the certificate won't be renewed. If you
+/// used DNS validation, check to make sure your certificate's domain validation
+/// records exist in your domain's DNS, and that your certificate remains in
+/// use.
+/// </li>
+/// <li>
+/// <b> <code>Success</code> </b> - All domain names in the certificate are
+/// validated, and Lightsail renewed the certificate. No further action is
+/// required.
+/// </li>
+/// <li>
+/// <b> <code>Failed</code> </b> - One or more domain names were not validated
+/// before the certificate expired, and Lightsail did not renew the certificate.
+/// You can request a new certificate using the <code>CreateCertificate</code>
+/// action.
+/// </li>
+/// </ul>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -12640,8 +16924,35 @@ class LoadBalancerTlsCertificateRenewalSummary {
   final List<LoadBalancerTlsCertificateDomainValidationOption>
       domainValidationOptions;
 
-  /// The status of Lightsail's managed renewal of the certificate. Valid values
-  /// are listed below.
+  /// The renewal status of the certificate.
+  ///
+  /// The following renewal status are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>PendingAutoRenewal</code> </b> - Lightsail is attempting to
+  /// automatically validate the domain names of the certificate. No further
+  /// action is required.
+  /// </li>
+  /// <li>
+  /// <b> <code>PendingValidation</code> </b> - Lightsail couldn't automatically
+  /// validate one or more domain names of the certificate. You must take action
+  /// to validate these domain names or the certificate won't be renewed. Check to
+  /// make sure your certificate's domain validation records exist in your
+  /// domain's DNS, and that your certificate remains in use.
+  /// </li>
+  /// <li>
+  /// <b> <code>Success</code> </b> - All domain names in the certificate are
+  /// validated, and Lightsail renewed the certificate. No further action is
+  /// required.
+  /// </li>
+  /// <li>
+  /// <b> <code>Failed</code> </b> - One or more domain names were not validated
+  /// before the certificate expired, and Lightsail did not renew the certificate.
+  /// You can request a new certificate using the <code>CreateCertificate</code>
+  /// action.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'renewalStatus')
   final LoadBalancerTlsCertificateRenewalStatus renewalStatus;
 
@@ -12841,6 +17152,10 @@ enum MetricName {
   networkReceiveThroughput,
   @_s.JsonValue('NetworkTransmitThroughput')
   networkTransmitThroughput,
+  @_s.JsonValue('BurstCapacityTime')
+  burstCapacityTime,
+  @_s.JsonValue('BurstCapacityPercentage')
+  burstCapacityPercentage,
 }
 
 extension on MetricName {
@@ -12892,6 +17207,10 @@ extension on MetricName {
         return 'NetworkReceiveThroughput';
       case MetricName.networkTransmitThroughput:
         return 'NetworkTransmitThroughput';
+      case MetricName.burstCapacityTime:
+        return 'BurstCapacityTime';
+      case MetricName.burstCapacityPercentage:
+        return 'BurstCapacityPercentage';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -13109,6 +17428,8 @@ enum NetworkProtocol {
   all,
   @_s.JsonValue('udp')
   udp,
+  @_s.JsonValue('icmp')
+  icmp,
 }
 
 @_s.JsonSerializable(
@@ -13118,7 +17439,7 @@ enum NetworkProtocol {
     createToJson: false)
 class OpenInstancePublicPortsResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -13331,6 +17652,83 @@ enum OperationType {
   sendContactMethodVerification,
   @_s.JsonValue('DeleteContactMethod')
   deleteContactMethod,
+  @_s.JsonValue('CreateDistribution')
+  createDistribution,
+  @_s.JsonValue('UpdateDistribution')
+  updateDistribution,
+  @_s.JsonValue('DeleteDistribution')
+  deleteDistribution,
+  @_s.JsonValue('ResetDistributionCache')
+  resetDistributionCache,
+  @_s.JsonValue('AttachCertificateToDistribution')
+  attachCertificateToDistribution,
+  @_s.JsonValue('DetachCertificateFromDistribution')
+  detachCertificateFromDistribution,
+  @_s.JsonValue('UpdateDistributionBundle')
+  updateDistributionBundle,
+  @_s.JsonValue('CreateCertificate')
+  createCertificate,
+  @_s.JsonValue('DeleteCertificate')
+  deleteCertificate,
+  @_s.JsonValue('CreateContainerService')
+  createContainerService,
+  @_s.JsonValue('UpdateContainerService')
+  updateContainerService,
+  @_s.JsonValue('DeleteContainerService')
+  deleteContainerService,
+  @_s.JsonValue('CreateContainerServiceDeployment')
+  createContainerServiceDeployment,
+  @_s.JsonValue('CreateContainerServiceRegistryLogin')
+  createContainerServiceRegistryLogin,
+  @_s.JsonValue('RegisterContainerImage')
+  registerContainerImage,
+  @_s.JsonValue('DeleteContainerImage')
+  deleteContainerImage,
+}
+
+/// Describes the origin resource of an Amazon Lightsail content delivery
+/// network (CDN) distribution.
+///
+/// An origin can be a Lightsail instance or load balancer. A distribution pulls
+/// content from an origin, caches it, and serves it to viewers via a worldwide
+/// network of edge servers.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Origin {
+  /// The name of the origin resource.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The protocol that your Amazon Lightsail distribution uses when establishing
+  /// a connection with your origin to pull content.
+  @_s.JsonKey(name: 'protocolPolicy')
+  final OriginProtocolPolicyEnum protocolPolicy;
+
+  /// The AWS Region name of the origin resource.
+  @_s.JsonKey(name: 'regionName')
+  final RegionName regionName;
+
+  /// The resource type of the origin resource (e.g., <i>Instance</i>).
+  @_s.JsonKey(name: 'resourceType')
+  final ResourceType resourceType;
+
+  Origin({
+    this.name,
+    this.protocolPolicy,
+    this.regionName,
+    this.resourceType,
+  });
+  factory Origin.fromJson(Map<String, dynamic> json) => _$OriginFromJson(json);
+}
+
+enum OriginProtocolPolicyEnum {
+  @_s.JsonValue('http-only')
+  httpOnly,
+  @_s.JsonValue('https-only')
+  httpsOnly,
 }
 
 /// The password data for the Windows Server-based instance, including the
@@ -13385,7 +17783,7 @@ class PasswordData {
     createToJson: false)
 class PeerVpcResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -13462,27 +17860,126 @@ enum PortAccessType {
   private,
 }
 
-/// Describes information about the ports on your virtual private server (or
-/// <i>instance</i>).
+/// Describes ports to open on an instance, the IP addresses allowed to connect
+/// to the instance through the ports, and the protocol.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class PortInfo {
-  /// The first port in the range.
+  /// An alias that defines access for a preconfigured range of IP addresses.
+  ///
+  /// The only alias currently supported is <code>lightsail-connect</code>, which
+  /// allows IP addresses of the browser-based RDP/SSH client in the Lightsail
+  /// console to connect to your instance.
+  @_s.JsonKey(name: 'cidrListAliases')
+  final List<String> cidrListAliases;
+
+  /// The IP address, or range of IP addresses in CIDR notation, that are allowed
+  /// to connect to an instance through the ports, and the protocol. Lightsail
+  /// supports IPv4 addresses.
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// To allow the IP address <code>192.0.2.44</code>, specify
+  /// <code>192.0.2.44</code> or <code>192.0.2.44/32</code>.
+  /// </li>
+  /// <li>
+  /// To allow the IP addresses <code>192.0.2.0</code> to
+  /// <code>192.0.2.255</code>, specify <code>192.0.2.0/24</code>.
+  /// </li>
+  /// </ul>
+  /// For more information about CIDR block notation, see <a
+  /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">Classless
+  /// Inter-Domain Routing</a> on <i>Wikipedia</i>.
+  @_s.JsonKey(name: 'cidrs')
+  final List<String> cidrs;
+
+  /// The first port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - The ICMP type. For example, specify <code>8</code> as the
+  /// <code>fromPort</code> (ICMP type), and <code>-1</code> as the
+  /// <code>toPort</code> (ICMP code), to enable ICMP Ping. For more information,
+  /// see <a
+  /// href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Control_messages">Control
+  /// Messages</a> on <i>Wikipedia</i>.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'fromPort')
   final int fromPort;
 
-  /// The protocol.
+  /// The IP protocol name.
+  ///
+  /// The name can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>tcp</code> - Transmission Control Protocol (TCP) provides reliable,
+  /// ordered, and error-checked delivery of streamed data between applications
+  /// running on hosts communicating by an IP network. If you have an application
+  /// that doesn't require reliable data stream service, use UDP instead.
+  /// </li>
+  /// <li>
+  /// <code>all</code> - All transport layer protocol types. For more general
+  /// information, see <a
+  /// href="https://en.wikipedia.org/wiki/Transport_layer">Transport layer</a> on
+  /// <i>Wikipedia</i>.
+  /// </li>
+  /// <li>
+  /// <code>udp</code> - With User Datagram Protocol (UDP), computer applications
+  /// can send messages (or datagrams) to other hosts on an Internet Protocol (IP)
+  /// network. Prior communications are not required to set up transmission
+  /// channels or data paths. Applications that don't require reliable data stream
+  /// service can use UDP, which provides a connectionless datagram service that
+  /// emphasizes reduced latency over reliability. If you do require reliable data
+  /// stream service, use TCP instead.
+  /// </li>
+  /// <li>
+  /// <code>icmp</code> - Internet Control Message Protocol (ICMP) is used to send
+  /// error messages and operational information indicating success or failure
+  /// when communicating with an instance. For example, an error is indicated when
+  /// an instance could not be reached. When you specify <code>icmp</code> as the
+  /// <code>protocol</code>, you must specify the ICMP type using the
+  /// <code>fromPort</code> parameter, and ICMP code using the <code>toPort</code>
+  /// parameter.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'protocol')
   final NetworkProtocol protocol;
 
-  /// The last port in the range.
+  /// The last port in a range of open ports on an instance.
+  ///
+  /// Allowed ports:
+  ///
+  /// <ul>
+  /// <li>
+  /// TCP and UDP - <code>0</code> to <code>65535</code>
+  /// </li>
+  /// <li>
+  /// ICMP - The ICMP code. For example, specify <code>8</code> as the
+  /// <code>fromPort</code> (ICMP type), and <code>-1</code> as the
+  /// <code>toPort</code> (ICMP code), to enable ICMP Ping. For more information,
+  /// see <a
+  /// href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Control_messages">Control
+  /// Messages</a> on <i>Wikipedia</i>.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'toPort')
   final int toPort;
 
   PortInfo({
+    this.cidrListAliases,
+    this.cidrs,
     this.fromPort,
     this.protocol,
     this.toPort,
@@ -13515,7 +18012,7 @@ enum PortState {
     createToJson: false)
 class PutAlarmResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -13534,7 +18031,7 @@ class PutAlarmResult {
     createToJson: false)
 class PutInstancePublicPortsResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -13546,6 +18043,43 @@ class PutInstancePublicPortsResult {
       _$PutInstancePublicPortsResultFromJson(json);
 }
 
+/// Describes the query string parameters that an Amazon Lightsail content
+/// delivery network (CDN) distribution to bases caching on.
+///
+/// For the query strings that you specify, your distribution caches separate
+/// versions of the specified content based on the query string values in viewer
+/// requests.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class QueryStringObject {
+  /// Indicates whether the distribution forwards and caches based on query
+  /// strings.
+  @_s.JsonKey(name: 'option')
+  final bool option;
+
+  /// The specific query strings that the distribution forwards to the origin.
+  ///
+  /// Your distribution will cache content based on the specified query strings.
+  ///
+  /// If the <code>option</code> parameter is true, then your distribution
+  /// forwards all query strings, regardless of what you specify using the
+  /// <code>queryStringsAllowList</code> parameter.
+  @_s.JsonKey(name: 'queryStringsAllowList')
+  final List<String> queryStringsAllowList;
+
+  QueryStringObject({
+    this.option,
+    this.queryStringsAllowList,
+  });
+  factory QueryStringObject.fromJson(Map<String, dynamic> json) =>
+      _$QueryStringObjectFromJson(json);
+
+  Map<String, dynamic> toJson() => _$QueryStringObjectToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -13553,7 +18087,7 @@ class PutInstancePublicPortsResult {
     createToJson: false)
 class RebootInstanceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -13572,7 +18106,7 @@ class RebootInstanceResult {
     createToJson: false)
 class RebootRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -13703,6 +18237,22 @@ extension on RegionName {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RegisterContainerImageResult {
+  @_s.JsonKey(name: 'containerImage')
+  final ContainerImage containerImage;
+
+  RegisterContainerImageResult({
+    this.containerImage,
+  });
+  factory RegisterContainerImageResult.fromJson(Map<String, dynamic> json) =>
+      _$RegisterContainerImageResultFromJson(json);
 }
 
 /// Describes a database.
@@ -14289,7 +18839,7 @@ class RelationalDatabaseSnapshot {
     createToJson: false)
 class ReleaseStaticIpResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14299,6 +18849,112 @@ class ReleaseStaticIpResult {
   });
   factory ReleaseStaticIpResult.fromJson(Map<String, dynamic> json) =>
       _$ReleaseStaticIpResultFromJson(json);
+}
+
+enum RenewalStatus {
+  @_s.JsonValue('PendingAutoRenewal')
+  pendingAutoRenewal,
+  @_s.JsonValue('PendingValidation')
+  pendingValidation,
+  @_s.JsonValue('Success')
+  success,
+  @_s.JsonValue('Failed')
+  failed,
+}
+
+/// Describes the status of a SSL/TLS certificate renewal managed by Amazon
+/// Lightsail.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RenewalSummary {
+  /// An array of objects that describe the domain validation records of the
+  /// certificate.
+  @_s.JsonKey(name: 'domainValidationRecords')
+  final List<DomainValidationRecord> domainValidationRecords;
+
+  /// The renewal status of the certificate.
+  ///
+  /// The following renewal status are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>PendingAutoRenewal</code> </b> - Lightsail is attempting to
+  /// automatically validate the domain names of the certificate. No further
+  /// action is required.
+  /// </li>
+  /// <li>
+  /// <b> <code>PendingValidation</code> </b> - Lightsail couldn't automatically
+  /// validate one or more domain names of the certificate. You must take action
+  /// to validate these domain names or the certificate won't be renewed. Check to
+  /// make sure your certificate's domain validation records exist in your
+  /// domain's DNS, and that your certificate remains in use.
+  /// </li>
+  /// <li>
+  /// <b> <code>Success</code> </b> - All domain names in the certificate are
+  /// validated, and Lightsail renewed the certificate. No further action is
+  /// required.
+  /// </li>
+  /// <li>
+  /// <b> <code>Failed</code> </b> - One or more domain names were not validated
+  /// before the certificate expired, and Lightsail did not renew the certificate.
+  /// You can request a new certificate using the <code>CreateCertificate</code>
+  /// action.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'renewalStatus')
+  final RenewalStatus renewalStatus;
+
+  /// The reason for the renewal status of the certificate.
+  @_s.JsonKey(name: 'renewalStatusReason')
+  final String renewalStatusReason;
+
+  /// The timestamp when the certificate was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updatedAt')
+  final DateTime updatedAt;
+
+  RenewalSummary({
+    this.domainValidationRecords,
+    this.renewalStatus,
+    this.renewalStatusReason,
+    this.updatedAt,
+  });
+  factory RenewalSummary.fromJson(Map<String, dynamic> json) =>
+      _$RenewalSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ResetDistributionCacheResult {
+  /// The timestamp of the reset cache request (e.g., <code>1479734909.17</code>)
+  /// in Unix time format.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createTime')
+  final DateTime createTime;
+
+  /// An array of objects that describe the result of the action, such as the
+  /// status of the request, the timestamp of the request, and the resources
+  /// affected by the request.
+  @_s.JsonKey(name: 'operation')
+  final Operation operation;
+
+  /// The status of the reset cache request.
+  @_s.JsonKey(name: 'status')
+  final String status;
+
+  ResetDistributionCacheResult({
+    this.createTime,
+    this.operation,
+    this.status,
+  });
+  factory ResetDistributionCacheResult.fromJson(Map<String, dynamic> json) =>
+      _$ResetDistributionCacheResultFromJson(json);
 }
 
 /// Describes the resource location.
@@ -14325,7 +18981,38 @@ class ResourceLocation {
       _$ResourceLocationFromJson(json);
 }
 
+/// Describes the domain name system (DNS) records to add to your domain's DNS
+/// to validate it for an Amazon Lightsail certificate.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ResourceRecord {
+  /// The name of the record.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The DNS record type.
+  @_s.JsonKey(name: 'type')
+  final String type;
+
+  /// The value for the DNS record.
+  @_s.JsonKey(name: 'value')
+  final String value;
+
+  ResourceRecord({
+    this.name,
+    this.type,
+    this.value,
+  });
+  factory ResourceRecord.fromJson(Map<String, dynamic> json) =>
+      _$ResourceRecordFromJson(json);
+}
+
 enum ResourceType {
+  @_s.JsonValue('ContainerService')
+  containerService,
   @_s.JsonValue('Instance')
   instance,
   @_s.JsonValue('StaticIp')
@@ -14358,6 +19045,10 @@ enum ResourceType {
   alarm,
   @_s.JsonValue('ContactMethod')
   contactMethod,
+  @_s.JsonValue('Distribution')
+  distribution,
+  @_s.JsonValue('Certificate')
+  certificate,
 }
 
 @_s.JsonSerializable(
@@ -14367,7 +19058,7 @@ enum ResourceType {
     createToJson: false)
 class SendContactMethodVerificationResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14387,7 +19078,7 @@ class SendContactMethodVerificationResult {
     createToJson: false)
 class StartInstanceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14406,7 +19097,7 @@ class StartInstanceResult {
     createToJson: false)
 class StartRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14489,7 +19180,7 @@ class StaticIp {
     createToJson: false)
 class StopInstanceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14508,7 +19199,7 @@ class StopInstanceResult {
     createToJson: false)
 class StopRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14562,7 +19253,7 @@ class Tag {
     createToJson: false)
 class TagResourceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14581,7 +19272,7 @@ class TagResourceResult {
     createToJson: false)
 class TestAlarmResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14627,7 +19318,7 @@ extension on TreatMissingData {
     createToJson: false)
 class UnpeerVpcResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operation')
   final Operation operation;
@@ -14646,7 +19337,7 @@ class UnpeerVpcResult {
     createToJson: false)
 class UntagResourceResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14663,9 +19354,61 @@ class UntagResourceResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateContainerServiceResult {
+  /// An object that describes a container service.
+  @_s.JsonKey(name: 'containerService')
+  final ContainerService containerService;
+
+  UpdateContainerServiceResult({
+    this.containerService,
+  });
+  factory UpdateContainerServiceResult.fromJson(Map<String, dynamic> json) =>
+      _$UpdateContainerServiceResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateDistributionBundleResult {
+  @_s.JsonKey(name: 'operation')
+  final Operation operation;
+
+  UpdateDistributionBundleResult({
+    this.operation,
+  });
+  factory UpdateDistributionBundleResult.fromJson(Map<String, dynamic> json) =>
+      _$UpdateDistributionBundleResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateDistributionResult {
+  /// An array of objects that describe the result of the action, such as the
+  /// status of the request, the timestamp of the request, and the resources
+  /// affected by the request.
+  @_s.JsonKey(name: 'operation')
+  final Operation operation;
+
+  UpdateDistributionResult({
+    this.operation,
+  });
+  factory UpdateDistributionResult.fromJson(Map<String, dynamic> json) =>
+      _$UpdateDistributionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdateDomainEntryResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14684,7 +19427,7 @@ class UpdateDomainEntryResult {
     createToJson: false)
 class UpdateLoadBalancerAttributeResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14704,7 +19447,7 @@ class UpdateLoadBalancerAttributeResult {
     createToJson: false)
 class UpdateRelationalDatabaseParametersResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;
@@ -14724,7 +19467,7 @@ class UpdateRelationalDatabaseParametersResult {
     createToJson: false)
 class UpdateRelationalDatabaseResult {
   /// An array of objects that describe the result of the action, such as the
-  /// status of the request, the time stamp of the request, and the resources
+  /// status of the request, the timestamp of the request, and the resources
   /// affected by the request.
   @_s.JsonKey(name: 'operations')
   final List<Operation> operations;

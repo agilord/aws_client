@@ -27,31 +27,14 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'iam-2010-05-08.g.dart';
 
-/// AWS Identity and Access Management (IAM) is a web service that you can use
-/// to manage users and user permissions under your AWS account. This guide
-/// provides descriptions of IAM actions that you can call programmatically. For
-/// general information about IAM, see <a href="http://aws.amazon.com/iam/">AWS
-/// Identity and Access Management (IAM)</a>. For the user guide for IAM, see <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/">Using IAM</a>.
-/// <note>
-/// AWS provides SDKs that consist of libraries and sample code for various
-/// programming languages and platforms (Java, Ruby, .NET, iOS, Android, etc.).
-/// The SDKs provide a convenient way to create programmatic access to IAM and
-/// AWS. For example, the SDKs take care of tasks such as cryptographically
-/// signing requests (see below), managing errors, and retrying requests
-/// automatically. For information about the AWS SDKs, including how to download
-/// and install them, see the <a href="http://aws.amazon.com/tools/">Tools for
-/// Amazon Web Services</a> page.
-/// </note>
-/// We recommend that you use the AWS SDKs to make programmatic API calls to
-/// IAM. However, you can also use the IAM Query API to make direct calls to the
-/// IAM web service. To learn more about the IAM Query API, see <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
-/// Query Requests</a> in the <i>Using IAM</i> guide. IAM supports GET and POST
-/// requests for all actions. That is, the API does not require you to use GET
-/// for some actions and POST for others. However, GET requests are subject to
-/// the limitation size of a URL. Therefore, for operations that require larger
-/// sizes, use a POST request.
+/// AWS Identity and Access Management (IAM) is a web service for securely
+/// controlling access to AWS services. With IAM, you can centrally manage
+/// users, security credentials such as access keys, and permissions that
+/// control which AWS resources users and applications can access. For more
+/// information about IAM, see <a href="http://aws.amazon.com/iam/">AWS Identity
+/// and Access Management (IAM)</a> and the <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/">AWS Identity and
+/// Access Management User Guide</a>.
 class IAM {
   final _s.QueryProtocol _protocol;
   final Map<String, _s.Shape> shapes;
@@ -128,10 +111,12 @@ class IAM {
   }
 
   /// Adds the specified IAM role to the specified instance profile. An instance
-  /// profile can contain only one role, and this limit cannot be increased. You
-  /// can remove the existing role and then add a different role to an instance
-  /// profile. You must then wait for the change to appear across all of AWS
-  /// because of <a
+  /// profile can contain only one role. (The number and size of IAM resources
+  /// in an AWS account are limited. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS Quotas</a> in the <i>IAM User Guide</i>.) You can remove the
+  /// existing role and then add a different role to an instance profile. You
+  /// must then wait for the change to appear across all of AWS because of <a
   /// href="https://en.wikipedia.org/wiki/Eventual_consistency">eventual
   /// consistency</a>. To force the change, you must <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DisassociateIamInstanceProfile.html">disassociate
@@ -595,9 +580,10 @@ class IAM {
   /// operation to manage AWS account root user credentials. This is true even
   /// if the AWS account has no associated users.
   ///
-  /// For information about limits on the number of keys you can create, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
-  /// on IAM Entities</a> in the <i>IAM User Guide</i>.
+  /// The number and size of IAM resources in an AWS account are limited. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
   /// <important>
   /// To ensure the security of your AWS account, the secret access key is
   /// accessible only during key and user creation. You must save the key (for
@@ -696,9 +682,10 @@ class IAM {
 
   /// Creates a new group.
   ///
-  /// For information about the number of groups you can create, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
-  /// on IAM Entities</a> in the <i>IAM User Guide</i>.
+  /// The number and size of IAM resources in an AWS account are limited. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [EntityAlreadyExistsException].
@@ -778,10 +765,10 @@ class IAM {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
   /// Instance Profiles</a>.
   ///
-  /// For information about the number of instance profiles you can create, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
-  /// on IAM Entities</a> in the <i>IAM User Guide</i>.
+  /// The number and size of IAM resources in an AWS account are limited. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [EntityAlreadyExistsException].
   /// May throw [LimitExceededException].
@@ -1326,10 +1313,10 @@ class IAM {
   /// Creates a new role for your AWS account. For more information about roles,
   /// go to <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">IAM
-  /// Roles</a>. For information about limitations on role names and the number
-  /// of roles you can create, go to <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
-  /// on IAM Entities</a> in the <i>IAM User Guide</i>.
+  /// Roles</a>. The number and size of IAM resources in an AWS account are
+  /// limited. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [InvalidInputException].
@@ -1795,10 +1782,10 @@ class IAM {
 
   /// Creates a new IAM user for your AWS account.
   ///
-  /// For information about limitations on the number of IAM users you can
-  /// create, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
-  /// on IAM Entities</a> in the <i>IAM User Guide</i>.
+  /// The number and size of IAM resources in an AWS account are limited. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [EntityAlreadyExistsException].
@@ -1907,10 +1894,10 @@ class IAM {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
   /// a Virtual MFA Device</a> in the <i>IAM User Guide</i>.
   ///
-  /// For information about limits on the number of MFA devices you can create,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
-  /// on Entities</a> in the <i>IAM User Guide</i>.
+  /// The number and size of IAM resources in an AWS account are limited. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
   /// <important>
   /// The seed information contained in the QR code and the Base32 string should
   /// be treated like any other secret access information. In other words,
@@ -4051,9 +4038,10 @@ class IAM {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
   /// Policies</a> in the <i>IAM User Guide</i>.
   /// </note>
-  /// For more information about service last accessed data, see <a
+  /// For more information about service and action last accessed data, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Reducing
-  /// Policy Scope by Viewing User Activity</a> in the <i>IAM User Guide</i>.
+  /// Permissions Using Service Last Accessed Data</a> in the <i>IAM User
+  /// Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
@@ -4062,9 +4050,18 @@ class IAM {
   /// The ARN of the IAM resource (user, group, role, or managed policy) used to
   /// generate information about when the resource was last used in an attempt
   /// to access an AWS service.
+  ///
+  /// Parameter [granularity] :
+  /// The level of detail that you want to generate. You can specify whether you
+  /// want to generate information about the last attempt to access services or
+  /// actions. If you specify service-level granularity, this operation
+  /// generates only service data. If you specify action-level granularity, it
+  /// generates service and action data. If you don't include this optional
+  /// parameter, the operation generates service data.
   Future<GenerateServiceLastAccessedDetailsResponse>
       generateServiceLastAccessedDetails({
     @_s.required String arn,
+    AccessAdvisorUsageGranularityType granularity,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -4076,6 +4073,7 @@ class IAM {
     );
     final $request = <String, dynamic>{};
     $request['Arn'] = arn;
+    granularity?.also((arg) => $request['Granularity'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       action: 'GenerateServiceLastAccessedDetails',
@@ -4246,9 +4244,10 @@ class IAM {
   /// Retrieves information about IAM entity usage and IAM quotas in the AWS
   /// account.
   ///
-  /// For information about limitations on IAM entities, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
-  /// on IAM Entities</a> in the <i>IAM User Guide</i>.
+  /// The number and size of IAM resources in an AWS account are limited. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [ServiceFailureException].
   Future<GetAccountSummaryResponse> getAccountSummary() async {
@@ -5371,6 +5370,16 @@ class IAM {
   /// </li>
   /// </ul>
   /// By default, the list is sorted by service namespace.
+  ///
+  /// If you specified <code>ACTION_LEVEL</code> granularity when you generated
+  /// the report, this operation returns service and action last accessed data.
+  /// This includes the most recent access attempt for each tracked action
+  /// within a service. Otherwise, this operation returns only service data.
+  ///
+  /// For more information about service and action last accessed data, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Reducing
+  /// Permissions Using Service Last Accessed Data</a> in the <i>IAM User
+  /// Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
@@ -9833,7 +9842,7 @@ class IAM {
   /// entity can only have one permissions boundary in effect at a time. For
   /// example, if a permissions boundary is attached to an entity and you pass
   /// in a different permissions boundary policy using this parameter, then the
-  /// new permission boundary policy is used for the simulation. For more
+  /// new permissions boundary policy is used for the simulation. For more
   /// information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
   /// Boundaries for IAM Entities</a> in the <i>IAM User Guide</i>. The policy
@@ -12103,6 +12112,37 @@ class IAM {
   }
 }
 
+enum AccessAdvisorUsageGranularityType {
+  @_s.JsonValue('SERVICE_LEVEL')
+  serviceLevel,
+  @_s.JsonValue('ACTION_LEVEL')
+  actionLevel,
+}
+
+extension on AccessAdvisorUsageGranularityType {
+  String toValue() {
+    switch (this) {
+      case AccessAdvisorUsageGranularityType.serviceLevel:
+        return 'SERVICE_LEVEL';
+      case AccessAdvisorUsageGranularityType.actionLevel:
+        return 'ACTION_LEVEL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AccessAdvisorUsageGranularityType toAccessAdvisorUsageGranularityType() {
+    switch (this) {
+      case 'SERVICE_LEVEL':
+        return AccessAdvisorUsageGranularityType.serviceLevel;
+      case 'ACTION_LEVEL':
+        return AccessAdvisorUsageGranularityType.actionLevel;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// An object that contains details about when a principal in the reported AWS
 /// Organizations entity last attempted to access an AWS service. A principal
 /// can be an IAM user, an IAM role, or the AWS account root user within the
@@ -13663,7 +13703,6 @@ class GetServiceLastAccessedDetailsResponse {
   /// An object that contains details about the reason the operation failed.
   final ErrorDetails error;
 
-  /// <p/>
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
   /// the <code>Marker</code> request parameter to retrieve more items. Note that
@@ -13672,6 +13711,11 @@ class GetServiceLastAccessedDetailsResponse {
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
   final bool isTruncated;
+
+  /// The type of job. Service jobs return information about when each service was
+  /// last accessed. Action jobs also include information about when tracked
+  /// actions within the service were last accessed.
+  final AccessAdvisorUsageGranularityType jobType;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
@@ -13685,6 +13729,7 @@ class GetServiceLastAccessedDetailsResponse {
     @_s.required this.servicesLastAccessed,
     this.error,
     this.isTruncated,
+    this.jobType,
     this.marker,
   });
   factory GetServiceLastAccessedDetailsResponse.fromXml(_s.XmlElement elem) {
@@ -13702,6 +13747,9 @@ class GetServiceLastAccessedDetailsResponse {
           .extractXmlChild(elem, 'Error')
           ?.let((e) => ErrorDetails.fromXml(e)),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      jobType: _s
+          .extractXmlStringValue(elem, 'JobType')
+          ?.toAccessAdvisorUsageGranularityType(),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -16474,6 +16522,15 @@ class ServiceLastAccessed {
   /// period</a>.
   final String lastAuthenticatedEntity;
 
+  /// The Region from which the authenticated entity (user or role) last attempted
+  /// to access the service. AWS does not report unauthenticated requests.
+  ///
+  /// This field is null if no IAM entities attempted to access the service within
+  /// the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
+  /// period</a>.
+  final String lastAuthenticatedRegion;
+
   /// The total number of authenticated principals (root user, IAM users, or IAM
   /// roles) that have attempted to access the service.
   ///
@@ -16483,12 +16540,25 @@ class ServiceLastAccessed {
   /// period</a>.
   final int totalAuthenticatedEntities;
 
+  /// An object that contains details about the most recent attempt to access a
+  /// tracked action within the service.
+  ///
+  /// This field is null if there no tracked actions or if the principal did not
+  /// use the tracked actions within the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
+  /// period</a>. This field is also null if the report was generated at the
+  /// service level and not the action level. For more information, see the
+  /// <code>Granularity</code> field in <a>GenerateServiceLastAccessedDetails</a>.
+  final List<TrackedActionLastAccessed> trackedActionsLastAccessed;
+
   ServiceLastAccessed({
     @_s.required this.serviceName,
     @_s.required this.serviceNamespace,
     this.lastAuthenticated,
     this.lastAuthenticatedEntity,
+    this.lastAuthenticatedRegion,
     this.totalAuthenticatedEntities,
+    this.trackedActionsLastAccessed,
   });
   factory ServiceLastAccessed.fromXml(_s.XmlElement elem) {
     return ServiceLastAccessed(
@@ -16497,8 +16567,16 @@ class ServiceLastAccessed {
       lastAuthenticated: _s.extractXmlDateTimeValue(elem, 'LastAuthenticated'),
       lastAuthenticatedEntity:
           _s.extractXmlStringValue(elem, 'LastAuthenticatedEntity'),
+      lastAuthenticatedRegion:
+          _s.extractXmlStringValue(elem, 'LastAuthenticatedRegion'),
       totalAuthenticatedEntities:
           _s.extractXmlIntValue(elem, 'TotalAuthenticatedEntities'),
+      trackedActionsLastAccessed: _s
+          .extractXmlChild(elem, 'TrackedActionsLastAccessed')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map((c) => TrackedActionLastAccessed.fromXml(c))
+              .toList()),
     );
   }
 }
@@ -16762,6 +16840,52 @@ class Tag {
   }
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+/// Contains details about the most recent attempt to access an action within
+/// the service.
+///
+/// This data type is used as a response element in the
+/// <a>GetServiceLastAccessedDetails</a> operation.
+class TrackedActionLastAccessed {
+  /// The name of the tracked action to which access was attempted. Tracked
+  /// actions are actions that report activity to IAM.
+  final String actionName;
+  final String lastAccessedEntity;
+
+  /// The Region from which the authenticated entity (user or role) last attempted
+  /// to access the tracked action. AWS does not report unauthenticated requests.
+  ///
+  /// This field is null if no IAM entities attempted to access the service within
+  /// the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
+  /// period</a>.
+  final String lastAccessedRegion;
+
+  /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
+  /// date-time format</a>, when an authenticated entity most recently attempted
+  /// to access the tracked service. AWS does not report unauthenticated requests.
+  ///
+  /// This field is null if no IAM entities attempted to access the service within
+  /// the <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
+  /// period</a>.
+  final DateTime lastAccessedTime;
+
+  TrackedActionLastAccessed({
+    this.actionName,
+    this.lastAccessedEntity,
+    this.lastAccessedRegion,
+    this.lastAccessedTime,
+  });
+  factory TrackedActionLastAccessed.fromXml(_s.XmlElement elem) {
+    return TrackedActionLastAccessed(
+      actionName: _s.extractXmlStringValue(elem, 'ActionName'),
+      lastAccessedEntity: _s.extractXmlStringValue(elem, 'LastAccessedEntity'),
+      lastAccessedRegion: _s.extractXmlStringValue(elem, 'LastAccessedRegion'),
+      lastAccessedTime: _s.extractXmlDateTimeValue(elem, 'LastAccessedTime'),
+    );
+  }
 }
 
 class UpdateRoleDescriptionResponse {

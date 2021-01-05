@@ -83,6 +83,13 @@ CreateLocationNfsResponse _$CreateLocationNfsResponseFromJson(
   );
 }
 
+CreateLocationObjectStorageResponse
+    _$CreateLocationObjectStorageResponseFromJson(Map<String, dynamic> json) {
+  return CreateLocationObjectStorageResponse(
+    locationArn: json['LocationArn'] as String,
+  );
+}
+
 CreateLocationS3Response _$CreateLocationS3ResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLocationS3Response(
@@ -181,9 +188,29 @@ DescribeLocationNfsResponse _$DescribeLocationNfsResponseFromJson(
   );
 }
 
+DescribeLocationObjectStorageResponse
+    _$DescribeLocationObjectStorageResponseFromJson(Map<String, dynamic> json) {
+  return DescribeLocationObjectStorageResponse(
+    accessKey: json['AccessKey'] as String,
+    agentArns: (json['AgentArns'] as List)?.map((e) => e as String)?.toList(),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    locationArn: json['LocationArn'] as String,
+    locationUri: json['LocationUri'] as String,
+    serverPort: json['ServerPort'] as int,
+    serverProtocol: _$enumDecodeNullable(
+        _$ObjectStorageServerProtocolEnumMap, json['ServerProtocol']),
+  );
+}
+
+const _$ObjectStorageServerProtocolEnumMap = {
+  ObjectStorageServerProtocol.https: 'HTTPS',
+  ObjectStorageServerProtocol.http: 'HTTP',
+};
+
 DescribeLocationS3Response _$DescribeLocationS3ResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLocationS3Response(
+    agentArns: (json['AgentArns'] as List)?.map((e) => e as String)?.toList(),
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     locationArn: json['LocationArn'] as String,
     locationUri: json['LocationUri'] as String,
@@ -202,6 +229,7 @@ const _$S3StorageClassEnumMap = {
   S3StorageClass.intelligentTiering: 'INTELLIGENT_TIERING',
   S3StorageClass.glacier: 'GLACIER',
   S3StorageClass.deepArchive: 'DEEP_ARCHIVE',
+  S3StorageClass.outposts: 'OUTPOSTS',
 };
 
 DescribeLocationSmbResponse _$DescribeLocationSmbResponseFromJson(
@@ -403,6 +431,40 @@ ListTasksResponse _$ListTasksResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$LocationFilterToJson(LocationFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', _$LocationFilterNameEnumMap[instance.name]);
+  writeNotNull('Operator', _$OperatorEnumMap[instance.operator]);
+  writeNotNull('Values', instance.values);
+  return val;
+}
+
+const _$LocationFilterNameEnumMap = {
+  LocationFilterName.locationUri: 'LocationUri',
+  LocationFilterName.locationType: 'LocationType',
+  LocationFilterName.creationTime: 'CreationTime',
+};
+
+const _$OperatorEnumMap = {
+  Operator.equals: 'Equals',
+  Operator.notEquals: 'NotEquals',
+  Operator.$in: 'In',
+  Operator.lessThanOrEqual: 'LessThanOrEqual',
+  Operator.lessThan: 'LessThan',
+  Operator.greaterThanOrEqual: 'GreaterThanOrEqual',
+  Operator.greaterThan: 'GreaterThan',
+  Operator.contains: 'Contains',
+  Operator.notContains: 'NotContains',
+  Operator.beginsWith: 'BeginsWith',
+};
+
 LocationListEntry _$LocationListEntryFromJson(Map<String, dynamic> json) {
   return LocationListEntry(
     locationArn: json['LocationArn'] as String,
@@ -472,6 +534,8 @@ Options _$OptionsFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$PreserveDevicesEnumMap, json['PreserveDevices']),
     taskQueueing:
         _$enumDecodeNullable(_$TaskQueueingEnumMap, json['TaskQueueing']),
+    transferMode:
+        _$enumDecodeNullable(_$TransferModeEnumMap, json['TransferMode']),
     uid: _$enumDecodeNullable(_$UidEnumMap, json['Uid']),
     verifyMode: _$enumDecodeNullable(_$VerifyModeEnumMap, json['VerifyMode']),
   );
@@ -499,6 +563,7 @@ Map<String, dynamic> _$OptionsToJson(Options instance) {
   writeNotNull(
       'PreserveDevices', _$PreserveDevicesEnumMap[instance.preserveDevices]);
   writeNotNull('TaskQueueing', _$TaskQueueingEnumMap[instance.taskQueueing]);
+  writeNotNull('TransferMode', _$TransferModeEnumMap[instance.transferMode]);
   writeNotNull('Uid', _$UidEnumMap[instance.uid]);
   writeNotNull('VerifyMode', _$VerifyModeEnumMap[instance.verifyMode]);
   return val;
@@ -550,6 +615,11 @@ const _$PreserveDevicesEnumMap = {
 const _$TaskQueueingEnumMap = {
   TaskQueueing.enabled: 'ENABLED',
   TaskQueueing.disabled: 'DISABLED',
+};
+
+const _$TransferModeEnumMap = {
+  TransferMode.changed: 'CHANGED',
+  TransferMode.all: 'ALL',
 };
 
 const _$UidEnumMap = {
@@ -683,6 +753,26 @@ const _$PhaseStatusEnumMap = {
   PhaseStatus.error: 'ERROR',
 };
 
+Map<String, dynamic> _$TaskFilterToJson(TaskFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', _$TaskFilterNameEnumMap[instance.name]);
+  writeNotNull('Operator', _$OperatorEnumMap[instance.operator]);
+  writeNotNull('Values', instance.values);
+  return val;
+}
+
+const _$TaskFilterNameEnumMap = {
+  TaskFilterName.locationId: 'LocationId',
+  TaskFilterName.creationTime: 'CreationTime',
+};
+
 TaskListEntry _$TaskListEntryFromJson(Map<String, dynamic> json) {
   return TaskListEntry(
     name: json['Name'] as String,
@@ -717,6 +807,11 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
 
 UpdateAgentResponse _$UpdateAgentResponseFromJson(Map<String, dynamic> json) {
   return UpdateAgentResponse();
+}
+
+UpdateTaskExecutionResponse _$UpdateTaskExecutionResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateTaskExecutionResponse();
 }
 
 UpdateTaskResponse _$UpdateTaskResponseFromJson(Map<String, dynamic> json) {

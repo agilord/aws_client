@@ -14,11 +14,10 @@ an API that's tailored to the programming language or platform that you're
 using. For more information, see <a
 href="https://aws.amazon.com/tools/#SDKs">AWS SDKs</a>.
 <note>
-Each ACM Private CA API action has a throttling limit which determines the
-number of times the action can be called per second. For more information,
-see <a
+Each ACM Private CA API action has a quota that determines the number of
+times the action can be called per second. For more information, see <a
 href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaLimits.html#PcaLimits-api">API
-Rate Limits in ACM Private CA</a> in the ACM Private CA user guide.
+Rate Quotas in ACM Private CA</a> in the ACM Private CA user guide.
 </note>
 
 ## Links

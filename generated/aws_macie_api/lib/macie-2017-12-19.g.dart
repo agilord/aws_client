@@ -6,14 +6,6 @@ part of 'macie-2017-12-19.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AccessDeniedException _$AccessDeniedExceptionFromJson(
-    Map<String, dynamic> json) {
-  return AccessDeniedException(
-    message: json['message'] as String,
-    resourceType: json['resourceType'] as String,
-  );
-}
-
 AssociateS3ResourcesResult _$AssociateS3ResourcesResultFromJson(
     Map<String, dynamic> json) {
   return AssociateS3ResourcesResult(
@@ -126,31 +118,6 @@ FailedS3Resource _$FailedS3ResourceFromJson(Map<String, dynamic> json) {
     failedItem: json['failedItem'] == null
         ? null
         : S3Resource.fromJson(json['failedItem'] as Map<String, dynamic>),
-  );
-}
-
-InternalException _$InternalExceptionFromJson(Map<String, dynamic> json) {
-  return InternalException(
-    errorCode: json['errorCode'] as String,
-    message: json['message'] as String,
-  );
-}
-
-InvalidInputException _$InvalidInputExceptionFromJson(
-    Map<String, dynamic> json) {
-  return InvalidInputException(
-    errorCode: json['errorCode'] as String,
-    fieldName: json['fieldName'] as String,
-    message: json['message'] as String,
-  );
-}
-
-LimitExceededException _$LimitExceededExceptionFromJson(
-    Map<String, dynamic> json) {
-  return LimitExceededException(
-    errorCode: json['errorCode'] as String,
-    message: json['message'] as String,
-    resourceType: json['resourceType'] as String,
   );
 }
 

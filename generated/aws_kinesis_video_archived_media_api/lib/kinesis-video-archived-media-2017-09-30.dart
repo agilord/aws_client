@@ -44,6 +44,130 @@ class KinesisVideoArchivedMedia {
           endpointUrl: endpointUrl,
         );
 
+  /// Downloads an MP4 file (clip) containing the archived, on-demand media from
+  /// the specified video stream over the specified time range.
+  ///
+  /// Both the StreamName and the StreamARN parameters are optional, but you
+  /// must specify either the StreamName or the StreamARN when invoking this API
+  /// operation.
+  ///
+  /// As a prerequsite to using GetCLip API, you must obtain an endpoint using
+  /// <code>GetDataEndpoint</code>, specifying GET_CLIP for<code/> the
+  /// <code>APIName</code> parameter.
+  ///
+  /// An Amazon Kinesis video stream has the following requirements for
+  /// providing data through MP4:
+  ///
+  /// <ul>
+  /// <li>
+  /// The media must contain h.264 or h.265 encoded video and, optionally, AAC
+  /// or G.711 encoded audio. Specifically, the codec ID of track 1 should be
+  /// <code>V_MPEG/ISO/AVC</code> (for h.264) or V_MPEGH/ISO/HEVC (for H.265).
+  /// Optionally, the codec ID of track 2 should be <code>A_AAC</code> (for AAC)
+  /// or A_MS/ACM (for G.711).
+  /// </li>
+  /// <li>
+  /// Data retention must be greater than 0.
+  /// </li>
+  /// <li>
+  /// The video track of each fragment must contain codec private data in the
+  /// Advanced Video Coding (AVC) for H.264 format and HEVC for H.265 format.
+  /// For more information, see <a
+  /// href="https://www.iso.org/standard/55980.html">MPEG-4 specification
+  /// ISO/IEC 14496-15</a>. For information about adapting stream data to a
+  /// given format, see <a
+  /// href="http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/producer-reference-nal.html">NAL
+  /// Adaptation Flags</a>.
+  /// </li>
+  /// <li>
+  /// The audio track (if present) of each fragment must contain codec private
+  /// data in the AAC format (<a
+  /// href="https://www.iso.org/standard/43345.html">AAC specification ISO/IEC
+  /// 13818-7</a>) or the <a
+  /// href="http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html">MS
+  /// Wave format</a>.
+  /// </li>
+  /// </ul>
+  /// You can monitor the amount of outgoing data by monitoring the
+  /// <code>GetClip.OutgoingBytes</code> Amazon CloudWatch metric. For
+  /// information about using CloudWatch to monitor Kinesis Video Streams, see
+  /// <a
+  /// href="http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/monitoring.html">Monitoring
+  /// Kinesis Video Streams</a>. For pricing information, see <a
+  /// href="https://aws.amazon.com/kinesis/video-streams/pricing/">Amazon
+  /// Kinesis Video Streams Pricing</a> and <a
+  /// href="https://aws.amazon.com/pricing/">AWS Pricing</a>. Charges for
+  /// outgoing AWS data apply.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [UnsupportedStreamMediaTypeException].
+  /// May throw [MissingCodecPrivateDataException].
+  /// May throw [InvalidCodecPrivateDataException].
+  /// May throw [InvalidMediaFrameException].
+  /// May throw [NoDataRetentionException].
+  ///
+  /// Parameter [clipFragmentSelector] :
+  /// The time range of the requested clip and the source of the timestamps.
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream for which to retrieve the
+  /// media clip.
+  ///
+  /// You must specify either the StreamName or the StreamARN.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream for which to retrieve the media clip.
+  ///
+  /// You must specify either the StreamName or the StreamARN.
+  Future<GetClipOutput> getClip({
+    @_s.required ClipFragmentSelector clipFragmentSelector,
+    String streamARN,
+    String streamName,
+  }) async {
+    ArgumentError.checkNotNull(clipFragmentSelector, 'clipFragmentSelector');
+    _s.validateStringLength(
+      'streamARN',
+      streamARN,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'streamARN',
+      streamARN,
+      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
+    );
+    _s.validateStringLength(
+      'streamName',
+      streamName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'streamName',
+      streamName,
+      r'''[a-zA-Z0-9_.-]+''',
+    );
+    final $payload = <String, dynamic>{
+      'ClipFragmentSelector': clipFragmentSelector,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+    };
+    final response = await _protocol.sendRaw(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/getClip',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetClipOutput(
+      payload: await response.stream.toBytes(),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+    );
+  }
+
   /// Retrieves an MPEG Dynamic Adaptive Streaming over HTTP (DASH) URL for the
   /// stream. You can then open the URL in a media player to view the stream
   /// contents.
@@ -1108,7 +1232,12 @@ class KinesisVideoArchivedMedia {
       'nextToken',
       nextToken,
       1,
-      1152921504606846976,
+      4096,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9+/]+={0,2}''',
     );
     final $payload = <String, dynamic>{
       'StreamName': streamName,
@@ -1124,6 +1253,89 @@ class KinesisVideoArchivedMedia {
     );
     return ListFragmentsOutput.fromJson(response);
   }
+}
+
+/// Describes the timestamp range and timestamp origin of a range of fragments.
+///
+/// Fragments that have duplicate producer timestamps are deduplicated. This
+/// means that if producers are producing a stream of fragments with producer
+/// timestamps that are approximately equal to the true clock time, the clip
+/// will contain all of the fragments within the requested timestamp range. If
+/// some fragments are ingested within the same time range and very different
+/// points in time, only the oldest ingested collection of fragments are
+/// returned.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ClipFragmentSelector {
+  /// The origin of the timestamps to use (Server or Producer).
+  @_s.JsonKey(name: 'FragmentSelectorType')
+  final ClipFragmentSelectorType fragmentSelectorType;
+
+  /// The range of timestamps to return.
+  @_s.JsonKey(name: 'TimestampRange')
+  final ClipTimestampRange timestampRange;
+
+  ClipFragmentSelector({
+    @_s.required this.fragmentSelectorType,
+    @_s.required this.timestampRange,
+  });
+  Map<String, dynamic> toJson() => _$ClipFragmentSelectorToJson(this);
+}
+
+enum ClipFragmentSelectorType {
+  @_s.JsonValue('PRODUCER_TIMESTAMP')
+  producerTimestamp,
+  @_s.JsonValue('SERVER_TIMESTAMP')
+  serverTimestamp,
+}
+
+/// The range of timestamps for which to return fragments.
+///
+/// The values in the ClipTimestampRange are <code>inclusive</code>. Fragments
+/// that begin before the start time but continue past it, or fragments that
+/// begin before the end time but continue past it, are included in the session.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ClipTimestampRange {
+  /// The end of the timestamp range for the requested media.
+  ///
+  /// This value must be within 3 hours of the specified
+  /// <code>StartTimestamp</code>, and it must be later than the
+  /// <code>StartTimestamp</code> value. If <code>FragmentSelectorType</code> for
+  /// the request is <code>SERVER_TIMESTAMP</code>, this value must be in the
+  /// past.
+  ///
+  /// This value is inclusive. The <code>EndTimestamp</code> is compared to the
+  /// (starting) timestamp of the fragment. Fragments that start before the
+  /// <code>EndTimestamp</code> value and continue past it are included in the
+  /// session.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTimestamp')
+  final DateTime endTimestamp;
+
+  /// The starting timestamp in the range of timestamps for which to return
+  /// fragments.
+  ///
+  /// This value is inclusive. Fragments that start before the
+  /// <code>StartTimestamp</code> and continue past it are included in the
+  /// session. If <code>FragmentSelectorType</code> is
+  /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
+  /// than the stream head.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTimestamp')
+  final DateTime startTimestamp;
+
+  ClipTimestampRange({
+    @_s.required this.endTimestamp,
+    @_s.required this.startTimestamp,
+  });
+  Map<String, dynamic> toJson() => _$ClipTimestampRangeToJson(this);
 }
 
 enum ContainerFormat {
@@ -1420,6 +1632,32 @@ enum FragmentSelectorType {
   producerTimestamp,
   @_s.JsonValue('SERVER_TIMESTAMP')
   serverTimestamp,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetClipOutput {
+  /// The content type of the media in the requested clip.
+  @_s.JsonKey(name: 'Content-Type')
+  final String contentType;
+
+  /// Traditional MP4 file that contains the media clip from the specified video
+  /// stream. The output will contain the first 100 MB or the first 200 fragments
+  /// from the specified start timestamp. For more information, see <a
+  /// href="Kinesis Video Streams Limits">Kinesis Video Streams Limits</a>.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'Payload')
+  final Uint8List payload;
+
+  GetClipOutput({
+    this.contentType,
+    this.payload,
+  });
+  factory GetClipOutput.fromJson(Map<String, dynamic> json) =>
+      _$GetClipOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1772,6 +2010,11 @@ class InvalidCodecPrivateDataException extends _s.GenericAwsException {
             message: message);
 }
 
+class InvalidMediaFrameException extends _s.GenericAwsException {
+  InvalidMediaFrameException({String type, String message})
+      : super(type: type, code: 'InvalidMediaFrameException', message: message);
+}
+
 class MissingCodecPrivateDataException extends _s.GenericAwsException {
   MissingCodecPrivateDataException({String type, String message})
       : super(
@@ -1810,6 +2053,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidArgumentException(type: type, message: message),
   'InvalidCodecPrivateDataException': (type, message) =>
       InvalidCodecPrivateDataException(type: type, message: message),
+  'InvalidMediaFrameException': (type, message) =>
+      InvalidMediaFrameException(type: type, message: message),
   'MissingCodecPrivateDataException': (type, message) =>
       MissingCodecPrivateDataException(type: type, message: message),
   'NoDataRetentionException': (type, message) =>

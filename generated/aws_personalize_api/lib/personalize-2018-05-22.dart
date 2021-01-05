@@ -75,6 +75,13 @@ class Personalize {
   /// The Amazon Resource Name (ARN) of the solution version that will be used
   /// to generate the batch inference recommendations.
   ///
+  /// Parameter [batchInferenceJobConfig] :
+  /// The configuration details of a batch inference job.
+  ///
+  /// Parameter [filterArn] :
+  /// The ARN of the filter to apply to the batch inference job. For more
+  /// information on using filters, see Using Filters with Amazon Personalize.
+  ///
   /// Parameter [numResults] :
   /// The number of recommendations to retreive.
   Future<CreateBatchInferenceJobResponse> createBatchInferenceJob({
@@ -83,6 +90,8 @@ class Personalize {
     @_s.required BatchInferenceJobOutput jobOutput,
     @_s.required String roleArn,
     @_s.required String solutionVersionArn,
+    BatchInferenceJobConfig batchInferenceJobConfig,
+    String filterArn,
     int numResults,
   }) async {
     ArgumentError.checkNotNull(jobInput, 'jobInput');
@@ -129,6 +138,17 @@ class Personalize {
       r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'filterArn',
+      filterArn,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'filterArn',
+      filterArn,
+      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateBatchInferenceJob'
@@ -145,6 +165,9 @@ class Personalize {
         'jobOutput': jobOutput,
         'roleArn': roleArn,
         'solutionVersionArn': solutionVersionArn,
+        if (batchInferenceJobConfig != null)
+          'batchInferenceJobConfig': batchInferenceJobConfig,
+        if (filterArn != null) 'filterArn': filterArn,
         if (numResults != null) 'numResults': numResults,
       },
     );
@@ -225,10 +248,14 @@ class Personalize {
   ///
   /// Parameter [solutionVersionArn] :
   /// The Amazon Resource Name (ARN) of the solution version to deploy.
+  ///
+  /// Parameter [campaignConfig] :
+  /// The configuration details of a campaign.
   Future<CreateCampaignResponse> createCampaign({
     @_s.required int minProvisionedTPS,
     @_s.required String name,
     @_s.required String solutionVersionArn,
+    CampaignConfig campaignConfig,
   }) async {
     ArgumentError.checkNotNull(minProvisionedTPS, 'minProvisionedTPS');
     _s.validateNumRange(
@@ -280,6 +307,7 @@ class Personalize {
         'minProvisionedTPS': minProvisionedTPS,
         'name': name,
         'solutionVersionArn': solutionVersionArn,
+        if (campaignConfig != null) 'campaignConfig': campaignConfig,
       },
     );
 
@@ -576,7 +604,9 @@ class Personalize {
   /// Creates a job that imports training data from your data source (an Amazon
   /// S3 bucket) to an Amazon Personalize dataset. To allow Amazon Personalize
   /// to import the training data, you must specify an AWS Identity and Access
-  /// Management (IAM) role that has permission to read from the data source.
+  /// Management (IAM) role that has permission to read from the data source, as
+  /// Amazon Personalize makes a copy of your data and processes it in an
+  /// internal AWS system.
   /// <important>
   /// The dataset import job replaces any previous data in the dataset.
   /// </important>
@@ -803,6 +833,95 @@ class Personalize {
     );
 
     return CreateEventTrackerResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a recommendation filter. For more information, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filters.html">Using
+  /// Filters with Amazon Personalize</a>.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [datasetGroupArn] :
+  /// The ARN of the dataset group that the filter will belong to.
+  ///
+  /// Parameter [filterExpression] :
+  /// The filter expression that designates the interaction types that the
+  /// filter will filter out. A filter expression must follow the following
+  /// format:
+  ///
+  /// <code>EXCLUDE itemId WHERE INTERACTIONS.event_type in
+  /// ("EVENT_TYPE")</code>
+  ///
+  /// Where "EVENT_TYPE" is the type of event to filter out. To filter out all
+  /// items with any interactions history, set <code>"*"</code> as the
+  /// EVENT_TYPE. For more information, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filters.html">Using
+  /// Filters with Amazon Personalize</a>.
+  ///
+  /// Parameter [name] :
+  /// The name of the filter to create.
+  Future<CreateFilterResponse> createFilter({
+    @_s.required String datasetGroupArn,
+    @_s.required String filterExpression,
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
+    _s.validateStringLength(
+      'datasetGroupArn',
+      datasetGroupArn,
+      0,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'datasetGroupArn',
+      datasetGroupArn,
+      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(filterExpression, 'filterExpression');
+    _s.validateStringLength(
+      'filterExpression',
+      filterExpression,
+      1,
+      2500,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[a-zA-Z0-9][a-zA-Z0-9\-_]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonPersonalize.CreateFilter'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'datasetGroupArn': datasetGroupArn,
+        'filterExpression': filterExpression,
+        'name': name,
+      },
+    );
+
+    return CreateFilterResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates an Amazon Personalize schema from the specified schema string. The
@@ -1111,6 +1230,7 @@ class Personalize {
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   ///
   /// Parameter [solutionArn] :
@@ -1350,6 +1470,47 @@ class Personalize {
       headers: headers,
       payload: {
         'eventTrackerArn': eventTrackerArn,
+      },
+    );
+  }
+
+  /// Deletes a filter.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [filterArn] :
+  /// The ARN of the filter to delete.
+  Future<void> deleteFilter({
+    @_s.required String filterArn,
+  }) async {
+    ArgumentError.checkNotNull(filterArn, 'filterArn');
+    _s.validateStringLength(
+      'filterArn',
+      filterArn,
+      0,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'filterArn',
+      filterArn,
+      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonPersonalize.DeleteFilter'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'filterArn': filterArn,
       },
     );
   }
@@ -1801,6 +1962,48 @@ class Personalize {
     );
 
     return DescribeFeatureTransformationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes a filter's properties.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [filterArn] :
+  /// The ARN of the filter to describe.
+  Future<DescribeFilterResponse> describeFilter({
+    @_s.required String filterArn,
+  }) async {
+    ArgumentError.checkNotNull(filterArn, 'filterArn');
+    _s.validateStringLength(
+      'filterArn',
+      filterArn,
+      0,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'filterArn',
+      filterArn,
+      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonPersonalize.DescribeFilter'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'filterArn': filterArn,
+      },
+    );
+
+    return DescribeFilterResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes a recipe.
@@ -2421,6 +2624,68 @@ class Personalize {
     return ListEventTrackersResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists all filters that belong to a given dataset group.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [datasetGroupArn] :
+  /// The ARN of the dataset group that contains the filters.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of filters to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from the previous call to <code>ListFilters</code> for
+  /// getting the next set of filters (if they exist).
+  Future<ListFiltersResponse> listFilters({
+    String datasetGroupArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateStringLength(
+      'datasetGroupArn',
+      datasetGroupArn,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'datasetGroupArn',
+      datasetGroupArn,
+      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      1300,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonPersonalize.ListFilters'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListFiltersResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of available recipes. The response provides the properties
   /// for each recipe, including the recipe's Amazon Resource Name (ARN).
   ///
@@ -2671,6 +2936,9 @@ class Personalize {
   /// Parameter [campaignArn] :
   /// The Amazon Resource Name (ARN) of the campaign.
   ///
+  /// Parameter [campaignConfig] :
+  /// The configuration details of a campaign.
+  ///
   /// Parameter [minProvisionedTPS] :
   /// Specifies the requested minimum provisioned transactions (recommendations)
   /// per second that Amazon Personalize will support.
@@ -2679,6 +2947,7 @@ class Personalize {
   /// The ARN of a new solution version to deploy.
   Future<UpdateCampaignResponse> updateCampaign({
     @_s.required String campaignArn,
+    CampaignConfig campaignConfig,
     int minProvisionedTPS,
     String solutionVersionArn,
   }) async {
@@ -2725,6 +2994,7 @@ class Personalize {
       headers: headers,
       payload: {
         'campaignArn': campaignArn,
+        if (campaignConfig != null) 'campaignConfig': campaignConfig,
         if (minProvisionedTPS != null) 'minProvisionedTPS': minProvisionedTPS,
         if (solutionVersionArn != null)
           'solutionVersionArn': solutionVersionArn,
@@ -2885,6 +3155,11 @@ class BatchInferenceJob {
   @_s.JsonKey(name: 'batchInferenceJobArn')
   final String batchInferenceJobArn;
 
+  /// A string to string map of the configuration details of a batch inference
+  /// job.
+  @_s.JsonKey(name: 'batchInferenceJobConfig')
+  final BatchInferenceJobConfig batchInferenceJobConfig;
+
   /// The time at which the batch inference job was created.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'creationDateTime')
@@ -2893,6 +3168,10 @@ class BatchInferenceJob {
   /// If the batch inference job failed, the reason for the failure.
   @_s.JsonKey(name: 'failureReason')
   final String failureReason;
+
+  /// The ARN of the filter used on the batch inference job.
+  @_s.JsonKey(name: 'filterArn')
+  final String filterArn;
 
   /// The Amazon S3 path that leads to the input data used to generate the batch
   /// inference job.
@@ -2950,8 +3229,10 @@ class BatchInferenceJob {
 
   BatchInferenceJob({
     this.batchInferenceJobArn,
+    this.batchInferenceJobConfig,
     this.creationDateTime,
     this.failureReason,
+    this.filterArn,
     this.jobInput,
     this.jobName,
     this.jobOutput,
@@ -2963,6 +3244,28 @@ class BatchInferenceJob {
   });
   factory BatchInferenceJob.fromJson(Map<String, dynamic> json) =>
       _$BatchInferenceJobFromJson(json);
+}
+
+/// The configuration details of a batch inference job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class BatchInferenceJobConfig {
+  /// A string to string map specifying the inference hyperparameters you wish to
+  /// use for hyperparameter optimization. See
+  /// <a>customizing-solution-config-hpo</a>.
+  @_s.JsonKey(name: 'itemExplorationConfig')
+  final Map<String, String> itemExplorationConfig;
+
+  BatchInferenceJobConfig({
+    this.itemExplorationConfig,
+  });
+  factory BatchInferenceJobConfig.fromJson(Map<String, dynamic> json) =>
+      _$BatchInferenceJobConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BatchInferenceJobConfigToJson(this);
 }
 
 /// The input configuration of a batch inference job.
@@ -3087,6 +3390,10 @@ class Campaign {
   @_s.JsonKey(name: 'campaignArn')
   final String campaignArn;
 
+  /// The configuration details of a campaign.
+  @_s.JsonKey(name: 'campaignConfig')
+  final CampaignConfig campaignConfig;
+
   /// The date and time (in Unix format) that the campaign was created.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'creationDateTime')
@@ -3133,6 +3440,7 @@ class Campaign {
 
   Campaign({
     this.campaignArn,
+    this.campaignConfig,
     this.creationDateTime,
     this.failureReason,
     this.lastUpdatedDateTime,
@@ -3144,6 +3452,28 @@ class Campaign {
   });
   factory Campaign.fromJson(Map<String, dynamic> json) =>
       _$CampaignFromJson(json);
+}
+
+/// The configuration details of a campaign.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CampaignConfig {
+  /// A string to string map specifying the inference hyperparameters you wish to
+  /// use for hyperparameter optimization. See
+  /// <a>customizing-solution-config-hpo</a>.
+  @_s.JsonKey(name: 'itemExplorationConfig')
+  final Map<String, String> itemExplorationConfig;
+
+  CampaignConfig({
+    this.itemExplorationConfig,
+  });
+  factory CampaignConfig.fromJson(Map<String, dynamic> json) =>
+      _$CampaignConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CampaignConfigToJson(this);
 }
 
 /// Provides a summary of the properties of a campaign. For a complete listing,
@@ -3211,6 +3541,9 @@ class CampaignSummary {
     createFactory: true,
     createToJson: false)
 class CampaignUpdateSummary {
+  @_s.JsonKey(name: 'campaignConfig')
+  final CampaignConfig campaignConfig;
+
   /// The date and time (in Unix time) that the campaign update was created.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'creationDateTime')
@@ -3250,6 +3583,7 @@ class CampaignUpdateSummary {
   final String status;
 
   CampaignUpdateSummary({
+    this.campaignConfig,
     this.creationDateTime,
     this.failureReason,
     this.lastUpdatedDateTime,
@@ -3423,6 +3757,23 @@ class CreateEventTrackerResponse {
   });
   factory CreateEventTrackerResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateEventTrackerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateFilterResponse {
+  /// The ARN of the new filter.
+  @_s.JsonKey(name: 'filterArn')
+  final String filterArn;
+
+  CreateFilterResponse({
+    this.filterArn,
+  });
+  factory CreateFilterResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateFilterResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -4286,6 +4637,23 @@ class DescribeFeatureTransformationResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeFilterResponse {
+  /// The filter's details.
+  @_s.JsonKey(name: 'filter')
+  final Filter filter;
+
+  DescribeFilterResponse({
+    this.filter,
+  });
+  factory DescribeFilterResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeFilterResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeRecipeResponse {
   /// An object that describes the recipe.
   @_s.JsonKey(name: 'recipe')
@@ -4523,6 +4891,119 @@ class FeatureTransformation {
   });
   factory FeatureTransformation.fromJson(Map<String, dynamic> json) =>
       _$FeatureTransformationFromJson(json);
+}
+
+/// Contains information on a recommendation filter, including its ARN, status,
+/// and filter expression.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Filter {
+  /// The time at which the filter was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationDateTime')
+  final DateTime creationDateTime;
+
+  /// The ARN of the dataset group to which the filter belongs.
+  @_s.JsonKey(name: 'datasetGroupArn')
+  final String datasetGroupArn;
+
+  /// If the filter failed, the reason for its failure.
+  @_s.JsonKey(name: 'failureReason')
+  final String failureReason;
+
+  /// The ARN of the filter.
+  @_s.JsonKey(name: 'filterArn')
+  final String filterArn;
+
+  /// Specifies the type of item interactions to filter out of recommendation
+  /// results. The filter expression must follow the following format:
+  ///
+  /// <code>EXCLUDE itemId WHERE INTERACTIONS.event_type in ("EVENT_TYPE")</code>
+  ///
+  /// Where "EVENT_TYPE" is the type of event to filter out. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filters.html">Using
+  /// Filters with Amazon Personalize</a>.
+  @_s.JsonKey(name: 'filterExpression')
+  final String filterExpression;
+
+  /// The time at which the filter was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDateTime')
+  final DateTime lastUpdatedDateTime;
+
+  /// The name of the filter.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The status of the filter.
+  @_s.JsonKey(name: 'status')
+  final String status;
+
+  Filter({
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.failureReason,
+    this.filterArn,
+    this.filterExpression,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.status,
+  });
+  factory Filter.fromJson(Map<String, dynamic> json) => _$FilterFromJson(json);
+}
+
+/// A short summary of a filter's attributes.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class FilterSummary {
+  /// The time at which the filter was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationDateTime')
+  final DateTime creationDateTime;
+
+  /// The ARN of the dataset group to which the filter belongs.
+  @_s.JsonKey(name: 'datasetGroupArn')
+  final String datasetGroupArn;
+
+  /// If the filter failed, the reason for the failure.
+  @_s.JsonKey(name: 'failureReason')
+  final String failureReason;
+
+  /// The ARN of the filter.
+  @_s.JsonKey(name: 'filterArn')
+  final String filterArn;
+
+  /// The time at which the filter was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDateTime')
+  final DateTime lastUpdatedDateTime;
+
+  /// The name of the filter.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The status of the filter.
+  @_s.JsonKey(name: 'status')
+  final String status;
+
+  FilterSummary({
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.failureReason,
+    this.filterArn,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.status,
+  });
+  factory FilterSummary.fromJson(Map<String, dynamic> json) =>
+      _$FilterSummaryFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -4831,6 +5312,28 @@ class ListEventTrackersResponse {
   });
   factory ListEventTrackersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListEventTrackersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListFiltersResponse {
+  /// A list of returned filters.
+  @_s.JsonKey(name: 'Filters')
+  final List<FilterSummary> filters;
+
+  /// A token for getting the next set of filters (if they exist).
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListFiltersResponse({
+    this.filters,
+    this.nextToken,
+  });
+  factory ListFiltersResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListFiltersResponseFromJson(json);
 }
 
 @_s.JsonSerializable(

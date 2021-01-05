@@ -210,7 +210,8 @@ class LakeFormation {
     return DescribeResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// The AWS Lake Formation principal.
+  /// Retrieves the list of the data lake administrators of a Lake
+  /// Formation-managed data lake.
   ///
   /// May throw [InternalServiceException].
   /// May throw [InvalidInputException].
@@ -253,8 +254,10 @@ class LakeFormation {
     return GetDataLakeSettingsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the permissions for a specified table or database resource located
-  /// at a path in Amazon S3.
+  /// Returns the Lake Formation permissions for a specified table or database
+  /// resource located at a path in Amazon S3.
+  /// <code>GetEffectivePermissionsForPath</code> will not return databases and
+  /// tables if the catalog is encrypted.
   ///
   /// May throw [InvalidInputException].
   /// May throw [EntityNotFoundException].
@@ -326,7 +329,7 @@ class LakeFormation {
   /// and data organized in underlying data storage such as Amazon S3.
   ///
   /// For information about permissions, see <a
-  /// href="https://docs-aws.amazon.com/michigan/latest/dg/security-data-access.html">Security
+  /// href="https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html">Security
   /// and Access Control to Metadata and Data</a>.
   ///
   /// May throw [ConcurrentModificationException].
@@ -417,7 +420,7 @@ class LakeFormation {
   /// granted.
   ///
   /// For information about permissions, see <a
-  /// href="https://docs-aws.amazon.com/michigan/latest/dg/security-data-access.html">Security
+  /// href="https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html">Security
   /// and Access Control to Metadata and Data</a>.
   ///
   /// May throw [InvalidInputException].
@@ -544,13 +547,22 @@ class LakeFormation {
     return ListResourcesResponse.fromJson(jsonResponse.body);
   }
 
-  /// The AWS Lake Formation principal.
+  /// Sets the list of data lake administrators who have admin privileges on all
+  /// resources managed by Lake Formation. For more information on admin
+  /// privileges, see <a
+  /// href="https://docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html">Granting
+  /// Lake Formation Permissions</a>.
+  ///
+  /// This API replaces the current list of data lake admins with the new list
+  /// being passed. To add an admin, fetch the current list and add the new
+  /// admin to that list and pass that list in this API.
   ///
   /// May throw [InternalServiceException].
   /// May throw [InvalidInputException].
   ///
   /// Parameter [dataLakeSettings] :
-  /// A list of AWS Lake Formation principals.
+  /// A structure representing a list of AWS Lake Formation principals
+  /// designated as data lake administrators.
   ///
   /// Parameter [catalogId] :
   /// The identifier for the Data Catalog. By default, the account ID. The Data
@@ -603,6 +615,18 @@ class LakeFormation {
   /// the service-linked role. When you register subsequent paths, Lake
   /// Formation adds the path to the existing policy.
   ///
+  /// The following request registers a new location and gives AWS Lake
+  /// Formation permission to use the service-linked role to access that
+  /// location.
+  ///
+  /// <code>ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole =
+  /// true</code>
+  ///
+  /// If <code>UseServiceLinkedRole</code> is not set to true, you must provide
+  /// or set the <code>RoleArn</code>:
+  ///
+  /// <code>arn:aws:iam::12345:role/my-data-access-role</code>
+  ///
   /// May throw [InvalidInputException].
   /// May throw [InternalServiceException].
   /// May throw [OperationTimeoutException].
@@ -612,11 +636,16 @@ class LakeFormation {
   /// The Amazon Resource Name (ARN) of the resource that you want to register.
   ///
   /// Parameter [roleArn] :
-  /// The identifier for the role.
+  /// The identifier for the role that registers the resource.
   ///
   /// Parameter [useServiceLinkedRole] :
-  /// Designates a trusted caller, an IAM principal, by registering this caller
-  /// with the Data Catalog.
+  /// Designates an AWS Identity and Access Management (IAM) service-linked role
+  /// by registering this role with the Data Catalog. A service-linked role is a
+  /// unique type of IAM role that is linked directly to Lake Formation.
+  ///
+  /// For more information, see <a
+  /// href="https://docs-aws.amazon.com/lake-formation/latest/dg/service-linked-roles.html">Using
+  /// Service-Linked Roles for Lake Formation</a>.
   Future<void> registerResource({
     @_s.required String resourceArn,
     String roleArn,
@@ -659,7 +688,7 @@ class LakeFormation {
   /// Parameter [permissions] :
   /// The permissions revoked to the principal on the resource. For information
   /// about permissions, see <a
-  /// href="https://docs-aws.amazon.com/michigan/latest/dg/security-data-access.html">Security
+  /// href="https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html">Security
   /// and Access Control to Metadata and Data</a>.
   ///
   /// Parameter [principal] :
@@ -926,7 +955,8 @@ enum ComparisonOperator {
   between,
 }
 
-/// The AWS Lake Formation principal.
+/// The AWS Lake Formation principal. Supported principals are IAM users or IAM
+/// roles.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -973,31 +1003,44 @@ extension on DataLakeResourceType {
   }
 }
 
-/// The AWS Lake Formation principal.
+/// A structure representing a list of AWS Lake Formation principals designated
+/// as data lake administrators and lists of principal permission entries for
+/// default create database and default create table permissions.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class DataLakeSettings {
-  /// A list of up to three principal permissions entries for default create
-  /// database permissions.
+  /// A structure representing a list of up to three principal permissions entries
+  /// for default create database permissions.
   @_s.JsonKey(name: 'CreateDatabaseDefaultPermissions')
   final List<PrincipalPermissions> createDatabaseDefaultPermissions;
 
-  /// A list of up to three principal permissions entries for default create table
-  /// permissions.
+  /// A structure representing a list of up to three principal permissions entries
+  /// for default create table permissions.
   @_s.JsonKey(name: 'CreateTableDefaultPermissions')
   final List<PrincipalPermissions> createTableDefaultPermissions;
 
-  /// A list of AWS Lake Formation principals.
+  /// A list of AWS Lake Formation principals. Supported principals are IAM users
+  /// or IAM roles.
   @_s.JsonKey(name: 'DataLakeAdmins')
   final List<DataLakePrincipal> dataLakeAdmins;
+
+  /// A list of the resource-owning account IDs that the caller's account can use
+  /// to share their user access details (user ARNs). The user ARNs can be logged
+  /// in the resource owner's AWS CloudTrail log.
+  ///
+  /// You may want to specify this property when you are in a high-trust boundary,
+  /// such as the same team or company.
+  @_s.JsonKey(name: 'TrustedResourceOwners')
+  final List<String> trustedResourceOwners;
 
   DataLakeSettings({
     this.createDatabaseDefaultPermissions,
     this.createTableDefaultPermissions,
     this.dataLakeAdmins,
+    this.trustedResourceOwners,
   });
   factory DataLakeSettings.fromJson(Map<String, dynamic> json) =>
       _$DataLakeSettingsFromJson(json);
@@ -1018,8 +1061,14 @@ class DataLocationResource {
   @_s.JsonKey(name: 'ResourceArn')
   final String resourceArn;
 
+  /// The identifier for the Data Catalog where the location is registered with
+  /// AWS Lake Formation. By default, it is the account ID of the caller.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
   DataLocationResource({
     @_s.required this.resourceArn,
+    this.catalogId,
   });
   factory DataLocationResource.fromJson(Map<String, dynamic> json) =>
       _$DataLocationResourceFromJson(json);
@@ -1038,8 +1087,14 @@ class DatabaseResource {
   @_s.JsonKey(name: 'Name')
   final String name;
 
+  /// The identifier for the Data Catalog. By default, it is the account ID of the
+  /// caller.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
   DatabaseResource({
     @_s.required this.name,
+    this.catalogId,
   });
   factory DatabaseResource.fromJson(Map<String, dynamic> json) =>
       _$DatabaseResourceFromJson(json);
@@ -1073,6 +1128,30 @@ class DescribeResourceResponse {
   });
   factory DescribeResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeResourceResponseFromJson(json);
+}
+
+/// A structure containing the additional details to be returned in the
+/// <code>AdditionalDetails</code> attribute of
+/// <code>PrincipalResourcePermissions</code>.
+///
+/// If a catalog resource is shared through AWS Resource Access Manager (AWS
+/// RAM), then there will exist a corresponding RAM share resource ARN.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DetailsMap {
+  /// A share resource ARN for a catalog resource shared through AWS Resource
+  /// Access Manager (AWS RAM).
+  @_s.JsonKey(name: 'ResourceShare')
+  final List<String> resourceShare;
+
+  DetailsMap({
+    this.resourceShare,
+  });
+  factory DetailsMap.fromJson(Map<String, dynamic> json) =>
+      _$DetailsMapFromJson(json);
 }
 
 /// Contains details about an error.
@@ -1141,7 +1220,8 @@ class FilterCondition {
     createFactory: true,
     createToJson: false)
 class GetDataLakeSettingsResponse {
-  /// A list of AWS Lake Formation principals.
+  /// A structure representing a list of AWS Lake Formation principals designated
+  /// as data lake administrators.
   @_s.JsonKey(name: 'DataLakeSettings')
   final DataLakeSettings dataLakeSettings;
 
@@ -1246,6 +1326,8 @@ enum Permission {
   delete,
   @_s.JsonValue('INSERT')
   insert,
+  @_s.JsonValue('DESCRIBE')
+  describe,
   @_s.JsonValue('CREATE_DATABASE')
   createDatabase,
   @_s.JsonValue('CREATE_TABLE')
@@ -1269,6 +1351,8 @@ extension on Permission {
         return 'DELETE';
       case Permission.insert:
         return 'INSERT';
+      case Permission.describe:
+        return 'DESCRIBE';
       case Permission.createDatabase:
         return 'CREATE_DATABASE';
       case Permission.createTable:
@@ -1312,6 +1396,12 @@ class PrincipalPermissions {
     createFactory: true,
     createToJson: false)
 class PrincipalResourcePermissions {
+  /// This attribute can be used to return any additional details of
+  /// <code>PrincipalResourcePermissions</code>. Currently returns only as a RAM
+  /// share resource ARN.
+  @_s.JsonKey(name: 'AdditionalDetails')
+  final DetailsMap additionalDetails;
+
   /// The permissions to be granted or revoked on the resource.
   @_s.JsonKey(name: 'Permissions')
   final List<Permission> permissions;
@@ -1330,6 +1420,7 @@ class PrincipalResourcePermissions {
   final Resource resource;
 
   PrincipalResourcePermissions({
+    this.additionalDetails,
     this.permissions,
     this.permissionsWithGrantOption,
     this.principal,
@@ -1464,18 +1555,46 @@ class TableResource {
   @_s.JsonKey(name: 'DatabaseName')
   final String databaseName;
 
+  /// The identifier for the Data Catalog. By default, it is the account ID of the
+  /// caller.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
   /// The name of the table.
   @_s.JsonKey(name: 'Name')
   final String name;
 
+  /// A wildcard object representing every table under a database.
+  ///
+  /// At least one of <code>TableResource$Name</code> or
+  /// <code>TableResource$TableWildcard</code> is required.
+  @_s.JsonKey(name: 'TableWildcard')
+  final TableWildcard tableWildcard;
+
   TableResource({
     @_s.required this.databaseName,
-    @_s.required this.name,
+    this.catalogId,
+    this.name,
+    this.tableWildcard,
   });
   factory TableResource.fromJson(Map<String, dynamic> json) =>
       _$TableResourceFromJson(json);
 
   Map<String, dynamic> toJson() => _$TableResourceToJson(this);
+}
+
+/// A wildcard object representing every table under a database.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TableWildcard {
+  TableWildcard();
+  factory TableWildcard.fromJson(Map<String, dynamic> json) =>
+      _$TableWildcardFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TableWildcardToJson(this);
 }
 
 /// A structure for a table with columns object. This object is only used when
@@ -1489,16 +1608,6 @@ class TableResource {
     createFactory: true,
     createToJson: true)
 class TableWithColumnsResource {
-  /// The list of column names for the table. At least one of
-  /// <code>ColumnNames</code> or <code>ColumnWildcard</code> is required.
-  @_s.JsonKey(name: 'ColumnNames')
-  final List<String> columnNames;
-
-  /// A wildcard specified by a <code>ColumnWildcard</code> object. At least one
-  /// of <code>ColumnNames</code> or <code>ColumnWildcard</code> is required.
-  @_s.JsonKey(name: 'ColumnWildcard')
-  final ColumnWildcard columnWildcard;
-
   /// The name of the database for the table with columns resource. Unique to the
   /// Data Catalog. A database is a set of associated table definitions organized
   /// into a logical group. You can Grant and Revoke database privileges to a
@@ -1512,11 +1621,27 @@ class TableWithColumnsResource {
   @_s.JsonKey(name: 'Name')
   final String name;
 
+  /// The identifier for the Data Catalog. By default, it is the account ID of the
+  /// caller.
+  @_s.JsonKey(name: 'CatalogId')
+  final String catalogId;
+
+  /// The list of column names for the table. At least one of
+  /// <code>ColumnNames</code> or <code>ColumnWildcard</code> is required.
+  @_s.JsonKey(name: 'ColumnNames')
+  final List<String> columnNames;
+
+  /// A wildcard specified by a <code>ColumnWildcard</code> object. At least one
+  /// of <code>ColumnNames</code> or <code>ColumnWildcard</code> is required.
+  @_s.JsonKey(name: 'ColumnWildcard')
+  final ColumnWildcard columnWildcard;
+
   TableWithColumnsResource({
+    @_s.required this.databaseName,
+    @_s.required this.name,
+    this.catalogId,
     this.columnNames,
     this.columnWildcard,
-    this.databaseName,
-    this.name,
   });
   factory TableWithColumnsResource.fromJson(Map<String, dynamic> json) =>
       _$TableWithColumnsResourceFromJson(json);

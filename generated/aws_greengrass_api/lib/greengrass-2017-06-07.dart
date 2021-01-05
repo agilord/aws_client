@@ -1689,6 +1689,27 @@ class Greengrass {
     return GetSubscriptionDefinitionVersionResponse.fromJson(response);
   }
 
+  /// Get the runtime configuration of a thing.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [thingName] :
+  /// The thing name.
+  Future<GetThingRuntimeConfigurationResponse> getThingRuntimeConfiguration({
+    @_s.required String thingName,
+  }) async {
+    ArgumentError.checkNotNull(thingName, 'thingName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/greengrass/things/${Uri.encodeComponent(thingName)}/runtimeconfig',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetThingRuntimeConfigurationResponse.fromJson(response);
+  }
+
   /// Gets a paginated list of the deployments that have been started in a bulk
   /// deployment operation, and their current deployment status.
   ///
@@ -2754,6 +2775,35 @@ class Greengrass {
     );
     return UpdateSubscriptionDefinitionResponse.fromJson(response);
   }
+
+  /// Updates the runtime configuration of a thing.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [thingName] :
+  /// The thing name.
+  ///
+  /// Parameter [telemetryConfiguration] :
+  /// Configuration for telemetry service.
+  Future<void> updateThingRuntimeConfiguration({
+    @_s.required String thingName,
+    TelemetryConfigurationUpdate telemetryConfiguration,
+  }) async {
+    ArgumentError.checkNotNull(thingName, 'thingName');
+    final $payload = <String, dynamic>{
+      if (telemetryConfiguration != null)
+        'TelemetryConfiguration': telemetryConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/greengrass/things/${Uri.encodeComponent(thingName)}/runtimeconfig',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateThingRuntimeConfigurationResponse.fromJson(response);
+  }
 }
 
 @_s.JsonSerializable(
@@ -2925,6 +2975,13 @@ enum BulkDeploymentStatus {
   stopped,
   @_s.JsonValue('Failed')
   failed,
+}
+
+enum ConfigurationSyncStatus {
+  @_s.JsonValue('InSync')
+  inSync,
+  @_s.JsonValue('OutOfSync')
+  outOfSync,
 }
 
 /// Information about a Greengrass core's connectivity.
@@ -5366,6 +5423,24 @@ class GetSubscriptionDefinitionVersionResponse {
       _$GetSubscriptionDefinitionVersionResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetThingRuntimeConfigurationResponse {
+  /// Runtime configuration for a thing.
+  @_s.JsonKey(name: 'RuntimeConfiguration')
+  final RuntimeConfiguration runtimeConfiguration;
+
+  GetThingRuntimeConfigurationResponse({
+    this.runtimeConfiguration,
+  });
+  factory GetThingRuntimeConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetThingRuntimeConfigurationResponseFromJson(json);
+}
+
 /// Information about a certificate authority for a group.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6330,6 +6405,24 @@ class ResourceDownloadOwnerSetting {
   Map<String, dynamic> toJson() => _$ResourceDownloadOwnerSettingToJson(this);
 }
 
+/// Runtime configuration for a thing.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RuntimeConfiguration {
+  /// Configuration for telemetry service.
+  @_s.JsonKey(name: 'TelemetryConfiguration')
+  final TelemetryConfiguration telemetryConfiguration;
+
+  RuntimeConfiguration({
+    this.telemetryConfiguration,
+  });
+  factory RuntimeConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$RuntimeConfigurationFromJson(json);
+}
+
 /// Attributes that define an Amazon S3 machine learning resource.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6537,6 +6630,54 @@ class SubscriptionDefinitionVersion {
       _$SubscriptionDefinitionVersionFromJson(json);
 
   Map<String, dynamic> toJson() => _$SubscriptionDefinitionVersionToJson(this);
+}
+
+enum Telemetry {
+  @_s.JsonValue('On')
+  on,
+  @_s.JsonValue('Off')
+  off,
+}
+
+/// Configuration settings for running telemetry.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TelemetryConfiguration {
+  /// Configure telemetry to be on or off.
+  @_s.JsonKey(name: 'Telemetry')
+  final Telemetry telemetry;
+
+  /// Synchronization status of the device reported configuration with the desired
+  /// configuration.
+  @_s.JsonKey(name: 'ConfigurationSyncStatus')
+  final ConfigurationSyncStatus configurationSyncStatus;
+
+  TelemetryConfiguration({
+    @_s.required this.telemetry,
+    this.configurationSyncStatus,
+  });
+  factory TelemetryConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$TelemetryConfigurationFromJson(json);
+}
+
+/// Configuration settings for running telemetry.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TelemetryConfigurationUpdate {
+  /// Configure telemetry to be on or off.
+  @_s.JsonKey(name: 'Telemetry')
+  final Telemetry telemetry;
+
+  TelemetryConfigurationUpdate({
+    @_s.required this.telemetry,
+  });
+  Map<String, dynamic> toJson() => _$TelemetryConfigurationUpdateToJson(this);
 }
 
 /// The minimum level of log statements that should be logged by the OTA Agent
@@ -6782,6 +6923,18 @@ extension on UpdateTargetsOperatingSystem {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateThingRuntimeConfigurationResponse {
+  UpdateThingRuntimeConfigurationResponse();
+  factory UpdateThingRuntimeConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateThingRuntimeConfigurationResponseFromJson(json);
 }
 
 /// Information about a version.

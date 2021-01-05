@@ -59,15 +59,14 @@ class SageMakerRuntime {
   ///
   /// Calls to <code>InvokeEndpoint</code> are authenticated by using AWS
   /// Signature Version 4. For information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html">Authenticating
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html">Authenticating
   /// Requests (AWS Signature Version 4)</a> in the <i>Amazon S3 API
   /// Reference</i>.
   ///
   /// A customer's model containers must respond to requests within 60 seconds.
   /// The model itself can have a maximum processing time of 60 seconds before
-  /// responding to the /invocations. If your model is going to take 50-60
-  /// seconds of processing time, the SDK socket timeout should be set to be 70
-  /// seconds.
+  /// responding to invocations. If your model is going to take 50-60 seconds of
+  /// processing time, the SDK socket timeout should be set to be 70 seconds.
   /// <note>
   /// Endpoints are scoped to an individual account, and are not public. The URL
   /// does not contain the account ID, but Amazon SageMaker determines the
@@ -86,7 +85,7 @@ class SageMakerRuntime {
   ///
   /// For information about the format of the request body, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html">Common
-  /// Data Formats—Inference</a>.
+  /// Data Formats-Inference</a>.
   ///
   /// Parameter [endpointName] :
   /// The name of the endpoint that you specified when you created the endpoint
@@ -110,19 +109,44 @@ class SageMakerRuntime {
   /// specified in <a
   /// href="https://tools.ietf.org/html/rfc7230#section-3.2.6">Section 3.3.6.
   /// Field Value Components</a> of the Hypertext Transfer Protocol (HTTP/1.1).
+  ///
+  /// The code in your model is responsible for setting or updating any custom
+  /// attributes in the response. If your code does not set this value in the
+  /// response, an empty value is returned. For example, if a custom attribute
+  /// represents the trace ID, your model can prepend the custom attribute with
+  /// <code>Trace ID:</code> in your post-processing function.
+  ///
   /// This feature is currently supported in the AWS SDKs but not in the Amazon
   /// SageMaker Python SDK.
   ///
+  /// Parameter [inferenceId] :
+  /// If you provide a value, it is added to the captured data when you enable
+  /// data capture on the endpoint. For information about data capture, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-data-capture.html">Capture
+  /// Data</a>.
+  ///
   /// Parameter [targetModel] :
-  /// Specifies the model to be requested for an inference when invoking a
-  /// multi-model endpoint.
+  /// The model to request for inference when invoking a multi-model endpoint.
+  ///
+  /// Parameter [targetVariant] :
+  /// Specify the production variant to send the inference request to when
+  /// invoking an endpoint that is running two or more variants. Note that this
+  /// parameter overrides the default behavior for the endpoint, which is to
+  /// distribute the invocation traffic based on the variant weights.
+  ///
+  /// For information about how to use variant targeting to perform a/b testing,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html">Test
+  /// models in production</a>
   Future<InvokeEndpointOutput> invokeEndpoint({
     @_s.required Uint8List body,
     @_s.required String endpointName,
     String accept,
     String contentType,
     String customAttributes,
+    String inferenceId,
     String targetModel,
+    String targetVariant,
   }) async {
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(endpointName, 'endpointName');
@@ -173,6 +197,17 @@ class SageMakerRuntime {
       r'''\p{ASCII}*''',
     );
     _s.validateStringLength(
+      'inferenceId',
+      inferenceId,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'inferenceId',
+      inferenceId,
+      r'''\A\S[\p{Print}]*\z''',
+    );
+    _s.validateStringLength(
       'targetModel',
       targetModel,
       1,
@@ -183,13 +218,28 @@ class SageMakerRuntime {
       targetModel,
       r'''\A\S[\p{Print}]*\z''',
     );
+    _s.validateStringLength(
+      'targetVariant',
+      targetVariant,
+      0,
+      63,
+    );
+    _s.validateStringPattern(
+      'targetVariant',
+      targetVariant,
+      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+    );
     final headers = <String, String>{};
     accept?.let((v) => headers['Accept'] = v.toString());
     contentType?.let((v) => headers['Content-Type'] = v.toString());
     customAttributes?.let(
         (v) => headers['X-Amzn-SageMaker-Custom-Attributes'] = v.toString());
+    inferenceId
+        ?.let((v) => headers['X-Amzn-SageMaker-Inference-Id'] = v.toString());
     targetModel
         ?.let((v) => headers['X-Amzn-SageMaker-Target-Model'] = v.toString());
+    targetVariant
+        ?.let((v) => headers['X-Amzn-SageMaker-Target-Variant'] = v.toString());
     final response = await _protocol.sendRaw(
       payload: body,
       method: 'POST',
@@ -219,7 +269,7 @@ class InvokeEndpointOutput {
   ///
   /// For information about the format of the response body, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html">Common
-  /// Data Formats—Inference</a>.
+  /// Data Formats-Inference</a>.
   @Uint8ListConverter()
   @_s.JsonKey(name: 'Body')
   final Uint8List body;
@@ -239,6 +289,12 @@ class InvokeEndpointOutput {
   /// Field Value Components</a> of the Hypertext Transfer Protocol (HTTP/1.1). If
   /// the customer wants the custom attribute returned, the model must set the
   /// custom attribute to be included on the way back.
+  ///
+  /// The code in your model is responsible for setting or updating any custom
+  /// attributes in the response. If your code does not set this value in the
+  /// response, an empty value is returned. For example, if a custom attribute
+  /// represents the trace ID, your model can prepend the custom attribute with
+  /// <code>Trace ID:</code> in your post-processing function.
   ///
   /// This feature is currently supported in the AWS SDKs but not in the Amazon
   /// SageMaker Python SDK.

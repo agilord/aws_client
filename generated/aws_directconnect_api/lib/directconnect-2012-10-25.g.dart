@@ -616,6 +616,19 @@ Lags _$LagsFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListVirtualInterfaceTestHistoryResponse
+    _$ListVirtualInterfaceTestHistoryResponseFromJson(
+        Map<String, dynamic> json) {
+  return ListVirtualInterfaceTestHistoryResponse(
+    nextToken: json['nextToken'] as String,
+    virtualInterfaceTestHistory: (json['virtualInterfaceTestHistory'] as List)
+        ?.map((e) => e == null
+            ? null
+            : VirtualInterfaceTestHistory.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 Loa _$LoaFromJson(Map<String, dynamic> json) {
   return Loa(
     loaContent:
@@ -833,6 +846,26 @@ Map<String, dynamic> _$RouteFilterPrefixToJson(RouteFilterPrefix instance) {
   return val;
 }
 
+StartBgpFailoverTestResponse _$StartBgpFailoverTestResponseFromJson(
+    Map<String, dynamic> json) {
+  return StartBgpFailoverTestResponse(
+    virtualInterfaceTest: json['virtualInterfaceTest'] == null
+        ? null
+        : VirtualInterfaceTestHistory.fromJson(
+            json['virtualInterfaceTest'] as Map<String, dynamic>),
+  );
+}
+
+StopBgpFailoverTestResponse _$StopBgpFailoverTestResponseFromJson(
+    Map<String, dynamic> json) {
+  return StopBgpFailoverTestResponse(
+    virtualInterfaceTest: json['virtualInterfaceTest'] == null
+        ? null
+        : VirtualInterfaceTestHistory.fromJson(
+            json['virtualInterfaceTest'] as Map<String, dynamic>),
+  );
+}
+
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['key'] as String,
@@ -929,6 +962,20 @@ VirtualInterface _$VirtualInterfaceFromJson(Map<String, dynamic> json) {
         _$VirtualInterfaceStateEnumMap, json['virtualInterfaceState']),
     virtualInterfaceType: json['virtualInterfaceType'] as String,
     vlan: json['vlan'] as int,
+  );
+}
+
+VirtualInterfaceTestHistory _$VirtualInterfaceTestHistoryFromJson(
+    Map<String, dynamic> json) {
+  return VirtualInterfaceTestHistory(
+    bgpPeers: (json['bgpPeers'] as List)?.map((e) => e as String)?.toList(),
+    endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
+    ownerAccount: json['ownerAccount'] as String,
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
+    status: json['status'] as String,
+    testDurationInMinutes: json['testDurationInMinutes'] as int,
+    testId: json['testId'] as String,
+    virtualInterfaceId: json['virtualInterfaceId'] as String,
   );
 }
 

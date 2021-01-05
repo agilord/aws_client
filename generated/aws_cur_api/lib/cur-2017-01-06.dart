@@ -66,6 +66,10 @@ class CostandUsageReportService {
   ///
   /// May throw [InternalErrorException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [reportName] :
+  /// The name of the report that you want to delete. The name must be unique,
+  /// is case sensitive, and can't include spaces.
   Future<DeleteReportDefinitionResponse> deleteReportDefinition({
     String reportName,
   }) async {
@@ -110,6 +114,17 @@ class CostandUsageReportService {
       maxResults,
       5,
       5,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[A-Za-z0-9_\.\-=]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -208,28 +223,52 @@ class CostandUsageReportService {
 
 /// The region of the S3 bucket that AWS delivers the report into.
 enum AWSRegion {
-  @_s.JsonValue('us-east-1')
-  usEast_1,
-  @_s.JsonValue('us-west-1')
-  usWest_1,
-  @_s.JsonValue('us-west-2')
-  usWest_2,
-  @_s.JsonValue('eu-central-1')
-  euCentral_1,
-  @_s.JsonValue('eu-west-1')
-  euWest_1,
+  @_s.JsonValue('af-south-1')
+  afSouth_1,
+  @_s.JsonValue('ap-east-1')
+  apEast_1,
+  @_s.JsonValue('ap-south-1')
+  apSouth_1,
   @_s.JsonValue('ap-southeast-1')
   apSoutheast_1,
   @_s.JsonValue('ap-southeast-2')
   apSoutheast_2,
   @_s.JsonValue('ap-northeast-1')
   apNortheast_1,
-  @_s.JsonValue('eu-north-1')
-  euNorth_1,
+  @_s.JsonValue('ap-northeast-2')
+  apNortheast_2,
   @_s.JsonValue('ap-northeast-3')
   apNortheast_3,
-  @_s.JsonValue('ap-east-1')
-  apEast_1,
+  @_s.JsonValue('ca-central-1')
+  caCentral_1,
+  @_s.JsonValue('eu-central-1')
+  euCentral_1,
+  @_s.JsonValue('eu-west-1')
+  euWest_1,
+  @_s.JsonValue('eu-west-2')
+  euWest_2,
+  @_s.JsonValue('eu-west-3')
+  euWest_3,
+  @_s.JsonValue('eu-north-1')
+  euNorth_1,
+  @_s.JsonValue('eu-south-1')
+  euSouth_1,
+  @_s.JsonValue('me-south-1')
+  meSouth_1,
+  @_s.JsonValue('sa-east-1')
+  saEast_1,
+  @_s.JsonValue('us-east-1')
+  usEast_1,
+  @_s.JsonValue('us-east-2')
+  usEast_2,
+  @_s.JsonValue('us-west-1')
+  usWest_1,
+  @_s.JsonValue('us-west-2')
+  usWest_2,
+  @_s.JsonValue('cn-north-1')
+  cnNorth_1,
+  @_s.JsonValue('cn-northwest-1')
+  cnNorthwest_1,
 }
 
 /// The types of manifest that you want AWS to create for this report.
@@ -406,6 +445,8 @@ enum TimeUnit {
   hourly,
   @_s.JsonValue('DAILY')
   daily,
+  @_s.JsonValue('MONTHLY')
+  monthly,
 }
 
 class DuplicateReportNameException extends _s.GenericAwsException {

@@ -267,6 +267,7 @@ class Textract {
   /// May throw [InvalidJobIdException].
   /// May throw [InternalServerError].
   /// May throw [ThrottlingException].
+  /// May throw [InvalidS3ObjectException].
   ///
   /// Parameter [jobId] :
   /// A unique identifier for the text-detection job. The <code>JobId</code> is
@@ -383,6 +384,7 @@ class Textract {
   /// May throw [InvalidJobIdException].
   /// May throw [InternalServerError].
   /// May throw [ThrottlingException].
+  /// May throw [InvalidS3ObjectException].
   ///
   /// Parameter [jobId] :
   /// A unique identifier for the text detection job. The <code>JobId</code> is
@@ -480,6 +482,7 @@ class Textract {
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
+  /// May throw [InvalidKMSKeyException].
   /// May throw [UnsupportedDocumentException].
   /// May throw [DocumentTooLargeException].
   /// May throw [BadDocumentException].
@@ -516,15 +519,29 @@ class Textract {
   /// <code>JobTag</code> to identify the type of document that the completion
   /// notification corresponds to (such as a tax form or a receipt).
   ///
+  /// Parameter [kMSKeyId] :
+  /// The KMS key used to encrypt the inference results. This can be in either
+  /// Key ID or Key Alias format. When a KMS key is provided, the KMS key will
+  /// be used for server-side encryption of the objects in the customer bucket.
+  /// When this parameter is not enabled, the result will be encrypted server
+  /// side,using SSE-S3.
+  ///
   /// Parameter [notificationChannel] :
   /// The Amazon SNS topic ARN that you want Amazon Textract to publish the
   /// completion status of the operation to.
+  ///
+  /// Parameter [outputConfig] :
+  /// Sets if the output will go to a customer defined bucket. By default,
+  /// Amazon Textract will save the results internally to be accessed by the
+  /// GetDocumentAnalysis operation.
   Future<StartDocumentAnalysisResponse> startDocumentAnalysis({
     @_s.required DocumentLocation documentLocation,
     @_s.required List<FeatureType> featureTypes,
     String clientRequestToken,
     String jobTag,
+    String kMSKeyId,
     NotificationChannel notificationChannel,
+    OutputConfig outputConfig,
   }) async {
     ArgumentError.checkNotNull(documentLocation, 'documentLocation');
     ArgumentError.checkNotNull(featureTypes, 'featureTypes');
@@ -550,6 +567,17 @@ class Textract {
       jobTag,
       r'''[a-zA-Z0-9_.\-:]+''',
     );
+    _s.validateStringLength(
+      'kMSKeyId',
+      kMSKeyId,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'kMSKeyId',
+      kMSKeyId,
+      r'''^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Textract.StartDocumentAnalysis'
@@ -566,8 +594,10 @@ class Textract {
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
         if (jobTag != null) 'JobTag': jobTag,
+        if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
         if (notificationChannel != null)
           'NotificationChannel': notificationChannel,
+        if (outputConfig != null) 'OutputConfig': outputConfig,
       },
     );
 
@@ -599,6 +629,7 @@ class Textract {
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
+  /// May throw [InvalidKMSKeyException].
   /// May throw [UnsupportedDocumentException].
   /// May throw [DocumentTooLargeException].
   /// May throw [BadDocumentException].
@@ -627,14 +658,28 @@ class Textract {
   /// <code>JobTag</code> to identify the type of document that the completion
   /// notification corresponds to (such as a tax form or a receipt).
   ///
+  /// Parameter [kMSKeyId] :
+  /// The KMS key used to encrypt the inference results. This can be in either
+  /// Key ID or Key Alias format. When a KMS key is provided, the KMS key will
+  /// be used for server-side encryption of the objects in the customer bucket.
+  /// When this parameter is not enabled, the result will be encrypted server
+  /// side,using SSE-S3.
+  ///
   /// Parameter [notificationChannel] :
   /// The Amazon SNS topic ARN that you want Amazon Textract to publish the
   /// completion status of the operation to.
+  ///
+  /// Parameter [outputConfig] :
+  /// Sets if the output will go to a customer defined bucket. By default Amazon
+  /// Textract will save the results internally to be accessed with the
+  /// GetDocumentTextDetection operation.
   Future<StartDocumentTextDetectionResponse> startDocumentTextDetection({
     @_s.required DocumentLocation documentLocation,
     String clientRequestToken,
     String jobTag,
+    String kMSKeyId,
     NotificationChannel notificationChannel,
+    OutputConfig outputConfig,
   }) async {
     ArgumentError.checkNotNull(documentLocation, 'documentLocation');
     _s.validateStringLength(
@@ -659,6 +704,17 @@ class Textract {
       jobTag,
       r'''[a-zA-Z0-9_.\-:]+''',
     );
+    _s.validateStringLength(
+      'kMSKeyId',
+      kMSKeyId,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'kMSKeyId',
+      kMSKeyId,
+      r'''^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Textract.StartDocumentTextDetection'
@@ -674,8 +730,10 @@ class Textract {
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
         if (jobTag != null) 'JobTag': jobTag,
+        if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
         if (notificationChannel != null)
           'NotificationChannel': notificationChannel,
+        if (outputConfig != null) 'OutputConfig': outputConfig,
       },
     );
 
@@ -890,6 +948,11 @@ class Block {
   @_s.JsonKey(name: 'Text')
   final String text;
 
+  /// The kind of text that Amazon Textract has detected. Can check for
+  /// handwritten text and printed text.
+  @_s.JsonKey(name: 'TextType')
+  final TextType textType;
+
   Block({
     this.blockType,
     this.columnIndex,
@@ -904,6 +967,7 @@ class Block {
     this.rowSpan,
     this.selectionStatus,
     this.text,
+    this.textType,
   });
   factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);
 }
@@ -1184,7 +1248,8 @@ class GetDocumentAnalysisResponse {
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
-  /// The current status of an asynchronous document-analysis operation.
+  /// Returns if the detection job could not be completed. Contains explanation
+  /// for what error occured.
   @_s.JsonKey(name: 'StatusMessage')
   final String statusMessage;
 
@@ -1235,8 +1300,8 @@ class GetDocumentTextDetectionResponse {
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
-  /// The current status of an asynchronous text-detection operation for the
-  /// document.
+  /// Returns if the detection job could not be completed. Contains explanation
+  /// for what error occured.
   @_s.JsonKey(name: 'StatusMessage')
   final String statusMessage;
 
@@ -1374,6 +1439,30 @@ class NotificationChannel {
   Map<String, dynamic> toJson() => _$NotificationChannelToJson(this);
 }
 
+/// Sets whether or not your output will go to a user created bucket. Used to
+/// set the name of the bucket, and the prefix on the output file.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class OutputConfig {
+  /// The name of the bucket your output will go to.
+  @_s.JsonKey(name: 'S3Bucket')
+  final String s3Bucket;
+
+  /// The prefix of the object key that the output will be saved to. When not
+  /// enabled, the prefix will be “textract_output".
+  @_s.JsonKey(name: 'S3Prefix')
+  final String s3Prefix;
+
+  OutputConfig({
+    @_s.required this.s3Bucket,
+    this.s3Prefix,
+  });
+  Map<String, dynamic> toJson() => _$OutputConfigToJson(this);
+}
+
 /// The X and Y coordinates of a point on a document page. The X and Y values
 /// that are returned are ratios of the overall document page size. For example,
 /// if the input document is 700 x 200 and the operation returns X=0.5 and
@@ -1426,7 +1515,9 @@ class Relationship {
   /// current block. The relationship can be <code>VALUE</code> or
   /// <code>CHILD</code>. A relationship of type VALUE is a list that contains the
   /// ID of the VALUE block that's associated with the KEY of a key-value pair. A
-  /// relationship of type CHILD is a list of IDs that identify WORD blocks.
+  /// relationship of type CHILD is a list of IDs that identify WORD blocks in the
+  /// case of lines Cell blocks in the case of Tables, and WORD blocks in the case
+  /// of Selection Elements.
   @_s.JsonKey(name: 'Type')
   final RelationshipType type;
 
@@ -1443,6 +1534,8 @@ enum RelationshipType {
   value,
   @_s.JsonValue('CHILD')
   child,
+  @_s.JsonValue('COMPLEX_FEATURES')
+  complexFeatures,
 }
 
 /// The S3 bucket name and file name that identifies the document.
@@ -1528,6 +1621,13 @@ class StartDocumentTextDetectionResponse {
       _$StartDocumentTextDetectionResponseFromJson(json);
 }
 
+enum TextType {
+  @_s.JsonValue('HANDWRITING')
+  handwriting,
+  @_s.JsonValue('PRINTED')
+  printed,
+}
+
 /// A warning about an issue that occurred during asynchronous text analysis
 /// (<a>StartDocumentAnalysis</a>) or asynchronous document text detection
 /// (<a>StartDocumentTextDetection</a>).
@@ -1594,6 +1694,11 @@ class InvalidJobIdException extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidJobIdException', message: message);
 }
 
+class InvalidKMSKeyException extends _s.GenericAwsException {
+  InvalidKMSKeyException({String type, String message})
+      : super(type: type, code: 'InvalidKMSKeyException', message: message);
+}
+
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String type, String message})
       : super(type: type, code: 'InvalidParameterException', message: message);
@@ -1643,6 +1748,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalServerError(type: type, message: message),
   'InvalidJobIdException': (type, message) =>
       InvalidJobIdException(type: type, message: message),
+  'InvalidKMSKeyException': (type, message) =>
+      InvalidKMSKeyException(type: type, message: message),
   'InvalidParameterException': (type, message) =>
       InvalidParameterException(type: type, message: message),
   'InvalidS3ObjectException': (type, message) =>

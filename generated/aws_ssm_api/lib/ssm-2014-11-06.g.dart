@@ -61,6 +61,7 @@ Association _$AssociationFromJson(Map<String, dynamic> json) {
 AssociationDescription _$AssociationDescriptionFromJson(
     Map<String, dynamic> json) {
   return AssociationDescription(
+    applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool,
     associationId: json['AssociationId'] as String,
     associationName: json['AssociationName'] as String,
     associationVersion: json['AssociationVersion'] as String,
@@ -95,6 +96,13 @@ AssociationDescription _$AssociationDescriptionFromJson(
     status: json['Status'] == null
         ? null
         : AssociationStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    syncCompliance: _$enumDecodeNullable(
+        _$AssociationSyncComplianceEnumMap, json['SyncCompliance']),
+    targetLocations: (json['TargetLocations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TargetLocation.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     targets: (json['Targets'] as List)
         ?.map((e) =>
             e == null ? null : Target.fromJson(e as Map<String, dynamic>))
@@ -140,6 +148,11 @@ const _$AssociationComplianceSeverityEnumMap = {
   AssociationComplianceSeverity.medium: 'MEDIUM',
   AssociationComplianceSeverity.low: 'LOW',
   AssociationComplianceSeverity.unspecified: 'UNSPECIFIED',
+};
+
+const _$AssociationSyncComplianceEnumMap = {
+  AssociationSyncCompliance.auto: 'AUTO',
+  AssociationSyncCompliance.manual: 'MANUAL',
 };
 
 AssociationExecution _$AssociationExecutionFromJson(Map<String, dynamic> json) {
@@ -246,6 +259,7 @@ const _$AssociationFilterKeyEnumMap = {
   AssociationFilterKey.lastExecutedBefore: 'LastExecutedBefore',
   AssociationFilterKey.lastExecutedAfter: 'LastExecutedAfter',
   AssociationFilterKey.associationName: 'AssociationName',
+  AssociationFilterKey.resourceGroupName: 'ResourceGroupName',
 };
 
 AssociationOverview _$AssociationOverviewFromJson(Map<String, dynamic> json) {
@@ -293,6 +307,7 @@ const _$AssociationStatusNameEnumMap = {
 AssociationVersionInfo _$AssociationVersionInfoFromJson(
     Map<String, dynamic> json) {
   return AssociationVersionInfo(
+    applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool,
     associationId: json['AssociationId'] as String,
     associationName: json['AssociationName'] as String,
     associationVersion: json['AssociationVersion'] as String,
@@ -311,6 +326,13 @@ AssociationVersionInfo _$AssociationVersionInfoFromJson(
       (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
     ),
     scheduleExpression: json['ScheduleExpression'] as String,
+    syncCompliance: _$enumDecodeNullable(
+        _$AssociationSyncComplianceEnumMap, json['SyncCompliance']),
+    targetLocations: (json['TargetLocations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TargetLocation.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     targets: (json['Targets'] as List)
         ?.map((e) =>
             e == null ? null : Target.fromJson(e as Map<String, dynamic>))
@@ -363,9 +385,13 @@ const _$AttachmentsSourceKeyEnumMap = {
 
 AutomationExecution _$AutomationExecutionFromJson(Map<String, dynamic> json) {
   return AutomationExecution(
+    associationId: json['AssociationId'] as String,
     automationExecutionId: json['AutomationExecutionId'] as String,
     automationExecutionStatus: _$enumDecodeNullable(
         _$AutomationExecutionStatusEnumMap, json['AutomationExecutionStatus']),
+    automationSubtype: _$enumDecodeNullable(
+        _$AutomationSubtypeEnumMap, json['AutomationSubtype']),
+    changeRequestName: json['ChangeRequestName'] as String,
     currentAction: json['CurrentAction'] as String,
     currentStepName: json['CurrentStepName'] as String,
     documentName: json['DocumentName'] as String,
@@ -379,6 +405,7 @@ AutomationExecution _$AutomationExecutionFromJson(Map<String, dynamic> json) {
     maxConcurrency: json['MaxConcurrency'] as String,
     maxErrors: json['MaxErrors'] as String,
     mode: _$enumDecodeNullable(_$ExecutionModeEnumMap, json['Mode']),
+    opsItemId: json['OpsItemId'] as String,
     outputs: (json['Outputs'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
     ),
@@ -394,6 +421,12 @@ AutomationExecution _$AutomationExecutionFromJson(Map<String, dynamic> json) {
         ? null
         : ResolvedTargets.fromJson(
             json['ResolvedTargets'] as Map<String, dynamic>),
+    runbooks: (json['Runbooks'] as List)
+        ?.map((e) =>
+            e == null ? null : Runbook.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    scheduledTime:
+        const UnixDateTimeConverter().fromJson(json['ScheduledTime']),
     stepExecutions: (json['StepExecutions'] as List)
         ?.map((e) => e == null
             ? null
@@ -429,6 +462,23 @@ const _$AutomationExecutionStatusEnumMap = {
   AutomationExecutionStatus.cancelling: 'Cancelling',
   AutomationExecutionStatus.cancelled: 'Cancelled',
   AutomationExecutionStatus.failed: 'Failed',
+  AutomationExecutionStatus.pendingApproval: 'PendingApproval',
+  AutomationExecutionStatus.approved: 'Approved',
+  AutomationExecutionStatus.rejected: 'Rejected',
+  AutomationExecutionStatus.scheduled: 'Scheduled',
+  AutomationExecutionStatus.runbookInProgress: 'RunbookInProgress',
+  AutomationExecutionStatus.pendingChangeCalendarOverride:
+      'PendingChangeCalendarOverride',
+  AutomationExecutionStatus.changeCalendarOverrideApproved:
+      'ChangeCalendarOverrideApproved',
+  AutomationExecutionStatus.changeCalendarOverrideRejected:
+      'ChangeCalendarOverrideRejected',
+  AutomationExecutionStatus.completedWithSuccess: 'CompletedWithSuccess',
+  AutomationExecutionStatus.completedWithFailure: 'CompletedWithFailure',
+};
+
+const _$AutomationSubtypeEnumMap = {
+  AutomationSubtype.changeRequest: 'ChangeRequest',
 };
 
 const _$ExecutionModeEnumMap = {
@@ -461,16 +511,23 @@ const _$AutomationExecutionFilterKeyEnumMap = {
   AutomationExecutionFilterKey.startTimeAfter: 'StartTimeAfter',
   AutomationExecutionFilterKey.automationType: 'AutomationType',
   AutomationExecutionFilterKey.tagKey: 'TagKey',
+  AutomationExecutionFilterKey.targetResourceGroup: 'TargetResourceGroup',
+  AutomationExecutionFilterKey.automationSubtype: 'AutomationSubtype',
+  AutomationExecutionFilterKey.opsItemId: 'OpsItemId',
 };
 
 AutomationExecutionMetadata _$AutomationExecutionMetadataFromJson(
     Map<String, dynamic> json) {
   return AutomationExecutionMetadata(
+    associationId: json['AssociationId'] as String,
     automationExecutionId: json['AutomationExecutionId'] as String,
     automationExecutionStatus: _$enumDecodeNullable(
         _$AutomationExecutionStatusEnumMap, json['AutomationExecutionStatus']),
+    automationSubtype: _$enumDecodeNullable(
+        _$AutomationSubtypeEnumMap, json['AutomationSubtype']),
     automationType:
         _$enumDecodeNullable(_$AutomationTypeEnumMap, json['AutomationType']),
+    changeRequestName: json['ChangeRequestName'] as String,
     currentAction: json['CurrentAction'] as String,
     currentStepName: json['CurrentStepName'] as String,
     documentName: json['DocumentName'] as String,
@@ -485,6 +542,7 @@ AutomationExecutionMetadata _$AutomationExecutionMetadataFromJson(
     maxConcurrency: json['MaxConcurrency'] as String,
     maxErrors: json['MaxErrors'] as String,
     mode: _$enumDecodeNullable(_$ExecutionModeEnumMap, json['Mode']),
+    opsItemId: json['OpsItemId'] as String,
     outputs: (json['Outputs'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
     ),
@@ -493,6 +551,12 @@ AutomationExecutionMetadata _$AutomationExecutionMetadataFromJson(
         ? null
         : ResolvedTargets.fromJson(
             json['ResolvedTargets'] as Map<String, dynamic>),
+    runbooks: (json['Runbooks'] as List)
+        ?.map((e) =>
+            e == null ? null : Runbook.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    scheduledTime:
+        const UnixDateTimeConverter().fromJson(json['ScheduledTime']),
     target: json['Target'] as String,
     targetMaps: (json['TargetMaps'] as List)
         ?.map((e) => (e as Map<String, dynamic>)?.map(
@@ -586,6 +650,7 @@ Command _$CommandFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Target.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    timeoutSeconds: json['TimeoutSeconds'] as int,
   );
 }
 
@@ -832,6 +897,7 @@ CreateAssociationBatchRequestEntry _$CreateAssociationBatchRequestEntryFromJson(
     Map<String, dynamic> json) {
   return CreateAssociationBatchRequestEntry(
     name: json['Name'] as String,
+    applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool,
     associationName: json['AssociationName'] as String,
     automationTargetParameterName:
         json['AutomationTargetParameterName'] as String,
@@ -849,6 +915,13 @@ CreateAssociationBatchRequestEntry _$CreateAssociationBatchRequestEntryFromJson(
       (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
     ),
     scheduleExpression: json['ScheduleExpression'] as String,
+    syncCompliance: _$enumDecodeNullable(
+        _$AssociationSyncComplianceEnumMap, json['SyncCompliance']),
+    targetLocations: (json['TargetLocations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TargetLocation.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     targets: (json['Targets'] as List)
         ?.map((e) =>
             e == null ? null : Target.fromJson(e as Map<String, dynamic>))
@@ -867,6 +940,7 @@ Map<String, dynamic> _$CreateAssociationBatchRequestEntryToJson(
   }
 
   writeNotNull('Name', instance.name);
+  writeNotNull('ApplyOnlyAtCronInterval', instance.applyOnlyAtCronInterval);
   writeNotNull('AssociationName', instance.associationName);
   writeNotNull(
       'AutomationTargetParameterName', instance.automationTargetParameterName);
@@ -879,6 +953,10 @@ Map<String, dynamic> _$CreateAssociationBatchRequestEntryToJson(
   writeNotNull('OutputLocation', instance.outputLocation?.toJson());
   writeNotNull('Parameters', instance.parameters);
   writeNotNull('ScheduleExpression', instance.scheduleExpression);
+  writeNotNull('SyncCompliance',
+      _$AssociationSyncComplianceEnumMap[instance.syncCompliance]);
+  writeNotNull('TargetLocations',
+      instance.targetLocations?.map((e) => e?.toJson())?.toList());
   writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
   return val;
 }
@@ -932,6 +1010,13 @@ CreateOpsItemResponse _$CreateOpsItemResponseFromJson(
   );
 }
 
+CreateOpsMetadataResult _$CreateOpsMetadataResultFromJson(
+    Map<String, dynamic> json) {
+  return CreateOpsMetadataResult(
+    opsMetadataArn: json['OpsMetadataArn'] as String,
+  );
+}
+
 CreatePatchBaselineResult _$CreatePatchBaselineResultFromJson(
     Map<String, dynamic> json) {
   return CreatePatchBaselineResult(
@@ -975,6 +1060,11 @@ DeleteMaintenanceWindowResult _$DeleteMaintenanceWindowResultFromJson(
   return DeleteMaintenanceWindowResult(
     windowId: json['WindowId'] as String,
   );
+}
+
+DeleteOpsMetadataResult _$DeleteOpsMetadataResultFromJson(
+    Map<String, dynamic> json) {
+  return DeleteOpsMetadataResult();
 }
 
 DeleteParameterResult _$DeleteParameterResultFromJson(
@@ -1474,11 +1564,13 @@ DocumentDefaultVersionDescription _$DocumentDefaultVersionDescriptionFromJson(
 
 DocumentDescription _$DocumentDescriptionFromJson(Map<String, dynamic> json) {
   return DocumentDescription(
+    approvedVersion: json['ApprovedVersion'] as String,
     attachmentsInformation: (json['AttachmentsInformation'] as List)
         ?.map((e) => e == null
             ? null
             : AttachmentInformation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    author: json['Author'] as String,
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
     defaultVersion: json['DefaultVersion'] as String,
     description: json['Description'] as String,
@@ -1497,6 +1589,7 @@ DocumentDescription _$DocumentDescriptionFromJson(Map<String, dynamic> json) {
             ? null
             : DocumentParameter.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    pendingReviewVersion: json['PendingReviewVersion'] as String,
     platformTypes: (json['PlatformTypes'] as List)
         ?.map((e) => _$enumDecodeNullable(_$PlatformTypeEnumMap, e))
         ?.toList(),
@@ -1505,6 +1598,13 @@ DocumentDescription _$DocumentDescriptionFromJson(Map<String, dynamic> json) {
             ? null
             : DocumentRequires.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    reviewInformation: (json['ReviewInformation'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ReviewInformation.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    reviewStatus:
+        _$enumDecodeNullable(_$ReviewStatusEnumMap, json['ReviewStatus']),
     schemaVersion: json['SchemaVersion'] as String,
     sha1: json['Sha1'] as String,
     status: _$enumDecodeNullable(_$DocumentStatusEnumMap, json['Status']),
@@ -1533,6 +1633,7 @@ const _$DocumentTypeEnumMap = {
   DocumentType.applicationConfigurationSchema: 'ApplicationConfigurationSchema',
   DocumentType.deploymentStrategy: 'DeploymentStrategy',
   DocumentType.changeCalendar: 'ChangeCalendar',
+  DocumentType.automationChangeTemplate: 'Automation.ChangeTemplate',
 };
 
 const _$DocumentHashTypeEnumMap = {
@@ -1543,6 +1644,13 @@ const _$DocumentHashTypeEnumMap = {
 const _$PlatformTypeEnumMap = {
   PlatformType.windows: 'Windows',
   PlatformType.linux: 'Linux',
+};
+
+const _$ReviewStatusEnumMap = {
+  ReviewStatus.approved: 'APPROVED',
+  ReviewStatus.notReviewed: 'NOT_REVIEWED',
+  ReviewStatus.pending: 'PENDING',
+  ReviewStatus.rejected: 'REJECTED',
 };
 
 const _$DocumentStatusEnumMap = {
@@ -1576,6 +1684,7 @@ const _$DocumentFilterKeyEnumMap = {
 
 DocumentIdentifier _$DocumentIdentifierFromJson(Map<String, dynamic> json) {
   return DocumentIdentifier(
+    author: json['Author'] as String,
     documentFormat:
         _$enumDecodeNullable(_$DocumentFormatEnumMap, json['DocumentFormat']),
     documentType:
@@ -1591,6 +1700,8 @@ DocumentIdentifier _$DocumentIdentifierFromJson(Map<String, dynamic> json) {
             ? null
             : DocumentRequires.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    reviewStatus:
+        _$enumDecodeNullable(_$ReviewStatusEnumMap, json['ReviewStatus']),
     schemaVersion: json['SchemaVersion'] as String,
     tags: (json['Tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
@@ -1613,6 +1724,18 @@ Map<String, dynamic> _$DocumentKeyValuesFilterToJson(
   writeNotNull('Key', instance.key);
   writeNotNull('Values', instance.values);
   return val;
+}
+
+DocumentMetadataResponseInfo _$DocumentMetadataResponseInfoFromJson(
+    Map<String, dynamic> json) {
+  return DocumentMetadataResponseInfo(
+    reviewerResponse: (json['ReviewerResponse'] as List)
+        ?.map((e) => e == null
+            ? null
+            : DocumentReviewerResponseSource.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList(),
+  );
 }
 
 DocumentParameter _$DocumentParameterFromJson(Map<String, dynamic> json) {
@@ -1650,6 +1773,71 @@ Map<String, dynamic> _$DocumentRequiresToJson(DocumentRequires instance) {
   return val;
 }
 
+DocumentReviewCommentSource _$DocumentReviewCommentSourceFromJson(
+    Map<String, dynamic> json) {
+  return DocumentReviewCommentSource(
+    content: json['Content'] as String,
+    type:
+        _$enumDecodeNullable(_$DocumentReviewCommentTypeEnumMap, json['Type']),
+  );
+}
+
+Map<String, dynamic> _$DocumentReviewCommentSourceToJson(
+    DocumentReviewCommentSource instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Content', instance.content);
+  writeNotNull('Type', _$DocumentReviewCommentTypeEnumMap[instance.type]);
+  return val;
+}
+
+const _$DocumentReviewCommentTypeEnumMap = {
+  DocumentReviewCommentType.comment: 'Comment',
+};
+
+DocumentReviewerResponseSource _$DocumentReviewerResponseSourceFromJson(
+    Map<String, dynamic> json) {
+  return DocumentReviewerResponseSource(
+    comment: (json['Comment'] as List)
+        ?.map((e) => e == null
+            ? null
+            : DocumentReviewCommentSource.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    createTime: const UnixDateTimeConverter().fromJson(json['CreateTime']),
+    reviewStatus:
+        _$enumDecodeNullable(_$ReviewStatusEnumMap, json['ReviewStatus']),
+    reviewer: json['Reviewer'] as String,
+    updatedTime: const UnixDateTimeConverter().fromJson(json['UpdatedTime']),
+  );
+}
+
+Map<String, dynamic> _$DocumentReviewsToJson(DocumentReviews instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Action', _$DocumentReviewActionEnumMap[instance.action]);
+  writeNotNull('Comment', instance.comment?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$DocumentReviewActionEnumMap = {
+  DocumentReviewAction.sendForReview: 'SendForReview',
+  DocumentReviewAction.updateReview: 'UpdateReview',
+  DocumentReviewAction.approve: 'Approve',
+  DocumentReviewAction.reject: 'Reject',
+};
+
 DocumentVersionInfo _$DocumentVersionInfoFromJson(Map<String, dynamic> json) {
   return DocumentVersionInfo(
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
@@ -1658,6 +1846,8 @@ DocumentVersionInfo _$DocumentVersionInfoFromJson(Map<String, dynamic> json) {
     documentVersion: json['DocumentVersion'] as String,
     isDefaultVersion: json['IsDefaultVersion'] as bool,
     name: json['Name'] as String,
+    reviewStatus:
+        _$enumDecodeNullable(_$ReviewStatusEnumMap, json['ReviewStatus']),
     status: _$enumDecodeNullable(_$DocumentStatusEnumMap, json['Status']),
     statusInformation: json['StatusInformation'] as String,
     versionName: json['VersionName'] as String,
@@ -1784,6 +1974,9 @@ const _$OperatingSystemEnumMap = {
   OperatingSystem.redhatEnterpriseLinux: 'REDHAT_ENTERPRISE_LINUX',
   OperatingSystem.suse: 'SUSE',
   OperatingSystem.centos: 'CENTOS',
+  OperatingSystem.oracleLinux: 'ORACLE_LINUX',
+  OperatingSystem.debian: 'DEBIAN',
+  OperatingSystem.macos: 'MACOS',
 };
 
 GetDeployablePatchSnapshotForInstanceResult
@@ -1816,6 +2009,8 @@ GetDocumentResult _$GetDocumentResultFromJson(Map<String, dynamic> json) {
             ? null
             : DocumentRequires.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    reviewStatus:
+        _$enumDecodeNullable(_$ReviewStatusEnumMap, json['ReviewStatus']),
     status: _$enumDecodeNullable(_$DocumentStatusEnumMap, json['Status']),
     statusInformation: json['StatusInformation'] as String,
     versionName: json['VersionName'] as String,
@@ -1942,6 +2137,7 @@ GetMaintenanceWindowResult _$GetMaintenanceWindowResultFromJson(
     name: json['Name'] as String,
     nextExecutionTime: json['NextExecutionTime'] as String,
     schedule: json['Schedule'] as String,
+    scheduleOffset: json['ScheduleOffset'] as int,
     scheduleTimezone: json['ScheduleTimezone'] as String,
     startDate: json['StartDate'] as String,
     windowId: json['WindowId'] as String,
@@ -1989,6 +2185,17 @@ GetOpsItemResponse _$GetOpsItemResponseFromJson(Map<String, dynamic> json) {
     opsItem: json['OpsItem'] == null
         ? null
         : OpsItem.fromJson(json['OpsItem'] as Map<String, dynamic>),
+  );
+}
+
+GetOpsMetadataResult _$GetOpsMetadataResultFromJson(Map<String, dynamic> json) {
+  return GetOpsMetadataResult(
+    metadata: (json['Metadata'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k,
+          e == null ? null : MetadataValue.fromJson(e as Map<String, dynamic>)),
+    ),
+    nextToken: json['NextToken'] as String,
+    resourceId: json['ResourceId'] as String,
   );
 }
 
@@ -2590,6 +2797,20 @@ ListComplianceSummariesResult _$ListComplianceSummariesResultFromJson(
   );
 }
 
+ListDocumentMetadataHistoryResponse
+    _$ListDocumentMetadataHistoryResponseFromJson(Map<String, dynamic> json) {
+  return ListDocumentMetadataHistoryResponse(
+    author: json['Author'] as String,
+    documentVersion: json['DocumentVersion'] as String,
+    metadata: json['Metadata'] == null
+        ? null
+        : DocumentMetadataResponseInfo.fromJson(
+            json['Metadata'] as Map<String, dynamic>),
+    name: json['Name'] as String,
+    nextToken: json['NextToken'] as String,
+  );
+}
+
 ListDocumentVersionsResult _$ListDocumentVersionsResultFromJson(
     Map<String, dynamic> json) {
   return ListDocumentVersionsResult(
@@ -2626,6 +2847,29 @@ ListInventoryEntriesResult _$ListInventoryEntriesResultFromJson(
     nextToken: json['NextToken'] as String,
     schemaVersion: json['SchemaVersion'] as String,
     typeName: json['TypeName'] as String,
+  );
+}
+
+ListOpsItemEventsResponse _$ListOpsItemEventsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListOpsItemEventsResponse(
+    nextToken: json['NextToken'] as String,
+    summaries: (json['Summaries'] as List)
+        ?.map((e) => e == null
+            ? null
+            : OpsItemEventSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListOpsMetadataResult _$ListOpsMetadataResultFromJson(
+    Map<String, dynamic> json) {
+  return ListOpsMetadataResult(
+    nextToken: json['NextToken'] as String,
+    opsMetadataList: (json['OpsMetadataList'] as List)
+        ?.map((e) =>
+            e == null ? null : OpsMetadata.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -2788,6 +3032,7 @@ MaintenanceWindowIdentity _$MaintenanceWindowIdentityFromJson(
     name: json['Name'] as String,
     nextExecutionTime: json['NextExecutionTime'] as String,
     schedule: json['Schedule'] as String,
+    scheduleOffset: json['ScheduleOffset'] as int,
     scheduleTimezone: json['ScheduleTimezone'] as String,
     startDate: json['StartDate'] as String,
     windowId: json['WindowId'] as String,
@@ -3019,6 +3264,25 @@ Map<String, dynamic> _$MaintenanceWindowTaskParameterValueExpressionToJson(
   return val;
 }
 
+MetadataValue _$MetadataValueFromJson(Map<String, dynamic> json) {
+  return MetadataValue(
+    value: json['Value'] as String,
+  );
+}
+
+Map<String, dynamic> _$MetadataValueToJson(MetadataValue instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Value', instance.value);
+  return val;
+}
+
 ModifyDocumentPermissionResponse _$ModifyDocumentPermissionResponseFromJson(
     Map<String, dynamic> json) {
   return ModifyDocumentPermissionResponse();
@@ -3145,6 +3409,10 @@ const _$OpsFilterOperatorTypeEnumMap = {
 
 OpsItem _$OpsItemFromJson(Map<String, dynamic> json) {
   return OpsItem(
+    actualEndTime:
+        const UnixDateTimeConverter().fromJson(json['ActualEndTime']),
+    actualStartTime:
+        const UnixDateTimeConverter().fromJson(json['ActualStartTime']),
     category: json['Category'] as String,
     createdBy: json['CreatedBy'] as String,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
@@ -3165,6 +3433,11 @@ OpsItem _$OpsItemFromJson(Map<String, dynamic> json) {
               : OpsItemDataValue.fromJson(e as Map<String, dynamic>)),
     ),
     opsItemId: json['OpsItemId'] as String,
+    opsItemType: json['OpsItemType'] as String,
+    plannedEndTime:
+        const UnixDateTimeConverter().fromJson(json['PlannedEndTime']),
+    plannedStartTime:
+        const UnixDateTimeConverter().fromJson(json['PlannedStartTime']),
     priority: json['Priority'] as int,
     relatedOpsItems: (json['RelatedOpsItems'] as List)
         ?.map((e) => e == null
@@ -3183,6 +3456,23 @@ const _$OpsItemStatusEnumMap = {
   OpsItemStatus.open: 'Open',
   OpsItemStatus.inProgress: 'InProgress',
   OpsItemStatus.resolved: 'Resolved',
+  OpsItemStatus.pending: 'Pending',
+  OpsItemStatus.timedOut: 'TimedOut',
+  OpsItemStatus.cancelling: 'Cancelling',
+  OpsItemStatus.cancelled: 'Cancelled',
+  OpsItemStatus.failed: 'Failed',
+  OpsItemStatus.completedWithSuccess: 'CompletedWithSuccess',
+  OpsItemStatus.completedWithFailure: 'CompletedWithFailure',
+  OpsItemStatus.scheduled: 'Scheduled',
+  OpsItemStatus.runbookInProgress: 'RunbookInProgress',
+  OpsItemStatus.pendingChangeCalendarOverride: 'PendingChangeCalendarOverride',
+  OpsItemStatus.changeCalendarOverrideApproved:
+      'ChangeCalendarOverrideApproved',
+  OpsItemStatus.changeCalendarOverrideRejected:
+      'ChangeCalendarOverrideRejected',
+  OpsItemStatus.pendingApproval: 'PendingApproval',
+  OpsItemStatus.approved: 'Approved',
+  OpsItemStatus.rejected: 'Rejected',
 };
 
 OpsItemDataValue _$OpsItemDataValueFromJson(Map<String, dynamic> json) {
@@ -3211,6 +3501,44 @@ const _$OpsItemDataTypeEnumMap = {
   OpsItemDataType.string: 'String',
 };
 
+Map<String, dynamic> _$OpsItemEventFilterToJson(OpsItemEventFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', _$OpsItemEventFilterKeyEnumMap[instance.key]);
+  writeNotNull(
+      'Operator', _$OpsItemEventFilterOperatorEnumMap[instance.operator]);
+  writeNotNull('Values', instance.values);
+  return val;
+}
+
+const _$OpsItemEventFilterKeyEnumMap = {
+  OpsItemEventFilterKey.opsItemId: 'OpsItemId',
+};
+
+const _$OpsItemEventFilterOperatorEnumMap = {
+  OpsItemEventFilterOperator.equal: 'Equal',
+};
+
+OpsItemEventSummary _$OpsItemEventSummaryFromJson(Map<String, dynamic> json) {
+  return OpsItemEventSummary(
+    createdBy: json['CreatedBy'] == null
+        ? null
+        : OpsItemIdentity.fromJson(json['CreatedBy'] as Map<String, dynamic>),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
+    detail: json['Detail'] as String,
+    detailType: json['DetailType'] as String,
+    eventId: json['EventId'] as String,
+    opsItemId: json['OpsItemId'] as String,
+    source: json['Source'] as String,
+  );
+}
+
 Map<String, dynamic> _$OpsItemFilterToJson(OpsItemFilter instance) {
   final val = <String, dynamic>{};
 
@@ -3235,6 +3563,10 @@ const _$OpsItemFilterKeyEnumMap = {
   OpsItemFilterKey.opsItemId: 'OpsItemId',
   OpsItemFilterKey.createdTime: 'CreatedTime',
   OpsItemFilterKey.lastModifiedTime: 'LastModifiedTime',
+  OpsItemFilterKey.actualStartTime: 'ActualStartTime',
+  OpsItemFilterKey.actualEndTime: 'ActualEndTime',
+  OpsItemFilterKey.plannedStartTime: 'PlannedStartTime',
+  OpsItemFilterKey.plannedEndTime: 'PlannedEndTime',
   OpsItemFilterKey.operationalData: 'OperationalData',
   OpsItemFilterKey.operationalDataKey: 'OperationalDataKey',
   OpsItemFilterKey.operationalDataValue: 'OperationalDataValue',
@@ -3242,6 +3574,14 @@ const _$OpsItemFilterKeyEnumMap = {
   OpsItemFilterKey.automationId: 'AutomationId',
   OpsItemFilterKey.category: 'Category',
   OpsItemFilterKey.severity: 'Severity',
+  OpsItemFilterKey.opsItemType: 'OpsItemType',
+  OpsItemFilterKey.changeRequestByRequesterArn: 'ChangeRequestByRequesterArn',
+  OpsItemFilterKey.changeRequestByRequesterName: 'ChangeRequestByRequesterName',
+  OpsItemFilterKey.changeRequestByApproverArn: 'ChangeRequestByApproverArn',
+  OpsItemFilterKey.changeRequestByApproverName: 'ChangeRequestByApproverName',
+  OpsItemFilterKey.changeRequestByTemplate: 'ChangeRequestByTemplate',
+  OpsItemFilterKey.changeRequestByTargetsResourceGroup:
+      'ChangeRequestByTargetsResourceGroup',
 };
 
 const _$OpsItemFilterOperatorEnumMap = {
@@ -3250,6 +3590,12 @@ const _$OpsItemFilterOperatorEnumMap = {
   OpsItemFilterOperator.greaterThan: 'GreaterThan',
   OpsItemFilterOperator.lessThan: 'LessThan',
 };
+
+OpsItemIdentity _$OpsItemIdentityFromJson(Map<String, dynamic> json) {
+  return OpsItemIdentity(
+    arn: json['Arn'] as String,
+  );
+}
 
 OpsItemNotification _$OpsItemNotificationFromJson(Map<String, dynamic> json) {
   return OpsItemNotification(
@@ -3272,6 +3618,10 @@ Map<String, dynamic> _$OpsItemNotificationToJson(OpsItemNotification instance) {
 
 OpsItemSummary _$OpsItemSummaryFromJson(Map<String, dynamic> json) {
   return OpsItemSummary(
+    actualEndTime:
+        const UnixDateTimeConverter().fromJson(json['ActualEndTime']),
+    actualStartTime:
+        const UnixDateTimeConverter().fromJson(json['ActualStartTime']),
     category: json['Category'] as String,
     createdBy: json['CreatedBy'] as String,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
@@ -3286,12 +3636,42 @@ OpsItemSummary _$OpsItemSummaryFromJson(Map<String, dynamic> json) {
               : OpsItemDataValue.fromJson(e as Map<String, dynamic>)),
     ),
     opsItemId: json['OpsItemId'] as String,
+    opsItemType: json['OpsItemType'] as String,
+    plannedEndTime:
+        const UnixDateTimeConverter().fromJson(json['PlannedEndTime']),
+    plannedStartTime:
+        const UnixDateTimeConverter().fromJson(json['PlannedStartTime']),
     priority: json['Priority'] as int,
     severity: json['Severity'] as String,
     source: json['Source'] as String,
     status: _$enumDecodeNullable(_$OpsItemStatusEnumMap, json['Status']),
     title: json['Title'] as String,
   );
+}
+
+OpsMetadata _$OpsMetadataFromJson(Map<String, dynamic> json) {
+  return OpsMetadata(
+    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
+    lastModifiedUser: json['LastModifiedUser'] as String,
+    opsMetadataArn: json['OpsMetadataArn'] as String,
+    resourceId: json['ResourceId'] as String,
+  );
+}
+
+Map<String, dynamic> _$OpsMetadataFilterToJson(OpsMetadataFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key);
+  writeNotNull('Values', instance.values);
+  return val;
 }
 
 Map<String, dynamic> _$OpsResultAttributeToJson(OpsResultAttribute instance) {
@@ -3317,6 +3697,7 @@ OutputSource _$OutputSourceFromJson(Map<String, dynamic> json) {
 Parameter _$ParameterFromJson(Map<String, dynamic> json) {
   return Parameter(
     arn: json['ARN'] as String,
+    dataType: json['DataType'] as String,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
     name: json['Name'] as String,
@@ -3337,6 +3718,7 @@ const _$ParameterTypeEnumMap = {
 ParameterHistory _$ParameterHistoryFromJson(Map<String, dynamic> json) {
   return ParameterHistory(
     allowedPattern: json['AllowedPattern'] as String,
+    dataType: json['DataType'] as String,
     description: json['Description'] as String,
     keyId: json['KeyId'] as String,
     labels: (json['Labels'] as List)?.map((e) => e as String)?.toList(),
@@ -3374,6 +3756,7 @@ ParameterInlinePolicy _$ParameterInlinePolicyFromJson(
 ParameterMetadata _$ParameterMetadataFromJson(Map<String, dynamic> json) {
   return ParameterMetadata(
     allowedPattern: json['AllowedPattern'] as String,
+    dataType: json['DataType'] as String,
     description: json['Description'] as String,
     keyId: json['KeyId'] as String,
     lastModifiedDate:
@@ -3429,19 +3812,31 @@ const _$ParametersFilterKeyEnumMap = {
 
 Patch _$PatchFromJson(Map<String, dynamic> json) {
   return Patch(
+    advisoryIds:
+        (json['AdvisoryIds'] as List)?.map((e) => e as String)?.toList(),
+    arch: json['Arch'] as String,
+    bugzillaIds:
+        (json['BugzillaIds'] as List)?.map((e) => e as String)?.toList(),
+    cVEIds: (json['CVEIds'] as List)?.map((e) => e as String)?.toList(),
     classification: json['Classification'] as String,
     contentUrl: json['ContentUrl'] as String,
     description: json['Description'] as String,
+    epoch: json['Epoch'] as int,
     id: json['Id'] as String,
     kbNumber: json['KbNumber'] as String,
     language: json['Language'] as String,
     msrcNumber: json['MsrcNumber'] as String,
     msrcSeverity: json['MsrcSeverity'] as String,
+    name: json['Name'] as String,
     product: json['Product'] as String,
     productFamily: json['ProductFamily'] as String,
+    release: json['Release'] as String,
     releaseDate: const UnixDateTimeConverter().fromJson(json['ReleaseDate']),
+    repository: json['Repository'] as String,
+    severity: json['Severity'] as String,
     title: json['Title'] as String,
     vendor: json['Vendor'] as String,
+    version: json['Version'] as String,
   );
 }
 
@@ -3467,6 +3862,7 @@ PatchComplianceData _$PatchComplianceDataFromJson(Map<String, dynamic> json) {
     state:
         _$enumDecodeNullable(_$PatchComplianceDataStateEnumMap, json['State']),
     title: json['Title'] as String,
+    cVEIds: json['CVEIds'] as String,
   );
 }
 
@@ -3502,15 +3898,25 @@ Map<String, dynamic> _$PatchFilterToJson(PatchFilter instance) {
 }
 
 const _$PatchFilterKeyEnumMap = {
+  PatchFilterKey.arch: 'ARCH',
+  PatchFilterKey.advisoryId: 'ADVISORY_ID',
+  PatchFilterKey.bugzillaId: 'BUGZILLA_ID',
   PatchFilterKey.patchSet: 'PATCH_SET',
   PatchFilterKey.product: 'PRODUCT',
   PatchFilterKey.productFamily: 'PRODUCT_FAMILY',
   PatchFilterKey.classification: 'CLASSIFICATION',
+  PatchFilterKey.cveId: 'CVE_ID',
+  PatchFilterKey.epoch: 'EPOCH',
   PatchFilterKey.msrcSeverity: 'MSRC_SEVERITY',
+  PatchFilterKey.name: 'NAME',
   PatchFilterKey.patchId: 'PATCH_ID',
   PatchFilterKey.section: 'SECTION',
   PatchFilterKey.priority: 'PRIORITY',
+  PatchFilterKey.repository: 'REPOSITORY',
+  PatchFilterKey.release: 'RELEASE',
   PatchFilterKey.severity: 'SEVERITY',
+  PatchFilterKey.security: 'SECURITY',
+  PatchFilterKey.version: 'VERSION',
 };
 
 PatchFilterGroup _$PatchFilterGroupFromJson(Map<String, dynamic> json) {
@@ -3984,6 +4390,57 @@ ResumeSessionResponse _$ResumeSessionResponseFromJson(
   );
 }
 
+ReviewInformation _$ReviewInformationFromJson(Map<String, dynamic> json) {
+  return ReviewInformation(
+    reviewedTime: const UnixDateTimeConverter().fromJson(json['ReviewedTime']),
+    reviewer: json['Reviewer'] as String,
+    status: _$enumDecodeNullable(_$ReviewStatusEnumMap, json['Status']),
+  );
+}
+
+Runbook _$RunbookFromJson(Map<String, dynamic> json) {
+  return Runbook(
+    documentName: json['DocumentName'] as String,
+    documentVersion: json['DocumentVersion'] as String,
+    maxConcurrency: json['MaxConcurrency'] as String,
+    maxErrors: json['MaxErrors'] as String,
+    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    ),
+    targetLocations: (json['TargetLocations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TargetLocation.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    targetParameterName: json['TargetParameterName'] as String,
+    targets: (json['Targets'] as List)
+        ?.map((e) =>
+            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$RunbookToJson(Runbook instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DocumentName', instance.documentName);
+  writeNotNull('DocumentVersion', instance.documentVersion);
+  writeNotNull('MaxConcurrency', instance.maxConcurrency);
+  writeNotNull('MaxErrors', instance.maxErrors);
+  writeNotNull('Parameters', instance.parameters);
+  writeNotNull('TargetLocations',
+      instance.targetLocations?.map((e) => e?.toJson())?.toList());
+  writeNotNull('TargetParameterName', instance.targetParameterName);
+  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
 S3OutputLocation _$S3OutputLocationFromJson(Map<String, dynamic> json) {
   return S3OutputLocation(
     outputS3BucketName: json['OutputS3BucketName'] as String,
@@ -4093,6 +4550,7 @@ const _$SessionFilterKeyEnumMap = {
   SessionFilterKey.target: 'Target',
   SessionFilterKey.owner: 'Owner',
   SessionFilterKey.status: 'Status',
+  SessionFilterKey.sessionId: 'SessionId',
 };
 
 SessionManagerOutputUrl _$SessionManagerOutputUrlFromJson(
@@ -4122,6 +4580,13 @@ StartAssociationsOnceResult _$StartAssociationsOnceResultFromJson(
 StartAutomationExecutionResult _$StartAutomationExecutionResultFromJson(
     Map<String, dynamic> json) {
   return StartAutomationExecutionResult(
+    automationExecutionId: json['AutomationExecutionId'] as String,
+  );
+}
+
+StartChangeRequestExecutionResult _$StartChangeRequestExecutionResultFromJson(
+    Map<String, dynamic> json) {
+  return StartChangeRequestExecutionResult(
     automationExecutionId: json['AutomationExecutionId'] as String,
   );
 }
@@ -4317,6 +4782,11 @@ UpdateDocumentDefaultVersionResult _$UpdateDocumentDefaultVersionResultFromJson(
   );
 }
 
+UpdateDocumentMetadataResponse _$UpdateDocumentMetadataResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateDocumentMetadataResponse();
+}
+
 UpdateDocumentResult _$UpdateDocumentResultFromJson(Map<String, dynamic> json) {
   return UpdateDocumentResult(
     documentDescription: json['DocumentDescription'] == null
@@ -4337,6 +4807,7 @@ UpdateMaintenanceWindowResult _$UpdateMaintenanceWindowResultFromJson(
     endDate: json['EndDate'] as String,
     name: json['Name'] as String,
     schedule: json['Schedule'] as String,
+    scheduleOffset: json['ScheduleOffset'] as int,
     scheduleTimezone: json['ScheduleTimezone'] as String,
     startDate: json['StartDate'] as String,
     windowId: json['WindowId'] as String,
@@ -4400,6 +4871,13 @@ UpdateManagedInstanceRoleResult _$UpdateManagedInstanceRoleResultFromJson(
 UpdateOpsItemResponse _$UpdateOpsItemResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateOpsItemResponse();
+}
+
+UpdateOpsMetadataResult _$UpdateOpsMetadataResultFromJson(
+    Map<String, dynamic> json) {
+  return UpdateOpsMetadataResult(
+    opsMetadataArn: json['OpsMetadataArn'] as String,
+  );
 }
 
 UpdatePatchBaselineResult _$UpdatePatchBaselineResultFromJson(

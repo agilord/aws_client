@@ -69,6 +69,41 @@ const _$LifeCycleStateEnumMap = {
   LifeCycleState.deleted: 'deleted',
 };
 
+BackupPolicy _$BackupPolicyFromJson(Map<String, dynamic> json) {
+  return BackupPolicy(
+    status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
+  );
+}
+
+Map<String, dynamic> _$BackupPolicyToJson(BackupPolicy instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Status', _$StatusEnumMap[instance.status]);
+  return val;
+}
+
+const _$StatusEnumMap = {
+  Status.enabled: 'ENABLED',
+  Status.enabling: 'ENABLING',
+  Status.disabled: 'DISABLED',
+  Status.disabling: 'DISABLING',
+};
+
+BackupPolicyDescription _$BackupPolicyDescriptionFromJson(
+    Map<String, dynamic> json) {
+  return BackupPolicyDescription(
+    backupPolicy: json['BackupPolicy'] == null
+        ? null
+        : BackupPolicy.fromJson(json['BackupPolicy'] as Map<String, dynamic>),
+  );
+}
+
 CreationInfo _$CreationInfoFromJson(Map<String, dynamic> json) {
   return CreationInfo(
     ownerGid: json['OwnerGid'] as int,
@@ -168,6 +203,7 @@ FileSystemDescription _$FileSystemDescriptionFromJson(
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     encrypted: json['Encrypted'] as bool,
+    fileSystemArn: json['FileSystemArn'] as String,
     kmsKeyId: json['KmsKeyId'] as String,
     name: json['Name'] as String,
     provisionedThroughputInMibps:
@@ -267,6 +303,7 @@ MountTargetDescription _$MountTargetDescriptionFromJson(
     ipAddress: json['IpAddress'] as String,
     networkInterfaceId: json['NetworkInterfaceId'] as String,
     ownerId: json['OwnerId'] as String,
+    vpcId: json['VpcId'] as String,
   );
 }
 

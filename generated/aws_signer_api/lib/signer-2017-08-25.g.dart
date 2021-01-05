@@ -6,19 +6,36 @@ part of 'signer-2017-08-25.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AddProfilePermissionResponse _$AddProfilePermissionResponseFromJson(
+    Map<String, dynamic> json) {
+  return AddProfilePermissionResponse(
+    revisionId: json['revisionId'] as String,
+  );
+}
+
 DescribeSigningJobResponse _$DescribeSigningJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSigningJobResponse(
     completedAt: const UnixDateTimeConverter().fromJson(json['completedAt']),
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     jobId: json['jobId'] as String,
+    jobInvoker: json['jobInvoker'] as String,
+    jobOwner: json['jobOwner'] as String,
     overrides: json['overrides'] == null
         ? null
         : SigningPlatformOverrides.fromJson(
             json['overrides'] as Map<String, dynamic>),
+    platformDisplayName: json['platformDisplayName'] as String,
     platformId: json['platformId'] as String,
     profileName: json['profileName'] as String,
+    profileVersion: json['profileVersion'] as String,
     requestedBy: json['requestedBy'] as String,
+    revocationRecord: json['revocationRecord'] == null
+        ? null
+        : SigningJobRevocationRecord.fromJson(
+            json['revocationRecord'] as Map<String, dynamic>),
+    signatureExpiresAt:
+        const UnixDateTimeConverter().fromJson(json['signatureExpiresAt']),
     signedObject: json['signedObject'] == null
         ? null
         : SignedObject.fromJson(json['signedObject'] as Map<String, dynamic>),
@@ -112,6 +129,7 @@ GetSigningPlatformResponse _$GetSigningPlatformResponseFromJson(
     maxSizeInMB: json['maxSizeInMB'] as int,
     partner: json['partner'] as String,
     platformId: json['platformId'] as String,
+    revocationSupported: json['revocationSupported'] as bool,
     signingConfiguration: json['signingConfiguration'] == null
         ? null
         : SigningConfiguration.fromJson(
@@ -136,8 +154,19 @@ GetSigningProfileResponse _$GetSigningProfileResponseFromJson(
         ? null
         : SigningPlatformOverrides.fromJson(
             json['overrides'] as Map<String, dynamic>),
+    platformDisplayName: json['platformDisplayName'] as String,
     platformId: json['platformId'] as String,
     profileName: json['profileName'] as String,
+    profileVersion: json['profileVersion'] as String,
+    profileVersionArn: json['profileVersionArn'] as String,
+    revocationRecord: json['revocationRecord'] == null
+        ? null
+        : SigningProfileRevocationRecord.fromJson(
+            json['revocationRecord'] as Map<String, dynamic>),
+    signatureValidityPeriod: json['signatureValidityPeriod'] == null
+        ? null
+        : SignatureValidityPeriod.fromJson(
+            json['signatureValidityPeriod'] as Map<String, dynamic>),
     signingMaterial: json['signingMaterial'] == null
         ? null
         : SigningMaterial.fromJson(
@@ -146,6 +175,7 @@ GetSigningProfileResponse _$GetSigningProfileResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
     status: _$enumDecodeNullable(_$SigningProfileStatusEnumMap, json['status']),
+    statusReason: json['statusReason'] as String,
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -155,6 +185,7 @@ GetSigningProfileResponse _$GetSigningProfileResponseFromJson(
 const _$SigningProfileStatusEnumMap = {
   SigningProfileStatus.active: 'Active',
   SigningProfileStatus.canceled: 'Canceled',
+  SigningProfileStatus.revoked: 'Revoked',
 };
 
 HashAlgorithmOptions _$HashAlgorithmOptionsFromJson(Map<String, dynamic> json) {
@@ -171,6 +202,19 @@ const _$HashAlgorithmEnumMap = {
   HashAlgorithm.sha1: 'SHA1',
   HashAlgorithm.sha256: 'SHA256',
 };
+
+ListProfilePermissionsResponse _$ListProfilePermissionsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListProfilePermissionsResponse(
+    nextToken: json['nextToken'] as String,
+    permissions: (json['permissions'] as List)
+        ?.map((e) =>
+            e == null ? null : Permission.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    policySizeBytes: json['policySizeBytes'] as int,
+    revisionId: json['revisionId'] as String,
+  );
+}
 
 ListSigningJobsResponse _$ListSigningJobsResponseFromJson(
     Map<String, dynamic> json) {
@@ -216,10 +260,28 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
   );
 }
 
+Permission _$PermissionFromJson(Map<String, dynamic> json) {
+  return Permission(
+    action: json['action'] as String,
+    principal: json['principal'] as String,
+    profileVersion: json['profileVersion'] as String,
+    statementId: json['statementId'] as String,
+  );
+}
+
 PutSigningProfileResponse _$PutSigningProfileResponseFromJson(
     Map<String, dynamic> json) {
   return PutSigningProfileResponse(
     arn: json['arn'] as String,
+    profileVersion: json['profileVersion'] as String,
+    profileVersionArn: json['profileVersionArn'] as String,
+  );
+}
+
+RemoveProfilePermissionResponse _$RemoveProfilePermissionResponseFromJson(
+    Map<String, dynamic> json) {
+  return RemoveProfilePermissionResponse(
+    revisionId: json['revisionId'] as String,
   );
 }
 
@@ -266,6 +328,35 @@ Map<String, dynamic> _$S3SourceToJson(S3Source instance) {
   writeNotNull('version', instance.version);
   return val;
 }
+
+SignatureValidityPeriod _$SignatureValidityPeriodFromJson(
+    Map<String, dynamic> json) {
+  return SignatureValidityPeriod(
+    type: _$enumDecodeNullable(_$ValidityTypeEnumMap, json['type']),
+    value: json['value'] as int,
+  );
+}
+
+Map<String, dynamic> _$SignatureValidityPeriodToJson(
+    SignatureValidityPeriod instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('type', _$ValidityTypeEnumMap[instance.type]);
+  writeNotNull('value', instance.value);
+  return val;
+}
+
+const _$ValidityTypeEnumMap = {
+  ValidityType.days: 'DAYS',
+  ValidityType.months: 'MONTHS',
+  ValidityType.years: 'YEARS',
+};
 
 SignedObject _$SignedObjectFromJson(Map<String, dynamic> json) {
   return SignedObject(
@@ -333,7 +424,16 @@ const _$ImageFormatEnumMap = {
 SigningJob _$SigningJobFromJson(Map<String, dynamic> json) {
   return SigningJob(
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    isRevoked: json['isRevoked'] as bool,
     jobId: json['jobId'] as String,
+    jobInvoker: json['jobInvoker'] as String,
+    jobOwner: json['jobOwner'] as String,
+    platformDisplayName: json['platformDisplayName'] as String,
+    platformId: json['platformId'] as String,
+    profileName: json['profileName'] as String,
+    profileVersion: json['profileVersion'] as String,
+    signatureExpiresAt:
+        const UnixDateTimeConverter().fromJson(json['signatureExpiresAt']),
     signedObject: json['signedObject'] == null
         ? null
         : SignedObject.fromJson(json['signedObject'] as Map<String, dynamic>),
@@ -345,6 +445,15 @@ SigningJob _$SigningJobFromJson(Map<String, dynamic> json) {
         ? null
         : Source.fromJson(json['source'] as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$SigningStatusEnumMap, json['status']),
+  );
+}
+
+SigningJobRevocationRecord _$SigningJobRevocationRecordFromJson(
+    Map<String, dynamic> json) {
+  return SigningJobRevocationRecord(
+    reason: json['reason'] as String,
+    revokedAt: const UnixDateTimeConverter().fromJson(json['revokedAt']),
+    revokedBy: json['revokedBy'] as String,
   );
 }
 
@@ -374,6 +483,7 @@ SigningPlatform _$SigningPlatformFromJson(Map<String, dynamic> json) {
     maxSizeInMB: json['maxSizeInMB'] as int,
     partner: json['partner'] as String,
     platformId: json['platformId'] as String,
+    revocationSupported: json['revocationSupported'] as bool,
     signingConfiguration: json['signingConfiguration'] == null
         ? null
         : SigningConfiguration.fromJson(
@@ -417,8 +527,15 @@ Map<String, dynamic> _$SigningPlatformOverridesToJson(
 SigningProfile _$SigningProfileFromJson(Map<String, dynamic> json) {
   return SigningProfile(
     arn: json['arn'] as String,
+    platformDisplayName: json['platformDisplayName'] as String,
     platformId: json['platformId'] as String,
     profileName: json['profileName'] as String,
+    profileVersion: json['profileVersion'] as String,
+    profileVersionArn: json['profileVersionArn'] as String,
+    signatureValidityPeriod: json['signatureValidityPeriod'] == null
+        ? null
+        : SignatureValidityPeriod.fromJson(
+            json['signatureValidityPeriod'] as Map<String, dynamic>),
     signingMaterial: json['signingMaterial'] == null
         ? null
         : SigningMaterial.fromJson(
@@ -430,6 +547,16 @@ SigningProfile _$SigningProfileFromJson(Map<String, dynamic> json) {
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
+  );
+}
+
+SigningProfileRevocationRecord _$SigningProfileRevocationRecordFromJson(
+    Map<String, dynamic> json) {
+  return SigningProfileRevocationRecord(
+    revocationEffectiveFrom:
+        const UnixDateTimeConverter().fromJson(json['revocationEffectiveFrom']),
+    revokedAt: const UnixDateTimeConverter().fromJson(json['revokedAt']),
+    revokedBy: json['revokedBy'] as String,
   );
 }
 
@@ -458,6 +585,7 @@ StartSigningJobResponse _$StartSigningJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartSigningJobResponse(
     jobId: json['jobId'] as String,
+    jobOwner: json['jobOwner'] as String,
   );
 }
 

@@ -47,8 +47,9 @@ class Backup {
           endpointUrl: endpointUrl,
         );
 
-  /// Backup plans are documents that contain information that AWS Backup uses
-  /// to schedule tasks that create recovery points of resources.
+  /// Creates a backup plan using a backup plan name and backup rules. A backup
+  /// plan is a document that contains information that AWS Backup uses to
+  /// schedule tasks that create recovery points for resources.
   ///
   /// If you call <code>CreateBackupPlan</code> with a plan that already exists,
   /// an <code>AlreadyExistsException</code> is returned.
@@ -70,7 +71,7 @@ class Backup {
   ///
   /// Parameter [creatorRequestId] :
   /// Identifies the request and allows failed requests to be retried without
-  /// the risk of executing the operation twice. If the request includes a
+  /// the risk of running the operation twice. If the request includes a
   /// <code>CreatorRequestId</code> that matches an existing backup plan, that
   /// plan is returned. This parameter is optional.
   Future<CreateBackupPlanOutput> createBackupPlan({
@@ -108,24 +109,24 @@ class Backup {
   ///
   /// <code>ConditionValue:"finance"</code>
   ///
-  /// <code>ConditionType:"STRINGEQUALS"</code>
+  /// <code>ConditionType:"StringEquals"</code>
   /// </li>
   /// <li>
   /// <code>ConditionKey:"importance"</code>
   ///
   /// <code>ConditionValue:"critical"</code>
   ///
-  /// <code>ConditionType:"STRINGEQUALS"</code>
+  /// <code>ConditionType:"StringEquals"</code>
   /// </li>
   /// </ul>
   /// Using these patterns would back up all Amazon Elastic Block Store (Amazon
   /// EBS) volumes that are tagged as <code>"department=finance"</code>,
   /// <code>"importance=critical"</code>, in addition to an EBS volume with the
-  /// specified volume Id.
+  /// specified volume ID.
   ///
   /// Resources and conditions are additive in that all resources that match the
   /// pattern are selected. This shouldn't be confused with a logical AND, where
-  /// all conditions must match. The matching patterns are logically 'put
+  /// all conditions must match. The matching patterns are logically put
   /// together using the OR operator. In other words, all patterns that match
   /// are selected for backup.
   ///
@@ -145,7 +146,7 @@ class Backup {
   ///
   /// Parameter [creatorRequestId] :
   /// A unique string that identifies the request and allows failed requests to
-  /// be retried without the risk of executing the operation twice.
+  /// be retried without the risk of running the operation twice.
   Future<CreateBackupSelectionOutput> createBackupSelection({
     @_s.required String backupPlanId,
     @_s.required BackupSelection backupSelection,
@@ -193,7 +194,7 @@ class Backup {
   ///
   /// Parameter [creatorRequestId] :
   /// A unique string that identifies the request and allows failed requests to
-  /// be retried without the risk of executing the operation twice.
+  /// be retried without the risk of running the operation twice.
   ///
   /// Parameter [encryptionKeyArn] :
   /// The server-side encryption key that is used to protect your backups; for
@@ -209,7 +210,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -293,7 +294,7 @@ class Backup {
   /// Parameter [backupVaultName] :
   /// The name of a logical container where backups are stored. Backup vaults
   /// are identified by names that are unique to the account used to create them
-  /// and theAWS Region where they are created. They consist of lowercase
+  /// and the AWS Region where they are created. They consist of lowercase
   /// letters, numbers, and hyphens.
   Future<void> deleteBackupVault({
     @_s.required String backupVaultName,
@@ -326,7 +327,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -357,7 +358,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -395,7 +396,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
@@ -408,7 +409,7 @@ class Backup {
     );
   }
 
-  /// Returns metadata associated with creating a backup of a resource.
+  /// Returns backup job details for the specified <code>BackupJobId</code>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -464,7 +465,7 @@ class Backup {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [copyJobId] :
-  /// Uniquely identifies a request to AWS Backup to copy a resource.
+  /// Uniquely identifies a copy job.
   Future<DescribeCopyJobOutput> describeCopyJob({
     @_s.required String copyJobId,
   }) async {
@@ -478,8 +479,21 @@ class Backup {
     return DescribeCopyJobOutput.fromJson(response);
   }
 
+  /// The current feature settings for the AWS Account.
+  ///
+  /// May throw [ServiceUnavailableException].
+  Future<DescribeGlobalSettingsOutput> describeGlobalSettings() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/global-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeGlobalSettingsOutput.fromJson(response);
+  }
+
   /// Returns information about a saved resource, including the last time it was
-  /// backed-up, its Amazon Resource Name (ARN), and the AWS service type of the
+  /// backed up, its Amazon Resource Name (ARN), and the AWS service type of the
   /// saved resource.
   ///
   /// May throw [MissingParameterValueException].
@@ -529,7 +543,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
@@ -541,6 +555,24 @@ class Backup {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRecoveryPointOutput.fromJson(response);
+  }
+
+  /// Returns the current service opt-in settings for the Region. If
+  /// service-opt-in is enabled for a service, AWS Backup tries to protect that
+  /// service's resources in this Region, when the resource is included in an
+  /// on-demand backup or scheduled backup plan. Otherwise, AWS Backup does not
+  /// try to protect that service's resources in this Region, AWS Backup does
+  /// not try to protect that service's resources in this Region.
+  ///
+  /// May throw [ServiceUnavailableException].
+  Future<DescribeRegionSettingsOutput> describeRegionSettings() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/account-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeRegionSettingsOutput.fromJson(response);
   }
 
   /// Returns metadata associated with a restore job that is specified by a job
@@ -591,8 +623,9 @@ class Backup {
     return ExportBackupPlanTemplateOutput.fromJson(response);
   }
 
-  /// Returns the body of a backup plan in JSON format, in addition to plan
-  /// metadata.
+  /// Returns <code>BackupPlan</code> details for the specified
+  /// <code>BackupPlanId</code>. Returns the body of a backup plan in JSON
+  /// format, in addition to plan metadata.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -724,7 +757,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -756,7 +789,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -796,7 +829,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
@@ -823,11 +856,14 @@ class Backup {
     return GetSupportedResourceTypesOutput.fromJson(response);
   }
 
-  /// Returns metadata about your backup jobs.
+  /// Returns a list of existing backup jobs for an authenticated account.
   ///
   /// May throw [InvalidParameterValueException].
-  /// May throw [InvalidRequestException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [byAccountId] :
+  /// The account ID to list the jobs from. Returns only backup jobs associated
+  /// with the specified account ID.
   ///
   /// Parameter [byBackupVaultName] :
   /// Returns only backup jobs that will be stored in the specified backup
@@ -856,6 +892,9 @@ class Backup {
   /// <code>EBS</code> for Amazon Elastic Block Store
   /// </li>
   /// <li>
+  /// <code>EC2</code> for Amazon Elastic Compute Cloud
+  /// </li>
+  /// <li>
   /// <code>EFS</code> for Amazon Elastic File System
   /// </li>
   /// <li>
@@ -878,6 +917,7 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListBackupJobsOutput> listBackupJobs({
+    String byAccountId,
     String byBackupVaultName,
     DateTime byCreatedAfter,
     DateTime byCreatedBefore,
@@ -888,9 +928,14 @@ class Backup {
     String nextToken,
   }) async {
     _s.validateStringPattern(
+      'byAccountId',
+      byAccountId,
+      r'''^[0-9]{12}$''',
+    );
+    _s.validateStringPattern(
       'byBackupVaultName',
       byBackupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
     );
     _s.validateStringPattern(
       'byResourceType',
@@ -904,6 +949,7 @@ class Backup {
       1000,
     );
     final $query = <String, List<String>>{
+      if (byAccountId != null) 'accountId': [byAccountId],
       if (byBackupVaultName != null) 'backupVaultName': [byBackupVaultName],
       if (byCreatedAfter != null)
         'createdAfter': [_s.iso8601ToJson(byCreatedAfter).toString()],
@@ -1012,9 +1058,11 @@ class Backup {
     return ListBackupPlanVersionsOutput.fromJson(response);
   }
 
-  /// Returns metadata of your saved backup plans, including Amazon Resource
-  /// Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan
-  /// names, and creator request IDs.
+  /// Returns a list of existing backup plans for an authenticated account. The
+  /// list is populated only if the advanced option is set for the backup plan.
+  /// The list contains information such as Amazon Resource Names (ARNs), plan
+  /// IDs, creation and deletion dates, version IDs, plan names, and creator
+  /// request IDs.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -1150,6 +1198,10 @@ class Backup {
   /// May throw [InvalidParameterValueException].
   /// May throw [ServiceUnavailableException].
   ///
+  /// Parameter [byAccountId] :
+  /// The account ID to list the jobs from. Returns only copy jobs associated
+  /// with the specified account ID.
+  ///
   /// Parameter [byCreatedAfter] :
   /// Returns only copy jobs that were created after the specified date.
   ///
@@ -1159,7 +1211,7 @@ class Backup {
   /// Parameter [byDestinationVaultArn] :
   /// An Amazon Resource Name (ARN) that uniquely identifies a source backup
   /// vault to copy from; for example,
-  /// arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
+  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
   ///
   /// Parameter [byResourceArn] :
   /// Returns only copy jobs that match the specified resource Amazon Resource
@@ -1174,6 +1226,9 @@ class Backup {
   /// </li>
   /// <li>
   /// <code>EBS</code> for Amazon Elastic Block Store
+  /// </li>
+  /// <li>
+  /// <code>EC2</code> for Amazon Elastic Compute Cloud
   /// </li>
   /// <li>
   /// <code>EFS</code> for Amazon Elastic File System
@@ -1198,6 +1253,7 @@ class Backup {
   /// you to return more items in your list starting at the location pointed to
   /// by the next token.
   Future<ListCopyJobsOutput> listCopyJobs({
+    String byAccountId,
     DateTime byCreatedAfter,
     DateTime byCreatedBefore,
     String byDestinationVaultArn,
@@ -1207,6 +1263,11 @@ class Backup {
     int maxResults,
     String nextToken,
   }) async {
+    _s.validateStringPattern(
+      'byAccountId',
+      byAccountId,
+      r'''^[0-9]{12}$''',
+    );
     _s.validateStringPattern(
       'byResourceType',
       byResourceType,
@@ -1219,6 +1280,7 @@ class Backup {
       1000,
     );
     final $query = <String, List<String>>{
+      if (byAccountId != null) 'accountId': [byAccountId],
       if (byCreatedAfter != null)
         'createdAfter': [_s.iso8601ToJson(byCreatedAfter).toString()],
       if (byCreatedBefore != null)
@@ -1335,7 +1397,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     _s.validateStringPattern(
@@ -1426,6 +1488,19 @@ class Backup {
   /// May throw [MissingParameterValueException].
   /// May throw [ServiceUnavailableException].
   ///
+  /// Parameter [byAccountId] :
+  /// The account ID to list the jobs from. Returns only restore jobs associated
+  /// with the specified account ID.
+  ///
+  /// Parameter [byCreatedAfter] :
+  /// Returns only restore jobs that were created after the specified date.
+  ///
+  /// Parameter [byCreatedBefore] :
+  /// Returns only restore jobs that were created before the specified date.
+  ///
+  /// Parameter [byStatus] :
+  /// Returns only restore jobs associated with the specified job status.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of items to be returned.
   ///
@@ -1435,9 +1510,18 @@ class Backup {
   /// <code>NextToken</code> allows you to return more items in your list
   /// starting at the location pointed to by the next token.
   Future<ListRestoreJobsOutput> listRestoreJobs({
+    String byAccountId,
+    DateTime byCreatedAfter,
+    DateTime byCreatedBefore,
+    RestoreJobStatus byStatus,
     int maxResults,
     String nextToken,
   }) async {
+    _s.validateStringPattern(
+      'byAccountId',
+      byAccountId,
+      r'''^[0-9]{12}$''',
+    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1445,6 +1529,12 @@ class Backup {
       1000,
     );
     final $query = <String, List<String>>{
+      if (byAccountId != null) 'accountId': [byAccountId],
+      if (byCreatedAfter != null)
+        'createdAfter': [_s.iso8601ToJson(byCreatedAfter).toString()],
+      if (byCreatedBefore != null)
+        'createdBefore': [_s.iso8601ToJson(byCreatedBefore).toString()],
+      if (byStatus != null) 'status': [byStatus.toValue()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1460,6 +1550,10 @@ class Backup {
 
   /// Returns a list of key-value pairs assigned to a target recovery point,
   /// backup plan, or backup vault.
+  /// <note>
+  /// <code>ListTags</code> are currently only supported with Amazon EFS
+  /// backups.
+  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -1531,7 +1625,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1578,7 +1672,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sNSTopicArn, 'sNSTopicArn');
@@ -1596,11 +1690,12 @@ class Backup {
     );
   }
 
-  /// Starts a job to create a one-time backup of the specified resource.
+  /// Starts an on-demand backup job for the specified resource.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingParameterValueException].
+  /// May throw [InvalidRequestException].
   /// May throw [ServiceUnavailableException].
   /// May throw [LimitExceededException].
   ///
@@ -1618,9 +1713,19 @@ class Backup {
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The
   /// format of the ARN depends on the resource type.
   ///
+  /// Parameter [backupOptions] :
+  /// Specifies the backup option for a selected resource. This option is only
+  /// available for Windows VSS backup jobs.
+  ///
+  /// Valid values: Set to <code>"WindowsVSS”:“enabled"</code> to enable
+  /// WindowsVSS backup option and create a VSS Windows backup. Set to
+  /// “WindowsVSS”:”disabled” to create a regular backup. The WindowsVSS option
+  /// is not enabled by default.
+  ///
   /// Parameter [completeWindowMinutes] :
-  /// The amount of time AWS Backup attempts a backup before canceling the job
-  /// and returning an error.
+  /// A value in minutes after a backup job is successfully started before it
+  /// must be completed or it will be canceled by AWS Backup. This value is
+  /// optional.
   ///
   /// Parameter [idempotencyToken] :
   /// A customer chosen string that can be used to distinguish between calls to
@@ -1642,11 +1747,13 @@ class Backup {
   /// resources that you create. Each tag is a key-value pair.
   ///
   /// Parameter [startWindowMinutes] :
-  /// The amount of time in minutes before beginning a backup.
+  /// A value in minutes after a backup is scheduled before a job will be
+  /// canceled if it doesn't start successfully. This value is optional.
   Future<StartBackupJobOutput> startBackupJob({
     @_s.required String backupVaultName,
     @_s.required String iamRoleArn,
     @_s.required String resourceArn,
+    Map<String, String> backupOptions,
     int completeWindowMinutes,
     String idempotencyToken,
     Lifecycle lifecycle,
@@ -1657,7 +1764,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
@@ -1666,6 +1773,7 @@ class Backup {
       'BackupVaultName': backupVaultName,
       'IamRoleArn': iamRoleArn,
       'ResourceArn': resourceArn,
+      if (backupOptions != null) 'BackupOptions': backupOptions,
       if (completeWindowMinutes != null)
         'CompleteWindowMinutes': completeWindowMinutes,
       if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
@@ -1697,7 +1805,7 @@ class Backup {
   ///
   /// Parameter [iamRoleArn] :
   /// Specifies the IAM role ARN used to copy the target recovery point; for
-  /// example, arn:aws:iam::123456789012:role/S3Access.
+  /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
   ///
   /// Parameter [recoveryPointArn] :
   /// An ARN that uniquely identifies a recovery point to use for the copy job;
@@ -1708,7 +1816,7 @@ class Backup {
   /// The name of a logical source container where backups are stored. Backup
   /// vaults are identified by names that are unique to the account used to
   /// create them and the AWS Region where they are created. They consist of
-  /// lowercase letters, numbers, and hyphens. &gt;
+  /// lowercase letters, numbers, and hyphens.
   ///
   /// Parameter [idempotencyToken] :
   /// A customer chosen string that can be used to distinguish between calls to
@@ -1729,7 +1837,7 @@ class Backup {
     _s.validateStringPattern(
       'sourceBackupVaultName',
       sourceBackupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1751,10 +1859,6 @@ class Backup {
 
   /// Recovers the saved resource identified by an Amazon Resource Name (ARN).
   ///
-  /// If the resource ARN is included in the request, then the last complete
-  /// backup of that resource is recovered. If the ARN of a recovery point is
-  /// supplied, then that recovery point is restored.
-  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingParameterValueException].
@@ -1770,7 +1874,7 @@ class Backup {
   /// resource name, required to restore a recovery point.
   ///
   /// You can get configuration metadata about a resource at the time it was
-  /// backed-up by calling <code>GetRecoveryPointRestoreMetadata</code>.
+  /// backed up by calling <code>GetRecoveryPointRestoreMetadata</code>.
   /// However, values in addition to those provided by
   /// <code>GetRecoveryPointRestoreMetadata</code> might be required to restore
   /// a resource. For example, you might need to provide a new resource name if
@@ -1781,7 +1885,7 @@ class Backup {
   ///
   /// <ul>
   /// <li>
-  /// <code>file-system-id</code>: ID of the Amazon EFS file system that is
+  /// <code>file-system-id</code>: The ID of the Amazon EFS file system that is
   /// backed up by AWS Backup. Returned in
   /// <code>GetRecoveryPointRestoreMetadata</code>.
   /// </li>
@@ -1792,7 +1896,8 @@ class Backup {
   /// </li>
   /// <li>
   /// <code>KmsKeyId</code>: Specifies the AWS KMS key that is used to encrypt
-  /// the restored file system.
+  /// the restored file system. You can specify a key from another AWS account
+  /// provided that key it is properly shared with your account via AWS KMS.
   /// </li>
   /// <li>
   /// <code>PerformanceMode</code>: Specifies the throughput mode of the file
@@ -1805,6 +1910,12 @@ class Backup {
   /// <li>
   /// <code>newFileSystem</code>: A Boolean value that, if true, specifies that
   /// the recovery point is restored to a new Amazon EFS file system.
+  /// </li>
+  /// <li>
+  /// <code>ItemsToRestore </code>: A serialized list of up to five strings
+  /// where each string is a file path. Use <code>ItemsToRestore</code> to
+  /// restore specific files or directories rather than the entire file system.
+  /// This parameter is optional.
   /// </li>
   /// </ul>
   ///
@@ -1822,19 +1933,22 @@ class Backup {
   ///
   /// <ul>
   /// <li>
+  /// <code>DynamoDB</code> for Amazon DynamoDB
+  /// </li>
+  /// <li>
   /// <code>EBS</code> for Amazon Elastic Block Store
   /// </li>
   /// <li>
-  /// <code>Storage Gateway</code> for AWS Storage Gateway
+  /// <code>EC2</code> for Amazon Elastic Compute Cloud
+  /// </li>
+  /// <li>
+  /// <code>EFS</code> for Amazon Elastic File System
   /// </li>
   /// <li>
   /// <code>RDS</code> for Amazon Relational Database Service
   /// </li>
   /// <li>
-  /// <code>DDB</code> for Amazon DynamoDB
-  /// </li>
-  /// <li>
-  /// <code>EFS</code> for Amazon Elastic File System
+  /// <code>Storage Gateway</code> for AWS Storage Gateway
   /// </li>
   /// </ul>
   Future<StartRestoreJobOutput> startRestoreJob({
@@ -1954,7 +2068,7 @@ class Backup {
     );
   }
 
-  /// Replaces the body of a saved backup plan identified by its
+  /// Updates an existing backup plan identified by its
   /// <code>backupPlanId</code> with the input document in JSON format. The new
   /// version is uniquely identified by a <code>VersionId</code>.
   ///
@@ -1985,6 +2099,30 @@ class Backup {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBackupPlanOutput.fromJson(response);
+  }
+
+  /// Updates the current global settings for the AWS Account. Use the
+  /// <code>DescribeGlobalSettings</code> API to determine the current settings.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [globalSettings] :
+  /// A list of resources along with the opt-in preferences for the account.
+  Future<void> updateGlobalSettings({
+    Map<String, String> globalSettings,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (globalSettings != null) 'GlobalSettings': globalSettings,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/global-settings',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Sets the transition lifecycle of a recovery point.
@@ -2034,7 +2172,7 @@ class Backup {
     _s.validateStringPattern(
       'backupVaultName',
       backupVaultName,
-      r'''^[a-zA-Z0-9\-\_\.]{1,50}$''',
+      r'''^[a-zA-Z0-9\-\_]{2,50}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
@@ -2050,6 +2188,80 @@ class Backup {
     );
     return UpdateRecoveryPointLifecycleOutput.fromJson(response);
   }
+
+  /// Updates the current service opt-in settings for the Region. If
+  /// service-opt-in is enabled for a service, AWS Backup tries to protect that
+  /// service's resources in this Region, when the resource is included in an
+  /// on-demand backup or scheduled backup plan. Otherwise, AWS Backup does not
+  /// try to protect that service's resources in this Region. Use the
+  /// <code>DescribeRegionSettings</code> API to determine the resource types
+  /// that are supported.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [MissingParameterValueException].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [resourceTypeOptInPreference] :
+  /// Updates the list of services along with the opt-in preferences for the
+  /// Region.
+  Future<void> updateRegionSettings({
+    Map<String, bool> resourceTypeOptInPreference,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (resourceTypeOptInPreference != null)
+        'ResourceTypeOptInPreference': resourceTypeOptInPreference,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/account-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+}
+
+/// A list of backup options for each resource type.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AdvancedBackupSetting {
+  /// Specifies the backup option for a selected resource. This option is only
+  /// available for Windows VSS backup jobs.
+  ///
+  /// Valid values:
+  ///
+  /// Set to <code>"WindowsVSS":"enabled"</code> to enable the WindowsVSS backup
+  /// option and create a VSS Windows backup.
+  ///
+  /// Set to <code>"WindowsVSS":"disabled"</code> to create a regular backup. The
+  /// WindowsVSS option is not enabled by default.
+  ///
+  /// If you specify an invalid option, you get an
+  /// <code>InvalidParameterValueException</code> exception.
+  ///
+  /// For more information about Windows VSS backups, see <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/windows-backups.html">Creating
+  /// a VSS-Enabled Windows Backup</a>.
+  @_s.JsonKey(name: 'BackupOptions')
+  final Map<String, String> backupOptions;
+
+  /// The type of AWS resource to be backed up. For VSS Windows backups, the only
+  /// supported resource type is Amazon EC2.
+  ///
+  /// Valid values: <code>EC2</code>.
+  @_s.JsonKey(name: 'ResourceType')
+  final String resourceType;
+
+  AdvancedBackupSetting({
+    this.backupOptions,
+    this.resourceType,
+  });
+  factory AdvancedBackupSetting.fromJson(Map<String, dynamic> json) =>
+      _$AdvancedBackupSettingFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AdvancedBackupSettingToJson(this);
 }
 
 /// Contains detailed information about a backup job.
@@ -2059,13 +2271,32 @@ class Backup {
     createFactory: true,
     createToJson: false)
 class BackupJob {
+  /// The account ID that owns the backup job.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
   /// Uniquely identifies a request to AWS Backup to back up a resource.
   @_s.JsonKey(name: 'BackupJobId')
   final String backupJobId;
 
+  /// Specifies the backup option for a selected resource. This option is only
+  /// available for Windows VSS backup jobs.
+  ///
+  /// Valid values: Set to <code>"WindowsVSS”:“enabled"</code> to enable
+  /// WindowsVSS backup option and create a VSS Windows backup. Set to
+  /// “WindowsVSS”:”disabled” to create a regular backup. If you specify an
+  /// invalid option, you get an <code>InvalidParameterValueException</code>
+  /// exception.
+  @_s.JsonKey(name: 'BackupOptions')
+  final Map<String, String> backupOptions;
+
   /// The size, in bytes, of a backup.
   @_s.JsonKey(name: 'BackupSizeInBytes')
   final int backupSizeInBytes;
+
+  /// Represents the type of backup for a backup job.
+  @_s.JsonKey(name: 'BackupType')
+  final String backupType;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
@@ -2137,9 +2368,10 @@ class BackupJob {
   @_s.JsonKey(name: 'ResourceArn')
   final String resourceArn;
 
-  /// The type of AWS resource to be backed-up; for example, an Amazon Elastic
+  /// The type of AWS resource to be backed up; for example, an Amazon Elastic
   /// Block Store (Amazon EBS) volume or an Amazon Relational Database Service
-  /// (Amazon RDS) database.
+  /// (Amazon RDS) database. For VSS Windows backups, the only supported resource
+  /// type is Amazon EC2.
   @_s.JsonKey(name: 'ResourceType')
   final String resourceType;
 
@@ -2163,8 +2395,11 @@ class BackupJob {
   final String statusMessage;
 
   BackupJob({
+    this.accountId,
     this.backupJobId,
+    this.backupOptions,
     this.backupSizeInBytes,
+    this.backupType,
     this.backupVaultArn,
     this.backupVaultName,
     this.bytesTransferred,
@@ -2247,9 +2482,14 @@ class BackupPlan {
   @_s.JsonKey(name: 'Rules')
   final List<BackupRule> rules;
 
+  /// Contains a list of <code>BackupOptions</code> for each resource type.
+  @_s.JsonKey(name: 'AdvancedBackupSettings')
+  final List<AdvancedBackupSetting> advancedBackupSettings;
+
   BackupPlan({
     @_s.required this.backupPlanName,
     @_s.required this.rules,
+    this.advancedBackupSettings,
   });
   factory BackupPlan.fromJson(Map<String, dynamic> json) =>
       _$BackupPlanFromJson(json);
@@ -2265,7 +2505,7 @@ class BackupPlan {
     createFactory: false,
     createToJson: true)
 class BackupPlanInput {
-  /// The display name of a backup plan.
+  /// The optional display name of a backup plan.
   @_s.JsonKey(name: 'BackupPlanName')
   final String backupPlanName;
 
@@ -2274,9 +2514,15 @@ class BackupPlanInput {
   @_s.JsonKey(name: 'Rules')
   final List<BackupRuleInput> rules;
 
+  /// Specifies a list of <code>BackupOptions</code> for each resource type. These
+  /// settings are only available for Windows VSS backup jobs.
+  @_s.JsonKey(name: 'AdvancedBackupSettings')
+  final List<AdvancedBackupSetting> advancedBackupSettings;
+
   BackupPlanInput({
     @_s.required this.backupPlanName,
     @_s.required this.rules,
+    this.advancedBackupSettings,
   });
   Map<String, dynamic> toJson() => _$BackupPlanInputToJson(this);
 }
@@ -2311,6 +2557,10 @@ class BackupPlanTemplatesListMember {
     createFactory: true,
     createToJson: false)
 class BackupPlansListMember {
+  /// Contains a list of <code>BackupOptions</code> for a resource type.
+  @_s.JsonKey(name: 'AdvancedBackupSettings')
+  final List<AdvancedBackupSetting> advancedBackupSettings;
+
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50</code>.
@@ -2334,7 +2584,7 @@ class BackupPlansListMember {
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
-  /// retried without the risk of executing the operation twice.
+  /// retried without the risk of running the operation twice.
   @_s.JsonKey(name: 'CreatorRequestId')
   final String creatorRequestId;
 
@@ -2346,8 +2596,8 @@ class BackupPlansListMember {
   @_s.JsonKey(name: 'DeletionDate')
   final DateTime deletionDate;
 
-  /// The last time a job to back up resources was executed with this rule. A date
-  /// and time, in Unix format and Coordinated Universal Time (UTC). The value of
+  /// The last time a job to back up resources was run with this rule. A date and
+  /// time, in Unix format and Coordinated Universal Time (UTC). The value of
   /// <code>LastExecutionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   @UnixDateTimeConverter()
@@ -2360,6 +2610,7 @@ class BackupPlansListMember {
   final String versionId;
 
   BackupPlansListMember({
+    this.advancedBackupSettings,
     this.backupPlanArn,
     this.backupPlanId,
     this.backupPlanName,
@@ -2392,7 +2643,7 @@ class BackupRule {
   final String targetBackupVaultName;
 
   /// A value in minutes after a backup job is successfully started before it must
-  /// be completed or it is canceled by AWS Backup. This value is optional.
+  /// be completed or it will be canceled by AWS Backup. This value is optional.
   @_s.JsonKey(name: 'CompletionWindowMinutes')
   final int completionWindowMinutes;
 
@@ -2423,12 +2674,18 @@ class BackupRule {
   @_s.JsonKey(name: 'RuleId')
   final String ruleId;
 
-  /// A CRON expression specifying when AWS Backup initiates a backup job.
+  /// A CRON expression specifying when AWS Backup initiates a backup job. For
+  /// more information about cron expressions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html">Schedule
+  /// Expressions for Rules</a> in the <i>Amazon CloudWatch Events User
+  /// Guide.</i>. Prior to specifying a value for this parameter, we recommend
+  /// testing your cron expression using one of the many available cron generator
+  /// and testing tools.
   @_s.JsonKey(name: 'ScheduleExpression')
   final String scheduleExpression;
 
-  /// An optional value that specifies a period of time in minutes after a backup
-  /// is scheduled before a job is canceled if it doesn't start successfully.
+  /// A value in minutes after a backup is scheduled before a job will be canceled
+  /// if it doesn't start successfully. This value is optional.
   @_s.JsonKey(name: 'StartWindowMinutes')
   final int startWindowMinutes;
 
@@ -2454,7 +2711,7 @@ class BackupRule {
     createFactory: false,
     createToJson: true)
 class BackupRuleInput {
-  /// &gt;An optional display name for a backup rule.
+  /// An optional display name for a backup rule.
   @_s.JsonKey(name: 'RuleName')
   final String ruleName;
 
@@ -2465,8 +2722,8 @@ class BackupRuleInput {
   @_s.JsonKey(name: 'TargetBackupVaultName')
   final String targetBackupVaultName;
 
-  /// The amount of time AWS Backup attempts a backup before canceling the job and
-  /// returning an error.
+  /// A value in minutes after a backup job is successfully started before it must
+  /// be completed or it will be canceled by AWS Backup. This value is optional.
   @_s.JsonKey(name: 'CompletionWindowMinutes')
   final int completionWindowMinutes;
 
@@ -2481,9 +2738,9 @@ class BackupRuleInput {
   ///
   /// Backups transitioned to cold storage must be stored in cold storage for a
   /// minimum of 90 days. Therefore, the “expire after days” setting must be 90
-  /// days greater than the “transition to cold after days”. The “transition to
-  /// cold after days” setting cannot be changed after a backup has been
-  /// transitioned to cold.
+  /// days greater than the “transition to cold after days” setting. The
+  /// “transition to cold after days” setting cannot be changed after a backup has
+  /// been transitioned to cold.
   @_s.JsonKey(name: 'Lifecycle')
   final Lifecycle lifecycle;
 
@@ -2496,7 +2753,8 @@ class BackupRuleInput {
   @_s.JsonKey(name: 'ScheduleExpression')
   final String scheduleExpression;
 
-  /// The amount of time in minutes before beginning a backup.
+  /// A value in minutes after a backup is scheduled before a job will be canceled
+  /// if it doesn't start successfully. This value is optional.
   @_s.JsonKey(name: 'StartWindowMinutes')
   final int startWindowMinutes;
 
@@ -2520,7 +2778,7 @@ class BackupRuleInput {
     createFactory: true,
     createToJson: true)
 class BackupSelection {
-  /// The ARN of the IAM role that AWS Backup uses to authenticate when restoring
+  /// The ARN of the IAM role that AWS Backup uses to authenticate when backing up
   /// the target resource; for example,
   /// <code>arn:aws:iam::123456789012:role/S3Access</code>.
   @_s.JsonKey(name: 'IamRoleArn')
@@ -2531,7 +2789,7 @@ class BackupSelection {
   final String selectionName;
 
   /// An array of conditions used to specify a set of resources to assign to a
-  /// backup plan; for example, <code>"STRINGEQUALS":
+  /// backup plan; for example, <code>"StringEquals":
   /// {"ec2:ResourceTag/Department": "accounting"</code>.
   @_s.JsonKey(name: 'ListOfTags')
   final List<Condition> listOfTags;
@@ -2573,7 +2831,7 @@ class BackupSelectionsListMember {
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
-  /// retried without the risk of executing the operation twice.
+  /// retried without the risk of running the operation twice.
   @_s.JsonKey(name: 'CreatorRequestId')
   final String creatorRequestId;
 
@@ -2703,7 +2961,7 @@ class BackupVaultListMember {
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
-  /// retried without the risk of executing the operation twice.
+  /// retried without the risk of running the operation twice.
   @_s.JsonKey(name: 'CreatorRequestId')
   final String creatorRequestId;
 
@@ -2767,7 +3025,7 @@ class CalculatedLifecycle {
 }
 
 /// Contains an array of triplets made up of a condition type (such as
-/// <code>STRINGEQUALS</code>), a key, and a value. Conditions are used to
+/// <code>StringEquals</code>), a key, and a value. Conditions are used to
 /// filter resources in a selection that is assigned to a backup plan.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2781,7 +3039,7 @@ class Condition {
   @_s.JsonKey(name: 'ConditionKey')
   final String conditionKey;
 
-  /// An operation, such as <code>STRINGEQUALS</code>, that is applied to a
+  /// An operation, such as <code>StringEquals</code>, that is applied to a
   /// key-value pair used to filter resources in a selection.
   @_s.JsonKey(name: 'ConditionType')
   final ConditionType conditionType;
@@ -2817,7 +3075,7 @@ enum ConditionType {
 class CopyAction {
   /// An Amazon Resource Name (ARN) that uniquely identifies the destination
   /// backup vault for the copied backup. For example,
-  /// arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
+  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
   @_s.JsonKey(name: 'DestinationBackupVaultArn')
   final String destinationBackupVaultArn;
   @_s.JsonKey(name: 'Lifecycle')
@@ -2840,51 +3098,55 @@ class CopyAction {
     createFactory: true,
     createToJson: false)
 class CopyJob {
+  /// The account ID that owns the copy job.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
   /// The size, in bytes, of a copy job.
   @_s.JsonKey(name: 'BackupSizeInBytes')
   final int backupSizeInBytes;
 
-  /// The date and time a job to create a copy job is completed, in Unix format
-  /// and Coordinated Universal Time (UTC). The value of CompletionDate is
-  /// accurate to milliseconds. For example, the value 1516925490.087 represents
-  /// Friday, January 26, 2018 12:11:30.087 AM.
+  /// The date and time a copy job is completed, in Unix format and Coordinated
+  /// Universal Time (UTC). The value of <code>CompletionDate</code> is accurate
+  /// to milliseconds. For example, the value 1516925490.087 represents Friday,
+  /// January 26, 2018 12:11:30.087 AM.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CompletionDate')
   final DateTime completionDate;
 
-  /// Uniquely identifies a request to AWS Backup to copy a resource.
+  /// Uniquely identifies a copy job.
   @_s.JsonKey(name: 'CopyJobId')
   final String copyJobId;
   @_s.JsonKey(name: 'CreatedBy')
   final RecoveryPointCreator createdBy;
 
   /// The date and time a copy job is created, in Unix format and Coordinated
-  /// Universal Time (UTC). The value of CreationDate is accurate to milliseconds.
-  /// For example, the value 1516925490.087 represents Friday, January 26, 2018
-  /// 12:11:30.087 AM.
+  /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
+  /// milliseconds. For example, the value 1516925490.087 represents Friday,
+  /// January 26, 2018 12:11:30.087 AM.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a destination copy
   /// vault; for example,
-  /// arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
+  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
   @_s.JsonKey(name: 'DestinationBackupVaultArn')
   final String destinationBackupVaultArn;
 
   /// An ARN that uniquely identifies a destination recovery point; for example,
-  /// arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+  /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   @_s.JsonKey(name: 'DestinationRecoveryPointArn')
   final String destinationRecoveryPointArn;
 
   /// Specifies the IAM role ARN used to copy the target recovery point; for
-  /// example, arn:aws:iam::123456789012:role/S3Access.
+  /// example, <code>arn:aws:iam::123456789012:role/S3Access</code>.
   @_s.JsonKey(name: 'IamRoleArn')
   final String iamRoleArn;
 
-  /// The type of AWS resource to be copied; for example, an Amazon Elastic Block
-  /// Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon
-  /// RDS) database.
+  /// The AWS resource to be copied; for example, an Amazon Elastic Block Store
+  /// (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS)
+  /// database.
   @_s.JsonKey(name: 'ResourceArn')
   final String resourceArn;
 
@@ -2895,24 +3157,26 @@ class CopyJob {
   final String resourceType;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a source copy vault;
-  /// for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
+  /// for example,
+  /// <code>arn:aws:backup:us-east-1:123456789012:vault:aBackupVault</code>.
   @_s.JsonKey(name: 'SourceBackupVaultArn')
   final String sourceBackupVaultArn;
 
   /// An ARN that uniquely identifies a source recovery point; for example,
-  /// arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+  /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   @_s.JsonKey(name: 'SourceRecoveryPointArn')
   final String sourceRecoveryPointArn;
 
-  /// The current state of a resource recovery point.
+  /// The current state of a copy job.
   @_s.JsonKey(name: 'State')
   final CopyJobState state;
 
-  /// A detailed message explaining the status of the job that to copy a resource.
+  /// A detailed message explaining the status of the job to copy a resource.
   @_s.JsonKey(name: 'StatusMessage')
   final String statusMessage;
 
   CopyJob({
+    this.accountId,
     this.backupSizeInBytes,
     this.completionDate,
     this.copyJobId,
@@ -2965,6 +3229,11 @@ extension on CopyJobState {
     createFactory: true,
     createToJson: false)
 class CreateBackupPlanOutput {
+  /// A list of <code>BackupOptions</code> settings for a resource type. This
+  /// option is only available for Windows VSS backup jobs.
+  @_s.JsonKey(name: 'AdvancedBackupSettings')
+  final List<AdvancedBackupSetting> advancedBackupSettings;
+
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50</code>.
@@ -2984,11 +3253,12 @@ class CreateBackupPlanOutput {
   final DateTime creationDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
-  /// 1024 bytes long. They cannot be edited.
+  /// 1,024 bytes long. They cannot be edited.
   @_s.JsonKey(name: 'VersionId')
   final String versionId;
 
   CreateBackupPlanOutput({
+    this.advancedBackupSettings,
     this.backupPlanArn,
     this.backupPlanId,
     this.creationDate,
@@ -3083,7 +3353,7 @@ class DeleteBackupPlanOutput {
   final String backupPlanId;
 
   /// The date and time a backup plan is deleted, in Unix format and Coordinated
-  /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
+  /// Universal Time (UTC). The value of <code>DeletionDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
   @UnixDateTimeConverter()
@@ -3091,7 +3361,7 @@ class DeleteBackupPlanOutput {
   final DateTime deletionDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
-  /// 1,024 bytes long. Version Ids cannot be edited.
+  /// 1,024 bytes long. Version IDs cannot be edited.
   @_s.JsonKey(name: 'VersionId')
   final String versionId;
 
@@ -3111,13 +3381,29 @@ class DeleteBackupPlanOutput {
     createFactory: true,
     createToJson: false)
 class DescribeBackupJobOutput {
+  /// Returns the account ID that owns the backup job.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
   /// Uniquely identifies a request to AWS Backup to back up a resource.
   @_s.JsonKey(name: 'BackupJobId')
   final String backupJobId;
 
+  /// Represents the options specified as part of backup plan or on-demand backup
+  /// job.
+  @_s.JsonKey(name: 'BackupOptions')
+  final Map<String, String> backupOptions;
+
   /// The size, in bytes, of a backup.
   @_s.JsonKey(name: 'BackupSizeInBytes')
   final int backupSizeInBytes;
+
+  /// Represents the actual backup type selected for a backup job. For example, if
+  /// a successful WindowsVSS backup was taken, <code>BackupType</code> returns
+  /// "WindowsVSS". If <code>BackupType</code> is empty, then the backup type that
+  /// was is a regular backup.
+  @_s.JsonKey(name: 'BackupType')
+  final String backupType;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for
   /// example,
@@ -3139,7 +3425,7 @@ class DescribeBackupJobOutput {
 
   /// The date and time that a job to create a backup job is completed, in Unix
   /// format and Coordinated Universal Time (UTC). The value of
-  /// <code>CreationDate</code> is accurate to milliseconds. For example, the
+  /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CompletionDate')
@@ -3189,7 +3475,7 @@ class DescribeBackupJobOutput {
   @_s.JsonKey(name: 'ResourceArn')
   final String resourceArn;
 
-  /// The type of AWS resource to be backed-up; for example, an Amazon Elastic
+  /// The type of AWS resource to be backed up; for example, an Amazon Elastic
   /// Block Store (Amazon EBS) volume or an Amazon Relational Database Service
   /// (Amazon RDS) database.
   @_s.JsonKey(name: 'ResourceType')
@@ -3215,8 +3501,11 @@ class DescribeBackupJobOutput {
   final String statusMessage;
 
   DescribeBackupJobOutput({
+    this.accountId,
     this.backupJobId,
+    this.backupOptions,
     this.backupSizeInBytes,
+    this.backupType,
     this.backupVaultArn,
     this.backupVaultName,
     this.bytesTransferred,
@@ -3265,7 +3554,7 @@ class DescribeBackupVaultOutput {
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
-  /// retried without the risk of executing the operation twice.
+  /// retried without the risk of running the operation twice.
   @_s.JsonKey(name: 'CreatorRequestId')
   final String creatorRequestId;
 
@@ -3306,6 +3595,32 @@ class DescribeCopyJobOutput {
   });
   factory DescribeCopyJobOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeCopyJobOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeGlobalSettingsOutput {
+  /// A list of resources along with the opt-in preferences for the account.
+  @_s.JsonKey(name: 'GlobalSettings')
+  final Map<String, String> globalSettings;
+
+  /// The date and time that the global settings was last updated. This update is
+  /// in Unix format and Coordinated Universal Time (UTC). The value of
+  /// <code>LastUpdateTime</code> is accurate to milliseconds. For example, the
+  /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTime')
+  final DateTime lastUpdateTime;
+
+  DescribeGlobalSettingsOutput({
+    this.globalSettings,
+    this.lastUpdateTime,
+  });
+  factory DescribeGlobalSettingsOutput.fromJson(Map<String, dynamic> json) =>
+      _$DescribeGlobalSettingsOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3443,6 +3758,14 @@ class DescribeRecoveryPointOutput {
   @_s.JsonKey(name: 'ResourceType')
   final String resourceType;
 
+  /// An Amazon Resource Name (ARN) that uniquely identifies the source vault
+  /// where the resource was originally backed up in; for example,
+  /// <code>arn:aws:backup:us-east-1:123456789012:vault:BackupVault</code>. If the
+  /// recovery is restored to the same AWS account or Region, this value will be
+  /// <code>null</code>.
+  @_s.JsonKey(name: 'SourceBackupVaultArn')
+  final String sourceBackupVaultArn;
+
   /// A status code specifying the state of the recovery point.
   /// <note>
   /// A partial status indicates that the recovery point was not successfully
@@ -3472,6 +3795,7 @@ class DescribeRecoveryPointOutput {
     this.recoveryPointArn,
     this.resourceArn,
     this.resourceType,
+    this.sourceBackupVaultArn,
     this.status,
     this.storageClass,
   });
@@ -3484,7 +3808,29 @@ class DescribeRecoveryPointOutput {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeRegionSettingsOutput {
+  /// Returns a list of all services along with the opt-in preferences in the
+  /// Region.
+  @_s.JsonKey(name: 'ResourceTypeOptInPreference')
+  final Map<String, bool> resourceTypeOptInPreference;
+
+  DescribeRegionSettingsOutput({
+    this.resourceTypeOptInPreference,
+  });
+  factory DescribeRegionSettingsOutput.fromJson(Map<String, dynamic> json) =>
+      _$DescribeRegionSettingsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeRestoreJobOutput {
+  /// Returns the account ID that owns the restore job.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
   /// The size, in bytes, of the restored resource.
   @_s.JsonKey(name: 'BackupSizeInBytes')
   final int backupSizeInBytes;
@@ -3531,6 +3877,10 @@ class DescribeRestoreJobOutput {
   @_s.JsonKey(name: 'RecoveryPointArn')
   final String recoveryPointArn;
 
+  /// Returns metadata associated with a restore job listed by resource type.
+  @_s.JsonKey(name: 'ResourceType')
+  final String resourceType;
+
   /// Uniquely identifies the job that restores a recovery point.
   @_s.JsonKey(name: 'RestoreJobId')
   final String restoreJobId;
@@ -3540,12 +3890,12 @@ class DescribeRestoreJobOutput {
   @_s.JsonKey(name: 'Status')
   final RestoreJobStatus status;
 
-  /// A detailed message explaining the status of a job to restore a recovery
-  /// point.
+  /// A message showing the status of a job to restore a recovery point.
   @_s.JsonKey(name: 'StatusMessage')
   final String statusMessage;
 
   DescribeRestoreJobOutput({
+    this.accountId,
     this.backupSizeInBytes,
     this.completionDate,
     this.createdResourceArn,
@@ -3554,6 +3904,7 @@ class DescribeRestoreJobOutput {
     this.iamRoleArn,
     this.percentDone,
     this.recoveryPointArn,
+    this.resourceType,
     this.restoreJobId,
     this.status,
     this.statusMessage,
@@ -3625,6 +3976,11 @@ class GetBackupPlanFromTemplateOutput {
     createFactory: true,
     createToJson: false)
 class GetBackupPlanOutput {
+  /// Contains a list of <code>BackupOptions</code> for each resource type. The
+  /// list is populated only if the advanced option is set for the backup plan.
+  @_s.JsonKey(name: 'AdvancedBackupSettings')
+  final List<AdvancedBackupSetting> advancedBackupSettings;
+
   /// Specifies the body of a backup plan. Includes a <code>BackupPlanName</code>
   /// and one or more sets of <code>Rules</code>.
   @_s.JsonKey(name: 'BackupPlan')
@@ -3649,20 +4005,20 @@ class GetBackupPlanOutput {
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
-  /// retried without the risk of executing the operation twice.
+  /// retried without the risk of running the operation twice.
   @_s.JsonKey(name: 'CreatorRequestId')
   final String creatorRequestId;
 
   /// The date and time that a backup plan is deleted, in Unix format and
-  /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
+  /// Coordinated Universal Time (UTC). The value of <code>DeletionDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'DeletionDate')
   final DateTime deletionDate;
 
-  /// The last time a job to back up resources was executed with this backup plan.
-  /// A date and time, in Unix format and Coordinated Universal Time (UTC). The
+  /// The last time a job to back up resources was run with this backup plan. A
+  /// date and time, in Unix format and Coordinated Universal Time (UTC). The
   /// value of <code>LastExecutionDate</code> is accurate to milliseconds. For
   /// example, the value 1516925490.087 represents Friday, January 26, 2018
   /// 12:11:30.087 AM.
@@ -3676,6 +4032,7 @@ class GetBackupPlanOutput {
   final String versionId;
 
   GetBackupPlanOutput({
+    this.advancedBackupSettings,
     this.backupPlan,
     this.backupPlanArn,
     this.backupPlanId,
@@ -3713,7 +4070,7 @@ class GetBackupSelectionOutput {
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
-  /// retried without the risk of executing the operation twice.
+  /// retried without the risk of running the operation twice.
   @_s.JsonKey(name: 'CreatorRequestId')
   final String creatorRequestId;
 
@@ -3823,9 +4180,9 @@ class GetRecoveryPointRestoreMetadataOutput {
   @_s.JsonKey(name: 'RecoveryPointArn')
   final String recoveryPointArn;
 
-  /// The set of metadata key-value pairs that describes the original
-  /// configuration of the backed-up resource. These values vary depending on the
-  /// service that is being restored.
+  /// The set of metadata key-value pairs that describe the original configuration
+  /// of the backed-up resource. These values vary depending on the service that
+  /// is being restored.
   @_s.JsonKey(name: 'RestoreMetadata')
   final Map<String, String> restoreMetadata;
 
@@ -3849,19 +4206,22 @@ class GetSupportedResourceTypesOutput {
   ///
   /// <ul>
   /// <li>
+  /// <code>DynamoDB</code> for Amazon DynamoDB
+  /// </li>
+  /// <li>
   /// <code>EBS</code> for Amazon Elastic Block Store
   /// </li>
   /// <li>
-  /// <code>Storage Gateway</code> for AWS Storage Gateway
+  /// <code>EC2</code> for Amazon Elastic Compute Cloud
+  /// </li>
+  /// <li>
+  /// <code>EFS</code> for Amazon Elastic File System
   /// </li>
   /// <li>
   /// <code>RDS</code> for Amazon Relational Database Service
   /// </li>
   /// <li>
-  /// <code>DDB</code> for Amazon DynamoDB
-  /// </li>
-  /// <li>
-  /// <code>EFS</code> for Amazon Elastic File System
+  /// <code>Storage Gateway</code> for AWS Storage Gateway
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ResourceTypes')
@@ -4247,6 +4607,7 @@ class ProtectedResource {
 
   /// The type of AWS resource; for example, an Amazon Elastic Block Store (Amazon
   /// EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+  /// For VSS Windows backups, the only supported resource type is Amazon EC2.
   @_s.JsonKey(name: 'ResourceType')
   final String resourceType;
 
@@ -4361,9 +4722,16 @@ class RecoveryPointByBackupVault {
 
   /// The type of AWS resource saved as a recovery point; for example, an Amazon
   /// Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database
-  /// Service (Amazon RDS) database.
+  /// Service (Amazon RDS) database. For VSS Windows backups, the only supported
+  /// resource type is Amazon EC2.
   @_s.JsonKey(name: 'ResourceType')
   final String resourceType;
+
+  /// The backup vault where the recovery point was originally copied from. If the
+  /// recovery point is restored to the same account this value will be
+  /// <code>null</code>.
+  @_s.JsonKey(name: 'SourceBackupVaultArn')
+  final String sourceBackupVaultArn;
 
   /// A status code specifying the state of the recovery point.
   @_s.JsonKey(name: 'Status')
@@ -4385,6 +4753,7 @@ class RecoveryPointByBackupVault {
     this.recoveryPointArn,
     this.resourceArn,
     this.resourceType,
+    this.sourceBackupVaultArn,
     this.status,
   });
   factory RecoveryPointByBackupVault.fromJson(Map<String, dynamic> json) =>
@@ -4507,6 +4876,24 @@ enum RestoreJobStatus {
   failed,
 }
 
+extension on RestoreJobStatus {
+  String toValue() {
+    switch (this) {
+      case RestoreJobStatus.pending:
+        return 'PENDING';
+      case RestoreJobStatus.running:
+        return 'RUNNING';
+      case RestoreJobStatus.completed:
+        return 'COMPLETED';
+      case RestoreJobStatus.aborted:
+        return 'ABORTED';
+      case RestoreJobStatus.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Contains metadata about a restore job.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4514,6 +4901,10 @@ enum RestoreJobStatus {
     createFactory: true,
     createToJson: false)
 class RestoreJobsListMember {
+  /// The account ID that owns the restore job.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
   /// The size, in bytes, of the restored resource.
   @_s.JsonKey(name: 'BackupSizeInBytes')
   final int backupSizeInBytes;
@@ -4559,6 +4950,13 @@ class RestoreJobsListMember {
   @_s.JsonKey(name: 'RecoveryPointArn')
   final String recoveryPointArn;
 
+  /// The resource type of the listed restore jobs; for example, an Amazon Elastic
+  /// Block Store (Amazon EBS) volume or an Amazon Relational Database Service
+  /// (Amazon RDS) database. For VSS Windows backups, the only supported resource
+  /// type is Amazon EC2.
+  @_s.JsonKey(name: 'ResourceType')
+  final String resourceType;
+
   /// Uniquely identifies the job that restores a recovery point.
   @_s.JsonKey(name: 'RestoreJobId')
   final String restoreJobId;
@@ -4574,6 +4972,7 @@ class RestoreJobsListMember {
   final String statusMessage;
 
   RestoreJobsListMember({
+    this.accountId,
     this.backupSizeInBytes,
     this.completionDate,
     this.createdResourceArn,
@@ -4582,6 +4981,7 @@ class RestoreJobsListMember {
     this.iamRoleArn,
     this.percentDone,
     this.recoveryPointArn,
+    this.resourceType,
     this.restoreJobId,
     this.status,
     this.statusMessage,
@@ -4628,14 +5028,14 @@ class StartBackupJobOutput {
     createFactory: true,
     createToJson: false)
 class StartCopyJobOutput {
-  /// Uniquely identifies a request to AWS Backup to copy a resource.
+  /// Uniquely identifies a copy job.
   @_s.JsonKey(name: 'CopyJobId')
   final String copyJobId;
 
-  /// The date and time that a backup job is started, in Unix format and
-  /// Coordinated Universal Time (UTC). The value of CreationDate is accurate to
+  /// The date and time that a copy job is started, in Unix format and Coordinated
+  /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
-  /// January 26, 2018 12:11:30.087 AM. &gt;
+  /// January 26, 2018 12:11:30.087 AM.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
@@ -4680,6 +5080,10 @@ enum StorageClass {
     createFactory: true,
     createToJson: false)
 class UpdateBackupPlanOutput {
+  /// Contains a list of <code>BackupOptions</code> for each resource type.
+  @_s.JsonKey(name: 'AdvancedBackupSettings')
+  final List<AdvancedBackupSetting> advancedBackupSettings;
+
   /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for
   /// example,
   /// <code>arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50</code>.
@@ -4704,6 +5108,7 @@ class UpdateBackupPlanOutput {
   final String versionId;
 
   UpdateBackupPlanOutput({
+    this.advancedBackupSettings,
     this.backupPlanArn,
     this.backupPlanId,
     this.creationDate,

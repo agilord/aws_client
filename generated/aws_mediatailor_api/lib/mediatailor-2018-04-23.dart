@@ -160,6 +160,10 @@ class MediaTailor {
   /// turn off ad personalization in a long manifest, or if a viewer joins
   /// mid-break.
   ///
+  /// Parameter [bumper] :
+  /// The configuration for bumpers. Bumpers are short audio or video clips that
+  /// play at the start or before the end of an ad break.
+  ///
   /// Parameter [cdnConfiguration] :
   /// The configuration for using a content delivery network (CDN), like Amazon
   /// CloudFront, for content and ad segment management.
@@ -169,6 +173,10 @@ class MediaTailor {
   ///
   /// Parameter [livePreRollConfiguration] :
   /// The configuration for pre-roll ad insertion.
+  ///
+  /// Parameter [manifestProcessingRules] :
+  /// The configuration for manifest processing rules. Manifest processing rules
+  /// enable customization of the personalized manifests created by MediaTailor.
   ///
   /// Parameter [name] :
   /// The identifier for the playback configuration.
@@ -201,9 +209,11 @@ class MediaTailor {
   Future<PutPlaybackConfigurationResponse> putPlaybackConfiguration({
     String adDecisionServerUrl,
     AvailSuppression availSuppression,
+    Bumper bumper,
     CdnConfiguration cdnConfiguration,
     DashConfigurationForPut dashConfiguration,
     LivePreRollConfiguration livePreRollConfiguration,
+    ManifestProcessingRules manifestProcessingRules,
     String name,
     int personalizationThresholdSeconds,
     String slateAdUrl,
@@ -221,10 +231,13 @@ class MediaTailor {
       if (adDecisionServerUrl != null)
         'AdDecisionServerUrl': adDecisionServerUrl,
       if (availSuppression != null) 'AvailSuppression': availSuppression,
+      if (bumper != null) 'Bumper': bumper,
       if (cdnConfiguration != null) 'CdnConfiguration': cdnConfiguration,
       if (dashConfiguration != null) 'DashConfiguration': dashConfiguration,
       if (livePreRollConfiguration != null)
         'LivePreRollConfiguration': livePreRollConfiguration,
+      if (manifestProcessingRules != null)
+        'ManifestProcessingRules': manifestProcessingRules,
       if (name != null) 'Name': name,
       if (personalizationThresholdSeconds != null)
         'PersonalizationThresholdSeconds': personalizationThresholdSeconds,
@@ -308,6 +321,33 @@ class MediaTailor {
   }
 }
 
+/// The configuration for Ad Marker Passthrough. Ad marker passthrough can be
+/// used to pass ad markers from the origin to the customized manifest.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AdMarkerPassthrough {
+  /// For HLS, when set to true, MediaTailor passes through EXT-X-CUE-IN,
+  /// EXT-X-CUE-OUT, and EXT-X-SPLICEPOINT-SCTE35 ad markers from the origin
+  /// manifest to the MediaTailor personalized manifest.
+  ///
+  /// No logic is applied to these ad markers. For example, if EXT-X-CUE-OUT has a
+  /// value of 60, but no ads are filled for that ad break, MediaTailor will not
+  /// set the value to 0.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  AdMarkerPassthrough({
+    this.enabled,
+  });
+  factory AdMarkerPassthrough.fromJson(Map<String, dynamic> json) =>
+      _$AdMarkerPassthroughFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AdMarkerPassthroughToJson(this);
+}
+
 /// The configuration for Avail Suppression. Ad suppression can be used to turn
 /// off ad personalization in a long manifest, or if a viewer joins mid-break.
 @_s.JsonSerializable(
@@ -336,6 +376,31 @@ class AvailSuppression {
       _$AvailSuppressionFromJson(json);
 
   Map<String, dynamic> toJson() => _$AvailSuppressionToJson(this);
+}
+
+/// The configuration for bumpers. Bumpers are short audio or video clips that
+/// play at the start or before the end of an ad break.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Bumper {
+  /// The URL for the end bumper asset.
+  @_s.JsonKey(name: 'EndUrl')
+  final String endUrl;
+
+  /// The URL for the start bumper asset.
+  @_s.JsonKey(name: 'StartUrl')
+  final String startUrl;
+
+  Bumper({
+    this.endUrl,
+    this.startUrl,
+  });
+  factory Bumper.fromJson(Map<String, dynamic> json) => _$BumperFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BumperToJson(this);
 }
 
 /// The configuration for using a content delivery network (CDN), like Amazon
@@ -478,6 +543,11 @@ class GetPlaybackConfigurationResponse {
   @_s.JsonKey(name: 'AvailSuppression')
   final AvailSuppression availSuppression;
 
+  /// The configuration for bumpers. Bumpers are short audio or video clips that
+  /// play at the start or before the end of an ad break.
+  @_s.JsonKey(name: 'Bumper')
+  final Bumper bumper;
+
   /// The configuration for using a content delivery network (CDN), like Amazon
   /// CloudFront, for content and ad segment management.
   @_s.JsonKey(name: 'CdnConfiguration')
@@ -494,6 +564,11 @@ class GetPlaybackConfigurationResponse {
   /// The configuration for pre-roll ad insertion.
   @_s.JsonKey(name: 'LivePreRollConfiguration')
   final LivePreRollConfiguration livePreRollConfiguration;
+
+  /// The configuration for manifest processing rules. Manifest processing rules
+  /// enable customization of the personalized manifests created by MediaTailor.
+  @_s.JsonKey(name: 'ManifestProcessingRules')
+  final ManifestProcessingRules manifestProcessingRules;
 
   /// The identifier for the playback configuration.
   @_s.JsonKey(name: 'Name')
@@ -546,10 +621,12 @@ class GetPlaybackConfigurationResponse {
   GetPlaybackConfigurationResponse({
     this.adDecisionServerUrl,
     this.availSuppression,
+    this.bumper,
     this.cdnConfiguration,
     this.dashConfiguration,
     this.hlsConfiguration,
     this.livePreRollConfiguration,
+    this.manifestProcessingRules,
     this.name,
     this.personalizationThresholdSeconds,
     this.playbackConfigurationArn,
@@ -639,6 +716,26 @@ enum OriginManifestType {
   multiPeriod,
 }
 
+/// The configuration for manifest processing rules. Manifest processing rules
+/// enable customization of the personalized manifests created by MediaTailor.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ManifestProcessingRules {
+  @_s.JsonKey(name: 'AdMarkerPassthrough')
+  final AdMarkerPassthrough adMarkerPassthrough;
+
+  ManifestProcessingRules({
+    this.adMarkerPassthrough,
+  });
+  factory ManifestProcessingRules.fromJson(Map<String, dynamic> json) =>
+      _$ManifestProcessingRulesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ManifestProcessingRulesToJson(this);
+}
+
 enum Mode {
   @_s.JsonValue('OFF')
   off,
@@ -666,6 +763,11 @@ class PlaybackConfiguration {
   @_s.JsonKey(name: 'AvailSuppression')
   final AvailSuppression availSuppression;
 
+  /// The configuration for bumpers. Bumpers are short audio or video clips that
+  /// play at the start or before the end of an ad break.
+  @_s.JsonKey(name: 'Bumper')
+  final Bumper bumper;
+
   /// The configuration for using a content delivery network (CDN), like Amazon
   /// CloudFront, for content and ad segment management.
   @_s.JsonKey(name: 'CdnConfiguration')
@@ -678,6 +780,11 @@ class PlaybackConfiguration {
   /// The configuration for HLS content.
   @_s.JsonKey(name: 'HlsConfiguration')
   final HlsConfiguration hlsConfiguration;
+
+  /// The configuration for manifest processing rules. Manifest processing rules
+  /// enable customization of the personalized manifests created by MediaTailor.
+  @_s.JsonKey(name: 'ManifestProcessingRules')
+  final ManifestProcessingRules manifestProcessingRules;
 
   /// The identifier for the playback configuration.
   @_s.JsonKey(name: 'Name')
@@ -730,9 +837,11 @@ class PlaybackConfiguration {
   PlaybackConfiguration({
     this.adDecisionServerUrl,
     this.availSuppression,
+    this.bumper,
     this.cdnConfiguration,
     this.dashConfiguration,
     this.hlsConfiguration,
+    this.manifestProcessingRules,
     this.name,
     this.personalizationThresholdSeconds,
     this.playbackConfigurationArn,
@@ -797,6 +906,11 @@ class PutPlaybackConfigurationResponse {
   @_s.JsonKey(name: 'AvailSuppression')
   final AvailSuppression availSuppression;
 
+  /// The configuration for bumpers. Bumpers are short audio or video clips that
+  /// play at the start or before the end of an ad break.
+  @_s.JsonKey(name: 'Bumper')
+  final Bumper bumper;
+
   /// The configuration for using a content delivery network (CDN), like Amazon
   /// CloudFront, for content and ad segment management.
   @_s.JsonKey(name: 'CdnConfiguration')
@@ -813,6 +927,11 @@ class PutPlaybackConfigurationResponse {
   /// The configuration for pre-roll ad insertion.
   @_s.JsonKey(name: 'LivePreRollConfiguration')
   final LivePreRollConfiguration livePreRollConfiguration;
+
+  /// The configuration for manifest processing rules. Manifest processing rules
+  /// enable customization of the personalized manifests created by MediaTailor.
+  @_s.JsonKey(name: 'ManifestProcessingRules')
+  final ManifestProcessingRules manifestProcessingRules;
 
   /// The identifier for the playback configuration.
   @_s.JsonKey(name: 'Name')
@@ -865,10 +984,12 @@ class PutPlaybackConfigurationResponse {
   PutPlaybackConfigurationResponse({
     this.adDecisionServerUrl,
     this.availSuppression,
+    this.bumper,
     this.cdnConfiguration,
     this.dashConfiguration,
     this.hlsConfiguration,
     this.livePreRollConfiguration,
+    this.manifestProcessingRules,
     this.name,
     this.personalizationThresholdSeconds,
     this.playbackConfigurationArn,

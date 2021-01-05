@@ -199,6 +199,15 @@ ListServicesResponse _$ListServicesResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListTagsForResourceResponse(
+    tags: (json['Tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 MetricInfo _$MetricInfoFromJson(Map<String, dynamic> json) {
   return MetricInfo(
     metricDimensions: (json['MetricDimensions'] as Map<String, dynamic>)?.map(
@@ -321,4 +330,34 @@ ServiceQuotaIncreaseRequestInTemplate
     serviceName: json['ServiceName'] as String,
     unit: json['Unit'] as String,
   );
+}
+
+Tag _$TagFromJson(Map<String, dynamic> json) {
+  return Tag(
+    key: json['Key'] as String,
+    value: json['Value'] as String,
+  );
+}
+
+Map<String, dynamic> _$TagToJson(Tag instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key);
+  writeNotNull('Value', instance.value);
+  return val;
+}
+
+TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
+  return TagResourceResponse();
+}
+
+UntagResourceResponse _$UntagResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return UntagResourceResponse();
 }

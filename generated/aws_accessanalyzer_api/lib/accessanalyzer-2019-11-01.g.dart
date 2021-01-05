@@ -56,12 +56,12 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$ResourceTypeEnumMap = {
+  ResourceType.awsS3Bucket: 'AWS::S3::Bucket',
   ResourceType.awsIamRole: 'AWS::IAM::Role',
-  ResourceType.awsKmsKey: 'AWS::KMS::Key',
+  ResourceType.awsSqsQueue: 'AWS::SQS::Queue',
   ResourceType.awsLambdaFunction: 'AWS::Lambda::Function',
   ResourceType.awsLambdaLayerVersion: 'AWS::Lambda::LayerVersion',
-  ResourceType.awsS3Bucket: 'AWS::S3::Bucket',
-  ResourceType.awsSqsQueue: 'AWS::SQS::Queue',
+  ResourceType.awsKmsKey: 'AWS::KMS::Key',
 };
 
 const _$FindingStatusEnumMap = {
@@ -175,6 +175,32 @@ Finding _$FindingFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     resource: json['resource'] as String,
+    sources: (json['sources'] as List)
+        ?.map((e) => e == null
+            ? null
+            : FindingSource.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+FindingSource _$FindingSourceFromJson(Map<String, dynamic> json) {
+  return FindingSource(
+    type: _$enumDecodeNullable(_$FindingSourceTypeEnumMap, json['type']),
+    detail: json['detail'] == null
+        ? null
+        : FindingSourceDetail.fromJson(json['detail'] as Map<String, dynamic>),
+  );
+}
+
+const _$FindingSourceTypeEnumMap = {
+  FindingSourceType.policy: 'POLICY',
+  FindingSourceType.bucketAcl: 'BUCKET_ACL',
+  FindingSourceType.s3AccessPoint: 'S3_ACCESS_POINT',
+};
+
+FindingSourceDetail _$FindingSourceDetailFromJson(Map<String, dynamic> json) {
+  return FindingSourceDetail(
+    accessPointArn: json['accessPointArn'] as String,
   );
 }
 
@@ -198,6 +224,11 @@ FindingSummary _$FindingSummaryFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     resource: json['resource'] as String,
+    sources: (json['sources'] as List)
+        ?.map((e) => e == null
+            ? null
+            : FindingSource.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 

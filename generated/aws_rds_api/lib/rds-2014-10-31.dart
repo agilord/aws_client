@@ -71,7 +71,7 @@ class RDS {
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role to associate with the
-  /// Aurora DB cluster, for example
+  /// Aurora DB cluster, for example,
   /// <code>arn:aws:iam::123456789012:role/AuroraAccessRole</code>.
   ///
   /// Parameter [featureName] :
@@ -162,20 +162,28 @@ class RDS {
   ///
   /// <ul>
   /// <li>
-  /// If the source type is a DB instance, then a
-  /// <code>DBInstanceIdentifier</code> must be supplied.
+  /// If the source type is a DB instance, a <code>DBInstanceIdentifier</code>
+  /// value must be supplied.
   /// </li>
   /// <li>
-  /// If the source type is a DB security group, a
-  /// <code>DBSecurityGroupName</code> must be supplied.
+  /// If the source type is a DB cluster, a <code>DBClusterIdentifier</code>
+  /// value must be supplied.
   /// </li>
   /// <li>
   /// If the source type is a DB parameter group, a
-  /// <code>DBParameterGroupName</code> must be supplied.
+  /// <code>DBParameterGroupName</code> value must be supplied.
+  /// </li>
+  /// <li>
+  /// If the source type is a DB security group, a
+  /// <code>DBSecurityGroupName</code> value must be supplied.
   /// </li>
   /// <li>
   /// If the source type is a DB snapshot, a <code>DBSnapshotIdentifier</code>
-  /// must be supplied.
+  /// value must be supplied.
+  /// </li>
+  /// <li>
+  /// If the source type is a DB cluster snapshot, a
+  /// <code>DBClusterSnapshotIdentifier</code> value must be supplied.
   /// </li>
   /// </ul>
   ///
@@ -403,7 +411,7 @@ class RDS {
   /// Backtracking an Aurora DB Cluster</a> in the <i>Amazon Aurora User
   /// Guide.</i>
   /// <note>
-  /// This action only applies to Aurora DB clusters.
+  /// This action only applies to Aurora MySQL DB clusters.
   /// </note>
   ///
   /// May throw [DBClusterNotFoundFault].
@@ -639,9 +647,9 @@ class RDS {
   ///
   /// <ul>
   /// <li>
-  /// <code>KmsKeyId</code> - The KMS key identifier for the key to use to
-  /// encrypt the copy of the DB cluster snapshot in the destination AWS Region.
-  /// This is the same identifier for both the
+  /// <code>KmsKeyId</code> - The AWS KMS key identifier for the customer master
+  /// key (CMK) to use to encrypt the copy of the DB cluster snapshot in the
+  /// destination AWS Region. This is the same identifier for both the
   /// <code>CopyDBClusterSnapshot</code> action that is called in the
   /// destination AWS Region, and the action contained in the pre-signed URL.
   /// </li>
@@ -761,25 +769,24 @@ class RDS {
   /// copied.
   ///
   /// Parameter [kmsKeyId] :
-  /// The AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is
-  /// the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias
-  /// for the KMS encryption key.
+  /// The AWS KMS key identifier for an encrypted DB cluster snapshot. The AWS
+  /// KMS key identifier is the key ARN, key ID, alias ARN, or alias name for
+  /// the AWS KMS customer master key (CMK).
   ///
   /// If you copy an encrypted DB cluster snapshot from your AWS account, you
   /// can specify a value for <code>KmsKeyId</code> to encrypt the copy with a
-  /// new KMS encryption key. If you don't specify a value for
-  /// <code>KmsKeyId</code>, then the copy of the DB cluster snapshot is
-  /// encrypted with the same KMS key as the source DB cluster snapshot.
+  /// new AWS KMS CMK. If you don't specify a value for <code>KmsKeyId</code>,
+  /// then the copy of the DB cluster snapshot is encrypted with the same AWS
+  /// KMS key as the source DB cluster snapshot.
   ///
   /// If you copy an encrypted DB cluster snapshot that is shared from another
   /// AWS account, then you must specify a value for <code>KmsKeyId</code>.
   ///
   /// To copy an encrypted DB cluster snapshot to another AWS Region, you must
-  /// set <code>KmsKeyId</code> to the KMS key ID you want to use to encrypt the
-  /// copy of the DB cluster snapshot in the destination AWS Region. KMS
-  /// encryption keys are specific to the AWS Region that they are created in,
-  /// and you can't use encryption keys from one AWS Region in another AWS
-  /// Region.
+  /// set <code>KmsKeyId</code> to the AWS KMS key identifier you want to use to
+  /// encrypt the copy of the DB cluster snapshot in the destination AWS Region.
+  /// AWS KMS CMKs are specific to the AWS Region that they are created in, and
+  /// you can't use CMKs from one AWS Region in another AWS Region.
   ///
   /// If you copy an unencrypted DB cluster snapshot and specify a value for the
   /// <code>KmsKeyId</code> parameter, an error is returned.
@@ -801,9 +808,9 @@ class RDS {
   ///
   /// <ul>
   /// <li>
-  /// <code>KmsKeyId</code> - The AWS KMS key identifier for the key to use to
-  /// encrypt the copy of the DB cluster snapshot in the destination AWS Region.
-  /// This is the same identifier for both the
+  /// <code>KmsKeyId</code> - The AWS KMS key identifier for the customer master
+  /// key (CMK) to use to encrypt the copy of the DB cluster snapshot in the
+  /// destination AWS Region. This is the same identifier for both the
   /// <code>CopyDBClusterSnapshot</code> action that is called in the
   /// destination AWS Region, and the action contained in the pre-signed URL.
   /// </li>
@@ -961,7 +968,7 @@ class RDS {
   }
 
   /// Copies the specified DB snapshot. The source DB snapshot must be in the
-  /// "available" state.
+  /// <code>available</code> state.
   ///
   /// You can copy a snapshot from one AWS Region to another. In that case, the
   /// AWS Region where you call the <code>CopyDBSnapshot</code> action is the
@@ -976,6 +983,7 @@ class RDS {
   /// May throw [InvalidDBSnapshotStateFault].
   /// May throw [SnapshotQuotaExceededFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [CustomAvailabilityZoneNotFoundFault].
   ///
   /// Parameter [sourceDBSnapshotIdentifier] :
   /// The identifier for the source DB snapshot.
@@ -1034,15 +1042,15 @@ class RDS {
   /// snapshot to the target DB snapshot. By default, tags are not copied.
   ///
   /// Parameter [kmsKeyId] :
-  /// The AWS KMS key ID for an encrypted DB snapshot. The KMS key ID is the
-  /// Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for
-  /// the KMS encryption key.
+  /// The AWS KMS key identifier for an encrypted DB snapshot. The AWS KMS key
+  /// identifier is the key ARN, key ID, alias ARN, or alias name for the AWS
+  /// KMS customer master key (CMK).
   ///
   /// If you copy an encrypted DB snapshot from your AWS account, you can
-  /// specify a value for this parameter to encrypt the copy with a new KMS
-  /// encryption key. If you don't specify a value for this parameter, then the
-  /// copy of the DB snapshot is encrypted with the same KMS key as the source
-  /// DB snapshot.
+  /// specify a value for this parameter to encrypt the copy with a new AWS KMS
+  /// CMK. If you don't specify a value for this parameter, then the copy of the
+  /// DB snapshot is encrypted with the same AWS KMS key as the source DB
+  /// snapshot.
   ///
   /// If you copy an encrypted DB snapshot that is shared from another AWS
   /// account, then you must specify a value for this parameter.
@@ -1051,9 +1059,9 @@ class RDS {
   /// copy is encrypted.
   ///
   /// If you copy an encrypted snapshot to a different AWS Region, then you must
-  /// specify a KMS key for the destination AWS Region. KMS encryption keys are
-  /// specific to the AWS Region that they are created in, and you can't use
-  /// encryption keys from one AWS Region in another AWS Region.
+  /// specify a AWS KMS key identifier for the destination AWS Region. AWS KMS
+  /// CMKs are specific to the AWS Region that they are created in, and you
+  /// can't use CMKs from one AWS Region in another AWS Region.
   ///
   /// Parameter [optionGroupName] :
   /// The name of an option group to associate with the copy of the snapshot.
@@ -1064,7 +1072,7 @@ class RDS {
   /// Microsoft SQL Server, you must specify this option when copying across AWS
   /// Regions. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html#USER_CopySnapshot.Options">Option
-  /// Group Considerations</a> in the <i>Amazon RDS User Guide.</i>
+  /// group considerations</a> in the <i>Amazon RDS User Guide.</i>
   ///
   /// Parameter [preSignedUrl] :
   /// The URL that contains a Signature Version 4 signed request for the
@@ -1097,11 +1105,11 @@ class RDS {
   /// us-east-1 AWS Region.
   /// </li>
   /// <li>
-  /// <code>KmsKeyId</code> - The AWS KMS key identifier for the key to use to
-  /// encrypt the copy of the DB snapshot in the destination AWS Region. This is
-  /// the same identifier for both the <code>CopyDBSnapshot</code> action that
-  /// is called in the destination AWS Region, and the action contained in the
-  /// presigned URL.
+  /// <code>KmsKeyId</code> - The AWS KMS key identifier for the customer master
+  /// key (CMK) to use to encrypt the copy of the DB snapshot in the destination
+  /// AWS Region. This is the same identifier for both the
+  /// <code>CopyDBSnapshot</code> action that is called in the destination AWS
+  /// Region, and the action contained in the presigned URL.
   /// </li>
   /// <li>
   /// <code>SourceDBSnapshotIdentifier</code> - The DB snapshot identifier for
@@ -1131,6 +1139,11 @@ class RDS {
   ///
   /// Parameter [sourceRegion] :
   /// The ID of the region that contains the snapshot to be copied.
+  ///
+  /// Parameter [targetCustomAvailabilityZone] :
+  /// The external custom Availability Zone (CAZ) identifier for the target CAZ.
+  ///
+  /// Example: <code>rds-caz-aiqhTgQv</code>.
   Future<CopyDBSnapshotResult> copyDBSnapshot({
     @_s.required String sourceDBSnapshotIdentifier,
     @_s.required String targetDBSnapshotIdentifier,
@@ -1140,6 +1153,7 @@ class RDS {
     String preSignedUrl,
     String sourceRegion,
     List<Tag> tags,
+    String targetCustomAvailabilityZone,
   }) async {
     ArgumentError.checkNotNull(
         sourceDBSnapshotIdentifier, 'sourceDBSnapshotIdentifier');
@@ -1154,6 +1168,8 @@ class RDS {
     preSignedUrl?.also((arg) => $request['PreSignedUrl'] = arg);
     sourceRegion?.also((arg) => $request['SourceRegion'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
+    targetCustomAvailabilityZone
+        ?.also((arg) => $request['TargetCustomAvailabilityZone'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'CopyDBSnapshot',
@@ -1175,27 +1191,13 @@ class RDS {
   /// May throw [OptionGroupQuotaExceededFault].
   ///
   /// Parameter [sourceOptionGroupIdentifier] :
-  /// The identifier or ARN for the source option group. For information about
-  /// creating an ARN, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing">
-  /// Constructing an ARN for Amazon RDS</a> in the <i>Amazon RDS User
-  /// Guide</i>.
+  /// The identifier for the source option group.
   ///
   /// Constraints:
   ///
   /// <ul>
   /// <li>
   /// Must specify a valid option group.
-  /// </li>
-  /// <li>
-  /// If the source option group is in the same AWS Region as the copy, specify
-  /// a valid option group identifier, for example <code>my-option-group</code>,
-  /// or a valid ARN.
-  /// </li>
-  /// <li>
-  /// If the source option group is in a different AWS Region than the copy,
-  /// specify a valid option group ARN, for example
-  /// <code>arn:aws:rds:us-west-2:123456789012:og:special-options</code>.
   /// </li>
   /// </ul>
   ///
@@ -1260,7 +1262,7 @@ class RDS {
   ///
   /// For more information about RDS on VMware, see the <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-  /// <i>RDS on VMware User Guide.</i> </a>
+  /// RDS on VMware User Guide.</a>
   ///
   /// May throw [CustomAvailabilityZoneAlreadyExistsFault].
   /// May throw [CustomAvailabilityZoneQuotaExceededFault].
@@ -1381,7 +1383,9 @@ class RDS {
   /// Parameter [backtrackWindow] :
   /// The target backtrack window, in seconds. To disable backtracking, set this
   /// value to 0.
-  ///
+  /// <note>
+  /// Currently, Backtrack is only supported for Aurora MySQL DB clusters.
+  /// </note>
   /// Default: 0
   ///
   /// Constraints:
@@ -1467,6 +1471,23 @@ class RDS {
   /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User
   /// Guide</i>.
   ///
+  /// <b>Aurora MySQL</b>
+  ///
+  /// Possible values are <code>audit</code>, <code>error</code>,
+  /// <code>general</code>, and <code>slowquery</code>.
+  ///
+  /// <b>Aurora PostgreSQL</b>
+  ///
+  /// Possible values are <code>postgresql</code> and <code>upgrade</code>.
+  ///
+  /// Parameter [enableGlobalWriteForwarding] :
+  /// A value that indicates whether to enable write operations to be forwarded
+  /// from this cluster to the primary cluster in an Aurora global database. The
+  /// resulting changes are replicated back to this cluster. This parameter only
+  /// applies to DB clusters that are secondary clusters in an Aurora global
+  /// database. By default, Aurora disallows write operations for secondary
+  /// clusters.
+  ///
   /// Parameter [enableHttpEndpoint] :
   /// A value that indicates whether to enable the HTTP endpoint for an Aurora
   /// Serverless DB cluster. By default, the HTTP endpoint is disabled.
@@ -1490,15 +1511,25 @@ class RDS {
   /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide.</i>
   ///
   /// Parameter [engineMode] :
-  /// The DB engine mode of the DB cluster, either <code>provisioned</code>,
+  /// The DB engine mode of the DB cluster, either <code>provisioned</code>
   /// <code>serverless</code>, <code>parallelquery</code>, <code>global</code>,
   /// or <code>multimaster</code>.
-  /// <note>
-  /// <code>global</code> engine mode only applies for global database clusters
-  /// created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL
-  /// versions, the clusters in a global database use <code>provisioned</code>
-  /// engine mode.
-  /// </note>
+  ///
+  /// The <code>parallelquery</code> engine mode isn't required for Aurora MySQL
+  /// version 1.23 and higher 1.x versions, and version 2.09 and higher 2.x
+  /// versions.
+  ///
+  /// The <code>global</code> engine mode isn't required for Aurora MySQL
+  /// version 1.22 and higher 1.x versions, and <code>global</code> engine mode
+  /// isn't required for any 2.x versions.
+  ///
+  /// The <code>multimaster</code> engine mode only applies for DB clusters
+  /// created with Aurora MySQL version 5.6.10a.
+  ///
+  /// For Aurora PostgreSQL, the <code>global</code> engine mode isn't required,
+  /// and both the <code>parallelquery</code> and the <code>multimaster</code>
+  /// engine modes currently aren't supported.
+  ///
   /// Limitations and requirements apply to some DB engine modes. For more
   /// information, see the following sections in the <i>Amazon Aurora User
   /// Guide</i>:
@@ -1517,7 +1548,7 @@ class RDS {
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html#aurora-global-database.limitations">
-  /// Requirements for Aurora Global Databases</a>
+  /// Limitations of Aurora Global Databases</a>
   /// </li>
   /// <li>
   /// <a
@@ -1563,33 +1594,31 @@ class RDS {
   /// Parameter [kmsKeyId] :
   /// The AWS KMS key identifier for an encrypted DB cluster.
   ///
-  /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-  /// encryption key. If you are creating a DB cluster with the same AWS account
-  /// that owns the KMS encryption key used to encrypt the new DB cluster, then
-  /// you can use the KMS key alias instead of the ARN for the KMS encryption
-  /// key.
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  /// name for the AWS KMS customer master key (CMK). To use a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN.
   ///
-  /// If an encryption key isn't specified in <code>KmsKeyId</code>:
+  /// When a CMK isn't specified in <code>KmsKeyId</code>:
   ///
   /// <ul>
   /// <li>
   /// If <code>ReplicationSourceIdentifier</code> identifies an encrypted
-  /// source, then Amazon RDS will use the encryption key used to encrypt the
-  /// source. Otherwise, Amazon RDS will use your default encryption key.
+  /// source, then Amazon RDS will use the CMK used to encrypt the source.
+  /// Otherwise, Amazon RDS will use your default CMK.
   /// </li>
   /// <li>
   /// If the <code>StorageEncrypted</code> parameter is enabled and
   /// <code>ReplicationSourceIdentifier</code> isn't specified, then Amazon RDS
-  /// will use your default encryption key.
+  /// will use your default CMK.
   /// </li>
   /// </ul>
-  /// AWS KMS creates the default encryption key for your AWS account. Your AWS
-  /// account has a different default encryption key for each AWS Region.
+  /// There is a default CMK for your AWS account. Your AWS account has a
+  /// different default CMK for each AWS Region.
   ///
   /// If you create a read replica of an encrypted DB cluster in another AWS
-  /// Region, you must set <code>KmsKeyId</code> to a KMS key ID that is valid
-  /// in the destination AWS Region. This key is used to encrypt the read
-  /// replica in that AWS Region.
+  /// Region, you must set <code>KmsKeyId</code> to a AWS KMS key identifier
+  /// that is valid in the destination AWS Region. This CMK is used to encrypt
+  /// the read replica in that AWS Region.
   ///
   /// Parameter [masterUserPassword] :
   /// The password for the master database user. This password can contain any
@@ -1646,9 +1675,9 @@ class RDS {
   /// <li>
   /// <code>KmsKeyId</code> - The AWS KMS key identifier for the key to use to
   /// encrypt the copy of the DB cluster in the destination AWS Region. This
-  /// should refer to the same KMS key for both the <code>CreateDBCluster</code>
-  /// action that is called in the destination AWS Region, and the action
-  /// contained in the pre-signed URL.
+  /// should refer to the same AWS KMS CMK for both the
+  /// <code>CreateDBCluster</code> action that is called in the destination AWS
+  /// Region, and the action contained in the pre-signed URL.
   /// </li>
   /// <li>
   /// <code>DestinationRegion</code> - The name of the AWS Region that Aurora
@@ -1760,6 +1789,7 @@ class RDS {
     String domain,
     String domainIAMRoleName,
     List<String> enableCloudwatchLogsExports,
+    bool enableGlobalWriteForwarding,
     bool enableHttpEndpoint,
     bool enableIAMDatabaseAuthentication,
     String engineMode,
@@ -1800,6 +1830,8 @@ class RDS {
     domainIAMRoleName?.also((arg) => $request['DomainIAMRoleName'] = arg);
     enableCloudwatchLogsExports
         ?.also((arg) => $request['EnableCloudwatchLogsExports'] = arg);
+    enableGlobalWriteForwarding
+        ?.also((arg) => $request['EnableGlobalWriteForwarding'] = arg);
     enableHttpEndpoint?.also((arg) => $request['EnableHttpEndpoint'] = arg);
     enableIAMDatabaseAuthentication
         ?.also((arg) => $request['EnableIAMDatabaseAuthentication'] = arg);
@@ -2324,7 +2356,7 @@ class RDS {
   ///
   /// For more information about RDS on VMware, see the <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-  /// <i>RDS on VMware User Guide.</i> </a>
+  /// RDS on VMware User Guide.</a>
   /// </note>
   ///
   /// Parameter [backupRetentionPeriod] :
@@ -2388,6 +2420,10 @@ class RDS {
   /// Must contain 1 to 64 letters or numbers.
   /// </li>
   /// <li>
+  /// Must begin with a letter. Subsequent characters can be letters,
+  /// underscores, or digits (0-9).
+  /// </li>
+  /// <li>
   /// Can't be a word reserved by the specified database engine
   /// </li>
   /// </ul>
@@ -2403,14 +2439,17 @@ class RDS {
   /// Must contain 1 to 64 letters or numbers.
   /// </li>
   /// <li>
+  /// Must begin with a letter. Subsequent characters can be letters,
+  /// underscores, or digits (0-9).
+  /// </li>
+  /// <li>
   /// Can't be a word reserved by the specified database engine
   /// </li>
   /// </ul>
   /// <b>PostgreSQL</b>
   ///
   /// The name of the database to create when the DB instance is created. If
-  /// this parameter isn't specified, the default "postgres" database is created
-  /// in the DB instance.
+  /// this parameter isn't specified, no database is created in the DB instance.
   ///
   /// Constraints:
   ///
@@ -2419,8 +2458,8 @@ class RDS {
   /// Must contain 1 to 63 letters, numbers, or underscores.
   /// </li>
   /// <li>
-  /// Must begin with a letter or an underscore. Subsequent characters can be
-  /// letters, underscores, or digits (0-9).
+  /// Must begin with a letter. Subsequent characters can be letters,
+  /// underscores, or digits (0-9).
   /// </li>
   /// <li>
   /// Can't be a word reserved by the specified database engine
@@ -2509,22 +2548,12 @@ class RDS {
   ///
   /// Parameter [domain] :
   /// The Active Directory directory ID to create the DB instance in. Currently,
-  /// only Microsoft SQL Server and Oracle DB instances can be created in an
-  /// Active Directory Domain.
+  /// only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can
+  /// be created in an Active Directory Domain.
   ///
-  /// For Microsoft SQL Server DB instances, Amazon RDS can use Windows
-  /// Authentication to authenticate users that connect to the DB instance. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_SQLServerWinAuth.html">
-  /// Using Windows Authentication with an Amazon RDS DB Instance Running
-  /// Microsoft SQL Server</a> in the <i>Amazon RDS User Guide</i>.
-  ///
-  /// For Oracle DB instances, Amazon RDS can use Kerberos Authentication to
-  /// authenticate users that connect to the DB instance. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-kerberos.html">
-  /// Using Kerberos Authentication with Amazon RDS for Oracle</a> in the
-  /// <i>Amazon RDS User Guide</i>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html">
+  /// Kerberos Authentication</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Parameter [domainIAMRoleName] :
   /// Specify the name of the IAM role to be used when making API calls to the
@@ -2538,45 +2567,58 @@ class RDS {
   /// Database Logs to Amazon CloudWatch Logs </a> in the <i>Amazon Relational
   /// Database Service User Guide</i>.
   ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable. CloudWatch Logs exports are managed by the DB cluster.
+  ///
+  /// <b>MariaDB</b>
+  ///
+  /// Possible values are <code>audit</code>, <code>error</code>,
+  /// <code>general</code>, and <code>slowquery</code>.
+  ///
+  /// <b>Microsoft SQL Server</b>
+  ///
+  /// Possible values are <code>agent</code> and <code>error</code>.
+  ///
+  /// <b>MySQL</b>
+  ///
+  /// Possible values are <code>audit</code>, <code>error</code>,
+  /// <code>general</code>, and <code>slowquery</code>.
+  ///
+  /// <b>Oracle</b>
+  ///
+  /// Possible values are <code>alert</code>, <code>audit</code>,
+  /// <code>listener</code>, and <code>trace</code>.
+  ///
+  /// <b>PostgreSQL</b>
+  ///
+  /// Possible values are <code>postgresql</code> and <code>upgrade</code>.
+  ///
+  /// Parameter [enableCustomerOwnedIp] :
+  /// A value that indicates whether to enable a customer-owned IP address
+  /// (CoIP) for an RDS on Outposts DB instance.
+  ///
+  /// A <i>CoIP</i> provides local or external connectivity to resources in your
+  /// Outpost subnets through your on-premises network. For some use cases, a
+  /// CoIP can provide lower latency for connections to the DB instance from
+  /// outside of its virtual private cloud (VPC) on your local network.
+  ///
+  /// For more information about RDS on Outposts, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html">Working
+  /// with Amazon RDS on AWS Outposts</a> in the <i>Amazon RDS User Guide</i>.
+  ///
+  /// For more information about CoIPs, see <a
+  /// href="https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing">Customer-owned
+  /// IP addresses</a> in the <i>AWS Outposts User Guide</i>.
+  ///
   /// Parameter [enableIAMDatabaseAuthentication] :
   /// A value that indicates whether to enable mapping of AWS Identity and
   /// Access Management (IAM) accounts to database accounts. By default, mapping
   /// is disabled.
   ///
-  /// You can enable IAM database authentication for the following database
-  /// engines:
+  /// This setting doesn't apply to Amazon Aurora. Mapping AWS IAM accounts to
+  /// database accounts is managed by the DB cluster.
   ///
-  /// <b>Amazon Aurora</b>
-  ///
-  /// Not applicable. Mapping AWS IAM accounts to database accounts is managed
-  /// by the DB cluster.
-  ///
-  /// <b>MySQL</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// For MySQL 5.6, minor version 5.6.34 or higher
-  /// </li>
-  /// <li>
-  /// For MySQL 5.7, minor version 5.7.16 or higher
-  /// </li>
-  /// <li>
-  /// For MySQL 8.0, minor version 8.0.16 or higher
-  /// </li>
-  /// </ul>
-  /// <b>PostgreSQL</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// For PostgreSQL 9.5, minor version 9.5.15 or higher
-  /// </li>
-  /// <li>
-  /// For PostgreSQL 9.6, minor version 9.6.11 or higher
-  /// </li>
-  /// <li>
-  /// PostgreSQL 10.6, 10.7, and 10.9
-  /// </li>
-  /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">
   /// IAM Database Authentication for MySQL and PostgreSQL</a> in the <i>Amazon
@@ -2615,8 +2657,8 @@ class RDS {
   /// <b>Microsoft SQL Server</b>
   ///
   /// See <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.FeatureSupport">Version
-  /// and Feature Support on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i>
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport">Microsoft
+  /// SQL Server Versions on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i>
   ///
   /// <b>MySQL</b>
   ///
@@ -2652,22 +2694,19 @@ class RDS {
   /// Parameter [kmsKeyId] :
   /// The AWS KMS key identifier for an encrypted DB instance.
   ///
-  /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-  /// encryption key. If you are creating a DB instance with the same AWS
-  /// account that owns the KMS encryption key used to encrypt the new DB
-  /// instance, then you can use the KMS key alias instead of the ARN for the KM
-  /// encryption key.
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  /// name for the AWS KMS customer master key (CMK). To use a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN.
   ///
   /// <b>Amazon Aurora</b>
   ///
-  /// Not applicable. The KMS key identifier is managed by the DB cluster. For
-  /// more information, see <code>CreateDBCluster</code>.
+  /// Not applicable. The AWS KMS key identifier is managed by the DB cluster.
+  /// For more information, see <code>CreateDBCluster</code>.
   ///
   /// If <code>StorageEncrypted</code> is enabled, and you do not specify a
-  /// value for the <code>KmsKeyId</code> parameter, then Amazon RDS will use
-  /// your default encryption key. AWS KMS creates the default encryption key
-  /// for your AWS account. Your AWS account has a different default encryption
-  /// key for each AWS Region.
+  /// value for the <code>KmsKeyId</code> parameter, then Amazon RDS uses your
+  /// default CMK. There is a default CMK for your AWS account. Your AWS account
+  /// has a different default CMK for each AWS Region.
   ///
   /// Parameter [licenseModel] :
   /// License model information for this DB instance.
@@ -2830,6 +2869,9 @@ class RDS {
   /// You can't set the <code>AvailabilityZone</code> parameter if the DB
   /// instance is a Multi-AZ deployment.
   ///
+  /// Parameter [ncharCharacterSetName] :
+  /// The name of the NCHAR character set for the Oracle DB instance.
+  ///
   /// Parameter [optionGroupName] :
   /// Indicates that the DB instance should be associated with the specified
   /// option group.
@@ -2840,14 +2882,14 @@ class RDS {
   ///
   /// Parameter [performanceInsightsKMSKeyId] :
   /// The AWS KMS key identifier for encryption of Performance Insights data.
-  /// The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or
-  /// the KMS key alias for the KMS encryption key.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  /// name for the AWS KMS customer master key (CMK).
   ///
   /// If you do not specify a value for
   /// <code>PerformanceInsightsKMSKeyId</code>, then Amazon RDS uses your
-  /// default encryption key. AWS KMS creates the default encryption key for
-  /// your AWS account. Your AWS account has a different default encryption key
-  /// for each AWS Region.
+  /// default CMK. There is a default CMK for your AWS account. Your AWS account
+  /// has a different default CMK for each AWS Region.
   ///
   /// Parameter [performanceInsightsRetentionPeriod] :
   /// The amount of time, in days, to retain Performance Insights data. Valid
@@ -2970,10 +3012,16 @@ class RDS {
   ///
   /// Parameter [publiclyAccessible] :
   /// A value that indicates whether the DB instance is publicly accessible.
-  /// When the DB instance is publicly accessible, it is an Internet-facing
-  /// instance with a publicly resolvable DNS name, which resolves to a public
-  /// IP address. When the DB instance isn't publicly accessible, it is an
-  /// internal instance with a DNS name that resolves to a private IP address.
+  ///
+  /// When the DB instance is publicly accessible, its DNS endpoint resolves to
+  /// the private IP address from within the DB instance's VPC, and to the
+  /// public IP address from outside of the DB instance's VPC. Access to the DB
+  /// instance is ultimately controlled by the security group it uses, and that
+  /// public access is not permitted if the security group assigned to the DB
+  /// instance doesn't permit it.
+  ///
+  /// When the DB instance isn't publicly accessible, it is an internal DB
+  /// instance with a DNS name that resolves to a private IP address.
   ///
   /// Default: The default behavior varies depending on whether
   /// <code>DBSubnetGroupName</code> is specified.
@@ -3071,6 +3119,7 @@ class RDS {
     String domain,
     String domainIAMRoleName,
     List<String> enableCloudwatchLogsExports,
+    bool enableCustomerOwnedIp,
     bool enableIAMDatabaseAuthentication,
     bool enablePerformanceInsights,
     String engineVersion,
@@ -3083,6 +3132,7 @@ class RDS {
     int monitoringInterval,
     String monitoringRoleArn,
     bool multiAZ,
+    String ncharCharacterSetName,
     String optionGroupName,
     String performanceInsightsKMSKeyId,
     int performanceInsightsRetentionPeriod,
@@ -3125,6 +3175,8 @@ class RDS {
     domainIAMRoleName?.also((arg) => $request['DomainIAMRoleName'] = arg);
     enableCloudwatchLogsExports
         ?.also((arg) => $request['EnableCloudwatchLogsExports'] = arg);
+    enableCustomerOwnedIp
+        ?.also((arg) => $request['EnableCustomerOwnedIp'] = arg);
     enableIAMDatabaseAuthentication
         ?.also((arg) => $request['EnableIAMDatabaseAuthentication'] = arg);
     enablePerformanceInsights
@@ -3139,6 +3191,8 @@ class RDS {
     monitoringInterval?.also((arg) => $request['MonitoringInterval'] = arg);
     monitoringRoleArn?.also((arg) => $request['MonitoringRoleArn'] = arg);
     multiAZ?.also((arg) => $request['MultiAZ'] = arg);
+    ncharCharacterSetName
+        ?.also((arg) => $request['NcharCharacterSetName'] = arg);
     optionGroupName?.also((arg) => $request['OptionGroupName'] = arg);
     performanceInsightsKMSKeyId
         ?.also((arg) => $request['PerformanceInsightsKMSKeyId'] = arg);
@@ -3363,21 +3417,13 @@ class RDS {
   /// Deleting a DB Instance</a>.
   ///
   /// Parameter [domain] :
-  /// The Active Directory directory ID to create the DB instance in.
+  /// The Active Directory directory ID to create the DB instance in. Currently,
+  /// only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can
+  /// be created in an Active Directory Domain.
   ///
-  /// For Oracle DB instances, Amazon RDS can use Kerberos Authentication to
-  /// authenticate users that connect to the DB instance. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-kerberos.html">
-  /// Using Kerberos Authentication with Amazon RDS for Oracle</a> in the
-  /// <i>Amazon RDS User Guide</i>.
-  ///
-  /// For Microsoft SQL Server DB instances, Amazon RDS can use Windows
-  /// Authentication to authenticate users that connect to the DB instance. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_SQLServerWinAuth.html">
-  /// Using Windows Authentication with an Amazon RDS DB Instance Running
-  /// Microsoft SQL Server</a> in the <i>Amazon RDS User Guide</i>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html">
+  /// Kerberos Authentication</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Parameter [domainIAMRoleName] :
   /// Specify the name of the IAM role to be used when making API calls to the
@@ -3394,8 +3440,7 @@ class RDS {
   /// Parameter [enableIAMDatabaseAuthentication] :
   /// A value that indicates whether to enable mapping of AWS Identity and
   /// Access Management (IAM) accounts to database accounts. By default, mapping
-  /// is disabled. For information about the supported DB engines, see
-  /// <a>CreateDBInstance</a>.
+  /// is disabled.
   ///
   /// For more information about IAM database authentication, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">
@@ -3415,22 +3460,27 @@ class RDS {
   /// initially allocated for the DB instance.
   ///
   /// Parameter [kmsKeyId] :
-  /// The AWS KMS key ID for an encrypted read replica. The KMS key ID is the
-  /// Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for
-  /// the KMS encryption key.
+  /// The AWS KMS key identifier for an encrypted read replica.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  /// name for the AWS KMS CMK.
   ///
   /// If you create an encrypted read replica in the same AWS Region as the
-  /// source DB instance, then you do not have to specify a value for this
-  /// parameter. The read replica is encrypted with the same KMS key as the
-  /// source DB instance.
+  /// source DB instance, then do not specify a value for this parameter. A read
+  /// replica in the same Region is always encrypted with the same AWS KMS CMK
+  /// as the source DB instance.
   ///
   /// If you create an encrypted read replica in a different AWS Region, then
-  /// you must specify a KMS key for the destination AWS Region. KMS encryption
-  /// keys are specific to the AWS Region that they are created in, and you
-  /// can't use encryption keys from one AWS Region in another AWS Region.
+  /// you must specify a AWS KMS key identifier for the destination AWS Region.
+  /// AWS KMS CMKs are specific to the AWS Region that they are created in, and
+  /// you can't use CMKs from one AWS Region in another AWS Region.
   ///
   /// You can't create an encrypted read replica from an unencrypted DB
   /// instance.
+  ///
+  /// Parameter [maxAllocatedStorage] :
+  /// The upper limit to which Amazon RDS can automatically scale the storage of
+  /// the DB instance.
   ///
   /// Parameter [monitoringInterval] :
   /// The interval, in seconds, between points when Enhanced Monitoring metrics
@@ -3473,14 +3523,14 @@ class RDS {
   ///
   /// Parameter [performanceInsightsKMSKeyId] :
   /// The AWS KMS key identifier for encryption of Performance Insights data.
-  /// The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or
-  /// the KMS key alias for the KMS encryption key.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  /// name for the AWS KMS customer master key (CMK).
   ///
   /// If you do not specify a value for
   /// <code>PerformanceInsightsKMSKeyId</code>, then Amazon RDS uses your
-  /// default encryption key. AWS KMS creates the default encryption key for
-  /// your AWS account. Your AWS account has a different default encryption key
-  /// for each AWS Region.
+  /// default CMK. There is a default CMK for your AWS account. Your AWS account
+  /// has a different default CMK for each AWS Region.
   ///
   /// Parameter [performanceInsightsRetentionPeriod] :
   /// The amount of time, in days, to retain Performance Insights data. Valid
@@ -3565,11 +3615,35 @@ class RDS {
   ///
   /// Parameter [publiclyAccessible] :
   /// A value that indicates whether the DB instance is publicly accessible.
-  /// When the DB instance is publicly accessible, it is an Internet-facing
-  /// instance with a publicly resolvable DNS name, which resolves to a public
-  /// IP address. When the DB instance isn't publicly accessible, it is an
-  /// internal instance with a DNS name that resolves to a private IP address.
+  ///
+  /// When the DB instance is publicly accessible, its DNS endpoint resolves to
+  /// the private IP address from within the DB instance's VPC, and to the
+  /// public IP address from outside of the DB instance's VPC. Access to the DB
+  /// instance is ultimately controlled by the security group it uses, and that
+  /// public access is not permitted if the security group assigned to the DB
+  /// instance doesn't permit it.
+  ///
+  /// When the DB instance isn't publicly accessible, it is an internal DB
+  /// instance with a DNS name that resolves to a private IP address.
+  ///
   /// For more information, see <a>CreateDBInstance</a>.
+  ///
+  /// Parameter [replicaMode] :
+  /// The open mode of the replica database: mounted or read-only.
+  /// <note>
+  /// This parameter is only supported for Oracle DB instances.
+  /// </note>
+  /// Mounted DB replicas are included in Oracle Enterprise Edition. The main
+  /// use case for mounted replicas is cross-Region disaster recovery. The
+  /// primary database doesn't use Active Data Guard to transmit information to
+  /// the mounted replica. Because it doesn't accept user connections, a mounted
+  /// replica can't serve a read-only workload.
+  ///
+  /// You can create a combination of mounted and read-only DB replicas for the
+  /// same primary DB instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html">Working
+  /// with Oracle Read Replicas for Amazon RDS</a> in the <i>Amazon RDS User
+  /// Guide</i>.
   ///
   /// Parameter [sourceRegion] :
   /// The ID of the region that contains the source for the read replica.
@@ -3610,6 +3684,7 @@ class RDS {
     bool enablePerformanceInsights,
     int iops,
     String kmsKeyId,
+    int maxAllocatedStorage,
     int monitoringInterval,
     String monitoringRoleArn,
     bool multiAZ,
@@ -3620,6 +3695,7 @@ class RDS {
     String preSignedUrl,
     List<ProcessorFeature> processorFeatures,
     bool publiclyAccessible,
+    ReplicaMode replicaMode,
     String sourceRegion,
     String storageType,
     List<Tag> tags,
@@ -3650,6 +3726,7 @@ class RDS {
         ?.also((arg) => $request['EnablePerformanceInsights'] = arg);
     iops?.also((arg) => $request['Iops'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
+    maxAllocatedStorage?.also((arg) => $request['MaxAllocatedStorage'] = arg);
     monitoringInterval?.also((arg) => $request['MonitoringInterval'] = arg);
     monitoringRoleArn?.also((arg) => $request['MonitoringRoleArn'] = arg);
     multiAZ?.also((arg) => $request['MultiAZ'] = arg);
@@ -3662,6 +3739,7 @@ class RDS {
     preSignedUrl?.also((arg) => $request['PreSignedUrl'] = arg);
     processorFeatures?.also((arg) => $request['ProcessorFeatures'] = arg);
     publiclyAccessible?.also((arg) => $request['PubliclyAccessible'] = arg);
+    replicaMode?.also((arg) => $request['ReplicaMode'] = arg.toValue());
     sourceRegion?.also((arg) => $request['SourceRegion'] = arg);
     storageType?.also((arg) => $request['StorageType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
@@ -3778,10 +3856,6 @@ class RDS {
     return CreateDBParameterGroupResult.fromXml($result);
   }
 
-  /// <note>
-  /// This is prerelease documentation for the RDS Database Proxy feature in
-  /// preview release. It is subject to change.
-  /// </note>
   /// Creates a new DB proxy.
   ///
   /// May throw [InvalidSubnet].
@@ -3941,7 +4015,8 @@ class RDS {
     return CreateDBSecurityGroupResult.fromXml($result);
   }
 
-  /// Creates a DBSnapshot. The source DBInstance must be in "available" state.
+  /// Creates a snapshot of a DB instance. The source DB instance must be in the
+  /// <code>available</code> or <code>storage-optimization</code> state.
   ///
   /// May throw [DBSnapshotAlreadyExistsFault].
   /// May throw [InvalidDBInstanceStateFault].
@@ -4065,19 +4140,25 @@ class RDS {
   /// topic in Amazon SNS and subscribe to the topic. The ARN is displayed in
   /// the SNS console.
   ///
-  /// You can specify the type of source (SourceType) you want to be notified
-  /// of, provide a list of RDS sources (SourceIds) that triggers the events,
-  /// and provide a list of event categories (EventCategories) for events you
-  /// want to be notified of. For example, you can specify SourceType =
-  /// db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories
-  /// = Availability, Backup.
+  /// You can specify the type of source (<code>SourceType</code>) that you want
+  /// to be notified of and provide a list of RDS sources
+  /// (<code>SourceIds</code>) that triggers the events. You can also provide a
+  /// list of event categories (<code>EventCategories</code>) for events that
+  /// you want to be notified of. For example, you can specify
+  /// <code>SourceType</code> = <code>db-instance</code>, <code>SourceIds</code>
+  /// = <code>mydbinstance1</code>, <code>mydbinstance2</code> and
+  /// <code>EventCategories</code> = <code>Availability</code>,
+  /// <code>Backup</code>.
   ///
-  /// If you specify both the SourceType and SourceIds, such as SourceType =
-  /// db-instance and SourceIdentifier = myDBInstance1, you are notified of all
-  /// the db-instance events for the specified source. If you specify a
-  /// SourceType but do not specify a SourceIdentifier, you receive notice of
-  /// the events for that source type for all your RDS sources. If you don't
-  /// specify either the SourceType or the SourceIdentifier, you are notified of
+  /// If you specify both the <code>SourceType</code> and
+  /// <code>SourceIds</code>, such as <code>SourceType</code> =
+  /// <code>db-instance</code> and <code>SourceIdentifier</code> =
+  /// <code>myDBInstance1</code>, you are notified of all the
+  /// <code>db-instance</code> events for the specified source. If you specify a
+  /// <code>SourceType</code> but do not specify a
+  /// <code>SourceIdentifier</code>, you receive notice of the events for that
+  /// source type for all your RDS sources. If you don't specify either the
+  /// SourceType or the <code>SourceIdentifier</code>, you are notified of
   /// events generated from all RDS sources belonging to your customer account.
   /// <note>
   /// RDS event notification is only available for unencrypted SNS topics. If
@@ -4109,11 +4190,12 @@ class RDS {
   /// not active.
   ///
   /// Parameter [eventCategories] :
-  /// A list of event categories for a SourceType that you want to subscribe to.
-  /// You can see a list of the categories for a given SourceType in the <a
+  /// A list of event categories for a particular source type
+  /// (<code>SourceType</code>) that you want to subscribe to. You can see a
+  /// list of the categories for a given source type in <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html">Events</a>
-  /// topic in the <i>Amazon RDS User Guide</i> or by using the
-  /// <b>DescribeEventCategories</b> action.
+  /// in the <i>Amazon RDS User Guide</i> or by using the
+  /// <code>DescribeEventCategories</code> operation.
   ///
   /// Parameter [sourceIds] :
   /// The list of identifiers of the event sources for which events are
@@ -4126,31 +4208,40 @@ class RDS {
   ///
   /// <ul>
   /// <li>
-  /// If SourceIds are supplied, SourceType must also be provided.
+  /// If a <code>SourceIds</code> value is supplied, <code>SourceType</code>
+  /// must also be provided.
   /// </li>
   /// <li>
-  /// If the source type is a DB instance, then a
-  /// <code>DBInstanceIdentifier</code> must be supplied.
+  /// If the source type is a DB instance, a <code>DBInstanceIdentifier</code>
+  /// value must be supplied.
   /// </li>
   /// <li>
-  /// If the source type is a DB security group, a
-  /// <code>DBSecurityGroupName</code> must be supplied.
+  /// If the source type is a DB cluster, a <code>DBClusterIdentifier</code>
+  /// value must be supplied.
   /// </li>
   /// <li>
   /// If the source type is a DB parameter group, a
-  /// <code>DBParameterGroupName</code> must be supplied.
+  /// <code>DBParameterGroupName</code> value must be supplied.
+  /// </li>
+  /// <li>
+  /// If the source type is a DB security group, a
+  /// <code>DBSecurityGroupName</code> value must be supplied.
   /// </li>
   /// <li>
   /// If the source type is a DB snapshot, a <code>DBSnapshotIdentifier</code>
-  /// must be supplied.
+  /// value must be supplied.
+  /// </li>
+  /// <li>
+  /// If the source type is a DB cluster snapshot, a
+  /// <code>DBClusterSnapshotIdentifier</code> value must be supplied.
   /// </li>
   /// </ul>
   ///
   /// Parameter [sourceType] :
   /// The type of source that is generating the events. For example, if you want
-  /// to be notified of events generated by a DB instance, you would set this
-  /// parameter to db-instance. if this value isn't specified, all events are
-  /// returned.
+  /// to be notified of events generated by a DB instance, you set this
+  /// parameter to <code>db-instance</code>. If this value isn't specified, all
+  /// events are returned.
   ///
   /// Valid values: <code>db-instance</code> | <code>db-cluster</code> |
   /// <code>db-parameter-group</code> | <code>db-security-group</code> |
@@ -4188,9 +4279,7 @@ class RDS {
     return CreateEventSubscriptionResult.fromXml($result);
   }
 
-  ///
-  ///
-  /// Creates an Aurora global database spread across multiple regions. The
+  /// Creates an Aurora global database spread across multiple AWS Regions. The
   /// global database contains a single primary cluster with read-write
   /// capability, and a read-only secondary cluster that receives data from the
   /// primary cluster through high-speed replication performed by the Aurora
@@ -4219,7 +4308,7 @@ class RDS {
   /// database can't be deleted when deletion protection is enabled.
   ///
   /// Parameter [engine] :
-  /// Provides the name of the database engine to be used for this DB cluster.
+  /// The name of the database engine to be used for this DB cluster.
   ///
   /// Parameter [engineVersion] :
   /// The engine version of the Aurora global database.
@@ -4341,7 +4430,7 @@ class RDS {
   ///
   /// For more information about RDS on VMware, see the <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-  /// <i>RDS on VMware User Guide.</i> </a>
+  /// RDS on VMware User Guide.</a>
   ///
   /// May throw [CustomAvailabilityZoneNotFoundFault].
   /// May throw [KMSKeyNotAccessibleFault].
@@ -4707,22 +4796,30 @@ class RDS {
     return DeleteDBInstanceResult.fromXml($result);
   }
 
-  /// Deletes automated backups based on the source instance's
-  /// <code>DbiResourceId</code> value or the restorable instance's resource ID.
+  /// Deletes automated backups using the <code>DbiResourceId</code> value of
+  /// the source DB instance or the Amazon Resource Name (ARN) of the automated
+  /// backups.
   ///
   /// May throw [InvalidDBInstanceAutomatedBackupStateFault].
   /// May throw [DBInstanceAutomatedBackupNotFoundFault].
+  ///
+  /// Parameter [dBInstanceAutomatedBackupsArn] :
+  /// The Amazon Resource Name (ARN) of the automated backups to delete, for
+  /// example,
+  /// <code>arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE</code>.
   ///
   /// Parameter [dbiResourceId] :
   /// The identifier for the source DB instance, which can't be changed and
   /// which is unique to an AWS Region.
   Future<DeleteDBInstanceAutomatedBackupResult>
       deleteDBInstanceAutomatedBackup({
-    @_s.required String dbiResourceId,
+    String dBInstanceAutomatedBackupsArn,
+    String dbiResourceId,
   }) async {
-    ArgumentError.checkNotNull(dbiResourceId, 'dbiResourceId');
     final $request = <String, dynamic>{};
-    $request['DbiResourceId'] = dbiResourceId;
+    dBInstanceAutomatedBackupsArn
+        ?.also((arg) => $request['DBInstanceAutomatedBackupsArn'] = arg);
+    dbiResourceId?.also((arg) => $request['DbiResourceId'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'DeleteDBInstanceAutomatedBackup',
@@ -4777,10 +4874,6 @@ class RDS {
     );
   }
 
-  /// <note>
-  /// This is prerelease documentation for the RDS Database Proxy feature in
-  /// preview release. It is subject to change.
-  /// </note>
   /// Deletes an existing proxy.
   ///
   /// May throw [DBProxyNotFoundFault].
@@ -5043,10 +5136,6 @@ class RDS {
     );
   }
 
-  /// <note>
-  /// This is prerelease documentation for the RDS Database Proxy feature in
-  /// preview release. It is subject to change.
-  /// </note>
   /// Remove the association between one or more <code>DBProxyTarget</code> data
   /// structures and a <code>DBProxyTargetGroup</code>.
   ///
@@ -5184,7 +5273,7 @@ class RDS {
   ///
   /// For more information about RDS on VMware, see the <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-  /// <i>RDS on VMware User Guide.</i> </a>
+  /// RDS on VMware User Guide.</a>
   ///
   /// May throw [CustomAvailabilityZoneNotFoundFault].
   ///
@@ -5242,7 +5331,7 @@ class RDS {
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
   /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
   /// <note>
-  /// This action only applies to Aurora DB clusters.
+  /// This action only applies to Aurora MySQL DB clusters.
   /// </note>
   ///
   /// May throw [DBClusterNotFoundFault].
@@ -5388,7 +5477,7 @@ class RDS {
   /// filter can be one or more of: <code>reader</code>, <code>any</code>.
   /// <code>Values</code> for the <code>db-cluster-endpoint-status</code> filter
   /// can be one or more of: <code>available</code>, <code>creating</code>,
-  /// <code>deleting</code>, <code>modifying</code>.
+  /// <code>deleting</code>, <code>inactive</code>, <code>modifying</code>.
   ///
   /// Parameter [marker] :
   /// An optional pagination token provided by a previous
@@ -5990,6 +6079,11 @@ class RDS {
   ///
   /// May throw [DBInstanceAutomatedBackupNotFoundFault].
   ///
+  /// Parameter [dBInstanceAutomatedBackupsArn] :
+  /// The Amazon Resource Name (ARN) of the replicated automated backups, for
+  /// example,
+  /// <code>arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE</code>.
+  ///
   /// Parameter [dBInstanceIdentifier] :
   /// (Optional) The user-supplied instance identifier. If this parameter is
   /// specified, it must match the identifier of an existing DB instance. It
@@ -6014,7 +6108,8 @@ class RDS {
   /// <code>active</code> - automated backups for current instances
   /// </li>
   /// <li>
-  /// <code>retained</code> - automated backups for deleted instances
+  /// <code>retained</code> - automated backups for deleted instances and after
+  /// backup replication is stopped
   /// </li>
   /// <li>
   /// <code>creating</code> - automated backups that are waiting for the first
@@ -6023,15 +6118,13 @@ class RDS {
   /// </ul> </li>
   /// <li>
   /// <code>db-instance-id</code> - Accepts DB instance identifiers and Amazon
-  /// Resource Names (ARNs) for DB instances. The results list includes only
-  /// information about the DB instance automated backupss identified by these
-  /// ARNs.
+  /// Resource Names (ARNs). The results list includes only information about
+  /// the DB instance automated backups identified by these ARNs.
   /// </li>
   /// <li>
-  /// <code>dbi-resource-id</code> - Accepts DB instance resource identifiers
-  /// and DB Amazon Resource Names (ARNs) for DB instances. The results list
-  /// includes only information about the DB instance resources identified by
-  /// these ARNs.
+  /// <code>dbi-resource-id</code> - Accepts DB resource identifiers and Amazon
+  /// Resource Names (ARNs). The results list includes only information about
+  /// the DB instance resources identified by these ARNs.
   /// </li>
   /// </ul>
   /// Returns all resources by default. The status for each resource is
@@ -6048,6 +6141,7 @@ class RDS {
   /// called a marker is included in the response so that you can retrieve the
   /// remaining results.
   Future<DBInstanceAutomatedBackupMessage> describeDBInstanceAutomatedBackups({
+    String dBInstanceAutomatedBackupsArn,
     String dBInstanceIdentifier,
     String dbiResourceId,
     List<Filter> filters,
@@ -6055,6 +6149,8 @@ class RDS {
     int maxRecords,
   }) async {
     final $request = <String, dynamic>{};
+    dBInstanceAutomatedBackupsArn
+        ?.also((arg) => $request['DBInstanceAutomatedBackupsArn'] = arg);
     dBInstanceIdentifier?.also((arg) => $request['DBInstanceIdentifier'] = arg);
     dbiResourceId?.also((arg) => $request['DbiResourceId'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
@@ -6369,10 +6465,6 @@ class RDS {
     return DBParameterGroupDetails.fromXml($result);
   }
 
-  /// <note>
-  /// This is prerelease documentation for the RDS Database Proxy feature in
-  /// preview release. It is subject to change.
-  /// </note>
   /// Returns information about DB proxies.
   ///
   /// May throw [DBProxyNotFoundFault].
@@ -6428,10 +6520,6 @@ class RDS {
     return DescribeDBProxiesResponse.fromXml($result);
   }
 
-  /// <note>
-  /// This is prerelease documentation for the RDS Database Proxy feature in
-  /// preview release. It is subject to change.
-  /// </note>
   /// Returns information about DB proxy target groups, represented by
   /// <code>DBProxyTargetGroup</code> data structures.
   ///
@@ -6497,10 +6585,6 @@ class RDS {
     return DescribeDBProxyTargetGroupsResponse.fromXml($result);
   }
 
-  /// <note>
-  /// This is prerelease documentation for the RDS Database Proxy feature in
-  /// preview release. It is subject to change.
-  /// </note>
   /// Returns information about <code>DBProxyTarget</code> objects. This API
   /// supports pagination.
   ///
@@ -6999,9 +7083,9 @@ class RDS {
 
   /// Displays a list of categories for all event source types, or, if
   /// specified, for a specified source type. You can see a list of the event
-  /// categories and source types in the <a
+  /// categories and source types in <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html">
-  /// Events</a> topic in the <i>Amazon RDS User Guide.</i>
+  /// Events</a> in the <i>Amazon RDS User Guide.</i>
   ///
   /// Parameter [filters] :
   /// This parameter isn't currently supported.
@@ -7009,8 +7093,9 @@ class RDS {
   /// Parameter [sourceType] :
   /// The type of source that is generating the events.
   ///
-  /// Valid values: db-instance | db-parameter-group | db-security-group |
-  /// db-snapshot
+  /// Valid values: <code>db-instance</code> | <code>db-cluster</code> |
+  /// <code>db-parameter-group</code> | <code>db-security-group</code> |
+  /// <code>db-snapshot</code> | <code>db-cluster-snapshot</code>
   Future<EventCategoriesMessage> describeEventCategories({
     List<Filter> filters,
     String sourceType,
@@ -7033,11 +7118,13 @@ class RDS {
   }
 
   /// Lists all the subscription descriptions for a customer account. The
-  /// description for a subscription includes SubscriptionName, SNSTopicARN,
-  /// CustomerID, SourceType, SourceID, CreationTime, and Status.
+  /// description for a subscription includes <code>SubscriptionName</code>,
+  /// <code>SNSTopicARN</code>, <code>CustomerID</code>,
+  /// <code>SourceType</code>, <code>SourceID</code>, <code>CreationTime</code>,
+  /// and <code>Status</code>.
   ///
-  /// If you specify a SubscriptionName, lists the description for that
-  /// subscription.
+  /// If you specify a <code>SubscriptionName</code>, lists the description for
+  /// that subscription.
   ///
   /// May throw [SubscriptionNotFoundFault].
   ///
@@ -7087,11 +7174,14 @@ class RDS {
     return EventSubscriptionsMessage.fromXml($result);
   }
 
-  /// Returns events related to DB instances, DB security groups, DB snapshots,
-  /// and DB parameter groups for the past 14 days. Events specific to a
-  /// particular DB instance, DB security group, database snapshot, or DB
-  /// parameter group can be obtained by providing the name as a parameter. By
-  /// default, the past hour of events are returned.
+  /// Returns events related to DB instances, DB clusters, DB parameter groups,
+  /// DB security groups, DB snapshots, and DB cluster snapshots for the past 14
+  /// days. Events specific to a particular DB instances, DB clusters, DB
+  /// parameter groups, DB security groups, DB snapshots, and DB cluster
+  /// snapshots group can be obtained by providing the name as a parameter.
+  /// <note>
+  /// By default, the past hour of events are returned.
+  /// </note>
   ///
   /// Parameter [duration] :
   /// The number of minutes to retrieve events for.
@@ -7136,23 +7226,32 @@ class RDS {
   ///
   /// <ul>
   /// <li>
-  /// If SourceIdentifier is supplied, SourceType must also be provided.
+  /// If <code>SourceIdentifier</code> is supplied, <code>SourceType</code> must
+  /// also be provided.
   /// </li>
   /// <li>
-  /// If the source type is <code>DBInstance</code>, then a
-  /// <code>DBInstanceIdentifier</code> must be supplied.
+  /// If the source type is a DB instance, a <code>DBInstanceIdentifier</code>
+  /// value must be supplied.
   /// </li>
   /// <li>
-  /// If the source type is <code>DBSecurityGroup</code>, a
-  /// <code>DBSecurityGroupName</code> must be supplied.
+  /// If the source type is a DB cluster, a <code>DBClusterIdentifier</code>
+  /// value must be supplied.
   /// </li>
   /// <li>
-  /// If the source type is <code>DBParameterGroup</code>, a
-  /// <code>DBParameterGroupName</code> must be supplied.
+  /// If the source type is a DB parameter group, a
+  /// <code>DBParameterGroupName</code> value must be supplied.
   /// </li>
   /// <li>
-  /// If the source type is <code>DBSnapshot</code>, a
-  /// <code>DBSnapshotIdentifier</code> must be supplied.
+  /// If the source type is a DB security group, a
+  /// <code>DBSecurityGroupName</code> value must be supplied.
+  /// </li>
+  /// <li>
+  /// If the source type is a DB snapshot, a <code>DBSnapshotIdentifier</code>
+  /// value must be supplied.
+  /// </li>
+  /// <li>
+  /// If the source type is a DB cluster snapshot, a
+  /// <code>DBClusterSnapshotIdentifier</code> value must be supplied.
   /// </li>
   /// <li>
   /// Can't end with a hyphen or contain two consecutive hyphens.
@@ -7215,6 +7314,7 @@ class RDS {
   /// Parameter [filters] :
   /// Filters specify one or more snapshot exports to describe. The filters are
   /// specified as name-value pairs that define what to include in the output.
+  /// Filter names and values are case-sensitive.
   ///
   /// Supported filters include the following:
   ///
@@ -7231,7 +7331,8 @@ class RDS {
   /// exported to Amazon S3
   /// </li>
   /// <li>
-  /// <code>status</code> - The status of the export task.
+  /// <code>status</code> - The status of the export task. Must be lowercase,
+  /// for example, <code>complete</code>.
   /// </li>
   /// </ul>
   ///
@@ -7553,6 +7654,14 @@ class RDS {
   /// Parameter [engine] :
   /// The name of the engine to retrieve DB instance options for.
   ///
+  /// Parameter [availabilityZoneGroup] :
+  /// The Availability Zone group associated with a Local Zone. Specify this
+  /// parameter to retrieve available offerings for the Local Zones in the
+  /// group.
+  ///
+  /// Omit this parameter to show the available offerings in the specified AWS
+  /// Region.
+  ///
   /// Parameter [dBInstanceClass] :
   /// The DB instance class filter value. Specify this parameter to show only
   /// the available offerings matching the specified DB instance class.
@@ -7588,6 +7697,7 @@ class RDS {
   /// A value that indicates whether to show only VPC or non-VPC offerings.
   Future<OrderableDBInstanceOptionsMessage> describeOrderableDBInstanceOptions({
     @_s.required String engine,
+    String availabilityZoneGroup,
     String dBInstanceClass,
     String engineVersion,
     List<Filter> filters,
@@ -7599,6 +7709,8 @@ class RDS {
     ArgumentError.checkNotNull(engine, 'engine');
     final $request = <String, dynamic>{};
     $request['Engine'] = engine;
+    availabilityZoneGroup
+        ?.also((arg) => $request['AvailabilityZoneGroup'] = arg);
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
@@ -7883,8 +7995,8 @@ class RDS {
   }
 
   /// Returns a list of the source AWS Regions where the current AWS Region can
-  /// create a read replica or copy a DB snapshot from. This API action supports
-  /// pagination.
+  /// create a read replica, copy a DB snapshot from, or replicate automated
+  /// backups from. This API action supports pagination.
   ///
   /// Parameter [filters] :
   /// This parameter isn't currently supported.
@@ -8167,8 +8279,9 @@ class RDS {
   /// <b>Microsoft SQL Server</b>
   ///
   /// See <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.FeatureSupport">Version
-  /// and Feature Support on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i>
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport">
+  /// Microsoft SQL Server Versions on Amazon RDS</a> in the <i>Amazon RDS User
+  /// Guide.</i>
   ///
   /// Parameter [oSInstallationMediaPath] :
   /// The path to the installation medium for the operating system associated
@@ -8496,7 +8609,9 @@ class RDS {
   /// Parameter [backtrackWindow] :
   /// The target backtrack window, in seconds. To disable backtracking, set this
   /// value to 0.
-  ///
+  /// <note>
+  /// Currently, Backtrack is only supported for Aurora MySQL DB clusters.
+  /// </note>
   /// Default: 0
   ///
   /// Constraints:
@@ -8567,9 +8682,21 @@ class RDS {
   /// <code>none</code> to remove the cluster from its current domain. The
   /// domain must be created prior to this operation.
   ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/kerberos-authentication.html">Kerberos
+  /// Authentication</a> in the <i>Amazon Aurora User Guide</i>.
+  ///
   /// Parameter [domainIAMRoleName] :
   /// Specify the name of the IAM role to be used when making API calls to the
   /// Directory Service.
+  ///
+  /// Parameter [enableGlobalWriteForwarding] :
+  /// A value that indicates whether to enable write operations to be forwarded
+  /// from this cluster to the primary cluster in an Aurora global database. The
+  /// resulting changes are replicated back to this cluster. This parameter only
+  /// applies to DB clusters that are secondary clusters in an Aurora global
+  /// database. By default, Aurora disallows write operations for secondary
+  /// clusters.
   ///
   /// Parameter [enableHttpEndpoint] :
   /// A value that indicates whether to enable the HTTP endpoint for an Aurora
@@ -8727,6 +8854,7 @@ class RDS {
     bool deletionProtection,
     String domain,
     String domainIAMRoleName,
+    bool enableGlobalWriteForwarding,
     bool enableHttpEndpoint,
     bool enableIAMDatabaseAuthentication,
     String engineVersion,
@@ -8758,6 +8886,8 @@ class RDS {
     deletionProtection?.also((arg) => $request['DeletionProtection'] = arg);
     domain?.also((arg) => $request['Domain'] = arg);
     domainIAMRoleName?.also((arg) => $request['DomainIAMRoleName'] = arg);
+    enableGlobalWriteForwarding
+        ?.also((arg) => $request['EnableGlobalWriteForwarding'] = arg);
     enableHttpEndpoint?.also((arg) => $request['EnableHttpEndpoint'] = arg);
     enableIAMDatabaseAuthentication
         ?.also((arg) => $request['EnableIAMDatabaseAuthentication'] = arg);
@@ -8918,17 +9048,21 @@ class RDS {
   /// accounts that are authorized to restore the manual DB cluster snapshot.
   /// Use the value <code>all</code> to make the manual DB cluster snapshot
   /// public, which means that it can be copied or restored by all AWS accounts.
-  /// Do not add the <code>all</code> value for any manual DB cluster snapshots
+  /// <note>
+  /// Don't add the <code>all</code> value for any manual DB cluster snapshots
   /// that contain private information that you don't want available to all AWS
-  /// accounts. If a manual DB cluster snapshot is encrypted, it can be shared,
-  /// but only by specifying a list of authorized AWS account IDs for the
+  /// accounts.
+  /// </note>
+  /// If a manual DB cluster snapshot is encrypted, it can be shared, but only
+  /// by specifying a list of authorized AWS account IDs for the
   /// <code>ValuesToAdd</code> parameter. You can't use <code>all</code> as a
   /// value for that parameter in this case.
   ///
   /// To view which AWS accounts have access to copy or restore a manual DB
-  /// cluster snapshot, or whether a manual DB cluster snapshot public or
-  /// private, use the <code>DescribeDBClusterSnapshotAttributes</code> API
-  /// action.
+  /// cluster snapshot, or whether a manual DB cluster snapshot is public or
+  /// private, use the <a>DescribeDBClusterSnapshotAttributes</a> API action.
+  /// The accounts are returned as values for the <code>restore</code>
+  /// attribute.
   /// <note>
   /// This action only applies to Aurora DB clusters.
   /// </note>
@@ -8942,6 +9076,10 @@ class RDS {
   ///
   /// To manage authorization for other AWS accounts to copy or restore a manual
   /// DB cluster snapshot, set this value to <code>restore</code>.
+  /// <note>
+  /// To view the list of attributes available to modify, use the
+  /// <a>DescribeDBClusterSnapshotAttributes</a> API action.
+  /// </note>
   ///
   /// Parameter [dBClusterSnapshotIdentifier] :
   /// The identifier for the DB cluster snapshot to modify the attributes for.
@@ -9020,6 +9158,8 @@ class RDS {
   /// May throw [CertificateNotFoundFault].
   /// May throw [DomainNotFoundFault].
   /// May throw [BackupPolicyNotFoundFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [InvalidDBClusterStateFault].
   ///
   /// Parameter [dBInstanceIdentifier] :
   /// The DB instance identifier. This value is stored as a lowercase string.
@@ -9263,8 +9403,8 @@ class RDS {
   /// move your DB instance to a different VPC. If your DB instance isn't in a
   /// VPC, you can also use this parameter to move your DB instance into a VPC.
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.Non-VPC2VPC">Updating
-  /// the VPC for a DB Instance</a> in the <i>Amazon RDS User Guide.</i>
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.Non-VPC2VPC">Working
+  /// with a DB instance in a VPC</a> in the <i>Amazon RDS User Guide.</i>
   ///
   /// Changing the subnet group causes an outage during the change. The change
   /// is applied during the next maintenance window, unless you enable
@@ -9286,33 +9426,42 @@ class RDS {
   /// Parameter [domain] :
   /// The Active Directory directory ID to move the DB instance to. Specify
   /// <code>none</code> to remove the instance from its current domain. The
-  /// domain must be created prior to this operation. Currently, only Microsoft
-  /// SQL Server and Oracle DB instances can be created in an Active Directory
-  /// Domain.
+  /// domain must be created prior to this operation. Currently, only MySQL,
+  /// Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created
+  /// in an Active Directory Domain.
   ///
-  /// For Microsoft SQL Server DB instances, Amazon RDS can use Windows
-  /// Authentication to authenticate users that connect to the DB instance. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_SQLServerWinAuth.html">
-  /// Using Windows Authentication with an Amazon RDS DB Instance Running
-  /// Microsoft SQL Server</a> in the <i>Amazon RDS User Guide</i>.
-  ///
-  /// For Oracle DB instances, Amazon RDS can use Kerberos Authentication to
-  /// authenticate users that connect to the DB instance. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-kerberos.html">
-  /// Using Kerberos Authentication with Amazon RDS for Oracle</a> in the
-  /// <i>Amazon RDS User Guide</i>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html">
+  /// Kerberos Authentication</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Parameter [domainIAMRoleName] :
   /// The name of the IAM role to use when making API calls to the Directory
   /// Service.
   ///
+  /// Parameter [enableCustomerOwnedIp] :
+  /// A value that indicates whether to enable a customer-owned IP address
+  /// (CoIP) for an RDS on Outposts DB instance.
+  ///
+  /// A <i>CoIP</i> provides local or external connectivity to resources in your
+  /// Outpost subnets through your on-premises network. For some use cases, a
+  /// CoIP can provide lower latency for connections to the DB instance from
+  /// outside of its virtual private cloud (VPC) on your local network.
+  ///
+  /// For more information about RDS on Outposts, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html">Working
+  /// with Amazon RDS on AWS Outposts</a> in the <i>Amazon RDS User Guide</i>.
+  ///
+  /// For more information about CoIPs, see <a
+  /// href="https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing">Customer-owned
+  /// IP addresses</a> in the <i>AWS Outposts User Guide</i>.
+  ///
   /// Parameter [enableIAMDatabaseAuthentication] :
   /// A value that indicates whether to enable mapping of AWS Identity and
   /// Access Management (IAM) accounts to database accounts. By default, mapping
-  /// is disabled. For information about the supported DB engines, see
-  /// <a>CreateDBInstance</a>.
+  /// is disabled.
+  ///
+  /// This setting doesn't apply to Amazon Aurora. Mapping AWS IAM accounts to
+  /// database accounts is managed by the DB cluster.
   ///
   /// For more information about IAM database authentication, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">
@@ -9332,7 +9481,7 @@ class RDS {
   /// The version number of the database engine to upgrade to. Changing this
   /// parameter results in an outage and the change is applied during the next
   /// maintenance window unless the <code>ApplyImmediately</code> parameter is
-  /// eanbled for this request.
+  /// enabled for this request.
   ///
   /// For major version upgrades, if a nondefault DB parameter group is
   /// currently in use, a new DB parameter group in the DB parameter group
@@ -9494,14 +9643,14 @@ class RDS {
   ///
   /// Parameter [performanceInsightsKMSKeyId] :
   /// The AWS KMS key identifier for encryption of Performance Insights data.
-  /// The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or
-  /// the KMS key alias for the KMS encryption key.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  /// name for the AWS KMS customer master key (CMK).
   ///
   /// If you do not specify a value for
   /// <code>PerformanceInsightsKMSKeyId</code>, then Amazon RDS uses your
-  /// default encryption key. AWS KMS creates the default encryption key for
-  /// your AWS account. Your AWS account has a different default encryption key
-  /// for each AWS Region.
+  /// default CMK. There is a default CMK for your AWS account. Your AWS account
+  /// has a different default CMK for each AWS Region.
   ///
   /// Parameter [performanceInsightsRetentionPeriod] :
   /// The amount of time, in days, to retain Performance Insights data. Valid
@@ -9574,10 +9723,16 @@ class RDS {
   ///
   /// Parameter [publiclyAccessible] :
   /// A value that indicates whether the DB instance is publicly accessible.
-  /// When the DB instance is publicly accessible, it is an Internet-facing
-  /// instance with a publicly resolvable DNS name, which resolves to a public
-  /// IP address. When the DB instance isn't publicly accessible, it is an
-  /// internal instance with a DNS name that resolves to a private IP address.
+  ///
+  /// When the DB instance is publicly accessible, its DNS endpoint resolves to
+  /// the private IP address from within the DB instance's VPC, and to the
+  /// public IP address from outside of the DB instance's VPC. Access to the DB
+  /// instance is ultimately controlled by the security group it uses, and that
+  /// public access is not permitted if the security group assigned to the DB
+  /// instance doesn't permit it.
+  ///
+  /// When the DB instance isn't publicly accessible, it is an internal DB
+  /// instance with a DNS name that resolves to a private IP address.
   ///
   /// <code>PubliclyAccessible</code> only applies to DB instances in a VPC. The
   /// DB instance must be part of a public subnet and
@@ -9587,6 +9742,21 @@ class RDS {
   /// Changes to the <code>PubliclyAccessible</code> parameter are applied
   /// immediately regardless of the value of the <code>ApplyImmediately</code>
   /// parameter.
+  ///
+  /// Parameter [replicaMode] :
+  /// A value that sets the open mode of a replica database to either mounted or
+  /// read-only.
+  /// <note>
+  /// Currently, this parameter is only supported for Oracle DB instances.
+  /// </note>
+  /// Mounted DB replicas are included in Oracle Enterprise Edition. The main
+  /// use case for mounted replicas is cross-Region disaster recovery. The
+  /// primary database doesn't use Active Data Guard to transmit information to
+  /// the mounted replica. Because it doesn't accept user connections, a mounted
+  /// replica can't serve a read-only workload. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html">Working
+  /// with Oracle Read Replicas for Amazon RDS</a> in the <i>Amazon RDS User
+  /// Guide</i>.
   ///
   /// Parameter [storageType] :
   /// Specifies the storage type to be associated with the DB instance.
@@ -9660,6 +9830,7 @@ class RDS {
     bool deletionProtection,
     String domain,
     String domainIAMRoleName,
+    bool enableCustomerOwnedIp,
     bool enableIAMDatabaseAuthentication,
     bool enablePerformanceInsights,
     String engineVersion,
@@ -9679,6 +9850,7 @@ class RDS {
     List<ProcessorFeature> processorFeatures,
     int promotionTier,
     bool publiclyAccessible,
+    ReplicaMode replicaMode,
     String storageType,
     String tdeCredentialArn,
     String tdeCredentialPassword,
@@ -9711,6 +9883,8 @@ class RDS {
     deletionProtection?.also((arg) => $request['DeletionProtection'] = arg);
     domain?.also((arg) => $request['Domain'] = arg);
     domainIAMRoleName?.also((arg) => $request['DomainIAMRoleName'] = arg);
+    enableCustomerOwnedIp
+        ?.also((arg) => $request['EnableCustomerOwnedIp'] = arg);
     enableIAMDatabaseAuthentication
         ?.also((arg) => $request['EnableIAMDatabaseAuthentication'] = arg);
     enablePerformanceInsights
@@ -9737,6 +9911,7 @@ class RDS {
     processorFeatures?.also((arg) => $request['ProcessorFeatures'] = arg);
     promotionTier?.also((arg) => $request['PromotionTier'] = arg);
     publiclyAccessible?.also((arg) => $request['PubliclyAccessible'] = arg);
+    replicaMode?.also((arg) => $request['ReplicaMode'] = arg.toValue());
     storageType?.also((arg) => $request['StorageType'] = arg);
     tdeCredentialArn?.also((arg) => $request['TdeCredentialArn'] = arg);
     tdeCredentialPassword
@@ -9832,10 +10007,6 @@ class RDS {
     return DBParameterGroupNameMessage.fromXml($result);
   }
 
-  /// <note>
-  /// This is prerelease documentation for the RDS Database Proxy feature in
-  /// preview release. It is subject to change.
-  /// </note>
   /// Changes the settings for an existing DB proxy.
   ///
   /// May throw [DBProxyNotFoundFault].
@@ -9913,10 +10084,6 @@ class RDS {
     return ModifyDBProxyResponse.fromXml($result);
   }
 
-  /// <note>
-  /// This is prerelease documentation for the RDS Database Proxy feature in
-  /// preview release. It is subject to change.
-  /// </note>
   /// Modifies the properties of a <code>DBProxyTargetGroup</code>.
   ///
   /// May throw [DBProxyNotFoundFault].
@@ -10014,8 +10181,8 @@ class RDS {
   /// You can specify this parameter when you upgrade an Oracle DB snapshot. The
   /// same option group considerations apply when upgrading a DB snapshot as
   /// when upgrading a DB instance. For more information, see <a
-  /// href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Oracle.html#USER_UpgradeDBInstance.Oracle.OGPG.OG">Option
-  /// Group Considerations</a> in the <i>Amazon RDS User Guide.</i>
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Oracle.html#USER_UpgradeDBInstance.Oracle.OGPG.OG">Option
+  /// group considerations</a> in the <i>Amazon RDS User Guide.</i>
   Future<ModifyDBSnapshotResult> modifyDBSnapshot({
     @_s.required String dBSnapshotIdentifier,
     String engineVersion,
@@ -10048,17 +10215,21 @@ class RDS {
   /// <code>ValuesToAdd</code> parameter to add a list of IDs of the AWS
   /// accounts that are authorized to restore the manual DB snapshot. Uses the
   /// value <code>all</code> to make the manual DB snapshot public, which means
-  /// it can be copied or restored by all AWS accounts. Do not add the
-  /// <code>all</code> value for any manual DB snapshots that contain private
-  /// information that you don't want available to all AWS accounts. If the
-  /// manual DB snapshot is encrypted, it can be shared, but only by specifying
-  /// a list of authorized AWS account IDs for the <code>ValuesToAdd</code>
-  /// parameter. You can't use <code>all</code> as a value for that parameter in
-  /// this case.
+  /// it can be copied or restored by all AWS accounts.
+  /// <note>
+  /// Don't add the <code>all</code> value for any manual DB snapshots that
+  /// contain private information that you don't want available to all AWS
+  /// accounts.
+  /// </note>
+  /// If the manual DB snapshot is encrypted, it can be shared, but only by
+  /// specifying a list of authorized AWS account IDs for the
+  /// <code>ValuesToAdd</code> parameter. You can't use <code>all</code> as a
+  /// value for that parameter in this case.
   ///
   /// To view which AWS accounts have access to copy or restore a manual DB
   /// snapshot, or whether a manual DB snapshot public or private, use the
-  /// <code>DescribeDBSnapshotAttributes</code> API action.
+  /// <a>DescribeDBSnapshotAttributes</a> API action. The accounts are returned
+  /// as values for the <code>restore</code> attribute.
   ///
   /// May throw [DBSnapshotNotFoundFault].
   /// May throw [InvalidDBSnapshotStateFault].
@@ -10069,6 +10240,10 @@ class RDS {
   ///
   /// To manage authorization for other AWS accounts to copy or restore a manual
   /// DB snapshot, set this value to <code>restore</code>.
+  /// <note>
+  /// To view the list of attributes available to modify, use the
+  /// <a>DescribeDBSnapshotAttributes</a> API action.
+  /// </note>
   ///
   /// Parameter [dBSnapshotIdentifier] :
   /// The identifier for the DB snapshot to modify the attributes for.
@@ -10174,11 +10349,11 @@ class RDS {
   /// subscription, use the <code>AddSourceIdentifierToSubscription</code> and
   /// <code>RemoveSourceIdentifierFromSubscription</code> calls.
   ///
-  /// You can see a list of the event categories for a given SourceType in the
-  /// <a
+  /// You can see a list of the event categories for a given source type
+  /// (<code>SourceType</code>) in <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html">Events</a>
-  /// topic in the <i>Amazon RDS User Guide</i> or by using the
-  /// <b>DescribeEventCategories</b> action.
+  /// in the <i>Amazon RDS User Guide</i> or by using the
+  /// <code>DescribeEventCategories</code> operation.
   ///
   /// May throw [EventSubscriptionQuotaExceededFault].
   /// May throw [SubscriptionNotFoundFault].
@@ -10194,11 +10369,12 @@ class RDS {
   /// A value that indicates whether to activate the subscription.
   ///
   /// Parameter [eventCategories] :
-  /// A list of event categories for a SourceType that you want to subscribe to.
-  /// You can see a list of the categories for a given SourceType in the <a
+  /// A list of event categories for a source type (<code>SourceType</code>)
+  /// that you want to subscribe to. You can see a list of the categories for a
+  /// given source type in <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html">Events</a>
-  /// topic in the <i>Amazon RDS User Guide</i> or by using the
-  /// <b>DescribeEventCategories</b> action.
+  /// in the <i>Amazon RDS User Guide</i> or by using the
+  /// <code>DescribeEventCategories</code> operation.
   ///
   /// Parameter [snsTopicArn] :
   /// The Amazon Resource Name (ARN) of the SNS topic created for event
@@ -10211,8 +10387,9 @@ class RDS {
   /// parameter to db-instance. If this value isn't specified, all events are
   /// returned.
   ///
-  /// Valid values: db-instance | db-parameter-group | db-security-group |
-  /// db-snapshot
+  /// Valid values: <code>db-instance</code> | <code>db-cluster</code> |
+  /// <code>db-parameter-group</code> | <code>db-security-group</code> |
+  /// <code>db-snapshot</code> | <code>db-cluster-snapshot</code>
   Future<ModifyEventSubscriptionResult> modifyEventSubscription({
     @_s.required String subscriptionName,
     bool enabled,
@@ -10611,10 +10788,6 @@ class RDS {
     return RebootDBInstanceResult.fromXml($result);
   }
 
-  /// <note>
-  /// This is prerelease documentation for the RDS Database Proxy feature in
-  /// preview release. It is subject to change.
-  /// </note>
   /// Associate one or more <code>DBProxyTarget</code> data structures with a
   /// <code>DBProxyTargetGroup</code>.
   ///
@@ -10626,6 +10799,7 @@ class RDS {
   /// May throw [InvalidDBInstanceStateFault].
   /// May throw [InvalidDBClusterStateFault].
   /// May throw [InvalidDBProxyStateFault].
+  /// May throw [InsufficientAvailableIPsInSubnetFault].
   ///
   /// Parameter [dBProxyName] :
   /// The identifier of the <code>DBProxy</code> that is associated with the
@@ -10771,7 +10945,7 @@ class RDS {
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB
-  /// instance, for example
+  /// instance, for example,
   /// <code>arn:aws:iam::123456789012:role/AccessRole</code>.
   Future<void> removeRoleFromDBInstance({
     @_s.required String dBInstanceIdentifier,
@@ -11020,15 +11194,27 @@ class RDS {
     return DBParameterGroupNameMessage.fromXml($result);
   }
 
-  /// Creates an Amazon Aurora DB cluster from data stored in an Amazon S3
+  /// Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3
   /// bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and
   /// the data must be created using the Percona XtraBackup utility as described
   /// in <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Migrating.html">
-  /// Migrating Data to an Amazon Aurora MySQL DB Cluster</a> in the <i>Amazon
-  /// Aurora User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Migrating.ExtMySQL.html#AuroraMySQL.Migrating.ExtMySQL.S3">
+  /// Migrating Data from MySQL by Using an Amazon S3 Bucket</a> in the
+  /// <i>Amazon Aurora User Guide</i>.
   /// <note>
-  /// This action only applies to Aurora DB clusters.
+  /// This action only restores the DB cluster, not the DB instances for that DB
+  /// cluster. You must invoke the <code>CreateDBInstance</code> action to
+  /// create DB instances for the restored DB cluster, specifying the identifier
+  /// of the restored DB cluster in <code>DBClusterIdentifier</code>. You can
+  /// create DB instances only after the <code>RestoreDBClusterFromS3</code>
+  /// action has completed and the DB cluster is available.
+  /// </note>
+  /// For more information on Amazon Aurora, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
+  /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// <note>
+  /// This action only applies to Aurora DB clusters. The source DB engine must
+  /// be MySQL.
   /// </note>
   ///
   /// May throw [DBClusterAlreadyExistsFault].
@@ -11048,7 +11234,7 @@ class RDS {
   ///
   /// Parameter [dBClusterIdentifier] :
   /// The name of the DB cluster to create from the source data in the Amazon S3
-  /// bucket. This parameter is isn't case-sensitive.
+  /// bucket. This parameter isn't case-sensitive.
   ///
   /// Constraints:
   ///
@@ -11066,9 +11252,11 @@ class RDS {
   /// Example: <code>my-cluster1</code>
   ///
   /// Parameter [engine] :
-  /// The name of the database engine to be used for the restored DB cluster.
+  /// The name of the database engine to be used for this DB cluster.
   ///
-  /// Valid Values: <code>aurora</code>, <code>aurora-postgresql</code>
+  /// Valid Values: <code>aurora</code> (for MySQL 5.6-compatible Aurora),
+  /// <code>aurora-mysql</code> (for MySQL 5.7-compatible Aurora), and
+  /// <code>aurora-postgresql</code>
   ///
   /// Parameter [masterUserPassword] :
   /// The password for the master database user. This password can contain any
@@ -11111,9 +11299,9 @@ class RDS {
   /// Parameter [sourceEngineVersion] :
   /// The version of the database that the backup files were created from.
   ///
-  /// MySQL version 5.5 and 5.6 are supported.
+  /// MySQL versions 5.5, 5.6, and 5.7 are supported.
   ///
-  /// Example: <code>5.6.22</code>
+  /// Example: <code>5.6.40</code>, <code>5.7.28</code>
   ///
   /// Parameter [availabilityZones] :
   /// A list of Availability Zones (AZs) where instances in the restored DB
@@ -11122,7 +11310,9 @@ class RDS {
   /// Parameter [backtrackWindow] :
   /// The target backtrack window, in seconds. To disable backtracking, set this
   /// value to 0.
-  ///
+  /// <note>
+  /// Currently, Backtrack is only supported for Aurora MySQL DB clusters.
+  /// </note>
   /// Default: 0
   ///
   /// Constraints:
@@ -11250,17 +11440,14 @@ class RDS {
   /// Parameter [kmsKeyId] :
   /// The AWS KMS key identifier for an encrypted DB cluster.
   ///
-  /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-  /// encryption key. If you are creating a DB cluster with the same AWS account
-  /// that owns the KMS encryption key used to encrypt the new DB cluster, then
-  /// you can use the KMS key alias instead of the ARN for the KM encryption
-  /// key.
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  /// name for the AWS KMS customer master key (CMK). To use a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN.
   ///
   /// If the StorageEncrypted parameter is enabled, and you do not specify a
   /// value for the <code>KmsKeyId</code> parameter, then Amazon RDS will use
-  /// your default encryption key. AWS KMS creates the default encryption key
-  /// for your AWS account. Your AWS account has a different default encryption
-  /// key for each AWS Region.
+  /// your default CMK. There is a default CMK for your AWS account. Your AWS
+  /// account has a different default CMK for each AWS Region.
   ///
   /// Parameter [optionGroupName] :
   /// A value that indicates that the restored DB cluster should be associated
@@ -11444,6 +11631,9 @@ class RDS {
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
   /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// <note>
+  /// This action only applies to Aurora DB clusters.
+  /// </note>
   ///
   /// May throw [DBClusterAlreadyExistsFault].
   /// May throw [DBClusterQuotaExceededFault].
@@ -11513,7 +11703,9 @@ class RDS {
   /// Parameter [backtrackWindow] :
   /// The target backtrack window, in seconds. To disable backtracking, set this
   /// value to 0.
-  ///
+  /// <note>
+  /// Currently, Backtrack is only supported for Aurora MySQL DB clusters.
+  /// </note>
   /// Default: 0
   ///
   /// Constraints:
@@ -11571,7 +11763,13 @@ class RDS {
   ///
   /// Parameter [domain] :
   /// Specify the Active Directory directory ID to restore the DB cluster in.
-  /// The domain must be created prior to this operation.
+  /// The domain must be created prior to this operation. Currently, only MySQL,
+  /// Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created
+  /// in an Active Directory Domain.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html">
+  /// Kerberos Authentication</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Parameter [domainIAMRoleName] :
   /// Specify the name of the IAM role to be used when making API calls to the
@@ -11598,6 +11796,10 @@ class RDS {
   /// The DB engine mode of the DB cluster, either <code>provisioned</code>,
   /// <code>serverless</code>, <code>parallelquery</code>, <code>global</code>,
   /// or <code>multimaster</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html">
+  /// CreateDBCluster</a>.
   ///
   /// Parameter [engineVersion] :
   /// The version of the database engine to use for the new DB cluster.
@@ -11636,21 +11838,19 @@ class RDS {
   /// The AWS KMS key identifier to use when restoring an encrypted DB cluster
   /// from a DB snapshot or DB cluster snapshot.
   ///
-  /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-  /// encryption key. If you are restoring a DB cluster with the same AWS
-  /// account that owns the KMS encryption key used to encrypt the new DB
-  /// cluster, then you can use the KMS key alias instead of the ARN for the KMS
-  /// encryption key.
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  /// name for the AWS KMS customer master key (CMK). To use a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN.
   ///
-  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then
-  /// the following occurs:
+  /// When you don't specify a value for the <code>KmsKeyId</code> parameter,
+  /// then the following occurs:
   ///
   /// <ul>
   /// <li>
   /// If the DB snapshot or DB cluster snapshot in
   /// <code>SnapshotIdentifier</code> is encrypted, then the restored DB cluster
-  /// is encrypted using the KMS key that was used to encrypt the DB snapshot or
-  /// DB cluster snapshot.
+  /// is encrypted using the AWS KMS CMK that was used to encrypt the DB
+  /// snapshot or DB cluster snapshot.
   /// </li>
   /// <li>
   /// If the DB snapshot or DB cluster snapshot in
@@ -11817,7 +12017,9 @@ class RDS {
   /// Parameter [backtrackWindow] :
   /// The target backtrack window, in seconds. To disable backtracking, set this
   /// value to 0.
-  ///
+  /// <note>
+  /// Currently, Backtrack is only supported for Aurora MySQL DB clusters.
+  /// </note>
   /// Default: 0
   ///
   /// Constraints:
@@ -11905,16 +12107,14 @@ class RDS {
   /// The AWS KMS key identifier to use when restoring an encrypted DB cluster
   /// from an encrypted DB cluster.
   ///
-  /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-  /// encryption key. If you are restoring a DB cluster with the same AWS
-  /// account that owns the KMS encryption key used to encrypt the new DB
-  /// cluster, then you can use the KMS key alias instead of the ARN for the KMS
-  /// encryption key.
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  /// name for the AWS KMS customer master key (CMK). To use a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN.
   ///
   /// You can restore to a new DB cluster and encrypt the new DB cluster with a
-  /// KMS key that is different than the KMS key used to encrypt the source DB
-  /// cluster. The new DB cluster is encrypted with the KMS key identified by
-  /// the <code>KmsKeyId</code> parameter.
+  /// AWS KMS CMK that is different than the AWS KMS key used to encrypt the
+  /// source DB cluster. The new DB cluster is encrypted with the AWS KMS CMK
+  /// identified by the <code>KmsKeyId</code> parameter.
   ///
   /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then
   /// the following occurs:
@@ -11922,7 +12122,7 @@ class RDS {
   /// <ul>
   /// <li>
   /// If the DB cluster is encrypted, then the restored DB cluster is encrypted
-  /// using the KMS key that was used to encrypt the source DB cluster.
+  /// using the AWS KMS CMK that was used to encrypt the source DB cluster.
   /// </li>
   /// <li>
   /// If the DB cluster isn't encrypted, then the restored DB cluster isn't
@@ -12063,22 +12263,21 @@ class RDS {
   }
 
   /// Creates a new DB instance from a DB snapshot. The target database is
-  /// created from the source database restore point with the most of original
-  /// configuration with the default security group and the default DB parameter
-  /// group. By default, the new DB instance is created as a single-AZ
-  /// deployment except when the instance is a SQL Server instance that has an
-  /// option group that is associated with mirroring; in this case, the instance
-  /// becomes a mirrored AZ deployment and not a single-AZ deployment.
+  /// created from the source database restore point with most of the source's
+  /// original configuration, including the default security group and DB
+  /// parameter group. By default, the new DB instance is created as a Single-AZ
+  /// deployment, except when the instance is a SQL Server instance that has an
+  /// option group associated with mirroring. In this case, the instance becomes
+  /// a Multi-AZ deployment, not a Single-AZ deployment.
   ///
-  /// If your intent is to replace your original DB instance with the new,
-  /// restored DB instance, then rename your original DB instance before you
-  /// call the RestoreDBInstanceFromDBSnapshot action. RDS doesn't allow two DB
-  /// instances with the same name. Once you have renamed your original DB
-  /// instance with a different identifier, then you can pass the original name
-  /// of the DB instance as the DBInstanceIdentifier in the call to the
-  /// RestoreDBInstanceFromDBSnapshot action. The result is that you will
-  /// replace the original DB instance with the DB instance created from the
-  /// snapshot.
+  /// If you want to replace your original DB instance with the new, restored DB
+  /// instance, then rename your original DB instance before you call the
+  /// RestoreDBInstanceFromDBSnapshot action. RDS doesn't allow two DB instances
+  /// with the same name. After you have renamed your original DB instance with
+  /// a different identifier, then you can pass the original name of the DB
+  /// instance as the DBInstanceIdentifier in the call to the
+  /// RestoreDBInstanceFromDBSnapshot action. The result is that you replace the
+  /// original DB instance with the DB instance created from the snapshot.
   ///
   /// If you are restoring from a shared manual DB snapshot, the
   /// <code>DBSnapshotIdentifier</code> must be the ARN of the shared DB
@@ -12220,23 +12419,13 @@ class RDS {
   ///
   /// Parameter [domain] :
   /// Specify the Active Directory directory ID to restore the DB instance in.
-  /// The domain must be created prior to this operation. Currently, only
-  /// Microsoft SQL Server and Oracle DB instances can be created in an Active
-  /// Directory Domain.
+  /// The domain must be created prior to this operation. Currently, only MySQL,
+  /// Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created
+  /// in an Active Directory Domain.
   ///
-  /// For Microsoft SQL Server DB instances, Amazon RDS can use Windows
-  /// Authentication to authenticate users that connect to the DB instance. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_SQLServerWinAuth.html">
-  /// Using Windows Authentication with an Amazon RDS DB Instance Running
-  /// Microsoft SQL Server</a> in the <i>Amazon RDS User Guide</i>.
-  ///
-  /// For Oracle DB instances, Amazon RDS can use Kerberos Authentication to
-  /// authenticate users that connect to the DB instance. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-kerberos.html">
-  /// Using Kerberos Authentication with Amazon RDS for Oracle</a> in the
-  /// <i>Amazon RDS User Guide</i>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html">
+  /// Kerberos Authentication</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Parameter [domainIAMRoleName] :
   /// Specify the name of the IAM role to be used when making API calls to the
@@ -12246,15 +12435,31 @@ class RDS {
   /// The list of logs that the restored DB instance is to export to CloudWatch
   /// Logs. The values in the list depend on the DB engine being used. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
-  /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+  /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon RDS User
   /// Guide</i>.
+  ///
+  /// Parameter [enableCustomerOwnedIp] :
+  /// A value that indicates whether to enable a customer-owned IP address
+  /// (CoIP) for an RDS on Outposts DB instance.
+  ///
+  /// A <i>CoIP</i> provides local or external connectivity to resources in your
+  /// Outpost subnets through your on-premises network. For some use cases, a
+  /// CoIP can provide lower latency for connections to the DB instance from
+  /// outside of its virtual private cloud (VPC) on your local network.
+  ///
+  /// For more information about RDS on Outposts, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html">Working
+  /// with Amazon RDS on AWS Outposts</a> in the <i>Amazon RDS User Guide</i>.
+  ///
+  /// For more information about CoIPs, see <a
+  /// href="https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing">Customer-owned
+  /// IP addresses</a> in the <i>AWS Outposts User Guide</i>.
   ///
   /// Parameter [enableIAMDatabaseAuthentication] :
   /// A value that indicates whether to enable mapping of AWS Identity and
   /// Access Management (IAM) accounts to database accounts. By default, mapping
-  /// is disabled. For information about the supported DB engines, see
-  /// <a>CreateDBInstance</a>.
+  /// is disabled.
   ///
   /// For more information about IAM database authentication, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">
@@ -12357,10 +12562,17 @@ class RDS {
   ///
   /// Parameter [publiclyAccessible] :
   /// A value that indicates whether the DB instance is publicly accessible.
-  /// When the DB instance is publicly accessible, it is an Internet-facing
-  /// instance with a publicly resolvable DNS name, which resolves to a public
-  /// IP address. When the DB instance isn't publicly accessible, it is an
-  /// internal instance with a DNS name that resolves to a private IP address.
+  ///
+  /// When the DB instance is publicly accessible, its DNS endpoint resolves to
+  /// the private IP address from within the DB instance's VPC, and to the
+  /// public IP address from outside of the DB instance's VPC. Access to the DB
+  /// instance is ultimately controlled by the security group it uses, and that
+  /// public access is not permitted if the security group assigned to the DB
+  /// instance doesn't permit it.
+  ///
+  /// When the DB instance isn't publicly accessible, it is an internal DB
+  /// instance with a DNS name that resolves to a private IP address.
+  ///
   /// For more information, see <a>CreateDBInstance</a>.
   ///
   /// Parameter [storageType] :
@@ -12405,6 +12617,7 @@ class RDS {
     String domain,
     String domainIAMRoleName,
     List<String> enableCloudwatchLogsExports,
+    bool enableCustomerOwnedIp,
     bool enableIAMDatabaseAuthentication,
     String engine,
     int iops,
@@ -12439,6 +12652,8 @@ class RDS {
     domainIAMRoleName?.also((arg) => $request['DomainIAMRoleName'] = arg);
     enableCloudwatchLogsExports
         ?.also((arg) => $request['EnableCloudwatchLogsExports'] = arg);
+    enableCustomerOwnedIp
+        ?.also((arg) => $request['EnableCustomerOwnedIp'] = arg);
     enableIAMDatabaseAuthentication
         ?.also((arg) => $request['EnableIAMDatabaseAuthentication'] = arg);
     engine?.also((arg) => $request['Engine'] = arg);
@@ -12546,9 +12761,11 @@ class RDS {
   /// Valid Values: <code>mysql</code>
   ///
   /// Parameter [sourceEngineVersion] :
-  /// The engine version of your source database.
+  /// The version of the database that the backup files were created from.
   ///
-  /// Valid Values: <code>5.6</code>
+  /// MySQL versions 5.6 and 5.7 are supported.
+  ///
+  /// Example: <code>5.6.40</code>
   ///
   /// Parameter [allocatedStorage] :
   /// The amount of storage (in gigabytes) to allocate initially for the DB
@@ -12627,8 +12844,7 @@ class RDS {
   /// Parameter [enableIAMDatabaseAuthentication] :
   /// A value that indicates whether to enable mapping of AWS Identity and
   /// Access Management (IAM) accounts to database accounts. By default, mapping
-  /// is disabled. For information about the supported DB engines, see
-  /// <a>CreateDBInstance</a>.
+  /// is disabled.
   ///
   /// For more information about IAM database authentication, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">
@@ -12661,17 +12877,14 @@ class RDS {
   /// Parameter [kmsKeyId] :
   /// The AWS KMS key identifier for an encrypted DB instance.
   ///
-  /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-  /// encryption key. If you are creating a DB instance with the same AWS
-  /// account that owns the KMS encryption key used to encrypt the new DB
-  /// instance, then you can use the KMS key alias instead of the ARN for the KM
-  /// encryption key.
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  /// name for the AWS KMS customer master key (CMK). To use a CMK in a
+  /// different AWS account, specify the key ARN or alias ARN.
   ///
   /// If the <code>StorageEncrypted</code> parameter is enabled, and you do not
   /// specify a value for the <code>KmsKeyId</code> parameter, then Amazon RDS
-  /// will use your default encryption key. AWS KMS creates the default
-  /// encryption key for your AWS account. Your AWS account has a different
-  /// default encryption key for each AWS Region.
+  /// will use your default CMK. There is a default CMK for your AWS account.
+  /// Your AWS account has a different default CMK for each AWS Region.
   ///
   /// Parameter [licenseModel] :
   /// The license model for this DB instance. Use
@@ -12699,6 +12912,10 @@ class RDS {
   /// Can't be a reserved word for the chosen database engine.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [maxAllocatedStorage] :
+  /// The upper limit to which Amazon RDS can automatically scale the storage of
+  /// the DB instance.
   ///
   /// Parameter [monitoringInterval] :
   /// The interval, in seconds, between points when Enhanced Monitoring metrics
@@ -12736,14 +12953,14 @@ class RDS {
   ///
   /// Parameter [performanceInsightsKMSKeyId] :
   /// The AWS KMS key identifier for encryption of Performance Insights data.
-  /// The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier,
-  /// or the KMS key alias for the KMS encryption key.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias
+  /// name for the AWS KMS customer master key (CMK).
   ///
   /// If you do not specify a value for
   /// <code>PerformanceInsightsKMSKeyId</code>, then Amazon RDS uses your
-  /// default encryption key. AWS KMS creates the default encryption key for
-  /// your AWS account. Your AWS account has a different default encryption key
-  /// for each AWS Region.
+  /// default CMK. There is a default CMK for your AWS account. Your AWS account
+  /// has a different default CMK for each AWS Region.
   ///
   /// Parameter [performanceInsightsRetentionPeriod] :
   /// The amount of time, in days, to retain Performance Insights data. Valid
@@ -12813,10 +13030,17 @@ class RDS {
   ///
   /// Parameter [publiclyAccessible] :
   /// A value that indicates whether the DB instance is publicly accessible.
-  /// When the DB instance is publicly accessible, it is an Internet-facing
-  /// instance with a publicly resolvable DNS name, which resolves to a public
-  /// IP address. When the DB instance isn't publicly accessible, it is an
-  /// internal instance with a DNS name that resolves to a private IP address.
+  ///
+  /// When the DB instance is publicly accessible, its DNS endpoint resolves to
+  /// the private IP address from within the DB instance's VPC, and to the
+  /// public IP address from outside of the DB instance's VPC. Access to the DB
+  /// instance is ultimately controlled by the security group it uses, and that
+  /// public access is not permitted if the security group assigned to the DB
+  /// instance doesn't permit it.
+  ///
+  /// When the DB instance isn't publicly accessible, it is an internal DB
+  /// instance with a DNS name that resolves to a private IP address.
+  ///
   /// For more information, see <a>CreateDBInstance</a>.
   ///
   /// Parameter [s3Prefix] :
@@ -12875,6 +13099,7 @@ class RDS {
     String licenseModel,
     String masterUserPassword,
     String masterUsername,
+    int maxAllocatedStorage,
     int monitoringInterval,
     String monitoringRoleArn,
     bool multiAZ,
@@ -12932,6 +13157,7 @@ class RDS {
     licenseModel?.also((arg) => $request['LicenseModel'] = arg);
     masterUserPassword?.also((arg) => $request['MasterUserPassword'] = arg);
     masterUsername?.also((arg) => $request['MasterUsername'] = arg);
+    maxAllocatedStorage?.also((arg) => $request['MaxAllocatedStorage'] = arg);
     monitoringInterval?.also((arg) => $request['MonitoringInterval'] = arg);
     monitoringRoleArn?.also((arg) => $request['MonitoringRoleArn'] = arg);
     multiAZ?.also((arg) => $request['MultiAZ'] = arg);
@@ -13101,23 +13327,13 @@ class RDS {
   ///
   /// Parameter [domain] :
   /// Specify the Active Directory directory ID to restore the DB instance in.
-  /// The domain must be created prior to this operation. Currently, only
-  /// Microsoft SQL Server and Oracle DB instances can be created in an Active
-  /// Directory Domain.
+  /// The domain must be created prior to this operation. Currently, only MySQL,
+  /// Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created
+  /// in an Active Directory Domain.
   ///
-  /// For Microsoft SQL Server DB instances, Amazon RDS can use Windows
-  /// Authentication to authenticate users that connect to the DB instance. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_SQLServerWinAuth.html">
-  /// Using Windows Authentication with an Amazon RDS DB Instance Running
-  /// Microsoft SQL Server</a> in the <i>Amazon RDS User Guide</i>.
-  ///
-  /// For Oracle DB instances, Amazon RDS can use Kerberos Authentication to
-  /// authenticate users that connect to the DB instance. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-kerberos.html">
-  /// Using Kerberos Authentication with Amazon RDS for Oracle</a> in the
-  /// <i>Amazon RDS User Guide</i>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html">
+  /// Kerberos Authentication</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Parameter [domainIAMRoleName] :
   /// Specify the name of the IAM role to be used when making API calls to the
@@ -13131,11 +13347,27 @@ class RDS {
   /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon RDS User
   /// Guide</i>.
   ///
+  /// Parameter [enableCustomerOwnedIp] :
+  /// A value that indicates whether to enable a customer-owned IP address
+  /// (CoIP) for an RDS on Outposts DB instance.
+  ///
+  /// A <i>CoIP</i> provides local or external connectivity to resources in your
+  /// Outpost subnets through your on-premises network. For some use cases, a
+  /// CoIP can provide lower latency for connections to the DB instance from
+  /// outside of its virtual private cloud (VPC) on your local network.
+  ///
+  /// For more information about RDS on Outposts, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html">Working
+  /// with Amazon RDS on AWS Outposts</a> in the <i>Amazon RDS User Guide</i>.
+  ///
+  /// For more information about CoIPs, see <a
+  /// href="https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing">Customer-owned
+  /// IP addresses</a> in the <i>AWS Outposts User Guide</i>.
+  ///
   /// Parameter [enableIAMDatabaseAuthentication] :
   /// A value that indicates whether to enable mapping of AWS Identity and
   /// Access Management (IAM) accounts to database accounts. By default, mapping
-  /// is disabled. For information about the supported DB engines, see
-  /// <a>CreateDBInstance</a>.
+  /// is disabled.
   ///
   /// For more information about IAM database authentication, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">
@@ -13205,6 +13437,10 @@ class RDS {
   /// Valid values: <code>license-included</code> |
   /// <code>bring-your-own-license</code> | <code>general-public-license</code>
   ///
+  /// Parameter [maxAllocatedStorage] :
+  /// The upper limit to which Amazon RDS can automatically scale the storage of
+  /// the DB instance.
+  ///
   /// Parameter [multiAZ] :
   /// A value that indicates whether the DB instance is a Multi-AZ deployment.
   ///
@@ -13231,10 +13467,17 @@ class RDS {
   ///
   /// Parameter [publiclyAccessible] :
   /// A value that indicates whether the DB instance is publicly accessible.
-  /// When the DB instance is publicly accessible, it is an Internet-facing
-  /// instance with a publicly resolvable DNS name, which resolves to a public
-  /// IP address. When the DB instance isn't publicly accessible, it is an
-  /// internal instance with a DNS name that resolves to a private IP address.
+  ///
+  /// When the DB instance is publicly accessible, its DNS endpoint resolves to
+  /// the private IP address from within the DB instance's VPC, and to the
+  /// public IP address from outside of the DB instance's VPC. Access to the DB
+  /// instance is ultimately controlled by the security group it uses, and that
+  /// public access is not permitted if the security group assigned to the DB
+  /// instance doesn't permit it.
+  ///
+  /// When the DB instance isn't publicly accessible, it is an internal DB
+  /// instance with a DNS name that resolves to a private IP address.
+  ///
   /// For more information, see <a>CreateDBInstance</a>.
   ///
   /// Parameter [restoreTime] :
@@ -13255,6 +13498,11 @@ class RDS {
   /// </li>
   /// </ul>
   /// Example: <code>2009-09-07T23:45:00Z</code>
+  ///
+  /// Parameter [sourceDBInstanceAutomatedBackupsArn] :
+  /// The Amazon Resource Name (ARN) of the replicated automated backups from
+  /// which to restore, for example,
+  /// <code>arn:aws:rds:useast-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE</code>.
   ///
   /// Parameter [sourceDBInstanceIdentifier] :
   /// The identifier of the source DB instance from which to restore.
@@ -13318,16 +13566,19 @@ class RDS {
     String domain,
     String domainIAMRoleName,
     List<String> enableCloudwatchLogsExports,
+    bool enableCustomerOwnedIp,
     bool enableIAMDatabaseAuthentication,
     String engine,
     int iops,
     String licenseModel,
+    int maxAllocatedStorage,
     bool multiAZ,
     String optionGroupName,
     int port,
     List<ProcessorFeature> processorFeatures,
     bool publiclyAccessible,
     DateTime restoreTime,
+    String sourceDBInstanceAutomatedBackupsArn,
     String sourceDBInstanceIdentifier,
     String sourceDbiResourceId,
     String storageType,
@@ -13355,17 +13606,22 @@ class RDS {
     domainIAMRoleName?.also((arg) => $request['DomainIAMRoleName'] = arg);
     enableCloudwatchLogsExports
         ?.also((arg) => $request['EnableCloudwatchLogsExports'] = arg);
+    enableCustomerOwnedIp
+        ?.also((arg) => $request['EnableCustomerOwnedIp'] = arg);
     enableIAMDatabaseAuthentication
         ?.also((arg) => $request['EnableIAMDatabaseAuthentication'] = arg);
     engine?.also((arg) => $request['Engine'] = arg);
     iops?.also((arg) => $request['Iops'] = arg);
     licenseModel?.also((arg) => $request['LicenseModel'] = arg);
+    maxAllocatedStorage?.also((arg) => $request['MaxAllocatedStorage'] = arg);
     multiAZ?.also((arg) => $request['MultiAZ'] = arg);
     optionGroupName?.also((arg) => $request['OptionGroupName'] = arg);
     port?.also((arg) => $request['Port'] = arg);
     processorFeatures?.also((arg) => $request['ProcessorFeatures'] = arg);
     publiclyAccessible?.also((arg) => $request['PubliclyAccessible'] = arg);
     restoreTime?.also((arg) => $request['RestoreTime'] = _s.iso8601ToJson(arg));
+    sourceDBInstanceAutomatedBackupsArn
+        ?.also((arg) => $request['SourceDBInstanceAutomatedBackupsArn'] = arg);
     sourceDBInstanceIdentifier
         ?.also((arg) => $request['SourceDBInstanceIdentifier'] = arg);
     sourceDbiResourceId?.also((arg) => $request['SourceDbiResourceId'] = arg);
@@ -13475,8 +13731,8 @@ class RDS {
   ///
   /// Parameter [kmsKeyId] :
   /// The AWS KMS key identifier for encrypting messages in the database
-  /// activity stream. The key identifier can be either a key ID, a key ARN, or
-  /// a key alias.
+  /// activity stream. The AWS KMS key identifier is the key ARN, key ID, alias
+  /// ARN, or alias name for the AWS KMS customer master key (CMK).
   ///
   /// Parameter [mode] :
   /// Specifies the mode of the database activity stream. Database events such
@@ -13484,7 +13740,7 @@ class RDS {
   /// session can handle these events either synchronously or asynchronously.
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the DB cluster, for example
+  /// The Amazon Resource Name (ARN) of the DB cluster, for example,
   /// <code>arn:aws:rds:us-east-1:12345667890:cluster:das-cluster</code>.
   ///
   /// Parameter [applyImmediately] :
@@ -13602,6 +13858,67 @@ class RDS {
     return StartDBInstanceResult.fromXml($result);
   }
 
+  /// Enables replication of automated backups to a different AWS Region.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html">
+  /// Replicating Automated Backups to Another AWS Region</a> in the <i>Amazon
+  /// RDS User Guide.</i>
+  ///
+  /// May throw [DBInstanceNotFoundFault].
+  /// May throw [InvalidDBInstanceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [DBInstanceAutomatedBackupQuotaExceededFault].
+  /// May throw [StorageTypeNotSupportedFault].
+  ///
+  /// Parameter [sourceDBInstanceArn] :
+  /// The Amazon Resource Name (ARN) of the source DB instance for the
+  /// replicated automated backups, for example,
+  /// <code>arn:aws:rds:us-west-2:123456789012:db:mydatabase</code>.
+  ///
+  /// Parameter [backupRetentionPeriod] :
+  /// The retention period for the replicated automated backups.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// The AWS KMS key identifier for encryption of the replicated automated
+  /// backups. The KMS key ID is the Amazon Resource Name (ARN) for the KMS
+  /// encryption key in the destination AWS Region, for example,
+  /// <code>arn:aws:kms:us-east-1:123456789012:key/AKIAIOSFODNN7EXAMPLE</code>.
+  ///
+  /// Parameter [preSignedUrl] :
+  /// A URL that contains a Signature Version 4 signed request for the
+  /// StartDBInstanceAutomatedBackupsReplication action to be called in the AWS
+  /// Region of the source DB instance. The presigned URL must be a valid
+  /// request for the StartDBInstanceAutomatedBackupsReplication API action that
+  /// can be executed in the AWS Region that contains the source DB instance.
+  Future<StartDBInstanceAutomatedBackupsReplicationResult>
+      startDBInstanceAutomatedBackupsReplication({
+    @_s.required String sourceDBInstanceArn,
+    int backupRetentionPeriod,
+    String kmsKeyId,
+    String preSignedUrl,
+  }) async {
+    ArgumentError.checkNotNull(sourceDBInstanceArn, 'sourceDBInstanceArn');
+    final $request = <String, dynamic>{};
+    $request['SourceDBInstanceArn'] = sourceDBInstanceArn;
+    backupRetentionPeriod
+        ?.also((arg) => $request['BackupRetentionPeriod'] = arg);
+    kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
+    preSignedUrl?.also((arg) => $request['PreSignedUrl'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'StartDBInstanceAutomatedBackupsReplication',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['StartDBInstanceAutomatedBackupsReplicationMessage'],
+      shapes: shapes,
+      resultWrapper: 'StartDBInstanceAutomatedBackupsReplicationResult',
+    );
+    return StartDBInstanceAutomatedBackupsReplicationResult.fromXml($result);
+  }
+
   /// Starts an export of a snapshot to Amazon S3. The provided IAM role must
   /// have access to the S3 bucket.
   ///
@@ -13625,11 +13942,41 @@ class RDS {
   /// exporting a snapshot.
   ///
   /// Parameter [kmsKeyId] :
-  /// The ID of the AWS KMS key to use to encrypt the snapshot exported to
-  /// Amazon S3. The KMS key ID is the Amazon Resource Name (ARN), the KMS key
-  /// identifier, or the KMS key alias for the KMS encryption key. The IAM role
-  /// used for the snapshot export must have encryption and decryption
-  /// permissions to use this KMS key.
+  /// The ID of the AWS KMS customer master key (CMK) to use to encrypt the
+  /// snapshot exported to Amazon S3. The AWS KMS key identifier is the key ARN,
+  /// key ID, alias ARN, or alias name for the AWS KMS customer master key
+  /// (CMK). The caller of this operation must be authorized to execute the
+  /// following operations. These can be set in the AWS KMS key policy:
+  ///
+  /// <ul>
+  /// <li>
+  /// GrantOperation.Encrypt
+  /// </li>
+  /// <li>
+  /// GrantOperation.Decrypt
+  /// </li>
+  /// <li>
+  /// GrantOperation.GenerateDataKey
+  /// </li>
+  /// <li>
+  /// GrantOperation.GenerateDataKeyWithoutPlaintext
+  /// </li>
+  /// <li>
+  /// GrantOperation.ReEncryptFrom
+  /// </li>
+  /// <li>
+  /// GrantOperation.ReEncryptTo
+  /// </li>
+  /// <li>
+  /// GrantOperation.CreateGrant
+  /// </li>
+  /// <li>
+  /// GrantOperation.DescribeKey
+  /// </li>
+  /// <li>
+  /// GrantOperation.RetireGrant
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [s3BucketName] :
   /// The name of the Amazon S3 bucket to export the snapshot to.
@@ -13833,6 +14180,41 @@ class RDS {
     );
     return StopDBInstanceResult.fromXml($result);
   }
+
+  /// Stops automated backup replication for a DB instance.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html">
+  /// Replicating Automated Backups to Another AWS Region</a> in the <i>Amazon
+  /// RDS User Guide.</i>
+  ///
+  /// May throw [DBInstanceNotFoundFault].
+  /// May throw [InvalidDBInstanceStateFault].
+  ///
+  /// Parameter [sourceDBInstanceArn] :
+  /// The Amazon Resource Name (ARN) of the source DB instance for which to stop
+  /// replicating automated backups, for example,
+  /// <code>arn:aws:rds:us-west-2:123456789012:db:mydatabase</code>.
+  Future<StopDBInstanceAutomatedBackupsReplicationResult>
+      stopDBInstanceAutomatedBackupsReplication({
+    @_s.required String sourceDBInstanceArn,
+  }) async {
+    ArgumentError.checkNotNull(sourceDBInstanceArn, 'sourceDBInstanceArn');
+    final $request = <String, dynamic>{};
+    $request['SourceDBInstanceArn'] = sourceDBInstanceArn;
+    final $result = await _protocol.send(
+      $request,
+      action: 'StopDBInstanceAutomatedBackupsReplication',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['StopDBInstanceAutomatedBackupsReplicationMessage'],
+      shapes: shapes,
+      resultWrapper: 'StopDBInstanceAutomatedBackupsReplicationResult',
+    );
+    return StopDBInstanceAutomatedBackupsReplicationResult.fromXml($result);
+  }
 }
 
 /// Data returned by the <b>DescribeAccountAttributes</b> action.
@@ -13925,9 +14307,14 @@ class AccountAttributesMessage {
 /// account.
 /// </li>
 /// <li>
-/// <code>ManualSnapshots</code> - The number of manual DB snapshots per
-/// account. The used value is the count of the manual DB snapshots in the
-/// account.
+/// <code>ManualClusterSnapshots</code> - The number of manual DB cluster
+/// snapshots per account. The used value is the count of the manual DB cluster
+/// snapshots in the account.
+/// </li>
+/// <li>
+/// <code>ManualSnapshots</code> - The number of manual DB instance snapshots
+/// per account. The used value is the count of the manual DB instance snapshots
+/// in the account.
 /// </li>
 /// <li>
 /// <code>OptionGroups</code> - The number of DB option groups per account,
@@ -14274,10 +14661,18 @@ class CharacterSet {
 ///
 /// The <code>EnableLogTypes</code> and <code>DisableLogTypes</code> arrays
 /// determine which logs will be exported (or not exported) to CloudWatch Logs.
-/// The values within these arrays depend on the DB engine being used. For more
-/// information, see <a
+/// The values within these arrays depend on the DB engine being used.
+///
+/// For more information about exporting CloudWatch Logs for Amazon RDS DB
+/// instances, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
 /// Database Logs to Amazon CloudWatch Logs </a> in the <i>Amazon RDS User
+/// Guide</i>.
+///
+/// For more information about exporting CloudWatch Logs for Amazon Aurora DB
+/// clusters, see <a
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+/// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User
 /// Guide</i>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -14301,10 +14696,46 @@ class CloudwatchLogsExportConfiguration {
       _$CloudwatchLogsExportConfigurationToJson(this);
 }
 
-/// <note>
-/// This is prerelease documentation for the RDS Database Proxy feature in
-/// preview release. It is subject to change.
-/// </note>
+/// This data type is used as a response element in the
+/// <code>ModifyDBCluster</code> operation and contains changes that will be
+/// applied during the next maintenance window.
+class ClusterPendingModifiedValues {
+  /// The DBClusterIdentifier for the DB cluster.
+  final String dBClusterIdentifier;
+
+  /// The database engine version.
+  final String engineVersion;
+
+  /// Whether mapping of AWS Identity and Access Management (IAM) accounts to
+  /// database accounts is enabled.
+  final bool iAMDatabaseAuthenticationEnabled;
+
+  /// The master credentials for the DB cluster.
+  final String masterUserPassword;
+  final PendingCloudwatchLogsExports pendingCloudwatchLogsExports;
+
+  ClusterPendingModifiedValues({
+    this.dBClusterIdentifier,
+    this.engineVersion,
+    this.iAMDatabaseAuthenticationEnabled,
+    this.masterUserPassword,
+    this.pendingCloudwatchLogsExports,
+  });
+  factory ClusterPendingModifiedValues.fromXml(_s.XmlElement elem) {
+    return ClusterPendingModifiedValues(
+      dBClusterIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
+      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      iAMDatabaseAuthenticationEnabled:
+          _s.extractXmlBoolValue(elem, 'IAMDatabaseAuthenticationEnabled'),
+      masterUserPassword: _s.extractXmlStringValue(elem, 'MasterUserPassword'),
+      pendingCloudwatchLogsExports: _s
+          .extractXmlChild(elem, 'PendingCloudwatchLogsExports')
+          ?.let((e) => PendingCloudwatchLogsExports.fromXml(e)),
+    );
+  }
+}
+
 /// Specifies the settings that control the size and behavior of the connection
 /// pool associated with a <code>DBProxyTargetGroup</code>.
 @_s.JsonSerializable(
@@ -14330,8 +14761,6 @@ class ConnectionPoolConfiguration {
   /// character set. For multiple statements, use semicolons as the separator. You
   /// can also include multiple variables in a single <code>SET</code> statement,
   /// such as <code>SET x=1, y=2</code>.
-  ///
-  /// <code>InitQuery</code> is not currently supported for PostgreSQL.
   ///
   /// Default: no initialization query
   @_s.JsonKey(name: 'InitQuery')
@@ -14381,10 +14810,6 @@ class ConnectionPoolConfiguration {
   Map<String, dynamic> toJson() => _$ConnectionPoolConfigurationToJson(this);
 }
 
-/// <note>
-/// This is prerelease documentation for the RDS Database Proxy feature in
-/// preview release. It is subject to change.
-/// </note>
 /// Displays the settings that control the size and behavior of the connection
 /// pool associated with a <code>DBProxyTarget</code>.
 class ConnectionPoolConfigurationInfo {
@@ -14400,8 +14825,6 @@ class ConnectionPoolConfigurationInfo {
   /// character set. This setting is empty by default. For multiple statements,
   /// use semicolons as the separator. You can also include multiple variables in
   /// a single <code>SET</code> statement, such as <code>SET x=1, y=2</code>.
-  ///
-  /// <code>InitQuery</code> is not currently supported for PostgreSQL.
   final String initQuery;
 
   /// The maximum size of the connection pool for each target in a target group.
@@ -14739,7 +15162,7 @@ class CreateOptionGroupResult {
 ///
 /// For more information about RDS on VMware, see the <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-/// <i>RDS on VMware User Guide.</i> </a>
+/// RDS on VMware User Guide.</a>
 class CustomAvailabilityZone {
   /// The identifier of the custom AZ.
   ///
@@ -14816,6 +15239,9 @@ class DBCluster {
 
   /// The AWS KMS key identifier used for encrypting messages in the database
   /// activity stream.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the AWS KMS customer master key (CMK).
   final String activityStreamKmsKeyId;
 
   /// The mode of the database activity stream. Database events such as a change
@@ -14909,7 +15335,7 @@ class DBCluster {
   final String databaseName;
 
   /// The AWS Region-unique, immutable identifier for the DB cluster. This
-  /// identifier is found in AWS CloudTrail log entries whenever the AWS KMS key
+  /// identifier is found in AWS CloudTrail log entries whenever the AWS KMS CMK
   /// for the DB cluster is accessed.
   final String dbClusterResourceId;
 
@@ -14941,24 +15367,31 @@ class DBCluster {
   /// cluster.
   final String endpoint;
 
-  /// Provides the name of the database engine to be used for this DB cluster.
+  /// The name of the database engine to be used for this DB cluster.
   final String engine;
 
   /// The DB engine mode of the DB cluster, either <code>provisioned</code>,
   /// <code>serverless</code>, <code>parallelquery</code>, <code>global</code>, or
   /// <code>multimaster</code>.
-  /// <note>
-  /// <code>global</code> engine mode only applies for global database clusters
-  /// created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions,
-  /// the clusters in a global database use <code>provisioned</code> engine mode.
-  /// To check if a DB cluster is part of a global database, use
-  /// <code>DescribeGlobalClusters</code> instead of checking the
-  /// <code>EngineMode</code> return value from <code>DescribeDBClusters</code>.
-  /// </note>
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html">
+  /// CreateDBCluster</a>.
   final String engineMode;
 
   /// Indicates the database engine version.
   final String engineVersion;
+
+  /// Specifies whether you have requested to enable write forwarding for a
+  /// secondary cluster in an Aurora global database. Because write forwarding
+  /// takes time to enable, check the value of
+  /// <code>GlobalWriteForwardingStatus</code> to confirm that the request has
+  /// completed before using the write forwarding feature for this cluster.
+  final bool globalWriteForwardingRequested;
+
+  /// Specifies whether a secondary cluster in an Aurora global database has write
+  /// forwarding enabled, not enabled, or is in the process of enabling it.
+  final WriteForwardingStatus globalWriteForwardingStatus;
 
   /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
   final String hostedZoneId;
@@ -14982,6 +15415,9 @@ class DBCluster {
 
   /// If <code>StorageEncrypted</code> is enabled, the AWS KMS key identifier for
   /// the encrypted DB cluster.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the AWS KMS customer master key (CMK).
   final String kmsKeyId;
 
   /// Specifies the latest time to which a database can be restored with
@@ -14994,6 +15430,11 @@ class DBCluster {
   /// Specifies whether the DB cluster has instances in multiple Availability
   /// Zones.
   final bool multiAZ;
+
+  /// Specifies that changes to the DB cluster are pending. This element is only
+  /// included when changes are pending. Specific changes are identified by
+  /// subelements.
+  final ClusterPendingModifiedValues pendingModifiedValues;
 
   /// Specifies the progress of the operation as a percentage.
   final String percentProgress;
@@ -15037,6 +15478,7 @@ class DBCluster {
 
   /// Specifies whether the DB cluster is encrypted.
   final bool storageEncrypted;
+  final List<Tag> tagList;
 
   /// Provides a list of VPC security groups that the DB cluster belongs to.
   final List<VpcSecurityGroupMembership> vpcSecurityGroups;
@@ -15076,6 +15518,8 @@ class DBCluster {
     this.engine,
     this.engineMode,
     this.engineVersion,
+    this.globalWriteForwardingRequested,
+    this.globalWriteForwardingStatus,
     this.hostedZoneId,
     this.httpEndpointEnabled,
     this.iAMDatabaseAuthenticationEnabled,
@@ -15083,6 +15527,7 @@ class DBCluster {
     this.latestRestorableTime,
     this.masterUsername,
     this.multiAZ,
+    this.pendingModifiedValues,
     this.percentProgress,
     this.port,
     this.preferredBackupWindow,
@@ -15093,6 +15538,7 @@ class DBCluster {
     this.scalingConfigurationInfo,
     this.status,
     this.storageEncrypted,
+    this.tagList,
     this.vpcSecurityGroups,
   });
   factory DBCluster.fromXml(_s.XmlElement elem) {
@@ -15166,6 +15612,11 @@ class DBCluster {
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineMode: _s.extractXmlStringValue(elem, 'EngineMode'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      globalWriteForwardingRequested:
+          _s.extractXmlBoolValue(elem, 'GlobalWriteForwardingRequested'),
+      globalWriteForwardingStatus: _s
+          .extractXmlStringValue(elem, 'GlobalWriteForwardingStatus')
+          ?.toWriteForwardingStatus(),
       hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
       httpEndpointEnabled: _s.extractXmlBoolValue(elem, 'HttpEndpointEnabled'),
       iAMDatabaseAuthenticationEnabled:
@@ -15175,6 +15626,9 @@ class DBCluster {
           _s.extractXmlDateTimeValue(elem, 'LatestRestorableTime'),
       masterUsername: _s.extractXmlStringValue(elem, 'MasterUsername'),
       multiAZ: _s.extractXmlBoolValue(elem, 'MultiAZ'),
+      pendingModifiedValues: _s
+          .extractXmlChild(elem, 'PendingModifiedValues')
+          ?.let((e) => ClusterPendingModifiedValues.fromXml(e)),
       percentProgress: _s.extractXmlStringValue(elem, 'PercentProgress'),
       port: _s.extractXmlIntValue(elem, 'Port'),
       preferredBackupWindow:
@@ -15193,6 +15647,8 @@ class DBCluster {
           ?.let((e) => ScalingConfigurationInfo.fromXml(e)),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
+      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
+          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
       vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
           (elem) => elem
               .findElements('VpcSecurityGroupMembership')
@@ -15388,7 +15844,11 @@ class DBClusterEndpoint {
   final List<String> staticMembers;
 
   /// The current status of the endpoint. One of: <code>creating</code>,
-  /// <code>available</code>, <code>deleting</code>, <code>modifying</code>.
+  /// <code>available</code>, <code>deleting</code>, <code>inactive</code>,
+  /// <code>modifying</code>. The <code>inactive</code> state applies to an
+  /// endpoint that can't be used for a certain kind of cluster, such as a
+  /// <code>writer</code> endpoint for a read-only secondary cluster in a global
+  /// database.
   final String status;
 
   DBClusterEndpoint({
@@ -15546,11 +16006,11 @@ class DBClusterParameterGroup {
   /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
   final String dBClusterParameterGroupArn;
 
-  /// Provides the name of the DB cluster parameter group.
+  /// The name of the DB cluster parameter group.
   final String dBClusterParameterGroupName;
 
-  /// Provides the name of the DB parameter group family that this DB cluster
-  /// parameter group is compatible with.
+  /// The name of the DB parameter group family that this DB cluster parameter
+  /// group is compatible with.
   final String dBParameterGroupFamily;
 
   /// Provides the customer-specified description for this DB cluster parameter
@@ -15747,6 +16207,9 @@ class DBClusterSnapshot {
 
   /// If <code>StorageEncrypted</code> is true, the AWS KMS key identifier for the
   /// encrypted DB cluster snapshot.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the AWS KMS customer master key (CMK).
   final String kmsKeyId;
 
   /// Provides the license model information for this DB cluster snapshot.
@@ -15779,6 +16242,7 @@ class DBClusterSnapshot {
 
   /// Specifies whether the DB cluster snapshot is encrypted.
   final bool storageEncrypted;
+  final List<Tag> tagList;
 
   /// Provides the VPC ID associated with the DB cluster snapshot.
   final String vpcId;
@@ -15803,6 +16267,7 @@ class DBClusterSnapshot {
     this.sourceDBClusterSnapshotArn,
     this.status,
     this.storageEncrypted,
+    this.tagList,
     this.vpcId,
   });
   factory DBClusterSnapshot.fromXml(_s.XmlElement elem) {
@@ -15833,6 +16298,8 @@ class DBClusterSnapshot {
           _s.extractXmlStringValue(elem, 'SourceDBClusterSnapshotArn'),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
+      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
+          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -15968,15 +16435,10 @@ class DBEngineVersion {
 
   /// A list of the character sets supported by this engine for the
   /// <code>CharacterSetName</code> parameter of the <code>CreateDBInstance</code>
-  /// action.
+  /// operation.
   final List<CharacterSet> supportedCharacterSets;
 
   /// A list of the supported DB engine modes.
-  /// <note>
-  /// <code>global</code> engine mode only applies for global database clusters
-  /// created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions,
-  /// the clusters in a global database use <code>provisioned</code> engine mode.
-  /// </note>
   final List<String> supportedEngineModes;
 
   /// A list of features supported by the DB engine. Supported feature names
@@ -15989,13 +16451,26 @@ class DBEngineVersion {
   /// </ul>
   final List<String> supportedFeatureNames;
 
+  /// A list of the character sets supported by the Oracle DB engine for the
+  /// <code>NcharCharacterSetName</code> parameter of the
+  /// <code>CreateDBInstance</code> operation.
+  final List<CharacterSet> supportedNcharCharacterSets;
+
   /// A list of the time zones supported by this engine for the
   /// <code>Timezone</code> parameter of the <code>CreateDBInstance</code> action.
   final List<Timezone> supportedTimezones;
 
+  /// A value that indicates whether you can use Aurora global databases with a
+  /// specific DB engine version.
+  final bool supportsGlobalDatabases;
+
   /// A value that indicates whether the engine version supports exporting the log
   /// types specified by ExportableLogTypes to CloudWatch Logs.
   final bool supportsLogExportsToCloudwatchLogs;
+
+  /// A value that indicates whether you can use Aurora parallel query with a
+  /// specific DB engine version.
+  final bool supportsParallelQuery;
 
   /// Indicates whether the database engine version supports read replicas.
   final bool supportsReadReplica;
@@ -16016,8 +16491,11 @@ class DBEngineVersion {
     this.supportedCharacterSets,
     this.supportedEngineModes,
     this.supportedFeatureNames,
+    this.supportedNcharCharacterSets,
     this.supportedTimezones,
+    this.supportsGlobalDatabases,
     this.supportsLogExportsToCloudwatchLogs,
+    this.supportsParallelQuery,
     this.supportsReadReplica,
     this.validUpgradeTarget,
   });
@@ -16050,13 +16528,23 @@ class DBEngineVersion {
       supportedFeatureNames: _s
           .extractXmlChild(elem, 'SupportedFeatureNames')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      supportedNcharCharacterSets: _s
+          .extractXmlChild(elem, 'SupportedNcharCharacterSets')
+          ?.let((elem) => elem
+              .findElements('CharacterSet')
+              .map((c) => CharacterSet.fromXml(c))
+              .toList()),
       supportedTimezones: _s.extractXmlChild(elem, 'SupportedTimezones')?.let(
           (elem) => elem
               .findElements('Timezone')
               .map((c) => Timezone.fromXml(c))
               .toList()),
+      supportsGlobalDatabases:
+          _s.extractXmlBoolValue(elem, 'SupportsGlobalDatabases'),
       supportsLogExportsToCloudwatchLogs:
           _s.extractXmlBoolValue(elem, 'SupportsLogExportsToCloudwatchLogs'),
+      supportsParallelQuery:
+          _s.extractXmlBoolValue(elem, 'SupportsParallelQuery'),
       supportsReadReplica: _s.extractXmlBoolValue(elem, 'SupportsReadReplica'),
       validUpgradeTarget: _s.extractXmlChild(elem, 'ValidUpgradeTarget')?.let(
           (elem) => elem
@@ -16132,12 +16620,33 @@ class DBInstance {
   /// setting. For more information, see <code>DBCluster</code>.
   final bool copyTagsToSnapshot;
 
+  /// Specifies whether a customer-owned IP address (CoIP) is enabled for an RDS
+  /// on Outposts DB instance.
+  ///
+  /// A <i>CoIP </i>provides local or external connectivity to resources in your
+  /// Outpost subnets through your on-premises network. For some use cases, a CoIP
+  /// can provide lower latency for connections to the DB instance from outside of
+  /// its virtual private cloud (VPC) on your local network.
+  ///
+  /// For more information about RDS on Outposts, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html">Working
+  /// with Amazon RDS on AWS Outposts</a> in the <i>Amazon RDS User Guide</i>.
+  ///
+  /// For more information about CoIPs, see <a
+  /// href="https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing">Customer-owned
+  /// IP addresses</a> in the <i>AWS Outposts User Guide</i>.
+  final bool customerOwnedIpEnabled;
+
   /// If the DB instance is a member of a DB cluster, contains the name of the DB
   /// cluster that the DB instance is a member of.
   final String dBClusterIdentifier;
 
   /// The Amazon Resource Name (ARN) for the DB instance.
   final String dBInstanceArn;
+
+  /// The list of replicated automated backups associated with the DB instance.
+  final List<DBInstanceAutomatedBackupsReplication>
+      dBInstanceAutomatedBackupsReplications;
 
   /// Contains the name of the compute and memory capacity class of the DB
   /// instance.
@@ -16188,8 +16697,8 @@ class DBInstance {
   final int dbInstancePort;
 
   /// The AWS Region-unique, immutable identifier for the DB instance. This
-  /// identifier is found in AWS CloudTrail log entries whenever the AWS KMS key
-  /// for the DB instance is accessed.
+  /// identifier is found in AWS CloudTrail log entries whenever the AWS KMS
+  /// customer master key (CMK) for the DB instance is accessed.
   final String dbiResourceId;
 
   /// Indicates if the DB instance has deletion protection enabled. The database
@@ -16215,7 +16724,7 @@ class DBInstance {
   /// Specifies the connection endpoint.
   final Endpoint endpoint;
 
-  /// Provides the name of the database engine to be used for this DB instance.
+  /// The name of the database engine to be used for this DB instance.
   final String engine;
 
   /// Indicates the database engine version.
@@ -16253,6 +16762,9 @@ class DBInstance {
 
   /// If <code>StorageEncrypted</code> is true, the AWS KMS key identifier for the
   /// encrypted DB instance.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the AWS KMS customer master key (CMK).
   final String kmsKeyId;
 
   /// Specifies the latest time to which a database can be restored with
@@ -16283,6 +16795,11 @@ class DBInstance {
   /// Specifies if the DB instance is a Multi-AZ deployment.
   final bool multiAZ;
 
+  /// The name of the NCHAR character set for the Oracle DB instance. This
+  /// character set specifies the Unicode encoding for data stored in table
+  /// columns of type NCHAR, NCLOB, or NVARCHAR2.
+  final String ncharCharacterSetName;
+
   /// Provides the list of option group memberships for this DB instance.
   final List<OptionGroupMembership> optionGroupMemberships;
 
@@ -16295,9 +16812,10 @@ class DBInstance {
   /// false.
   final bool performanceInsightsEnabled;
 
-  /// The AWS KMS key identifier for encryption of Performance Insights data. The
-  /// KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS
-  /// key alias for the KMS encryption key.
+  /// The AWS KMS key identifier for encryption of Performance Insights data.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the AWS KMS customer master key (CMK).
   final String performanceInsightsKMSKeyId;
 
   /// The amount of time, in days, to retain Performance Insights data. Valid
@@ -16325,10 +16843,19 @@ class DBInstance {
   /// Guide</i>.
   final int promotionTier;
 
-  /// Specifies the accessibility options for the DB instance. A value of true
-  /// specifies an Internet-facing instance with a publicly resolvable DNS name,
-  /// which resolves to a public IP address. A value of false specifies an
-  /// internal instance with a DNS name that resolves to a private IP address.
+  /// Specifies the accessibility options for the DB instance.
+  ///
+  /// When the DB instance is publicly accessible, its DNS endpoint resolves to
+  /// the private IP address from within the DB instance's VPC, and to the public
+  /// IP address from outside of the DB instance's VPC. Access to the DB instance
+  /// is ultimately controlled by the security group it uses, and that public
+  /// access is not permitted if the security group assigned to the DB instance
+  /// doesn't permit it.
+  ///
+  /// When the DB instance isn't publicly accessible, it is an internal DB
+  /// instance with a DNS name that resolves to a private IP address.
+  ///
+  /// For more information, see <a>CreateDBInstance</a>.
   final bool publiclyAccessible;
 
   /// Contains one or more identifiers of Aurora DB clusters to which the RDS DB
@@ -16349,6 +16876,16 @@ class DBInstance {
   /// read replica.
   final String readReplicaSourceDBInstanceIdentifier;
 
+  /// The open mode of an Oracle read replica. The default is
+  /// <code>open-read-only</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html">Working
+  /// with Oracle Read Replicas for Amazon RDS</a> in the <i>Amazon RDS User
+  /// Guide</i>.
+  /// <note>
+  /// This attribute is only supported in RDS for Oracle.
+  /// </note>
+  final ReplicaMode replicaMode;
+
   /// If present, specifies the name of the secondary Availability Zone for a DB
   /// instance with multi-AZ support.
   final String secondaryAvailabilityZone;
@@ -16362,6 +16899,7 @@ class DBInstance {
 
   /// Specifies the storage type associated with DB instance.
   final String storageType;
+  final List<Tag> tagList;
 
   /// The ARN from the key store with which the instance is associated for TDE
   /// encryption.
@@ -16385,8 +16923,10 @@ class DBInstance {
     this.cACertificateIdentifier,
     this.characterSetName,
     this.copyTagsToSnapshot,
+    this.customerOwnedIpEnabled,
     this.dBClusterIdentifier,
     this.dBInstanceArn,
+    this.dBInstanceAutomatedBackupsReplications,
     this.dBInstanceClass,
     this.dBInstanceIdentifier,
     this.dBInstanceStatus,
@@ -16415,6 +16955,7 @@ class DBInstance {
     this.monitoringInterval,
     this.monitoringRoleArn,
     this.multiAZ,
+    this.ncharCharacterSetName,
     this.optionGroupMemberships,
     this.pendingModifiedValues,
     this.performanceInsightsEnabled,
@@ -16428,10 +16969,12 @@ class DBInstance {
     this.readReplicaDBClusterIdentifiers,
     this.readReplicaDBInstanceIdentifiers,
     this.readReplicaSourceDBInstanceIdentifier,
+    this.replicaMode,
     this.secondaryAvailabilityZone,
     this.statusInfos,
     this.storageEncrypted,
     this.storageType,
+    this.tagList,
     this.tdeCredentialArn,
     this.timezone,
     this.vpcSecurityGroups,
@@ -16453,9 +16996,17 @@ class DBInstance {
           _s.extractXmlStringValue(elem, 'CACertificateIdentifier'),
       characterSetName: _s.extractXmlStringValue(elem, 'CharacterSetName'),
       copyTagsToSnapshot: _s.extractXmlBoolValue(elem, 'CopyTagsToSnapshot'),
+      customerOwnedIpEnabled:
+          _s.extractXmlBoolValue(elem, 'CustomerOwnedIpEnabled'),
       dBClusterIdentifier:
           _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
       dBInstanceArn: _s.extractXmlStringValue(elem, 'DBInstanceArn'),
+      dBInstanceAutomatedBackupsReplications: _s
+          .extractXmlChild(elem, 'DBInstanceAutomatedBackupsReplications')
+          ?.let((elem) => elem
+              .findElements('DBInstanceAutomatedBackupsReplication')
+              .map((c) => DBInstanceAutomatedBackupsReplication.fromXml(c))
+              .toList()),
       dBInstanceClass: _s.extractXmlStringValue(elem, 'DBInstanceClass'),
       dBInstanceIdentifier:
           _s.extractXmlStringValue(elem, 'DBInstanceIdentifier'),
@@ -16508,6 +17059,8 @@ class DBInstance {
       monitoringInterval: _s.extractXmlIntValue(elem, 'MonitoringInterval'),
       monitoringRoleArn: _s.extractXmlStringValue(elem, 'MonitoringRoleArn'),
       multiAZ: _s.extractXmlBoolValue(elem, 'MultiAZ'),
+      ncharCharacterSetName:
+          _s.extractXmlStringValue(elem, 'NcharCharacterSetName'),
       optionGroupMemberships: _s
           .extractXmlChild(elem, 'OptionGroupMemberships')
           ?.let((elem) => elem
@@ -16544,6 +17097,8 @@ class DBInstance {
               elem, 'ReadReplicaDBInstanceIdentifier')),
       readReplicaSourceDBInstanceIdentifier: _s.extractXmlStringValue(
           elem, 'ReadReplicaSourceDBInstanceIdentifier'),
+      replicaMode:
+          _s.extractXmlStringValue(elem, 'ReplicaMode')?.toReplicaMode(),
       secondaryAvailabilityZone:
           _s.extractXmlStringValue(elem, 'SecondaryAvailabilityZone'),
       statusInfos: _s.extractXmlChild(elem, 'StatusInfos')?.let((elem) => elem
@@ -16552,6 +17107,8 @@ class DBInstance {
           .toList()),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
+      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
+          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
       tdeCredentialArn: _s.extractXmlStringValue(elem, 'TdeCredentialArn'),
       timezone: _s.extractXmlStringValue(elem, 'Timezone'),
       vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
@@ -16563,7 +17120,7 @@ class DBInstance {
   }
 }
 
-/// An automated backup of a DB instance. It it consists of system backups,
+/// An automated backup of a DB instance. It consists of system backups,
 /// transaction logs, and the database instance properties that existed at the
 /// time you deleted the source instance.
 class DBInstanceAutomatedBackup {
@@ -16576,8 +17133,19 @@ class DBInstanceAutomatedBackup {
   /// and Availability Zones</a>.
   final String availabilityZone;
 
-  /// The Amazon Resource Name (ARN) for the automated backup.
+  /// The retention period for the automated backups.
+  final int backupRetentionPeriod;
+
+  /// The Amazon Resource Name (ARN) for the automated backups.
   final String dBInstanceArn;
+
+  /// The Amazon Resource Name (ARN) for the replicated automated backups.
+  final String dBInstanceAutomatedBackupsArn;
+
+  /// The list of replications to different AWS Regions associated with the
+  /// automated backup.
+  final List<DBInstanceAutomatedBackupsReplication>
+      dBInstanceAutomatedBackupsReplications;
 
   /// The customer id of the instance that is/was associated with the automated
   /// backup.
@@ -16606,9 +17174,10 @@ class DBInstanceAutomatedBackup {
   /// The IOPS (I/O operations per second) value for the automated backup.
   final int iops;
 
-  /// The AWS KMS key ID for an automated backup. The KMS key ID is the Amazon
-  /// Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS
-  /// encryption key.
+  /// The AWS KMS key ID for an automated backup.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the AWS KMS customer master key (CMK).
   final String kmsKeyId;
 
   /// License model information for the automated backup.
@@ -16669,7 +17238,10 @@ class DBInstanceAutomatedBackup {
   DBInstanceAutomatedBackup({
     this.allocatedStorage,
     this.availabilityZone,
+    this.backupRetentionPeriod,
     this.dBInstanceArn,
+    this.dBInstanceAutomatedBackupsArn,
+    this.dBInstanceAutomatedBackupsReplications,
     this.dBInstanceIdentifier,
     this.dbiResourceId,
     this.encrypted,
@@ -16695,7 +17267,17 @@ class DBInstanceAutomatedBackup {
     return DBInstanceAutomatedBackup(
       allocatedStorage: _s.extractXmlIntValue(elem, 'AllocatedStorage'),
       availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
+      backupRetentionPeriod:
+          _s.extractXmlIntValue(elem, 'BackupRetentionPeriod'),
       dBInstanceArn: _s.extractXmlStringValue(elem, 'DBInstanceArn'),
+      dBInstanceAutomatedBackupsArn:
+          _s.extractXmlStringValue(elem, 'DBInstanceAutomatedBackupsArn'),
+      dBInstanceAutomatedBackupsReplications: _s
+          .extractXmlChild(elem, 'DBInstanceAutomatedBackupsReplications')
+          ?.let((elem) => elem
+              .findElements('DBInstanceAutomatedBackupsReplication')
+              .map((c) => DBInstanceAutomatedBackupsReplication.fromXml(c))
+              .toList()),
       dBInstanceIdentifier:
           _s.extractXmlStringValue(elem, 'DBInstanceIdentifier'),
       dbiResourceId: _s.extractXmlStringValue(elem, 'DbiResourceId'),
@@ -16749,6 +17331,24 @@ class DBInstanceAutomatedBackupMessage {
               .map((c) => DBInstanceAutomatedBackup.fromXml(c))
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+}
+
+/// Automated backups of a DB instance replicated to another AWS Region. They
+/// consist of system backups, transaction logs, and database instance
+/// properties.
+class DBInstanceAutomatedBackupsReplication {
+  /// The Amazon Resource Name (ARN) of the replicated automated backups.
+  final String dBInstanceAutomatedBackupsArn;
+
+  DBInstanceAutomatedBackupsReplication({
+    this.dBInstanceAutomatedBackupsArn,
+  });
+  factory DBInstanceAutomatedBackupsReplication.fromXml(_s.XmlElement elem) {
+    return DBInstanceAutomatedBackupsReplication(
+      dBInstanceAutomatedBackupsArn:
+          _s.extractXmlStringValue(elem, 'DBInstanceAutomatedBackupsArn'),
     );
   }
 }
@@ -16867,11 +17467,11 @@ class DBParameterGroup {
   /// The Amazon Resource Name (ARN) for the DB parameter group.
   final String dBParameterGroupArn;
 
-  /// Provides the name of the DB parameter group family that this DB parameter
-  /// group is compatible with.
+  /// The name of the DB parameter group family that this DB parameter group is
+  /// compatible with.
   final String dBParameterGroupFamily;
 
-  /// Provides the name of the DB parameter group.
+  /// The name of the DB parameter group.
   final String dBParameterGroupName;
 
   /// Provides the customer-specified description for this DB parameter group.
@@ -16926,7 +17526,7 @@ class DBParameterGroupDetails {
 /// <code>ModifyDBParameterGroup</code> or <code>ResetDBParameterGroup</code>
 /// action.
 class DBParameterGroupNameMessage {
-  /// Provides the name of the DB parameter group.
+  /// The name of the DB parameter group.
   final String dBParameterGroupName;
 
   DBParameterGroupNameMessage({
@@ -17012,10 +17612,6 @@ class DBParameterGroupsMessage {
   }
 }
 
-/// <note>
-/// This is prerelease documentation for the RDS Database Proxy feature in
-/// preview release. It is subject to change.
-/// </note>
 /// The data structure representing a proxy managed by the RDS Proxy.
 ///
 /// This data type is used as a response element in the
@@ -17173,10 +17769,6 @@ extension on String {
   }
 }
 
-/// <note>
-/// This is prerelease documentation for the RDS Database Proxy feature in
-/// preview release. It is subject to change.
-/// </note>
 /// Contains the details for an RDS Proxy target. It represents an RDS DB
 /// instance or Aurora DB cluster that the proxy can connect to. One or more
 /// targets are associated with an RDS Proxy target group.
@@ -17233,10 +17825,6 @@ class DBProxyTarget {
   }
 }
 
-/// <note>
-/// This is prerelease documentation for the RDS Database Proxy feature in
-/// preview release. It is subject to change.
-/// </note>
 /// Represents a set of RDS DB instances, Aurora DB clusters, or both that a
 /// proxy can connect to. Currently, each target group is associated with
 /// exactly one RDS DB instance or Aurora DB cluster.
@@ -17458,8 +18046,8 @@ class DBSnapshot {
   /// database accounts is enabled, and otherwise false.
   final bool iAMDatabaseAuthenticationEnabled;
 
-  /// Specifies the time when the snapshot was taken, in Universal Coordinated
-  /// Time (UTC).
+  /// Specifies the time in Coordinated Universal Time (UTC) when the DB instance,
+  /// from which the snapshot was taken, was created.
   final DateTime instanceCreateTime;
 
   /// Specifies the Provisioned IOPS (I/O operations per second) value of the DB
@@ -17468,6 +18056,9 @@ class DBSnapshot {
 
   /// If <code>Encrypted</code> is true, the AWS KMS key identifier for the
   /// encrypted DB snapshot.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the AWS KMS customer master key (CMK).
   final String kmsKeyId;
 
   /// License model information for the restored DB instance.
@@ -17490,8 +18081,7 @@ class DBSnapshot {
   /// instance class of the DB instance when the DB snapshot was created.
   final List<ProcessorFeature> processorFeatures;
 
-  /// Provides the time when the snapshot was taken, in Universal Coordinated Time
-  /// (UTC).
+  /// Specifies when the snapshot was taken in Coordinated Universal Time (UTC).
   final DateTime snapshotCreateTime;
 
   /// Provides the type of the DB snapshot.
@@ -17509,6 +18099,7 @@ class DBSnapshot {
 
   /// Specifies the storage type associated with DB snapshot.
   final String storageType;
+  final List<Tag> tagList;
 
   /// The ARN from the key store with which to associate the instance for TDE
   /// encryption.
@@ -17549,6 +18140,7 @@ class DBSnapshot {
     this.sourceRegion,
     this.status,
     this.storageType,
+    this.tagList,
     this.tdeCredentialArn,
     this.timezone,
     this.vpcId,
@@ -17590,6 +18182,8 @@ class DBSnapshot {
       sourceRegion: _s.extractXmlStringValue(elem, 'SourceRegion'),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
+      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
+          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
       tdeCredentialArn: _s.extractXmlStringValue(elem, 'TdeCredentialArn'),
       timezone: _s.extractXmlStringValue(elem, 'Timezone'),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
@@ -18382,7 +18976,7 @@ class Event {
 }
 
 /// Contains the results of a successful invocation of the
-/// <code>DescribeEventCategories</code> action.
+/// <code>DescribeEventCategories</code> operation.
 class EventCategoriesMap {
   /// The event categories for the specified source type
   final List<String> eventCategories;
@@ -18404,7 +18998,7 @@ class EventCategoriesMap {
   }
 }
 
-/// Data returned from the <b>DescribeEventCategories</b> action.
+/// Data returned from the <code>DescribeEventCategories</code> operation.
 class EventCategoriesMessage {
   /// A list of EventCategoriesMap data types.
   final List<EventCategoriesMap> eventCategoriesMapList;
@@ -18594,11 +19188,11 @@ class ExportTask {
   /// snapshot.
   final String iamRoleArn;
 
-  /// The ID of the AWS KMS key that is used to encrypt the snapshot when it's
-  /// exported to Amazon S3. The KMS key ID is the Amazon Resource Name (ARN), the
-  /// KMS key identifier, or the KMS key alias for the KMS encryption key. The IAM
-  /// role used for the snapshot export must have encryption and decryption
-  /// permissions to use this KMS key.
+  /// The key identifier of the AWS KMS customer master key (CMK) that is used to
+  /// encrypt the snapshot when it's exported to Amazon S3. The AWS KMS CMK
+  /// identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role
+  /// used for the snapshot export must have encryption and decryption permissions
+  /// to use this AWS KMS CMK.
   final String kmsKeyId;
 
   /// The progress of the snapshot export task as a percentage.
@@ -18788,7 +19382,7 @@ class GlobalCluster {
 
   /// The AWS Region-unique, immutable identifier for the global database cluster.
   /// This identifier is found in AWS CloudTrail log entries whenever the AWS KMS
-  /// key for the DB cluster is accessed.
+  /// customer master key (CMK) for the DB cluster is accessed.
   final String globalClusterResourceId;
 
   /// Specifies the current state of this global database cluster.
@@ -18838,6 +19432,10 @@ class GlobalClusterMember {
   /// The Amazon Resource Name (ARN) for each Aurora cluster.
   final String dBClusterArn;
 
+  /// Specifies whether a secondary cluster in an Aurora global database has write
+  /// forwarding enabled, not enabled, or is in the process of enabling it.
+  final WriteForwardingStatus globalWriteForwardingStatus;
+
   /// Specifies whether the Aurora cluster is the primary cluster (that is, has
   /// read-write capability) for the Aurora global database with which it is
   /// associated.
@@ -18849,12 +19447,16 @@ class GlobalClusterMember {
 
   GlobalClusterMember({
     this.dBClusterArn,
+    this.globalWriteForwardingStatus,
     this.isWriter,
     this.readers,
   });
   factory GlobalClusterMember.fromXml(_s.XmlElement elem) {
     return GlobalClusterMember(
       dBClusterArn: _s.extractXmlStringValue(elem, 'DBClusterArn'),
+      globalWriteForwardingStatus: _s
+          .extractXmlStringValue(elem, 'GlobalWriteForwardingStatus')
+          ?.toWriteForwardingStatus(),
       isWriter: _s.extractXmlBoolValue(elem, 'IsWriter'),
       readers: _s
           .extractXmlChild(elem, 'Readers')
@@ -19761,6 +20363,9 @@ class OptionVersion {
 /// This data type is used as a response element in the
 /// <code>DescribeOrderableDBInstanceOptions</code> action.
 class OrderableDBInstanceOption {
+  /// The Availability Zone group for a DB instance.
+  final String availabilityZoneGroup;
+
   /// A list of Availability Zones for a DB instance.
   final List<AvailabilityZone> availabilityZones;
 
@@ -19801,6 +20406,13 @@ class OrderableDBInstanceOption {
   /// Indicates whether a DB instance is Multi-AZ capable.
   final bool multiAZCapable;
 
+  /// Whether a DB instance supports RDS on Outposts.
+  ///
+  /// For more information about RDS on Outposts, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html">Amazon
+  /// RDS on AWS Outposts</a> in the <i>Amazon RDS User Guide.</i>
+  final bool outpostCapable;
+
   /// Indicates whether a DB instance can have a read replica.
   final bool readReplicaCapable;
 
@@ -19808,16 +20420,15 @@ class OrderableDBInstanceOption {
   final String storageType;
 
   /// A list of the supported DB engine modes.
-  /// <note>
-  /// <code>global</code> engine mode only applies for global database clusters
-  /// created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions,
-  /// the clusters in a global database use <code>provisioned</code> engine mode.
-  /// </note>
   final List<String> supportedEngineModes;
 
   /// Indicates whether a DB instance supports Enhanced Monitoring at intervals
   /// from 1 to 60 seconds.
   final bool supportsEnhancedMonitoring;
+
+  /// A value that indicates whether you can use Aurora global databases with a
+  /// specific combination of other DB engine attributes.
+  final bool supportsGlobalDatabases;
 
   /// Indicates whether a DB instance supports IAM database authentication.
   final bool supportsIAMDatabaseAuthentication;
@@ -19831,8 +20442,8 @@ class OrderableDBInstanceOption {
   /// True if a DB instance supports Performance Insights, otherwise false.
   final bool supportsPerformanceInsights;
 
-  /// Whether or not Amazon RDS can automatically scale storage for DB instances
-  /// that use the specified instance class.
+  /// Whether Amazon RDS can automatically scale storage for DB instances that use
+  /// the specified DB instance class.
   final bool supportsStorageAutoscaling;
 
   /// Indicates whether a DB instance supports encrypted storage.
@@ -19842,6 +20453,7 @@ class OrderableDBInstanceOption {
   final bool vpc;
 
   OrderableDBInstanceOption({
+    this.availabilityZoneGroup,
     this.availabilityZones,
     this.availableProcessorFeatures,
     this.dBInstanceClass,
@@ -19855,10 +20467,12 @@ class OrderableDBInstanceOption {
     this.minIopsPerGib,
     this.minStorageSize,
     this.multiAZCapable,
+    this.outpostCapable,
     this.readReplicaCapable,
     this.storageType,
     this.supportedEngineModes,
     this.supportsEnhancedMonitoring,
+    this.supportsGlobalDatabases,
     this.supportsIAMDatabaseAuthentication,
     this.supportsIops,
     this.supportsKerberosAuthentication,
@@ -19869,6 +20483,8 @@ class OrderableDBInstanceOption {
   });
   factory OrderableDBInstanceOption.fromXml(_s.XmlElement elem) {
     return OrderableDBInstanceOption(
+      availabilityZoneGroup:
+          _s.extractXmlStringValue(elem, 'AvailabilityZoneGroup'),
       availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
           (elem) => elem
               .findElements('AvailabilityZone')
@@ -19891,6 +20507,7 @@ class OrderableDBInstanceOption {
       minIopsPerGib: _s.extractXmlDoubleValue(elem, 'MinIopsPerGib'),
       minStorageSize: _s.extractXmlIntValue(elem, 'MinStorageSize'),
       multiAZCapable: _s.extractXmlBoolValue(elem, 'MultiAZCapable'),
+      outpostCapable: _s.extractXmlBoolValue(elem, 'OutpostCapable'),
       readReplicaCapable: _s.extractXmlBoolValue(elem, 'ReadReplicaCapable'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       supportedEngineModes: _s
@@ -19898,6 +20515,8 @@ class OrderableDBInstanceOption {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       supportsEnhancedMonitoring:
           _s.extractXmlBoolValue(elem, 'SupportsEnhancedMonitoring'),
+      supportsGlobalDatabases:
+          _s.extractXmlBoolValue(elem, 'SupportsGlobalDatabases'),
       supportsIAMDatabaseAuthentication:
           _s.extractXmlBoolValue(elem, 'SupportsIAMDatabaseAuthentication'),
       supportsIops: _s.extractXmlBoolValue(elem, 'SupportsIops'),
@@ -19940,6 +20559,25 @@ class OrderableDBInstanceOptionsMessage {
               .findElements('OrderableDBInstanceOption')
               .map((c) => OrderableDBInstanceOption.fromXml(c))
               .toList()),
+    );
+  }
+}
+
+/// A data type that represents an Outpost.
+///
+/// For more information about RDS on Outposts, see <a
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html">Amazon
+/// RDS on AWS Outposts</a> in the <i>Amazon RDS User Guide.</i>
+class Outpost {
+  /// The Amazon Resource Name (ARN) of the Outpost.
+  final String arn;
+
+  Outpost({
+    this.arn,
+  });
+  factory Outpost.fromXml(_s.XmlElement elem) {
+    return Outpost(
+      arn: _s.extractXmlStringValue(elem, 'Arn'),
     );
   }
 }
@@ -20090,9 +20728,12 @@ class PendingMaintenanceAction {
   /// A description providing more detail about the maintenance action.
   final String description;
 
-  /// The date when the maintenance action is automatically applied. The
-  /// maintenance action is applied to the resource on this date regardless of the
-  /// maintenance window for the resource.
+  /// The date when the maintenance action is automatically applied.
+  ///
+  /// On this date, the maintenance action is applied to the resource as soon as
+  /// possible, regardless of the maintenance window for the resource. There might
+  /// be a delay of one or more days from this date before the maintenance action
+  /// is applied.
   final DateTime forcedApplyDate;
 
   /// Indicates the type of opt-in request that has been received for the
@@ -20149,35 +20790,35 @@ class PendingMaintenanceActionsMessage {
 }
 
 /// This data type is used as a response element in the
-/// <code>ModifyDBInstance</code> action.
+/// <code>ModifyDBInstance</code> action and contains changes that will be
+/// applied during the next maintenance window.
 class PendingModifiedValues {
-  /// Contains the new <code>AllocatedStorage</code> size for the DB instance that
-  /// will be applied or is currently being applied.
+  /// The allocated storage size for the DB instance specified in gibibytes .
   final int allocatedStorage;
 
-  /// Specifies the pending number of days for which automated backups are
-  /// retained.
+  /// The number of days for which automated backups are retained.
   final int backupRetentionPeriod;
 
-  /// Specifies the identifier of the CA certificate for the DB instance.
+  /// The identifier of the CA certificate for the DB instance.
   final String cACertificateIdentifier;
 
-  /// Contains the new <code>DBInstanceClass</code> for the DB instance that will
-  /// be applied or is currently being applied.
+  /// The name of the compute and memory capacity class for the DB instance.
   final String dBInstanceClass;
 
-  /// Contains the new <code>DBInstanceIdentifier</code> for the DB instance that
-  /// will be applied or is currently being applied.
+  /// The database identifier for the DB instance.
   final String dBInstanceIdentifier;
 
-  /// The new DB subnet group for the DB instance.
+  /// The DB subnet group for the DB instance.
   final String dBSubnetGroupName;
 
-  /// Indicates the database engine version.
+  /// The database engine version.
   final String engineVersion;
 
-  /// Specifies the new Provisioned IOPS value for the DB instance that will be
-  /// applied or is currently being applied.
+  /// Whether mapping of AWS Identity and Access Management (IAM) accounts to
+  /// database accounts is enabled.
+  final bool iAMDatabaseAuthenticationEnabled;
+
+  /// The Provisioned IOPS value for the DB instance.
   final int iops;
 
   /// The license model for the DB instance.
@@ -20186,23 +20827,22 @@ class PendingModifiedValues {
   /// <code>bring-your-own-license</code> | <code>general-public-license</code>
   final String licenseModel;
 
-  /// Contains the pending or currently-in-progress change of the master
-  /// credentials for the DB instance.
+  /// The master credentials for the DB instance.
   final String masterUserPassword;
 
-  /// Indicates that the Single-AZ DB instance is to change to a Multi-AZ
+  /// Indicates that the Single-AZ DB instance will change to a Multi-AZ
   /// deployment.
   final bool multiAZ;
   final PendingCloudwatchLogsExports pendingCloudwatchLogsExports;
 
-  /// Specifies the pending port for the DB instance.
+  /// The port for the DB instance.
   final int port;
 
   /// The number of CPU cores and the number of threads per core for the DB
   /// instance class of the DB instance.
   final List<ProcessorFeature> processorFeatures;
 
-  /// Specifies the storage type to be associated with the DB instance.
+  /// The storage type of the DB instance.
   final String storageType;
 
   PendingModifiedValues({
@@ -20213,6 +20853,7 @@ class PendingModifiedValues {
     this.dBInstanceIdentifier,
     this.dBSubnetGroupName,
     this.engineVersion,
+    this.iAMDatabaseAuthenticationEnabled,
     this.iops,
     this.licenseModel,
     this.masterUserPassword,
@@ -20234,6 +20875,8 @@ class PendingModifiedValues {
           _s.extractXmlStringValue(elem, 'DBInstanceIdentifier'),
       dBSubnetGroupName: _s.extractXmlStringValue(elem, 'DBSubnetGroupName'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      iAMDatabaseAuthenticationEnabled:
+          _s.extractXmlBoolValue(elem, 'IAMDatabaseAuthenticationEnabled'),
       iops: _s.extractXmlIntValue(elem, 'Iops'),
       licenseModel: _s.extractXmlStringValue(elem, 'LicenseModel'),
       masterUserPassword: _s.extractXmlStringValue(elem, 'MasterUserPassword'),
@@ -20296,6 +20939,21 @@ class PendingModifiedValues {
 /// </li>
 /// <li>
 /// <code>DescribeValidDBInstanceModifications</code>
+/// </li>
+/// </ul>
+/// If you call <code>DescribeDBInstances</code>, <code>ProcessorFeature</code>
+/// returns non-null values only if the following conditions are met:
+///
+/// <ul>
+/// <li>
+/// You are accessing an Oracle DB instance.
+/// </li>
+/// <li>
+/// Your Oracle DB instance class supports configuring the number of CPU cores
+/// and threads per core.
+/// </li>
+/// <li>
+/// The current number CPU cores and threads is set to a non-default value.
 /// </li>
 /// </ul>
 /// For more information, see <a
@@ -20491,6 +21149,37 @@ class RemoveSourceIdentifierFromSubscriptionResult {
           .extractXmlChild(elem, 'EventSubscription')
           ?.let((e) => EventSubscription.fromXml(e)),
     );
+  }
+}
+
+enum ReplicaMode {
+  @_s.JsonValue('open-read-only')
+  openReadOnly,
+  @_s.JsonValue('mounted')
+  mounted,
+}
+
+extension on ReplicaMode {
+  String toValue() {
+    switch (this) {
+      case ReplicaMode.openReadOnly:
+        return 'open-read-only';
+      case ReplicaMode.mounted:
+        return 'mounted';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReplicaMode toReplicaMode() {
+    switch (this) {
+      case 'open-read-only':
+        return ReplicaMode.openReadOnly;
+      case 'mounted':
+        return ReplicaMode.mounted;
+    }
+    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -21020,16 +21709,23 @@ class SourceRegion {
   /// The status of the source AWS Region.
   final String status;
 
+  /// Whether the source AWS Region supports replicating automated backups to the
+  /// current AWS Region.
+  final bool supportsDBInstanceAutomatedBackupsReplication;
+
   SourceRegion({
     this.endpoint,
     this.regionName,
     this.status,
+    this.supportsDBInstanceAutomatedBackupsReplication,
   });
   factory SourceRegion.fromXml(_s.XmlElement elem) {
     return SourceRegion(
       endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
       regionName: _s.extractXmlStringValue(elem, 'RegionName'),
       status: _s.extractXmlStringValue(elem, 'Status'),
+      supportsDBInstanceAutomatedBackupsReplication: _s.extractXmlBoolValue(
+          elem, 'SupportsDBInstanceAutomatedBackupsReplication'),
     );
   }
 }
@@ -21170,6 +21866,22 @@ class StartDBClusterResult {
   }
 }
 
+class StartDBInstanceAutomatedBackupsReplicationResult {
+  final DBInstanceAutomatedBackup dBInstanceAutomatedBackup;
+
+  StartDBInstanceAutomatedBackupsReplicationResult({
+    this.dBInstanceAutomatedBackup,
+  });
+  factory StartDBInstanceAutomatedBackupsReplicationResult.fromXml(
+      _s.XmlElement elem) {
+    return StartDBInstanceAutomatedBackupsReplicationResult(
+      dBInstanceAutomatedBackup: _s
+          .extractXmlChild(elem, 'DBInstanceAutomatedBackup')
+          ?.let((e) => DBInstanceAutomatedBackup.fromXml(e)),
+    );
+  }
+}
+
 class StartDBInstanceResult {
   final DBInstance dBInstance;
 
@@ -21192,6 +21904,9 @@ class StopActivityStreamResponse {
 
   /// The AWS KMS key identifier used for encrypting messages in the database
   /// activity stream.
+  ///
+  /// The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the AWS KMS customer master key (CMK).
   final String kmsKeyId;
 
   /// The status of the database activity stream.
@@ -21227,6 +21942,22 @@ class StopDBClusterResult {
   }
 }
 
+class StopDBInstanceAutomatedBackupsReplicationResult {
+  final DBInstanceAutomatedBackup dBInstanceAutomatedBackup;
+
+  StopDBInstanceAutomatedBackupsReplicationResult({
+    this.dBInstanceAutomatedBackup,
+  });
+  factory StopDBInstanceAutomatedBackupsReplicationResult.fromXml(
+      _s.XmlElement elem) {
+    return StopDBInstanceAutomatedBackupsReplicationResult(
+      dBInstanceAutomatedBackup: _s
+          .extractXmlChild(elem, 'DBInstanceAutomatedBackup')
+          ?.let((e) => DBInstanceAutomatedBackup.fromXml(e)),
+    );
+  }
+}
+
 class StopDBInstanceResult {
   final DBInstance dBInstance;
 
@@ -21242,20 +21973,29 @@ class StopDBInstanceResult {
   }
 }
 
-/// This data type is used as a response element in the
-/// <code>DescribeDBSubnetGroups</code> action.
+/// This data type is used as a response element for the
+/// <code>DescribeDBSubnetGroups</code> operation.
 class Subnet {
   final AvailabilityZone subnetAvailabilityZone;
 
-  /// Specifies the identifier of the subnet.
+  /// The identifier of the subnet.
   final String subnetIdentifier;
 
-  /// Specifies the status of the subnet.
+  /// If the subnet is associated with an Outpost, this value specifies the
+  /// Outpost.
+  ///
+  /// For more information about RDS on Outposts, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html">Amazon
+  /// RDS on AWS Outposts</a> in the <i>Amazon RDS User Guide.</i>
+  final Outpost subnetOutpost;
+
+  /// The status of the subnet.
   final String subnetStatus;
 
   Subnet({
     this.subnetAvailabilityZone,
     this.subnetIdentifier,
+    this.subnetOutpost,
     this.subnetStatus,
   });
   factory Subnet.fromXml(_s.XmlElement elem) {
@@ -21264,6 +22004,9 @@ class Subnet {
           .extractXmlChild(elem, 'SubnetAvailabilityZone')
           ?.let((e) => AvailabilityZone.fromXml(e)),
       subnetIdentifier: _s.extractXmlStringValue(elem, 'SubnetIdentifier'),
+      subnetOutpost: _s
+          .extractXmlChild(elem, 'SubnetOutpost')
+          ?.let((e) => Outpost.fromXml(e)),
       subnetStatus: _s.extractXmlStringValue(elem, 'SubnetStatus'),
     );
   }
@@ -21279,16 +22022,16 @@ class Tag {
   /// A key is the required name of the tag. The string value can be from 1 to 128
   /// Unicode characters in length and can't be prefixed with "aws:" or "rds:".
   /// The string can only contain only the set of Unicode letters, digits,
-  /// white-space, '_', '.', '/', '=', '+', '-' (Java regex:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex:
+  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
   @_s.JsonKey(name: 'Key')
   final String key;
 
   /// A value is the optional value of the tag. The string value can be from 1 to
   /// 256 Unicode characters in length and can't be prefixed with "aws:" or
   /// "rds:". The string can only contain only the set of Unicode letters, digits,
-  /// white-space, '_', '.', '/', '=', '+', '-' (Java regex:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex:
+  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
   @_s.JsonKey(name: 'Value')
   final String value;
 
@@ -21322,10 +22065,6 @@ class TagListMessage {
   }
 }
 
-/// <note>
-/// This is prerelease documentation for the RDS Database Proxy feature in
-/// preview release. It is subject to change.
-/// </note>
 /// Information about the connection health of an RDS Proxy target.
 class TargetHealth {
   /// A description of the health of the RDS Proxy target. If the
@@ -21488,10 +22227,6 @@ class UpgradeTarget {
   }
 }
 
-/// <note>
-/// This is prerelease documentation for the RDS Database Proxy feature in
-/// preview release. It is subject to change.
-/// </note>
 /// Specifies the details of authentication used by a proxy to log in as a
 /// specific database user.
 @_s.JsonSerializable(
@@ -21535,10 +22270,6 @@ class UserAuthConfig {
   Map<String, dynamic> toJson() => _$UserAuthConfigToJson(this);
 }
 
-/// <note>
-/// This is prerelease documentation for the RDS Database Proxy feature in
-/// preview release. It is subject to change.
-/// </note>
 /// Returns the details of authentication used by a proxy to log in as a
 /// specific database user.
 class UserAuthConfigInfo {
@@ -21685,7 +22416,7 @@ class VpcSecurityGroupMembership {
 ///
 /// For more information about RDS on VMware, see the <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-/// <i>RDS on VMware User Guide.</i> </a>
+/// RDS on VMware User Guide.</a>
 class VpnDetails {
   /// The IP address of network traffic from AWS to your on-premises data center.
   final String vpnGatewayIp;
@@ -21724,6 +22455,37 @@ class VpnDetails {
       vpnTunnelOriginatorIP:
           _s.extractXmlStringValue(elem, 'VpnTunnelOriginatorIP'),
     );
+  }
+}
+
+enum WriteForwardingStatus {
+  @_s.JsonValue('enabled')
+  enabled,
+  @_s.JsonValue('disabled')
+  disabled,
+  @_s.JsonValue('enabling')
+  enabling,
+  @_s.JsonValue('disabling')
+  disabling,
+  @_s.JsonValue('unknown')
+  unknown,
+}
+
+extension on String {
+  WriteForwardingStatus toWriteForwardingStatus() {
+    switch (this) {
+      case 'enabled':
+        return WriteForwardingStatus.enabled;
+      case 'disabled':
+        return WriteForwardingStatus.disabled;
+      case 'enabling':
+        return WriteForwardingStatus.enabling;
+      case 'disabling':
+        return WriteForwardingStatus.disabling;
+      case 'unknown':
+        return WriteForwardingStatus.unknown;
+    }
+    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -22157,6 +22919,14 @@ class InstallationMediaNotFoundFault extends _s.GenericAwsException {
 class InstanceQuotaExceededFault extends _s.GenericAwsException {
   InstanceQuotaExceededFault({String type, String message})
       : super(type: type, code: 'InstanceQuotaExceededFault', message: message);
+}
+
+class InsufficientAvailableIPsInSubnetFault extends _s.GenericAwsException {
+  InsufficientAvailableIPsInSubnetFault({String type, String message})
+      : super(
+            type: type,
+            code: 'InsufficientAvailableIPsInSubnetFault',
+            message: message);
 }
 
 class InsufficientDBClusterCapacityFault extends _s.GenericAwsException {
@@ -22610,6 +23380,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InstallationMediaNotFoundFault(type: type, message: message),
   'InstanceQuotaExceededFault': (type, message) =>
       InstanceQuotaExceededFault(type: type, message: message),
+  'InsufficientAvailableIPsInSubnetFault': (type, message) =>
+      InsufficientAvailableIPsInSubnetFault(type: type, message: message),
   'InsufficientDBClusterCapacityFault': (type, message) =>
       InsufficientDBClusterCapacityFault(type: type, message: message),
   'InsufficientDBInstanceCapacityFault': (type, message) =>

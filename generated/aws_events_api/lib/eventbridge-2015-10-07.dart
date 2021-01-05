@@ -75,6 +75,7 @@ class EventBridge {
   /// May throw [ConcurrentModificationException].
   /// May throw [InvalidStateException].
   /// May throw [InternalException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [name] :
   /// The name of the partner event source to activate.
@@ -111,6 +112,147 @@ class EventBridge {
     );
   }
 
+  /// Cancels the specified replay.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [IllegalStatusException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [replayName] :
+  /// The name of the replay to cancel.
+  Future<CancelReplayResponse> cancelReplay({
+    @_s.required String replayName,
+  }) async {
+    ArgumentError.checkNotNull(replayName, 'replayName');
+    _s.validateStringLength(
+      'replayName',
+      replayName,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'replayName',
+      replayName,
+      r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSEvents.CancelReplay'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplayName': replayName,
+      },
+    );
+
+    return CancelReplayResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates an archive of events with the specified settings. When you create
+  /// an archive, incoming events might not immediately start being sent to the
+  /// archive. Allow a short period of time for changes to take effect. If you
+  /// do not specify a pattern to filter events sent to the archive, all events
+  /// are sent to the archive except replayed events. Replayed events are not
+  /// sent to an archive.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidEventPatternException].
+  ///
+  /// Parameter [archiveName] :
+  /// The name for the archive to create.
+  ///
+  /// Parameter [eventSourceArn] :
+  /// The ARN of the event source associated with the archive.
+  ///
+  /// Parameter [description] :
+  /// A description for the archive.
+  ///
+  /// Parameter [eventPattern] :
+  /// An event pattern to use to filter events sent to the archive.
+  ///
+  /// Parameter [retentionDays] :
+  /// The number of days to retain events for. Default value is 0. If set to 0,
+  /// events are retained indefinitely
+  Future<CreateArchiveResponse> createArchive({
+    @_s.required String archiveName,
+    @_s.required String eventSourceArn,
+    String description,
+    String eventPattern,
+    int retentionDays,
+  }) async {
+    ArgumentError.checkNotNull(archiveName, 'archiveName');
+    _s.validateStringLength(
+      'archiveName',
+      archiveName,
+      1,
+      48,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'archiveName',
+      archiveName,
+      r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(eventSourceArn, 'eventSourceArn');
+    _s.validateStringLength(
+      'eventSourceArn',
+      eventSourceArn,
+      1,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      512,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''.*''',
+    );
+    _s.validateNumRange(
+      'retentionDays',
+      retentionDays,
+      0,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSEvents.CreateArchive'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ArchiveName': archiveName,
+        'EventSourceArn': eventSourceArn,
+        if (description != null) 'Description': description,
+        if (eventPattern != null) 'EventPattern': eventPattern,
+        if (retentionDays != null) 'RetentionDays': retentionDays,
+      },
+    );
+
+    return CreateArchiveResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a new event bus within your account. This can be a custom event
   /// bus which you can use to receive events from your custom applications and
   /// services, or it can be a partner event bus which can be matched to a
@@ -122,6 +264,7 @@ class EventBridge {
   /// May throw [InternalException].
   /// May throw [ConcurrentModificationException].
   /// May throw [LimitExceededException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [name] :
   /// The name of the new event bus.
@@ -222,6 +365,7 @@ class EventBridge {
   /// May throw [InternalException].
   /// May throw [ConcurrentModificationException].
   /// May throw [LimitExceededException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [account] :
   /// The AWS account ID that is permitted to create a matching partner event
@@ -299,6 +443,7 @@ class EventBridge {
   /// May throw [ConcurrentModificationException].
   /// May throw [InvalidStateException].
   /// May throw [InternalException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [name] :
   /// The name of the partner event source to deactivate.
@@ -333,6 +478,49 @@ class EventBridge {
         'Name': name,
       },
     );
+  }
+
+  /// Deletes the specified archive.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [archiveName] :
+  /// The name of the archive to delete.
+  Future<void> deleteArchive({
+    @_s.required String archiveName,
+  }) async {
+    ArgumentError.checkNotNull(archiveName, 'archiveName');
+    _s.validateStringLength(
+      'archiveName',
+      archiveName,
+      1,
+      48,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'archiveName',
+      archiveName,
+      r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSEvents.DeleteArchive'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ArchiveName': archiveName,
+      },
+    );
+
+    return DeleteArchiveResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified custom event bus or partner event bus. All rules
@@ -386,6 +574,7 @@ class EventBridge {
   ///
   /// May throw [InternalException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [account] :
   /// The AWS account ID of the AWS customer that the event source was created
@@ -465,8 +654,8 @@ class EventBridge {
   /// The name of the rule.
   ///
   /// Parameter [eventBusName] :
-  /// The event bus associated with the rule. If you omit this, the default
-  /// event bus is used.
+  /// The name or ARN of the event bus associated with the rule. If you omit
+  /// this, the default event bus is used.
   ///
   /// Parameter [force] :
   /// If this is a managed rule, created by an AWS service on your behalf, you
@@ -498,12 +687,12 @@ class EventBridge {
       'eventBusName',
       eventBusName,
       1,
-      256,
+      1600,
     );
     _s.validateStringPattern(
       'eventBusName',
       eventBusName,
-      r'''[/\.\-_A-Za-z0-9]+''',
+      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -523,6 +712,49 @@ class EventBridge {
     );
   }
 
+  /// Retrieves details about an archive.
+  ///
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [archiveName] :
+  /// The name of the archive to retrieve.
+  Future<DescribeArchiveResponse> describeArchive({
+    @_s.required String archiveName,
+  }) async {
+    ArgumentError.checkNotNull(archiveName, 'archiveName');
+    _s.validateStringLength(
+      'archiveName',
+      archiveName,
+      1,
+      48,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'archiveName',
+      archiveName,
+      r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSEvents.DescribeArchive'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ArchiveName': archiveName,
+      },
+    );
+
+    return DescribeArchiveResponse.fromJson(jsonResponse.body);
+  }
+
   /// Displays details about an event bus in your account. This can include the
   /// external AWS accounts that are permitted to write events to your default
   /// event bus, and the associated policy. For custom event buses and partner
@@ -537,8 +769,8 @@ class EventBridge {
   /// May throw [InternalException].
   ///
   /// Parameter [name] :
-  /// The name of the event bus to show details for. If you omit this, the
-  /// default event bus is displayed.
+  /// The name or ARN of the event bus to show details for. If you omit this,
+  /// the default event bus is displayed.
   Future<DescribeEventBusResponse> describeEventBus({
     String name,
   }) async {
@@ -546,12 +778,12 @@ class EventBridge {
       'name',
       name,
       1,
-      256,
+      1600,
     );
     _s.validateStringPattern(
       'name',
       name,
-      r'''[/\.\-_A-Za-z0-9]+''',
+      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -576,6 +808,7 @@ class EventBridge {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [name] :
   /// The name of the partner event source to display the details of.
@@ -621,6 +854,7 @@ class EventBridge {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [name] :
   /// The name of the event source to display.
@@ -659,6 +893,58 @@ class EventBridge {
     return DescribePartnerEventSourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves details about a replay. Use <code>DescribeReplay</code> to
+  /// determine the progress of a running replay. A replay processes events to
+  /// replay based on the time in the event, and replays them using 1 minute
+  /// intervals. If you use <code>StartReplay</code> and specify an
+  /// <code>EventStartTime</code> and an <code>EventEndTime</code> that covers a
+  /// 20 minute time range, the events are replayed from the first minute of
+  /// that 20 minute range first. Then the events from the second minute are
+  /// replayed. You can use <code>DescribeReplay</code> to determine the
+  /// progress of a replay. The value returned for
+  /// <code>EventLastReplayedTime</code> indicates the time within the specified
+  /// time range associated with the last event replayed.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [replayName] :
+  /// The name of the replay to retrieve.
+  Future<DescribeReplayResponse> describeReplay({
+    @_s.required String replayName,
+  }) async {
+    ArgumentError.checkNotNull(replayName, 'replayName');
+    _s.validateStringLength(
+      'replayName',
+      replayName,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'replayName',
+      replayName,
+      r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSEvents.DescribeReplay'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplayName': replayName,
+      },
+    );
+
+    return DescribeReplayResponse.fromJson(jsonResponse.body);
+  }
+
   /// Describes the specified rule.
   ///
   /// DescribeRule does not list the targets of a rule. To see the targets
@@ -671,8 +957,8 @@ class EventBridge {
   /// The name of the rule.
   ///
   /// Parameter [eventBusName] :
-  /// The event bus associated with the rule. If you omit this, the default
-  /// event bus is used.
+  /// The name or ARN of the event bus associated with the rule. If you omit
+  /// this, the default event bus is used.
   Future<DescribeRuleResponse> describeRule({
     @_s.required String name,
     String eventBusName,
@@ -695,12 +981,12 @@ class EventBridge {
       'eventBusName',
       eventBusName,
       1,
-      256,
+      1600,
     );
     _s.validateStringPattern(
       'eventBusName',
       eventBusName,
-      r'''[/\.\-_A-Za-z0-9]+''',
+      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -736,8 +1022,8 @@ class EventBridge {
   /// The name of the rule.
   ///
   /// Parameter [eventBusName] :
-  /// The event bus associated with the rule. If you omit this, the default
-  /// event bus is used.
+  /// The name or ARN of the event bus associated with the rule. If you omit
+  /// this, the default event bus is used.
   Future<void> disableRule({
     @_s.required String name,
     String eventBusName,
@@ -760,12 +1046,12 @@ class EventBridge {
       'eventBusName',
       eventBusName,
       1,
-      256,
+      1600,
     );
     _s.validateStringPattern(
       'eventBusName',
       eventBusName,
-      r'''[/\.\-_A-Za-z0-9]+''',
+      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -800,8 +1086,8 @@ class EventBridge {
   /// The name of the rule.
   ///
   /// Parameter [eventBusName] :
-  /// The event bus associated with the rule. If you omit this, the default
-  /// event bus is used.
+  /// The name or ARN of the event bus associated with the rule. If you omit
+  /// this, the default event bus is used.
   Future<void> enableRule({
     @_s.required String name,
     String eventBusName,
@@ -824,12 +1110,12 @@ class EventBridge {
       'eventBusName',
       eventBusName,
       1,
-      256,
+      1600,
     );
     _s.validateStringPattern(
       'eventBusName',
       eventBusName,
-      r'''[/\.\-_A-Za-z0-9]+''',
+      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -846,6 +1132,86 @@ class EventBridge {
         if (eventBusName != null) 'EventBusName': eventBusName,
       },
     );
+  }
+
+  /// Lists your archives. You can either list all the archives or you can
+  /// provide a prefix to match to the archive names. Filter parameters are
+  /// exclusive.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [eventSourceArn] :
+  /// The ARN of the event source associated with the archive.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [namePrefix] :
+  /// A name prefix to filter the archives returned. Only archives with name
+  /// that match the prefix are returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned by a previous call to retrieve the next set of results.
+  ///
+  /// Parameter [state] :
+  /// The state of the archive.
+  Future<ListArchivesResponse> listArchives({
+    String eventSourceArn,
+    int limit,
+    String namePrefix,
+    String nextToken,
+    ArchiveState state,
+  }) async {
+    _s.validateStringLength(
+      'eventSourceArn',
+      eventSourceArn,
+      1,
+      1600,
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'namePrefix',
+      namePrefix,
+      1,
+      48,
+    );
+    _s.validateStringPattern(
+      'namePrefix',
+      namePrefix,
+      r'''[\.\-_A-Za-z0-9]+''',
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSEvents.ListArchives'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (eventSourceArn != null) 'EventSourceArn': eventSourceArn,
+        if (limit != null) 'Limit': limit,
+        if (namePrefix != null) 'NamePrefix': namePrefix,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (state != null) 'State': state.toValue(),
+      },
+    );
+
+    return ListArchivesResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists all the event buses in your account, including the default event
@@ -917,6 +1283,7 @@ class EventBridge {
   /// sources, see <a>CreateEventBus</a>.
   ///
   /// May throw [InternalException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [limit] :
   /// Specifying this limits the number of results returned by this operation.
@@ -983,6 +1350,7 @@ class EventBridge {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [eventSourceName] :
   /// The name of the partner event source to display account information about.
@@ -1052,6 +1420,7 @@ class EventBridge {
   /// customers.
   ///
   /// May throw [InternalException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [namePrefix] :
   /// If you specify this, the results are limited to only those partner event
@@ -1116,6 +1485,84 @@ class EventBridge {
     return ListPartnerEventSourcesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists your replays. You can either list all the replays or you can provide
+  /// a prefix to match to the replay names. Filter parameters are exclusive.
+  ///
+  /// May throw [InternalException].
+  ///
+  /// Parameter [eventSourceArn] :
+  /// The ARN of the event source associated with the replay.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of replays to retrieve.
+  ///
+  /// Parameter [namePrefix] :
+  /// A name prefix to filter the replays returned. Only replays with name that
+  /// match the prefix are returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned by a previous call to retrieve the next set of results.
+  ///
+  /// Parameter [state] :
+  /// The state of the replay.
+  Future<ListReplaysResponse> listReplays({
+    String eventSourceArn,
+    int limit,
+    String namePrefix,
+    String nextToken,
+    ReplayState state,
+  }) async {
+    _s.validateStringLength(
+      'eventSourceArn',
+      eventSourceArn,
+      1,
+      1600,
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'namePrefix',
+      namePrefix,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'namePrefix',
+      namePrefix,
+      r'''[\.\-_A-Za-z0-9]+''',
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSEvents.ListReplays'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (eventSourceArn != null) 'EventSourceArn': eventSourceArn,
+        if (limit != null) 'Limit': limit,
+        if (namePrefix != null) 'NamePrefix': namePrefix,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (state != null) 'State': state.toValue(),
+      },
+    );
+
+    return ListReplaysResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists the rules for the specified target. You can see which of the rules
   /// in Amazon EventBridge can invoke a specific target in your account.
   ///
@@ -1126,8 +1573,8 @@ class EventBridge {
   /// The Amazon Resource Name (ARN) of the target resource.
   ///
   /// Parameter [eventBusName] :
-  /// Limits the results to show only the rules associated with the specified
-  /// event bus.
+  /// The name or ARN of the event bus to list rules for. If you omit this, the
+  /// default event bus is used.
   ///
   /// Parameter [limit] :
   /// The maximum number of results to return.
@@ -1152,12 +1599,12 @@ class EventBridge {
       'eventBusName',
       eventBusName,
       1,
-      256,
+      1600,
     );
     _s.validateStringPattern(
       'eventBusName',
       eventBusName,
-      r'''[/\.\-_A-Za-z0-9]+''',
+      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -1202,8 +1649,8 @@ class EventBridge {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [eventBusName] :
-  /// Limits the results to show only the rules associated with the specified
-  /// event bus.
+  /// The name or ARN of the event bus to list the rules for. If you omit this,
+  /// the default event bus is used.
   ///
   /// Parameter [limit] :
   /// The maximum number of results to return.
@@ -1223,12 +1670,12 @@ class EventBridge {
       'eventBusName',
       eventBusName,
       1,
-      256,
+      1600,
     );
     _s.validateStringPattern(
       'eventBusName',
       eventBusName,
-      r'''[/\.\-_A-Za-z0-9]+''',
+      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -1320,8 +1767,8 @@ class EventBridge {
   /// The name of the rule.
   ///
   /// Parameter [eventBusName] :
-  /// The event bus associated with the rule. If you omit this, the default
-  /// event bus is used.
+  /// The name or ARN of the event bus associated with the rule. If you omit
+  /// this, the default event bus is used.
   ///
   /// Parameter [limit] :
   /// The maximum number of results to return.
@@ -1352,12 +1799,12 @@ class EventBridge {
       'eventBusName',
       eventBusName,
       1,
-      256,
+      1600,
     );
     _s.validateStringPattern(
       'eventBusName',
       eventBusName,
-      r'''[/\.\-_A-Za-z0-9]+''',
+      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -1427,6 +1874,7 @@ class EventBridge {
   /// event bus. AWS customers do not use this operation.
   ///
   /// May throw [InternalException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [entries] :
   /// The list of events to write to the event bus.
@@ -1453,9 +1901,9 @@ class EventBridge {
   }
 
   /// Running <code>PutPermission</code> permits the specified AWS account or
-  /// AWS organization to put events to the specified <i>event bus</i>.
-  /// CloudWatch Events rules in your account are triggered by these events
-  /// arriving to an event bus in your account.
+  /// AWS organization to put events to the specified <i>event bus</i>. Amazon
+  /// EventBridge (CloudWatch Events) rules in your account are triggered by
+  /// these events arriving to an event bus in your account.
   ///
   /// For another account to send events to your account, that external account
   /// must have an EventBridge rule with your account's event bus as a target.
@@ -1482,10 +1930,35 @@ class EventBridge {
   /// May throw [PolicyLengthExceededException].
   /// May throw [InternalException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [action] :
   /// The action that you are enabling the other account to perform. Currently,
   /// this must be <code>events:PutEvents</code>.
+  ///
+  /// Parameter [condition] :
+  /// This parameter enables you to limit the permission to accounts that
+  /// fulfill a certain condition, such as being a member of a certain AWS
+  /// organization. For more information about AWS Organizations, see <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html">What
+  /// Is AWS Organizations</a> in the <i>AWS Organizations User Guide</i>.
+  ///
+  /// If you specify <code>Condition</code> with an AWS organization ID, and
+  /// specify "*" as the value for <code>Principal</code>, you grant permission
+  /// to all the accounts in the named organization.
+  ///
+  /// The <code>Condition</code> is a JSON string which must contain
+  /// <code>Type</code>, <code>Key</code>, and <code>Value</code> fields.
+  ///
+  /// Parameter [eventBusName] :
+  /// The name of the event bus associated with the rule. If you omit this, the
+  /// default event bus is used.
+  ///
+  /// Parameter [policy] :
+  /// A JSON string that describes the permission policy statement. You can
+  /// include a <code>Policy</code> parameter in the request instead of using
+  /// the <code>StatementId</code>, <code>Action</code>, <code>Principal</code>,
+  /// or <code>Condition</code> parameters.
   ///
   /// Parameter [principal] :
   /// The 12-digit AWS account ID that you are permitting to put events to your
@@ -1504,72 +1977,24 @@ class EventBridge {
   /// permissions to. If you later want to revoke the permission for this
   /// external account, specify this <code>StatementId</code> when you run
   /// <a>RemovePermission</a>.
-  ///
-  /// Parameter [condition] :
-  /// This parameter enables you to limit the permission to accounts that
-  /// fulfill a certain condition, such as being a member of a certain AWS
-  /// organization. For more information about AWS Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html">What
-  /// Is AWS Organizations</a> in the <i>AWS Organizations User Guide</i>.
-  ///
-  /// If you specify <code>Condition</code> with an AWS organization ID, and
-  /// specify "*" as the value for <code>Principal</code>, you grant permission
-  /// to all the accounts in the named organization.
-  ///
-  /// The <code>Condition</code> is a JSON string which must contain
-  /// <code>Type</code>, <code>Key</code>, and <code>Value</code> fields.
-  ///
-  /// Parameter [eventBusName] :
-  /// The event bus associated with the rule. If you omit this, the default
-  /// event bus is used.
   Future<void> putPermission({
-    @_s.required String action,
-    @_s.required String principal,
-    @_s.required String statementId,
+    String action,
     Condition condition,
     String eventBusName,
+    String policy,
+    String principal,
+    String statementId,
   }) async {
-    ArgumentError.checkNotNull(action, 'action');
     _s.validateStringLength(
       'action',
       action,
       1,
       64,
-      isRequired: true,
     );
     _s.validateStringPattern(
       'action',
       action,
       r'''events:[a-zA-Z]+''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(principal, 'principal');
-    _s.validateStringLength(
-      'principal',
-      principal,
-      1,
-      12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'principal',
-      principal,
-      r'''(\d{12}|\*)''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(statementId, 'statementId');
-    _s.validateStringLength(
-      'statementId',
-      statementId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'statementId',
-      statementId,
-      r'''[a-zA-Z0-9-_]+''',
-      isRequired: true,
     );
     _s.validateStringLength(
       'eventBusName',
@@ -1582,6 +2007,28 @@ class EventBridge {
       eventBusName,
       r'''[\.\-_A-Za-z0-9]+''',
     );
+    _s.validateStringLength(
+      'principal',
+      principal,
+      1,
+      12,
+    );
+    _s.validateStringPattern(
+      'principal',
+      principal,
+      r'''(\d{12}|\*)''',
+    );
+    _s.validateStringLength(
+      'statementId',
+      statementId,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'statementId',
+      statementId,
+      r'''[a-zA-Z0-9-_]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.PutPermission'
@@ -1593,11 +2040,12 @@ class EventBridge {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Action': action,
-        'Principal': principal,
-        'StatementId': statementId,
+        if (action != null) 'Action': action,
         if (condition != null) 'Condition': condition,
         if (eventBusName != null) 'EventBusName': eventBusName,
+        if (policy != null) 'Policy': policy,
+        if (principal != null) 'Principal': principal,
+        if (statementId != null) 'StatementId': statementId,
       },
     );
   }
@@ -1676,8 +2124,8 @@ class EventBridge {
   /// A description of the rule.
   ///
   /// Parameter [eventBusName] :
-  /// The event bus to associate with this rule. If you omit this, the default
-  /// event bus is used.
+  /// The name or ARN of the event bus to associate with this rule. If you omit
+  /// this, the default event bus is used.
   ///
   /// Parameter [eventPattern] :
   /// The event pattern. For more information, see <a
@@ -1730,12 +2178,12 @@ class EventBridge {
       'eventBusName',
       eventBusName,
       1,
-      256,
+      1600,
     );
     _s.validateStringPattern(
       'eventBusName',
       eventBusName,
-      r'''[/\.\-_A-Za-z0-9]+''',
+      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     _s.validateStringLength(
       'roleArn',
@@ -1828,6 +2276,12 @@ class EventBridge {
   /// <li>
   /// The default event bus of another AWS account
   /// </li>
+  /// <li>
+  /// Amazon API Gateway REST APIs
+  /// </li>
+  /// <li>
+  /// Redshift Clusters to invoke Data API ExecuteStatement on
+  /// </li>
   /// </ul>
   /// Creating rules with built-in targets is supported only in the AWS
   /// Management Console. The built-in targets are <code>EC2 CreateSnapshot API
@@ -1843,12 +2297,12 @@ class EventBridge {
   /// <code>RunCommandParameters</code> field.
   ///
   /// To be able to make API calls against the resources that you own, Amazon
-  /// CloudWatch Events needs the appropriate permissions. For AWS Lambda and
-  /// Amazon SNS resources, EventBridge relies on resource-based policies. For
-  /// EC2 instances, Kinesis data streams, and AWS Step Functions state
-  /// machines, EventBridge relies on IAM roles that you specify in the
-  /// <code>RoleARN</code> argument in <code>PutTargets</code>. For more
-  /// information, see <a
+  /// EventBridge (CloudWatch Events) needs the appropriate permissions. For AWS
+  /// Lambda and Amazon SNS resources, EventBridge relies on resource-based
+  /// policies. For EC2 instances, Kinesis data streams, AWS Step Functions
+  /// state machines and API Gateway REST APIs, EventBridge relies on IAM roles
+  /// that you specify in the <code>RoleARN</code> argument in
+  /// <code>PutTargets</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html">Authentication
   /// and Access Control</a> in the <i>Amazon EventBridge User Guide</i>.
   ///
@@ -1861,8 +2315,8 @@ class EventBridge {
   /// your account is charged for each sent event. Each event sent to another
   /// account is charged as a custom event. The account receiving the event is
   /// not charged. For more information, see <a
-  /// href="https://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
-  /// Pricing</a>.
+  /// href="https://aws.amazon.com/eventbridge/pricing/">Amazon EventBridge
+  /// (CloudWatch Events) Pricing</a>.
   /// <note>
   /// <code>Input</code>, <code>InputPath</code>, and
   /// <code>InputTransformer</code> are not available with
@@ -1933,8 +2387,8 @@ class EventBridge {
   /// The targets to update or add to the rule.
   ///
   /// Parameter [eventBusName] :
-  /// The name of the event bus associated with the rule. If you omit this, the
-  /// default event bus is used.
+  /// The name or ARN of the event bus associated with the rule. If you omit
+  /// this, the default event bus is used.
   Future<PutTargetsResponse> putTargets({
     @_s.required String rule,
     @_s.required List<Target> targets,
@@ -1959,12 +2413,12 @@ class EventBridge {
       'eventBusName',
       eventBusName,
       1,
-      256,
+      1600,
     );
     _s.validateStringPattern(
       'eventBusName',
       eventBusName,
-      r'''[/\.\-_A-Za-z0-9]+''',
+      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1995,32 +2449,23 @@ class EventBridge {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalException].
   /// May throw [ConcurrentModificationException].
-  ///
-  /// Parameter [statementId] :
-  /// The statement ID corresponding to the account that is no longer allowed to
-  /// put events to the default event bus.
+  /// May throw [OperationDisabledException].
   ///
   /// Parameter [eventBusName] :
   /// The name of the event bus to revoke permissions for. If you omit this, the
   /// default event bus is used.
+  ///
+  /// Parameter [removeAllPermissions] :
+  /// Specifies whether to remove all permissions.
+  ///
+  /// Parameter [statementId] :
+  /// The statement ID corresponding to the account that is no longer allowed to
+  /// put events to the default event bus.
   Future<void> removePermission({
-    @_s.required String statementId,
     String eventBusName,
+    bool removeAllPermissions,
+    String statementId,
   }) async {
-    ArgumentError.checkNotNull(statementId, 'statementId');
-    _s.validateStringLength(
-      'statementId',
-      statementId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'statementId',
-      statementId,
-      r'''[a-zA-Z0-9-_]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'eventBusName',
       eventBusName,
@@ -2031,6 +2476,17 @@ class EventBridge {
       'eventBusName',
       eventBusName,
       r'''[\.\-_A-Za-z0-9]+''',
+    );
+    _s.validateStringLength(
+      'statementId',
+      statementId,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'statementId',
+      statementId,
+      r'''[a-zA-Z0-9-_]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2043,8 +2499,10 @@ class EventBridge {
       // TODO queryParams
       headers: headers,
       payload: {
-        'StatementId': statementId,
         if (eventBusName != null) 'EventBusName': eventBusName,
+        if (removeAllPermissions != null)
+          'RemoveAllPermissions': removeAllPermissions,
+        if (statementId != null) 'StatementId': statementId,
       },
     );
   }
@@ -2073,7 +2531,8 @@ class EventBridge {
   /// The name of the rule.
   ///
   /// Parameter [eventBusName] :
-  /// The name of the event bus associated with the rule.
+  /// The name or ARN of the event bus associated with the rule. If you omit
+  /// this, the default event bus is used.
   ///
   /// Parameter [force] :
   /// If this is a managed rule, created by an AWS service on your behalf, you
@@ -2107,12 +2566,12 @@ class EventBridge {
       'eventBusName',
       eventBusName,
       1,
-      256,
+      1600,
     );
     _s.validateStringPattern(
       'eventBusName',
       eventBusName,
-      r'''[/\.\-_A-Za-z0-9]+''',
+      r'''(arn:aws[\w-]*:events:[a-z]{2}-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2133,6 +2592,112 @@ class EventBridge {
     );
 
     return RemoveTargetsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Starts the specified replay. Events are not necessarily replayed in the
+  /// exact same order that they were added to the archive. A replay processes
+  /// events to replay based on the time in the event, and replays them using 1
+  /// minute intervals. If you specify an <code>EventStartTime</code> and an
+  /// <code>EventEndTime</code> that covers a 20 minute time range, the events
+  /// are replayed from the first minute of that 20 minute range first. Then the
+  /// events from the second minute are replayed. You can use
+  /// <code>DescribeReplay</code> to determine the progress of a replay. The
+  /// value returned for <code>EventLastReplayedTime</code> indicates the time
+  /// within the specified time range associated with the last event replayed.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [InvalidEventPatternException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [destination] :
+  /// A <code>ReplayDestination</code> object that includes details about the
+  /// destination for the replay.
+  ///
+  /// Parameter [eventEndTime] :
+  /// A time stamp for the time to stop replaying events. Only events that
+  /// occurred between the <code>EventStartTime</code> and
+  /// <code>EventEndTime</code> are replayed.
+  ///
+  /// Parameter [eventSourceArn] :
+  /// The ARN of the archive to replay events from.
+  ///
+  /// Parameter [eventStartTime] :
+  /// A time stamp for the time to start replaying events. Only events that
+  /// occurred between the <code>EventStartTime</code> and
+  /// <code>EventEndTime</code> are replayed.
+  ///
+  /// Parameter [replayName] :
+  /// The name of the replay to start.
+  ///
+  /// Parameter [description] :
+  /// A description for the replay to start.
+  Future<StartReplayResponse> startReplay({
+    @_s.required ReplayDestination destination,
+    @_s.required DateTime eventEndTime,
+    @_s.required String eventSourceArn,
+    @_s.required DateTime eventStartTime,
+    @_s.required String replayName,
+    String description,
+  }) async {
+    ArgumentError.checkNotNull(destination, 'destination');
+    ArgumentError.checkNotNull(eventEndTime, 'eventEndTime');
+    ArgumentError.checkNotNull(eventSourceArn, 'eventSourceArn');
+    _s.validateStringLength(
+      'eventSourceArn',
+      eventSourceArn,
+      1,
+      1600,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(eventStartTime, 'eventStartTime');
+    ArgumentError.checkNotNull(replayName, 'replayName');
+    _s.validateStringLength(
+      'replayName',
+      replayName,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'replayName',
+      replayName,
+      r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      512,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''.*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSEvents.StartReplay'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Destination': destination,
+        'EventEndTime': unixTimestampToJson(eventEndTime),
+        'EventSourceArn': eventSourceArn,
+        'EventStartTime': unixTimestampToJson(eventStartTime),
+        'ReplayName': replayName,
+        if (description != null) 'Description': description,
+      },
+    );
+
+    return StartReplayResponse.fromJson(jsonResponse.body);
   }
 
   /// Assigns one or more tags (key-value pairs) to the specified EventBridge
@@ -2237,7 +2802,8 @@ class EventBridge {
   }
 
   /// Removes one or more tags from the specified EventBridge resource. In
-  /// CloudWatch Events, rules and event buses can be tagged.
+  /// Amazon EventBridge (CloudWatch Events, rules and event buses can be
+  /// tagged.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalException].
@@ -2279,6 +2845,173 @@ class EventBridge {
     );
 
     return UntagResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the specified archive.
+  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidEventPatternException].
+  ///
+  /// Parameter [archiveName] :
+  /// The name of the archive to update.
+  ///
+  /// Parameter [description] :
+  /// The description for the archive.
+  ///
+  /// Parameter [eventPattern] :
+  /// The event pattern to use to filter events sent to the archive.
+  ///
+  /// Parameter [retentionDays] :
+  /// The number of days to retain events in the archive.
+  Future<UpdateArchiveResponse> updateArchive({
+    @_s.required String archiveName,
+    String description,
+    String eventPattern,
+    int retentionDays,
+  }) async {
+    ArgumentError.checkNotNull(archiveName, 'archiveName');
+    _s.validateStringLength(
+      'archiveName',
+      archiveName,
+      1,
+      48,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'archiveName',
+      archiveName,
+      r'''[\.\-_A-Za-z0-9]+''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      512,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''.*''',
+    );
+    _s.validateNumRange(
+      'retentionDays',
+      retentionDays,
+      0,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSEvents.UpdateArchive'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ArchiveName': archiveName,
+        if (description != null) 'Description': description,
+        if (eventPattern != null) 'EventPattern': eventPattern,
+        if (retentionDays != null) 'RetentionDays': retentionDays,
+      },
+    );
+
+    return UpdateArchiveResponse.fromJson(jsonResponse.body);
+  }
+}
+
+/// An <code>Archive</code> object that contains details about an archive.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Archive {
+  /// The name of the archive.
+  @_s.JsonKey(name: 'ArchiveName')
+  final String archiveName;
+
+  /// The time stamp for the time that the archive was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
+  final DateTime creationTime;
+
+  /// The number of events in the archive.
+  @_s.JsonKey(name: 'EventCount')
+  final int eventCount;
+
+  /// The ARN of the event bus associated with the archive. Only events from this
+  /// event bus are sent to the archive.
+  @_s.JsonKey(name: 'EventSourceArn')
+  final String eventSourceArn;
+
+  /// The number of days to retain events in the archive before they are deleted.
+  @_s.JsonKey(name: 'RetentionDays')
+  final int retentionDays;
+
+  /// The size of the archive, in bytes.
+  @_s.JsonKey(name: 'SizeBytes')
+  final int sizeBytes;
+
+  /// The current state of the archive.
+  @_s.JsonKey(name: 'State')
+  final ArchiveState state;
+
+  /// A description for the reason that the archive is in the current state.
+  @_s.JsonKey(name: 'StateReason')
+  final String stateReason;
+
+  Archive({
+    this.archiveName,
+    this.creationTime,
+    this.eventCount,
+    this.eventSourceArn,
+    this.retentionDays,
+    this.sizeBytes,
+    this.state,
+    this.stateReason,
+  });
+  factory Archive.fromJson(Map<String, dynamic> json) =>
+      _$ArchiveFromJson(json);
+}
+
+enum ArchiveState {
+  @_s.JsonValue('ENABLED')
+  enabled,
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('CREATING')
+  creating,
+  @_s.JsonValue('UPDATING')
+  updating,
+  @_s.JsonValue('CREATE_FAILED')
+  createFailed,
+  @_s.JsonValue('UPDATE_FAILED')
+  updateFailed,
+}
+
+extension on ArchiveState {
+  String toValue() {
+    switch (this) {
+      case ArchiveState.enabled:
+        return 'ENABLED';
+      case ArchiveState.disabled:
+        return 'DISABLED';
+      case ArchiveState.creating:
+        return 'CREATING';
+      case ArchiveState.updating:
+        return 'UPDATING';
+      case ArchiveState.createFailed:
+        return 'CREATE_FAILED';
+      case ArchiveState.updateFailed:
+        return 'UPDATE_FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -2418,6 +3151,33 @@ class BatchRetryStrategy {
   Map<String, dynamic> toJson() => _$BatchRetryStrategyToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CancelReplayResponse {
+  /// The ARN of the replay to cancel.
+  @_s.JsonKey(name: 'ReplayArn')
+  final String replayArn;
+
+  /// The current state of the replay.
+  @_s.JsonKey(name: 'State')
+  final ReplayState state;
+
+  /// The reason that the replay is in the current state.
+  @_s.JsonKey(name: 'StateReason')
+  final String stateReason;
+
+  CancelReplayResponse({
+    this.replayArn,
+    this.state,
+    this.stateReason,
+  });
+  factory CancelReplayResponse.fromJson(Map<String, dynamic> json) =>
+      _$CancelReplayResponseFromJson(json);
+}
+
 /// A JSON string which you can use to limit the event bus permissions you are
 /// granting to only accounts that fulfill the condition. Currently, the only
 /// supported condition is membership in a certain AWS organization. The string
@@ -2461,6 +3221,39 @@ class Condition {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateArchiveResponse {
+  /// The ARN of the archive that was created.
+  @_s.JsonKey(name: 'ArchiveArn')
+  final String archiveArn;
+
+  /// The time at which the archive was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
+  final DateTime creationTime;
+
+  /// The state of the archive that was created.
+  @_s.JsonKey(name: 'State')
+  final ArchiveState state;
+
+  /// The reason that the archive is in the state.
+  @_s.JsonKey(name: 'StateReason')
+  final String stateReason;
+
+  CreateArchiveResponse({
+    this.archiveArn,
+    this.creationTime,
+    this.state,
+    this.stateReason,
+  });
+  factory CreateArchiveResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateArchiveResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateEventBusResponse {
   /// The ARN of the new event bus.
   @_s.JsonKey(name: 'EventBusArn')
@@ -2489,6 +3282,106 @@ class CreatePartnerEventSourceResponse {
   factory CreatePartnerEventSourceResponse.fromJson(
           Map<String, dynamic> json) =>
       _$CreatePartnerEventSourceResponseFromJson(json);
+}
+
+/// A <code>DeadLetterConfig</code> object that contains information about a
+/// dead-letter queue configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DeadLetterConfig {
+  /// The ARN of the SQS queue specified as the target for the dead-letter queue.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  DeadLetterConfig({
+    this.arn,
+  });
+  factory DeadLetterConfig.fromJson(Map<String, dynamic> json) =>
+      _$DeadLetterConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DeadLetterConfigToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteArchiveResponse {
+  DeleteArchiveResponse();
+  factory DeleteArchiveResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteArchiveResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeArchiveResponse {
+  /// The ARN of the archive.
+  @_s.JsonKey(name: 'ArchiveArn')
+  final String archiveArn;
+
+  /// The name of the archive.
+  @_s.JsonKey(name: 'ArchiveName')
+  final String archiveName;
+
+  /// The time at which the archive was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
+  final DateTime creationTime;
+
+  /// The description of the archive.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The number of events in the archive.
+  @_s.JsonKey(name: 'EventCount')
+  final int eventCount;
+
+  /// The event pattern used to filter events sent to the archive.
+  @_s.JsonKey(name: 'EventPattern')
+  final String eventPattern;
+
+  /// The ARN of the event source associated with the archive.
+  @_s.JsonKey(name: 'EventSourceArn')
+  final String eventSourceArn;
+
+  /// The number of days to retain events for in the archive.
+  @_s.JsonKey(name: 'RetentionDays')
+  final int retentionDays;
+
+  /// The size of the archive in bytes.
+  @_s.JsonKey(name: 'SizeBytes')
+  final int sizeBytes;
+
+  /// The state of the archive.
+  @_s.JsonKey(name: 'State')
+  final ArchiveState state;
+
+  /// The reason that the archive is in the state.
+  @_s.JsonKey(name: 'StateReason')
+  final String stateReason;
+
+  DescribeArchiveResponse({
+    this.archiveArn,
+    this.archiveName,
+    this.creationTime,
+    this.description,
+    this.eventCount,
+    this.eventPattern,
+    this.eventSourceArn,
+    this.retentionDays,
+    this.sizeBytes,
+    this.state,
+    this.stateReason,
+  });
+  factory DescribeArchiveResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeArchiveResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2596,16 +3489,102 @@ class DescribePartnerEventSourceResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeReplayResponse {
+  /// The description of the replay.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A <code>ReplayDestination</code> object that contains details about the
+  /// replay.
+  @_s.JsonKey(name: 'Destination')
+  final ReplayDestination destination;
+
+  /// The time stamp for the last event that was replayed from the archive.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EventEndTime')
+  final DateTime eventEndTime;
+
+  /// The time that the event was last replayed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EventLastReplayedTime')
+  final DateTime eventLastReplayedTime;
+
+  /// The ARN of the archive events were replayed from.
+  @_s.JsonKey(name: 'EventSourceArn')
+  final String eventSourceArn;
+
+  /// The time stamp of the first event that was last replayed from the archive.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EventStartTime')
+  final DateTime eventStartTime;
+
+  /// The ARN of the replay.
+  @_s.JsonKey(name: 'ReplayArn')
+  final String replayArn;
+
+  /// A time stamp for the time that the replay stopped.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReplayEndTime')
+  final DateTime replayEndTime;
+
+  /// The name of the replay.
+  @_s.JsonKey(name: 'ReplayName')
+  final String replayName;
+
+  /// A time stamp for the time that the replay started.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReplayStartTime')
+  final DateTime replayStartTime;
+
+  /// The current state of the replay.
+  @_s.JsonKey(name: 'State')
+  final ReplayState state;
+
+  /// The reason that the replay is in the current state.
+  @_s.JsonKey(name: 'StateReason')
+  final String stateReason;
+
+  DescribeReplayResponse({
+    this.description,
+    this.destination,
+    this.eventEndTime,
+    this.eventLastReplayedTime,
+    this.eventSourceArn,
+    this.eventStartTime,
+    this.replayArn,
+    this.replayEndTime,
+    this.replayName,
+    this.replayStartTime,
+    this.state,
+    this.stateReason,
+  });
+  factory DescribeReplayResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeReplayResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeRuleResponse {
   /// The Amazon Resource Name (ARN) of the rule.
   @_s.JsonKey(name: 'Arn')
   final String arn;
 
+  /// The account ID of the user that created the rule. If you use
+  /// <code>PutRule</code> to put a rule on an event bus in another account, the
+  /// other account is the owner of the rule, and the rule ARN includes the
+  /// account ID for that account. However, the value for <code>CreatedBy</code>
+  /// is the account ID as the account that created the rule in the other account.
+  @_s.JsonKey(name: 'CreatedBy')
+  final String createdBy;
+
   /// The description of the rule.
   @_s.JsonKey(name: 'Description')
   final String description;
 
-  /// The event bus associated with the rule.
+  /// The name of the event bus associated with the rule.
   @_s.JsonKey(name: 'EventBusName')
   final String eventBusName;
 
@@ -2639,6 +3618,7 @@ class DescribeRuleResponse {
 
   DescribeRuleResponse({
     this.arn,
+    this.createdBy,
     this.description,
     this.eventBusName,
     this.eventPattern,
@@ -2818,6 +3798,40 @@ enum EventSourceState {
   deleted,
 }
 
+/// These are custom parameter to be used when the target is an API Gateway REST
+/// APIs.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class HttpParameters {
+  /// The headers that need to be sent as part of request invoking the API Gateway
+  /// REST API.
+  @_s.JsonKey(name: 'HeaderParameters')
+  final Map<String, String> headerParameters;
+
+  /// The path parameter values to be used to populate API Gateway REST API path
+  /// wildcards ("*").
+  @_s.JsonKey(name: 'PathParameterValues')
+  final List<String> pathParameterValues;
+
+  /// The query string keys/values that need to be sent as part of request
+  /// invoking the API Gateway REST API.
+  @_s.JsonKey(name: 'QueryStringParameters')
+  final Map<String, String> queryStringParameters;
+
+  HttpParameters({
+    this.headerParameters,
+    this.pathParameterValues,
+    this.queryStringParameters,
+  });
+  factory HttpParameters.fromJson(Map<String, dynamic> json) =>
+      _$HttpParametersFromJson(json);
+
+  Map<String, dynamic> toJson() => _$HttpParametersToJson(this);
+}
+
 /// Contains the parameters needed for you to provide custom input to a target
 /// based on one or more pieces of data extracted from the event.
 @_s.JsonSerializable(
@@ -2935,6 +3949,29 @@ enum LaunchType {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListArchivesResponse {
+  /// An array of <code>Archive</code> objects that include details about an
+  /// archive.
+  @_s.JsonKey(name: 'Archives')
+  final List<Archive> archives;
+
+  /// The token returned by a previous call to retrieve the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListArchivesResponse({
+    this.archives,
+    this.nextToken,
+  });
+  factory ListArchivesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListArchivesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListEventBusesResponse {
   /// This list of event buses.
   @_s.JsonKey(name: 'EventBuses')
@@ -3021,6 +4058,29 @@ class ListPartnerEventSourcesResponse {
   });
   factory ListPartnerEventSourcesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListPartnerEventSourcesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListReplaysResponse {
+  /// The token returned by a previous call to retrieve the next set of results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An array of <code>Replay</code> objects that contain information about the
+  /// replay.
+  @_s.JsonKey(name: 'Replays')
+  final List<Replay> replays;
+
+  ListReplaysResponse({
+    this.nextToken,
+    this.replays,
+  });
+  factory ListReplaysResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListReplaysResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3212,8 +4272,9 @@ class PutEventsRequestEntry {
   @_s.JsonKey(name: 'DetailType')
   final String detailType;
 
-  /// The event bus that will receive the event. Only the rules that are
-  /// associated with this event bus will be able to match the event.
+  /// The name or ARN of the event bus to receive the event. Only the rules that
+  /// are associated with this event bus are used to match the event. If you omit
+  /// this, the default event bus is used.
   @_s.JsonKey(name: 'EventBusName')
   final String eventBusName;
 
@@ -3458,6 +4519,58 @@ class PutTargetsResultEntry {
       _$PutTargetsResultEntryFromJson(json);
 }
 
+/// These are custom parameters to be used when the target is a Redshift cluster
+/// to invoke the Redshift Data API ExecuteStatement based on EventBridge
+/// events.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class RedshiftDataParameters {
+  /// The name of the database. Required when authenticating using temporary
+  /// credentials.
+  @_s.JsonKey(name: 'Database')
+  final String database;
+
+  /// The SQL statement text to run.
+  @_s.JsonKey(name: 'Sql')
+  final String sql;
+
+  /// The database user name. Required when authenticating using temporary
+  /// credentials.
+  @_s.JsonKey(name: 'DbUser')
+  final String dbUser;
+
+  /// The name or ARN of the secret that enables access to the database. Required
+  /// when authenticating using AWS Secrets Manager.
+  @_s.JsonKey(name: 'SecretManagerArn')
+  final String secretManagerArn;
+
+  /// The name of the SQL statement. You can name the SQL statement when you
+  /// create it to identify the query.
+  @_s.JsonKey(name: 'StatementName')
+  final String statementName;
+
+  /// Indicates whether to send an event back to EventBridge after the SQL
+  /// statement runs.
+  @_s.JsonKey(name: 'WithEvent')
+  final bool withEvent;
+
+  RedshiftDataParameters({
+    @_s.required this.database,
+    @_s.required this.sql,
+    this.dbUser,
+    this.secretManagerArn,
+    this.statementName,
+    this.withEvent,
+  });
+  factory RedshiftDataParameters.fromJson(Map<String, dynamic> json) =>
+      _$RedshiftDataParametersFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RedshiftDataParametersToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3510,6 +4623,161 @@ class RemoveTargetsResultEntry {
       _$RemoveTargetsResultEntryFromJson(json);
 }
 
+/// A <code>Replay</code> object that contains details about a replay.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Replay {
+  /// A time stamp for the time to start replaying events. Any event with a
+  /// creation time prior to the <code>EventEndTime</code> specified is replayed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EventEndTime')
+  final DateTime eventEndTime;
+
+  /// A time stamp for the time that the last event was replayed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EventLastReplayedTime')
+  final DateTime eventLastReplayedTime;
+
+  /// The ARN of the archive to replay event from.
+  @_s.JsonKey(name: 'EventSourceArn')
+  final String eventSourceArn;
+
+  /// A time stamp for the time to start replaying events. This is determined by
+  /// the time in the event as described in <a
+  /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutEventsRequestEntry.html#eventbridge-Type-PutEventsRequestEntry-Time">Time</a>.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EventStartTime')
+  final DateTime eventStartTime;
+
+  /// A time stamp for the time that the replay completed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReplayEndTime')
+  final DateTime replayEndTime;
+
+  /// The name of the replay.
+  @_s.JsonKey(name: 'ReplayName')
+  final String replayName;
+
+  /// A time stamp for the time that the replay started.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReplayStartTime')
+  final DateTime replayStartTime;
+
+  /// The current state of the replay.
+  @_s.JsonKey(name: 'State')
+  final ReplayState state;
+
+  /// A description of why the replay is in the current state.
+  @_s.JsonKey(name: 'StateReason')
+  final String stateReason;
+
+  Replay({
+    this.eventEndTime,
+    this.eventLastReplayedTime,
+    this.eventSourceArn,
+    this.eventStartTime,
+    this.replayEndTime,
+    this.replayName,
+    this.replayStartTime,
+    this.state,
+    this.stateReason,
+  });
+  factory Replay.fromJson(Map<String, dynamic> json) => _$ReplayFromJson(json);
+}
+
+/// A <code>ReplayDestination</code> object that contains details about a
+/// replay.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ReplayDestination {
+  /// The ARN of the event bus to replay event to. You can replay events only to
+  /// the event bus specified to create the archive.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// A list of ARNs for rules to replay events to.
+  @_s.JsonKey(name: 'FilterArns')
+  final List<String> filterArns;
+
+  ReplayDestination({
+    @_s.required this.arn,
+    this.filterArns,
+  });
+  factory ReplayDestination.fromJson(Map<String, dynamic> json) =>
+      _$ReplayDestinationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ReplayDestinationToJson(this);
+}
+
+enum ReplayState {
+  @_s.JsonValue('STARTING')
+  starting,
+  @_s.JsonValue('RUNNING')
+  running,
+  @_s.JsonValue('CANCELLING')
+  cancelling,
+  @_s.JsonValue('COMPLETED')
+  completed,
+  @_s.JsonValue('CANCELLED')
+  cancelled,
+  @_s.JsonValue('FAILED')
+  failed,
+}
+
+extension on ReplayState {
+  String toValue() {
+    switch (this) {
+      case ReplayState.starting:
+        return 'STARTING';
+      case ReplayState.running:
+        return 'RUNNING';
+      case ReplayState.cancelling:
+        return 'CANCELLING';
+      case ReplayState.completed:
+        return 'COMPLETED';
+      case ReplayState.cancelled:
+        return 'CANCELLED';
+      case ReplayState.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// A <code>RetryPolicy</code> object that includes information about the retry
+/// policy settings.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class RetryPolicy {
+  /// The maximum amount of time, in seconds, to continue to make retry attempts.
+  @_s.JsonKey(name: 'MaximumEventAgeInSeconds')
+  final int maximumEventAgeInSeconds;
+
+  /// The maximum number of retry attempts to make before the request fails. Retry
+  /// attempts continue until either the maximum number of attempts is made or
+  /// until the duration of the <code>MaximumEventAgeInSeconds</code> is met.
+  @_s.JsonKey(name: 'MaximumRetryAttempts')
+  final int maximumRetryAttempts;
+
+  RetryPolicy({
+    this.maximumEventAgeInSeconds,
+    this.maximumRetryAttempts,
+  });
+  factory RetryPolicy.fromJson(Map<String, dynamic> json) =>
+      _$RetryPolicyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RetryPolicyToJson(this);
+}
+
 /// Contains information about a rule in Amazon EventBridge.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3525,7 +4793,8 @@ class Rule {
   @_s.JsonKey(name: 'Description')
   final String description;
 
-  /// The event bus associated with the rule.
+  /// The name or ARN of the event bus associated with the rule. If you omit this,
+  /// the default event bus is used.
   @_s.JsonKey(name: 'EventBusName')
   final String eventBusName;
 
@@ -3663,6 +4932,39 @@ class SqsParameters {
   Map<String, dynamic> toJson() => _$SqsParametersToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StartReplayResponse {
+  /// The ARN of the replay.
+  @_s.JsonKey(name: 'ReplayArn')
+  final String replayArn;
+
+  /// The time at which the replay started.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReplayStartTime')
+  final DateTime replayStartTime;
+
+  /// The state of the replay.
+  @_s.JsonKey(name: 'State')
+  final ReplayState state;
+
+  /// The reason that the replay is in the state.
+  @_s.JsonKey(name: 'StateReason')
+  final String stateReason;
+
+  StartReplayResponse({
+    this.replayArn,
+    this.replayStartTime,
+    this.state,
+    this.stateReason,
+  });
+  factory StartReplayResponse.fromJson(Map<String, dynamic> json) =>
+      _$StartReplayResponseFromJson(json);
+}
+
 /// A key-value pair associated with an AWS resource. In EventBridge, rules and
 /// event buses support tagging.
 @_s.JsonSerializable(
@@ -3733,6 +5035,11 @@ class Target {
   @_s.JsonKey(name: 'BatchParameters')
   final BatchParameters batchParameters;
 
+  /// The <code>DeadLetterConfig</code> that defines the target queue to send
+  /// dead-letter queue events to.
+  @_s.JsonKey(name: 'DeadLetterConfig')
+  final DeadLetterConfig deadLetterConfig;
+
   /// Contains the Amazon ECS task definition and task count to be used, if the
   /// event target is an Amazon ECS task. For more information about Amazon ECS
   /// tasks, see <a
@@ -3740,6 +5047,15 @@ class Target {
   /// Definitions </a> in the <i>Amazon EC2 Container Service Developer Guide</i>.
   @_s.JsonKey(name: 'EcsParameters')
   final EcsParameters ecsParameters;
+
+  /// Contains the HTTP parameters to use when the target is a API Gateway REST
+  /// endpoint.
+  ///
+  /// If you specify an API Gateway REST API as a target, you can use this
+  /// parameter to specify headers, path parameter, query string keys/values as
+  /// part of your target invoking request.
+  @_s.JsonKey(name: 'HttpParameters')
+  final HttpParameters httpParameters;
 
   /// Valid JSON text passed to the target. In this case, nothing from the event
   /// itself is passed to the target. For more information, see <a
@@ -3767,6 +5083,20 @@ class Target {
   @_s.JsonKey(name: 'KinesisParameters')
   final KinesisParameters kinesisParameters;
 
+  /// Contains the Redshift Data API parameters to use when the target is a
+  /// Redshift cluster.
+  ///
+  /// If you specify a Redshift Cluster as a Target, you can use this to specify
+  /// parameters to invoke the Redshift Data API ExecuteStatement based on
+  /// EventBridge events.
+  @_s.JsonKey(name: 'RedshiftDataParameters')
+  final RedshiftDataParameters redshiftDataParameters;
+
+  /// The <code>RetryPolicy</code> object that contains the retry policy
+  /// configuration to use for the dead-letter queue.
+  @_s.JsonKey(name: 'RetryPolicy')
+  final RetryPolicy retryPolicy;
+
   /// The Amazon Resource Name (ARN) of the IAM role to be used for this target
   /// when the rule is triggered. If one rule triggers multiple targets, you can
   /// use a different IAM role for each target.
@@ -3789,11 +5119,15 @@ class Target {
     @_s.required this.arn,
     @_s.required this.id,
     this.batchParameters,
+    this.deadLetterConfig,
     this.ecsParameters,
+    this.httpParameters,
     this.input,
     this.inputPath,
     this.inputTransformer,
     this.kinesisParameters,
+    this.redshiftDataParameters,
+    this.retryPolicy,
     this.roleArn,
     this.runCommandParameters,
     this.sqsParameters,
@@ -3831,12 +5165,50 @@ class UntagResourceResponse {
       _$UntagResourceResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateArchiveResponse {
+  /// The ARN of the archive.
+  @_s.JsonKey(name: 'ArchiveArn')
+  final String archiveArn;
+
+  /// The time at which the archive was updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
+  final DateTime creationTime;
+
+  /// The state of the archive.
+  @_s.JsonKey(name: 'State')
+  final ArchiveState state;
+
+  /// The reason that the archive is in the current state.
+  @_s.JsonKey(name: 'StateReason')
+  final String stateReason;
+
+  UpdateArchiveResponse({
+    this.archiveArn,
+    this.creationTime,
+    this.state,
+    this.stateReason,
+  });
+  factory UpdateArchiveResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateArchiveResponseFromJson(json);
+}
+
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String type, String message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
             message: message);
+}
+
+class IllegalStatusException extends _s.GenericAwsException {
+  IllegalStatusException({String type, String message})
+      : super(type: type, code: 'IllegalStatusException', message: message);
 }
 
 class InternalException extends _s.GenericAwsException {
@@ -3865,6 +5237,11 @@ class ManagedRuleException extends _s.GenericAwsException {
       : super(type: type, code: 'ManagedRuleException', message: message);
 }
 
+class OperationDisabledException extends _s.GenericAwsException {
+  OperationDisabledException({String type, String message})
+      : super(type: type, code: 'OperationDisabledException', message: message);
+}
+
 class PolicyLengthExceededException extends _s.GenericAwsException {
   PolicyLengthExceededException({String type, String message})
       : super(
@@ -3889,6 +5266,8 @@ class ResourceNotFoundException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ConcurrentModificationException': (type, message) =>
       ConcurrentModificationException(type: type, message: message),
+  'IllegalStatusException': (type, message) =>
+      IllegalStatusException(type: type, message: message),
   'InternalException': (type, message) =>
       InternalException(type: type, message: message),
   'InvalidEventPatternException': (type, message) =>
@@ -3899,6 +5278,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       LimitExceededException(type: type, message: message),
   'ManagedRuleException': (type, message) =>
       ManagedRuleException(type: type, message: message),
+  'OperationDisabledException': (type, message) =>
+      OperationDisabledException(type: type, message: message),
   'PolicyLengthExceededException': (type, message) =>
       PolicyLengthExceededException(type: type, message: message),
   'ResourceAlreadyExistsException': (type, message) =>

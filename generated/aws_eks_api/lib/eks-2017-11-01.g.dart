@@ -6,51 +6,22 @@ part of 'eks-2017-11-01.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AutoScalingGroup _$AutoScalingGroupFromJson(Map<String, dynamic> json) {
-  return AutoScalingGroup(
-    name: json['name'] as String,
-  );
-}
-
-Certificate _$CertificateFromJson(Map<String, dynamic> json) {
-  return Certificate(
-    data: json['data'] as String,
-  );
-}
-
-Cluster _$ClusterFromJson(Map<String, dynamic> json) {
-  return Cluster(
-    arn: json['arn'] as String,
-    certificateAuthority: json['certificateAuthority'] == null
-        ? null
-        : Certificate.fromJson(
-            json['certificateAuthority'] as Map<String, dynamic>),
-    clientRequestToken: json['clientRequestToken'] as String,
+Addon _$AddonFromJson(Map<String, dynamic> json) {
+  return Addon(
+    addonArn: json['addonArn'] as String,
+    addonName: json['addonName'] as String,
+    addonVersion: json['addonVersion'] as String,
+    clusterName: json['clusterName'] as String,
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    encryptionConfig: (json['encryptionConfig'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EncryptionConfig.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    endpoint: json['endpoint'] as String,
-    identity: json['identity'] == null
+    health: json['health'] == null
         ? null
-        : Identity.fromJson(json['identity'] as Map<String, dynamic>),
-    logging: json['logging'] == null
-        ? null
-        : Logging.fromJson(json['logging'] as Map<String, dynamic>),
-    name: json['name'] as String,
-    platformVersion: json['platformVersion'] as String,
-    resourcesVpcConfig: json['resourcesVpcConfig'] == null
-        ? null
-        : VpcConfigResponse.fromJson(
-            json['resourcesVpcConfig'] as Map<String, dynamic>),
-    roleArn: json['roleArn'] as String,
-    status: _$enumDecodeNullable(_$ClusterStatusEnumMap, json['status']),
+        : AddonHealth.fromJson(json['health'] as Map<String, dynamic>),
+    modifiedAt: const UnixDateTimeConverter().fromJson(json['modifiedAt']),
+    serviceAccountRoleArn: json['serviceAccountRoleArn'] as String,
+    status: _$enumDecodeNullable(_$AddonStatusEnumMap, json['status']),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    version: json['version'] as String,
   );
 }
 
@@ -86,6 +57,119 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
+const _$AddonStatusEnumMap = {
+  AddonStatus.creating: 'CREATING',
+  AddonStatus.active: 'ACTIVE',
+  AddonStatus.createFailed: 'CREATE_FAILED',
+  AddonStatus.updating: 'UPDATING',
+  AddonStatus.deleting: 'DELETING',
+  AddonStatus.deleteFailed: 'DELETE_FAILED',
+  AddonStatus.degraded: 'DEGRADED',
+};
+
+AddonHealth _$AddonHealthFromJson(Map<String, dynamic> json) {
+  return AddonHealth(
+    issues: (json['issues'] as List)
+        ?.map((e) =>
+            e == null ? null : AddonIssue.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+AddonInfo _$AddonInfoFromJson(Map<String, dynamic> json) {
+  return AddonInfo(
+    addonName: json['addonName'] as String,
+    addonVersions: (json['addonVersions'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AddonVersionInfo.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    type: json['type'] as String,
+  );
+}
+
+AddonIssue _$AddonIssueFromJson(Map<String, dynamic> json) {
+  return AddonIssue(
+    code: _$enumDecodeNullable(_$AddonIssueCodeEnumMap, json['code']),
+    message: json['message'] as String,
+    resourceIds:
+        (json['resourceIds'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+const _$AddonIssueCodeEnumMap = {
+  AddonIssueCode.accessDenied: 'AccessDenied',
+  AddonIssueCode.internalFailure: 'InternalFailure',
+  AddonIssueCode.clusterUnreachable: 'ClusterUnreachable',
+  AddonIssueCode.insufficientNumberOfReplicas: 'InsufficientNumberOfReplicas',
+  AddonIssueCode.configurationConflict: 'ConfigurationConflict',
+};
+
+AddonVersionInfo _$AddonVersionInfoFromJson(Map<String, dynamic> json) {
+  return AddonVersionInfo(
+    addonVersion: json['addonVersion'] as String,
+    architecture:
+        (json['architecture'] as List)?.map((e) => e as String)?.toList(),
+    compatibilities: (json['compatibilities'] as List)
+        ?.map((e) => e == null
+            ? null
+            : Compatibility.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+AutoScalingGroup _$AutoScalingGroupFromJson(Map<String, dynamic> json) {
+  return AutoScalingGroup(
+    name: json['name'] as String,
+  );
+}
+
+Certificate _$CertificateFromJson(Map<String, dynamic> json) {
+  return Certificate(
+    data: json['data'] as String,
+  );
+}
+
+Cluster _$ClusterFromJson(Map<String, dynamic> json) {
+  return Cluster(
+    arn: json['arn'] as String,
+    certificateAuthority: json['certificateAuthority'] == null
+        ? null
+        : Certificate.fromJson(
+            json['certificateAuthority'] as Map<String, dynamic>),
+    clientRequestToken: json['clientRequestToken'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    encryptionConfig: (json['encryptionConfig'] as List)
+        ?.map((e) => e == null
+            ? null
+            : EncryptionConfig.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    endpoint: json['endpoint'] as String,
+    identity: json['identity'] == null
+        ? null
+        : Identity.fromJson(json['identity'] as Map<String, dynamic>),
+    kubernetesNetworkConfig: json['kubernetesNetworkConfig'] == null
+        ? null
+        : KubernetesNetworkConfigResponse.fromJson(
+            json['kubernetesNetworkConfig'] as Map<String, dynamic>),
+    logging: json['logging'] == null
+        ? null
+        : Logging.fromJson(json['logging'] as Map<String, dynamic>),
+    name: json['name'] as String,
+    platformVersion: json['platformVersion'] as String,
+    resourcesVpcConfig: json['resourcesVpcConfig'] == null
+        ? null
+        : VpcConfigResponse.fromJson(
+            json['resourcesVpcConfig'] as Map<String, dynamic>),
+    roleArn: json['roleArn'] as String,
+    status: _$enumDecodeNullable(_$ClusterStatusEnumMap, json['status']),
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    version: json['version'] as String,
+  );
+}
+
 const _$ClusterStatusEnumMap = {
   ClusterStatus.creating: 'CREATING',
   ClusterStatus.active: 'ACTIVE',
@@ -93,6 +177,23 @@ const _$ClusterStatusEnumMap = {
   ClusterStatus.failed: 'FAILED',
   ClusterStatus.updating: 'UPDATING',
 };
+
+Compatibility _$CompatibilityFromJson(Map<String, dynamic> json) {
+  return Compatibility(
+    clusterVersion: json['clusterVersion'] as String,
+    defaultVersion: json['defaultVersion'] as bool,
+    platformVersions:
+        (json['platformVersions'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+CreateAddonResponse _$CreateAddonResponseFromJson(Map<String, dynamic> json) {
+  return CreateAddonResponse(
+    addon: json['addon'] == null
+        ? null
+        : Addon.fromJson(json['addon'] as Map<String, dynamic>),
+  );
+}
 
 CreateClusterResponse _$CreateClusterResponseFromJson(
     Map<String, dynamic> json) {
@@ -122,6 +223,14 @@ CreateNodegroupResponse _$CreateNodegroupResponseFromJson(
   );
 }
 
+DeleteAddonResponse _$DeleteAddonResponseFromJson(Map<String, dynamic> json) {
+  return DeleteAddonResponse(
+    addon: json['addon'] == null
+        ? null
+        : Addon.fromJson(json['addon'] as Map<String, dynamic>),
+  );
+}
+
 DeleteClusterResponse _$DeleteClusterResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteClusterResponse(
@@ -147,6 +256,26 @@ DeleteNodegroupResponse _$DeleteNodegroupResponseFromJson(
     nodegroup: json['nodegroup'] == null
         ? null
         : Nodegroup.fromJson(json['nodegroup'] as Map<String, dynamic>),
+  );
+}
+
+DescribeAddonResponse _$DescribeAddonResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeAddonResponse(
+    addon: json['addon'] == null
+        ? null
+        : Addon.fromJson(json['addon'] as Map<String, dynamic>),
+  );
+}
+
+DescribeAddonVersionsResponse _$DescribeAddonVersionsResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeAddonVersionsResponse(
+    addons: (json['addons'] as List)
+        ?.map((e) =>
+            e == null ? null : AddonInfo.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['nextToken'] as String,
   );
 }
 
@@ -231,6 +360,9 @@ const _$ErrorCodeEnumMap = {
   ErrorCode.nodeCreationFailure: 'NodeCreationFailure',
   ErrorCode.podEvictionFailure: 'PodEvictionFailure',
   ErrorCode.insufficientFreeAddresses: 'InsufficientFreeAddresses',
+  ErrorCode.clusterUnreachable: 'ClusterUnreachable',
+  ErrorCode.insufficientNumberOfReplicas: 'InsufficientNumberOfReplicas',
+  ErrorCode.configurationConflict: 'ConfigurationConflict',
 };
 
 FargateProfile _$FargateProfileFromJson(Map<String, dynamic> json) {
@@ -325,7 +457,61 @@ const _$NodegroupIssueCodeEnumMap = {
   NodegroupIssueCode.insufficientFreeAddresses: 'InsufficientFreeAddresses',
   NodegroupIssueCode.accessDenied: 'AccessDenied',
   NodegroupIssueCode.internalFailure: 'InternalFailure',
+  NodegroupIssueCode.clusterUnreachable: 'ClusterUnreachable',
 };
+
+Map<String, dynamic> _$KubernetesNetworkConfigRequestToJson(
+    KubernetesNetworkConfigRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('serviceIpv4Cidr', instance.serviceIpv4Cidr);
+  return val;
+}
+
+KubernetesNetworkConfigResponse _$KubernetesNetworkConfigResponseFromJson(
+    Map<String, dynamic> json) {
+  return KubernetesNetworkConfigResponse(
+    serviceIpv4Cidr: json['serviceIpv4Cidr'] as String,
+  );
+}
+
+LaunchTemplateSpecification _$LaunchTemplateSpecificationFromJson(
+    Map<String, dynamic> json) {
+  return LaunchTemplateSpecification(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    version: json['version'] as String,
+  );
+}
+
+Map<String, dynamic> _$LaunchTemplateSpecificationToJson(
+    LaunchTemplateSpecification instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('name', instance.name);
+  writeNotNull('version', instance.version);
+  return val;
+}
+
+ListAddonsResponse _$ListAddonsResponseFromJson(Map<String, dynamic> json) {
+  return ListAddonsResponse(
+    addons: (json['addons'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['nextToken'] as String,
+  );
+}
 
 ListClustersResponse _$ListClustersResponseFromJson(Map<String, dynamic> json) {
   return ListClustersResponse(
@@ -426,6 +612,8 @@ Map<String, dynamic> _$LoggingToJson(Logging instance) {
 Nodegroup _$NodegroupFromJson(Map<String, dynamic> json) {
   return Nodegroup(
     amiType: _$enumDecodeNullable(_$AMITypesEnumMap, json['amiType']),
+    capacityType:
+        _$enumDecodeNullable(_$CapacityTypesEnumMap, json['capacityType']),
     clusterName: json['clusterName'] as String,
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     diskSize: json['diskSize'] as int,
@@ -437,6 +625,10 @@ Nodegroup _$NodegroupFromJson(Map<String, dynamic> json) {
     labels: (json['labels'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
+    launchTemplate: json['launchTemplate'] == null
+        ? null
+        : LaunchTemplateSpecification.fromJson(
+            json['launchTemplate'] as Map<String, dynamic>),
     modifiedAt: const UnixDateTimeConverter().fromJson(json['modifiedAt']),
     nodeRole: json['nodeRole'] as String,
     nodegroupArn: json['nodegroupArn'] as String,
@@ -466,6 +658,12 @@ Nodegroup _$NodegroupFromJson(Map<String, dynamic> json) {
 const _$AMITypesEnumMap = {
   AMITypes.al2X86_64: 'AL2_x86_64',
   AMITypes.al2X86_64Gpu: 'AL2_x86_64_GPU',
+  AMITypes.al2Arm_64: 'AL2_ARM_64',
+};
+
+const _$CapacityTypesEnumMap = {
+  CapacityTypes.onDemand: 'ON_DEMAND',
+  CapacityTypes.spot: 'SPOT',
 };
 
 const _$NodegroupStatusEnumMap = {
@@ -609,7 +807,16 @@ const _$UpdateTypeEnumMap = {
   UpdateType.endpointAccessUpdate: 'EndpointAccessUpdate',
   UpdateType.loggingUpdate: 'LoggingUpdate',
   UpdateType.configUpdate: 'ConfigUpdate',
+  UpdateType.addonUpdate: 'AddonUpdate',
 };
+
+UpdateAddonResponse _$UpdateAddonResponseFromJson(Map<String, dynamic> json) {
+  return UpdateAddonResponse(
+    update: json['update'] == null
+        ? null
+        : Update.fromJson(json['update'] as Map<String, dynamic>),
+  );
+}
 
 UpdateClusterConfigResponse _$UpdateClusterConfigResponseFromJson(
     Map<String, dynamic> json) {
@@ -681,6 +888,9 @@ const _$UpdateParamTypeEnumMap = {
   UpdateParamType.minSize: 'MinSize',
   UpdateParamType.releaseVersion: 'ReleaseVersion',
   UpdateParamType.publicAccessCidrs: 'PublicAccessCidrs',
+  UpdateParamType.addonVersion: 'AddonVersion',
+  UpdateParamType.serviceAccountRoleArn: 'ServiceAccountRoleArn',
+  UpdateParamType.resolveConflicts: 'ResolveConflicts',
 };
 
 Map<String, dynamic> _$VpcConfigRequestToJson(VpcConfigRequest instance) {

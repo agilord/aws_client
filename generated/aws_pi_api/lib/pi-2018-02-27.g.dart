@@ -79,19 +79,6 @@ GetResourceMetricsResponse _$GetResourceMetricsResponseFromJson(
   );
 }
 
-InternalServiceError _$InternalServiceErrorFromJson(Map<String, dynamic> json) {
-  return InternalServiceError(
-    message: json['Message'] as String,
-  );
-}
-
-InvalidArgumentException _$InvalidArgumentExceptionFromJson(
-    Map<String, dynamic> json) {
-  return InvalidArgumentException(
-    message: json['Message'] as String,
-  );
-}
-
 MetricKeyDataPoints _$MetricKeyDataPointsFromJson(Map<String, dynamic> json) {
   return MetricKeyDataPoints(
     dataPoints: (json['DataPoints'] as List)
@@ -118,13 +105,6 @@ Map<String, dynamic> _$MetricQueryToJson(MetricQuery instance) {
   writeNotNull('Filter', instance.filter);
   writeNotNull('GroupBy', instance.groupBy?.toJson());
   return val;
-}
-
-NotAuthorizedException _$NotAuthorizedExceptionFromJson(
-    Map<String, dynamic> json) {
-  return NotAuthorizedException(
-    message: json['Message'] as String,
-  );
 }
 
 ResponsePartitionKey _$ResponsePartitionKeyFromJson(Map<String, dynamic> json) {

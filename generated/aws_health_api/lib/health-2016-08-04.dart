@@ -27,10 +27,19 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 part 'health-2016-08-04.g.dart';
 
 /// The AWS Health API provides programmatic access to the AWS Health
-/// information that is presented in the <a
+/// information that appears in the <a
 /// href="https://phd.aws.amazon.com/phd/home#/">AWS Personal Health
-/// Dashboard</a>. You can get information about events that affect your AWS
-/// resources:
+/// Dashboard</a>. You can use the API operations to get information about AWS
+/// Health events that affect your AWS services and resources.
+/// <note>
+/// You must have a Business or Enterprise support plan from <a
+/// href="http://aws.amazon.com/premiumsupport/">AWS Support</a> to use the AWS
+/// Health API. If you call the AWS Health API from an AWS account that doesn't
+/// have a Business or Enterprise support plan, you receive a
+/// <code>SubscriptionRequiredException</code> error.
+/// </note>
+/// AWS Health has a single endpoint: health.us-east-1.amazonaws.com (HTTPS).
+/// Use this endpoint to call the AWS Health API operations.
 class Health {
   final _s.JsonProtocol _protocol;
   Health({
@@ -49,12 +58,18 @@ class Health {
         );
 
   /// Returns a list of accounts in the organization from AWS Organizations that
-  /// are affected by the provided event.
+  /// are affected by the provided event. For more information about the
+  /// different types of AWS Health events, see <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html">Event</a>.
   ///
   /// Before you can call this operation, you must first enable AWS Health to
-  /// work with AWS Organizations. To do this, call the
-  /// <a>EnableHealthServiceAccessForOrganization</a> operation from your
-  /// organization's master account.
+  /// work with AWS Organizations. To do this, call the <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html">EnableHealthServiceAccessForOrganization</a>
+  /// operation from your organization's master account.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the next request to return more results.
+  /// </note>
   ///
   /// May throw [InvalidPaginationToken].
   ///
@@ -142,6 +157,10 @@ class Health {
   ///
   /// At least one event ARN is required. Results are sorted by the
   /// <code>lastUpdatedTime</code> of the entity, starting with the most recent.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the next request to return more results.
+  /// </note>
   ///
   /// May throw [InvalidPaginationToken].
   /// May throw [UnsupportedLocale].
@@ -225,14 +244,18 @@ class Health {
   /// resources, groups of customer resources, or any other construct, depending
   /// on the AWS service.
   ///
-  /// At least one event ARN and account ID are required. Results are sorted by
-  /// the <code>lastUpdatedTime</code> of the entity, starting with the most
-  /// recent.
+  /// At least one event Amazon Resource Name (ARN) and account ID are required.
+  /// Results are sorted by the <code>lastUpdatedTime</code> of the entity,
+  /// starting with the most recent.
   ///
   /// Before you can call this operation, you must first enable AWS Health to
-  /// work with AWS Organizations. To do this, call the
-  /// <a>EnableHealthServiceAccessForOrganization</a> operation from your
-  /// organization's master account.
+  /// work with AWS Organizations. To do this, call the <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html">EnableHealthServiceAccessForOrganization</a>
+  /// operation from your organization's master account.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the next request to return more results.
+  /// </note>
   ///
   /// May throw [InvalidPaginationToken].
   /// May throw [UnsupportedLocale].
@@ -347,6 +370,10 @@ class Health {
   /// Returns the number of events of each event type (issue, scheduled change,
   /// and account notification). If no filter is specified, the counts of all
   /// events in each category are returned.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the next request to return more results.
+  /// </note>
   ///
   /// May throw [InvalidPaginationToken].
   ///
@@ -412,11 +439,14 @@ class Health {
   }
 
   /// Returns detailed information about one or more specified events.
-  /// Information includes standard event data (region, service, and so on, as
-  /// returned by <a>DescribeEvents</a>), a detailed event description, and
-  /// possible additional metadata that depends upon the nature of the event.
-  /// Affected entities are not included; to retrieve those, use the
-  /// <a>DescribeAffectedEntities</a> operation.
+  /// Information includes standard event data (Region, service, and so on, as
+  /// returned by <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEvents.html">DescribeEvents</a>),
+  /// a detailed event description, and possible additional metadata that
+  /// depends upon the nature of the event. Affected entities are not included.
+  /// To retrieve those, use the <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntities.html">DescribeAffectedEntities</a>
+  /// operation.
   ///
   /// If a specified event cannot be retrieved, an error message is returned for
   /// that event.
@@ -468,16 +498,40 @@ class Health {
 
   /// Returns detailed information about one or more specified events for one or
   /// more accounts in your organization. Information includes standard event
-  /// data (Region, service, and so on, as returned by
-  /// <a>DescribeEventsForOrganization</a>, a detailed event description, and
-  /// possible additional metadata that depends upon the nature of the event.
-  /// Affected entities are not included; to retrieve those, use the
-  /// <a>DescribeAffectedEntitiesForOrganization</a> operation.
+  /// data (Region, service, and so on, as returned by <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventsForOrganization.html">DescribeEventsForOrganization</a>),
+  /// a detailed event description, and possible additional metadata that
+  /// depends upon the nature of the event. Affected entities are not included;
+  /// to retrieve those, use the <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html">DescribeAffectedEntitiesForOrganization</a>
+  /// operation.
   ///
   /// Before you can call this operation, you must first enable AWS Health to
-  /// work with AWS Organizations. To do this, call the
-  /// <a>EnableHealthServiceAccessForOrganization</a> operation from your
-  /// organization's master account.
+  /// work with AWS Organizations. To do this, call the <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html">EnableHealthServiceAccessForOrganization</a>
+  /// operation from your organization's master account.
+  ///
+  /// When you call the <code>DescribeEventDetailsForOrganization</code>
+  /// operation, you specify the <code>organizationEventDetailFilters</code>
+  /// object in the request. Depending on the AWS Health event type, note the
+  /// following differences:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the event is public, the <code>awsAccountId</code> parameter must be
+  /// empty. If you specify an account ID for a public event, then an error
+  /// message is returned. That's because the event might apply to all AWS
+  /// accounts and isn't specific to an account in your organization.
+  /// </li>
+  /// <li>
+  /// If the event is specific to an account, then you must specify the
+  /// <code>awsAccountId</code> parameter in the request. If you don't specify
+  /// an account ID, an error message returns because the event is specific to
+  /// an AWS account in your organization.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html">Event</a>.
   ///
   /// May throw [UnsupportedLocale].
   ///
@@ -529,6 +583,10 @@ class Health {
   /// Returns the event types that meet the specified filter criteria. If no
   /// filter criteria are specified, all event types are returned, in no
   /// particular order.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the next request to return more results.
+  /// </note>
   ///
   /// May throw [InvalidPaginationToken].
   /// May throw [UnsupportedLocale].
@@ -608,12 +666,33 @@ class Health {
   /// Returns information about events that meet the specified filter criteria.
   /// Events are returned in a summary form and do not include the detailed
   /// description, any additional metadata that depends on the event type, or
-  /// any affected resources. To retrieve that information, use the
-  /// <a>DescribeEventDetails</a> and <a>DescribeAffectedEntities</a>
+  /// any affected resources. To retrieve that information, use the <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntities.html">DescribeAffectedEntities</a>
   /// operations.
   ///
   /// If no filter criteria are specified, all events are returned. Results are
-  /// sorted by <code>lastModifiedTime</code>, starting with the most recent.
+  /// sorted by <code>lastModifiedTime</code>, starting with the most recent
+  /// event.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// When you call the <code>DescribeEvents</code> operation and specify an
+  /// entity for the <code>entityValues</code> parameter, AWS Health might
+  /// return public events that aren't specific to that resource. For example,
+  /// if you call <code>DescribeEvents</code> and specify an ID for an Amazon
+  /// Elastic Compute Cloud (Amazon EC2) instance, AWS Health might return
+  /// events that aren't specific to that resource or service. To get events
+  /// that are specific to a service, use the <code>services</code> parameter in
+  /// the <code>filter</code> object. For more information, see <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html">Event</a>.
+  /// </li>
+  /// <li>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the next request to return more results.
+  /// </li>
+  /// </ul> </note>
   ///
   /// May throw [InvalidPaginationToken].
   /// May throw [UnsupportedLocale].
@@ -691,22 +770,43 @@ class Health {
   }
 
   /// Returns information about events across your organization in AWS
-  /// Organizations, meeting the specified filter criteria. Events are returned
-  /// in a summary form and do not include the accounts impacted, detailed
-  /// description, any additional metadata that depends on the event type, or
-  /// any affected resources. To retrieve that information, use the
-  /// <a>DescribeAffectedAccountsForOrganization</a>,
-  /// <a>DescribeEventDetailsForOrganization</a>, and
-  /// <a>DescribeAffectedEntitiesForOrganization</a> operations.
+  /// Organizations. You can use the<code>filters</code> parameter to specify
+  /// the events that you want to return. Events are returned in a summary form
+  /// and don't include the affected accounts, detailed description, any
+  /// additional metadata that depends on the event type, or any affected
+  /// resources. To retrieve that information, use the following operations:
   ///
-  /// If no filter criteria are specified, all events across your organization
-  /// are returned. Results are sorted by <code>lastModifiedTime</code>,
-  /// starting with the most recent.
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedAccountsForOrganization.html">DescribeAffectedAccountsForOrganization</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html">DescribeAffectedEntitiesForOrganization</a>
+  /// </li>
+  /// </ul>
+  /// If you don't specify a <code>filter</code>, the
+  /// <code>DescribeEventsForOrganizations</code> returns all events across your
+  /// organization. Results are sorted by <code>lastModifiedTime</code>,
+  /// starting with the most recent event.
   ///
-  /// Before you can call this operation, you must first enable Health to work
-  /// with AWS Organizations. To do this, call the
-  /// <a>EnableHealthServiceAccessForOrganization</a> operation from your
-  /// organization's master account.
+  /// For more information about the different types of AWS Health events, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html">Event</a>.
+  ///
+  /// Before you can call this operation, you must first enable AWS Health to
+  /// work with AWS Organizations. To do this, call the <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html">EnableHealthServiceAccessForOrganization</a>
+  /// operation from your organization's master AWS account.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the next request to return more results.
+  /// </note>
   ///
   /// May throw [InvalidPaginationToken].
   /// May throw [UnsupportedLocale].
@@ -806,12 +906,29 @@ class Health {
         jsonResponse.body);
   }
 
-  /// Calling this operation disables Health from working with AWS
-  /// Organizations. This does not remove the Service Linked Role (SLR) from the
-  /// the master account in your organization. Use the IAM console, API, or AWS
-  /// CLI to remove the SLR if desired. To call this operation, you must sign in
-  /// as an IAM user, assume an IAM role, or sign in as the root user (not
-  /// recommended) in the organization's master account.
+  /// Disables AWS Health from working with AWS Organizations. To call this
+  /// operation, you must sign in as an AWS Identity and Access Management (IAM)
+  /// user, assume an IAM role, or sign in as the root user (not recommended) in
+  /// the organization's master AWS account. For more information, see <a
+  /// href="https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html">Aggregating
+  /// AWS Health events</a> in the <i>AWS Health User Guide</i>.
+  ///
+  /// This operation doesn't remove the service-linked role (SLR) from the AWS
+  /// master account in your organization. You must use the IAM console, API, or
+  /// AWS Command Line Interface (AWS CLI) to remove the SLR. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role">Deleting
+  /// a Service-Linked Role</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// You can also disable the organizational feature by using the Organizations
+  /// <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/APIReference/API_DisableAWSServiceAccess.html">DisableAWSServiceAccess</a>
+  /// API operation. After you call this operation, AWS Health stops aggregating
+  /// events for all other AWS accounts in your organization. If you call the
+  /// AWS Health API operations for organizational view, AWS Health returns an
+  /// error. AWS Health continues to aggregate health events for your AWS
+  /// account.
+  /// </note>
   ///
   /// May throw [ConcurrentModificationException].
   Future<void> disableHealthServiceAccessForOrganization() async {
@@ -830,11 +947,14 @@ class Health {
   }
 
   /// Calling this operation enables AWS Health to work with AWS Organizations.
-  /// This applies a Service Linked Role (SLR) to the master account in the
-  /// organization. To learn more about the steps in this process, visit
-  /// enabling service access for AWS Health in AWS Organizations. To call this
-  /// operation, you must sign in as an IAM user, assume an IAM role, or sign in
-  /// as the root user (not recommended) in the organization's master account.
+  /// This applies a service-linked role (SLR) to the master account in the
+  /// organization. To call this operation, you must sign in as an IAM user,
+  /// assume an IAM role, or sign in as the root user (not recommended) in the
+  /// organization's master account.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html">Aggregating
+  /// AWS Health events</a> in the <i>AWS Health User Guide</i>.
   ///
   /// May throw [ConcurrentModificationException].
   Future<void> enableHealthServiceAccessForOrganization() async {
@@ -898,6 +1018,9 @@ class AffectedEntity {
   final EntityStatusCode statusCode;
 
   /// A map of entity tags attached to the affected entity.
+  /// <note>
+  /// Currently, the <code>tags</code> property isn't supported.
+  /// </note>
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
@@ -915,15 +1038,18 @@ class AffectedEntity {
       _$AffectedEntityFromJson(json);
 }
 
-/// A range of dates and times that is used by the <a>EventFilter</a> and
-/// <a>EntityFilter</a> objects. If <code>from</code> is set and <code>to</code>
-/// is set: match items where the timestamp (<code>startTime</code>,
-/// <code>endTime</code>, or <code>lastUpdatedTime</code>) is between
-/// <code>from</code> and <code>to</code> inclusive. If <code>from</code> is set
-/// and <code>to</code> is not set: match items where the timestamp value is
-/// equal to or after <code>from</code>. If <code>from</code> is not set and
-/// <code>to</code> is set: match items where the timestamp value is equal to or
-/// before <code>to</code>.
+/// A range of dates and times that is used by the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EventFilter.html">EventFilter</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EntityFilter.html">EntityFilter</a>
+/// objects. If <code>from</code> is set and <code>to</code> is set: match items
+/// where the timestamp (<code>startTime</code>, <code>endTime</code>, or
+/// <code>lastUpdatedTime</code>) is between <code>from</code> and
+/// <code>to</code> inclusive. If <code>from</code> is set and <code>to</code>
+/// is not set: match items where the timestamp value is equal to or after
+/// <code>from</code>. If <code>from</code> is not set and <code>to</code> is
+/// set: match items where the timestamp value is equal to or before
+/// <code>to</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -957,6 +1083,30 @@ class DescribeAffectedAccountsForOrganizationResponse {
   @_s.JsonKey(name: 'affectedAccounts')
   final List<String> affectedAccounts;
 
+  /// This parameter specifies if the AWS Health event is a public AWS service
+  /// event or an account-specific event.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>PUBLIC</code>, then the
+  /// <code>affectedAccounts</code> value is always empty.
+  /// </li>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>ACCOUNT_SPECIFIC</code>,
+  /// then the <code>affectedAccounts</code> value lists the affected AWS accounts
+  /// in your organization. For example, if an event affects a service such as
+  /// Amazon Elastic Compute Cloud and you have AWS accounts that use that
+  /// service, those account IDs appear in the response.
+  /// </li>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>NONE</code>, then the
+  /// <code>eventArn</code> that you specified in the request is invalid or
+  /// doesn't exist.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'eventScopeCode')
+  final EventScopeCode eventScopeCode;
+
   /// If the results of a search are large, only a portion of the results are
   /// returned, and a <code>nextToken</code> pagination token is returned in the
   /// response. To retrieve the next batch of results, reissue the search request
@@ -967,6 +1117,7 @@ class DescribeAffectedAccountsForOrganizationResponse {
 
   DescribeAffectedAccountsForOrganizationResponse({
     this.affectedAccounts,
+    this.eventScopeCode,
     this.nextToken,
   });
   factory DescribeAffectedAccountsForOrganizationResponse.fromJson(
@@ -982,8 +1133,8 @@ class DescribeAffectedAccountsForOrganizationResponse {
 class DescribeAffectedEntitiesForOrganizationResponse {
   /// A JSON set of elements including the <code>awsAccountId</code> and its
   /// <code>entityArn</code>, <code>entityValue</code> and its
-  /// <code>entityArn</code>, <code>lastUpdatedTime</code>,
-  /// <code>statusCode</code>, and <code>tags</code>.
+  /// <code>entityArn</code>, <code>lastUpdatedTime</code>, and
+  /// <code>statusCode</code>.
   @_s.JsonKey(name: 'entities')
   final List<AffectedEntity> entities;
 
@@ -1234,14 +1385,16 @@ class DescribeHealthServiceStatusForOrganizationResponse {
 }
 
 /// The number of entities that are affected by one or more events. Returned by
-/// the <a>DescribeEntityAggregates</a> operation.
+/// the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEntityAggregates.html">DescribeEntityAggregates</a>
+/// operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class EntityAggregate {
-  /// The number entities that match the criteria for the specified events.
+  /// The number of entities that match the criteria for the specified events.
   @_s.JsonKey(name: 'count')
   final int count;
 
@@ -1260,7 +1413,8 @@ class EntityAggregate {
       _$EntityAggregateFromJson(json);
 }
 
-/// The values to use to filter results from the <a>DescribeAffectedEntities</a>
+/// The values to use to filter results from the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EntityFilter.html">EntityFilter</a>
 /// operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1292,6 +1446,9 @@ class EntityFilter {
   final List<EntityStatusCode> statusCodes;
 
   /// A map of entity tags attached to the affected entity.
+  /// <note>
+  /// Currently, the <code>tags</code> property isn't supported.
+  /// </note>
   @_s.JsonKey(name: 'tags')
   final List<Map<String, String>> tags;
 
@@ -1307,6 +1464,26 @@ class EntityFilter {
 }
 
 /// Summary information about an AWS Health event.
+///
+/// AWS Health events can be public or account-specific:
+///
+/// <ul>
+/// <li>
+/// <i>Public events</i> might be service events that are not specific to an AWS
+/// account. For example, if there is an issue with an AWS Region, AWS Health
+/// provides information about the event, even if you don't use services or
+/// resources in that Region.
+/// </li>
+/// <li>
+/// <i>Account-specific</i> events are specific to either your AWS account or an
+/// account in your organization. For example, if there's an issue with Amazon
+/// Elastic Compute Cloud in a Region that you use, AWS Health provides
+/// information about the event and the affected resources in the account.
+/// </li>
+/// </ul>
+/// You can determine if an event is public or account-specific by using the
+/// <code>eventScopeCode</code> parameter. For more information, see <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html#AWSHealth-Type-Event-eventScopeCode">eventScopeCode</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1328,6 +1505,30 @@ class Event {
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
+
+  /// This parameter specifies if the AWS Health event is a public AWS service
+  /// event or an account-specific event.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>PUBLIC</code>, then the
+  /// <code>affectedAccounts</code> value is always empty.
+  /// </li>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>ACCOUNT_SPECIFIC</code>,
+  /// then the <code>affectedAccounts</code> value lists the affected AWS accounts
+  /// in your organization. For example, if an event affects a service such as
+  /// Amazon Elastic Compute Cloud and you have AWS accounts that use that
+  /// service, those account IDs appear in the response.
+  /// </li>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>NONE</code>, then the
+  /// <code>eventArn</code> that you specified in the request is invalid or
+  /// doesn't exist.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'eventScopeCode')
+  final EventScopeCode eventScopeCode;
 
   /// The category of the event. Possible values are <code>issue</code>,
   /// <code>scheduledChange</code>, and <code>accountNotification</code>.
@@ -1368,6 +1569,7 @@ class Event {
     this.arn,
     this.availabilityZone,
     this.endTime,
+    this.eventScopeCode,
     this.eventTypeCategory,
     this.eventTypeCode,
     this.lastUpdatedTime,
@@ -1379,19 +1581,17 @@ class Event {
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 }
 
-/// The values used to filter results from the
-/// <a>DescribeEventDetailsForOrganization</a> and
-/// <a>DescribeAffectedEntitiesForOrganization</a> operations.
+/// The values used to filter results from the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html">DescribeAffectedEntitiesForOrganization</a>
+/// operations.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class EventAccountFilter {
-  /// The 12-digit AWS account numbers that contains the affected entities.
-  @_s.JsonKey(name: 'awsAccountId')
-  final String awsAccountId;
-
   /// The unique identifier for the event. Format:
   /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
   /// </code>. Example: <code>Example:
@@ -1399,15 +1599,20 @@ class EventAccountFilter {
   @_s.JsonKey(name: 'eventArn')
   final String eventArn;
 
+  /// The 12-digit AWS account numbers that contains the affected entities.
+  @_s.JsonKey(name: 'awsAccountId')
+  final String awsAccountId;
+
   EventAccountFilter({
-    @_s.required this.awsAccountId,
     @_s.required this.eventArn,
+    this.awsAccountId,
   });
   Map<String, dynamic> toJson() => _$EventAccountFilterToJson(this);
 }
 
-/// The number of events of each issue type. Returned by the
-/// <a>DescribeEventAggregates</a> operation.
+/// The number of events of each issue type. Returned by the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventAggregates.html">DescribeEventAggregates</a>
+/// operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1431,7 +1636,9 @@ class EventAggregate {
 }
 
 /// The detailed description of the event. Included in the information returned
-/// by the <a>DescribeEventDetails</a> operation.
+/// by the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
+/// operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1449,9 +1656,13 @@ class EventDescription {
       _$EventDescriptionFromJson(json);
 }
 
-/// Detailed information about an event. A combination of an <a>Event</a>
-/// object, an <a>EventDescription</a> object, and additional metadata about the
-/// event. Returned by the <a>DescribeEventDetails</a> operation.
+/// Detailed information about an event. A combination of an <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html">Event</a>
+/// object, an <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EventDescription.html">EventDescription</a>
+/// object, and additional metadata about the event. Returned by the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
+/// operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1479,8 +1690,9 @@ class EventDetails {
       _$EventDetailsFromJson(json);
 }
 
-/// Error information returned when a <a>DescribeEventDetails</a> operation
-/// cannot find a specified event.
+/// Error information returned when a <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
+/// operation cannot find a specified event.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1511,8 +1723,11 @@ class EventDetailsErrorItem {
       _$EventDetailsErrorItemFromJson(json);
 }
 
-/// The values to use to filter results from the <a>DescribeEvents</a> and
-/// <a>DescribeEventAggregates</a> operations.
+/// The values to use to filter results from the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEvents.html">DescribeEvents</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventAggregates.html">DescribeEventAggregates</a>
+/// operations.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1574,6 +1789,9 @@ class EventFilter {
   final List<DateTimeRange> startTimes;
 
   /// A map of entity tags attached to the affected entity.
+  /// <note>
+  /// Currently, the <code>tags</code> property isn't supported.
+  /// </note>
   @_s.JsonKey(name: 'tags')
   final List<Map<String, String>> tags;
 
@@ -1630,7 +1848,8 @@ class EventType {
       _$EventTypeFromJson(json);
 }
 
-/// The values to use to filter results from the <a>DescribeEventTypes</a>
+/// The values to use to filter results from the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventTypes.html">DescribeEventTypes</a>
 /// operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1660,9 +1879,9 @@ class EventTypeFilter {
   Map<String, dynamic> toJson() => _$EventTypeFilterToJson(this);
 }
 
-/// Error information returned when a
-/// <a>DescribeAffectedEntitiesForOrganization</a> operation cannot find or
-/// process a specific entity.
+/// Error information returned when a <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html">DescribeAffectedEntitiesForOrganization</a>
+/// operation cannot find or process a specific entity.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1701,8 +1920,9 @@ class OrganizationAffectedEntitiesErrorItem {
       _$OrganizationAffectedEntitiesErrorItemFromJson(json);
 }
 
-/// Summary information about an event, returned by the
-/// <a>DescribeEventsForOrganization</a> operation.
+/// Summary information about an event, returned by the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventsForOrganization.html">DescribeEventsForOrganization</a>
+/// operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1720,6 +1940,30 @@ class OrganizationEvent {
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
+
+  /// This parameter specifies if the AWS Health event is a public AWS service
+  /// event or an account-specific event.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>PUBLIC</code>, then the
+  /// <code>affectedAccounts</code> value is always empty.
+  /// </li>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>ACCOUNT_SPECIFIC</code>,
+  /// then the <code>affectedAccounts</code> value lists the affected AWS accounts
+  /// in your organization. For example, if an event affects a service such as
+  /// Amazon Elastic Compute Cloud and you have AWS accounts that use that
+  /// service, those account IDs appear in the response.
+  /// </li>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>NONE</code>, then the
+  /// <code>eventArn</code> that you specified in the request is invalid or
+  /// doesn't exist.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'eventScopeCode')
+  final EventScopeCode eventScopeCode;
 
   /// The category of the event type.
   @_s.JsonKey(name: 'eventTypeCategory')
@@ -1757,6 +2001,7 @@ class OrganizationEvent {
   OrganizationEvent({
     this.arn,
     this.endTime,
+    this.eventScopeCode,
     this.eventTypeCategory,
     this.eventTypeCode,
     this.lastUpdatedTime,
@@ -1769,9 +2014,13 @@ class OrganizationEvent {
       _$OrganizationEventFromJson(json);
 }
 
-/// Detailed information about an event. A combination of an <a>Event</a>
-/// object, an <a>EventDescription</a> object, and additional metadata about the
-/// event. Returned by the <a>DescribeEventDetailsForOrganization</a> operation.
+/// Detailed information about an event. A combination of an <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html">Event</a>
+/// object, an <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EventDescription.html">EventDescription</a>
+/// object, and additional metadata about the event. Returned by the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
+/// operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1800,7 +2049,8 @@ class OrganizationEventDetails {
       _$OrganizationEventDetailsFromJson(json);
 }
 
-/// Error information returned when a <a>DescribeEventDetailsForOrganization</a>
+/// Error information returned when a <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
 /// operation cannot find a specified event.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1808,7 +2058,8 @@ class OrganizationEventDetails {
     createFactory: true,
     createToJson: false)
 class OrganizationEventDetailsErrorItem {
-  /// Error information returned when a <a>DescribeEventDetailsForOrganization</a>
+  /// Error information returned when a <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
   /// operation cannot find a specified event.
   @_s.JsonKey(name: 'awsAccountId')
   final String awsAccountId;
@@ -1839,7 +2090,8 @@ class OrganizationEventDetailsErrorItem {
       _$OrganizationEventDetailsErrorItemFromJson(json);
 }
 
-/// The values to filter results from the <a>DescribeEventsForOrganization</a>
+/// The values to filter results from the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventsForOrganization.html">DescribeEventsForOrganization</a>
 /// operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1853,7 +2105,7 @@ class OrganizationEventFilter {
   @_s.JsonKey(name: 'endTime')
   final DateTimeRange endTime;
 
-  /// REPLACEME
+  /// A list of entity ARNs (unique identifiers).
   @_s.JsonKey(name: 'entityArns')
   final List<String> entityArns;
 
@@ -1866,7 +2118,8 @@ class OrganizationEventFilter {
   @_s.JsonKey(name: 'eventStatusCodes')
   final List<EventStatusCode> eventStatusCodes;
 
-  /// REPLACEME
+  /// A list of event type category codes (issue, scheduledChange, or
+  /// accountNotification).
   @_s.JsonKey(name: 'eventTypeCategories')
   final List<EventTypeCategory> eventTypeCategories;
 
@@ -1926,6 +2179,15 @@ extension on EventAggregateField {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+enum EventScopeCode {
+  @_s.JsonValue('PUBLIC')
+  public,
+  @_s.JsonValue('ACCOUNT_SPECIFIC')
+  accountSpecific,
+  @_s.JsonValue('NONE')
+  none,
 }
 
 enum EventStatusCode {

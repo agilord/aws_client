@@ -3,52 +3,45 @@
 **Warning: This is a generated library, some operations may not work.**
 
 *About the service:*
-Here's how you set up to query an Amazon Route 53 private hosted zone from
-your network:
-<ol>
-<li>
-Connect your network to a VPC using AWS Direct Connect or a VPN.
-</li>
-<li>
-Run the following AWS CLI command to create a Resolver endpoint:
+When you create a VPC using Amazon VPC, you automatically get DNS resolution
+within the VPC from Route 53 Resolver. By default, Resolver answers DNS
+queries for VPC domain names such as domain names for EC2 instances or ELB
+load balancers. Resolver performs recursive lookups against public name
+servers for all other domain names.
 
-<code>create-resolver-endpoint --name [endpoint_name] --direction INBOUND
---creator-request-id [unique_string] --security-group-ids
-[security_group_with_inbound_rules] --ip-addresses SubnetId=[subnet_id]
-SubnetId=[subnet_id_in_different_AZ]</code>
+You can also configure DNS resolution between your VPC and your network over
+a Direct Connect or VPN connection:
 
-Note the resolver endpoint ID that appears in the response. You'll use it in
-step 3.
-</li>
-<li>
-Get the IP addresses for the Resolver endpoints:
+<b>Forward DNS queries from resolvers on your network to Route 53
+Resolver</b>
 
-<code>get-resolver-endpoint --resolver-endpoint-id
-[resolver_endpoint_id]</code>
-</li>
-<li>
-In your network configuration, define the IP addresses that you got in step
-3 as DNS servers.
+DNS resolvers on your network can forward DNS queries to Resolver in a
+specified VPC. This allows your DNS resolvers to easily resolve domain names
+for AWS resources such as EC2 instances or records in a Route 53 private
+hosted zone. For more information, see <a
+href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html#resolver-overview-forward-network-to-vpc">How
+DNS Resolvers on Your Network Forward DNS Queries to Route 53 Resolver</a>
+in the <i>Amazon Route 53 Developer Guide</i>.
 
-You can now query instance names in your VPCs and the names of records in
-your private hosted zone.
-</li> </ol>
-You can also perform the following operations using the AWS CLI:
+<b>Conditionally forward queries from a VPC to resolvers on your network</b>
 
-<ul>
-<li>
-<code>list-resolver-endpoints</code>: List all endpoints. The syntax
-includes options for pagination and filtering.
-</li>
-<li>
-<code>update-resolver-endpoints</code>: Add IP addresses to an endpoint or
-remove IP addresses from an endpoint.
-</li>
-</ul>
-To delete an endpoint, use the following AWS CLI command:
+You can configure Resolver to forward queries that it receives from EC2
+instances in your VPCs to DNS resolvers on your network. To forward selected
+queries, you create Resolver rules that specify the domain names for the DNS
+queries that you want to forward (such as example.com), and the IP addresses
+of the DNS resolvers on your network that you want to forward the queries
+to. If a query matches multiple rules (example.com, acme.example.com),
+Resolver chooses the rule with the most specific match (acme.example.com)
+and forwards the query to the IP addresses that you specified in that rule.
+For more information, see <a
+href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html#resolver-overview-forward-vpc-to-network">How
+Route 53 Resolver Forwards DNS Queries from Your VPCs to Your Network</a> in
+the <i>Amazon Route 53 Developer Guide</i>.
 
-<code>delete-resolver-endpoint --resolver-endpoint-id
-[resolver_endpoint_id]</code>
+Like Amazon VPC, Resolver is regional. In each region where you have VPCs,
+you can choose whether to forward queries from your VPCs to your network
+(outbound queries), from your network to your VPCs (inbound queries), or
+both.
 
 ## Links
 

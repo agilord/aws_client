@@ -26,7 +26,7 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'schemas-2019-12-02.g.dart';
 
-/// AWS EventBridge Schemas
+/// Amazon EventBridge Schema Registry
 class Schemas {
   final _s.RestJsonProtocol _protocol;
   Schemas({
@@ -104,6 +104,9 @@ class Schemas {
   /// May throw [ServiceUnavailableException].
   /// May throw [ConflictException].
   ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
   /// Parameter [description] :
   /// A description of the registry to be created.
   ///
@@ -135,11 +138,26 @@ class Schemas {
   }
 
   /// Creates a schema definition.
+  /// <note>
+  /// Inactive schemas will be deleted after two years.
+  /// </note>
   ///
   /// May throw [ServiceUnavailableException].
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  ///
+  /// Parameter [content] :
+  /// The source of the schema definition.
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [schemaName] :
+  /// The name of the schema.
+  ///
+  /// Parameter [type] :
+  /// The type of schema.
   ///
   /// Parameter [description] :
   /// A description of the schema.
@@ -195,6 +213,9 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [discovererId] :
+  /// The ID of the discoverer.
   Future<void> deleteDiscoverer({
     @_s.required String discovererId,
   }) async {
@@ -215,6 +236,9 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
   Future<void> deleteRegistry({
     @_s.required String registryName,
   }) async {
@@ -227,6 +251,32 @@ class Schemas {
     );
   }
 
+  /// Delete the resource-based policy attached to the specified registry.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  Future<void> deleteResourcePolicy({
+    String registryName,
+  }) async {
+    final $query = <String, List<String>>{
+      if (registryName != null) 'registryName': [registryName],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v1/policy',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Delete a schema definition.
   ///
   /// May throw [BadRequestException].
@@ -235,6 +285,12 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [schemaName] :
+  /// The name of the schema.
   Future<void> deleteSchema({
     @_s.required String registryName,
     @_s.required String schemaName,
@@ -258,6 +314,15 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [schemaName] :
+  /// The name of the schema.
+  ///
+  /// Parameter [schemaVersion] :
+  /// The version number of the schema
   Future<void> deleteSchemaVersion({
     @_s.required String registryName,
     @_s.required String schemaName,
@@ -283,6 +348,18 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [language] :
+  /// The language of the code binding.
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [schemaName] :
+  /// The name of the schema.
+  ///
+  /// Parameter [schemaVersion] :
+  /// Specifying this limits the results to only this schema version.
   Future<DescribeCodeBindingResponse> describeCodeBinding({
     @_s.required String language,
     @_s.required String registryName,
@@ -314,6 +391,9 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [discovererId] :
+  /// The ID of the discoverer.
   Future<DescribeDiscovererResponse> describeDiscoverer({
     @_s.required String discovererId,
   }) async {
@@ -335,6 +415,9 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
   Future<DescribeRegistryResponse> describeRegistry({
     @_s.required String registryName,
   }) async {
@@ -356,6 +439,15 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [schemaName] :
+  /// The name of the schema.
+  ///
+  /// Parameter [schemaVersion] :
+  /// Specifying this limits the results to only this schema version.
   Future<DescribeSchemaResponse> describeSchema({
     @_s.required String registryName,
     @_s.required String schemaName,
@@ -377,6 +469,47 @@ class Schemas {
     return DescribeSchemaResponse.fromJson(response);
   }
 
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [schemaName] :
+  /// The name of the schema.
+  ///
+  /// Parameter [schemaVersion] :
+  /// Specifying this limits the results to only this schema version.
+  Future<ExportSchemaResponse> exportSchema({
+    @_s.required String registryName,
+    @_s.required String schemaName,
+    @_s.required String type,
+    String schemaVersion,
+  }) async {
+    ArgumentError.checkNotNull(registryName, 'registryName');
+    ArgumentError.checkNotNull(schemaName, 'schemaName');
+    ArgumentError.checkNotNull(type, 'type');
+    final $query = <String, List<String>>{
+      if (type != null) 'type': [type],
+      if (schemaVersion != null) 'schemaVersion': [schemaVersion],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/registries/name/${Uri.encodeComponent(registryName)}/schemas/name/${Uri.encodeComponent(schemaName)}/export',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExportSchemaResponse.fromJson(response);
+  }
+
   /// Get the code binding source URI.
   ///
   /// May throw [BadRequestException].
@@ -385,6 +518,18 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [language] :
+  /// The language of the code binding.
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [schemaName] :
+  /// The name of the schema.
+  ///
+  /// Parameter [schemaVersion] :
+  /// Specifying this limits the results to only this schema version.
   Future<GetCodeBindingSourceResponse> getCodeBindingSource({
     @_s.required String language,
     @_s.required String registryName,
@@ -419,7 +564,9 @@ class Schemas {
   /// May throw [ForbiddenException].
   ///
   /// Parameter [events] :
-  /// An array of strings that
+  /// An array of strings where each string is a JSON event. These are the
+  /// events that were used to generate the schema. The array includes a single
+  /// type of event and has a maximum size of 10 events.
   ///
   /// Parameter [type] :
   /// The type of event.
@@ -442,6 +589,33 @@ class Schemas {
     return GetDiscoveredSchemaResponse.fromJson(response);
   }
 
+  /// Retrieves the resource-based policy attached to a given registry.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  Future<GetResourcePolicyResponse> getResourcePolicy({
+    String registryName,
+  }) async {
+    final $query = <String, List<String>>{
+      if (registryName != null) 'registryName': [registryName],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/policy',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetResourcePolicyResponse.fromJson(response);
+  }
+
   /// List the discoverers.
   ///
   /// May throw [ServiceUnavailableException].
@@ -449,6 +623,19 @@ class Schemas {
   /// May throw [UnauthorizedException].
   /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  ///
+  /// Parameter [discovererIdPrefix] :
+  /// Specifying this limits the results to only those discoverer IDs that start
+  /// with the specified prefix.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that specifies the next page of results to return. To request
+  /// the first page, leave NextToken empty. The token will expire in 24 hours,
+  /// and cannot be shared with other accounts.
+  ///
+  /// Parameter [sourceArnPrefix] :
+  /// Specifying this limits the results to only those ARNs that start with the
+  /// specified prefix.
   Future<ListDiscoverersResponse> listDiscoverers({
     String discovererIdPrefix,
     int limit,
@@ -479,6 +666,19 @@ class Schemas {
   /// May throw [UnauthorizedException].
   /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  ///
+  /// Parameter [nextToken] :
+  /// The token that specifies the next page of results to return. To request
+  /// the first page, leave NextToken empty. The token will expire in 24 hours,
+  /// and cannot be shared with other accounts.
+  ///
+  /// Parameter [registryNamePrefix] :
+  /// Specifying this limits the results to only those registry names that start
+  /// with the specified prefix.
+  ///
+  /// Parameter [scope] :
+  /// Can be set to Local or AWS to limit responses to your custom registries,
+  /// or the ones provided by AWS.
   Future<ListRegistriesResponse> listRegistries({
     int limit,
     String nextToken,
@@ -510,6 +710,17 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [schemaName] :
+  /// The name of the schema.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that specifies the next page of results to return. To request
+  /// the first page, leave NextToken empty. The token will expire in 24 hours,
+  /// and cannot be shared with other accounts.
   Future<ListSchemaVersionsResponse> listSchemaVersions({
     @_s.required String registryName,
     @_s.required String schemaName,
@@ -540,6 +751,18 @@ class Schemas {
   /// May throw [UnauthorizedException].
   /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that specifies the next page of results to return. To request
+  /// the first page, leave NextToken empty. The token will expire in 24 hours,
+  /// and cannot be shared with other accounts.
+  ///
+  /// Parameter [schemaNamePrefix] :
+  /// Specifying this limits the results to only those schema names that start
+  /// with the specified prefix.
   Future<ListSchemasResponse> listSchemas({
     @_s.required String registryName,
     int limit,
@@ -569,6 +792,9 @@ class Schemas {
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
     @_s.required String resourceArn,
   }) async {
@@ -582,45 +808,6 @@ class Schemas {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  ///
-  /// May throw [ServiceUnavailableException].
-  /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
-  Future<LockServiceLinkedRoleResponse> lockServiceLinkedRole({
-    @_s.required String roleArn,
-    @_s.required int timeout,
-  }) async {
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(timeout, 'timeout');
-    _s.validateNumRange(
-      'timeout',
-      timeout,
-      1,
-      29000,
-      isRequired: true,
-    );
-    final $payload = <String, dynamic>{
-      'RoleArn': roleArn,
-      'Timeout': timeout,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/slr-deletion/lock',
-      exceptionFnMap: _exceptionFns,
-    );
-    return LockServiceLinkedRoleResponse.fromJson(response);
-  }
-
   /// Put code binding URI
   ///
   /// May throw [GoneException].
@@ -630,6 +817,18 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [language] :
+  /// The language of the code binding.
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [schemaName] :
+  /// The name of the schema.
+  ///
+  /// Parameter [schemaVersion] :
+  /// Specifying this limits the results to only this schema version.
   Future<PutCodeBindingResponse> putCodeBinding({
     @_s.required String language,
     @_s.required String registryName,
@@ -653,6 +852,47 @@ class Schemas {
     return PutCodeBindingResponse.fromJson(response);
   }
 
+  /// The name of the policy.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [PreconditionFailedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [policy] :
+  /// The resource-based policy.
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [revisionId] :
+  /// The revision ID of the policy.
+  Future<PutResourcePolicyResponse> putResourcePolicy({
+    @_s.required String policy,
+    String registryName,
+    String revisionId,
+  }) async {
+    ArgumentError.checkNotNull(policy, 'policy');
+    final $query = <String, List<String>>{
+      if (registryName != null) 'registryName': [registryName],
+    };
+    final $payload = <String, dynamic>{
+      'Policy': policy == null ? null : jsonEncode(policy),
+      if (revisionId != null) 'RevisionId': revisionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v1/policy',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutResourcePolicyResponse.fromJson(response);
+  }
+
   /// Search the schemas
   ///
   /// May throw [ServiceUnavailableException].
@@ -660,6 +900,18 @@ class Schemas {
   /// May throw [UnauthorizedException].
   /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  ///
+  /// Parameter [keywords] :
+  /// Specifying this limits the results to only schemas that include the
+  /// provided keywords.
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that specifies the next page of results to return. To request
+  /// the first page, leave NextToken empty. The token will expire in 24 hours,
+  /// and cannot be shared with other accounts.
   Future<SearchSchemasResponse> searchSchemas({
     @_s.required String keywords,
     @_s.required String registryName,
@@ -692,6 +944,9 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [discovererId] :
+  /// The ID of the discoverer.
   Future<StartDiscovererResponse> startDiscoverer({
     @_s.required String discovererId,
   }) async {
@@ -714,6 +969,9 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [discovererId] :
+  /// The ID of the discoverer.
   Future<StopDiscovererResponse> stopDiscoverer({
     @_s.required String discovererId,
   }) async {
@@ -734,6 +992,12 @@ class Schemas {
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the resource.
+  ///
+  /// Parameter [tags] :
+  /// Tags associated with the resource.
   Future<void> tagResource({
     @_s.required String resourceArn,
     @_s.required Map<String, String> tags,
@@ -751,41 +1015,18 @@ class Schemas {
     );
   }
 
-  ///
-  /// May throw [ServiceUnavailableException].
-  /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
-  Future<void> unlockServiceLinkedRole({
-    @_s.required String roleArn,
-  }) async {
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1600,
-      isRequired: true,
-    );
-    final $payload = <String, dynamic>{
-      'RoleArn': roleArn,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/slr-deletion/unlock',
-      exceptionFnMap: _exceptionFns,
-    );
-    return UnlockServiceLinkedRoleResponse.fromJson(response);
-  }
-
   /// Removes tags from a resource.
   ///
   /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the resource.
+  ///
+  /// Parameter [tagKeys] :
+  /// Keys of key-value pairs.
   Future<void> untagResource({
     @_s.required String resourceArn,
     @_s.required List<String> tagKeys,
@@ -812,6 +1053,9 @@ class Schemas {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [discovererId] :
+  /// The ID of the discoverer.
   ///
   /// Parameter [description] :
   /// The description of the discoverer to update.
@@ -847,6 +1091,9 @@ class Schemas {
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
   /// Parameter [description] :
   /// The description of the registry to update.
   Future<UpdateRegistryResponse> updateRegistry({
@@ -873,12 +1120,21 @@ class Schemas {
   }
 
   /// Updates the schema definition
+  /// <note>
+  /// Inactive schemas will be deleted after two years.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [schemaName] :
+  /// The name of the schema.
   ///
   /// Parameter [clientTokenId] :
   /// The ID of the client token.
@@ -1185,6 +1441,7 @@ class DescribeRegistryResponse {
     createFactory: true,
     createToJson: false)
 class DescribeSchemaResponse {
+  /// The source of the schema definition.
   @_s.JsonKey(name: 'Content')
   final String content;
 
@@ -1261,6 +1518,8 @@ class DiscovererSummary {
   /// The ARN of the event bus.
   @_s.JsonKey(name: 'SourceArn')
   final String sourceArn;
+
+  /// The state of the discoverer.
   @_s.JsonKey(name: 'State')
   final DiscovererState state;
 
@@ -1277,6 +1536,34 @@ class DiscovererSummary {
   });
   factory DiscovererSummary.fromJson(Map<String, dynamic> json) =>
       _$DiscovererSummaryFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ExportSchemaResponse {
+  @_s.JsonKey(name: 'Content')
+  final String content;
+  @_s.JsonKey(name: 'SchemaArn')
+  final String schemaArn;
+  @_s.JsonKey(name: 'SchemaName')
+  final String schemaName;
+  @_s.JsonKey(name: 'SchemaVersion')
+  final String schemaVersion;
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  ExportSchemaResponse({
+    this.content,
+    this.schemaArn,
+    this.schemaName,
+    this.schemaVersion,
+    this.type,
+  });
+  factory ExportSchemaResponse.fromJson(Map<String, dynamic> json) =>
+      _$ExportSchemaResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1302,6 +1589,7 @@ class GetCodeBindingSourceResponse {
     createFactory: true,
     createToJson: false)
 class GetDiscoveredSchemaResponse {
+  /// The source of the schema definition.
   @_s.JsonKey(name: 'Content')
   final String content;
 
@@ -1310,6 +1598,28 @@ class GetDiscoveredSchemaResponse {
   });
   factory GetDiscoveredSchemaResponse.fromJson(Map<String, dynamic> json) =>
       _$GetDiscoveredSchemaResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetResourcePolicyResponse {
+  /// The resource-based policy.
+  @_s.JsonKey(name: 'Policy')
+  final Object policy;
+
+  /// The revision ID.
+  @_s.JsonKey(name: 'RevisionId')
+  final String revisionId;
+
+  GetResourcePolicyResponse({
+    this.policy,
+    this.revisionId,
+  });
+  factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetResourcePolicyResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1414,36 +1724,14 @@ class ListSchemasResponse {
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
-  @_s.JsonKey(name: 'Tags')
+  @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
   ListTagsForResourceResponse({
-    @_s.required this.tags,
+    this.tags,
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
-}
-
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class LockServiceLinkedRoleResponse {
-  @_s.JsonKey(name: 'CanBeDeleted')
-  final bool canBeDeleted;
-  @_s.JsonKey(name: 'ReasonOfFailure')
-  final String reasonOfFailure;
-  @_s.JsonKey(name: 'RelatedResources')
-  final List<DiscovererSummary> relatedResources;
-
-  LockServiceLinkedRoleResponse({
-    this.canBeDeleted,
-    this.reasonOfFailure,
-    this.relatedResources,
-  });
-  factory LockServiceLinkedRoleResponse.fromJson(Map<String, dynamic> json) =>
-      _$LockServiceLinkedRoleResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1478,6 +1766,28 @@ class PutCodeBindingResponse {
   });
   factory PutCodeBindingResponse.fromJson(Map<String, dynamic> json) =>
       _$PutCodeBindingResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutResourcePolicyResponse {
+  /// The resource-based policy.
+  @_s.JsonKey(name: 'Policy')
+  final Object policy;
+
+  /// The revision ID of the policy.
+  @_s.JsonKey(name: 'RevisionId')
+  final String revisionId;
+
+  PutResourcePolicyResponse({
+    this.policy,
+    this.revisionId,
+  });
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
+      _$PutResourcePolicyResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1564,10 +1874,15 @@ class SchemaVersionSummary {
   @_s.JsonKey(name: 'SchemaVersion')
   final String schemaVersion;
 
+  /// The type of schema.
+  @_s.JsonKey(name: 'Type')
+  final Type type;
+
   SchemaVersionSummary({
     this.schemaArn,
     this.schemaName,
     this.schemaVersion,
+    this.type,
   });
   factory SchemaVersionSummary.fromJson(Map<String, dynamic> json) =>
       _$SchemaVersionSummaryFromJson(json);
@@ -1611,6 +1926,7 @@ class SearchSchemaSummary {
     createFactory: true,
     createToJson: false)
 class SearchSchemaVersionSummary {
+  /// The date the schema version was created.
   @IsoDateTimeConverter()
   @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
@@ -1619,9 +1935,14 @@ class SearchSchemaVersionSummary {
   @_s.JsonKey(name: 'SchemaVersion')
   final String schemaVersion;
 
+  /// The type of schema.
+  @_s.JsonKey(name: 'Type')
+  final Type type;
+
   SearchSchemaVersionSummary({
     this.createdDate,
     this.schemaVersion,
+    this.type,
   });
   factory SearchSchemaVersionSummary.fromJson(Map<String, dynamic> json) =>
       _$SearchSchemaVersionSummaryFromJson(json);
@@ -1698,6 +2019,8 @@ class StopDiscovererResponse {
 enum Type {
   @_s.JsonValue('OpenApi3')
   openApi3,
+  @_s.JsonValue('JSONSchemaDraft4')
+  jSONSchemaDraft4,
 }
 
 extension on Type {
@@ -1705,20 +2028,11 @@ extension on Type {
     switch (this) {
       case Type.openApi3:
         return 'OpenApi3';
+      case Type.jSONSchemaDraft4:
+        return 'JSONSchemaDraft4';
     }
     throw Exception('Unknown enum value: $this');
   }
-}
-
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UnlockServiceLinkedRoleResponse {
-  UnlockServiceLinkedRoleResponse();
-  factory UnlockServiceLinkedRoleResponse.fromJson(Map<String, dynamic> json) =>
-      _$UnlockServiceLinkedRoleResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1878,6 +2192,12 @@ class NotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+class PreconditionFailedException extends _s.GenericAwsException {
+  PreconditionFailedException({String type, String message})
+      : super(
+            type: type, code: 'PreconditionFailedException', message: message);
+}
+
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String type, String message})
       : super(
@@ -1907,6 +2227,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalServerErrorException(type: type, message: message),
   'NotFoundException': (type, message) =>
       NotFoundException(type: type, message: message),
+  'PreconditionFailedException': (type, message) =>
+      PreconditionFailedException(type: type, message: message),
   'ServiceUnavailableException': (type, message) =>
       ServiceUnavailableException(type: type, message: message),
   'TooManyRequestsException': (type, message) =>

@@ -32,10 +32,16 @@ Amazon SageMaker endpoint variants
 Custom resources provided by your own applications or services
 </li>
 <li>
-Amazon Comprehend document classification endpoints
+Amazon Comprehend document classification and entity recognizer endpoints
 </li>
 <li>
 AWS Lambda function provisioned concurrency
+</li>
+<li>
+Amazon Keyspaces (for Apache Cassandra) tables
+</li>
+<li>
+Amazon Managed Streaming for Apache Kafka cluster storage
 </li>
 </ul>
 <b>API Summary</b>
@@ -57,11 +63,12 @@ activity history.
 </li>
 <li>
 Suspend and resume scaling - Temporarily suspend and later resume automatic
-scaling by calling the <a>RegisterScalableTarget</a> action for any
-Application Auto Scaling scalable target. You can suspend and resume,
-individually or in combination, scale-out activities triggered by a scaling
-policy, scale-in activities triggered by a scaling policy, and scheduled
-scaling.
+scaling by calling the <a
+href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_RegisterScalableTarget.html">RegisterScalableTarget</a>
+API action for any Application Auto Scaling scalable target. You can suspend
+and resume (individually or in combination) scale-out activities that are
+triggered by a scaling policy, scale-in activities that are triggered by a
+scaling policy, and scheduled scaling.
 </li>
 </ul>
 To learn more about Application Auto Scaling, including information about

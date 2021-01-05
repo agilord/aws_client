@@ -30,8 +30,8 @@ part 'iot-data-2015-05-28.g.dart';
 /// Internet-connected things (such as sensors, actuators, embedded devices, or
 /// smart appliances) and the AWS cloud. It implements a broker for applications
 /// and things to publish messages over HTTP (Publish) and retrieve, update, and
-/// delete thing shadows. A thing shadow is a persistent representation of your
-/// things and their state in the AWS cloud.
+/// delete shadows. A shadow is a persistent representation of your things and
+/// their state in the AWS cloud.
 class IoTDataPlane {
   final _s.RestJsonProtocol _protocol;
   IoTDataPlane({
@@ -50,11 +50,11 @@ class IoTDataPlane {
           endpointUrl: endpointUrl,
         );
 
-  /// Deletes the thing shadow for the specified thing.
+  /// Deletes the shadow for the specified thing.
   ///
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/iot/latest/developerguide/API_DeleteThingShadow.html">DeleteThingShadow</a>
-  /// in the <i>AWS IoT Developer Guide</i>.
+  /// in the AWS IoT Developer Guide.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -67,8 +67,12 @@ class IoTDataPlane {
   ///
   /// Parameter [thingName] :
   /// The name of the thing.
+  ///
+  /// Parameter [shadowName] :
+  /// The name of the shadow.
   Future<DeleteThingShadowResponse> deleteThingShadow({
     @_s.required String thingName,
+    String shadowName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -81,13 +85,28 @@ class IoTDataPlane {
     _s.validateStringPattern(
       'thingName',
       thingName,
-      r'''[a-zA-Z0-9_-]+''',
+      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'shadowName',
+      shadowName,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'shadowName',
+      shadowName,
+      r'''[a-zA-Z0-9:_-]+''',
+    );
+    final $query = <String, List<String>>{
+      if (shadowName != null) 'name': [shadowName],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
       requestUri: '/things/${Uri.encodeComponent(thingName)}/shadow',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteThingShadowResponse(
@@ -95,11 +114,11 @@ class IoTDataPlane {
     );
   }
 
-  /// Gets the thing shadow for the specified thing.
+  /// Gets the shadow for the specified thing.
   ///
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/iot/latest/developerguide/API_GetThingShadow.html">GetThingShadow</a>
-  /// in the <i>AWS IoT Developer Guide</i>.
+  /// in the AWS IoT Developer Guide.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -112,8 +131,12 @@ class IoTDataPlane {
   ///
   /// Parameter [thingName] :
   /// The name of the thing.
+  ///
+  /// Parameter [shadowName] :
+  /// The name of the shadow.
   Future<GetThingShadowResponse> getThingShadow({
     @_s.required String thingName,
+    String shadowName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -126,13 +149,28 @@ class IoTDataPlane {
     _s.validateStringPattern(
       'thingName',
       thingName,
-      r'''[a-zA-Z0-9_-]+''',
+      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'shadowName',
+      shadowName,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'shadowName',
+      shadowName,
+      r'''[a-zA-Z0-9:_-]+''',
+    );
+    final $query = <String, List<String>>{
+      if (shadowName != null) 'name': [shadowName],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri: '/things/${Uri.encodeComponent(thingName)}/shadow',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetThingShadowResponse(
@@ -140,11 +178,69 @@ class IoTDataPlane {
     );
   }
 
+  /// Lists the shadows for the specified thing.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  /// May throw [MethodNotAllowedException].
+  ///
+  /// Parameter [thingName] :
+  /// The name of the thing.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to retrieve the next set of results.
+  ///
+  /// Parameter [pageSize] :
+  /// The result page size.
+  Future<ListNamedShadowsForThingResponse> listNamedShadowsForThing({
+    @_s.required String thingName,
+    String nextToken,
+    int pageSize,
+  }) async {
+    ArgumentError.checkNotNull(thingName, 'thingName');
+    _s.validateStringLength(
+      'thingName',
+      thingName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'thingName',
+      thingName,
+      r'''[a-zA-Z0-9:_-]+''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'pageSize',
+      pageSize,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (pageSize != null) 'pageSize': [pageSize.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/api/things/shadow/ListNamedShadowsForThing/${Uri.encodeComponent(thingName)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListNamedShadowsForThingResponse.fromJson(response);
+  }
+
   /// Publishes state information.
   ///
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#http">HTTP
-  /// Protocol</a> in the <i>AWS IoT Developer Guide</i>.
+  /// Protocol</a> in the AWS IoT Developer Guide.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -183,11 +279,11 @@ class IoTDataPlane {
     );
   }
 
-  /// Updates the thing shadow for the specified thing.
+  /// Updates the shadow for the specified thing.
   ///
   /// For more information, see <a
   /// href="http://docs.aws.amazon.com/iot/latest/developerguide/API_UpdateThingShadow.html">UpdateThingShadow</a>
-  /// in the <i>AWS IoT Developer Guide</i>.
+  /// in the AWS IoT Developer Guide.
   ///
   /// May throw [ConflictException].
   /// May throw [RequestEntityTooLargeException].
@@ -204,9 +300,13 @@ class IoTDataPlane {
   ///
   /// Parameter [thingName] :
   /// The name of the thing.
+  ///
+  /// Parameter [shadowName] :
+  /// The name of the shadow.
   Future<UpdateThingShadowResponse> updateThingShadow({
     @_s.required Uint8List payload,
     @_s.required String thingName,
+    String shadowName,
   }) async {
     ArgumentError.checkNotNull(payload, 'payload');
     ArgumentError.checkNotNull(thingName, 'thingName');
@@ -220,37 +320,34 @@ class IoTDataPlane {
     _s.validateStringPattern(
       'thingName',
       thingName,
-      r'''[a-zA-Z0-9_-]+''',
+      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'shadowName',
+      shadowName,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'shadowName',
+      shadowName,
+      r'''[a-zA-Z0-9:_-]+''',
+    );
+    final $query = <String, List<String>>{
+      if (shadowName != null) 'name': [shadowName],
+    };
     final response = await _protocol.sendRaw(
       payload: payload,
       method: 'POST',
       requestUri: '/things/${Uri.encodeComponent(thingName)}/shadow',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateThingShadowResponse(
       payload: await response.stream.toBytes(),
     );
   }
-}
-
-/// The specified version does not match the version of the document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ConflictException implements _s.AwsException {
-  /// The message for the exception.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  ConflictException({
-    this.message,
-  });
-  factory ConflictException.fromJson(Map<String, dynamic> json) =>
-      _$ConflictExceptionFromJson(json);
 }
 
 /// The output from the DeleteThingShadow operation.
@@ -291,167 +388,33 @@ class GetThingShadowResponse {
       _$GetThingShadowResponseFromJson(json);
 }
 
-/// An unexpected error has occurred.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
-class InternalFailureException implements _s.AwsException {
-  /// The message for the exception.
-  @_s.JsonKey(name: 'message')
-  final String message;
+class ListNamedShadowsForThingResponse {
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
 
-  InternalFailureException({
-    this.message,
+  /// The list of shadows for the specified thing.
+  @_s.JsonKey(name: 'results')
+  final List<String> results;
+
+  /// The Epoch date and time the response was generated by AWS IoT.
+  @_s.JsonKey(name: 'timestamp')
+  final int timestamp;
+
+  ListNamedShadowsForThingResponse({
+    this.nextToken,
+    this.results,
+    this.timestamp,
   });
-  factory InternalFailureException.fromJson(Map<String, dynamic> json) =>
-      _$InternalFailureExceptionFromJson(json);
-}
-
-/// The request is not valid.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InvalidRequestException implements _s.AwsException {
-  /// The message for the exception.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  InvalidRequestException({
-    this.message,
-  });
-  factory InvalidRequestException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidRequestExceptionFromJson(json);
-}
-
-/// The specified combination of HTTP verb and URI is not supported.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class MethodNotAllowedException implements _s.AwsException {
-  /// The message for the exception.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  MethodNotAllowedException({
-    this.message,
-  });
-  factory MethodNotAllowedException.fromJson(Map<String, dynamic> json) =>
-      _$MethodNotAllowedExceptionFromJson(json);
-}
-
-/// The payload exceeds the maximum size allowed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class RequestEntityTooLargeException implements _s.AwsException {
-  /// The message for the exception.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  RequestEntityTooLargeException({
-    this.message,
-  });
-  factory RequestEntityTooLargeException.fromJson(Map<String, dynamic> json) =>
-      _$RequestEntityTooLargeExceptionFromJson(json);
-}
-
-/// The specified resource does not exist.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ResourceNotFoundException implements _s.AwsException {
-  /// The message for the exception.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  ResourceNotFoundException({
-    this.message,
-  });
-  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$ResourceNotFoundExceptionFromJson(json);
-}
-
-/// The service is temporarily unavailable.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ServiceUnavailableException implements _s.AwsException {
-  /// The message for the exception.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  ServiceUnavailableException({
-    this.message,
-  });
-  factory ServiceUnavailableException.fromJson(Map<String, dynamic> json) =>
-      _$ServiceUnavailableExceptionFromJson(json);
-}
-
-/// The rate exceeds the limit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ThrottlingException implements _s.AwsException {
-  /// The message for the exception.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  ThrottlingException({
-    this.message,
-  });
-  factory ThrottlingException.fromJson(Map<String, dynamic> json) =>
-      _$ThrottlingExceptionFromJson(json);
-}
-
-/// You are not authorized to perform this operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UnauthorizedException implements _s.AwsException {
-  /// The message for the exception.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  UnauthorizedException({
-    this.message,
-  });
-  factory UnauthorizedException.fromJson(Map<String, dynamic> json) =>
-      _$UnauthorizedExceptionFromJson(json);
-}
-
-/// The document encoding is not supported.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UnsupportedDocumentEncodingException implements _s.AwsException {
-  /// The message for the exception.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  UnsupportedDocumentEncodingException({
-    this.message,
-  });
-  factory UnsupportedDocumentEncodingException.fromJson(
+  factory ListNamedShadowsForThingResponse.fromJson(
           Map<String, dynamic> json) =>
-      _$UnsupportedDocumentEncodingExceptionFromJson(json);
+      _$ListNamedShadowsForThingResponseFromJson(json);
 }
 
 /// The output from the UpdateThingShadow operation.
@@ -473,24 +436,82 @@ class UpdateThingShadowResponse {
       _$UpdateThingShadowResponseFromJson(json);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String type, String message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
+class InternalFailureException extends _s.GenericAwsException {
+  InternalFailureException({String type, String message})
+      : super(type: type, code: 'InternalFailureException', message: message);
+}
+
+class InvalidRequestException extends _s.GenericAwsException {
+  InvalidRequestException({String type, String message})
+      : super(type: type, code: 'InvalidRequestException', message: message);
+}
+
+class MethodNotAllowedException extends _s.GenericAwsException {
+  MethodNotAllowedException({String type, String message})
+      : super(type: type, code: 'MethodNotAllowedException', message: message);
+}
+
+class RequestEntityTooLargeException extends _s.GenericAwsException {
+  RequestEntityTooLargeException({String type, String message})
+      : super(
+            type: type,
+            code: 'RequestEntityTooLargeException',
+            message: message);
+}
+
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String type, String message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
+class ServiceUnavailableException extends _s.GenericAwsException {
+  ServiceUnavailableException({String type, String message})
+      : super(
+            type: type, code: 'ServiceUnavailableException', message: message);
+}
+
+class ThrottlingException extends _s.GenericAwsException {
+  ThrottlingException({String type, String message})
+      : super(type: type, code: 'ThrottlingException', message: message);
+}
+
+class UnauthorizedException extends _s.GenericAwsException {
+  UnauthorizedException({String type, String message})
+      : super(type: type, code: 'UnauthorizedException', message: message);
+}
+
+class UnsupportedDocumentEncodingException extends _s.GenericAwsException {
+  UnsupportedDocumentEncodingException({String type, String message})
+      : super(
+            type: type,
+            code: 'UnsupportedDocumentEncodingException',
+            message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
-  'ConflictException': (type, message) => ConflictException(message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'InternalFailureException': (type, message) =>
-      InternalFailureException(message: message),
+      InternalFailureException(type: type, message: message),
   'InvalidRequestException': (type, message) =>
-      InvalidRequestException(message: message),
+      InvalidRequestException(type: type, message: message),
   'MethodNotAllowedException': (type, message) =>
-      MethodNotAllowedException(message: message),
+      MethodNotAllowedException(type: type, message: message),
   'RequestEntityTooLargeException': (type, message) =>
-      RequestEntityTooLargeException(message: message),
+      RequestEntityTooLargeException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
-      ResourceNotFoundException(message: message),
+      ResourceNotFoundException(type: type, message: message),
   'ServiceUnavailableException': (type, message) =>
-      ServiceUnavailableException(message: message),
+      ServiceUnavailableException(type: type, message: message),
   'ThrottlingException': (type, message) =>
-      ThrottlingException(message: message),
+      ThrottlingException(type: type, message: message),
   'UnauthorizedException': (type, message) =>
-      UnauthorizedException(message: message),
+      UnauthorizedException(type: type, message: message),
   'UnsupportedDocumentEncodingException': (type, message) =>
-      UnsupportedDocumentEncodingException(message: message),
+      UnsupportedDocumentEncodingException(type: type, message: message),
 };

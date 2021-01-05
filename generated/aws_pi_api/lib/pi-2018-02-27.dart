@@ -26,24 +26,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'pi-2018-02-27.g.dart';
 
-/// AWS Performance Insights enables you to monitor and explore different
-/// dimensions of database load based on data captured from a running RDS
+/// Amazon RDS Performance Insights enables you to monitor and explore different
+/// dimensions of database load based on data captured from a running DB
 /// instance. The guide provides detailed information about Performance Insights
-/// data types, parameters and errors. For more information about Performance
-/// Insights capabilities see <a
-/// href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html">Using
-/// Amazon RDS Performance Insights </a> in the <i>Amazon RDS User Guide</i>.
-///
-/// The AWS Performance Insights API provides visibility into the performance of
-/// your RDS instance, when Performance Insights is enabled for supported engine
-/// types. While Amazon CloudWatch provides the authoritative source for AWS
-/// service vended monitoring metrics, AWS Performance Insights offers a
-/// domain-specific view of database load measured as Average Active Sessions
-/// and provided to API consumers as a 2-dimensional time-series dataset. The
-/// time dimension of the data provides DB load data for each time point in the
-/// queried time range, and each time point decomposes overall load in relation
-/// to the requested dimensions, such as SQL, Wait-event, User or Host, measured
-/// at that time point.
+/// data types, parameters and errors.
 class PI {
   final _s.JsonProtocol _protocol;
   PI({
@@ -64,6 +50,10 @@ class PI {
 
   /// For a specific time period, retrieve the top <code>N</code> dimension keys
   /// for a metric.
+  /// <note>
+  /// Each response element returns a maximum of 500 bytes. For larger elements,
+  /// such as SQL statements, only the first 500 bytes are returned.
+  /// </note>
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
@@ -71,25 +61,25 @@ class PI {
   ///
   /// Parameter [endTime] :
   /// The date and time specifying the end of the requested time series data.
-  /// The value specified is <i>exclusive</i> - data points less than (but not
-  /// equal to) <code>EndTime</code> will be returned.
+  /// The value specified is <i>exclusive</i>, which means that data points less
+  /// than (but not equal to) <code>EndTime</code> are returned.
   ///
   /// The value for <code>EndTime</code> must be later than the value for
   /// <code>StartTime</code>.
   ///
   /// Parameter [groupBy] :
   /// A specification for how to aggregate the data points from a query result.
-  /// You must specify a valid dimension group. Performance Insights will return
-  /// all of the dimensions within that group, unless you provide the names of
-  /// specific dimensions within that group. You can also request that
-  /// Performance Insights return a limited number of values for a dimension.
+  /// You must specify a valid dimension group. Performance Insights returns all
+  /// dimensions within this group, unless you provide the names of specific
+  /// dimensions within this group. You can also request that Performance
+  /// Insights return a limited number of values for a dimension.
   ///
   /// Parameter [identifier] :
   /// An immutable, AWS Region-unique identifier for a data source. Performance
   /// Insights gathers metrics from this data source.
   ///
   /// To use an Amazon RDS instance as a data source, you specify its
-  /// <code>DbiResourceId</code> value - for example:
+  /// <code>DbiResourceId</code> value. For example, specify
   /// <code>db-FAIHNTYBKTGAUSUZQYPDS2GW4A</code>
   ///
   /// Parameter [metric] :
@@ -107,16 +97,25 @@ class PI {
   /// the database engine.
   /// </li>
   /// </ul>
+  /// If the number of active sessions is less than an internal Performance
+  /// Insights threshold, <code>db.load.avg</code> and
+  /// <code>db.sampledload.avg</code> are the same value. If the number of
+  /// active sessions is greater than the internal threshold, Performance
+  /// Insights samples the active sessions, with <code>db.load.avg</code>
+  /// showing the scaled values, <code>db.sampledload.avg</code> showing the raw
+  /// values, and <code>db.sampledload.avg</code> less than
+  /// <code>db.load.avg</code>. For most use cases, you can query
+  /// <code>db.load.avg</code> only.
   ///
   /// Parameter [serviceType] :
   /// The AWS service for which Performance Insights will return metrics. The
-  /// only valid value for <i>ServiceType</i> is: <code>RDS</code>
+  /// only valid value for <i>ServiceType</i> is <code>RDS</code>.
   ///
   /// Parameter [startTime] :
   /// The date and time specifying the beginning of the requested time series
-  /// data. You can't specify a <code>StartTime</code> that's earlier than 7
-  /// days ago. The value specified is <i>inclusive</i> - data points equal to
-  /// or greater than <code>StartTime</code> will be returned.
+  /// data. You must specify a <code>StartTime</code> within the past 7 days.
+  /// The value specified is <i>inclusive</i>, which means that data points
+  /// equal to or greater than <code>StartTime</code> are returned.
   ///
   /// The value for <code>StartTime</code> must be earlier than the value for
   /// <code>EndTime</code>.
@@ -171,8 +170,8 @@ class PI {
   /// </li>
   /// </ul>
   /// If you don't specify <code>PeriodInSeconds</code>, then Performance
-  /// Insights will choose a value for you, with a goal of returning roughly
-  /// 100-200 data points in the response.
+  /// Insights chooses a value for you, with a goal of returning roughly 100-200
+  /// data points in the response.
   Future<DescribeDimensionKeysResponse> describeDimensionKeys({
     @_s.required DateTime endTime,
     @_s.required DimensionGroup groupBy,
@@ -229,13 +228,17 @@ class PI {
   /// Retrieve Performance Insights metrics for a set of data sources, over a
   /// time period. You can provide specific dimension groups and dimensions, and
   /// provide aggregation and filtering criteria for each group.
+  /// <note>
+  /// Each response element returns a maximum of 500 bytes. For larger elements,
+  /// such as SQL statements, only the first 500 bytes are returned.
+  /// </note>
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [InternalServiceError].
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [endTime] :
-  /// The date and time specifiying the end of the requested time series data.
+  /// The date and time specifying the end of the requested time series data.
   /// The value specified is <i>exclusive</i> - data points less than (but not
   /// equal to) <code>EndTime</code> will be returned.
   ///
@@ -246,9 +249,9 @@ class PI {
   /// An immutable, AWS Region-unique identifier for a data source. Performance
   /// Insights gathers metrics from this data source.
   ///
-  /// To use an Amazon RDS instance as a data source, you specify its
-  /// <code>DbiResourceId</code> value - for example:
-  /// <code>db-FAIHNTYBKTGAUSUZQYPDS2GW4A</code>
+  /// To use a DB instance as a data source, specify its
+  /// <code>DbiResourceId</code> value. For example, specify
+  /// <code>db-FAIHNTYBKTGAUSUZQYPDS2GW4A</code>.
   ///
   /// Parameter [metricQueries] :
   /// An array of one or more queries to perform. Each query must specify a
@@ -256,8 +259,8 @@ class PI {
   /// filtering criteria.
   ///
   /// Parameter [serviceType] :
-  /// The AWS service for which Performance Insights will return metrics. The
-  /// only valid value for <i>ServiceType</i> is: <code>RDS</code>
+  /// The AWS service for which Performance Insights returns metrics. The only
+  /// valid value for <i>ServiceType</i> is <code>RDS</code>.
   ///
   /// Parameter [startTime] :
   /// The date and time specifying the beginning of the requested time series
@@ -428,6 +431,10 @@ class DescribeDimensionKeysResponse {
 /// area. For example, the <code>db.sql</code> dimension group consists of the
 /// following dimensions: <code>db.sql.id</code>, <code>db.sql.db_id</code>,
 /// <code>db.sql.statement</code>, and <code>db.sql.tokenized_id</code>.
+/// <note>
+/// Each response element returns a maximum of 500 bytes. For larger elements,
+/// such as SQL statements, only the first 500 bytes are returned.
+/// </note>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -438,22 +445,37 @@ class DimensionGroup {
   ///
   /// <ul>
   /// <li>
-  /// <code>db.user</code>
+  /// <code>db</code> - The name of the database to which the client is connected
+  /// (only Aurora PostgreSQL, RDS PostgreSQL, Aurora MySQL, RDS MySQL, and
+  /// MariaDB)
   /// </li>
   /// <li>
-  /// <code>db.host</code>
+  /// <code>db.application</code> - The name of the application that is connected
+  /// to the database (only Aurora PostgreSQL and RDS PostgreSQL)
   /// </li>
   /// <li>
-  /// <code>db.sql</code>
+  /// <code>db.host</code> - The host name of the connected client (all engines)
   /// </li>
   /// <li>
-  /// <code>db.sql_tokenized</code>
+  /// <code>db.session_type</code> - The type of the current session (only Aurora
+  /// PostgreSQL and RDS PostgreSQL)
   /// </li>
   /// <li>
-  /// <code>db.wait_event</code>
+  /// <code>db.sql</code> - The SQL that is currently executing (all engines)
   /// </li>
   /// <li>
-  /// <code>db.wait_event_type</code>
+  /// <code>db.sql_tokenized</code> - The SQL digest (all engines)
+  /// </li>
+  /// <li>
+  /// <code>db.wait_event</code> - The event for which the database backend is
+  /// waiting (all engines)
+  /// </li>
+  /// <li>
+  /// <code>db.wait_event_type</code> - The type of event for which the database
+  /// backend is waiting (all engines)
+  /// </li>
+  /// <li>
+  /// <code>db.user</code> - The user logged in to the database (all engines)
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'Group')
@@ -467,46 +489,70 @@ class DimensionGroup {
   ///
   /// <ul>
   /// <li>
-  /// db.user.id
+  /// <code>db.application.name</code> - The name of the application that is
+  /// connected to the database (only Aurora PostgreSQL and RDS PostgreSQL)
   /// </li>
   /// <li>
-  /// db.user.name
+  /// <code>db.host.id</code> - The host ID of the connected client (all engines)
   /// </li>
   /// <li>
-  /// db.host.id
+  /// <code>db.host.name</code> - The host name of the connected client (all
+  /// engines)
   /// </li>
   /// <li>
-  /// db.host.name
+  /// <code>db.name</code> - The name of the database to which the client is
+  /// connected (only Aurora PostgreSQL, RDS PostgreSQL, Aurora MySQL, RDS MySQL,
+  /// and MariaDB)
   /// </li>
   /// <li>
-  /// db.sql.id
+  /// <code>db.session_type.name</code> - The type of the current session (only
+  /// Aurora PostgreSQL and RDS PostgreSQL)
   /// </li>
   /// <li>
-  /// db.sql.db_id
+  /// <code>db.sql.id</code> - The SQL ID generated by Performance Insights (all
+  /// engines)
   /// </li>
   /// <li>
-  /// db.sql.statement
+  /// <code>db.sql.db_id</code> - The SQL ID generated by the database (all
+  /// engines)
   /// </li>
   /// <li>
-  /// db.sql.tokenized_id
+  /// <code>db.sql.statement</code> - The SQL text that is being executed (all
+  /// engines)
   /// </li>
   /// <li>
-  /// db.sql_tokenized.id
+  /// <code>db.sql.tokenized_id</code>
   /// </li>
   /// <li>
-  /// db.sql_tokenized.db_id
+  /// <code>db.sql_tokenized.id</code> - The SQL digest ID generated by
+  /// Performance Insights (all engines)
   /// </li>
   /// <li>
-  /// db.sql_tokenized.statement
+  /// <code>db.sql_tokenized.db_id</code> - SQL digest ID generated by the
+  /// database (all engines)
   /// </li>
   /// <li>
-  /// db.wait_event.name
+  /// <code>db.sql_tokenized.statement</code> - The SQL digest text (all engines)
   /// </li>
   /// <li>
-  /// db.wait_event.type
+  /// <code>db.user.id</code> - The ID of the user logged in to the database (all
+  /// engines)
   /// </li>
   /// <li>
-  /// db.wait_event_type.name
+  /// <code>db.user.name</code> - The name of the user logged in to the database
+  /// (all engines)
+  /// </li>
+  /// <li>
+  /// <code>db.wait_event.name</code> - The event for which the backend is waiting
+  /// (all engines)
+  /// </li>
+  /// <li>
+  /// <code>db.wait_event.type</code> - The type of event for which the backend is
+  /// waiting (all engines)
+  /// </li>
+  /// <li>
+  /// <code>db.wait_event_type.name</code> - The name of the event type for which
+  /// the backend is waiting (all engines)
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'Dimensions')
@@ -580,7 +626,7 @@ class GetResourceMetricsResponse {
   /// An immutable, AWS Region-unique identifier for a data source. Performance
   /// Insights gathers metrics from this data source.
   ///
-  /// To use an Amazon RDS instance as a data source, you specify its
+  /// To use a DB instance as a data source, you specify its
   /// <code>DbiResourceId</code> value - for example:
   /// <code>db-FAIHNTYBKTGAUSUZQYPDS2GW4A</code>
   @_s.JsonKey(name: 'Identifier')
@@ -608,41 +654,7 @@ class GetResourceMetricsResponse {
       _$GetResourceMetricsResponseFromJson(json);
 }
 
-/// The request failed due to an unknown error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InternalServiceError implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
-
-  InternalServiceError({
-    this.message,
-  });
-  factory InternalServiceError.fromJson(Map<String, dynamic> json) =>
-      _$InternalServiceErrorFromJson(json);
-}
-
-/// One of the arguments provided is invalid for this request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InvalidArgumentException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
-
-  InvalidArgumentException({
-    this.message,
-  });
-  factory InvalidArgumentException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidArgumentExceptionFromJson(json);
-}
-
-/// A time-ordered series of data points, correpsonding to a dimension of a
+/// A time-ordered series of data points, corresponding to a dimension of a
 /// Performance Insights metric.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -692,6 +704,14 @@ class MetricQuery {
   /// database engine.
   /// </li>
   /// </ul>
+  /// If the number of active sessions is less than an internal Performance
+  /// Insights threshold, <code>db.load.avg</code> and
+  /// <code>db.sampledload.avg</code> are the same value. If the number of active
+  /// sessions is greater than the internal threshold, Performance Insights
+  /// samples the active sessions, with <code>db.load.avg</code> showing the
+  /// scaled values, <code>db.sampledload.avg</code> showing the raw values, and
+  /// <code>db.sampledload.avg</code> less than <code>db.load.avg</code>. For most
+  /// use cases, you can query <code>db.load.avg</code> only.
   @_s.JsonKey(name: 'Metric')
   final String metric;
 
@@ -723,23 +743,6 @@ class MetricQuery {
     this.groupBy,
   });
   Map<String, dynamic> toJson() => _$MetricQueryToJson(this);
-}
-
-/// The user is not authorized to perform this request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class NotAuthorizedException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
-
-  NotAuthorizedException({
-    this.message,
-  });
-  factory NotAuthorizedException.fromJson(Map<String, dynamic> json) =>
-      _$NotAuthorizedExceptionFromJson(json);
 }
 
 /// If <code>PartitionBy</code> was specified in a
@@ -784,6 +787,14 @@ class ResponseResourceMetricKey {
   /// database engine.
   /// </li>
   /// </ul>
+  /// If the number of active sessions is less than an internal Performance
+  /// Insights threshold, <code>db.load.avg</code> and
+  /// <code>db.sampledload.avg</code> are the same value. If the number of active
+  /// sessions is greater than the internal threshold, Performance Insights
+  /// samples the active sessions, with <code>db.load.avg</code> showing the
+  /// scaled values, <code>db.sampledload.avg</code> showing the raw values, and
+  /// <code>db.sampledload.avg</code> less than <code>db.load.avg</code>. For most
+  /// use cases, you can query <code>db.load.avg</code> only.
   @_s.JsonKey(name: 'Metric')
   final String metric;
 
@@ -814,11 +825,26 @@ extension on ServiceType {
   }
 }
 
+class InternalServiceError extends _s.GenericAwsException {
+  InternalServiceError({String type, String message})
+      : super(type: type, code: 'InternalServiceError', message: message);
+}
+
+class InvalidArgumentException extends _s.GenericAwsException {
+  InvalidArgumentException({String type, String message})
+      : super(type: type, code: 'InvalidArgumentException', message: message);
+}
+
+class NotAuthorizedException extends _s.GenericAwsException {
+  NotAuthorizedException({String type, String message})
+      : super(type: type, code: 'NotAuthorizedException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'InternalServiceError': (type, message) =>
-      InternalServiceError(message: message),
+      InternalServiceError(type: type, message: message),
   'InvalidArgumentException': (type, message) =>
-      InvalidArgumentException(message: message),
+      InvalidArgumentException(type: type, message: message),
   'NotAuthorizedException': (type, message) =>
-      NotAuthorizedException(message: message),
+      NotAuthorizedException(type: type, message: message),
 };

@@ -45,6 +45,31 @@ class ElasticsearchService {
           endpointUrl: endpointUrl,
         );
 
+  /// Allows the destination domain owner to accept an inbound cross-cluster
+  /// search connection request.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [crossClusterSearchConnectionId] :
+  /// The id of the inbound connection that you want to accept.
+  Future<AcceptInboundCrossClusterSearchConnectionResponse>
+      acceptInboundCrossClusterSearchConnection({
+    @_s.required String crossClusterSearchConnectionId,
+  }) async {
+    ArgumentError.checkNotNull(
+        crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'PUT',
+      requestUri:
+          '/2015-01-01/es/ccs/inboundConnection/${Uri.encodeComponent(crossClusterSearchConnectionId)}/accept',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AcceptInboundCrossClusterSearchConnectionResponse.fromJson(response);
+  }
+
   /// Attaches tags to an existing Elasticsearch domain. Tags are a set of
   /// case-sensitive key value pairs. An Elasticsearch domain may have up to 10
   /// tags. See <a
@@ -308,6 +333,56 @@ class ElasticsearchService {
     return CreateElasticsearchDomainResponse.fromJson(response);
   }
 
+  /// Creates a new cross-cluster search connection from a source domain to a
+  /// destination domain.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InternalException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [connectionAlias] :
+  /// Specifies the connection alias that will be used by the customer for this
+  /// connection.
+  ///
+  /// Parameter [destinationDomainInfo] :
+  /// Specifies the <code><a>DomainInformation</a></code> for the destination
+  /// Elasticsearch domain.
+  ///
+  /// Parameter [sourceDomainInfo] :
+  /// Specifies the <code><a>DomainInformation</a></code> for the source
+  /// Elasticsearch domain.
+  Future<CreateOutboundCrossClusterSearchConnectionResponse>
+      createOutboundCrossClusterSearchConnection({
+    @_s.required String connectionAlias,
+    @_s.required DomainInformation destinationDomainInfo,
+    @_s.required DomainInformation sourceDomainInfo,
+  }) async {
+    ArgumentError.checkNotNull(connectionAlias, 'connectionAlias');
+    _s.validateStringLength(
+      'connectionAlias',
+      connectionAlias,
+      0,
+      20,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(destinationDomainInfo, 'destinationDomainInfo');
+    ArgumentError.checkNotNull(sourceDomainInfo, 'sourceDomainInfo');
+    final $payload = <String, dynamic>{
+      'ConnectionAlias': connectionAlias,
+      'DestinationDomainInfo': destinationDomainInfo,
+      'SourceDomainInfo': sourceDomainInfo,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2015-01-01/es/ccs/outboundConnection',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateOutboundCrossClusterSearchConnectionResponse.fromJson(
+        response);
+  }
+
   /// Create a package for use with Amazon ES domains.
   ///
   /// May throw [BaseException].
@@ -427,6 +502,55 @@ class ElasticsearchService {
       requestUri: '/2015-01-01/es/role',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Allows the destination domain owner to delete an existing inbound
+  /// cross-cluster search connection.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [crossClusterSearchConnectionId] :
+  /// The id of the inbound connection that you want to permanently delete.
+  Future<DeleteInboundCrossClusterSearchConnectionResponse>
+      deleteInboundCrossClusterSearchConnection({
+    @_s.required String crossClusterSearchConnectionId,
+  }) async {
+    ArgumentError.checkNotNull(
+        crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/2015-01-01/es/ccs/inboundConnection/${Uri.encodeComponent(crossClusterSearchConnectionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteInboundCrossClusterSearchConnectionResponse.fromJson(response);
+  }
+
+  /// Allows the source domain owner to delete an existing outbound
+  /// cross-cluster search connection.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [crossClusterSearchConnectionId] :
+  /// The id of the outbound connection that you want to permanently delete.
+  Future<DeleteOutboundCrossClusterSearchConnectionResponse>
+      deleteOutboundCrossClusterSearchConnection({
+    @_s.required String crossClusterSearchConnectionId,
+  }) async {
+    ArgumentError.checkNotNull(
+        crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/2015-01-01/es/ccs/outboundConnection/${Uri.encodeComponent(crossClusterSearchConnectionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteOutboundCrossClusterSearchConnectionResponse.fromJson(
+        response);
   }
 
   /// Delete the package.
@@ -608,6 +732,110 @@ class ElasticsearchService {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeElasticsearchInstanceTypeLimitsResponse.fromJson(response);
+  }
+
+  /// Lists all the inbound cross-cluster search connections for a destination
+  /// domain.
+  ///
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [filters] :
+  /// A list of filters used to match properties for inbound cross-cluster
+  /// search connection. Available <code><a>Filter</a></code> names for this
+  /// operation are:
+  /// <ul>
+  /// <li>cross-cluster-search-connection-id</li>
+  /// <li>source-domain-info.domain-name</li>
+  /// <li>source-domain-info.owner-id</li>
+  /// <li>source-domain-info.region</li>
+  /// <li>destination-domain-info.domain-name</li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// Set this value to limit the number of results returned. If not specified,
+  /// defaults to 100.
+  ///
+  /// Parameter [nextToken] :
+  /// NextToken is sent in case the earlier API call results contain the
+  /// NextToken. It is used for pagination.
+  Future<DescribeInboundCrossClusterSearchConnectionsResponse>
+      describeInboundCrossClusterSearchConnections({
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (filters != null) 'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2015-01-01/es/ccs/inboundConnection/search',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeInboundCrossClusterSearchConnectionsResponse.fromJson(
+        response);
+  }
+
+  /// Lists all the outbound cross-cluster search connections for a source
+  /// domain.
+  ///
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [filters] :
+  /// A list of filters used to match properties for outbound cross-cluster
+  /// search connection. Available <code><a>Filter</a></code> names for this
+  /// operation are:
+  /// <ul>
+  /// <li>cross-cluster-search-connection-id</li>
+  /// <li>destination-domain-info.domain-name</li>
+  /// <li>destination-domain-info.owner-id</li>
+  /// <li>destination-domain-info.region</li>
+  /// <li>source-domain-info.domain-name</li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// Set this value to limit the number of results returned. If not specified,
+  /// defaults to 100.
+  ///
+  /// Parameter [nextToken] :
+  /// NextToken is sent in case the earlier API call results contain the
+  /// NextToken. It is used for pagination.
+  Future<DescribeOutboundCrossClusterSearchConnectionsResponse>
+      describeOutboundCrossClusterSearchConnections({
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (filters != null) 'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2015-01-01/es/ccs/outboundConnection/search',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeOutboundCrossClusterSearchConnectionsResponse.fromJson(
+        response);
   }
 
   /// Describes all packages available to Amazon ES. Includes options for
@@ -838,6 +1066,51 @@ class ElasticsearchService {
       exceptionFnMap: _exceptionFns,
     );
     return GetCompatibleElasticsearchVersionsResponse.fromJson(response);
+  }
+
+  /// Returns a list of versions of the package, along with their creation time
+  /// and commit message.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [packageID] :
+  /// Returns an audit history of versions of the package.
+  ///
+  /// Parameter [maxResults] :
+  /// Limits results to a maximum number of versions.
+  ///
+  /// Parameter [nextToken] :
+  /// Used for pagination. Only necessary if a previous API call includes a
+  /// non-null NextToken value. If provided, returns results for the next page.
+  Future<GetPackageVersionHistoryResponse> getPackageVersionHistory({
+    @_s.required String packageID,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(packageID, 'packageID');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2015-01-01/packages/${Uri.encodeComponent(packageID)}/history',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPackageVersionHistoryResponse.fromJson(response);
   }
 
   /// Retrieves the complete history of the last 10 upgrades that were performed
@@ -1226,6 +1499,30 @@ class ElasticsearchService {
         response);
   }
 
+  /// Allows the destination domain owner to reject an inbound cross-cluster
+  /// search connection request.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [DisabledOperationException].
+  ///
+  /// Parameter [crossClusterSearchConnectionId] :
+  /// The id of the inbound connection that you want to reject.
+  Future<RejectInboundCrossClusterSearchConnectionResponse>
+      rejectInboundCrossClusterSearchConnection({
+    @_s.required String crossClusterSearchConnectionId,
+  }) async {
+    ArgumentError.checkNotNull(
+        crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'PUT',
+      requestUri:
+          '/2015-01-01/es/ccs/inboundConnection/${Uri.encodeComponent(crossClusterSearchConnectionId)}/reject',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RejectInboundCrossClusterSearchConnectionResponse.fromJson(response);
+  }
+
   /// Removes the specified set of tags from the specified Elasticsearch domain.
   ///
   /// May throw [BaseException].
@@ -1409,6 +1706,59 @@ class ElasticsearchService {
     return UpdateElasticsearchDomainConfigResponse.fromJson(response);
   }
 
+  /// Updates a package for use with Amazon ES domains.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [packageID] :
+  /// Unique identifier for the package.
+  ///
+  /// Parameter [commitMessage] :
+  /// An info message for the new version which will be shown as part of
+  /// <code>GetPackageVersionHistoryResponse</code>.
+  ///
+  /// Parameter [packageDescription] :
+  /// New description of the package.
+  Future<UpdatePackageResponse> updatePackage({
+    @_s.required String packageID,
+    @_s.required PackageSource packageSource,
+    String commitMessage,
+    String packageDescription,
+  }) async {
+    ArgumentError.checkNotNull(packageID, 'packageID');
+    ArgumentError.checkNotNull(packageSource, 'packageSource');
+    _s.validateStringLength(
+      'commitMessage',
+      commitMessage,
+      0,
+      160,
+    );
+    _s.validateStringLength(
+      'packageDescription',
+      packageDescription,
+      0,
+      1024,
+    );
+    final $payload = <String, dynamic>{
+      'PackageID': packageID,
+      'PackageSource': packageSource,
+      if (commitMessage != null) 'CommitMessage': commitMessage,
+      if (packageDescription != null) 'PackageDescription': packageDescription,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2015-01-01/packages/update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdatePackageResponse.fromJson(response);
+  }
+
   /// Allows you to either upgrade your domain or perform an Upgrade eligibility
   /// check to a compatible Elasticsearch version.
   ///
@@ -1458,6 +1808,28 @@ class ElasticsearchService {
     );
     return UpgradeElasticsearchDomainResponse.fromJson(response);
   }
+}
+
+/// The result of a
+/// <code><a>AcceptInboundCrossClusterSearchConnection</a></code> operation.
+/// Contains details of accepted inbound connection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AcceptInboundCrossClusterSearchConnectionResponse {
+  /// Specifies the <code><a>InboundCrossClusterSearchConnection</a></code> of
+  /// accepted inbound connection.
+  @_s.JsonKey(name: 'CrossClusterSearchConnection')
+  final InboundCrossClusterSearchConnection crossClusterSearchConnection;
+
+  AcceptInboundCrossClusterSearchConnectionResponse({
+    this.crossClusterSearchConnection,
+  });
+  factory AcceptInboundCrossClusterSearchConnectionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$AcceptInboundCrossClusterSearchConnectionResponseFromJson(json);
 }
 
 /// The configured access rules for the domain's document and search endpoints,
@@ -1579,9 +1951,14 @@ class AdvancedSecurityOptions {
   @_s.JsonKey(name: 'InternalUserDatabaseEnabled')
   final bool internalUserDatabaseEnabled;
 
+  /// Describes the SAML application configured for a domain.
+  @_s.JsonKey(name: 'SAMLOptions')
+  final SAMLOptionsOutput sAMLOptions;
+
   AdvancedSecurityOptions({
     this.enabled,
     this.internalUserDatabaseEnabled,
+    this.sAMLOptions,
   });
   factory AdvancedSecurityOptions.fromJson(Map<String, dynamic> json) =>
       _$AdvancedSecurityOptionsFromJson(json);
@@ -1609,10 +1986,15 @@ class AdvancedSecurityOptionsInput {
   @_s.JsonKey(name: 'MasterUserOptions')
   final MasterUserOptions masterUserOptions;
 
+  /// Specifies the SAML application configuration for the domain.
+  @_s.JsonKey(name: 'SAMLOptions')
+  final SAMLOptionsInput sAMLOptions;
+
   AdvancedSecurityOptionsInput({
     this.enabled,
     this.internalUserDatabaseEnabled,
     this.masterUserOptions,
+    this.sAMLOptions,
   });
   Map<String, dynamic> toJson() => _$AdvancedSecurityOptionsInputToJson(this);
 }
@@ -1787,6 +2169,52 @@ class CreateElasticsearchDomainResponse {
       _$CreateElasticsearchDomainResponseFromJson(json);
 }
 
+/// The result of a
+/// <code><a>CreateOutboundCrossClusterSearchConnection</a></code> request.
+/// Contains the details of the newly created cross-cluster search connection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateOutboundCrossClusterSearchConnectionResponse {
+  /// Specifies the connection alias provided during the create connection
+  /// request.
+  @_s.JsonKey(name: 'ConnectionAlias')
+  final String connectionAlias;
+
+  /// Specifies the <code><a>OutboundCrossClusterSearchConnectionStatus</a></code>
+  /// for the newly created connection.
+  @_s.JsonKey(name: 'ConnectionStatus')
+  final OutboundCrossClusterSearchConnectionStatus connectionStatus;
+
+  /// Unique id for the created outbound connection, which is used for subsequent
+  /// operations on connection.
+  @_s.JsonKey(name: 'CrossClusterSearchConnectionId')
+  final String crossClusterSearchConnectionId;
+
+  /// Specifies the <code><a>DomainInformation</a></code> for the destination
+  /// Elasticsearch domain.
+  @_s.JsonKey(name: 'DestinationDomainInfo')
+  final DomainInformation destinationDomainInfo;
+
+  /// Specifies the <code><a>DomainInformation</a></code> for the source
+  /// Elasticsearch domain.
+  @_s.JsonKey(name: 'SourceDomainInfo')
+  final DomainInformation sourceDomainInfo;
+
+  CreateOutboundCrossClusterSearchConnectionResponse({
+    this.connectionAlias,
+    this.connectionStatus,
+    this.crossClusterSearchConnectionId,
+    this.destinationDomainInfo,
+    this.sourceDomainInfo,
+  });
+  factory CreateOutboundCrossClusterSearchConnectionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateOutboundCrossClusterSearchConnectionResponseFromJson(json);
+}
+
 /// Container for response returned by <code> <a>CreatePackage</a> </code>
 /// operation.
 @_s.JsonSerializable(
@@ -1825,6 +2253,50 @@ class DeleteElasticsearchDomainResponse {
   factory DeleteElasticsearchDomainResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteElasticsearchDomainResponseFromJson(json);
+}
+
+/// The result of a
+/// <code><a>DeleteInboundCrossClusterSearchConnection</a></code> operation.
+/// Contains details of deleted inbound connection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteInboundCrossClusterSearchConnectionResponse {
+  /// Specifies the <code><a>InboundCrossClusterSearchConnection</a></code> of
+  /// deleted inbound connection.
+  @_s.JsonKey(name: 'CrossClusterSearchConnection')
+  final InboundCrossClusterSearchConnection crossClusterSearchConnection;
+
+  DeleteInboundCrossClusterSearchConnectionResponse({
+    this.crossClusterSearchConnection,
+  });
+  factory DeleteInboundCrossClusterSearchConnectionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteInboundCrossClusterSearchConnectionResponseFromJson(json);
+}
+
+/// The result of a
+/// <code><a>DeleteOutboundCrossClusterSearchConnection</a></code> operation.
+/// Contains details of deleted outbound connection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteOutboundCrossClusterSearchConnectionResponse {
+  /// Specifies the <code><a>OutboundCrossClusterSearchConnection</a></code> of
+  /// deleted outbound connection.
+  @_s.JsonKey(name: 'CrossClusterSearchConnection')
+  final OutboundCrossClusterSearchConnection crossClusterSearchConnection;
+
+  DeleteOutboundCrossClusterSearchConnectionResponse({
+    this.crossClusterSearchConnection,
+  });
+  factory DeleteOutboundCrossClusterSearchConnectionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteOutboundCrossClusterSearchConnectionResponseFromJson(json);
 }
 
 /// Container for response parameters to <code> <a>DeletePackage</a> </code>
@@ -1938,6 +2410,65 @@ class DescribeElasticsearchInstanceTypeLimitsResponse {
   factory DescribeElasticsearchInstanceTypeLimitsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeElasticsearchInstanceTypeLimitsResponseFromJson(json);
+}
+
+/// The result of a
+/// <code><a>DescribeInboundCrossClusterSearchConnections</a></code> request.
+/// Contains the list of connections matching the filter criteria.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeInboundCrossClusterSearchConnectionsResponse {
+  /// Consists of list of <code><a>InboundCrossClusterSearchConnection</a></code>
+  /// matching the specified filter criteria.
+  @_s.JsonKey(name: 'CrossClusterSearchConnections')
+  final List<InboundCrossClusterSearchConnection> crossClusterSearchConnections;
+
+  /// If more results are available and NextToken is present, make the next
+  /// request to the same API with the received NextToken to paginate the
+  /// remaining results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeInboundCrossClusterSearchConnectionsResponse({
+    this.crossClusterSearchConnections,
+    this.nextToken,
+  });
+  factory DescribeInboundCrossClusterSearchConnectionsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeInboundCrossClusterSearchConnectionsResponseFromJson(json);
+}
+
+/// The result of a
+/// <code><a>DescribeOutboundCrossClusterSearchConnections</a></code> request.
+/// Contains the list of connections matching the filter criteria.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeOutboundCrossClusterSearchConnectionsResponse {
+  /// Consists of list of <code><a>OutboundCrossClusterSearchConnection</a></code>
+  /// matching the specified filter criteria.
+  @_s.JsonKey(name: 'CrossClusterSearchConnections')
+  final List<OutboundCrossClusterSearchConnection>
+      crossClusterSearchConnections;
+
+  /// If more results are available and NextToken is present, make the next
+  /// request to the same API with the received NextToken to paginate the
+  /// remaining results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeOutboundCrossClusterSearchConnectionsResponse({
+    this.crossClusterSearchConnections,
+    this.nextToken,
+  });
+  factory DescribeOutboundCrossClusterSearchConnectionsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeOutboundCrossClusterSearchConnectionsResponseFromJson(json);
 }
 
 /// Filter to apply in <code>DescribePackage</code> response.
@@ -2071,6 +2602,18 @@ class DissociatePackageResponse {
     createFactory: true,
     createToJson: true)
 class DomainEndpointOptions {
+  /// Specify the fully qualified domain for your custom endpoint.
+  @_s.JsonKey(name: 'CustomEndpoint')
+  final String customEndpoint;
+
+  /// Specify ACM certificate ARN for your custom endpoint.
+  @_s.JsonKey(name: 'CustomEndpointCertificateArn')
+  final String customEndpointCertificateArn;
+
+  /// Specify if custom endpoint should be enabled for the Elasticsearch domain.
+  @_s.JsonKey(name: 'CustomEndpointEnabled')
+  final bool customEndpointEnabled;
+
   /// Specify if only HTTPS endpoint should be enabled for the Elasticsearch
   /// domain.
   @_s.JsonKey(name: 'EnforceHTTPS')
@@ -2089,6 +2632,9 @@ class DomainEndpointOptions {
   final TLSSecurityPolicy tLSSecurityPolicy;
 
   DomainEndpointOptions({
+    this.customEndpoint,
+    this.customEndpointCertificateArn,
+    this.customEndpointEnabled,
     this.enforceHTTPS,
     this.tLSSecurityPolicy,
   });
@@ -2139,6 +2685,30 @@ class DomainInfo {
       _$DomainInfoFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DomainInformation {
+  @_s.JsonKey(name: 'DomainName')
+  final String domainName;
+  @_s.JsonKey(name: 'OwnerId')
+  final String ownerId;
+  @_s.JsonKey(name: 'Region')
+  final String region;
+
+  DomainInformation({
+    @_s.required this.domainName,
+    this.ownerId,
+    this.region,
+  });
+  factory DomainInformation.fromJson(Map<String, dynamic> json) =>
+      _$DomainInformationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DomainInformationToJson(this);
+}
+
 /// Information on a package that is associated with a domain.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2175,6 +2745,8 @@ class DomainPackageDetails {
   /// Currently supports only TXT-DICTIONARY.
   @_s.JsonKey(name: 'PackageType')
   final PackageType packageType;
+  @_s.JsonKey(name: 'PackageVersion')
+  final String packageVersion;
 
   /// The relative path on Amazon ES nodes, which can be used as synonym_path when
   /// the package is synonym file.
@@ -2189,6 +2761,7 @@ class DomainPackageDetails {
     this.packageID,
     this.packageName,
     this.packageType,
+    this.packageVersion,
     this.referencePath,
   });
   factory DomainPackageDetails.fromJson(Map<String, dynamic> json) =>
@@ -2956,6 +3529,31 @@ class ErrorDetails {
       _$ErrorDetailsFromJson(json);
 }
 
+/// A filter used to limit results when describing inbound or outbound
+/// cross-cluster search connections. Multiple values can be specified per
+/// filter. A cross-cluster search connection must match at least one of the
+/// specified values for it to be returned from an operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class Filter {
+  /// Specifies the name of the filter.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Contains one or more values for the filter.
+  @_s.JsonKey(name: 'Values')
+  final List<String> values;
+
+  Filter({
+    this.name,
+    this.values,
+  });
+  Map<String, dynamic> toJson() => _$FilterToJson(this);
+}
+
 /// Container for response returned by <code>
 /// <a>GetCompatibleElasticsearchVersions</a> </code> operation.
 @_s.JsonSerializable(
@@ -2975,6 +3573,33 @@ class GetCompatibleElasticsearchVersionsResponse {
   factory GetCompatibleElasticsearchVersionsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetCompatibleElasticsearchVersionsResponseFromJson(json);
+}
+
+/// Container for response returned by <code> <a>GetPackageVersionHistory</a>
+/// </code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetPackageVersionHistoryResponse {
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+  @_s.JsonKey(name: 'PackageID')
+  final String packageID;
+
+  /// List of <code>PackageVersionHistory</code> objects.
+  @_s.JsonKey(name: 'PackageVersionHistoryList')
+  final List<PackageVersionHistory> packageVersionHistoryList;
+
+  GetPackageVersionHistoryResponse({
+    this.nextToken,
+    this.packageID,
+    this.packageVersionHistoryList,
+  });
+  factory GetPackageVersionHistoryResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetPackageVersionHistoryResponseFromJson(json);
 }
 
 /// Container for response returned by <code> <a>GetUpgradeHistory</a> </code>
@@ -3045,6 +3670,94 @@ class GetUpgradeStatusResponse {
   });
   factory GetUpgradeStatusResponse.fromJson(Map<String, dynamic> json) =>
       _$GetUpgradeStatusResponseFromJson(json);
+}
+
+/// Specifies details of an inbound connection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InboundCrossClusterSearchConnection {
+  /// Specifies the <code><a>InboundCrossClusterSearchConnectionStatus</a></code>
+  /// for the outbound connection.
+  @_s.JsonKey(name: 'ConnectionStatus')
+  final InboundCrossClusterSearchConnectionStatus connectionStatus;
+
+  /// Specifies the connection id for the inbound cross-cluster search connection.
+  @_s.JsonKey(name: 'CrossClusterSearchConnectionId')
+  final String crossClusterSearchConnectionId;
+
+  /// Specifies the <code><a>DomainInformation</a></code> for the destination
+  /// Elasticsearch domain.
+  @_s.JsonKey(name: 'DestinationDomainInfo')
+  final DomainInformation destinationDomainInfo;
+
+  /// Specifies the <code><a>DomainInformation</a></code> for the source
+  /// Elasticsearch domain.
+  @_s.JsonKey(name: 'SourceDomainInfo')
+  final DomainInformation sourceDomainInfo;
+
+  InboundCrossClusterSearchConnection({
+    this.connectionStatus,
+    this.crossClusterSearchConnectionId,
+    this.destinationDomainInfo,
+    this.sourceDomainInfo,
+  });
+  factory InboundCrossClusterSearchConnection.fromJson(
+          Map<String, dynamic> json) =>
+      _$InboundCrossClusterSearchConnectionFromJson(json);
+}
+
+/// Specifies the coonection status of an inbound cross-cluster search
+/// connection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InboundCrossClusterSearchConnectionStatus {
+  /// Specifies verbose information for the inbound connection status.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  /// The state code for inbound connection. This can be one of the following:
+  ///
+  /// <ul>
+  /// <li>PENDING_ACCEPTANCE: Inbound connection is not yet accepted by
+  /// destination domain owner.</li>
+  /// <li>APPROVED: Inbound connection is pending acceptance by destination domain
+  /// owner.</li>
+  /// <li>REJECTING: Inbound connection rejection is in process.</li>
+  /// <li>REJECTED: Inbound connection is rejected.</li>
+  /// <li>DELETING: Inbound connection deletion is in progress.</li>
+  /// <li>DELETED: Inbound connection is deleted and cannot be used further.</li>
+  /// </ul>
+  @_s.JsonKey(name: 'StatusCode')
+  final InboundCrossClusterSearchConnectionStatusCode statusCode;
+
+  InboundCrossClusterSearchConnectionStatus({
+    this.message,
+    this.statusCode,
+  });
+  factory InboundCrossClusterSearchConnectionStatus.fromJson(
+          Map<String, dynamic> json) =>
+      _$InboundCrossClusterSearchConnectionStatusFromJson(json);
+}
+
+enum InboundCrossClusterSearchConnectionStatusCode {
+  @_s.JsonValue('PENDING_ACCEPTANCE')
+  pendingAcceptance,
+  @_s.JsonValue('APPROVED')
+  approved,
+  @_s.JsonValue('REJECTING')
+  rejecting,
+  @_s.JsonValue('REJECTED')
+  rejected,
+  @_s.JsonValue('DELETING')
+  deleting,
+  @_s.JsonValue('DELETED')
+  deleted,
 }
 
 /// InstanceCountLimits represents the limits on number of instances that be
@@ -3315,6 +4028,8 @@ class LogPublishingOptionsStatus {
 /// <li>ES_APPLICATION_LOGS: Elasticsearch application logs contain information
 /// about errors and warnings raised during the operation of the service and can
 /// be useful for troubleshooting.</li>
+/// <li>AUDIT_LOGS: Audit logs contain records of user requests for access from
+/// the domain.</li>
 /// </ul>
 enum LogType {
   @_s.JsonValue('INDEX_SLOW_LOGS')
@@ -3323,6 +4038,8 @@ enum LogType {
   searchSlowLogs,
   @_s.JsonValue('ES_APPLICATION_LOGS')
   esApplicationLogs,
+  @_s.JsonValue('AUDIT_LOGS')
+  auditLogs,
 }
 
 extension on LogType {
@@ -3334,6 +4051,8 @@ extension on LogType {
         return 'SEARCH_SLOW_LOGS';
       case LogType.esApplicationLogs:
         return 'ES_APPLICATION_LOGS';
+      case LogType.auditLogs:
+        return 'AUDIT_LOGS';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -3471,6 +4190,107 @@ class OptionStatus {
       _$OptionStatusFromJson(json);
 }
 
+/// Specifies details of an outbound connection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class OutboundCrossClusterSearchConnection {
+  /// Specifies the connection alias for the outbound cross-cluster search
+  /// connection.
+  @_s.JsonKey(name: 'ConnectionAlias')
+  final String connectionAlias;
+
+  /// Specifies the <code><a>OutboundCrossClusterSearchConnectionStatus</a></code>
+  /// for the outbound connection.
+  @_s.JsonKey(name: 'ConnectionStatus')
+  final OutboundCrossClusterSearchConnectionStatus connectionStatus;
+
+  /// Specifies the connection id for the outbound cross-cluster search
+  /// connection.
+  @_s.JsonKey(name: 'CrossClusterSearchConnectionId')
+  final String crossClusterSearchConnectionId;
+
+  /// Specifies the <code><a>DomainInformation</a></code> for the destination
+  /// Elasticsearch domain.
+  @_s.JsonKey(name: 'DestinationDomainInfo')
+  final DomainInformation destinationDomainInfo;
+
+  /// Specifies the <code><a>DomainInformation</a></code> for the source
+  /// Elasticsearch domain.
+  @_s.JsonKey(name: 'SourceDomainInfo')
+  final DomainInformation sourceDomainInfo;
+
+  OutboundCrossClusterSearchConnection({
+    this.connectionAlias,
+    this.connectionStatus,
+    this.crossClusterSearchConnectionId,
+    this.destinationDomainInfo,
+    this.sourceDomainInfo,
+  });
+  factory OutboundCrossClusterSearchConnection.fromJson(
+          Map<String, dynamic> json) =>
+      _$OutboundCrossClusterSearchConnectionFromJson(json);
+}
+
+/// Specifies the connection status of an outbound cross-cluster search
+/// connection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class OutboundCrossClusterSearchConnectionStatus {
+  /// Specifies verbose information for the outbound connection status.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  /// The state code for outbound connection. This can be one of the following:
+  ///
+  /// <ul>
+  /// <li>VALIDATING: The outbound connection request is being validated.</li>
+  /// <li>VALIDATION_FAILED: Validation failed for the connection request.</li>
+  /// <li>PENDING_ACCEPTANCE: Outbound connection request is validated and is not
+  /// yet accepted by destination domain owner.</li>
+  /// <li>PROVISIONING: Outbound connection request is in process.</li>
+  /// <li>ACTIVE: Outbound connection is active and ready to use.</li>
+  /// <li>REJECTED: Outbound connection request is rejected by destination domain
+  /// owner.</li>
+  /// <li>DELETING: Outbound connection deletion is in progress.</li>
+  /// <li>DELETED: Outbound connection is deleted and cannot be used further.</li>
+  /// </ul>
+  @_s.JsonKey(name: 'StatusCode')
+  final OutboundCrossClusterSearchConnectionStatusCode statusCode;
+
+  OutboundCrossClusterSearchConnectionStatus({
+    this.message,
+    this.statusCode,
+  });
+  factory OutboundCrossClusterSearchConnectionStatus.fromJson(
+          Map<String, dynamic> json) =>
+      _$OutboundCrossClusterSearchConnectionStatusFromJson(json);
+}
+
+enum OutboundCrossClusterSearchConnectionStatusCode {
+  @_s.JsonValue('PENDING_ACCEPTANCE')
+  pendingAcceptance,
+  @_s.JsonValue('VALIDATING')
+  validating,
+  @_s.JsonValue('VALIDATION_FAILED')
+  validationFailed,
+  @_s.JsonValue('PROVISIONING')
+  provisioning,
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('REJECTED')
+  rejected,
+  @_s.JsonValue('DELETING')
+  deleting,
+  @_s.JsonValue('DELETED')
+  deleted,
+}
+
 /// Basic information about a package.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3478,6 +4298,9 @@ class OptionStatus {
     createFactory: true,
     createToJson: false)
 class PackageDetails {
+  @_s.JsonKey(name: 'AvailablePackageVersion')
+  final String availablePackageVersion;
+
   /// Timestamp which tells creation date of the package.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CreatedAt')
@@ -3486,6 +4309,9 @@ class PackageDetails {
   /// Additional information if the package is in an error state. Null otherwise.
   @_s.JsonKey(name: 'ErrorDetails')
   final ErrorDetails errorDetails;
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedAt')
+  final DateTime lastUpdatedAt;
 
   /// User-specified description of the package.
   @_s.JsonKey(name: 'PackageDescription')
@@ -3509,8 +4335,10 @@ class PackageDetails {
   final PackageType packageType;
 
   PackageDetails({
+    this.availablePackageVersion,
     this.createdAt,
     this.errorDetails,
+    this.lastUpdatedAt,
     this.packageDescription,
     this.packageID,
     this.packageName,
@@ -3578,6 +4406,35 @@ extension on PackageType {
   }
 }
 
+/// Details of a package version.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PackageVersionHistory {
+  /// A message associated with the version.
+  @_s.JsonKey(name: 'CommitMessage')
+  final String commitMessage;
+
+  /// Timestamp which tells creation time of the package version.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
+  final DateTime createdAt;
+
+  /// Version of the package.
+  @_s.JsonKey(name: 'PackageVersion')
+  final String packageVersion;
+
+  PackageVersionHistory({
+    this.commitMessage,
+    this.createdAt,
+    this.packageVersion,
+  });
+  factory PackageVersionHistory.fromJson(Map<String, dynamic> json) =>
+      _$PackageVersionHistoryFromJson(json);
+}
+
 /// Represents the output of a
 /// <code>PurchaseReservedElasticsearchInstanceOffering</code> operation.
 @_s.JsonSerializable(
@@ -3626,6 +4483,28 @@ class RecurringCharge {
   });
   factory RecurringCharge.fromJson(Map<String, dynamic> json) =>
       _$RecurringChargeFromJson(json);
+}
+
+/// The result of a
+/// <code><a>RejectInboundCrossClusterSearchConnection</a></code> operation.
+/// Contains details of rejected inbound connection.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RejectInboundCrossClusterSearchConnectionResponse {
+  /// Specifies the <code><a>InboundCrossClusterSearchConnection</a></code> of
+  /// rejected inbound connection.
+  @_s.JsonKey(name: 'CrossClusterSearchConnection')
+  final InboundCrossClusterSearchConnection crossClusterSearchConnection;
+
+  RejectInboundCrossClusterSearchConnectionResponse({
+    this.crossClusterSearchConnection,
+  });
+  factory RejectInboundCrossClusterSearchConnectionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$RejectInboundCrossClusterSearchConnectionResponseFromJson(json);
 }
 
 /// Details of a reserved Elasticsearch instance.
@@ -3778,6 +4657,118 @@ enum ReservedElasticsearchInstancePaymentOption {
   noUpfront,
 }
 
+/// Specifies the SAML Identity Provider's information.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SAMLIdp {
+  /// The unique Entity ID of the application in SAML Identity Provider.
+  @_s.JsonKey(name: 'EntityId')
+  final String entityId;
+
+  /// The Metadata of the SAML application in xml format.
+  @_s.JsonKey(name: 'MetadataContent')
+  final String metadataContent;
+
+  SAMLIdp({
+    @_s.required this.entityId,
+    @_s.required this.metadataContent,
+  });
+  factory SAMLIdp.fromJson(Map<String, dynamic> json) =>
+      _$SAMLIdpFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SAMLIdpToJson(this);
+}
+
+/// Specifies the SAML application configuration for the domain.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class SAMLOptionsInput {
+  /// True if SAML is enabled.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// Specifies the SAML Identity Provider's information.
+  @_s.JsonKey(name: 'Idp')
+  final SAMLIdp idp;
+
+  /// The backend role to which the SAML master user is mapped to.
+  @_s.JsonKey(name: 'MasterBackendRole')
+  final String masterBackendRole;
+
+  /// The SAML master username, which is stored in the Amazon Elasticsearch
+  /// Service domain's internal database.
+  @_s.JsonKey(name: 'MasterUserName')
+  final String masterUserName;
+
+  /// The key to use for matching the SAML Roles attribute.
+  @_s.JsonKey(name: 'RolesKey')
+  final String rolesKey;
+
+  /// The duration, in minutes, after which a user session becomes inactive.
+  /// Acceptable values are between 1 and 1440, and the default value is 60.
+  @_s.JsonKey(name: 'SessionTimeoutMinutes')
+  final int sessionTimeoutMinutes;
+
+  /// The key to use for matching the SAML Subject attribute.
+  @_s.JsonKey(name: 'SubjectKey')
+  final String subjectKey;
+
+  SAMLOptionsInput({
+    this.enabled,
+    this.idp,
+    this.masterBackendRole,
+    this.masterUserName,
+    this.rolesKey,
+    this.sessionTimeoutMinutes,
+    this.subjectKey,
+  });
+  Map<String, dynamic> toJson() => _$SAMLOptionsInputToJson(this);
+}
+
+/// Describes the SAML application configured for the domain.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SAMLOptionsOutput {
+  /// True if SAML is enabled.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// Describes the SAML Identity Provider's information.
+  @_s.JsonKey(name: 'Idp')
+  final SAMLIdp idp;
+
+  /// The key used for matching the SAML Roles attribute.
+  @_s.JsonKey(name: 'RolesKey')
+  final String rolesKey;
+
+  /// The duration, in minutes, after which a user session becomes inactive.
+  @_s.JsonKey(name: 'SessionTimeoutMinutes')
+  final int sessionTimeoutMinutes;
+
+  /// The key used for matching the SAML Subject attribute.
+  @_s.JsonKey(name: 'SubjectKey')
+  final String subjectKey;
+
+  SAMLOptionsOutput({
+    this.enabled,
+    this.idp,
+    this.rolesKey,
+    this.sessionTimeoutMinutes,
+    this.subjectKey,
+  });
+  factory SAMLOptionsOutput.fromJson(Map<String, dynamic> json) =>
+      _$SAMLOptionsOutputFromJson(json);
+}
+
 /// The current options of an Elasticsearch domain service software options.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3810,6 +4801,12 @@ class ServiceSoftwareOptions {
   @_s.JsonKey(name: 'NewVersion')
   final String newVersion;
 
+  /// <code>True</code> if a service software is never automatically updated.
+  /// <code>False</code> if a service software is automatically updated after
+  /// <code>AutomatedUpdateDate</code>.
+  @_s.JsonKey(name: 'OptionalDeployment')
+  final bool optionalDeployment;
+
   /// <code>True</code> if you are able to update you service software version.
   /// <code>False</code> if you are not able to update your service software
   /// version.
@@ -3829,6 +4826,7 @@ class ServiceSoftwareOptions {
     this.currentVersion,
     this.description,
     this.newVersion,
+    this.optionalDeployment,
     this.updateAvailable,
     this.updateStatus,
   });
@@ -4015,6 +5013,25 @@ class UpdateElasticsearchDomainConfigResponse {
   factory UpdateElasticsearchDomainConfigResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateElasticsearchDomainConfigResponseFromJson(json);
+}
+
+/// Container for response returned by <code> <a>UpdatePackage</a> </code>
+/// operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdatePackageResponse {
+  /// Information about the package <code>PackageDetails</code>.
+  @_s.JsonKey(name: 'PackageDetails')
+  final PackageDetails packageDetails;
+
+  UpdatePackageResponse({
+    this.packageDetails,
+  });
+  factory UpdatePackageResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdatePackageResponseFromJson(json);
 }
 
 /// Container for response returned by <code> <a>UpgradeElasticsearchDomain</a>
@@ -4307,6 +5324,14 @@ class InternalException extends _s.GenericAwsException {
       : super(type: type, code: 'InternalException', message: message);
 }
 
+class InvalidPaginationTokenException extends _s.GenericAwsException {
+  InvalidPaginationTokenException({String type, String message})
+      : super(
+            type: type,
+            code: 'InvalidPaginationTokenException',
+            message: message);
+}
+
 class InvalidTypeException extends _s.GenericAwsException {
   InvalidTypeException({String type, String message})
       : super(type: type, code: 'InvalidTypeException', message: message);
@@ -4346,6 +5371,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       DisabledOperationException(type: type, message: message),
   'InternalException': (type, message) =>
       InternalException(type: type, message: message),
+  'InvalidPaginationTokenException': (type, message) =>
+      InvalidPaginationTokenException(type: type, message: message),
   'InvalidTypeException': (type, message) =>
       InvalidTypeException(type: type, message: message),
   'LimitExceededException': (type, message) =>
