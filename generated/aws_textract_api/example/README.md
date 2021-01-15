@@ -1,8 +1,0 @@
-```dart
-import 'package:aws_textract_api/textract-2018-06-27.dart';
-
-void main() {
-  final service = Textract(region: 'eu-west-1');
-  // See documentation on how to use Textract
-}
-```

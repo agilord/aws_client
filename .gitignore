@@ -24,5 +24,4 @@ doc/api/
 *.iws
 
 # Generated directories
-**/apis/
-/all_apis/lib/
+/generator/apis/

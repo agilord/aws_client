@@ -169,7 +169,7 @@ class Shape {
     var cn = name.substring(0, 1).toUpperCase() + name.substring(1);
     if (cn == 'Function') cn = '\$$cn';
 
-    cn = cn.replaceAll(RegExp(r'^_+'), '');
+    cn = cn.replaceAll('_', '');
 
     return cn;
   }
@@ -264,7 +264,6 @@ class Member {
   }
 
   String get dartType {
-    final dartType = shape;
     final type = shapeClass.type;
     // There should be an enum for enumerated parameters
     if (shapeClass.enumeration != null) {
@@ -274,7 +273,7 @@ class Member {
     } else if (type.isMapOrList()) {
       return getListOrMapDartType(shapeClass);
     }
-    return dartType;
+    return shapeClass.className;
   }
 
   bool get isHeader =>
@@ -316,6 +315,7 @@ extension NameStuff on String {
       isReserved ||
       <String>{
         'index',
+        'values',
       }.contains(this);
 
   bool get isFieldReserved =>

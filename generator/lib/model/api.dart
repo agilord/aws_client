@@ -1,5 +1,5 @@
+import 'package:aws_client.generator/utils/case.dart';
 import 'package:json_annotation/json_annotation.dart';
-
 import '../utils/aws_names.dart';
 
 import 'descriptor.dart';
@@ -17,6 +17,7 @@ class Api {
   final String documentation;
   final Map<String, dynamic> examples;
   final Map<String, Authorizer> authorizers;
+  String _baseName;
 
   Api(
     this.metadata,
@@ -26,7 +27,10 @@ class Api {
     this.documentation,
     this.examples,
     this.authorizers,
-  );
+  ) {
+    _baseName = _getBaseName();
+    fileBasename = metadata.apiVersion;
+  }
 
   factory Api.fromJson(Map<String, dynamic> json) => _$ApiFromJson(json);
 
@@ -70,29 +74,34 @@ class Api {
 
   bool get generateToXml => usesRestXmlProtocol;
 
-  String get directoryPath {
-    // TODO: lowercase directory name
-    return metadata.className;
-  }
+  bool get isRecognized => _baseName != null;
 
-  String get fileBasename {
-    // TODO: lowercase file name
-    return metadata.uid ?? '${metadata.endpointPrefix}-${metadata.apiVersion}';
-  }
+  String get baseName => _baseName;
 
-  bool get isRecognized => packageBaseName != null;
-
-  String get packageName {
-    if (packageBaseName == null) {
-      throw ArgumentError('API not recognized: $fileBasename');
+  @JsonKey(ignore: true)
+  String get fileBasename => _fileBasename;
+  String _fileBasename;
+  set fileBasename(String fileBasename) {
+    if (fileBasename == null) {
+      throw ArgumentError('fileBasename');
     }
-    return 'aws_${packageBaseName.replaceAll('-', '_')}_api';
+    _fileBasename = fileBasename;
   }
 
-  String get packageBaseName {
+  String get directoryName {
+    if (_baseName == null) {
+      throw ArgumentError('API not recognized: $_baseName');
+    }
+    return _baseName.replaceAll('-', '_');
+  }
+
+  String _getBaseName() {
     final candidates = <String>[
       metadata.uid?.split('-20')?.first,
-      metadata.className.toLowerCase(),
+      metadata.serviceId?.replaceAll(RegExp(r'\W'), '')?.toLowerCase(),
+      (metadata.serviceAbbreviation ?? metadata.serviceFullName)
+          .replaceAll(RegExp(r'\W'), '')
+          .toLowerCase(),
       metadata.endpointPrefix
     ];
     final identified = candidates
@@ -109,7 +118,7 @@ class Api {
       'runtime.lex-2016-11-28': 'lex-runtime',
       'entitlement.marketplace-2017-01-11': 'marketplace-entitlement',
       'runtime.sagemaker-2017-05-13': 'sagemaker-runtime',
-    }[fileBasename];
+    }[metadata.uid ?? '${metadata.endpointPrefix}-${metadata.apiVersion}'];
     if (mapped != null && awsCliServiceNames.contains(mapped)) {
       return mapped;
     }
@@ -190,9 +199,21 @@ class Metadata {
   );
 
   String get className {
-    final name = (serviceAbbreviation ?? serviceFullName)
-        .replaceAll(RegExp(r'^Amazon|AWS\s*|\(.*|\s+|\W+'), '');
-    return name.substring(0, 1).toUpperCase() + name.substring(1);
+    final baseName = (serviceAbbreviation ?? serviceFullName)
+        .replaceAll(RegExp(r'^Amazon|AWS\s*'), '');
+
+    // Try to follow Effective Dart: DO capitalize acronyms and abbreviations longer than two letters like words.
+    // https://dart.dev/guides/language/effective-dart/style#do-capitalize-acronyms-and-abbreviations-longer-than-two-letters-like-words
+    final words = splitWords(baseName).map((w) {
+      if (const ['IoT'].contains(w) || w.length < 3) {
+        return w;
+      }
+      return w.toLowerCase();
+    }).toList();
+    if (words.last == 'service' && words.first != 'config') {
+      words.removeLast();
+    }
+    return upperCamel(words);
   }
 
   factory Metadata.fromJson(Map<String, dynamic> json) =>

@@ -15,7 +15,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
-import 'package:shared_aws_api/shared.dart' as _s;
+import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:test/test.dart';
 import '../../../utils.dart';
 import '${api.fileBasename}.dart';

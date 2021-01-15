@@ -1,7 +1,6 @@
 import 'package:args/command_runner.dart';
 import 'package:aws_client.generator/download_command.dart';
 import 'package:aws_client.generator/generate_command.dart';
-import 'package:aws_client.generator/package_command.dart';
 
 void main(List<String> arguments) async {
   final runner = CommandRunner(
@@ -9,7 +8,6 @@ void main(List<String> arguments) async {
     'Dart AWS API generator tool',
   )
     ..addCommand(DownloadCommand())
-    ..addCommand(GenerateCommand())
-    ..addCommand(PackageCommand());
+    ..addCommand(GenerateCommand());
   await runner.run(arguments);
 }
