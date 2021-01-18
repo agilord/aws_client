@@ -1,6 +1,6 @@
 name: aws_marketplace_catalog_api
 description: AWS API client for AWS Marketplace Catalog Service (generated from SDK API specification).
-version: 0.0.1
+version: 0.2.0
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_marketplace_catalog_api
 
 

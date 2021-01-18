@@ -1,6 +1,6 @@
 name: aws_codebuild_api
 description: AWS API client for AWS CodeBuild (generated from SDK API specification).
-version: 0.0.1
+version: 0.2.0
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_codebuild_api
 
 

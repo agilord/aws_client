@@ -1,6 +1,6 @@
 name: aws_batch_api
 description: AWS API client for AWS Batch (generated from SDK API specification).
-version: 0.0.1
+version: 0.2.0
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_batch_api
 
 

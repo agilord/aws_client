@@ -1,3 +1,9 @@
+## 0.2.0
+
+(git hash: 6664217ef04f3f5e77ffc8dd4bfaf7d420d630f7)
+
+- Bugfixes
+
 ## 0.1.1
 
 (git hash: 7d4c87c83fdcdab81db1f0a0be57a805efb684c4)
