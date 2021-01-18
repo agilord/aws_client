@@ -1,3 +1,8 @@
+## 0.3.0
+
+- Innumerable bug fixes
+- Updated service definitions to 2.821.0
+
 ## 0.2.4
 
 - Fix header being null in multiple protocols.
