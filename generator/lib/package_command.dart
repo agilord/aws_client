@@ -242,7 +242,7 @@ class PublishCommand extends Command {
       final pubspecString = pubspecFile.readAsStringSync();
       final pubspecMap = json.decode(json.encode(loadYaml(pubspecString)))
           as Map<String, dynamic>;
-      final version = pubspecMap['version'] as String;
+      final version = Version.parse(pubspecMap['version'] as String);
       final protocol = pubspecMap['protocol'] as String;
       final protocolConfig = config.protocols[protocol];
       assert(protocolConfig != null);
@@ -250,9 +250,9 @@ class PublishCommand extends Command {
       if (!protocolConfig.publish) continue;
 
       final currentPublishedVersion =
-          await _currentPublishedVersion(client, package);
+          Version.parse(await _currentPublishedVersion(client, package));
 
-      if (version == currentPublishedVersion) {
+      if (version <= currentPublishedVersion) {
         print('Version $version of $package is already published.');
         continue;
       }
