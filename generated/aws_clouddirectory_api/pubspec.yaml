@@ -1,6 +1,6 @@
 name: aws_clouddirectory_api
 description: AWS API client for Amazon CloudDirectory (generated from SDK API specification).
-version: 0.0.1
+version: 0.2.0
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_clouddirectory_api
 
 
@@ -10,6 +10,6 @@ environment:
   sdk: '>=2.7.0 <3.0.0'
 
 dependencies:
-  shared_aws_api: ^0.2.2
+  shared_aws_api: ^0.3.0
 
 
