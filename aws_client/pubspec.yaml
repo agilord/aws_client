@@ -14,7 +14,7 @@ dependencies:
   json_annotation: ^3.0.1
   meta: ^1.1.8
   xml: ^4.2.0
-  intl: ^0.16.1
+  intl: '>=0.16.1 <0.18.0'
   uuid: ^2.2.2
 
 dev_dependencies:
