@@ -4,16 +4,16 @@ import 'dart:typed_data';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:shared_aws_api/src/protocol/shared.dart';
 
-abstract class DateTimeConverter implements JsonConverter<DateTime, dynamic> {
-  final dynamic Function(DateTime date) converter;
+abstract class DateTimeConverter implements JsonConverter<DateTime?, dynamic> {
+  final dynamic Function(DateTime? date) converter;
 
   const DateTimeConverter(this.converter);
 
   @override
-  DateTime fromJson(dynamic json) => timeStampFromJson(json);
+  DateTime? fromJson(dynamic json) => timeStampFromJson(json);
 
   @override
-  dynamic toJson(DateTime object) => converter(object);
+  dynamic toJson(DateTime? object) => converter(object);
 }
 
 class RfcDateTimeConverter extends DateTimeConverter {
@@ -28,11 +28,11 @@ class UnixDateTimeConverter extends DateTimeConverter {
   const UnixDateTimeConverter() : super(unixTimestampToJson);
 }
 
-class Uint8ListConverter implements JsonConverter<Uint8List, String> {
+class Uint8ListConverter implements JsonConverter<Uint8List?, String?> {
   const Uint8ListConverter();
 
   @override
-  Uint8List fromJson(String json) {
+  Uint8List? fromJson(String? json) {
     if (json != null) {
       return base64.decode(json);
     }
@@ -40,7 +40,7 @@ class Uint8ListConverter implements JsonConverter<Uint8List, String> {
   }
 
   @override
-  String toJson(Uint8List object) {
+  String? toJson(Uint8List? object) {
     if (object != null) {
       return base64.encode(object);
     }
@@ -49,11 +49,11 @@ class Uint8ListConverter implements JsonConverter<Uint8List, String> {
 }
 
 class Uint8ListListConverter
-    implements JsonConverter<List<Uint8List>, List<dynamic>> {
+    implements JsonConverter<List<Uint8List?>?, List<dynamic>?> {
   const Uint8ListListConverter();
 
   @override
-  List<Uint8List> fromJson(List<dynamic> json) {
+  List<Uint8List?>? fromJson(List<dynamic>? json) {
     if (json == null) {
       return null;
     } else {
@@ -67,7 +67,7 @@ class Uint8ListListConverter
   }
 
   @override
-  List<String> toJson(List<Uint8List> list) {
+  List<String?>? toJson(List<Uint8List?>? list) {
     if (list == null) {
       return null;
     } else {
@@ -81,24 +81,24 @@ class Uint8ListListConverter
   }
 }
 
-class StringJsonConverter implements JsonConverter<Object, String> {
+class StringJsonConverter implements JsonConverter<Object?, String?> {
   const StringJsonConverter();
 
   @override
-  Object fromJson(String json) => json == null ? null : jsonDecode(json);
+  Object? fromJson(String? json) => json == null ? null : jsonDecode(json);
 
   @override
-  String toJson(Object object) => object == null ? null : jsonEncode(object);
+  String? toJson(Object? object) => object == null ? null : jsonEncode(object);
 }
 
-class Base64JsonConverter implements JsonConverter<Object, String> {
+class Base64JsonConverter implements JsonConverter<Object?, String?> {
   const Base64JsonConverter();
 
   @override
-  Object fromJson(String json) =>
+  Object? fromJson(String? json) =>
       json == null ? null : jsonDecode(utf8.decode(base64Decode(json)));
 
   @override
-  String toJson(Object object) =>
+  String? toJson(Object? object) =>
       object == null ? null : base64Encode(utf8.encode(jsonEncode(object)));
 }

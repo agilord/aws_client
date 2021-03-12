@@ -33,8 +33,8 @@ class _PathAndQueryEqual extends _FeatureMatcher<Uri> {
   }
 
   @override
-  bool typedMatches(Uri item, Map matchState) {
-    return equals(_expected).matches(_canonical(item), matchState);
+  bool typedMatches(Uri? item, Map matchState) {
+    return equals(_expected).matches(_canonical(item!), matchState);
   }
 
   @override
@@ -49,7 +49,7 @@ class _JsonEqual extends _FeatureMatcher<String> {
   _JsonEqual(this._expected);
 
   @override
-  bool typedMatches(String item, Map matchState) {
+  bool typedMatches(String? item, Map matchState) {
     if (item == null || item.isEmpty || _expected == null) {
       return equals(_expected).matches(item, matchState);
     }
@@ -72,7 +72,7 @@ class _JsonEqual extends _FeatureMatcher<String> {
     return equals(expectedJson).matches(itemJson, matchState);
   }
 
-  Object _tryParseJson(String input) {
+  Object? _tryParseJson(String input) {
     try {
       return jsonDecode(input);
     } catch (_) {
@@ -103,7 +103,7 @@ class _XmlEqual extends _FeatureMatcher<String> {
   _XmlEqual(this._expected);
 
   @override
-  bool typedMatches(String item, Map matchState) {
+  bool typedMatches(String? item, Map matchState) {
     if (item == null || item.isEmpty) {
       return equals(_expected).matches(item, matchState);
     }
@@ -122,7 +122,7 @@ class _XmlEqual extends _FeatureMatcher<String> {
         .matches(itemXml.toXmlString(pretty: true), matchState);
   }
 
-  XmlDocument _tryParseXml(String input) {
+  XmlDocument? _tryParseXml(String input) {
     try {
       return XmlDocument.parse(input);
     } catch (_) {
@@ -152,12 +152,12 @@ class _QueryEqual extends _FeatureMatcher<String> {
 
   _QueryEqual(this._expected);
 
-  static String _canonical(String query) {
+  static String _canonical(String? query) {
     return canonicalQueryParametersAll(Uri(query: query).queryParametersAll);
   }
 
   @override
-  bool typedMatches(String item, Map matchState) {
+  bool typedMatches(String? item, Map matchState) {
     return equals(_canonical(_expected)).matches(_canonical(item), matchState);
   }
 
@@ -172,9 +172,9 @@ abstract class _FeatureMatcher<T> extends TypeMatcher<T> {
 
   @override
   bool matches(item, Map matchState) =>
-      super.matches(item, matchState) && typedMatches(item as T, matchState);
+      super.matches(item, matchState) && typedMatches(item as T?, matchState);
 
-  bool typedMatches(T item, Map matchState);
+  bool typedMatches(T? item, Map matchState);
 
   @override
   Description describeMismatch(

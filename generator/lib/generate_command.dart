@@ -411,7 +411,13 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
 
           var serviceCode = buildService(api);
 
-          serviceCode = formatter.format(serviceCode);
+          try {
+            serviceCode = formatter.format(serviceCode);
+          } catch (e) {
+            print('Error when formatting type: $type, protocol: $protocol:');
+            print(serviceCode);
+            rethrow;
+          }
 
           final baseDir = '${generatedDir.path}/$type/$protocol';
           if (api.usesQueryProtocol) {

@@ -108,14 +108,16 @@ ${builder.constructor()}
     }
 
     operation.output?.shapeClass?.markUsed(false);
-    write('  Future<${operation.returnType}> ${operation.methodName}(');
+    write(
+        '  Future<${operation.returnType}${operation.returnType == 'void' ? '' : '?'}> ${operation.methodName}(');
     if (useParameter) write('{');
 
     for (final member in parameterShape?.members ?? <Member>[]) {
       if (member.isRequired) {
-        write('@_s.required ');
+        write('required ');
       }
-      write('${member.dartType} ${member.fieldName}, ');
+      final typeOptional = member.isRequired ? '' : '?';
+      write('${member.dartType}$typeOptional ${member.fieldName}, ');
       member.shapeClass.markUsed(true);
     }
 
@@ -197,7 +199,6 @@ ${builder.constructor()}
     return '$value';
     ''').join()}
     }
-    throw Exception('Unknown enum value: \$this');
   }
 }
         """);
@@ -210,7 +211,6 @@ ${builder.constructor()}
     return $name.${enumFieldNames[index]};
     ''').join()}
     }
-    throw Exception('Unknown enum value: \$this');
   }
 }
         """);
@@ -275,11 +275,13 @@ ${builder.constructor()}
           }
         }
 
-        writeln('  final $dartType ${member.fieldName};');
+        final nullable = member.isRequired ? '' : '?';
+
+        writeln('  final $dartType$nullable ${member.fieldName};');
       }
 
       final constructorMembers = shape.members.map((member) {
-        return "${member.isRequired ? "@_s.required " : ""}this.${member.fieldName}, ";
+        return "${member.isRequired ? "required " : ""}this.${member.fieldName}, ";
       }).toList();
 
       if (constructorMembers.isEmpty) {
