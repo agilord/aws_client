@@ -1,3 +1,8 @@
+## 0.3.1
+
+- Upgraded dependencies.
+- Refactored `Shape.fromJson` in preparation of null-safety migration.
+
 ## 0.3.0
 
 - Innumerable bug fixes
