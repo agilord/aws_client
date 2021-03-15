@@ -21,31 +21,35 @@ class Shape {
     this.timestampFormat,
   );
 
-  factory Shape.fromJson(Map<String, dynamic> json) => Shape(
-        json['type'] as String,
-        json['key'] == null
-            ? null
-            : Descriptor.fromJson(
-                (json['key'] as Map)?.cast<String, dynamic>()),
-        json['value'] == null
-            ? null
-            : Descriptor.fromJson(
-                (json['value'] as Map)?.cast<String, dynamic>()),
-        json['member'] == null
-            ? null
-            : Descriptor.fromJson(
-                (json['member'] as Map)?.cast<String, dynamic>()),
-        json['flattened'] as bool ?? false,
-        (json['members'] as Map)?.cast<String, dynamic>()?.map(
-              (k, e) => MapEntry(
-                  k,
-                  e == null
-                      ? null
-                      : Member.fromJson((e as Map)?.cast<String, dynamic>())),
-            ),
-        json['locationName'] as String,
-        json['timestampFormat'] as String,
-      );
+  factory Shape.fromJson(Map<String, dynamic> json) {
+    final key = json['key'];
+    final value = json['value'];
+    final member = json['member'];
+    final members = json['members'];
+    return Shape(
+      json['type'] as String,
+      key == null
+          ? null
+          : Descriptor.fromJson((key as Map).cast<String, dynamic>()),
+      value == null
+          ? null
+          : Descriptor.fromJson((value as Map).cast<String, dynamic>()),
+      member == null
+          ? null
+          : Descriptor.fromJson((member as Map).cast<String, dynamic>()),
+      json['flattened'] as bool ?? false,
+      members == null
+          ? null
+          : Map.fromEntries((members as Map)
+              .cast<String, dynamic>()
+              .entries
+              .where((e) => e.value != null)
+              .map((e) => MapEntry(e.key,
+                  Member.fromJson((e.value as Map).cast<String, dynamic>())))),
+      json['locationName'] as String,
+      json['timestampFormat'] as String,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     final val = <String, dynamic>{};
