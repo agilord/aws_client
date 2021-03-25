@@ -2098,6 +2098,7 @@ Service _$ServiceFromJson(Map<String, dynamic> json) {
 const _$PropagateTagsEnumMap = {
   PropagateTags.taskDefinition: 'TASK_DEFINITION',
   PropagateTags.service: 'SERVICE',
+  PropagateTags.none: 'NONE',
 };
 
 const _$SchedulingStrategyEnumMap = {

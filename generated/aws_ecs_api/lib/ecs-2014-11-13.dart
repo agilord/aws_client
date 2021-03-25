@@ -9562,6 +9562,8 @@ enum PropagateTags {
   taskDefinition,
   @_s.JsonValue('SERVICE')
   service,
+  @_s.JsonValue('NONE')
+  none,
 }
 
 extension on PropagateTags {
@@ -9571,6 +9573,8 @@ extension on PropagateTags {
         return 'TASK_DEFINITION';
       case PropagateTags.service:
         return 'SERVICE';
+      case PropagateTags.none:
+        return 'NONE';
     }
     throw Exception('Unknown enum value: $this');
   }
